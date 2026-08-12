@@ -67,7 +67,40 @@ describe('capa base', () => {
   });
 
   test('la capa base corre sin elegir tono', () => {
-    assert.equal(rulesFor().length, 2);
+    assert.equal(rulesFor().length, 6);
+  });
+
+  test('el andamiaje vacío se marca', () => {
+    const f = check('Es importante destacar que los datos muestran una caída.');
+    assert.equal(f.filter((x) => x.rule === 'andamiaje-vacio').length, 1);
+  });
+
+  test('las aperturas de molde se marcan', () => {
+    const f = check('En la actualidad, hoy en día, el fenómeno crece.');
+    assert.equal(f.filter((x) => x.rule === 'aperturas-de-molde').length, 2);
+  });
+
+  test('los cierres anunciados se marcan', () => {
+    const f = check('En conclusión, el modelo funciona.');
+    assert.equal(f.filter((x) => x.rule === 'cierres-anunciados').length, 1);
+  });
+
+  test('los emojis y los hashtags se marcan, pero no una numeración', () => {
+    const conEmoji = check('El resultado fue bueno 🎉 y se publicó en #ciencia.');
+    assert.equal(conEmoji.filter((x) => x.rule === 'emojis-y-hashtags').length, 2);
+    assert.deepEqual(check('La opción #1 quedó descartada.'), []);
+  });
+
+  test('una frase prohibida dentro de otra palabra no se marca', () => {
+    // Sin los lookarounds sobre \p{L}, el límite de palabra de JavaScript
+    // parte los acentos y «síntesis» dispararía «en síntesis».
+    assert.deepEqual(check('La síntesis del capítulo es breve.'), []);
+    assert.deepEqual(check('Resumiendo mal se pierde información.').length > 0, true);
+  });
+
+  test('la frase prohibida se detecta aunque cambie el espaciado', () => {
+    const f = check('Es  importante\ndestacar que sí.');
+    assert.equal(f.filter((x) => x.rule === 'andamiaje-vacio').length, 1);
   });
 });
 

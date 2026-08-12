@@ -13,13 +13,34 @@
 
 export type Severity = 'error' | 'warning';
 
-/** Referencia al ítem de checklist de una skill que esta regla hace cumplir. */
+/**
+ * Referencia a lo que una skill declara y esta regla hace cumplir.
+ *
+ * Puede ser un ítem de checklist del SKILL.md o un patrón numerado de un
+ * catálogo en `references/`. Una misma regla suele reclamar los dos, porque la
+ * base y el catálogo de señales de IA describen la misma prohibición desde
+ * lados distintos. Reclamarlos juntos es lo que prueba que hay una sola casa.
+ */
 export type ChecklistRef = {
   /** Carpeta de la skill, tal cual: `spanish-writing`, `camus-writing`, ... */
   skill: string;
-  /** Texto literal del ítem numerado, sin el número. */
+  /** Texto literal del ítem o del título del patrón, sin el número. */
   item: string;
 };
+
+/**
+ * Arma un patrón a partir de una lista de frases literales.
+ *
+ * No se usa `\b`: con acentos, el límite de palabra de JavaScript trata la «ó»
+ * como frontera y parte «inflación» por la mitad. Los lookarounds sobre
+ * `\p{L}` sí respetan el español.
+ */
+function frases(lista: readonly string[]): RegExp {
+  const alternativas = lista
+    .map((f) => f.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&').replace(/ /gu, '\\s+'))
+    .join('|');
+  return new RegExp(`(?<!\\p{L})(?:${alternativas})(?!\\p{L})`, 'giu');
+}
 
 type Common = {
   id: string;
@@ -75,6 +96,9 @@ export const BASE_RULES: Rule[] = [
         skill: 'spanish-writing',
         item: '¿No queda ninguna raya, guion largo ni punto y coma en el texto?',
       },
+      // El catálogo de señales de IA la declara por su cuenta. Es la misma
+      // prohibición, y esta regla la hace cumplir para las dos.
+      { skill: 'humanizar-espanol', item: 'La raya (—) calcada del inglés: elimínala' },
     ],
   },
   {
@@ -90,6 +114,88 @@ export const BASE_RULES: Rule[] = [
         skill: 'spanish-writing',
         item: '¿No queda ninguna raya, guion largo ni punto y coma en el texto?',
       },
+    ],
+  },
+  {
+    id: 'andamiaje-vacio',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'es importante destacar que',
+      'es importante señalar que',
+      'cabe destacar que',
+      'cabe señalar que',
+      'cabe resaltar que',
+      'cabe mencionar que',
+      'vale la pena mencionar que',
+      'vale la pena destacar que',
+      'resulta fundamental subrayar que',
+      'resulta importante destacar que',
+    ]),
+    message: 'Andamiaje vacío: anuncia que algo importa en lugar de decirlo.',
+    fix: 'Suprimir la fórmula sin sustituto. «Es importante destacar que los datos muestran una caída» es «Los datos muestran una caída».',
+    source: 'spanish-writing §11.7',
+    checklist: [
+      { skill: 'spanish-writing', item: '¿El vocabulario evita las palabras y expresiones prohibidas?' },
+      { skill: 'humanizar-espanol', item: 'Andamiaje vacío' },
+    ],
+  },
+  {
+    id: 'aperturas-de-molde',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'en la actualidad',
+      'hoy en día',
+      'a lo largo de la historia',
+      'desde tiempos inmemoriales',
+      'en un mundo cada vez más',
+      'en un mundo donde',
+      'en la era digital',
+    ]),
+    message: 'Apertura de molde: una generalidad de calendario en vez del asunto.',
+    fix: 'Empezar por lo concreto. Si el dato es de 2019, decir 2019.',
+    source: 'spanish-writing §11.8',
+    checklist: [
+      { skill: 'spanish-writing', item: '¿No hay introducciones ni cierres genéricos?' },
+      { skill: 'humanizar-espanol', item: 'Aperturas de molde' },
+    ],
+  },
+  {
+    id: 'cierres-anunciados',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'en conclusión',
+      'para concluir',
+      'para cerrar',
+      'en resumen',
+      'en síntesis',
+      'para finalizar',
+      'en definitiva',
+      'resumiendo',
+    ]),
+    message: 'Cierre anunciado: declara que cierra en vez de cerrar.',
+    fix: 'El último párrafo cierra por su contenido. Retomar la idea central sin anunciarse.',
+    source: 'spanish-writing §11.5',
+    checklist: [
+      { skill: 'spanish-writing', item: '¿No hay introducciones ni cierres genéricos?' },
+      { skill: 'humanizar-espanol', item: 'Cierres anunciados' },
+    ],
+  },
+  {
+    id: 'emojis-y-hashtags',
+    kind: 'forbidden-pattern',
+    // Un emoji real, o una almohadilla seguida de letra. `#1` es una
+    // numeración legítima y queda fuera a propósito.
+    pattern: /\p{Extended_Pictographic}|(?<![\p{L}\d])#\p{L}/gu,
+    severity: 'error',
+    message: 'Emojis y hashtags están prohibidos en todo texto entregado.',
+    fix: 'Suprimirlos. Si el emoji cargaba sentido, decirlo con palabras.',
+    source: 'spanish-writing §12.1',
+    checklist: [
+      { skill: 'spanish-writing', item: '¿No hay emojis ni hashtags?' },
+      { skill: 'humanizar-espanol', item: 'Emojis' },
     ],
   },
 ];

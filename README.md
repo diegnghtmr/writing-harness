@@ -100,30 +100,48 @@ nada, sin build y sin conexión.
 
 ### El gate
 
-Cada regla declara qué ítem de checklist de qué skill hace cumplir. El test de
-correspondencia falla en las dos direcciones: si una regla apunta a un ítem que
-la prosa ya no tiene, y si la prosa declara un ítem que ninguna regla cubre ni
-el registro reconoce.
+Cada regla declara qué hace cumplir y dónde lo declara la prosa. El test de
+correspondencia falla en las dos direcciones: si una regla apunta a algo que la
+prosa ya no dice, y si la prosa declara algo que ninguna regla cubre ni el
+registro reconoce.
 
-Existe porque el defecto ya ocurrió dos veces. La raya estaba prohibida en una
-skill, permitida en otra y marcada como señal de IA en una tercera. Y la
+Existe porque el defecto ya ocurrió tres veces. La raya estaba prohibida en una
+skill, permitida en otra y marcada como señal de IA en una tercera. La
 prohibición del punto y coma se perdió entera al reescribir un ítem de
-checklist. Las dos veces el error era invisible porque nadie comparaba las dos
-representaciones.
+checklist. Y `humanizar-espanol` estuvo fuera del gate por completo, porque
+declara sus reglas como patrones numerados en `references/` y el extractor solo
+miraba las listas del `SKILL.md`. Las tres veces el error era invisible porque
+nadie comparaba las dos representaciones.
+
+Por eso una skill declara de dos maneras y las dos cuentan:
+
+| Origen | Forma | Dónde |
+|---|---|---|
+| `checklist` | `N. ¿…?` | Listas de verificación del `SKILL.md` |
+| `patron` | `### N. Título` | Catálogos numerados en `references/` |
+
+Una misma regla puede reclamar en las dos a la vez. `no-raya` reclama el ítem 9
+de `spanish-writing` y el patrón 19 de `humanizar-espanol`, porque son la misma
+prohibición dicha desde dos lados. Reclamarlas juntas es lo que prueba que hay
+una sola casa.
 
 ### Cobertura declarada
 
-| Estado | Ítems | Qué significa |
+| Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | 2 | Tiene regla y test |
-| mecanizable | 29 | Se puede medir, falta construirlo |
-| criterio | 25 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
+| cubierto | 10 | Tiene regla y test |
+| mecanizable | 52 | Se puede medir, falta construirlo |
+| criterio | 31 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 | delegado | 2 | El ítem solo remite a la lista de otra skill |
 
-El techo real del verificador son **31 de 58**, no 58. Los 25 de criterio
-incluyen cosas como «¿se conserva toda la información original?» o «¿las
-analogías están desarrolladas?», que ningún linter decide. Queda escrito para
-no confundir después una cobertura parcial con una completa.
+El techo real del verificador son **62 de 95**, no 95. Los 31 de criterio
+incluyen cosas como «¿se conserva toda la información original?», «¿las
+analogías están desarrolladas?» o la colocación léxica más previsible, que
+ningún linter decide. Queda escrito para no confundir después una cobertura
+parcial con una completa.
+
+Por skill: `humanizar-espanol` 37 declaraciones y 5 cubiertas, `spanish-writing`
+20 y 4, `catedra-writing` 16 y 0, `fonda-writing` 15 y 0, `camus-writing` 7 y 1.
 
 ## Procedencia de las skills
 

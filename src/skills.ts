@@ -1,25 +1,45 @@
 // Lectura de las skills como fuente de verdad de la prosa.
 //
-// El test de correspondencia necesita saber qué reglas declara cada SKILL.md.
-// Las declara en sus listas de verificación, como ítems numerados que empiezan
-// por «¿» y terminan en «?». Este módulo los extrae para poder cotejarlos
-// contra `rules.ts`.
+// El test de correspondencia necesita saber qué reglas declara cada skill. Las
+// declara de dos maneras, y hay que leer las dos:
+//
+//   1. Listas de verificación en el SKILL.md, como ítems numerados que empiezan
+//      por «¿» y terminan en «?».
+//   2. Catálogos en `references/`, como patrones numerados con encabezado
+//      `### N. Título`.
+//
+// La segunda existe porque `humanizar-espanol` no declara ni un solo ítem
+// numerado: sus reglas son los 37 patrones del catálogo, y su lista de entrega
+// es una oración en prosa. Leer solo el SKILL.md dejaba fuera del gate a la
+// skill con más reglas de todas.
 
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const REPO_ROOT = fileURLToPath(new URL('..', import.meta.url));
 export const SKILLS_DIR = join(REPO_ROOT, 'skills');
 
-export type ChecklistItem = {
+/** Cómo declara la prosa una regla. */
+export type Origen = 'checklist' | 'patron';
+
+export type Declaracion = {
   skill: string;
+  origen: Origen;
   /** Número tal como aparece en la prosa. Es informativo: renumerar no rompe nada. */
   number: number;
-  /** Texto del ítem, con los saltos de línea del original ya unidos. */
+  /**
+   * Texto literal. Para `checklist`, la pregunta completa. Para `patron`, el
+   * título del encabezado. No colisionan: una pregunta siempre abre con «¿».
+   */
   item: string;
+  /** Archivo relativo a la carpeta de la skill. */
+  file: string;
   line: number;
 };
+
+/** Alias histórico. Una declaración de checklist es una declaración más. */
+export type ChecklistItem = Declaracion;
 
 export function skillNames(): string[] {
   return readdirSync(SKILLS_DIR, { withFileTypes: true })
@@ -39,9 +59,9 @@ export function readSkill(name: string): string {
  * `?` de cierre. Las continuaciones van indentadas, así que se unen con un
  * espacio simple para obtener el texto en una sola línea.
  */
-export function checklistItems(name: string): ChecklistItem[] {
+export function checklistItems(name: string): Declaracion[] {
   const lines = readSkill(name).split(/\r?\n/u);
-  const items: ChecklistItem[] = [];
+  const items: Declaracion[] = [];
 
   for (let i = 0; i < lines.length; i++) {
     const opener = /^\s*(\d+)\.\s+(¿.*)$/u.exec(lines[i] as string);
@@ -59,8 +79,10 @@ export function checklistItems(name: string): ChecklistItem[] {
 
     items.push({
       skill: name,
+      origen: 'checklist',
       number: Number(opener[1]),
       item: text,
+      file: 'SKILL.md',
       line: i + 1,
     });
     i = j;
@@ -69,9 +91,49 @@ export function checklistItems(name: string): ChecklistItem[] {
   return items;
 }
 
-export function allChecklistItems(): ChecklistItem[] {
-  return skillNames().flatMap(checklistItems);
+/**
+ * Extrae los patrones numerados de los catálogos en `references/`.
+ *
+ * Un patrón es un encabezado `### N. Título`. El índice en prosa que suele
+ * abrir esos archivos usa `N)` en vez de `### N.`, así que no interfiere.
+ */
+export function cataloguePatterns(name: string): Declaracion[] {
+  const dir = join(SKILLS_DIR, name, 'references');
+  if (!existsSync(dir)) return [];
+
+  return readdirSync(dir)
+    .filter((f) => f.endsWith('.md'))
+    .sort()
+    .flatMap((f) => {
+      const lines = readFileSync(join(dir, f), 'utf8').split(/\r?\n/u);
+      const out: Declaracion[] = [];
+      for (let i = 0; i < lines.length; i++) {
+        const m = /^###\s+(\d+)\.\s+(.+?)\s*$/u.exec(lines[i] as string);
+        if (!m) continue;
+        out.push({
+          skill: name,
+          origen: 'patron',
+          number: Number(m[1]),
+          item: m[2] as string,
+          file: join('references', f).replace(/\\/gu, '/'),
+          line: i + 1,
+        });
+      }
+      return out;
+    });
 }
+
+/** Todo lo que una skill declara, por las dos vías. */
+export function declarations(name: string): Declaracion[] {
+  return [...checklistItems(name), ...cataloguePatterns(name)];
+}
+
+export function allDeclarations(): Declaracion[] {
+  return skillNames().flatMap(declarations);
+}
+
+/** Alias histórico. */
+export const allChecklistItems = allDeclarations;
 
 /** Clave estable de un ítem: la skill y su texto, nunca el número. */
 export function itemKey(skill: string, item: string): string {

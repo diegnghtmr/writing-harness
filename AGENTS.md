@@ -41,10 +41,15 @@ Sale con 1 si hay errores. Un texto con errores no se entrega.
 
 ## Lo que el verificador no ve
 
-De los 58 ítems de checklist que declaran las skills, **25 exigen juicio sobre
-el contenido** y ninguna regla los va a cubrir. Cosas como si se conservó toda
-la información del original, o si una analogía está desarrollada o solo
-mencionada.
+De las 95 declaraciones que hacen las skills, **31 exigen juicio sobre el
+contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
+información del original, si una analogía está desarrollada o solo mencionada,
+o si una expresión es la colocación más previsible del tema.
+
+Las skills declaran de dos maneras y las dos cuentan: ítems numerados `N. ¿…?`
+en las listas del `SKILL.md`, y patrones `### N. Título` en los catálogos de
+`references/`. `humanizar-espanol` declara solo de la segunda manera, con sus
+37 patrones.
 
 `evals/cobertura.ts` los tiene listados uno por uno. Salir con 0 significa que
 el texto pasó las reglas mecanizables, no que esté bien escrito. Esa segunda

@@ -13,10 +13,10 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { allRules, assertRules } from '../src/rules.ts';
-import { allChecklistItems, itemKey, skillNames } from '../src/skills.ts';
+import { allDeclarations, declarations, itemKey, skillNames } from '../src/skills.ts';
 import { SIN_REGLA } from './cobertura.ts';
 
-const items = allChecklistItems();
+const items = allDeclarations();
 const itemKeys = new Set(items.map((i) => itemKey(i.skill, i.item)));
 
 const claimed = new Set(
@@ -76,15 +76,16 @@ describe('correspondencia entre las reglas y la prosa', () => {
 
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. El techo real del verificador son los 31 mecanizables: los
-  // 25 de criterio exigen juicio sobre el contenido y ninguna regla los cubrirá.
+  // ser deliberado. El techo real del verificador son los 62 mecanizables más
+  // los ya cubiertos: los 31 de criterio exigen juicio sobre el contenido y
+  // ninguna regla los cubrirá nunca.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('58 ítems declarados, repartidos como está registrado', () => {
-    assert.equal(items.length, 58, 'cambió la cantidad de ítems de checklist');
-    assert.equal(claimed.size, 2, 'cambió la cantidad de ítems cubiertos por reglas');
-    assert.equal(cuenta('mecanizable'), 29);
-    assert.equal(cuenta('criterio'), 25);
+  test('95 declaraciones, repartidas como está registrado', () => {
+    assert.equal(items.length, 95, 'cambió la cantidad de declaraciones en la prosa');
+    assert.equal(claimed.size, 10, 'cambió la cantidad de declaraciones cubiertas por reglas');
+    assert.equal(cuenta('mecanizable'), 52);
+    assert.equal(cuenta('criterio'), 31);
     assert.equal(cuenta('delegado'), 2);
   });
 
@@ -96,5 +97,24 @@ describe('el techo de cobertura está declarado', () => {
       'humanizar-espanol',
       'spanish-writing',
     ]);
+  });
+
+  test('humanizar-espanol ya no queda fuera del gate', () => {
+    // Declara sus reglas en el catálogo de `references/`, no en una lista
+    // numerada del SKILL.md. Leer solo el SKILL.md la dejaba invisible: era la
+    // skill con más reglas y aportaba cero al recuento.
+    const decl = declarations('humanizar-espanol');
+    assert.equal(decl.filter((d) => d.origen === 'checklist').length, 0);
+    assert.equal(decl.filter((d) => d.origen === 'patron').length, 37);
+  });
+
+  test('una regla puede reclamar en dos skills a la vez', () => {
+    // La base y el catálogo describen la misma prohibición desde lados
+    // distintos. Reclamarlas juntas es lo que prueba que hay una sola casa.
+    const raya = allRules().find((r) => r.id === 'no-raya');
+    assert.deepEqual(
+      raya?.checklist.map((c) => c.skill).sort(),
+      ['humanizar-espanol', 'spanish-writing'],
+    );
   });
 });
