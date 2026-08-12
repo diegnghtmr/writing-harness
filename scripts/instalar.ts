@@ -142,23 +142,30 @@ function instalar(destino: string, reemplazar: boolean): number {
       console.log(`  ya estaba      ${name}`);
       continue;
     }
-    if (estado === 'ocupado') {
+    // Ocupado por un directorio real, o por un enlace que apunta a otra parte.
+    // Los dos casos son ajenos: no los puso este script, así que no los toca
+    // salvo que se lo pidan de forma explícita.
+    if (estado === 'ocupado' || estado === 'enlazado-a-otro') {
+      const que = estado === 'ocupado' ? 'un directorio real' : 'un enlace a otra parte';
       if (!reemplazar) {
-        // No se toca nada que no haya puesto este script.
-        console.error(`  OCUPADO        ${name}  hay un directorio real ahí. --reemplazar lo aparta`);
+        console.error(`  AJENO          ${name}  hay ${que} ahí. --reemplazar lo aparta`);
         errores++;
         continue;
       }
-      const apartado = `${path}.reemplazado`;
-      if (existsSync(apartado)) {
-        console.error(`  OCUPADO        ${name}  ya hay un ${name}.reemplazado, resolvelo a mano`);
-        errores++;
-        continue;
+      if (estado === 'enlazado-a-otro') {
+        // Quitar el enlace no toca su destino, pero se dice cuál era.
+        console.log(`  desenlazado    ${name}  apuntaba a ${estadoDe(destino, name).apunta}`);
+        unlinkSync(path);
+      } else {
+        const apartado = `${path}.reemplazado`;
+        if (existsSync(apartado)) {
+          console.error(`  AJENO          ${name}  ya hay un ${name}.reemplazado, resolvelo a mano`);
+          errores++;
+          continue;
+        }
+        renameSync(path, apartado);
+        console.log(`  apartado       ${name}  -> ${name}.reemplazado`);
       }
-      renameSync(path, apartado);
-      console.log(`  apartado       ${name}  -> ${name}.reemplazado`);
-    } else if (estado === 'enlazado-a-otro') {
-      unlinkSync(path);
     }
 
     symlinkSync(join(SKILLS_DIR, name), path, TIPO);
@@ -170,12 +177,16 @@ function instalar(destino: string, reemplazar: boolean): number {
 
 function desinstalar(destino: string): number {
   for (const name of skillNames()) {
-    const { estado } = estadoDe(destino, name);
-    if (estado === 'enlazado' || estado === 'enlazado-a-otro') {
+    const { estado, apunta } = estadoDe(destino, name);
+    // Solo se quita lo que apunta a este repositorio. Un enlace ajeno con el
+    // mismo nombre no lo pusimos nosotros y no nos toca quitarlo.
+    if (estado === 'enlazado') {
       unlinkSync(join(destino, name));
       console.log(`  quitado        ${name}`);
+    } else if (estado === 'enlazado-a-otro') {
+      console.log(`  intacto        ${name}  es un enlace ajeno a ${apunta}`);
     } else if (estado === 'ocupado') {
-      console.log(`  intacto        ${name}  no es un enlace nuestro`);
+      console.log(`  intacto        ${name}  es un directorio real ajeno`);
     }
   }
   return 0;
