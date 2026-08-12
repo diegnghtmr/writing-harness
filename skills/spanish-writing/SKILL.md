@@ -345,18 +345,65 @@ Ninguna skill de tono puede levantar esta prohibición. La raya de diálogo en
 texto narrativo es el único uso que el español reserva para este signo, y no
 aparece en los géneros que estas skills cubren.
 
-### 6.7. El punto y coma: prohibido
+### 6.7. El punto y coma: permitido, con sus tres usos y su medida
 
-No se usa el punto y coma. Se sustituye por un punto y oración nueva, por una
-coma cuando la relación entre los miembros es breve, o por dos puntos cuando
-el segundo miembro explica al primero.
+El punto y coma es un signo del español y se usa. Una versión anterior de esta
+base lo prohibía por decisión de casa, no por norma, y esa prohibición se
+retira: la RAE lo describe en la Ortografía (2010), § 3.3.3, y quitarlo empobrece
+la prosa que más lo necesita, que es la que enumera con miembros complejos.
 
-Incorrecto: La austeridad léxica no es pobreza; es precisión.
-Correcto: La austeridad léxica no es pobreza, es precisión.
+Lo que se regula no es su presencia sino su uso. Tiene tres empleos correctos y
+un límite de frecuencia.
 
-La RAE admite el punto y coma, así que esta prohibición no es normativa sino
-una decisión de casa: el signo separa mal en pantalla, y casi siempre esconde
-una oración que debía partirse en dos. Se aplica igual en todos los tonos.
+Primer uso. Separa los miembros de una enumeración cuando esos miembros ya
+llevan comas por dentro. Es el caso donde ningún otro signo sirve, porque la
+coma ya está ocupada.
+
+Correcto: El primer grupo irá por la izquierda; el segundo, por la derecha; el
+tercero, de frente.
+
+Segundo uso. Separa oraciones sintácticamente independientes cuya relación de
+sentido es estrecha, sobre todo cuando alguna de las dos lleva comas por dentro.
+Ahí el punto y coma dice lo que el punto no diría: que las dos cosas se leen
+juntas.
+
+Correcto: Era estudioso, constante y ordenado; sus calificaciones no lo
+mostraban.
+
+Tercer uso. Va delante de los conectores adversativos, concesivos y consecutivos
+(pero, mas, aunque, sin embargo, no obstante, por tanto, por consiguiente, en
+cambio) cuando los miembros que une son largos. Si son breves, va coma.
+
+Correcto: Los datos respaldan la hipótesis en el tramo medio de la serie; sin
+embargo, el extremo superior sigue sin explicación.
+
+Después del punto y coma va minúscula, salvo que la palabra siguiente sea un
+nombre propio.
+
+Cuatro empleos incorrectos, que son los que hay que vigilar.
+
+No introduce una enumeración ni una explicación: para eso están los dos puntos.
+Incorrecto: Tres factores; clima, suelo y agua.
+Correcto: Tres factores: clima, suelo y agua.
+
+No separa el sujeto del predicado, igual que no lo hace la coma.
+
+No sustituye al punto cuando las dos oraciones no guardan relación estrecha. Si
+la segunda empieza un asunto nuevo, va punto.
+
+No se usa como pausa decorativa, que es su abuso más común. Cuando el punto y
+coma aparece en oración tras oración, deja de separar y se vuelve un tic. La
+propia RAE señala que es el signo con mayor margen subjetivo y que en muchos
+contextos es intercambiable por el punto y seguido o por los dos puntos: cuando
+las tres opciones sirven igual, esa es la señal de que el punto y coma no estaba
+haciendo falta.
+
+La medida: menos de una de cada cinco oraciones lo lleva. Una enumeración larga
+puede acumular varios dentro de una sola oración y eso es correcto, porque es
+justamente el primer uso. Lo que se vigila es cuántas oraciones distintas se
+apoyan en él, no cuántos hay en el texto.
+
+Referencia: Ortografía (RAE y ASALE, 2010), § 3.3.3.
 
 
 ## 7. Mayúsculas y minúsculas
@@ -659,7 +706,7 @@ añade las suyas.
  6. ¿No hay calcos del inglés?
  7. ¿No hay dequeísmo ni queísmo?
  8. ¿Las mayúsculas son correctas (meses, días, gentilicios en minúscula)?
- 9. ¿No queda ninguna raya, guion largo ni punto y coma en el texto?
+ 9. ¿No queda ninguna raya ni guion largo en el texto?
 10. ¿No hay markdown, asteriscos ni negritas?
 11. ¿No hay introducciones ni cierres genéricos?
 12. ¿Se conserva toda la información original (al reescribir)?
@@ -674,6 +721,8 @@ añade las suyas.
     nombres propios?
 21. ¿No hay formas de «vosotros» ni léxico peninsular?
 22. ¿El tratamiento al lector es «usted» o «ustedes», sin tuteo ni voseo?
+23. ¿El punto y coma va seguido de minúscula y pegado a la palabra anterior?
+24. ¿El punto y coma aparece en menos de una de cada cinco oraciones?
 
 
 ## 15. Fuentes normativas de referencia

@@ -52,8 +52,8 @@ La base decide qué es correcto en español. Este skill decide cómo suena y en
 qué orden se coloca el argumento.
 
 Ninguna regla de este documento levanta una prohibición de la base. En
-particular, la raya, el guion largo y el punto y coma siguen prohibidos, y
-también sigue vigente el inventario de léxico vedado.
+particular, la raya y el guion largo siguen prohibidos, el punto y coma se usa
+según el §6.7 de la base, y sigue vigente el inventario de léxico vedado.
 
 Ampliación propia sobre la base: este tono tolera oraciones y párrafos más
 largos que el registro académico sobrio, y admite la repetición de una idea
@@ -606,15 +606,21 @@ coma.
 ### 11.2. La puntuación
 
 Su prosa usa la raya y el punto y coma con abundancia. En el fragmento medido
-hay más de doscientas rayas y más de ochenta puntos y coma. La base prohíbe
-los dos signos y la prohibición se mantiene.
+hay más de doscientas rayas y más de ochenta puntos y coma. Los dos signos
+corren suerte distinta.
 
-La sustitución no cuesta nada y de hecho lo acerca a su propio hábito. Donde
-el original abre una raya para meter una aposición o una glosa, aquí van dos
-comas o dos puntos. Donde pone punto y coma, aquí va un punto y oración nueva,
-o dos puntos cuando el segundo miembro explica al primero. Como su signo más
-frecuente ya es el dos puntos, la conversión mueve el texto hacia su costumbre
-dominante, no en contra de ella.
+La raya sigue prohibida y su sustitución no cuesta nada, de hecho lo acerca a su
+propio hábito. Donde el original la abre para meter una aposición o una glosa,
+aquí van dos comas o dos puntos. Como su signo más frecuente ya es el dos
+puntos, la conversión mueve el texto hacia su costumbre dominante.
+
+El punto y coma se conserva, porque el §6.7 de la base lo admite y porque en
+este autor casi siempre cae en su primer uso: enumeraciones de miembros largos
+que ya llevan comas por dentro. Lo que se vigila es la frecuencia. Ochenta en un
+solo fragmento pasa del límite de una de cada cinco oraciones, así que la
+conversión existe, pero es de exceso y no de signo: los que unen dos oraciones
+sin relación estrecha pasan a punto, y los que introducen una explicación pasan
+a dos puntos.
 
 Sobre el corpus hablado no se legisla puntuación ni se toma ningún dato de
 puntuación, porque los signos de una transcripción los pone quien transcribe. De

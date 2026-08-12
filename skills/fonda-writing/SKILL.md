@@ -43,8 +43,9 @@ Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.
 La base decide qué es correcto en español. Este skill decide cómo suena.
 
 Ninguna regla de este documento levanta una prohibición de la base. En
-particular siguen prohibidos la raya, la semirraya, el guion largo y el punto y
-coma, y sigue vigente el inventario de léxico vedado.
+particular siguen prohibidos la raya, la semirraya y el guion largo, el punto y
+coma se usa según el §6.7 de la base, y sigue vigente el inventario de léxico
+vedado.
 
 Única ampliación propia sobre la base: se admite la palabra en otra lengua
 cuando entra glosada en el acto, porque es el mecanismo con el que este tono
@@ -516,9 +517,11 @@ que la sustitución es directa y no cuesta nada al ritmo. Donde el original
 pondría ese signo antes de la traducción de un término, aquí se escriben dos
 puntos. Donde encierra una aposición, aquí van dos comas.
 
-La segunda es el punto y coma, que el original usa 84 veces y la base prohíbe.
-Se resuelve con punto y seguido, que además favorece la oración mediana que
-este tono pide.
+La segunda ya no es un traslado prohibido, sino uno vigilado. El original usa el
+punto y coma 84 veces y la base lo admite desde el §6.7. Se conserva donde
+separa miembros con comas internas o une dos oraciones de relación estrecha, y
+se pasa a punto y seguido donde solo marcaba una pausa, que además favorece la
+oración mediana que este tono pide.
 
 La tercera es el verbo «imaginar» en imperativo como entrada de ejemplo. El
 original lo usa mucho, 23 veces en la mitad de los guiones, y siempre en el

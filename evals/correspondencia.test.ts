@@ -2,9 +2,12 @@
 //
 // Sin esto, `rules.ts` y los SKILL.md divergen. Ya pasó dos veces: la raya
 // estaba prohibida en una skill, permitida en otra y marcada como señal de IA
-// en una tercera; y la prohibición del punto y coma se perdió al reescribir un
+// en una tercera, y la prohibición del punto y coma se perdió al reescribir un
 // ítem de checklist. Las dos veces el defecto era invisible porque nadie
 // comparaba las dos representaciones.
+//
+// Esa prohibición del punto y coma ya no existe: se retiró por decisión, y el
+// gate obligó a tocar las cinco skills que la repetían por su cuenta.
 //
 // Falla en las dos direcciones, a propósito. Cubrir un ítem nuevo rompe el
 // test hasta que se borra del registro, y cambiar la prosa rompe el test hasta
@@ -86,9 +89,9 @@ describe('el techo de cobertura está declarado', () => {
   // skill movió sus ítems.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('256 declaraciones, repartidas como está registrado', () => {
-    assert.equal(items.length, 256, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 73, 'cambió la cantidad de declaraciones cubiertas por reglas');
+  test('258 declaraciones, repartidas como está registrado', () => {
+    assert.equal(items.length, 258, 'cambió la cantidad de declaraciones en la prosa');
+    assert.equal(claimed.size, 75, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
     assert.equal(cuenta('criterio'), 183);
     assert.equal(cuenta('delegado'), 0);

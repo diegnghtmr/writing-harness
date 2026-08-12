@@ -113,6 +113,11 @@ declara sus reglas como patrones numerados en `references/` y el extractor solo
 miraba las listas del `SKILL.md`. Las tres veces el error era invisible porque
 nadie comparaba las dos representaciones.
 
+Esa prohibición del punto y coma se retiró después por decisión, y el gate
+volvió a servir: obligó a tocar las cinco skills que la repetían por su cuenta.
+Retirar una regla a propósito y perderla sin darse cuenta se parecen en el
+resultado y no se parecen en nada más.
+
 Por eso una skill declara de dos maneras y las dos cuentan:
 
 | Origen | Forma | Dónde |
@@ -166,7 +171,7 @@ regla que solo sabe prohibir no puede comprobar eso.
 
 | Capa | Cuándo corre | Qué mide |
 |---|---|---|
-| base | siempre | La normativa: raya, punto y coma, léxico prohibido, emojis |
+| base | siempre | La normativa: raya, tratamiento, variedad, léxico prohibido, emojis |
 | tono | con `--tono` | Longitudes, ritmo, persona |
 | pasada | con `--pasada` | El catálogo de señales de IA de `humanizar-espanol` |
 

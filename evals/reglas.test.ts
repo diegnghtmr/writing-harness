@@ -54,9 +54,62 @@ describe('capa base', () => {
     assert.deepEqual(f, []);
   });
 
-  test('el punto y coma se marca', () => {
-    const f = check('No es evidente; exige distinguir.');
-    assert.equal(f.filter((x) => x.rule === 'no-punto-y-coma').length, 1);
+  test('el punto y coma bien usado no se marca', () => {
+    // Estuvo prohibido y ya no lo está. Los dos usos del §6.7 que más
+    // aparecen: unir dos oraciones de relación estrecha, y separar miembros
+    // que ya llevan comas por dentro.
+    assert.deepEqual(check('No es evidente; exige distinguir.'), []);
+    assert.deepEqual(
+      check('El primero, por la izquierda; el segundo, por la derecha; el tercero, de frente.'),
+      [],
+    );
+  });
+
+  test('la mayúscula después de punto y coma se marca, y el nombre propio no', () => {
+    const f = check('No es evidente; Es un asunto de método.');
+    assert.equal(f.filter((x) => x.rule === 'punto-y-coma-mayuscula').length, 1);
+    // La razón de que la regla lleve lista y no `\p{Lu}`: acá la mayúscula es
+    // correcta y un patrón ancho la habría marcado.
+    assert.deepEqual(
+      check('No es evidente; España lo resolvió de otro modo.').filter(
+        (x) => x.rule === 'punto-y-coma-mayuscula',
+      ),
+      [],
+    );
+  });
+
+  test('el espaciado del punto y coma se marca por los dos lados', () => {
+    assert.equal(
+      check('No es evidente ; exige distinguir.').filter(
+        (x) => x.rule === 'punto-y-coma-espaciado',
+      ).length,
+      1,
+    );
+    assert.equal(
+      check('No es evidente;exige distinguir.').filter((x) => x.rule === 'punto-y-coma-espaciado')
+        .length,
+      1,
+    );
+  });
+
+  test('el abuso se mide por oraciones que lo llevan, no por apariciones', () => {
+    // Una enumeración con quince punto y coma dentro de una sola oración es el
+    // primer uso del §6.7. Una regla que contara apariciones marcaría el caso
+    // bueno, que es justo el que la RAE reserva para este signo.
+    const enumeracion =
+      'El primero, por la izquierda; el segundo, por la derecha; el tercero, de frente. ' +
+      'La orden es clara. Nadie la discute. El plan sigue. La hora está fijada. ' +
+      'El terreno se conoce. La marcha empieza al alba. Nada más queda por decir.';
+    assert.deepEqual(
+      check(enumeracion).filter((x) => x.rule === 'punto-y-coma-abusado'),
+      [],
+    );
+
+    const tic = Array.from(
+      { length: 10 },
+      (_, i) => `La medida ${i} no basta; hay que explicarla.`,
+    ).join(' ');
+    assert.equal(check(tic).filter((x) => x.rule === 'punto-y-coma-abusado').length, 1);
   });
 
   test('el hallazgo trae línea, columna y la línea completa', () => {
@@ -68,7 +121,7 @@ describe('capa base', () => {
   });
 
   test('la capa base corre sin elegir tono', () => {
-    assert.equal(rulesFor().length, 20);
+    assert.equal(rulesFor().length, 22);
   });
 
   test('el español peninsular se marca sin elegir tono y en todos los tonos', () => {
@@ -538,9 +591,10 @@ describe('fixtures', () => {
       Object.fromEntries([...porRegla].sort()),
       {
         'apertura-de-etiqueta': 1,
-        'no-punto-y-coma': 1,
         'no-raya': 2,
         'oracion-maxima': 1,
+        'punto-y-coma-espaciado': 1,
+        'punto-y-coma-mayuscula': 1,
         staccato: 1,
       },
     );

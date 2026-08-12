@@ -309,25 +309,81 @@ export const BASE_RULES: Rule[] = [
     checklist: [
       {
         skill: 'spanish-writing',
-        item: '¿No queda ninguna raya, guion largo ni punto y coma en el texto?',
+        item: '¿No queda ninguna raya ni guion largo en el texto?',
       },
       // El catálogo de señales de IA la declara por su cuenta. Es la misma
       // prohibición, y esta regla la hace cumplir para las dos.
       { skill: 'humanizar-espanol', item: 'La raya (—) calcada del inglés: elimínala' },
     ],
   },
+  // El punto y coma estuvo prohibido y ya no lo está. La prohibición era una
+  // decisión de casa, no una norma, y la RAE lo describe en la Ortografía
+  // (2010) § 3.3.3. Lo que se mide ahora es el uso, en tres reglas: dos de
+  // forma, que son inequívocas, y una de frecuencia, que es la que vigila el
+  // abuso.
   {
-    id: 'no-punto-y-coma',
+    id: 'punto-y-coma-mayuscula',
     kind: 'forbidden-pattern',
     severity: 'error',
-    pattern: /;/gu,
-    message: 'El punto y coma está prohibido.',
-    fix: 'Sustituir por punto y oración nueva, por coma si la relación es breve, o por dos puntos si el segundo miembro explica al primero.',
+    // Después de punto y coma va minúscula, salvo nombre propio. Un patrón
+    // amplio del tipo `;\s+\p{Lu}` marcaría «...; España decidió otra cosa»,
+    // que es correcto. Por eso solo entran palabras que nunca son nombre
+    // propio, con la misma lógica con que `coloquialismos` dejó fuera «de
+    // una»: más vale marcar menos que dejar de leerse.
+    pattern:
+      /;\s+(?:El|La|Los|Las|Un|Una|Unos|Unas|Es|Son|Era|Eran|Se|No|Sin|Por|Para|Esto|Esta|Este|Estos|Estas|Eso|Esa|Ese|Cuando|Aunque|Pero|Además|Ahora|Lo|Le|Les|Su|Sus|Al|Del|De|Si|Que|Como|Más|Menos|También|Tampoco|Todo|Toda|Todos|Todas|Nunca|Siempre|Hay|Hubo|Nada|Nadie|Cada|Otro|Otra|Otros|Otras|Tras|Desde|Hasta|Entre|Sobre|Bajo|Ante)(?!\p{L})/gu,
+    message: 'Mayúscula después de punto y coma.',
+    fix: 'Va minúscula, salvo nombre propio. Si lo que sigue es una oración nueva y sin relación estrecha con la anterior, el signo correcto es el punto.',
     source: 'spanish-writing §6.7',
     checklist: [
       {
         skill: 'spanish-writing',
-        item: '¿No queda ninguna raya, guion largo ni punto y coma en el texto?',
+        item: '¿El punto y coma va seguido de minúscula y pegado a la palabra anterior?',
+      },
+    ],
+  },
+  {
+    id: 'punto-y-coma-espaciado',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // Espacio delante, o ninguno detrás. El punto y coma al final de línea es
+    // legítimo y por eso el segundo caso exige una letra pegada.
+    pattern: /\s;|;(?=\p{L})/gu,
+    message: 'Espaciado incorrecto del punto y coma.',
+    fix: 'Va pegado a la palabra anterior y separado de la siguiente por un espacio: «no es pobreza; es precisión».',
+    source: 'spanish-writing §6.7',
+    checklist: [
+      {
+        skill: 'spanish-writing',
+        item: '¿El punto y coma va seguido de minúscula y pegado a la palabra anterior?',
+      },
+    ],
+  },
+  {
+    id: 'punto-y-coma-abusado',
+    kind: 'pattern-ratio',
+    severity: 'warning',
+    pattern: /;/u,
+    // Se cuentan oraciones que lo llevan, no apariciones. La diferencia
+    // importa: una enumeración de miembros con comas internas acumula quince
+    // punto y coma dentro de una sola oración y es el primer uso correcto del
+    // §6.7. Una regla que contara apariciones por párrafo marcaría justo el
+    // caso bueno.
+    //
+    // El techo sale de medir el §6.7 contra prosa que lo usa bien: el
+    // catálogo de `humanizar-espanol` va en 0,066 y esta base en 0,003. Un
+    // quinto deja sitio de sobra y solo se alcanza cuando el signo dejó de
+    // separar y se volvió pausa decorativa. Por ser un número elegido y no
+    // declarado por la RAE, avisa en vez de bloquear.
+    max: 0.2,
+    minSentences: 8,
+    message: 'El punto y coma aparece en más de una de cada cinco oraciones.',
+    fix: 'Dejarlo donde separa miembros con comas internas o une dos oraciones de relación estrecha. En el resto, punto y oración nueva, o dos puntos si el segundo miembro explica al primero.',
+    source: 'spanish-writing §6.7',
+    checklist: [
+      {
+        skill: 'spanish-writing',
+        item: '¿El punto y coma aparece en menos de una de cada cinco oraciones?',
       },
     ],
   },

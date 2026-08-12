@@ -47,10 +47,11 @@ Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.
 La base decide qué es correcto en español. Este skill decide cómo suena.
 
 Ninguna regla de este documento levanta una prohibición de la base. En
-particular, la raya, el guion largo y el punto y coma siguen prohibidos, y la
-prohibición del punto y coma importa acá más que en otros tonos, porque la
-oposición conceptual pide todo el tiempo ese signo. Se resuelve con un punto
-o con dos puntos.
+particular, la raya y el guion largo siguen prohibidos. El punto y coma sí se
+admite, con los tres usos y el límite de frecuencia del §6.7 de la base, y acá
+importa más que en otros tonos: la oposición conceptual pide ese signo todo el
+tiempo, y por eso mismo es donde antes se convierte en tic. Cuando la oposición
+ya se dijo dos veces seguidas con punto y coma, la tercera va con punto.
 
 Este skill restringe más de lo que la base restringe. El autor del que sale
 el molde tiene defectos conocidos y muy imitables, y las secciones 8, 9 y 10

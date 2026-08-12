@@ -42,7 +42,8 @@ Este skill hereda íntegras las reglas de «spanish-writing» y no las repite. L
 base decide qué es correcto en español. Este skill decide cómo suena.
 
 Ninguna regla de este documento levanta una prohibición de la base. En
-particular, la raya, el guion largo y el punto y coma siguen prohibidos.
+particular, la raya y el guion largo siguen prohibidos. El punto y coma se usa
+según el §6.7 de la base.
 
 Advertencia sobre la fuente. El material medido es habla transcrita por máquina.
 La puntuación no es del autor, así que este documento no deriva ninguna regla de
