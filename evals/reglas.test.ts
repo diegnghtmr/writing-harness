@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { check, rulesFor } from '../src/check.ts';
+import { allRules } from '../src/rules.ts';
 import { REPO_ROOT } from '../src/skills.ts';
 import { countWords, splitParagraphs, splitSentences } from '../src/text.ts';
 
@@ -222,14 +223,19 @@ describe('lo que el texto debe contener', () => {
     'Detrás de esa apariencia hay una relación entre personas concretas. ' +
     'El fetichismo nombra justamente esa inversión de la mirada corriente.';
 
-  test('fonda reclama tuteo, preguntas y voz propia cuando faltan', () => {
+  test('fonda reclama tuteo, voz propia y ritmo cuando faltan', () => {
     const f = check(academico, { tone: 'fonda' }).map((x) => x.rule).sort();
-    assert.deepEqual(f, [
-      'fonda-preguntas-retoricas',
-      'fonda-primera-persona',
-      'fonda-tutea',
-      'fonda-varia-longitud',
-    ]);
+    assert.deepEqual(f, ['fonda-primera-persona', 'fonda-tutea', 'fonda-varia-longitud']);
+  });
+
+  test('ya no se exigen preguntas retóricas, porque la prosa dejó de pedirlas', () => {
+    // La reescritura de fonda cambió su ítem: ya no dice que tenga que haber
+    // preguntas, dice que las que haya se respondan. La regla que exigía su
+    // presencia hacía cumplir algo que la skill abandonó, así que se borró.
+    assert.equal(
+      allRules().filter((r) => r.id === 'fonda-preguntas-retoricas').length,
+      0,
+    );
   });
 
   test('un texto corto no tiene que cumplir esas exigencias', () => {

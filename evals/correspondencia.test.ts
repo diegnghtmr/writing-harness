@@ -12,7 +12,7 @@
 
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
-import { allRules, assertRules } from '../src/rules.ts';
+import { TONES, TONE_IDS, allRules, assertRules } from '../src/rules.ts';
 import { allDeclarations, declarations, itemKey, skillNames } from '../src/skills.ts';
 import { SIN_REGLA } from './cobertura.ts';
 
@@ -76,17 +76,18 @@ describe('correspondencia entre las reglas y la prosa', () => {
 
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. Ya no queda nada mecanizable: las 62 cubiertas son el techo
-  // completo. Las 31 de criterio exigen juicio sobre el contenido y ninguna
-  // regla las cubrirá nunca, y las 2 delegadas solo remiten a otra lista.
+  // ser deliberado. No queda nada mecanizable sin regla. Las 187 de criterio
+  // exigen juicio sobre el contenido: casi todas vienen de los diez tonos que
+  // reconstruyen a un autor, y describir cómo argumenta una persona no lo mide
+  // ninguna clase de regla que exista hoy.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('95 declaraciones, repartidas como está registrado', () => {
-    assert.equal(items.length, 95, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 62, 'cambió la cantidad de declaraciones cubiertas por reglas');
+  test('249 declaraciones, repartidas como está registrado', () => {
+    assert.equal(items.length, 249, 'cambió la cantidad de declaraciones en la prosa');
+    assert.equal(claimed.size, 61, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
-    assert.equal(cuenta('criterio'), 31);
-    assert.equal(cuenta('delegado'), 2);
+    assert.equal(cuenta('criterio'), 187);
+    assert.equal(cuenta('delegado'), 1);
   });
 
   test('humanizar tiene 31 de sus 37 patrones cubiertos', () => {
@@ -97,13 +98,13 @@ describe('el techo de cobertura está declarado', () => {
   });
 
   test('todas las skills aportan al recuento', () => {
-    assert.deepEqual(skillNames(), [
-      'camus-writing',
-      'catedra-writing',
-      'fonda-writing',
-      'humanizar-espanol',
-      'spanish-writing',
-    ]);
+    assert.equal(skillNames().length, 15);
+    // La base y la pasada no son tonos. Los otros trece sí, y el verificador
+    // tiene que aceptarlos todos o la tabla de enrutamiento miente.
+    assert.deepEqual(
+      skillNames().filter((n) => n !== 'spanish-writing' && n !== 'humanizar-espanol').sort(),
+      TONE_IDS.map((t) => TONES[t]!.skill).sort(),
+    );
   });
 
   test('humanizar-espanol ya no queda fuera del gate', () => {

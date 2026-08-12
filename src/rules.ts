@@ -301,7 +301,11 @@ export const BASE_RULES: Rule[] = [
     checklist: [
       { skill: 'spanish-writing', item: '¿No hay introducciones ni cierres genéricos?' },
       { skill: 'humanizar-espanol', item: 'Cierres anunciados' },
-      { skill: 'fonda-writing', item: '¿Se evitan los clichés de cierre genérico?' },
+      { skill: 'fonda-writing', item: '¿Se evitó recapitular lo dicho y anunciar el cierre como cierre?' },
+      {
+        skill: 'catedra-writing',
+        item: '¿El cierre remata en una consecuencia breve, sin recapitular ni anunciarse como cierre?',
+      },
     ],
   },
   {
@@ -496,8 +500,9 @@ export const BASE_RULES: Rule[] = [
       { skill: 'spanish-writing', item: '¿No hay markdown, asteriscos ni negritas?' },
       { skill: 'humanizar-espanol', item: 'Abuso de negrita' },
       { skill: 'humanizar-espanol', item: 'Listas con encabezado en negrita y dos puntos' },
-      // Los tres tonos lo repiten en su propia lista. Es la misma prohibición.
-      { skill: 'fonda-writing', item: '¿No hay markdown ni asteriscos en el texto entregado?' },
+      // catedra lo repite en su propia lista. Es la misma prohibición. fonda
+      // dejó de repetirlo al reescribirse, porque duplicaba el ítem 10 de la
+      // base, así que ahí no queda nada que reclamar.
       { skill: 'catedra-writing', item: '¿No hay markdown ni asteriscos en el texto entregado?' },
     ],
   },
@@ -687,21 +692,7 @@ export const TONES: Record<string, Tone> = {
         fix: 'Interpelar al lector de forma sostenida, no una vez y nunca más.',
         source: 'fonda-writing §4.1',
         checklist: [
-          { skill: 'fonda-writing', item: '¿El texto tutea al lector de forma consistente?' },
-        ],
-      },
-      {
-        id: 'fonda-preguntas-retoricas',
-        kind: 'must-contain',
-        severity: 'warning',
-        pattern: /¿/gu,
-        minDistinct: 1,
-        minSentences: 6,
-        message: 'No hay ninguna pregunta retórica, y son el recurso central de este tono.',
-        fix: 'Activar al lector, transitar entre ideas o anticipar una objeción con una pregunta que el texto responda después.',
-        source: 'fonda-writing §6',
-        checklist: [
-          { skill: 'fonda-writing', item: '¿Hay preguntas retóricas que activen al lector?' },
+          { skill: 'fonda-writing', item: '¿Se tutea al lector, con paso al plural solo al dirigirse al público?' },
         ],
       },
       {
@@ -726,14 +717,14 @@ export const TONES: Record<string, Tone> = {
         checklist: [
           {
             skill: 'fonda-writing',
-            item: '¿Se usa primera persona para opiniones y plural para recorridos argumentativos?',
+            item: '¿Aparece el yo de quien escribe con sus dudas, sus errores y su juicio?',
           },
         ],
       },
       variaLongitud(
         'fonda-varia-longitud',
         'fonda-writing',
-        '¿Se varía la longitud de oraciones para crear ritmo?',
+        '¿Hay periodos largos por acumulación cortados por oraciones mínimas?',
         '§5.3',
       ),
     ],
@@ -837,6 +828,20 @@ export const TONES: Record<string, Tone> = {
       },
     ],
   },
+
+  // Los diez tonos siguientes se declaran sin reglas propias. El verificador ya
+  // los acepta, así que su capa base y su enrutamiento funcionan, y sus ítems
+  // quedan registrados en la cobertura como lo que son: criterio sin medir.
+  freddy: { id: 'freddy', skill: 'freddy-writing', rules: [] },
+  fonseca: { id: 'fonseca', skill: 'fonseca-writing', rules: [] },
+  dotcsv: { id: 'dotcsv', skill: 'dotcsv-writing', rules: [] },
+  han: { id: 'han', skill: 'han-writing', rules: [] },
+  bettatech: { id: 'bettatech', skill: 'bettatech-writing', rules: [] },
+  schiavenato: { id: 'schiavenato', skill: 'schiavenato-writing', rules: [] },
+  medicendai: { id: 'medicendai', skill: 'medicendai-writing', rules: [] },
+  sekkyoku: { id: 'sekkyoku', skill: 'sekkyoku-writing', rules: [] },
+  kenway: { id: 'kenway', skill: 'kenway-writing', rules: [] },
+  atenas: { id: 'atenas', skill: 'atenas-writing', rules: [] },
 };
 
 export const TONE_IDS = Object.keys(TONES);

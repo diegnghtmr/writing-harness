@@ -6,10 +6,11 @@ description: >
   normas de la RAE, la Nueva gramática de la lengua española (2009), la
   Ortografía de la lengua española (2010) y el Diccionario panhispánico de
   dudas. Cubre corrección gramatical, puntuación, mayúsculas, números,
-  anglicismos, léxico prohibido, citas y formato de entrega. Enruta hacia
-  la skill de tono que corresponda: camus-writing, fonda-writing o
-  catedra-writing. Úsese siempre que se redacte, reescriba, corrija o
-  revise un texto en español.
+  anglicismos, léxico prohibido, citas y formato de entrega. Enruta hacia la
+  skill de tono que corresponda, sea el registro general de camus-writing o
+  una de las que reconstruyen la forma de exponer de un autor concreto.
+  Úsese siempre que se redacte, reescriba, corrija o revise un texto en
+  español.
 ---
 
 # Base normativa del español y enrutamiento de tono
@@ -51,12 +52,27 @@ forma y la manera de presentar la información.
 | Skill de tono | Cuándo se usa | Voz |
 |---|---|---|
 | `camus-writing` | Textos académicos, técnicos y formales: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos. Es el tono por defecto. | Impersonal, económica, oraciones breves |
-| `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, tuteo al lector |
-| `catedra-writing` | Lecciones magistrales, cursos, exposiciones teóricas, análisis sistemáticos de autores o doctrinas. | Analítica, «nosotros» inclusivo, sin tuteo |
+| `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, tuteo, apertura por incidente propio |
+| `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin tuteo |
+| `han-writing` | Diagnóstico epocal y ensayo filosófico breve, construido por oposición de conceptos. | Aforística, sin dato empírico, capítulo corto |
+| `freddy-writing` | Divulgación tecnológica y educativa que busca mover a alguien a actuar. | Tuteo con imperativos, anécdota propia fechada, la cifra como remate |
+| `dotcsv-writing` | Divulgación técnica de un mecanismo difícil para público general. | Analogía portante con su límite declarado, entusiasmo repartido |
+| `bettatech-writing` | Fundamentos de informática y computación antes que la receta práctica. | Explicativa, del principio al caso |
+| `fonseca-writing` | Actualidad internacional, geopolítica y economía a partir de un hecho reciente. | Entrada por el hecho, cifra y fuente pegadas, ironía por contraste |
+| `schiavenato-writing` | Divulgación jurídica y política dirigida a una comunidad, con documentación adjunta. | Trato de «ustedes», definición por negación, la prueba adjunta |
+| `medicendai-writing` | Análisis largo de una obra de ficción sostenido por su coherencia interna. | Primera persona que firma el juicio, veredicto declarado de entrada |
+| `sekkyoku-writing` | Análisis narrativo unidad por unidad de una obra serializada. | Aviso de spoiler explícito, la obra misma como prueba |
+| `kenway-writing` | Reseña crítica que concede el mérito antes del reproche. | Mérito primero, fallo ubicado en la ejecución, sin nota numérica |
+| `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, tuteo, el personaje leído por una sola idea |
 
 Si el usuario no indica el tono y el texto es académico, técnico o formal, se
 usa `camus-writing`. Si el género no encaja en ninguna fila, se aplica esta
 base sola.
+
+Los diez tonos que siguen a `catedra-writing` reconstruyen la forma de exponer
+de un autor concreto y cada uno declara en su sección de fuentes qué pudo
+verificarse y qué no. Ninguno toma la variedad dialectal de su modelo: el
+español de esta base gana siempre, y cada skill dice qué descarta y por qué.
 
 `humanizar-espanol` no es una skill de tono. Es una pasada que se ejecuta
 después, sobre un texto ya redactado, y solo cuando el usuario la pide de forma
