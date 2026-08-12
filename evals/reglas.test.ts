@@ -67,7 +67,7 @@ describe('capa base', () => {
   });
 
   test('la capa base corre sin elegir tono', () => {
-    assert.equal(rulesFor().length, 8);
+    assert.equal(rulesFor().length, 14);
   });
 
   test('el andamiaje vacío se marca', () => {
@@ -104,6 +104,59 @@ describe('capa base', () => {
   });
 });
 
+describe('normativa del español', () => {
+  test('el signo de cierre sin apertura se marca', () => {
+    assert.equal(check('Cómo estás?').filter((x) => x.rule === 'signos-de-apertura').length, 1);
+    assert.deepEqual(check('¿Cómo estás?'), []);
+  });
+
+  test('el ¿ de una oración no cubre a la siguiente', () => {
+    const f = check('¿Vienes? Esperamos tu respuesta!');
+    assert.equal(f.filter((x) => x.rule === 'signos-de-apertura').length, 1);
+  });
+
+  test('la puntuación dentro de las comillas se marca', () => {
+    assert.equal(
+      check('Según el informe, «el dato es claro.»').filter(
+        (x) => x.rule === 'puntuacion-dentro-de-comillas',
+      ).length,
+      1,
+    );
+    assert.deepEqual(check('Según el informe, «el dato es claro».'), []);
+  });
+
+  test('el haber impersonal plural se marca', () => {
+    const f = check('Habían muchas personas y han habido cambios.');
+    assert.equal(f.filter((x) => x.rule === 'haber-impersonal').length, 2);
+  });
+
+  test('el pluscuamperfecto legítimo no se marca', () => {
+    // «Habían llegado» y «hubieron terminado» son perfectos correctos. Marcar
+    // todo «habían» habría convertido la regla en ruido.
+    assert.deepEqual(check('Habían llegado temprano y hubieron terminado antes.'), []);
+  });
+
+  test('los calcos del inglés se marcan', () => {
+    const f = check('Eso no hace sentido en orden de lograrlo.');
+    assert.equal(f.filter((x) => x.rule === 'calcos-del-ingles').length, 2);
+  });
+
+  test('la pasiva perifrástica es advertencia, no error', () => {
+    const f = check('El estudio fue realizado por los investigadores.');
+    assert.equal(f.find((x) => x.rule === 'pasiva-perifrastica')?.severity, 'warning');
+  });
+
+  test('los meses y días en mayúscula se marcan, salvo a inicio de oración', () => {
+    assert.equal(
+      check('Se publicó el 15 de Enero y el Lunes siguiente.').filter(
+        (x) => x.rule === 'mayusculas-de-calendario',
+      ).length,
+      2,
+    );
+    assert.deepEqual(check('En enero, el lunes pasado, hubo cambios.'), []);
+  });
+});
+
 describe('capa de tono', () => {
   const larga =
     'Como dentro de una sociedad mercantil los seres humanos producen de manera separada e independiente, y como el carácter social de ese trabajo solo se manifiesta al intercambiar mercancías que son resultado del trabajo concreto y heterogéneo de muchos productores distintos, se hace necesario igualar los distintos tipos de trabajo.';
@@ -126,6 +179,28 @@ describe('capa de tono', () => {
 
   test('un tono inexistente falla en vez de pasar en silencio', () => {
     assert.throws(() => check('texto', { tone: 'inventado' }), /tono desconocido/u);
+  });
+
+  test('camus y catedra marcan tuteo y voseo por igual', () => {
+    // Las skills hablan de «tutear», pero el ítem pide tercera persona o
+    // primera del plural, y el voseo no es ninguna de las dos.
+    const tuteo = 'Si tienes dudas sobre el método puedes revisar el anexo del informe.';
+    const voseo = 'Si tenés dudas sobre el método podés revisar el anexo del informe.';
+    for (const t of [tuteo, voseo]) {
+      assert.ok(check(t, { tone: 'camus' }).some((x) => x.rule === 'camus-sin-tuteo'), t);
+      assert.ok(check(t, { tone: 'catedra' }).some((x) => x.rule === 'catedra-sin-tuteo'), t);
+    }
+  });
+
+  test('fonda no prohíbe el tuteo, lo exige', () => {
+    const tuteo = 'Si tienes dudas sobre el método puedes revisar el anexo del informe.';
+    assert.deepEqual(check(tuteo, { tone: 'fonda' }), []);
+  });
+
+  test('el español peninsular se marca solo en catedra', () => {
+    const t = 'Como podéis ver, vosotros tenéis la razón en este punto del análisis.';
+    assert.ok(check(t, { tone: 'catedra' }).some((x) => x.rule === 'espanol-peninsular'));
+    assert.deepEqual(check(t, { tone: 'fonda' }), []);
   });
 });
 

@@ -76,15 +76,15 @@ describe('correspondencia entre las reglas y la prosa', () => {
 
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. El techo real del verificador son 62 de 95, o sea las 34 ya
-  // cubiertas más las 28 mecanizables: las 31 de criterio exigen juicio sobre
+  // ser deliberado. El techo real del verificador son 62 de 95, o sea las 46 ya
+  // cubiertas más las 16 mecanizables: las 31 de criterio exigen juicio sobre
   // el contenido y ninguna regla las cubrirá nunca.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
   test('95 declaraciones, repartidas como está registrado', () => {
     assert.equal(items.length, 95, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 34, 'cambió la cantidad de declaraciones cubiertas por reglas');
-    assert.equal(cuenta('mecanizable'), 28);
+    assert.equal(claimed.size, 46, 'cambió la cantidad de declaraciones cubiertas por reglas');
+    assert.equal(cuenta('mecanizable'), 16);
     assert.equal(cuenta('criterio'), 31);
     assert.equal(cuenta('delegado'), 2);
   });

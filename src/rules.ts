@@ -239,6 +239,107 @@ export const BASE_RULES: Rule[] = [
     checklist: [
       { skill: 'spanish-writing', item: '¿No hay introducciones ni cierres genéricos?' },
       { skill: 'humanizar-espanol', item: 'Cierres anunciados' },
+      { skill: 'fonda-writing', item: '¿Se evitan los clichés de cierre genérico?' },
+    ],
+  },
+  {
+    id: 'signos-de-apertura',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // Mira hacia atrás buscando el signo de apertura sin cruzar otro cierre.
+    // Así «¿Vienes? Esperamos» no arrastra el ¿ a la oración siguiente.
+    pattern: /(?<![¿¡][^?!¿¡]{0,300})[?!]/gu,
+    message: 'Signo de cierre sin su apertura. El español exige ¿ y ¡.',
+    fix: 'Abrir la interrogación o la exclamación donde empieza, no donde empieza la oración.',
+    source: 'spanish-writing §4.4',
+    checklist: [{ skill: 'spanish-writing', item: '¿Los signos ¿ y ¡ tienen apertura?' }],
+  },
+  {
+    id: 'puntuacion-dentro-de-comillas',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: /[.,]»/gu,
+    message: 'La puntuación va fuera de las comillas de cierre.',
+    fix: 'Correcto: «Esto es un ejemplo». Incorrecto: «Esto es un ejemplo.»',
+    source: 'spanish-writing §6.3',
+    checklist: [
+      { skill: 'spanish-writing', item: '¿La puntuación va fuera de las comillas de cierre?' },
+    ],
+  },
+  {
+    id: 'haber-impersonal',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // «Habían llegado» y «hubieron terminado» son perfectos legítimos, así que
+    // solo se marca el impersonal seguido de cuantificador o sustantivo, que es
+    // donde la concordancia sobra.
+    pattern:
+      /\bhan\s+habido\b|\bhabrían\s+habido\b|\b(?:habían|hubieron)\s+(?:muchos|muchas|varios|varias|algunos|algunas|pocos|pocas|unos|unas|bastantes|demasiados|demasiadas|más|menos|dos|tres|cuatro|cinco|problemas|casos|personas|razones|motivos)\b/giu,
+    message: 'El «haber» impersonal no concuerda: va siempre en singular.',
+    fix: '«Había muchas personas», «hubo problemas», «ha habido cambios».',
+    source: 'spanish-writing §4.1',
+    checklist: [{ skill: 'spanish-writing', item: '¿«Haber» impersonal está en singular?' }],
+  },
+  {
+    id: 'calcos-del-ingles',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'hacer sentido',
+      'hace sentido',
+      'hacen sentido',
+      'hizo sentido',
+      'aplicar para',
+      'aplicó para',
+      'aplicaron para',
+      'aplicaré para',
+      'en orden de',
+      'bajo circunstancias',
+      'bajo estas circunstancias',
+      'jugar un papel',
+      'juega un papel',
+      'juegan un papel',
+      'jugó un papel',
+    ]),
+    message: 'Calco del inglés.',
+    fix: '«Tener sentido», «postularse a», «para lograr», «en estas circunstancias», «desempeñar un papel».',
+    source: 'spanish-writing §5.5 y §5.6',
+    checklist: [{ skill: 'spanish-writing', item: '¿No hay calcos del inglés?' }],
+  },
+  {
+    id: 'pasiva-perifrastica',
+    kind: 'forbidden-pattern',
+    // Advertencia: §5.1 la limita, no la prohíbe. Se justifica cuando el agente
+    // es relevante y se quiere enfatizar.
+    severity: 'warning',
+    pattern:
+      /\b(?:fue|fueron|es|son|era|eran|será|serán|ha\s+sido|han\s+sido)\s+\p{L}+(?:ado|ada|ados|adas|ido|ida|idos|idas)\s+por\b/giu,
+    message: 'Pasiva perifrástica: el español prefiere la activa o la pasiva refleja.',
+    fix: '«El estudio fue realizado por los investigadores» es «Los investigadores realizaron el estudio» o «Se realizó el estudio».',
+    source: 'spanish-writing §5.1',
+    checklist: [
+      {
+        skill: 'spanish-writing',
+        item: '¿Se prefiere voz activa o pasiva refleja sobre la pasiva perifrástica?',
+      },
+    ],
+  },
+  {
+    id: 'mayusculas-de-calendario',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // Solo cuando va precedido de palabra o coma, para no marcar el inicio de
+    // oración, donde la mayúscula sí corresponde.
+    pattern:
+      /[\p{Ll},]\s+(?:Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Setiembre|Octubre|Noviembre|Diciembre|Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo|Primavera|Verano|Otoño|Invierno)(?!\p{L})/gu,
+    message: 'Meses, días y estaciones van en minúscula en español.',
+    fix: '«15 de enero de 2024», «el lunes pasado», «en invierno».',
+    source: 'spanish-writing §7',
+    checklist: [
+      {
+        skill: 'spanish-writing',
+        item: '¿Las mayúsculas son correctas (meses, días, gentilicios en minúscula)?',
+      },
     ],
   },
   {
@@ -255,6 +356,9 @@ export const BASE_RULES: Rule[] = [
       { skill: 'spanish-writing', item: '¿No hay markdown, asteriscos ni negritas?' },
       { skill: 'humanizar-espanol', item: 'Abuso de negrita' },
       { skill: 'humanizar-espanol', item: 'Listas con encabezado en negrita y dos puntos' },
+      // Los tres tonos lo repiten en su propia lista. Es la misma prohibición.
+      { skill: 'fonda-writing', item: '¿No hay markdown ni asteriscos en el texto entregado?' },
+      { skill: 'catedra-writing', item: '¿No hay markdown ni asteriscos en el texto entregado?' },
     ],
   },
   {
@@ -295,6 +399,60 @@ export const BASE_RULES: Rule[] = [
 // ---------------------------------------------------------------------------
 // Capa de tono: se elige exactamente una.
 // ---------------------------------------------------------------------------
+
+// Marcas de segunda persona del singular. Se listan solo las inequívocas: «te»
+// y «tu» quedan fuera porque aparecen en usos que no son interpelación directa.
+//
+// El voseo entra junto al tuteo. Las skills hablan de «tutear», pero el ítem que
+// esta regla hace cumplir pide tercera persona o primera del plural, y el voseo
+// no es ninguna de las dos. Dejarlo pasar habría abierto un agujero del tamaño
+// de media Latinoamérica.
+const MARCAS_DE_SEGUNDA_PERSONA = [
+  // Tuteo
+  'tú',
+  'ti',
+  'contigo',
+  'tuyo',
+  'tuya',
+  'tuyos',
+  'tuyas',
+  'tienes',
+  'puedes',
+  'sabes',
+  'quieres',
+  'debes',
+  'haces',
+  'piensas',
+  'fíjate',
+  'acuérdate',
+  // Voseo
+  'vos',
+  'sos',
+  'tenés',
+  'podés',
+  'sabés',
+  'querés',
+  'debés',
+  'hacés',
+  'pensás',
+  'decís',
+  'fijate',
+  'acordate',
+];
+
+/** El mismo criterio para los dos tonos que no interpelan al lector. */
+function sinTuteo(id: string, skill: string, item: string): Rule {
+  return {
+    id,
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases(MARCAS_DE_SEGUNDA_PERSONA),
+    message: 'Este tono no interpela al lector en segunda persona del singular.',
+    fix: 'Pasar a tercera persona o a primera del plural inclusiva.',
+    source: `${skill} §4.1`,
+    checklist: [{ skill, item }],
+  };
+}
 
 export const TONES: Record<string, Tone> = {
   camus: {
@@ -343,10 +501,53 @@ export const TONES: Record<string, Tone> = {
           { skill: 'camus-writing', item: '¿Los párrafos tienen entre 50 y 150 palabras?' },
         ],
       },
+      sinTuteo(
+        'camus-sin-tuteo',
+        'camus-writing',
+        '¿Se usa tercera persona o primera del plural, sin tutear al lector?',
+      ),
     ],
   },
   fonda: { id: 'fonda', skill: 'fonda-writing', rules: [] },
-  catedra: { id: 'catedra', skill: 'catedra-writing', rules: [] },
+  catedra: {
+    id: 'catedra',
+    skill: 'catedra-writing',
+    rules: [
+      sinTuteo('catedra-sin-tuteo', 'catedra-writing', '¿Se usa «nosotros» inclusivo y no «tú»?'),
+      {
+        id: 'espanol-peninsular',
+        kind: 'forbidden-pattern',
+        severity: 'error',
+        // El ítem 16 nombra también «coger» y «vale». Quedan fuera: «coger» es
+        // corriente en varios países americanos y «vale» tiene usos que no son
+        // muletilla. Solo entran las formas de «vosotros», que no admiten duda.
+        pattern: frases([
+          'vosotros',
+          'vosotras',
+          'vuestro',
+          'vuestra',
+          'vuestros',
+          'vuestras',
+          'habéis',
+          'tenéis',
+          'sois',
+          'podéis',
+          'queréis',
+          'hacéis',
+          'estáis',
+        ]),
+        message: 'Español peninsular en un texto latinoamericano.',
+        fix: 'Usar «ustedes» y sus formas: «tienen», «son», «pueden», «están».',
+        source: 'catedra-writing §12',
+        checklist: [
+          {
+            skill: 'catedra-writing',
+            item: '¿No se usa español peninsular (sin «vosotros», sin «coger» con sentido de «tomar», sin «vale» como muletilla)?',
+          },
+        ],
+      },
+    ],
+  },
 };
 
 export const TONE_IDS = Object.keys(TONES);

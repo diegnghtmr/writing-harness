@@ -129,8 +129,8 @@ una sola casa.
 
 | Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | 34 | Tiene regla y test |
-| mecanizable | 28 | Se puede medir, falta construirlo |
+| cubierto | 46 | Tiene regla y test |
+| mecanizable | 16 | Se puede medir, falta construirlo |
 | criterio | 31 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 | delegado | 2 | El ítem solo remite a la lista de otra skill |
 
@@ -141,10 +141,10 @@ ningún linter decide. Queda escrito para no confundir después una cobertura
 parcial con una completa.
 
 Por skill: `humanizar-espanol` 37 declaraciones y 26 cubiertas,
-`spanish-writing` 20 y 6, `catedra-writing` 16 y 0, `fonda-writing` 15 y 0,
-`camus-writing` 7 y 2.
+`spanish-writing` 20 y 12, `catedra-writing` 16 y 3, `fonda-writing` 15 y 2,
+`camus-writing` 7 y 3.
 
-Son 29 reglas repartidas en siete tipos. Cuatro miden estructura y necesitan el
+Son 38 reglas repartidas en siete tipos. Cuatro miden estructura y necesitan el
 segmentador, no una regex: rango de palabras por párrafo, racha de oraciones
 cortas, oraciones consecutivas que arrancan con la misma clase de fórmula, y
 párrafos que abren con una etiqueta breve.
