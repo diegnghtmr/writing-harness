@@ -210,7 +210,102 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
     }
   }
 
+  // Reglas que miran el texto entero, no un párrafo ni una oración.
+  const todasLasOraciones = splitParagraphs(text).flatMap((p) => p.sentences);
+
+  for (const rule of rules) {
+    if (rule.kind === 'must-contain') {
+      if (todasLasOraciones.length < rule.minSentences) continue;
+      const re = new RegExp(rule.pattern.source, rule.pattern.flags);
+      const distintos = new Set([...text.matchAll(re)].map((m) => m[0].toLowerCase()));
+      if (distintos.size < rule.minDistinct) {
+        findings.push({
+          rule: rule.id,
+          severity: rule.severity,
+          ...at(0),
+          message: `${rule.message} Se esperaban ${rule.minDistinct}, hay ${distintos.size}.`,
+          fix: rule.fix,
+          source: rule.source,
+        });
+      }
+    }
+
+    if (rule.kind === 'pattern-ratio') {
+      if (todasLasOraciones.length < rule.minSentences) continue;
+      const encajan = todasLasOraciones.filter((s) => rule.pattern.test(s.text));
+      const fraccion = encajan.length / todasLasOraciones.length;
+      if (fraccion > rule.max) {
+        findings.push({
+          rule: rule.id,
+          severity: rule.severity,
+          ...at(encajan[0]?.offset ?? 0),
+          message: `${rule.message} ${encajan.length} de ${todasLasOraciones.length} oraciones, ${Math.round(fraccion * 100)} %.`,
+          fix: rule.fix,
+          source: rule.source,
+        });
+      }
+    }
+
+    if (rule.kind === 'sentence-length-spread') {
+      if (todasLasOraciones.length < rule.minSentences) continue;
+      const breves = todasLasOraciones.filter((s) => s.words <= rule.shortWords).length;
+      const largas = todasLasOraciones.filter((s) => s.words >= rule.longWords).length;
+      if (breves === 0 || largas === 0) {
+        findings.push({
+          rule: rule.id,
+          severity: rule.severity,
+          ...at(0),
+          message: `${rule.message} ${breves} de ${rule.shortWords} palabras o menos, ${largas} de ${rule.longWords} o más.`,
+          fix: rule.fix,
+          source: rule.source,
+        });
+      }
+    }
+
+    if (rule.kind === 'quote-level') {
+      for (const offset of comillasDePrimerNivel(text)) {
+        findings.push({
+          rule: rule.id,
+          severity: rule.severity,
+          ...at(offset),
+          message: rule.message,
+          fix: rule.fix,
+          source: rule.source,
+        });
+      }
+    }
+  }
+
   return findings.sort((a, b) => a.line - b.line || a.column - b.column);
+}
+
+/**
+ * Desplazamientos de las comillas inglesas usadas en primer nivel.
+ *
+ * Recorre el texto llevando la cuenta de las angulares abiertas. Dentro de unas
+ * angulares, las inglesas son el segundo nivel y son correctas. Fuera, no. Esa
+ * diferencia no la expresa ninguna regex, y por eso este escaneo existe.
+ */
+function comillasDePrimerNivel(text: string): number[] {
+  const out: number[] = [];
+  let dentro = 0;
+  let abierta = -1;
+
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (c === '«') dentro++;
+    else if (c === '»') dentro = Math.max(0, dentro - 1);
+    else if (c === '"' || c === '“' || c === '”') {
+      if (dentro > 0) continue;
+      // Se marca el par, no cada comilla suelta, para no duplicar el hallazgo.
+      if (abierta === -1) abierta = i;
+      else {
+        out.push(abierta);
+        abierta = -1;
+      }
+    }
+  }
+  return out;
 }
 
 export function format(findings: Finding[], path: string): string {

@@ -117,6 +117,64 @@ export type ParagraphOpeningRule = Common & {
   pattern: RegExp;
 };
 
+/**
+ * Lo que el texto tiene que contener. Su ausencia es el defecto.
+ *
+ * Es el reverso de todas las demás. Un tono como fonda no se define solo por lo
+ * que prohíbe: exige tuteo, preguntas retóricas y primera persona. Una regla que
+ * solo sabe prohibir no puede comprobar eso.
+ */
+export type MustContainRule = Common & {
+  kind: 'must-contain';
+  /** Debe llevar los flags `g` y `u`. */
+  pattern: RegExp;
+  /** Cuántas coincidencias distintas hacen falta. */
+  minDistinct: number;
+  /** Solo se exige a textos de al menos esta cantidad de oraciones. */
+  minSentences: number;
+};
+
+/** Proporción de oraciones que encajan en un patrón. */
+export type RatioRule = Common & {
+  kind: 'pattern-ratio';
+  /** Se prueba contra cada oración. Sin flag `g`. */
+  pattern: RegExp;
+  /** Fracción máxima tolerada, de 0 a 1. */
+  max: number;
+  minSentences: number;
+};
+
+/**
+ * Comillas inglesas usadas como primer nivel.
+ *
+ * No se puede con una regex: hay que recorrer el texto llevando la cuenta de si
+ * se está dentro de unas angulares. En segundo nivel las inglesas son correctas,
+ * y esa diferencia solo la ve un escaneo con estado.
+ */
+export type QuoteLevelRule = Common & {
+  kind: 'quote-level';
+};
+
+/**
+ * El texto debe alternar oraciones breves y largas, no igualarlas.
+ *
+ * Ni `camus-writing` ni `fonda-writing` declaran un número para esto: los dos
+ * piden variar la longitud y ninguno dice cuánto. Los umbrales se toman
+ * prestados del §4 de `humanizar-espanol`, que sí los fija: «oraciones breves
+ * de seis a diez palabras junto a oraciones largas de veinticinco o más».
+ *
+ * Como el número es prestado y no declarado por el tono, estas reglas avisan y
+ * no bloquean.
+ */
+export type LengthSpreadRule = Common & {
+  kind: 'sentence-length-spread';
+  /** Hasta cuántas palabras cuenta como breve. */
+  shortWords: number;
+  /** Desde cuántas cuenta como larga. */
+  longWords: number;
+  minSentences: number;
+};
+
 export type Rule =
   | PatternRule
   | SentenceLengthRule
@@ -124,7 +182,11 @@ export type Rule =
   | ParagraphLengthRule
   | ShortSentenceRunRule
   | SentenceStartRunRule
-  | ParagraphOpeningRule;
+  | ParagraphOpeningRule
+  | MustContainRule
+  | RatioRule
+  | QuoteLevelRule
+  | LengthSpreadRule;
 
 /** Un tono es un conjunto de reglas propias más un nombre. Nada más. */
 export type Tone = {
@@ -343,6 +405,84 @@ export const BASE_RULES: Rule[] = [
     ],
   },
   {
+    id: 'dequeismo-y-queismo',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      // Dequeísmo: «de» donde el verbo no lo rige.
+      'pienso de que',
+      'creo de que',
+      'opino de que',
+      'considero de que',
+      'dijo de que',
+      'resulta de que',
+      'me dijo de que',
+      'pensamos de que',
+      'creemos de que',
+      // Queísmo: falta el «de» que el régimen exige.
+      'me olvidé que',
+      'se olvidó que',
+      'nos olvidamos que',
+      'estoy seguro que',
+      'estamos seguros que',
+      'me acuerdo que',
+      'se dio cuenta que',
+      'me di cuenta que',
+      'a pesar que',
+      'con el fin que',
+      'en caso que',
+    ]),
+    message: 'Dequeísmo o queísmo.',
+    fix: 'Sustituir la cláusula por «eso» o «de eso». Si funciona con «de eso», hace falta «de que».',
+    source: 'spanish-writing §4.6',
+    checklist: [{ skill: 'spanish-writing', item: '¿No hay dequeísmo ni queísmo?' }],
+  },
+  {
+    id: 'numeros-en-espanol',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // El punto decimal, no el de millar. En Colombia «1.000» es correcto y
+    // «3.14» no, así que se distinguen por la cantidad de dígitos: un grupo de
+    // millar tiene exactamente tres.
+    pattern: /\d+\.\d{1,2}(?!\d)|\d%/gu,
+    message: 'Convención de números ajena al español.',
+    fix: 'Separador decimal, coma: 3,14. Millares con punto: 1.000. Porcentaje con espacio: 25 %.',
+    source: 'spanish-writing §8',
+    checklist: [
+      { skill: 'spanish-writing', item: '¿Los números siguen las convenciones del español?' },
+    ],
+  },
+  {
+    id: 'mayusculas-de-titulo',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // El delator del calco inglés es la palabra funcional en mayúscula entre
+    // dos palabras plenas también en mayúscula.
+    pattern:
+      /\p{Lu}\p{Ll}+\s+(?:Y|O|De|Del|La|El|Los|Las|En|Con|Para|Por|Un|Una|Sobre|Entre|Al)\s+\p{Lu}\p{Ll}/gu,
+    message: 'Mayúscula de título calcada del inglés.',
+    fix: 'En español solo van en mayúscula la primera palabra y los nombres propios: «Negociaciones estratégicas y alianzas globales».',
+    source: 'spanish-writing §7',
+    checklist: [
+      {
+        skill: 'spanish-writing',
+        item: '¿Los encabezados usan mayúscula solo en la primera palabra y en los nombres propios?',
+      },
+      { skill: 'humanizar-espanol', item: 'Mayúsculas de título en encabezados' },
+    ],
+  },
+  {
+    id: 'comillas-de-primer-nivel',
+    kind: 'quote-level',
+    severity: 'error',
+    message: 'Comillas inglesas usadas como primer nivel.',
+    fix: 'El primer nivel son las angulares « ». Las inglesas quedan para el segundo, anidadas dentro de aquellas.',
+    source: 'spanish-writing §6.3',
+    checklist: [
+      { skill: 'spanish-writing', item: '¿Las comillas son angulares « » como primer nivel?' },
+    ],
+  },
+  {
     id: 'markdown-en-entrega',
     kind: 'forbidden-pattern',
     severity: 'error',
@@ -440,6 +580,22 @@ const MARCAS_DE_SEGUNDA_PERSONA = [
   'acordate',
 ];
 
+/** El mismo criterio para los dos tonos que piden variar la longitud. */
+function variaLongitud(id: string, skill: string, item: string, seccion: string): Rule {
+  return {
+    id,
+    kind: 'sentence-length-spread',
+    severity: 'warning',
+    shortWords: 10,
+    longWords: 25,
+    minSentences: 6,
+    message: 'Las oraciones están igualadas: falta contraste entre breves y largas.',
+    fix: 'Alternar de verdad. Una oración de seis a diez palabras junto a otra de veinticinco o más, no todas en la misma banda.',
+    source: `${skill} ${seccion}`,
+    checklist: [{ skill, item }],
+  };
+}
+
 /** El mismo criterio para los dos tonos que no interpelan al lector. */
 function sinTuteo(id: string, skill: string, item: string): Rule {
   return {
@@ -506,9 +662,82 @@ export const TONES: Record<string, Tone> = {
         'camus-writing',
         '¿Se usa tercera persona o primera del plural, sin tutear al lector?',
       ),
+      variaLongitud(
+        'camus-varia-longitud',
+        'camus-writing',
+        '¿Se varía la longitud de las oraciones en lugar de igualarlas?',
+        '§5.2',
+      ),
     ],
   },
-  fonda: { id: 'fonda', skill: 'fonda-writing', rules: [] },
+  fonda: {
+    id: 'fonda',
+    skill: 'fonda-writing',
+    rules: [
+      // Fonda es el único tono que se define por lo que exige y no por lo que
+      // prohíbe. Sin `must-contain` sus tres ítems eran incomprobables.
+      {
+        id: 'fonda-tutea',
+        kind: 'must-contain',
+        severity: 'warning',
+        pattern: frases(MARCAS_DE_SEGUNDA_PERSONA),
+        minDistinct: 2,
+        minSentences: 6,
+        message: 'El texto no tutea al lector, y este tono se dirige a él.',
+        fix: 'Interpelar al lector de forma sostenida, no una vez y nunca más.',
+        source: 'fonda-writing §4.1',
+        checklist: [
+          { skill: 'fonda-writing', item: '¿El texto tutea al lector de forma consistente?' },
+        ],
+      },
+      {
+        id: 'fonda-preguntas-retoricas',
+        kind: 'must-contain',
+        severity: 'warning',
+        pattern: /¿/gu,
+        minDistinct: 1,
+        minSentences: 6,
+        message: 'No hay ninguna pregunta retórica, y son el recurso central de este tono.',
+        fix: 'Activar al lector, transitar entre ideas o anticipar una objeción con una pregunta que el texto responda después.',
+        source: 'fonda-writing §6',
+        checklist: [
+          { skill: 'fonda-writing', item: '¿Hay preguntas retóricas que activen al lector?' },
+        ],
+      },
+      {
+        id: 'fonda-primera-persona',
+        kind: 'must-contain',
+        severity: 'warning',
+        pattern: frases([
+          'a mi juicio',
+          'creo que',
+          'me parece',
+          'hemos visto',
+          'podemos preguntar',
+          'volvamos a',
+          'veamos',
+          'pasemos a',
+        ]),
+        minDistinct: 1,
+        minSentences: 6,
+        message: 'Falta la voz del autor: ni opinión en primera persona ni recorrido en plural.',
+        fix: '«A mi juicio», «creo que» para la posición propia. «Hemos visto», «volvamos a» para recorrer el argumento con el lector.',
+        source: 'fonda-writing §4.1',
+        checklist: [
+          {
+            skill: 'fonda-writing',
+            item: '¿Se usa primera persona para opiniones y plural para recorridos argumentativos?',
+          },
+        ],
+      },
+      variaLongitud(
+        'fonda-varia-longitud',
+        'fonda-writing',
+        '¿Se varía la longitud de oraciones para crear ritmo?',
+        '§5.3',
+      ),
+    ],
+  },
   catedra: {
     id: 'catedra',
     skill: 'catedra-writing',
@@ -543,6 +772,66 @@ export const TONES: Record<string, Tone> = {
           {
             skill: 'catedra-writing',
             item: '¿No se usa español peninsular (sin «vosotros», sin «coger» con sentido de «tomar», sin «vale» como muletilla)?',
+          },
+        ],
+      },
+      {
+        id: 'coloquialismos',
+        kind: 'forbidden-pattern',
+        severity: 'error',
+        // «fíjate» y «¿te das cuenta?», que el §11.2 también nombra, ya los
+        // marca `catedra-sin-tuteo`. Acá quedan los que no son de segunda
+        // persona. «O sea» entra porque la propia base lo declara informal.
+        // «De una» quedó fuera después de que marcara «dentro de una sociedad
+        // mercantil». Como coloquialismo rioplatense existe, pero como
+        // preposición más artículo aparece en cualquier párrafo, y una regla
+        // que marca eso deja de leerse al tercer falso positivo.
+        pattern: frases([
+          'bueno pues',
+          'o sea',
+          'un montón',
+          'ni modo',
+          'qué chévere',
+          'la verdad que',
+          'a lo bestia',
+        ]),
+        message: 'Coloquialismo en un texto de cátedra.',
+        fix: 'Sustituir por la formulación analítica. «O sea» es «es decir».',
+        source: 'catedra-writing §11.2',
+        checklist: [
+          {
+            skill: 'catedra-writing',
+            item: '¿No hay coloquialismos, humor ni anécdotas personales?',
+          },
+        ],
+      },
+      {
+        id: 'reformuladores-presentes',
+        kind: 'must-contain',
+        severity: 'warning',
+        // §3.2 llama a la repetición pedagógica «obligatoria para toda idea
+        // central», y §9.1 fija el patrón: formulación, reformulación con «es
+        // decir», consecuencia con «por tanto». Por eso se piden dos distintos.
+        pattern: frases([
+          'es decir',
+          'dicho de otro modo',
+          'en otras palabras',
+          'lo que significa que',
+          'esto es',
+          'por tanto',
+          'por consiguiente',
+          'de ahí que',
+          'así pues',
+        ]),
+        minDistinct: 2,
+        minSentences: 6,
+        message: 'Faltan dispositivos de reformulación variados, que son el esqueleto de este tono.',
+        fix: 'Formular la idea, reformularla con «es decir» o equivalente, y cerrar con la consecuencia con «por tanto».',
+        source: 'catedra-writing §9.1',
+        checklist: [
+          {
+            skill: 'catedra-writing',
+            item: '¿Los dispositivos de reformulación («es decir», «por tanto») están presentes y variados?',
           },
         ],
       },
@@ -812,6 +1101,75 @@ const SENALES_IA: Rule[] = [
     checklist: p('Señalización y anuncios'),
   },
   {
+    id: 'notoriedad-y-cobertura',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'ha sido reseñado en numerosos medios',
+      'cuenta con una amplia presencia en redes',
+      'reconocido a nivel nacional e internacional',
+      'de renombre internacional',
+      'ampliamente reconocido',
+      'goza de gran prestigio',
+    ]),
+    message: 'Énfasis indebido en notoriedad: enumera medios y prestigio sin contexto.',
+    fix: 'Sustituir por lo que dijo, dónde y cuándo. «En una entrevista de 2024 en El País sostuvo que…».',
+    source: 'humanizar-espanol, patrón 2',
+    checklist: p('Énfasis indebido en notoriedad y cobertura mediática'),
+  },
+  {
+    id: 'exceso-de-atenuacion',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'podría posiblemente',
+      'posiblemente podría',
+      'tal vez podría',
+      'quizás podría',
+      'tal vez tendría',
+      'quizás tendría',
+      'podría llegar a ser',
+      'podría eventualmente',
+    ]),
+    message: 'Exceso de atenuación: dos o tres capas de duda sobre la misma afirmación.',
+    fix: 'Dejar una sola. «La política puede afectar a los resultados».',
+    source: 'humanizar-espanol, patrón 28',
+    checklist: p('Exceso de atenuación'),
+  },
+  {
+    id: 'conclusiones-positivas',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'el futuro es prometedor',
+      'vienen tiempos emocionantes',
+      'un paso en la dirección correcta',
+      'camino hacia la excelencia',
+      'sin duda seguirá creciendo',
+      'el futuro se presenta prometedor',
+    ]),
+    message: 'Conclusión positiva genérica: un repunte optimista que no dice nada.',
+    fix: 'Sustituir por el hecho concreto. «La empresa prevé abrir dos sedes más el año próximo».',
+    source: 'humanizar-espanol, patrón 29',
+    checklist: p('Conclusiones positivas genéricas'),
+  },
+  {
+    id: 'pasiva-mecanica',
+    kind: 'pattern-ratio',
+    severity: 'warning',
+    // El catálogo no prohíbe la pasiva refleja: dice que el español académico
+    // la usa con naturalidad y que el defecto es «su uso mecánico y repetido en
+    // cada oración». El umbral traduce ese «en cada oración» a dos tercios, y
+    // por ser una lectura y no un número declarado, se marca como advertencia.
+    pattern: /^\s*se\s+\p{L}+|\b(?:fue|fueron|es|son|era|eran)\s+\p{L}+(?:ado|ada|ados|adas|ido|ida|idos|idas)\b/iu,
+    max: 0.66,
+    minSentences: 4,
+    message: 'Pasiva e impersonal en cadena.',
+    fix: 'Alternar con la voz activa donde aclare quién hace qué. «Se observó un incremento al analizar los datos».',
+    source: 'humanizar-espanol, patrón 13',
+    checklist: p('Pasiva e impersonal mecánico excesivos'),
+  },
+  {
     id: 'gerundios-apilados',
     kind: 'forbidden-pattern',
     severity: 'error',
@@ -907,7 +1265,7 @@ export function assertRules(rules: Rule[] = allRules()): void {
     if (r.checklist.length === 0) {
       throw new Error(`la regla ${r.id} no reclama ningún ítem de checklist`);
     }
-    if (r.kind === 'forbidden-pattern' || r.kind === 'pattern-density') {
+    if (r.kind === 'forbidden-pattern' || r.kind === 'pattern-density' || r.kind === 'must-contain') {
       if (!r.pattern.flags.includes('g')) {
         throw new Error(`la regla ${r.id} necesita el flag g`);
       }
@@ -920,7 +1278,7 @@ export function assertRules(rules: Rule[] = allRules()): void {
     }
     // Estas dos se prueban con `.test` contra cada oración. Con el flag `g`,
     // `lastIndex` es estado compartido y el resultado alterna entre llamadas.
-    if (r.kind === 'sentence-start-run' || r.kind === 'paragraph-opening') {
+    if (r.kind === 'sentence-start-run' || r.kind === 'paragraph-opening' || r.kind === 'pattern-ratio') {
       if (r.pattern.flags.includes('g')) {
         throw new Error(`la regla ${r.id} no puede llevar el flag g`);
       }

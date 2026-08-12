@@ -67,7 +67,7 @@ describe('capa base', () => {
   });
 
   test('la capa base corre sin elegir tono', () => {
-    assert.equal(rulesFor().length, 14);
+    assert.equal(rulesFor().length, 18);
   });
 
   test('el andamiaje vacío se marca', () => {
@@ -154,6 +154,78 @@ describe('normativa del español', () => {
       2,
     );
     assert.deepEqual(check('En enero, el lunes pasado, hubo cambios.'), []);
+  });
+});
+
+describe('falsos positivos que costaron caro', () => {
+  test('«de una» es preposición más artículo, no coloquialismo', () => {
+    // Marcaba «dentro de una sociedad mercantil». Como coloquialismo
+    // rioplatense existe, pero aparece en cualquier párrafo del idioma.
+    const t = 'Como dentro de una sociedad mercantil los productores trabajan separados.';
+    assert.deepEqual(check(t, { tone: 'catedra' }).filter((x) => x.rule === 'coloquialismos'), []);
+  });
+
+  test('el millar con punto es correcto y el decimal con punto no', () => {
+    assert.deepEqual(check('Hay 1.000 casos y 25.000 registros.'), []);
+    assert.equal(check('El valor es 3.14 exacto.').length, 1);
+  });
+});
+
+describe('comillas anidadas', () => {
+  test('las inglesas en primer nivel se marcan', () => {
+    const f = check('Según el informe, "el dato es claro".');
+    assert.equal(f.filter((x) => x.rule === 'comillas-de-primer-nivel').length, 1);
+  });
+
+  test('las angulares en primer nivel son correctas', () => {
+    assert.deepEqual(check('Según el informe, «el dato es claro».'), []);
+  });
+
+  test('las inglesas anidadas dentro de angulares son correctas', () => {
+    // Es lo que ninguna regex distingue, y por lo que este escaneo lleva estado.
+    assert.deepEqual(check('Según el informe, «el autor dice que "la teoría" funciona».'), []);
+  });
+});
+
+describe('lo que el texto debe contener', () => {
+  const academico =
+    'La teoría del valor sostiene que el precio depende del trabajo necesario. ' +
+    'Ese trabajo se mide en tiempo social y no en esfuerzo individual. ' +
+    'El mercado iguala tipos de trabajo distintos entre sí cada día. ' +
+    'La igualación aparece como propiedad de las cosas ante los ojos. ' +
+    'Detrás de esa apariencia hay una relación entre personas concretas. ' +
+    'El fetichismo nombra justamente esa inversión de la mirada corriente.';
+
+  test('fonda reclama tuteo, preguntas y voz propia cuando faltan', () => {
+    const f = check(academico, { tone: 'fonda' }).map((x) => x.rule).sort();
+    assert.deepEqual(f, [
+      'fonda-preguntas-retoricas',
+      'fonda-primera-persona',
+      'fonda-tutea',
+      'fonda-varia-longitud',
+    ]);
+  });
+
+  test('un texto corto no tiene que cumplir esas exigencias', () => {
+    // Pedirle preguntas retóricas a una nota de dos oraciones sería ruido.
+    assert.deepEqual(check('Una nota breve. Nada más que eso.', { tone: 'fonda' }), []);
+  });
+
+  test('camus no reclama nada de eso', () => {
+    const f = check(academico, { tone: 'camus' }).map((x) => x.rule);
+    assert.ok(!f.some((r) => r.startsWith('fonda-')));
+  });
+
+  test('catedra reclama dispositivos de reformulación variados', () => {
+    assert.ok(
+      check(academico, { tone: 'catedra' }).some((x) => x.rule === 'reformuladores-presentes'),
+    );
+    const conReformuladores = `${academico} Es decir, el valor es social. Por tanto, no es natural.`;
+    assert.ok(
+      !check(conReformuladores, { tone: 'catedra' }).some(
+        (x) => x.rule === 'reformuladores-presentes',
+      ),
+    );
   });
 });
 

@@ -129,25 +129,38 @@ una sola casa.
 
 | Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | 46 | Tiene regla y test |
-| mecanizable | 16 | Se puede medir, falta construirlo |
+| cubierto | **62** | Tiene regla y test |
+| mecanizable | **0** | Se puede medir, falta construirlo |
 | criterio | 31 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 | delegado | 2 | El ítem solo remite a la lista de otra skill |
 
-El techo real del verificador son **62 de 95**, no 95. Los 31 de criterio
+El techo declarado eran **62 de 95**, y está alcanzado: no queda nada
+mecanizable sin regla. Los 31 de criterio
 incluyen cosas como «¿se conserva toda la información original?», «¿las
 analogías están desarrolladas?» o la colocación léxica más previsible, que
 ningún linter decide. Queda escrito para no confundir después una cobertura
 parcial con una completa.
 
-Por skill: `humanizar-espanol` 37 declaraciones y 26 cubiertas,
-`spanish-writing` 20 y 12, `catedra-writing` 16 y 3, `fonda-writing` 15 y 2,
-`camus-writing` 7 y 3.
+Por skill: `humanizar-espanol` 31 de 37, `spanish-writing` 16 de 20,
+`fonda-writing` 6 de 15, `catedra-writing` 5 de 16, `camus-writing` 4 de 7.
 
-Son 38 reglas repartidas en siete tipos. Cuatro miden estructura y necesitan el
-segmentador, no una regex: rango de palabras por párrafo, racha de oraciones
-cortas, oraciones consecutivas que arrancan con la misma clase de fórmula, y
-párrafos que abren con una etiqueta breve.
+Son 53 reglas repartidas en diez tipos. Seis van más allá de la regex:
+
+| Tipo | Qué necesita |
+|---|---|
+| `paragraph-length` | Contar palabras por párrafo |
+| `short-sentence-run` | Detectar rachas dentro de un párrafo |
+| `sentence-start-run` | Comparar oraciones consecutivas |
+| `paragraph-opening` | Mirar solo la primera oración de cada párrafo |
+| `pattern-density` | Contar términos distintos por párrafo |
+| `pattern-ratio` | Medir una proporción sobre el total de oraciones |
+| `must-contain` | Comprobar una ausencia, no una presencia |
+| `sentence-length-spread` | Exigir contraste entre breves y largas |
+| `quote-level` | Recorrer el texto con estado, para distinguir niveles de comilla |
+
+`must-contain` es el reverso de todas las demás. `fonda-writing` no se define
+solo por lo que prohíbe: exige tuteo, preguntas retóricas y voz propia. Una
+regla que solo sabe prohibir no puede comprobar eso.
 
 ### Tres capas, igual que las skills
 
