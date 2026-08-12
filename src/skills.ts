@@ -41,9 +41,16 @@ export type Declaracion = {
 /** Alias histórico. Una declaración de checklist es una declaración más. */
 export type ChecklistItem = Declaracion;
 
+/**
+ * Carpetas de skill que de verdad tienen un `SKILL.md`.
+ *
+ * El filtro no es cosmético. Una carpeta a medio crear, sin su `SKILL.md`,
+ * hacía reventar el lector con ENOENT y se llevaba puesto el gate entero. Una
+ * skill en construcción no puede tumbar la verificación de las demás.
+ */
 export function skillNames(): string[] {
   return readdirSync(SKILLS_DIR, { withFileTypes: true })
-    .filter((e) => e.isDirectory())
+    .filter((e) => e.isDirectory() && existsSync(join(SKILLS_DIR, e.name, 'SKILL.md')))
     .map((e) => e.name)
     .sort();
 }
