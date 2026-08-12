@@ -69,8 +69,14 @@ Todo lo posterior es diffable contra ese punto.
 ## El verificador
 
 Las skills son prosa que lee un modelo. El verificador es lo que mide si un
-texto entregado las cumple. No se importan entre sí: las reglas viven una vez,
-como datos, en `src/rules.ts`.
+texto entregado las cumple. No se importan entre sí, y **ninguna skill nombra
+al verificador**: una skill tiene que servir donde este repositorio no existe,
+y el verificador tiene que servir sobre un texto escrito sin ninguna skill
+cargada. Lo único que comparten es el conjunto de reglas, y vive una sola vez,
+en `src/rules.ts`.
+
+Cuándo correrlo está en `CLAUDE.md`, que es donde va la operación del producto.
+En las skills no.
 
 ```bash
 node src/cli.ts documento.txt --tono camus
