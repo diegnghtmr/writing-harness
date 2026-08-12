@@ -1,0 +1,270 @@
+---
+name: humanizar-espanol
+description: >
+  Humaniza textos en español neutro académico: reescribe prosa de apariencia
+  automática (generada por IA o demasiado uniforme) para que recupere la firma
+  natural de un autor humano (variación de ritmo, imprevisibilidad léxica
+  controlada, concreción y cohesión orgánica) sin perder el rigor ni la
+  corrección de la RAE y la ASALE. Disparar ÚNICAMENTE cuando el usuario lo pida
+  de forma explícita con fórmulas como «humaniza este texto», «hazlo más
+  humano», «dale un estilo humano», «que suene a persona», «quita el tono
+  robótico», «que no parezca escrito por IA» o «que no parezca de ChatGPT». NO
+  disparar en peticiones generales de redacción, corrección, traducción o mejora
+  de estilo sin mención explícita de lo humano: para esas tareas se usan
+  «spanish-writing» (formal), «catedra-writing» (expositivo) o «fonda-writing»
+  (divulgativo).
+---
+
+# Humanizar textos en español neutro académico
+
+Tu tarea es reescribir un texto para que deje de parecer producido por una
+máquina y recupere las marcas de la escritura humana, sin alterar lo que el
+texto dice. El registro de destino es el español neutro académico: culto,
+preciso, impersonal en lo esencial, pero con el ritmo, la concreción y los
+pequeños quiebres que distinguen a un autor real de un generador de texto.
+
+Esta skill hereda y reorganiza las estrategias de dos fuentes: el catálogo de
+«señales de escritura de IA» de la guía de Wikipedia (WikiProject AI Cleanup) y
+las técnicas de humanización académica para hablantes no nativos. Todo se ha
+adaptado al español; muchas señales de IA son distintas en inglés y en español,
+de modo que el catálogo de referencia recoge las formas hispanas concretas.
+
+
+## 1. Cuándo se activa esta skill
+
+Actívala solo cuando el usuario pida de manera explícita humanizar un texto o
+darle un estilo humano. Las formulaciones típicas son «humaniza esto», «hazlo
+más humano», «que suene a persona», «que no parezca de IA» o «quita el tono
+robótico». Si la petición es de redacción general, corrección ortográfica,
+traducción o mejora de estilo sin mención de lo «humano», esta skill no
+interviene: cede el paso a «spanish-writing», «catedra-writing» o
+«fonda-writing».
+
+
+## 2. Integridad y expectativas realistas
+
+Conviene ser honesto con el usuario sobre dos cosas, porque cambian lo que esta
+skill promete.
+
+Primero, el propósito legítimo es mejorar la calidad y la naturalidad de un
+texto que expresa las ideas propias del autor, no fabricar un engaño. Humanizar
+sirve para que un trabajo bien pensado se lea como lo que es: obra de una
+persona que escribe bien. No sirve para hacer pasar por propio un contenido que
+el autor no entiende.
+
+Segundo, ningún procedimiento garantiza «burlar» a un detector. Los sistemas
+recientes, Turnitin entre ellos, ya marcan como «parafraseado por IA» el texto
+retocado por humanizadores automáticos, así que el truco mecánico de cambiar
+palabras es contraproducente. La única humanización robusta es la que mejora de
+verdad la prosa, porque entonces no queda artificio que detectar. Y conviene
+recordar que esos detectores son falibles: producen falsos positivos con
+frecuencia, sobre todo con hablantes no nativos y con textos muy pulidos, hasta
+el punto de que la literatura académica recomienda tratarlos como señal de
+alerta para una conversación, nunca como prueba concluyente.
+
+Tercero, la reescritura puramente estilística tiene un techo, y conviene decirlo
+sin rodeos. Reordenar el ritmo y limpiar los tells puede bajar bastante el
+veredicto de un detector, pero el contenido y su predecibilidad siguen ahí: si
+el texto dice lo más esperable sobre el tema, con las palabras más esperables,
+ningún reacomodo de comas lo vuelve indistinguible de un humano. En la práctica,
+una buena reescritura formal suele mover la aguja desde un veredicto alto hasta
+una zona intermedia, y ahí se estanca. Romper ese techo exige lo que solo el
+autor posee: un ejemplo concreto, una fuente real, una digresión propia, un
+matiz que nazca de haber pensado el asunto. Esa es la parte que el humanizador
+acompaña, pero no puede fabricar sin inventar, y inventar es a la vez un tell y
+una falta.
+
+
+## 3. Por qué la IA «suena» a IA
+
+Para humanizar con criterio conviene saber qué delata al texto automático. Los
+detectores no leen el sentido; miden patrones estadísticos. Tres señales
+concentran casi todo su juicio, y las tres orientan la reescritura.
+
+La perplejidad mide cuán predecible es cada palabra dada las anteriores. El
+modelo tiende a elegir la continuación más probable, y eso produce texto
+demasiado «esperable». La prosa humana escoge a veces la palabra menos obvia
+pero más exacta, da un giro inesperado, rompe la línea recta de lo previsible.
+
+La variabilidad de ráfaga, o burstiness, mide la oscilación en la longitud y la
+estructura de las oraciones. Quien escribe a mano alterna frases breves con
+frases largas y cambia el ritmo; la máquina produce oraciones de longitud pareja
+y transiciones intercambiables.
+
+El reconocimiento de patrones aprendidos cubre el resto: fórmulas de apertura y
+cierre, conectores genéricos, estructuras de tres elementos, paralelismos
+perfectos y un repertorio de palabras que el texto automático repite sin
+descanso. El detector las conoce de memoria, y el lector atento también.
+
+De aquí se sigue la lógica de toda la skill: subir la perplejidad y la
+variabilidad sin volver el texto incorrecto ni confuso, y borrar las fórmulas
+que delatan al generador.
+
+
+## 4. Las estrategias centrales
+
+Estas operaciones resuelven la mayor parte del trabajo. Las dos primeras
+corresponden a las dos magnitudes que mide el detector, y conviene atender a las
+dos: variar el ritmo sube la variabilidad de ráfaga, pero si no se sube también
+la perplejidad léxica el texto se estanca en torno a dos tercios de probabilidad
+de IA, como mostró la prueba real que motivó esta versión. El catálogo detallado
+de patrones está en `references/patrones-de-ia.md`; léelo cuando necesites el
+inventario completo con ejemplos de antes y después.
+
+La primera es variar el ritmo, y es la estrategia decisiva. También es el punto
+donde esta skill se aparta de «spanish-writing», porque aquí no buscamos la
+frase telegráfica y uniforme al estilo de Camus: una sucesión de oraciones
+cortas e iguales es tan mecánica como una sucesión de largas e iguales. Lo
+humano es el contraste.
+
+Atención al error más frecuente y al que más penaliza el detector: la cadena de
+oraciones cortas y declarativas, cada una cerrada con punto y construida como un
+remate o una sentencia. Es el patrón que un autor lee como «prosa literaria» y
+que un detector lee como texto de IA, porque la perplejidad cae y la
+variabilidad de ráfaga se aplana. Esa es, además, la queja típica del lector
+humano: «hay demasiados puntos seguidos». La regla práctica es no encadenar más
+de dos oraciones cortas: en cuanto aparezcan tres o más seguidas, funde la
+mayoría en una o dos oraciones más largas mediante subordinación o coordinación,
+y deja suelta solo una breve para el contraste. El problema nunca es tener una
+frase corta; es tenerlas en racimo.
+
+Para fundir esas frases usa conectores variados y, de preferencia, colocados
+dentro de la oración, no siempre al inicio: «porque», «ya que», «de modo que»,
+«aunque», «pero», «mientras que», «pues», «si bien», «de ahí que», «como». Así
+se gana cohesión sin caer en el «Además, / Asimismo, / Por otro lado,» mecánico
+que la IA pone al arranque de cada oración. La meta es alternar de verdad:
+oraciones breves de seis a diez palabras junto a oraciones largas de veinticinco
+o más, con la longitud de los párrafos también variada. Léelo en voz alta: si
+suena a metrónomo, o si cuentas muchos puntos seguidos en pocas líneas, todavía
+no está humanizado.
+
+La segunda es subir la perplejidad léxica, y es la palanca decisiva que el ritmo
+por sí solo no mueve. Si cada palabra sigue siendo la más previsible para el
+tema, el detector mantiene su veredicto aunque las frases ya varíen de longitud.
+La operación consiste en rehuir la colocación más probable y elegir la palabra
+exacta aunque sea la menos esperada. Donde la IA encadena «marcados por la
+exclusión», «reproducir la dominación» o «condiciones de equidad», busca la
+formulación que usaría un autor concreto y que el modelo no predeciría: un verbo
+menos genérico, un sustantivo más específico, un giro propio. No se trata de
+rebuscar sinónimos raros ni de forzar rarezas, sino de quebrar la cadena de
+términos centrales y previsibles que delata al generador. Es la operación más
+difícil de fingir, porque exige decir las cosas con voz, no con la media
+estadística del idioma.
+
+Un matiz que la documentación de GPTZero deja explícito y que conviene
+aprovechar: la perplejidad se calcula por oración (qué tan probable es que una IA
+eligiera exactamente esas palabras), y la variabilidad de ráfaga mide cuánto
+varía esa perplejidad a lo largo del texto, porque los modelos escriben con un
+nivel de «IA-idad» muy constante. De ahí se sigue el error que estanca a un texto
+ya reescrito en torno al 50 %: subir la perplejidad de forma uniforme, dejándolo
+todo igual de pulido o igual de literario, vuelve a ser constante, solo que en
+otro nivel. Lo que el detector lee como humano es la varianza. Haz convivir, a
+propósito, oraciones llanas y factuales, de perplejidad baja, con oraciones muy
+particulares e idiosincrásicas, de perplejidad alta; el contraste entre ambas es
+la señal, más que el promedio. Y desconfía de la primera metáfora o el primer
+ejemplo que se te ocurra para el tema, porque suele ser el más previsible y, por
+esperable, puntúa como IA: para «multiculturalismo», la imagen del «mosaico»;
+para «identidad», la «esencia fija que se construye en la relación». Cámbialos
+por una figura o un caso menos transitados, o por un dato concreto.
+
+La tercera es anclar en lo concreto y verificable, y el caso real deja una
+lección incómoda. No basta con nombrar: el texto que falló citaba a Catherine
+Walsh y a Fidel Tubino, y aun así el detector marcó esas frases como las más
+sospechosas, porque el nombre iba suelto, sin obra, sin año, sin un concepto en
+los términos propios de los autores, sin un país ni un caso. Esa media
+concreción es justamente lo que produce un modelo. El ancla que sube la
+perplejidad y delata a una persona es el dato específico y comprobable: un año,
+el título de una obra, el término exacto que acuñó el autor, un país, una
+política, una cifra. Aquí hay un choque con la regla de no añadir información, y
+se resuelve así: el humanizador no inventa datos ni citas, porque una cita falsa
+es a la vez un tell (ver el patrón de relleno especulativo) y una falta
+académica. Cuando el texto pide ese anclaje y el original no lo trae, pídeselo
+al autor. Sin esos datos propios, la reescritura puramente formal tiene un techo.
+
+La cuarta es romper la simetría y variar la arquitectura. El modelo construye
+contrastes perfectamente equilibrados («la funcional promueve…, mientras que la
+crítica cuestiona…»; «uno reconoce…, el otro pone en movimiento…») y repite en
+cada párrafo el mismo movimiento retórico de tesis, desarrollo y síntesis. Esa
+regularidad es una firma. Desequilibra los contrastes: que un miembro sea más
+largo que el otro, que uno lleve un ejemplo y el otro no.
+
+Dentro de esta estrategia hay un hábito del modelo que conviene erradicar por su
+cuenta, porque es de los que más se repiten: abrir el texto, y después cada
+párrafo, con una oración corta y declarativa que funciona como etiqueta del
+tema, casi siempre con el verbo «ser» («La sociedad es la estructura», «La
+cultura es el significado», «Un ejemplo aclara el contraste»). Esa apertura es
+de las que más delatan, por dos motivos. La frase corta con cópula tiene una
+perplejidad bajísima, porque es la continuación más previsible; y repetir el
+mismo arranque en todos los párrafos es una firma estructural que el detector
+reconoce, hasta el punto de que suele marcar en amarillo justo esas primeras
+frases. La regla es no abrir con una frase corta de etiqueta, y menos hacerlo de
+forma sistemática. Arranca la mayoría de los párrafos en marcha: con una
+subordinada, con un dato o un caso concreto, con una oración media o larga que
+ya esté metida en el asunto. Reserva la frase breve para el interior del
+párrafo, donde crea contraste, no para el umbral, donde crea patrón. La primera
+oración del texto entero es la más sensible: que no sea una etiqueta corta.
+
+Y varía también cómo abre cada párrafo: no todos con la afirmación principal,
+sino alguno con un caso, alguno con una objeción, alguno con una pregunta o un
+dato. La prosa humana es más despareja, también al empezar.
+
+La quinta es desmecanizar la cohesión. La IA enhebra ideas con conectores
+genéricos colocados al inicio de cada oración, como si siguiera una plantilla.
+Varía los conectores, no repitas «sin embargo» ni «además» en párrafos
+contiguos, y recuerda que muchas transiciones pueden ser implícitas: la idea
+siguiente retoma un término de la anterior, y eso basta.
+
+La sexta es borrar las firmas del generador. Hay un repertorio de fórmulas que
+delatan de inmediato: aperturas de molde («en la actualidad», «a lo largo de la
+historia»), cierres anunciados («en conclusión», «en resumen»), andamiaje vacío
+(«es importante destacar que», «cabe resaltar que»), inflación de significancia
+(«juega un papel crucial», «marca un antes y un después»), lenguaje promocional
+(«rico patrimonio», «vibrante», «imponente») y el racimo de palabras que la IA
+adora en español. El catálogo las lista todas.
+
+La séptima es modular la voz según el género, y aquí hay un matiz importante para
+el español académico. En un texto académico, lo humano no es inyectar opiniones
+ni primera persona: la impersonalidad es el registro correcto. Humanizar un
+ensayo o una tesis consiste, sobre todo, en el ritmo, la concreción y la
+limpieza de tells, no en tutear al lector ni en soltar «yo creo». Reserva la
+matización con voz propia («conviene precisar», «hasta cierto punto», una
+primera persona del plural discreta para recorrer el argumento) para los géneros
+que la admiten, y aplícala con mesura. En cambio, en textos de divulgación o de
+opinión, sí cabe más personalidad: ahí la voz, el juicio y el ritmo variado son
+parte de lo humano.
+
+
+## 5. Reglas gramaticales heredadas
+
+Esta skill hereda íntegras las reglas de «spanish-writing», que son obligatorias
+y nunca se sacrifican en nombre de la «naturalidad»: «haber» impersonal en
+singular; nada de condicional en la prótasis de las condicionales; signos de
+interrogación y exclamación dobles; gerundio restringido, sin posterioridad ni
+uso adjetivo indebido; ausencia de dequeísmo y queísmo; comillas angulares « »
+como primer nivel, con la puntuación fuera del cierre; mayúsculas y minúsculas
+según la norma; números según las convenciones del español. Humanizar no es
+introducir errores: un texto «mal escrito a propósito» no engaña a nadie y
+arruina el trabajo del autor.
+
+
+## 6. Flujo de trabajo
+
+Sigue este ciclo de borrador, auditoría y versión final. Es el procedimiento que
+mejor resultado da, porque la primera reescritura casi nunca elimina todos los
+tells.
+
+Primero, lee el texto e identifica cada patrón de los que recoge
+`references/patrones-de-ia.md`. Si el usuario aporta una muestra de su propia
+escritura, analízala antes de reescribir y ajusta la voz a la suya, no a una voz
+genérica.
+
+Segundo, escribe un borrador. Comprueba que se lea con naturalidad en voz alta,
+que la longitud de las oraciones varíe de verdad, que prefiera lo concreto a lo
+vago y que conserve el registro adecuado.
+
+Tercero, audítalo, y hazlo de forma mecánica, no impresionista. Los tells se
+cuelan justo cuando uno se fía del «suena bien», así que no basta con releer:
+hay que ejecutar comprobaciones concretas sobre el propio texto, en este orden.
+
+1. Arranques de párrafo. Lee en fila, una tras otra, solo la primera oración de
+cada párrafo. Si esa lista suena a índice de etiquetas 
