@@ -234,20 +234,17 @@ opinión, sí cabe más personalidad: ahí la voz, el juicio y el ritmo variado 
 parte de lo humano.
 
 
-## 5. Relación con la base normativa
+## 5. Reglas gramaticales heredadas
 
-Esta skill hereda íntegras las reglas de «spanish-writing» y no las repite.
-Son obligatorias y nunca se sacrifican en nombre de la «naturalidad».
-
-Humanizar no es introducir errores: un texto «mal escrito a propósito» no
-engaña a nadie y arruina el trabajo del autor.
-
-Esta skill no es un tono. Es una pasada que se ejecuta sobre un texto ya
-redactado, y solo cuando el usuario la pide de forma explícita. No sustituye
-a la skill de tono. Lo único que le está permitido sobrescribir es el ritmo:
-si el texto viene de «camus-writing» y trae cadenas de oraciones cortas, esta
-pasada puede fundirlas, porque la petición explícita de humanizar es lo que
-autoriza ese cambio de criterio.
+Esta skill hereda íntegras las reglas de «spanish-writing», que son obligatorias
+y nunca se sacrifican en nombre de la «naturalidad»: «haber» impersonal en
+singular; nada de condicional en la prótasis de las condicionales; signos de
+interrogación y exclamación dobles; gerundio restringido, sin posterioridad ni
+uso adjetivo indebido; ausencia de dequeísmo y queísmo; comillas angulares « »
+como primer nivel, con la puntuación fuera del cierre; mayúsculas y minúsculas
+según la norma; números según las convenciones del español. Humanizar no es
+introducir errores: un texto «mal escrito a propósito» no engaña a nadie y
+arruina el trabajo del autor.
 
 
 ## 6. Flujo de trabajo
@@ -270,4 +267,117 @@ cuelan justo cuando uno se fía del «suena bien», así que no basta con releer
 hay que ejecutar comprobaciones concretas sobre el propio texto, en este orden.
 
 1. Arranques de párrafo. Lee en fila, una tras otra, solo la primera oración de
-cada párrafo. Si esa lista suena a índice de etiquetas 
+cada párrafo. Si esa lista suena a índice de etiquetas cortas, y sobre todo si
+varias empiezan con el verbo «ser» («La sociedad es…», «La cultura es otra
+cosa»), reescribe esos arranques. Regla dura: ningún párrafo abre con una frase
+corta y declarativa, y menos en serie; entra siempre en marcha, con una
+subordinada, un dato o una oración media que ya desarrolle la idea. La primera
+oración del texto entero es la más sensible de todas.
+
+2. Puntos por línea. Si encuentras tres o más oraciones cortas seguidas, funde
+la mayoría y deja una suelta para el contraste.
+
+3. El carácter «—». Si aparece usado al modo inglés, elimínalo.
+
+4. Pares simétricos. Marca las antítesis equilibradas («En una… En la otra…»,
+«Mirar X… Mirar Y…», «La primera… La segunda…») y desequilibra al menos una:
+fúndela en una sola oración o alarga un miembro más que el otro.
+
+5. Colocaciones previsibles. Subraya las tres o cuatro expresiones más esperables
+del tema y cámbialas por una formulación con voz o por un dato concreto.
+
+Apóyate además en `references/que-preservar.md` para no confundir prosa humana
+legítima con señal de IA: la corrección perfecta, el vocabulario culto o un
+conector formal aislado no son pruebas de nada, y sobrecorregir destruye justo
+lo que hace humano a un texto.
+
+Cuarto, reescribe la versión final atendiendo a todo lo anterior. Solo es
+definitiva cuando pasa las cinco comprobaciones del paso anterior, no antes.
+
+Conserva siempre el contenido del original: si el borrador sostiene cinco
+párrafos y tres ideas, la versión humanizada sostiene esos mismos cinco párrafos
+y esas mismas tres ideas. Cambia la forma, no el fondo.
+
+
+## 7. Ejemplo de aplicación
+
+Texto original (con firma de IA):
+
+«En la actualidad, la inteligencia artificial está revolucionando múltiples
+sectores de manera significativa. Es importante destacar que esta tecnología
+ofrece numerosos beneficios. En primer lugar, mejora la eficiencia. En segundo
+lugar, reduce los costes. En tercer lugar, permite tomar mejores decisiones. En
+conclusión, la inteligencia artificial juega un papel fundamental para el
+futuro.»
+
+Texto humanizado:
+
+«La inteligencia artificial ya no es una promesa de laboratorio. Diagnostica
+tumores, ordena carteras de inversión y decide qué anuncio ve cada usuario,
+mientras el debate público apenas empieza a entender de qué hablamos. Sus
+defensores destacan tres ventajas difíciles de negar: hace más en menos tiempo,
+abarata procesos que antes exigían plantillas enteras y saca de los datos
+correlaciones que ningún analista vería a simple vista. La pregunta, entonces,
+no es si la usaremos, sino bajo qué condiciones.»
+
+Qué cambió: se eliminó la apertura de molde («en la actualidad») y el cierre
+anunciado («en conclusión»); se desactivó la inflación de significancia («juega
+un papel fundamental»); se sustituyó la enumeración mecánica «en primer lugar…
+en segundo lugar…» por una integrada y concreta; se varió la longitud de las
+oraciones (una corta y rotunda al inicio, una larga después); y se cerró con un
+giro que abre, en lugar de resumir.
+
+
+## 8. Lista de verificación antes de entregar
+
+Antes de entregar el texto humanizado, verifica que se conserva intacto el
+contenido del original, sin añadir ni quitar información; que la longitud de las
+oraciones varía de verdad, con contraste entre breves y largas, y que también
+varía la de los párrafos; que no quedan tres o más oraciones cortas y
+declarativas encadenadas (la cadena de «frases-remate» con muchos puntos
+seguidos es el tell que más penaliza); que el texto no empieza, ni los párrafos
+arrancan en serie, con una frase corta de etiqueta, sobre todo con el verbo
+«ser» (tipo «La sociedad es la estructura»); que las palabras no son la
+colocación más previsible del tema, sino las de un autor con voz (perplejidad
+léxica); que los nombres y datos van anclados en algo verificable (año, obra,
+término, país, caso) y no sueltos; que los contrastes no son perfectamente
+simétricos ni todos los párrafos abren con la afirmación principal; que se
+eliminaron las aperturas de molde y los cierres anunciados; que se quitó el
+andamiaje vacío y la inflación de significancia; que hay concreción donde el
+original tenía vaguedad; que los conectores son variados y no se repiten en
+párrafos contiguos; que no queda ninguna raya al modo inglés ni estructura de
+tres elementos repetida; que se respetan todas las reglas gramaticales heredadas
+de «spanish-writing»; que el registro sigue siendo neutro académico, sin caer ni
+en lo robótico ni en lo coloquial; que el texto suena natural leído en voz alta;
+y que no introdujiste errores ni sobrecorregiste prosa humana legítima (consulta
+`references/que-preservar.md`).
+
+
+## 9. Formato de entrega
+
+Al humanizar, entrega únicamente la versión final humanizada, sin preámbulos ni
+explicaciones, salvo que el usuario pida el detalle de los cambios. Si los pide,
+el borrador, los tells detectados y el resumen de cambios van después del texto,
+claramente separados. El texto humanizado, por sí solo, es la respuesta.
+
+
+## Archivos de referencia
+
+`references/patrones-de-ia.md`: catálogo completo de señales de escritura de IA
+en español, numeradas y con ejemplos de antes y después. Léelo cuando necesites
+el inventario detallado de patrones a corregir.
+
+`references/que-preservar.md`: guía de falsos positivos (qué NO marcar como IA) y
+de señales de escritura humana que conviene preservar. Léelo durante la
+auditoría para no sobrecorregir.
+
+
+## Fuentes
+
+Para la gramática y la ortografía: la skill «spanish-writing» y, tras ella, la
+Ortografía de la lengua española (RAE y ASALE, 2010), la Nueva gramática de la
+lengua española (RAE y ASALE, 2009) y el Diccionario panhispánico de dudas. Para
+el catálogo de señales de IA: la guía «Signs of AI writing» de Wikipedia
+(WikiProject AI Cleanup), adaptada al español. Para la lógica de la detección
+automática y sus límites: la investigación sobre el funcionamiento de Turnitin y
+otros detectores recopilada por el usuario.

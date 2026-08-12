@@ -438,4 +438,134 @@ lenguaje de», «la arquitectura de».
 
 Técnica de corrección: cuando encuentres tres o más oraciones cortas seguidas,
 funde la mayoría en una o dos oraciones más largas mediante subordinación o
-coordinación, con conectores variados y col
+coordinación, con conectores variados y colocados dentro de la oración
+(«porque», «ya que», «de modo que», «aunque», «pero», «mientras que», «de ahí
+que»), y deja suelta solo una breve para el contraste. No elimines todas las
+cortas: el objetivo es el contraste, no una nueva uniformidad de frases largas.
+
+Antes (efectismo, ejemplo general): «Entonces llegó el algoritmo. Sin preferencia
+por la simetría. Sin gusto humano. Sin nostalgia. Las viejas reglas habían
+muerto. La simetría es el lenguaje de la confianza.»
+
+Después: «El algoritmo cambió la búsqueda porque no favorecía la simetría ni los
+diseños de aspecto humano, lo que volvió menos útiles algunos supuestos previos.»
+
+Antes (staccato académico): «El multiculturalismo constata un hecho. Varias
+culturas ocupan un espacio común. Cada grupo conserva su identidad. El Estado
+reconoce esa pluralidad. Hasta ahí llega su compromiso.»
+
+Después: «El multiculturalismo parte de constatar un hecho: varias culturas
+ocupan un espacio común y cada grupo conserva su identidad. El Estado reconoce
+esa pluralidad, pero ahí se detiene su compromiso.»
+
+Observa que la versión corregida conserva el contenido íntegro y mantiene una
+frase con dos puntos para el ritmo, mientras funde cinco oraciones cortas en dos
+de longitud desigual.
+
+### 33. Aperturas retóricas conversacionales
+
+Palabras a vigilar: «Seamos sinceros», «La verdad es que», «Mira», «El caso es
+que», «Honestamente», usadas como gancho falso antes de una afirmación corriente.
+
+Problema: la IA abre con una falsa confidencia para fabricar cercanía. El delator
+es la pausa teatral y la revelación. Una persona sincera suele decir la cosa sin
+preámbulo.
+
+Antes: «¿Vale la pena el precio? ¿Honestamente? Depende de cuánto lo uses.»
+
+Después: «Que valga la pena el precio depende de cuánto lo uses.»
+
+
+---
+
+## Segundo nivel: perplejidad semántica
+
+Los patrones 1 a 33 limpian la superficie. Cuando un texto ya los ha superado y
+el detector sigue marcándolo (por ejemplo, se queda en torno a dos tercios de
+probabilidad de IA pese a tener un ritmo variado), el problema está más hondo: la
+perplejidad del contenido es baja. Estos patrones atacan ese nivel y suelen ser
+los responsables de que un texto «correcto» no termine de pasar.
+
+### 34. Colocación más previsible (perplejidad léxica baja)
+
+Problema: aunque la frase no tenga ningún tell de superficie, cada palabra es la
+continuación más probable para el tema. El detector predice el texto sin
+sorpresa. Es el patrón más difícil de ver porque el resultado «suena bien»:
+suena, justamente, al promedio del idioma.
+
+Señal: colocaciones de manual encadenadas, «marcados por la exclusión»,
+«reproducir la dominación», «condiciones de equidad», «asimetrías de partida»,
+«fuente de aprendizaje mutuo», «en constante transformación».
+
+Fix: elige el término exacto aunque sea el menos esperado; sustituye el verbo
+genérico por uno específico, el sustantivo abstracto por uno concreto, la
+metáfora gastada por una propia. No es meter rarezas, es decir las cosas con voz.
+
+Antes: «Un diálogo entre culturas desiguales puede reproducir la dominación si
+ignora las asimetrías de partida.»
+
+Después: «Cuando dos culturas se sientan a la misma mesa con un poder muy
+desigual, el diálogo puede acabar barnizando de consenso lo que sigue siendo un
+sometimiento, si nadie nombra esa desigualdad de entrada.»
+
+### 35. Antítesis simétrica y arquitectura repetida
+
+Problema: el modelo equilibra los contrastes con una simetría perfecta y repite
+en cada párrafo el mismo movimiento (tesis, desarrollo, síntesis). La regularidad
+delata tanto como una palabra prohibida.
+
+Señal: «la primera promueve…, la segunda cuestiona…»; «uno reconoce…, el otro
+pone en movimiento…»; pares «no es X sino Y» en cadena; todos los párrafos que
+abren con su afirmación principal.
+
+Fix: desequilibra. Que un miembro del contraste sea más largo, que lleve un
+ejemplo y el otro no, que la oración se rompa antes de cerrar el paralelismo. Y
+varía cómo abre cada párrafo: con un caso, una objeción, una pregunta o un dato,
+no siempre con la tesis.
+
+Antes: «El multiculturalismo describe una situación; la interculturalidad propone
+un proyecto. Uno reconoce la diversidad y la deja quieta; el otro la pone en
+movimiento.»
+
+Después: «El multiculturalismo describe una situación y se queda ahí, en la foto
+del territorio compartido. La interculturalidad, en cambio, no se conforma con
+describir: propone hacer algo con esa diversidad, ponerla a trabajar.»
+
+### 36. Nombre suelto (media concreción)
+
+Problema: el texto cita a un autor o menciona un dato, pero sin anclarlo, y esa
+media concreción es típica de la IA, que redondea los detalles. El nombre sin
+obra, sin año, sin término propio ni caso pesa poco y el detector lo marca igual.
+
+Fix: ancla con un dato verificable que solo el autor puede aportar (un año, un
+título, el término exacto, un país, una cifra). No lo inventes: si no lo tienes,
+pídeselo al autor. Una cita falsa es un tell y una falta académica.
+
+Antes: «Pensadores latinoamericanos como Catherine Walsh y Fidel Tubino
+distinguen entre una interculturalidad funcional y una crítica.»
+
+Después: «La distinción entre interculturalidad funcional y crítica viene de
+Fidel Tubino, que la formuló en Perú a comienzos de los años dos mil; Catherine
+Walsh la llevó más lejos al ligarla a lo que Aníbal Quijano llamó la colonialidad
+del poder.» (Solo si esos datos son ciertos y el autor los respalda.)
+
+### 37. Apertura corta de etiqueta
+
+Problema: el modelo abre el texto y cada párrafo con una oración corta y
+declarativa que rotula el tema, casi siempre con «ser» («La sociedad es la
+estructura», «La cultura es el significado», «Ambas dimensiones se necesitan»).
+Combina dos tells: perplejidad mínima (la cópula con sustantivo abstracto es la
+frase más previsible) y un patrón estructural uniforme. El detector suele marcar
+precisamente esas primeras frases.
+
+Fix: no abras con una etiqueta breve, sobre todo no en todos los párrafos ni en
+la primera línea del texto. Entra en marcha, con una subordinada, un caso o una
+oración media que ya desarrolle la idea. Si quieres una frase corta, ponla dentro
+del párrafo, no al inicio.
+
+Antes: «La sociedad es la estructura. Designa el conjunto de personas que conviven
+en un territorio y mantienen relaciones estables entre sí.»
+
+Después: «Cuando hablamos de sociedad nos referimos al entramado de relaciones que
+sostienen entre sí las personas que conviven en un territorio y mantienen lazos
+estables en el tiempo.»

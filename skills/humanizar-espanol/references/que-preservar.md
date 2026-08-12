@@ -96,4 +96,6 @@ las convenciones de la disciplina, que difieren entre la sociología, el derecho
 la economía o las ciencias experimentales.
 
 El criterio final es simple. Si un cambio hace el texto más concreto, más claro o
-más variado en su rit
+más variado en su ritmo sin tocar el contenido ni la corrección, es una mejora.
+Si solo lo «ensucia» para despistar a un detector, es un error: ni engaña a la
+máquina actual ni respeta el trabajo del autor.
