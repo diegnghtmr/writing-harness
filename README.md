@@ -66,18 +66,25 @@ Todo lo posterior es diffable contra ese punto.
    de `humanizar-espanol` y que son normativas, no estilísticas: el andamiaje
    vacío, las aperturas de molde y la mayúscula de título calcada del inglés.
 
-## Estado conocido
+## Procedencia de las skills
 
-Los tres archivos de `skills/humanizar-espanol` llegaron truncados a mitad de
-palabra, sin salto de línea final. No es un problema de la copia: los bytes
-coinciden con el origen.
+Las cuatro skills originales llegaron desde el plugin de skills instalado. Los
+tres archivos de `humanizar-espanol` venían truncados a mitad de palabra y sin
+salto de línea final, así que se recuperaron desde la bóveda de Obsidian.
 
-| archivo | bytes | termina en |
+Esa bóveda es la misma fuente sin cortar: sus copias de `spanish-writing`,
+`fonda-writing` y `catedra-writing` tienen hash idéntico al del plugin, y solo
+los tres archivos de `humanizar-espanol` difieren.
+
+| archivo | plugin | Obsidian |
 |---|---|---|
-| `SKILL.md` | 16 403 | «índice de etiquetas » |
-| `references/patrones-de-ia.md` | 18 604 | «conectores variados y col» |
-| `references/que-preservar.md` | 4 874 | «más variado en su rit» |
+| `humanizar-espanol/SKILL.md` | 16 403 B, cortado | 22 502 B, completo |
+| `references/patrones-de-ia.md` | 18 604 B, cortado | 25 260 B, completo |
+| `references/que-preservar.md` | 4 874 B, cortado | 5 065 B, completo |
 
-Falta, entre otras cosas, la lista de comprobaciones mecánicas del flujo de
-trabajo, que empieza en el punto 1 y se corta. Ese final no se ha reconstruido
-ni inventado. Hay que recuperarlo del origen antes de trabajar sobre esa skill.
+Con la recuperación volvieron los puntos 2 a 5 de la auditoría mecánica, el
+ejemplo de aplicación, la lista de verificación de entrega, el formato de
+entrega y los patrones 33 a 37 del catálogo, que es el bloque de perplejidad
+semántica. Nada de ese final se reconstruyó ni se inventó.
+
+La bóveda de Obsidian es de solo lectura para este repositorio. No se modifica.

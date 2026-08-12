@@ -275,7 +275,7 @@ Expresiones coloquiales moderadas como recurso retórico.
 ### 9.2. Vocabulario prohibido (heredado de spanish-writing)
 
 Las mismas palabras comodín, muletillas, expresiones sobrecargadas
-y clichés de la skill madre, con una excepción: se permiten
+y clichés de la base, con una excepción: se permiten
 «básicamente» y «de hecho» cuando reflejan registro oral deliberado
 y no muletilla inconsciente.
 

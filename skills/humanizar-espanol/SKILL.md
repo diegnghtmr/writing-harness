@@ -11,8 +11,8 @@ description: >
   robótico», «que no parezca escrito por IA» o «que no parezca de ChatGPT». NO
   disparar en peticiones generales de redacción, corrección, traducción o mejora
   de estilo sin mención explícita de lo humano: para esas tareas se usan
-  «spanish-writing» (formal), «catedra-writing» (expositivo) o «fonda-writing»
-  (divulgativo).
+  «camus-writing» (formal), «catedra-writing» (expositivo) o «fonda-writing»
+  (divulgativo), siempre sobre la base normativa «spanish-writing».
 ---
 
 # Humanizar textos en español neutro académico
@@ -37,8 +37,8 @@ darle un estilo humano. Las formulaciones típicas son «humaniza esto», «hazl
 más humano», «que suene a persona», «que no parezca de IA» o «quita el tono
 robótico». Si la petición es de redacción general, corrección ortográfica,
 traducción o mejora de estilo sin mención de lo «humano», esta skill no
-interviene: cede el paso a «spanish-writing», «catedra-writing» o
-«fonda-writing».
+interviene: cede el paso a la skill de tono que corresponda, «camus-writing»,
+«catedra-writing» o «fonda-writing», sobre la base «spanish-writing».
 
 
 ## 2. Integridad y expectativas realistas
@@ -112,10 +112,11 @@ de patrones está en `references/patrones-de-ia.md`; léelo cuando necesites el
 inventario completo con ejemplos de antes y después.
 
 La primera es variar el ritmo, y es la estrategia decisiva. También es el punto
-donde esta skill se aparta de «spanish-writing», porque aquí no buscamos la
+donde esta skill se aparta de «camus-writing», porque aquí no buscamos la
 frase telegráfica y uniforme al estilo de Camus: una sucesión de oraciones
 cortas e iguales es tan mecánica como una sucesión de largas e iguales. Lo
-humano es el contraste.
+humano es el contraste. La base normativa «spanish-writing» no entra en este
+conflicto: no dice nada sobre longitudes.
 
 Atención al error más frecuente y al que más penaliza el detector: la cadena de
 oraciones cortas y declarativas, cada una cerrada con punto y construida como un
@@ -234,17 +235,20 @@ opinión, sí cabe más personalidad: ahí la voz, el juicio y el ritmo variado 
 parte de lo humano.
 
 
-## 5. Reglas gramaticales heredadas
+## 5. Relación con la base normativa
 
-Esta skill hereda íntegras las reglas de «spanish-writing», que son obligatorias
-y nunca se sacrifican en nombre de la «naturalidad»: «haber» impersonal en
-singular; nada de condicional en la prótasis de las condicionales; signos de
-interrogación y exclamación dobles; gerundio restringido, sin posterioridad ni
-uso adjetivo indebido; ausencia de dequeísmo y queísmo; comillas angulares « »
-como primer nivel, con la puntuación fuera del cierre; mayúsculas y minúsculas
-según la norma; números según las convenciones del español. Humanizar no es
-introducir errores: un texto «mal escrito a propósito» no engaña a nadie y
-arruina el trabajo del autor.
+Esta skill hereda íntegras las reglas de «spanish-writing» y no las repite.
+Son obligatorias y nunca se sacrifican en nombre de la «naturalidad».
+
+Humanizar no es introducir errores: un texto «mal escrito a propósito» no
+engaña a nadie y arruina el trabajo del autor.
+
+Esta skill no es un tono. Es una pasada que se ejecuta sobre un texto ya
+redactado, y solo cuando el usuario la pide de forma explícita. No sustituye
+a la skill de tono. Lo único que le está permitido sobrescribir es el ritmo:
+si el texto viene de «camus-writing» y trae cadenas de oraciones cortas, esta
+pasada puede fundirlas, porque la petición explícita de humanizar es lo que
+autoriza ese cambio de criterio.
 
 
 ## 6. Flujo de trabajo
