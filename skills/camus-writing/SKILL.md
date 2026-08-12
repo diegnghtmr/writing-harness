@@ -29,7 +29,7 @@ académico, técnico o formal, se usa este.
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.
-La base decide qué es correcto en español; este skill decide cómo suena.
+La base decide qué es correcto en español. Este skill decide cómo suena.
 
 Ninguna regla de este documento levanta una prohibición de la base. En
 particular, la raya y el guion largo siguen prohibidos.

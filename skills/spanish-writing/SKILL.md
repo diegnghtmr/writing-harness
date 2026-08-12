@@ -326,6 +326,19 @@ Ninguna skill de tono puede levantar esta prohibición. La raya de diálogo en
 texto narrativo es el único uso que el español reserva para este signo, y no
 aparece en los géneros que estas skills cubren.
 
+### 6.7. El punto y coma: prohibido
+
+No se usa el punto y coma. Se sustituye por un punto y oración nueva, por una
+coma cuando la relación entre los miembros es breve, o por dos puntos cuando
+el segundo miembro explica al primero.
+
+Incorrecto: La austeridad léxica no es pobreza; es precisión.
+Correcto: La austeridad léxica no es pobreza, es precisión.
+
+La RAE admite el punto y coma, así que esta prohibición no es normativa sino
+una decisión de casa: el signo separa mal en pantalla, y casi siempre esconde
+una oración que debía partirse en dos. Se aplica igual en todos los tonos.
+
 
 ## 7. Mayúsculas y minúsculas
 
@@ -375,7 +388,7 @@ Referencia: Ortografía (RAE y ASALE, 2010), cap. VIII.
 ## 9. Construcciones impersonales
 
 El español dispone de tres construcciones para eliminar el agente. Su forma es
-normativa y se describe aquí; cuál de ellas domina el texto, o si el texto
+normativa y se describe aquí. Cuál de ellas domina el texto, o si el texto
 prefiere la voz personal, lo decide la skill de tono.
 
 Pasiva refleja (el verbo concuerda con el sujeto paciente):
@@ -502,9 +515,15 @@ Empezar por lo concreto del asunto, no por una generalidad de calendario.
 
 ## 12. Formato de entrega
 
+Todas las reglas de este documento rigen el texto que se entrega al usuario,
+no los archivos de las propias skills. Estos archivos son instrucciones para
+un modelo, y usan markdown, tablas y encabezados precisamente porque no son
+prosa entregada.
+
 ### 12.1. Reglas absolutas de formato
 
 USAR lenguaje claro, directo y preciso.
+USAR voz activa o construcciones impersonales con SE.
 USAR conectores discursivos formales para cohesión.
 USAR comillas latinas « » para citas textuales.
 USAR artículo definido con partes del cuerpo (no posesivo).
@@ -571,7 +590,7 @@ añade las suyas.
  6. ¿No hay calcos del inglés?
  7. ¿No hay dequeísmo ni queísmo?
  8. ¿Las mayúsculas son correctas (meses, días, gentilicios en minúscula)?
- 9. ¿No queda ninguna raya ni guion largo en el texto?
+ 9. ¿No queda ninguna raya, guion largo ni punto y coma en el texto?
 10. ¿No hay markdown, asteriscos ni negritas?
 11. ¿No hay introducciones ni cierres genéricos?
 12. ¿Se conserva toda la información original (al reescribir)?
