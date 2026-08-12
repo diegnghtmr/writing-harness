@@ -1,15 +1,23 @@
 La teoría del valor trabajo —formulada por Ricardo y reelaborada por Marx—
-sostiene que la magnitud del valor de una mercancía depende del tiempo de
-trabajo socialmente necesario para producirla.
+sostiene que el valor de una mercancía depende del tiempo de trabajo necesario
+para producirla. Ese tiempo no es el que emplea un productor concreto sino el
+que exige la técnica media de una sociedad. El valor no se fija en el taller,
+entonces, sino en el conjunto de la producción.
 
-Esa formulación no es evidente; exige distinguir entre el trabajo concreto que
-produce un valor de uso y el trabajo abstracto que produce valor.
+La distinción es difícil; cuesta. El trabajo concreto produce un valor de uso.
+El segundo es gasto de energía. Sin esa distinción la teoría se vuelve circular
+y deja de explicar por qué dos mercancías de oficios muy distintos entre sí
+terminan intercambiándose en cierta proporción estable que ningún productor
+individual decide ni controla por su cuenta.
 
-Como dentro de una sociedad mercantil los seres humanos producen de manera
-separada e independiente, y como el carácter social de ese trabajo solo se
-manifiesta al intercambiar mercancías que son resultado del trabajo concreto y
-heterogéneo de muchos productores distintos, se hace necesario igualar los
-distintos tipos de trabajo a través del intercambio.
+En una sociedad mercantil los productores trabajan separados unos de otros, de
+modo que el carácter social de su trabajo tarda en manifestarse. Solo aparece
+cuando intercambian, y el mercado tiene entonces que igualar tipos de trabajo
+muy distintos entre sí. Esa igualación aparece ante los ojos de todos como una
+propiedad de las cosas y no como una relación entre personas.
 
-Marx lo dice en el primer volumen de El capital, cap. 1, p. 89. La distinción
-importa.
+Marx lo formula en el primer volumen de El capital, cap. 1, p. 89, y vuelve
+sobre ello al tratar el fetichismo de la mercancía. La distinción importa
+porque de ella depende que el valor se lea como una relación social
+materializada en el objeto. Leerlo como atributo natural del objeto invierte
+el orden y borra a quien lo produjo.

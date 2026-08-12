@@ -82,7 +82,49 @@ export type DensityRule = Common & {
   maxDistinct: number;
 };
 
-export type Rule = PatternRule | SentenceLengthRule | DensityRule;
+/** Un rango de palabras por párrafo. Pertenece a la capa de tono. */
+export type ParagraphLengthRule = Common & {
+  kind: 'paragraph-length';
+  min?: number;
+  max?: number;
+};
+
+/**
+ * Una racha de oraciones cortas seguidas. Es el staccato del patrón 32: una
+ * frase breve destaca, una cadena de frases breves suena de fábrica.
+ */
+export type ShortSentenceRunRule = Common & {
+  kind: 'short-sentence-run';
+  /** Hasta cuántas palabras cuenta como oración corta. */
+  shortWords: number;
+  /** Cuántas cortas seguidas tolera. Se marca al superarlo. */
+  maxRun: number;
+};
+
+/** Oraciones consecutivas que arrancan con la misma clase de fórmula. */
+export type SentenceStartRunRule = Common & {
+  kind: 'sentence-start-run';
+  /** Se prueba contra el inicio de cada oración. Sin flag `g`. */
+  pattern: RegExp;
+  maxRun: number;
+};
+
+/** Párrafos que abren con una etiqueta breve. Es el patrón 37. */
+export type ParagraphOpeningRule = Common & {
+  kind: 'paragraph-opening';
+  maxWords: number;
+  /** Lo que hace de la apertura una etiqueta, normalmente la cópula. Sin flag `g`. */
+  pattern: RegExp;
+};
+
+export type Rule =
+  | PatternRule
+  | SentenceLengthRule
+  | DensityRule
+  | ParagraphLengthRule
+  | ShortSentenceRunRule
+  | SentenceStartRunRule
+  | ParagraphOpeningRule;
 
 /** Un tono es un conjunto de reglas propias más un nombre. Nada más. */
 export type Tone = {
@@ -200,6 +242,40 @@ export const BASE_RULES: Rule[] = [
     ],
   },
   {
+    id: 'markdown-en-entrega',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // Negrita, cursiva con asteriscos, encabezados y viñetas con rótulo. El
+    // guion de viñeta suelto queda fuera: en prosa entregada es un guion.
+    pattern: /\*\*[^*\n]+\*\*|(?<!\*)\*[^*\n]+\*(?!\*)|^#{1,6}\s|^\s*[-*+]\s+\*\*/gmu,
+    message: 'Markdown en el texto entregado: negrita, cursiva, encabezado o lista con rótulo.',
+    fix: 'Convertir a prosa corrida. «- **Rendimiento:** mejora» es «La actualización mejora el rendimiento».',
+    source: 'spanish-writing §12.1',
+    checklist: [
+      { skill: 'spanish-writing', item: '¿No hay markdown, asteriscos ni negritas?' },
+      { skill: 'humanizar-espanol', item: 'Abuso de negrita' },
+      { skill: 'humanizar-espanol', item: 'Listas con encabezado en negrita y dos puntos' },
+    ],
+  },
+  {
+    id: 'conectores-de-molde-seguidos',
+    kind: 'sentence-start-run',
+    severity: 'error',
+    // El catálogo lo dice de las «oraciones consecutivas», y la base repite que
+    // no se arranca dos veces seguidas con un conector formal. Por eso el techo
+    // de racha es 1: se marca a partir de la segunda.
+    maxRun: 1,
+    pattern:
+      /^(?:además|asimismo|por otro lado|por su parte|en este sentido|cabe destacar que|cabe señalar que|por consiguiente|de igual manera|de igual forma|en consecuencia|no obstante|sin embargo)\b/iu,
+    message: 'Conectores de molde al inicio de oraciones consecutivas.',
+    fix: 'Variar el conector, moverlo dentro de la oración o suprimirlo. Muchas transiciones son implícitas: la oración siguiente retoma un término de la anterior.',
+    source: 'spanish-writing §10.4',
+    checklist: [
+      { skill: 'spanish-writing', item: '¿Los conectores son variados y no se repiten en párrafos contiguos?' },
+      { skill: 'humanizar-espanol', item: 'Conectores de molde al inicio de oración' },
+    ],
+  },
+  {
     id: 'emojis-y-hashtags',
     kind: 'forbidden-pattern',
     // Un emoji real, o una almohadilla seguida de letra. `#1` es una
@@ -237,6 +313,34 @@ export const TONES: Record<string, Tone> = {
         source: 'camus-writing §5.2',
         checklist: [
           { skill: 'camus-writing', item: '¿Las oraciones no superan las 30 palabras?' },
+        ],
+      },
+      {
+        id: 'parrafo-maximo',
+        kind: 'paragraph-length',
+        severity: 'error',
+        // §5.1 dice «Máximo: 150 palabras en casos excepcionales». Es un techo.
+        max: 150,
+        message: 'El párrafo supera las 150 palabras.',
+        fix: 'Partirlo. La extensión recomendada es de 50 a 100 palabras.',
+        source: 'camus-writing §5.1',
+        checklist: [
+          { skill: 'camus-writing', item: '¿Los párrafos tienen entre 50 y 150 palabras?' },
+        ],
+      },
+      {
+        id: 'parrafo-minimo',
+        kind: 'paragraph-length',
+        // Advertencia y no error: §5.1 llama a 50 «extensión recomendada», no
+        // mínimo. Un párrafo corto de transición es legítimo, un texto entero
+        // de párrafos cortos no.
+        severity: 'warning',
+        min: 50,
+        message: 'El párrafo queda por debajo de las 50 palabras recomendadas.',
+        fix: 'Desarrollarlo o fundirlo con el vecino, salvo que sea una transición deliberada.',
+        source: 'camus-writing §5.1',
+        checklist: [
+          { skill: 'camus-writing', item: '¿Los párrafos tienen entre 50 y 150 palabras?' },
         ],
       },
     ],
@@ -507,6 +611,58 @@ const SENALES_IA: Rule[] = [
     checklist: p('Señalización y anuncios'),
   },
   {
+    id: 'gerundios-apilados',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // El delator es la posición: el gerundio colgado tras una coma, al final de
+    // la oración, para añadir hondura falsa. Uno de estos verbos al inicio de
+    // una oración es prosa normal y queda fuera.
+    pattern:
+      /,\s*(?:destacando|reflejando|subrayando|contribuyendo a|consolidándose como|posicionándose como)\b|,\s*lo que pone de manifiesto\b/giu,
+    message: 'Gerundio apilado: cuelga un participio de presente para simular profundidad.',
+    fix: 'Cortar la oración y decir quién hace qué. «La obra usa azules y verdes. El arquitecto los eligió para evocar la costa».',
+    source: 'humanizar-espanol, patrón 3',
+    checklist: p('Gerundios apilados que simulan profundidad'),
+  },
+  {
+    id: 'paralelismos-negativos',
+    kind: 'forbidden-pattern',
+    severity: 'warning',
+    // «no solo… sino también» tiene usos legítimos. El catálogo habla de abuso,
+    // así que la regla señala y no sentencia.
+    pattern: /\bno\s+solo\b[^.?!]{0,80}\bsino\b|\bno\s+se\s+trata\s+de\b[^.?!]{0,80}\bsino\b/giu,
+    message: 'Paralelismo negativo: la construcción «no solo… sino» usada como molde.',
+    fix: 'Afirmar directamente. «El ritmo intenso refuerza el tono agresivo de la canción».',
+    source: 'humanizar-espanol, patrón 9',
+    checklist: p('Paralelismos negativos y negaciones de cola'),
+  },
+  {
+    id: 'staccato',
+    kind: 'short-sentence-run',
+    severity: 'error',
+    // El SKILL.md fija los dos números: «no encadenar más de dos oraciones
+    // cortas» y «oraciones breves de seis a diez palabras».
+    shortWords: 10,
+    maxRun: 2,
+    message: 'Racha de oraciones cortas seguidas.',
+    fix: 'Fundir la mayoría en una o dos oraciones largas con subordinación, y dejar una breve suelta para el contraste.',
+    source: 'humanizar-espanol, patrón 32',
+    checklist: p('Efectismo manufacturado, staccato y aforismos'),
+  },
+  {
+    id: 'apertura-de-etiqueta',
+    kind: 'paragraph-opening',
+    severity: 'error',
+    maxWords: 10,
+    // La cópula con sustantivo abstracto es la continuación más previsible que
+    // existe. El catálogo lo llama «perplejidad mínima».
+    pattern: /\b(?:es|son|era|eran|fue|fueron|será|serán|consiste en|se define como)\b/iu,
+    message: 'Apertura de etiqueta: el párrafo abre con una frase corta y declarativa con cópula.',
+    fix: 'Entrar en marcha: con una subordinada, un dato o una oración media que ya desarrolle la idea. Si querés una frase corta, ponela dentro del párrafo.',
+    source: 'humanizar-espanol, patrón 37',
+    checklist: p('Apertura corta de etiqueta'),
+  },
+  {
     id: 'aperturas-retoricas',
     kind: 'forbidden-pattern',
     severity: 'error',
@@ -560,6 +716,16 @@ export function assertRules(rules: Rule[] = allRules()): void {
     }
     if (r.kind === 'pattern-density' && r.maxDistinct < 1) {
       throw new Error(`la regla ${r.id} necesita un maxDistinct de al menos 1`);
+    }
+    // Estas dos se prueban con `.test` contra cada oración. Con el flag `g`,
+    // `lastIndex` es estado compartido y el resultado alterna entre llamadas.
+    if (r.kind === 'sentence-start-run' || r.kind === 'paragraph-opening') {
+      if (r.pattern.flags.includes('g')) {
+        throw new Error(`la regla ${r.id} no puede llevar el flag g`);
+      }
+    }
+    if (r.kind === 'paragraph-length' && r.min === undefined && r.max === undefined) {
+      throw new Error(`la regla ${r.id} necesita al menos un límite`);
     }
   }
 }

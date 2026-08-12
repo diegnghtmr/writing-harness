@@ -1,13 +1,23 @@
 La teoría del valor trabajo, formulada por Ricardo y reelaborada por Marx,
-sostiene que la magnitud del valor de una mercancía depende del tiempo de
-trabajo socialmente necesario para producirla.
+sostiene que el valor de una mercancía depende del tiempo de trabajo necesario
+para producirla. Ese tiempo no es el que emplea un productor concreto sino el
+que exige la técnica media de una sociedad. El valor no se fija en el taller,
+entonces, sino en el conjunto de la producción.
 
-Esa formulación no es evidente. Exige distinguir entre el trabajo concreto que
-produce un valor de uso y el trabajo abstracto que produce valor.
+Distinguir el trabajo concreto del trabajo abstracto cuesta más de lo que
+parece a primera vista. El primero produce un valor de uso y cambia con el
+oficio, mientras que el segundo cuenta como gasto de energía humana medido en
+tiempo. Sin esa distinción la teoría se vuelve circular y deja de explicar por
+qué dos mercancías de oficios distintos se intercambian.
 
-En una sociedad mercantil los productores trabajan separados unos de otros. El
-carácter social de ese trabajo solo se manifiesta al intercambiar. De ahí que
-el mercado tenga que igualar tipos de trabajo muy distintos entre sí.
+En una sociedad mercantil los productores trabajan separados unos de otros, de
+modo que el carácter social de su trabajo tarda en manifestarse. Solo aparece
+cuando intercambian, y el mercado tiene entonces que igualar tipos de trabajo
+muy distintos entre sí. Esa igualación aparece ante los ojos de todos como una
+propiedad de las cosas y no como una relación entre personas.
 
-Marx lo dice en el primer volumen de El capital, cap. 1, p. 89. La distinción
-importa.
+Marx lo formula en el primer volumen de El capital, cap. 1, p. 89, y vuelve
+sobre ello al tratar el fetichismo de la mercancía. La distinción importa
+porque de ella depende que el valor se lea como una relación social
+materializada en el objeto. Leerlo como atributo natural del objeto invierte
+el orden y borra a quien lo produjo.

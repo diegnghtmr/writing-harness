@@ -67,7 +67,7 @@ describe('capa base', () => {
   });
 
   test('la capa base corre sin elegir tono', () => {
-    assert.equal(rulesFor().length, 6);
+    assert.equal(rulesFor().length, 8);
   });
 
   test('el andamiaje vacío se marca', () => {
@@ -179,6 +179,93 @@ describe('capa de pasada', () => {
   });
 });
 
+describe('reglas estructurales', () => {
+  const conPasada = { pasadas: ['humanizar'] } as const;
+
+  test('dos oraciones cortas seguidas son ritmo, tres son staccato', () => {
+    // El SKILL.md fija los dos números: «no encadenar más de dos oraciones
+    // cortas» y «oraciones breves de seis a diez palabras».
+    const dos = 'Llegó tarde. No importó. Después de esa demora el comité decidió posponer la votación hasta el jueves siguiente.';
+    assert.deepEqual(check(dos, conPasada).filter((x) => x.rule === 'staccato'), []);
+
+    const tres = 'Llegó tarde. No importó. Nadie dijo nada. Después de esa demora el comité decidió posponer la votación hasta el jueves.';
+    const f = check(tres, conPasada).filter((x) => x.rule === 'staccato');
+    assert.equal(f.length, 1);
+    assert.match(f[0]!.message, /Hay 3 de 10 palabras o menos\./u);
+  });
+
+  test('la racha no cruza el corte de párrafo', () => {
+    // Un punto y aparte reinicia el ritmo. Encadenar a través de él no es lo
+    // que describe el patrón.
+    const repartido = 'Llegó tarde. No importó.\n\nNadie dijo nada. Tampoco hacía falta.';
+    assert.deepEqual(check(repartido, conPasada).filter((x) => x.rule === 'staccato'), []);
+  });
+
+  test('el párrafo que abre con etiqueta corta y cópula se marca', () => {
+    const f = check('La sociedad es la estructura. Designa el conjunto de personas que conviven en un territorio y mantienen relaciones estables.', conPasada);
+    const ap = f.filter((x) => x.rule === 'apertura-de-etiqueta');
+    assert.equal(ap.length, 1);
+    assert.match(ap[0]!.message, /la primera oración del texto/u);
+  });
+
+  test('una apertura larga no se marca aunque lleve cópula', () => {
+    const largo = 'Cuando hablamos de sociedad nos referimos al entramado de relaciones que es sostenido por quienes conviven en un territorio.';
+    assert.deepEqual(check(largo, conPasada).filter((x) => x.rule === 'apertura-de-etiqueta'), []);
+  });
+
+  test('una frase corta dentro del párrafo es legítima', () => {
+    // El patrón 37 dice: «Si quieres una frase corta, ponla dentro del párrafo,
+    // no al inicio».
+    const dentro = 'Cuando hablamos de sociedad nos referimos al entramado de relaciones estables entre personas. Eso es todo.';
+    assert.deepEqual(check(dentro, conPasada).filter((x) => x.rule === 'apertura-de-etiqueta'), []);
+  });
+
+  test('dos oraciones seguidas que abren con conector formal se marcan', () => {
+    const f = check('Además, el dato confirma la hipótesis previa del estudio. Asimismo, el margen de error resulta menor que el declarado.');
+    assert.equal(f.filter((x) => x.rule === 'conectores-de-molde-seguidos').length, 1);
+  });
+
+  test('un conector formal aislado no se marca', () => {
+    // `que-preservar.md` lo dice: un solo «sin embargo» no delata nada.
+    const f = check('Sin embargo, el dato confirma la hipótesis. El margen resulta menor que el declarado en el informe.');
+    assert.deepEqual(f.filter((x) => x.rule === 'conectores-de-molde-seguidos'), []);
+  });
+
+  test('el markdown en el texto entregado se marca', () => {
+    const f = check('- **Rendimiento:** mejora el tiempo de respuesta.');
+    assert.ok(f.filter((x) => x.rule === 'markdown-en-entrega').length > 0);
+  });
+
+  test('el gerundio apilado se marca solo colgado tras coma', () => {
+    const colgado = check('La paleta usa azules y verdes, reflejando el vínculo con la tierra.', conPasada);
+    assert.equal(colgado.filter((x) => x.rule === 'gerundios-apilados').length, 1);
+
+    const alInicio = check('Reflejando lo anterior, el comité aprobó el cambio propuesto en la sesión.', conPasada);
+    assert.deepEqual(alInicio.filter((x) => x.rule === 'gerundios-apilados'), []);
+  });
+
+  test('el paralelismo negativo se marca como advertencia', () => {
+    const f = check('No solo importa el ritmo sino también la atmósfera del conjunto.', conPasada);
+    const par = f.find((x) => x.rule === 'paralelismos-negativos');
+    assert.equal(par?.severity, 'warning');
+  });
+
+  test('el párrafo largo es error y el corto advertencia', () => {
+    const largo = `${'palabra '.repeat(160)}final.`;
+    const fLargo = check(largo, { tone: 'camus' }).find((x) => x.rule === 'parrafo-maximo');
+    assert.equal(fLargo?.severity, 'error');
+
+    const corto = 'Un párrafo breve de transición que no llega a las cincuenta palabras.';
+    const fCorto = check(corto, { tone: 'camus' }).find((x) => x.rule === 'parrafo-minimo');
+    assert.equal(fCorto?.severity, 'warning');
+  });
+
+  test('catedra no hereda los límites de párrafo de camus', () => {
+    const corto = 'Un párrafo breve de transición que no llega a las cincuenta palabras.';
+    assert.deepEqual(check(corto, { tone: 'catedra' }), []);
+  });
+});
+
 describe('densidad de vocabulario de IA', () => {
   // El catálogo es explícito: «No están prohibidas de forma absoluta, pero su
   // acumulación es una firma». Modelarlo como prohibición plana contradiría el
@@ -211,19 +298,25 @@ describe('densidad de vocabulario de IA', () => {
 
 describe('fixtures', () => {
   test('el fixture sucio incumple lo que dice incumplir', () => {
-    const f = check(fixture('sucio.txt'), { tone: 'camus' });
+    const f = check(fixture('sucio.txt'), { tone: 'camus', pasadas: ['humanizar'] });
     const porRegla = new Map<string, number>();
     for (const x of f) porRegla.set(x.rule, (porRegla.get(x.rule) ?? 0) + 1);
     assert.deepEqual(
       Object.fromEntries([...porRegla].sort()),
-      { 'no-punto-y-coma': 1, 'no-raya': 2, 'oracion-maxima': 1 },
+      {
+        'apertura-de-etiqueta': 1,
+        'no-punto-y-coma': 1,
+        'no-raya': 2,
+        'oracion-maxima': 1,
+        staccato: 1,
+      },
     );
   });
 
   test('el fixture limpio no da ningún hallazgo', () => {
     // Es la mitad que de verdad protege: sin ella, una regla demasiado ancha
     // pasaría los tests marcando todo.
-    assert.deepEqual(check(fixture('limpio.txt'), { tone: 'camus' }), []);
+    assert.deepEqual(check(fixture('limpio.txt'), { tone: 'camus', pasadas: ['humanizar'] }), []);
   });
 
   test('los dos fixtures dicen lo mismo, y solo cambia la forma', () => {

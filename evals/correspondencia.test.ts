@@ -76,24 +76,24 @@ describe('correspondencia entre las reglas y la prosa', () => {
 
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. El techo real del verificador son los 62 mecanizables más
-  // los ya cubiertos: los 31 de criterio exigen juicio sobre el contenido y
-  // ninguna regla los cubrirá nunca.
+  // ser deliberado. El techo real del verificador son 62 de 95, o sea las 34 ya
+  // cubiertas más las 28 mecanizables: las 31 de criterio exigen juicio sobre
+  // el contenido y ninguna regla las cubrirá nunca.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
   test('95 declaraciones, repartidas como está registrado', () => {
     assert.equal(items.length, 95, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 24, 'cambió la cantidad de declaraciones cubiertas por reglas');
-    assert.equal(cuenta('mecanizable'), 38);
+    assert.equal(claimed.size, 34, 'cambió la cantidad de declaraciones cubiertas por reglas');
+    assert.equal(cuenta('mecanizable'), 28);
     assert.equal(cuenta('criterio'), 31);
     assert.equal(cuenta('delegado'), 2);
   });
 
-  test('humanizar tiene 19 de sus 37 patrones cubiertos', () => {
+  test('humanizar tiene 26 de sus 37 patrones cubiertos', () => {
     const suyos = declarations('humanizar-espanol');
     const cubiertos = suyos.filter((d) => claimed.has(itemKey(d.skill, d.item)));
     assert.equal(suyos.length, 37);
-    assert.equal(cubiertos.length, 19);
+    assert.equal(cubiertos.length, 26);
   });
 
   test('todas las skills aportan al recuento', () => {

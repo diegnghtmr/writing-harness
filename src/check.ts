@@ -1,7 +1,7 @@
 // El verificador. Toma un texto entregado y devuelve lo que incumple.
 
 import { BASE_RULES, PASADAS, TONES, type Rule, type Severity, assertRules } from './rules.ts';
-import { lineAt, positionAt, splitParagraphs } from './text.ts';
+import { countWords, lineAt, positionAt, splitParagraphs } from './text.ts';
 
 export type Finding = {
   rule: string;
@@ -76,8 +76,20 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
 
   const lengthRules = rules.filter((r) => r.kind === 'sentence-length');
   const densityRules = rules.filter((r) => r.kind === 'pattern-density');
+  const paraRules = rules.filter((r) => r.kind === 'paragraph-length');
+  const runRules = rules.filter((r) => r.kind === 'short-sentence-run');
+  const startRules = rules.filter((r) => r.kind === 'sentence-start-run');
+  const openingRules = rules.filter((r) => r.kind === 'paragraph-opening');
 
-  if (lengthRules.length > 0 || densityRules.length > 0) {
+  const necesitaParrafos =
+    lengthRules.length > 0 ||
+    densityRules.length > 0 ||
+    paraRules.length > 0 ||
+    runRules.length > 0 ||
+    startRules.length > 0 ||
+    openingRules.length > 0;
+
+  if (necesitaParrafos) {
     for (const paragraph of splitParagraphs(text)) {
       for (const sentence of paragraph.sentences) {
         for (const rule of lengthRules) {
@@ -110,6 +122,89 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
             fix: rule.fix,
             source: rule.source,
           });
+        }
+      }
+
+      const palabras = countWords(paragraph.text);
+      for (const rule of paraRules) {
+        const corto = rule.min !== undefined && palabras < rule.min;
+        const largo = rule.max !== undefined && palabras > rule.max;
+        if (corto || largo) {
+          findings.push({
+            rule: rule.id,
+            severity: rule.severity,
+            ...at(paragraph.offset),
+            message: `${rule.message} Tiene ${palabras}.`,
+            fix: rule.fix,
+            source: rule.source,
+          });
+        }
+      }
+
+      // Las rachas no cruzan el corte de párrafo: un punto y aparte reinicia el
+      // ritmo, y encadenar a través de él no es lo que describe el patrón.
+      for (const rule of runRules) {
+        let racha = 0;
+        let inicio = paragraph.offset;
+        for (const s of paragraph.sentences) {
+          if (s.words <= rule.shortWords) {
+            if (racha === 0) inicio = s.offset;
+            racha++;
+          } else {
+            racha = 0;
+          }
+          if (racha === rule.maxRun + 1) {
+            findings.push({
+              rule: rule.id,
+              severity: rule.severity,
+              ...at(inicio),
+              message: `${rule.message} Hay ${rule.maxRun + 1} de ${rule.shortWords} palabras o menos.`,
+              fix: rule.fix,
+              source: rule.source,
+            });
+          }
+        }
+      }
+
+      for (const rule of startRules) {
+        let racha = 0;
+        let inicio = paragraph.offset;
+        for (const s of paragraph.sentences) {
+          if (rule.pattern.test(s.text)) {
+            if (racha === 0) inicio = s.offset;
+            racha++;
+          } else {
+            racha = 0;
+          }
+          if (racha === rule.maxRun + 1) {
+            findings.push({
+              rule: rule.id,
+              severity: rule.severity,
+              ...at(inicio),
+              message: rule.message,
+              fix: rule.fix,
+              source: rule.source,
+            });
+          }
+        }
+      }
+
+      const primera = paragraph.sentences[0];
+      if (primera !== undefined) {
+        for (const rule of openingRules) {
+          if (primera.words <= rule.maxWords && rule.pattern.test(primera.text)) {
+            const esLaPrimeraDelTexto = paragraph.offset === splitParagraphs(text)[0]?.offset;
+            findings.push({
+              rule: rule.id,
+              severity: rule.severity,
+              ...at(primera.offset),
+              message: esLaPrimeraDelTexto
+                ? `${rule.message} Y es la primera oración del texto, la más sensible de todas.`
+                : rule.message,
+              fix: rule.fix,
+              source: rule.source,
+            });
+          }
         }
       }
     }
