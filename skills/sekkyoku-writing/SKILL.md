@@ -115,8 +115,12 @@ vocativo colectivo. En la fórmula fija de cierre, «espero que os haya gustado�
 aparece 9 veces frente a las 3 de «si te ha gustado».
 
 La decisión es la misma que toma la base: no se traslada la variedad. Se escribe
-en la variedad que fija la base, con tuteo de singular sostenido. No se usa
-«vosotros» ni sus formas verbales, pronominales ni de imperativo.
+en la variedad americana que fija la base. No se usa «vosotros» ni sus formas
+verbales, pronominales ni de imperativo.
+
+El tratamiento tampoco se traslada. El corpus tutea cuando no está en plural
+peninsular, y la sección 9.2 de la base fija «usted». Aquí se prescribe y no se
+describe: el lector va de usted y el público entero de «ustedes».
 
 La razón es doble. Primero, la base fija la variedad y este documento no puede
 contradecirla. Segundo, y esto es lo que la medición añade, el plural peninsular
@@ -129,9 +133,9 @@ variedad.
 La alternancia entre singular y plural dentro de un mismo texto tampoco se
 imita. Es un rasgo de habla espontánea, no de prosa escrita.
 
-Excepción única: si el usuario pide de forma explícita español peninsular, o si
-el destinatario del texto es España, se admiten el plural y el léxico
-peninsular, y esa decisión se aplica de manera consistente en todo el texto.
+No hay excepción por destinatario. La sección 9.1 de la base prohíbe el
+peninsular sin importar a quién va dirigido el texto, y esta skill no puede
+reabrir lo que aquella cierra.
 
 
 ## 5. Longitud de oración: los números
@@ -206,7 +210,7 @@ mostrar y empieza a suponer, tiene que decirlo.
 
 ### 7.1. Persona gramatical
 
-Se tutea al lector, en singular, según la sección 4.
+Se interpela al lector de usted, en singular, según la sección 4.
 
 Para el recorrido compartido por la obra se usa la primera persona del plural.
 Es la forma dominante del modelo: las formas de primera del plural del tipo
@@ -318,8 +322,8 @@ cosas. La apertura es afectiva primero e informativa después.
 
 Reglas de apertura para el texto escrito:
 
-Nombrar la obra en las primeras 30 palabras. Nombrar la unidad exacta y el
-alcance de spoiler dentro del primer párrafo, aunque no en la primera línea.
+Nombrar la obra en las primeras 30 palabras. Nombrar la unidad exacta dentro del
+primer párrafo, aunque no en la primera línea.
 
 Se admite abrir por la reacción propia ante la obra, en primera persona del
 singular y en una sola oración corta, antes de nombrar el objeto. Es el rasgo de
@@ -369,31 +373,25 @@ recomendación: párrafos de 90 a 150 palabras, uno por anclaje. Un párrafo sin
 anclaje a la obra es un párrafo que hay que revisar.
 
 
-## 9. El spoiler y la posición declarada
+## 9. La posición declarada frente a la obra
 
-Aquí cae la afirmación más frágil de la versión anterior, que daba el aviso de
-spoiler como rasgo sistemático del canal.
+El aviso al lector sobre lo que el texto va a revelar no forma parte de este
+tono. No se escribe, ni en la apertura ni en ningún otro punto. Un análisis
+declara qué analiza, y quien lo lee sabe a qué entra.
 
-En 53 878 palabras la palabra «spoiler» aparece 8 veces, en 6 de los 19
-archivos. «Sin spoilers» no aparece ninguna vez, y «ponte al día» tampoco. De
-los 20 títulos, uno solo marca que la reseña va sin spoilers. En uno de los
-análisis el modelo dedica el pasaje a rechazar la acusación de estar haciendo
-spoiler, no a advertir de él.
-
-Lo que sí es sistemático, y es el rasgo que sustituye al anterior, es que el
-modelo declara su propia posición frente a la obra antes de analizarla: si sigue
-solo la adaptación o si además ha leído el original, y hasta dónde va a llegar
-con lo que sabe. Esa declaración aparece en los análisis de obra en curso y
-cumple la función que el aviso de spoiler cumple mal.
+Lo que sí es sistemático en el modelo es otra cosa, y es la que se toma: declara
+su propia posición frente a la obra antes de analizarla, es decir si sigue solo
+la adaptación o si además ha leído el original, y hasta dónde llega con lo que
+sabe. Esa declaración aparece en los análisis de obra en curso.
 
 Reglas para el texto escrito:
 
-El primer párrafo declara tres cosas: qué obra, hasta qué punto de la obra llega
-el análisis y desde qué punto el lector queda expuesto.
+El primer párrafo declara dos cosas: qué obra y hasta qué punto de la obra llega
+el análisis.
 
 El primer párrafo declara también desde dónde escribe el análisis, es decir qué
-parte de la obra conoce quien escribe. Esta es la regla nueva, y la que el
-modelo cumple de verdad.
+parte de la obra conoce quien escribe. Esta es la regla que el modelo cumple de
+verdad, y la que sostiene la sección entera.
 
 El recorrido sigue el orden de la obra, no el orden en que la obra reveló las
 cosas. Cuando el análisis necesita adelantar información posterior para explicar
@@ -538,8 +536,8 @@ reparto que describe la sección 5.
 Se ejecuta después de la lista normativa de la base.
 
  1. ¿La obra queda nombrada dentro de las primeras 30 palabras?
- 2. ¿El primer párrafo declara la unidad exacta, el alcance de spoiler y desde
-    qué punto de la obra escribe el análisis?
+ 2. ¿El primer párrafo declara la unidad exacta y desde qué punto de la obra
+    escribe el análisis, sin ningún aviso sobre lo que va a revelar?
  3. ¿Cada afirmación sobre la obra se ancla en una escena, una imagen o una
     línea de diálogo localizable, a razón de al menos un anclaje por párrafo?
  4. ¿Se separa lo que la obra muestra de lo que el análisis infiere y de lo que
@@ -560,8 +558,8 @@ Se ejecuta después de la lista normativa de la base.
     descargue?
 13. ¿El texto se apoya en «pero» y «porque» y quedó libre de «es decir», «ahora
     bien», «evidentemente» y «por lo tanto»?
-14. ¿Se tutea al lector en singular, sin ninguna forma de segunda persona del
-    plural?
+14. ¿Se interpela al lector de usted, sin tuteo y sin ninguna forma de segunda
+    persona del plural peninsular?
 15. ¿El cierre vuelve a la pregunta de la apertura sin anunciarse como cierre ni
     introducir tesis nuevas?
 16. ¿El texto quedó libre de las marcas del video: saludo, despedida, vocativo
@@ -624,8 +622,8 @@ tacos censurados, de vocativos y de superlativos.
 De la sección 8 sale el examen de las primeras 30 y de las últimas 45 palabras de
 cada archivo, que es lo que sostiene las reglas de apertura y de cierre.
 
-De la sección 9 sale el recuento de la palabra «spoiler» y de sus fórmulas
-asociadas, y el examen de los 20 títulos.
+De la sección 9 sale el examen de la posición declarada por quien escribe al
+abrir el análisis.
 
 De la sección 11 salen los recuentos de introducción de la tesis rival, de
 marcadores de tesis propia y de cláusula de tolerancia.
@@ -635,7 +633,12 @@ marcadores de tesis propia y de cláusula de tolerancia.
 Cuatro afirmaciones de la versión anterior cayeron y este documento las
 sustituye por lo medido.
 
-El aviso de spoiler como rasgo sistemático. Ver la sección 9.
+El aviso al lector sobre lo que el texto va a revelar, que la versión anterior
+daba por rasgo sistemático del canal. La medición ya lo había desmentido: en
+53 878 palabras la fórmula aparecía 8 veces en 6 de los 19 archivos, «sin
+spoilers» ninguna, y en uno de los pasajes el modelo la usaba para rechazar la
+acusación, no para advertir. El recurso queda fuera del tono por decisión
+explícita, no solo por escaso. Ver la sección 9.
 
 La apertura que nombra al autor de la obra. Ver la sección 8.1.
 

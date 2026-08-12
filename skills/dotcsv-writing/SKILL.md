@@ -55,7 +55,8 @@ pareciera hacerlo, gana la base y este documento tiene un defecto.
 Ampliaciones propias sobre lo que la base deja abierto, todas con cuota
 declarada en la sección 5: se admite un grupo corto de marcadores orales, se
 admite el diminutivo afectivo aplicado a un objeto técnico, y se admite la
-segunda persona del singular.
+interpelación directa al lector, que va de usted según la sección 9.2 de la
+base.
 
 Restricción propia por encima de la base: la sección 5.4 excluye recursos que
 la base no prohíbe pero que este tono no toma.
@@ -85,8 +86,14 @@ lectores hispanohablantes sin aportar nada a la explicación.
 
 En consecuencia:
 
-Se escribe en la variedad que fija la base, con tuteo de singular. No se usan
-«vosotros» ni sus formas verbales y pronominales.
+Se escribe en la variedad americana que fija la base. No se usan «vosotros» ni
+sus formas verbales, pronominales ni de imperativo.
+
+El tratamiento al lector es «usted», y «ustedes» cuando se habla al público
+entero. Aquí este documento prescribe y no describe: el corpus tutea 656 veces
+y trata de «ustedes» solo 9. La sección 9.2 de la base fija el tratamiento de
+toda la lengua y gana sobre la medición. Lo que se conserva del modelo es la
+frecuencia con que se dirige a alguien, no la forma con que lo hacía.
 
 No se usa léxico exclusivo del español peninsular cuando existe una palabra
 compartida. En el corpus aparecen 21 veces «ordenador» y ninguna «computadora»,
@@ -94,11 +101,9 @@ además de «vale», «guay», «molar», «pasta» y «coger» en sus sentidos 
 panhispánicos. Nada de eso se traslada. Se prefiere «computadora» o «equipo»,
 «teléfono» a «móvil», «trabajar» a «currar», y «tomar» o «agarrar» a «coger».
 
-Excepción única: si el usuario pide de forma explícita español peninsular, o si
-el destinatario del texto es España, entonces se admiten el «vosotros» y el
-léxico peninsular, y esa decisión se aplica de manera consistente en todo el
-texto. La mezcla de «tú» y «vosotros» que aparece en 15 de los 20 archivos no se
-imita nunca: es un rasgo de habla espontánea, no de prosa.
+No hay excepción por destinatario. Un texto dirigido a España se escribe igual,
+según la sección 9.1 de la base. La mezcla de personas que aparece en 15 de los
+20 archivos tampoco se imita: es un rasgo de habla espontánea, no de prosa.
 
 
 ## 4. Filosofía estilística: mostrar, reducir, explicar
@@ -240,10 +245,10 @@ mucha diferencia: 237 apariciones de «vamos a», 145 de «podemos», 134 de
 «nuestro», 110 de «tenemos», 55 de «entendemos» o «entendamos», 35 de «hemos
 visto».
 
-Segunda persona del singular para el lector, para lo que ya sabe, ya ha visto o
-ya cree, y para las consecuencias que le tocan a él.
+Tratamiento de usted para el lector, para lo que ya sabe, ya ha visto o ya cree,
+y para las consecuencias que le tocan a él.
 
-La distinción importa. El «tú» sitúa al lector y su punto de partida. El
+La distinción importa. El «usted» sitúa al lector y su punto de partida. El
 «nosotros» convierte la explicación en un trayecto compartido en el que el
 divulgador va delante.
 
@@ -363,8 +368,8 @@ ocurrir, con fecha, y el texto explica qué significa.
 La demostración, 5 casos. Se describe un resultado terminado antes de explicar
 nada, y la pregunta por el mecanismo nace de haberlo visto.
 
-La escena en segunda persona, 3 casos. Se pone al lector haciendo algo que ya
-hace, y el texto arranca desde ese punto.
+La escena con el lector dentro, 3 casos. Se lo pone haciendo algo que ya hace, y
+el texto arranca desde ese punto.
 
 El acertijo, 1 caso. Se enumeran fenómenos sin relación aparente y se pregunta
 qué tienen en común.
@@ -520,8 +525,8 @@ Se ejecuta después de la lista normativa de la base.
     entero se mantiene por debajo de una cada 600 palabras?
  4. ¿La comparación transporta el mecanismo y no solo la sensación?
  5. ¿Se declara de forma explícita el punto donde la comparación deja de valer?
- 6. ¿Se reserva la primera persona del plural para el recorrido y la segunda del
-    singular para el lector?
+ 6. ¿Se reserva la primera persona del plural para el recorrido y el trato de
+    usted para el lector?
  7. ¿La opinión propia va marcada como tal y separada del dato?
  8. ¿Después de cada tramo largo hay una oración breve, y las breves son
     alrededor de una de cada cuatro?
@@ -536,7 +541,8 @@ Se ejecuta después de la lista normativa de la base.
 14. ¿El texto está libre de deixis de pantalla, de mayúsculas de énfasis y de
     llamadas al lector propias del canal?
 15. ¿El cierre apunta a lo que queda por resolver en lugar de resumir?
-16. ¿Se evitan el «vosotros» y el léxico peninsular, salvo petición explícita?
+16. ¿Se evitan el «vosotros» y el léxico peninsular, sin excepción, y el
+    lector queda tratado de usted?
 
 
 ## 11. Formato de entrega
@@ -647,7 +653,7 @@ video, y las 3 de «no es exactamente» se refieren al resultado de una
 demostración, no a una comparación.
 
 Aperturas, codificadas sobre los 20 archivos: hecho reciente 6, demostración 5,
-metadiscurso de canal 5, escena en segunda persona 3, acertijo 1. Corrección
+metadiscurso de canal 5, escena con el lector dentro 3, acertijo 1. Corrección
 explícita de una creencia como movimiento de apertura: 1, más 3 casos en segundo
 plano.
 
@@ -704,6 +710,10 @@ mayor que la que aquel documento permitía.
 Se corrige la afirmación de que el «vosotros» sea un rasgo aislado del material
 escrito. Es masivo en el habla, y la decisión de no tomarlo se mantiene por otra
 razón, que ahora está en la sección 3.
+
+Se retira la excepción por destinatario que la versión anterior admitía. La
+sección 9.1 de la base prohíbe el peninsular sin importar a quién va dirigido el
+texto, y esta skill no puede reabrir lo que aquella cierra.
 
 ### 13.4. Qué sigue sin verificarse
 

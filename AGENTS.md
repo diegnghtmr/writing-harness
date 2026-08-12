@@ -47,10 +47,13 @@ no frenan la entrega: señalan lo que solo el contexto decide.
 
 ## Lo que el verificador no ve
 
-De las 95 declaraciones que hacen las skills, **31 exigen juicio sobre el
+De las 256 declaraciones que hacen las skills, **183 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.
+
+El número creció con los doce tonos que reconstruyen a un autor: describir cómo
+argumenta una persona no lo mide ninguna clase de regla que exista hoy.
 
 Las skills declaran de dos maneras y las dos cuentan: ítems numerados `N. ¿…?`
 en las listas del `SKILL.md`, y patrones `### N. Título` en los catálogos de
@@ -72,6 +75,16 @@ cubre un ítem obliga a borrarlo de `evals/cobertura.ts`. Cambiar la redacción
 de un ítem en un `SKILL.md` obliga a actualizar el dato. Es a propósito: las
 dos veces que este repositorio perdió una regla fue porque nadie comparaba la
 prosa con el dato.
+
+`evals/cobertura.ts` no se edita a mano. Se regenera:
+
+```bash
+node --experimental-strip-types evals/gen.ts
+```
+
+Conserva la clasificación de los ítems que ya estaban, imprime los nuevos para
+revisarlos uno por uno, y deja los recuentos que el test tiene grabados. Se
+escribió a mano una vez y quedó mintiendo en cuanto una skill movió sus ítems.
 
 Dos comprobaciones más, que sostienen la separación de arriba:
 

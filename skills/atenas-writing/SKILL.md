@@ -6,7 +6,7 @@ description: >
   ensayos sobre personajes de manga, anime, cine, series y novela. Cada pieza
   corrige una lectura corriente del personaje, la reorganiza alrededor de un
   concepto abstracto nombrado y la prueba con hechos de la obra. Se dirige al
-  público en segunda persona del plural, con léxico político y moral, y cierra
+  público en «ustedes», con léxico político y moral, y cierra
   el análisis en una generalización sobre lo humano. Hereda toda la normativa
   de «spanish-writing». Úsese cuando el usuario pida redactar, reescribir o
   revisar análisis de personajes, reseñas de manga o anime, crítica de cine o
@@ -163,7 +163,7 @@ la lectura.
 
 ### 5.1. Persona gramatical
 
-Al público se le habla en segunda persona del plural. Es la voz medida de la
+Al público se le habla en «ustedes», con verbo en tercera del plural. Es la voz medida de la
 fuente y desmiente el tuteo que este documento afirmaba antes de disponer del
 corpus.
 
@@ -177,12 +177,19 @@ de «usted» ni de «vos».
 De esas ocho apariciones, la mayoría no interpela al lector. Son el «tú»
 impersonal de la generalización, el que equivale a «uno»: «ser un marine no te
 hace completamente bueno», «obstáculos que te harán más fuerte», «entre más
-alto tu cargo, mayor presión tendrás». Ese uso sí se permite y es útil, porque
-traslada el caso del personaje a cualquiera. No se confunde con dirigirse al
-lector.
+alto tu cargo, mayor presión tendrás». La función es útil, porque traslada el
+caso del personaje a cualquiera. La forma no se traslada: la sección 9.2 de la
+base prohíbe el tuteo sin distinguir si interpela o generaliza, porque un
+verificador que leyera esa distinción tendría que adivinar la intención.
 
-Regla. El vocativo y el imperativo van en plural. El «tú» impersonal se admite
-dentro de una generalización. No se alterna con el usted ni con el vos.
+En su lugar va «uno», que es la forma que el propio corpus ofrece como
+equivalente: «ser un marine no lo hace a uno completamente bueno», «obstáculos
+que lo harán a uno más fuerte». La generalización se conserva entera y no queda
+ni una marca de segunda del singular.
+
+Regla. El vocativo y el imperativo van en plural, con «ustedes». La
+generalización va con «uno», nunca con «tú». Si el texto se dirige a un lector
+solo, «usted». No se alterna entre esas formas dentro de un mismo texto.
 
 La primera persona del plural es la voz del recorrido compartido, y es
 indicativa, no exhortativa. En el corpus, «vemos», «vimos», «veremos»,
@@ -332,7 +339,7 @@ palabras de mediana y nunca más del cinco por ciento de la pieza. Ocho piezas
 lo abren con una fórmula casi idéntica que interpela en plural y pide la
 opinión del público. Ese bloque no es parte del análisis y este skill no lo
 escribe salvo que el usuario pida un guion para publicar. Si lo pide, va
-después del cierre, separado, breve y en segunda persona del plural.
+después del cierre, separado, breve y en «ustedes».
 
 ### 6.5. Párrafos y oraciones
 
@@ -507,8 +514,8 @@ Se ejecuta después de la lista normativa de la base.
 4. ¿Se evitó el modo enumerativo, es decir, el recorrido por aspectos sueltos del personaje?
 5. ¿Cada afirmación sobre el personaje se apoya en una escena, una decisión o un diálogo de la obra?
 6. ¿Se trata al menos un hecho de la obra que tensione la tesis?
-7. ¿El público recibe tratamiento de segunda persona del plural, sin alternar con el usted ni con el vos?
-8. ¿El «tú» impersonal, si aparece, está dentro de una generalización y no interpela al lector?
+7. ¿El público recibe tratamiento de «ustedes», sin alternar con el tuteo ni con el vos?
+8. ¿La generalización va con «uno» y no queda ninguna marca de «tú», ni siquiera impersonal?
 9. ¿La primera persona del plural es indicativa, del tipo «vemos que», y no exhortativa?
 10. ¿La primera persona del singular aparece solo para marcar un juicio propio o para narrar la lectura propia?
 11. ¿El eje del análisis se nombra con léxico político y moral antes que afectivo?

@@ -8,7 +8,7 @@ description: >
   explícita hacia el autor que se va a leer, glosa constante de los términos,
   cita corta con comentario pegado, ejemplo material sostenido hasta agotarlo,
   digresión marcada y cierre que casi siempre anuncia la entrega siguiente.
-  Tuteo al lector, con paso al plural cuando se dirige al público entero.
+  Interpelación al lector de usted, con paso a «ustedes» cuando se dirige al público entero.
   Alternancia de oraciones medianas y mínimas, no periodo largo. Hereda toda la
   normativa de «spanish-writing». Úsese cuando el usuario pida redactar,
   reescribir o revisar guiones de video, ensayos de divulgación, material de
@@ -97,8 +97,10 @@ constante es traducir el término, no rastrear su origen.
 La cita es corta. De 263 citas entrecomilladas, la mediana mide 4 palabras y el
 73 por ciento no pasa de 10. Solo el 10 por ciento llega a 40 palabras o más.
 
-El tuteo manda y el plural es escaso. «Te» aparece 113 veces en 26 de los 30
-guiones y «tú» 65 veces, contra 6 apariciones de «ustedes» en 4 guiones.
+La interpelación manda y el plural es escaso. «Te» aparece 113 veces en 26 de
+los 30 guiones y «tú» 65 veces, contra 6 apariciones de «ustedes» en 4 guiones.
+El modelo tutea. Este tono no: la sección 6.1 explica por qué se conserva el
+hecho de interpelar y se cambia la forma a «usted».
 
 
 ## 5. Los movimientos del texto
@@ -215,26 +217,41 @@ recapitular.
 
 ### 6.1. Persona gramatical
 
-Segunda persona del singular al lector, que es la voz dominante y está medida:
-«te» 113 veces en 26 de los 30 guiones, «tú» 65 veces, «tu» y «tus» 60 veces.
-Ejemplos: «No sé si te has dado cuenta», «¿Alguna vez has solicitado un trabajo
-y te hacen un examen psicométrico?».
+Lo primero es el dato, y el dato contradice lo que este tono hace. El modelo
+tutea, y lo hace de forma masiva: «te» aparece 113 veces en 26 de los 30
+guiones, «tú» 65 veces, «tu» y «tus» 60 veces. Ejemplos: «No sé si te has dado
+cuenta», «¿Alguna vez has solicitado un trabajo y te hacen un examen
+psicométrico?». El plural es mucho más escaso de lo que parece: «ustedes»
+aparece 6 veces en 4 guiones, y el resto va por enclítico o por imperativo, «no
+les quiero cansar», «Espero les interese», «Prepárense».
 
-Segunda persona del plural americana cuando se habla al público como cuerpo. Es
-mucho más escasa de lo que parece: «ustedes» aparece 6 veces en 4 guiones, y el
-resto del plural va por enclítico o por imperativo, «no les quiero cansar»,
-«Espero les interese», «Prepárense», «Me gustaría compartir con ustedes una
-enseñanza que recibí de mi padre».
+La decisión es no trasladarlo. La sección 9.2 de la base fija «usted» como
+tratamiento de toda la lengua, y este documento no puede contradecirla. Esto no
+es un retrato del modelo: es una prescripción, y se declara como tal en vez de
+fingir que el corpus la respalda.
 
-Las dos formas conviven en el mismo texto en 16 de los 30 guiones, así que la
-alternancia es normal y no hay que corregirla. Dentro de una misma oración no
-se mezclan: en 4.822 oraciones medidas hay un solo caso, y ocurre en el guion
-cuya puntuación no es fiable.
+Lo que sí se conserva, y es lo que hace al tono, no es la forma del tratamiento
+sino el hecho de interpelar. Este tono se dirige a alguien. La interpelación va
+de usted, sostenida a lo largo del texto: «fíjese en», «piense en», «como usted
+sabe», «no sé si se ha dado cuenta». Cuando se habla al público como cuerpo, la
+forma es «ustedes» con verbo en tercera del plural.
+
+Lo que se pierde al cambiar de forma se puede nombrar: el tuteo del modelo abre
+un registro de confianza que el «usted» no da gratis. Se compensa por otra vía,
+que la sección 6.2 describe, y es el registro coloquial del léxico, no el del
+pronombre. Un «usted» dentro de una frase llana no suena distante. Un «usted»
+dentro de una frase almidonada, sí.
+
+Las dos formas, singular y plural, conviven en el mismo texto en 16 de los 30
+guiones, así que la alternancia es normal y no hay que corregirla. Dentro de una
+misma oración no se mezclan: en 4.822 oraciones medidas hay un solo caso, y
+ocurre en el guion cuya puntuación no es fiable.
 
 Hay que decir una cosa más, porque cambia lo que el agente debe hacer: dos de
 los 30 guiones no interpelan al lector ni una sola vez, y otros cuatro lo hacen
-menos de tres veces. Cuando el asunto es una exposición cerrada, el tuteo puede
-desaparecer sin que el tono se caiga. No se fuerza un «te» por página.
+menos de tres veces. Cuando el asunto es una exposición cerrada, la
+interpelación puede desaparecer sin que el tono se caiga. No se fuerza un
+«fíjese» por página.
 
 Primera persona del singular, presente y sin coartada: «me» aparece 271 veces y
 está en los 30 guiones, «yo» explícito 123 veces, «mi» y «mis» 191. Aparece con
@@ -542,14 +559,14 @@ tener tiempo libre. Le contesté con una palabra griega. En griego, el tiempo
 libre se dice escolé, y quien lo tiene no es un desocupado. Es alguien que
 puede disponer de su día. Los griegos pensaban que la forma más digna de
 gastarlo era estudiando, y entonces la palabra fue resbalando del tiempo libre
-al estudio, y del estudio al lugar donde uno estudia. Esa palabra la usas todos
-los días. Es la escuela. Lo cual deja una ironía difícil de digerir: hoy la
-escuela es justamente el sitio donde nadie tiene tiempo.»
+al estudio, y del estudio al lugar donde uno estudia. Esa palabra la usa usted
+todos los días. Es la escuela. Lo cual deja una ironía difícil de digerir: hoy
+la escuela es justamente el sitio donde nadie tiene tiempo.»
 
 Cambios aplicados:
 Se abrió por un incidente concreto, no por la definición.
 Se glosó el término y se aterrizó en una palabra corriente.
-Se pasó al tuteo en el punto donde el lector tiene que reconocerse.
+Se interpeló al lector, de usted, en el punto donde tiene que reconocerse.
 Las oraciones quedaron entre 12 y 26 palabras, con dos mínimas de remate.
 Se cerró corto, sin recapitular.
 
@@ -561,7 +578,8 @@ Se ejecuta después de la lista normativa de la base.
  1. ¿El texto abre por algo concreto y verificable, con incidente en primera
     persona si lo hay?
  2. ¿Hay una bisagra explícita que lleve de la entrada al autor o al concepto?
- 3. ¿Se tutea al lector, con paso al plural solo al dirigirse al público?
+ 3. ¿Se interpela al lector de usted, con paso a «ustedes» solo al dirigirse al
+    público?
  4. ¿Aparece el yo de quien escribe con sus dudas, sus errores y su juicio?
  5. ¿Los términos que sostienen el argumento se glosan antes de usarse?
  6. ¿Todo término en otra lengua llega glosado en la misma oración?

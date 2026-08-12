@@ -4,8 +4,8 @@ description: >
   Skill de tono para divulgación de actualidad: política internacional,
   geopolítica, conflictos y economía. Aplica el registro de análisis de
   coyuntura medido sobre veinte transcripciones del canal Solo Fonseca
-  (Enrique Fonseca): oración corta con alternancia brusca, segunda persona
-  del plural peninsular sostenida, marcadores de recapitulación y de escala,
+  (Enrique Fonseca): oración corta con alternancia brusca, interpelación
+  sostenida al público en «ustedes», marcadores de recapitulación y de escala,
   pregunta anticipada al público, y cifra abundante con atribución escasa.
   Úsese cuando el usuario pida redactar, reescribir o revisar guiones de vídeo
   de actualidad, explicadores de noticias, análisis de coyuntura, boletines,
@@ -113,8 +113,9 @@ rotundas sin ninguna oración que respire produce ruido, no urgencia.
 
 ## 5. Voz y persona
 
-### 5.1. Segunda persona del plural peninsular, y el dato es rotundo
+### 5.1. La interpelación es constante, y su forma es «ustedes»
 
+Primero el dato, porque es rotundo y porque contradice lo que este skill hace.
 En el cuerpo del corpus, sin contar patrocinios ni cierre de canal: «sabéis» 75
 veces, «podéis» 61, «recordad» 61, «veis» 40, «atentos» 32, «vuestra» 25,
 «habéis» 24, «vosotros» 23, «tenéis» 23, «pensad» 22, «queréis» 16, «estáis»
@@ -125,23 +126,39 @@ estaréis» 10.
 Frente a eso, «ustedes» aparece dos veces en el cuerpo, y las dos en boca de un
 tercero citado. No hay una sola forma de voseo del autor.
 
-La conclusión es que la interpelación es peninsular y sostenida, no ocasional.
-Aparece en los veinte archivos. La versión anterior de este documento dejaba la
-forma concreta «al ámbito que fije la base o el usuario». La medición no
-sostiene esa neutralidad: el registro es de vosotros. Si el usuario pide una
-variante americana, se atiende como petición explícita del usuario y se
-convierte todo el texto, pero el defecto de este skill es vosotros.
+La conclusión medida es que la interpelación es peninsular y sostenida, no
+ocasional. Aparece en los veinte archivos.
 
-### 5.2. El tuteo existe y está acotado
+Y aun así no se traslada. La sección 9.1 de la base prohíbe el peninsular en
+todo texto y sin excepción por destinatario, así que la forma cambia y la
+frecuencia se conserva. Es prescripción, no retrato, y este documento lo dice en
+vez de fingir que el corpus la respalda.
+
+Regla operativa. La interpelación va en «ustedes» con verbo en tercera del
+plural, y es tan frecuente como en el original: «como saben ustedes», «recuerden
+que», «miren el dato», «fíjense en la fecha», «piensen en lo que eso implica».
+Los imperativos medidos se convierten uno a uno: «recordad» pasa a «recuerden»,
+«pensad» a «piensen», «mirad» a «miren», «fijaos» a «fíjense». Cuando el pasaje
+se dirige a un lector solo, el tratamiento es «usted».
+
+Dos versiones anteriores de este documento se equivocaron aquí en direcciones
+opuestas. La primera dejaba la forma «al ámbito que fije la base o el usuario»,
+neutralidad que la medición no sostiene. La segunda corrigió hacia el corpus y
+declaró el vosotros como defecto del skill, que es justo lo que la base prohíbe.
+El acierto no estaba en ninguno de los dos lados: está en separar la frecuencia,
+que es del modelo, de la forma, que es de la base.
+
+### 5.2. El tuteo tampoco entra, y no solo por la base
 
 En el cuerpo aparecen «suscríbete» 13 veces, «dale a la campanita» 13, «si eres
 nuevo» 13 y «te cuento» 13. Son el mismo bloque de autopromoción intercalado,
 repetido casi palabra por palabra en trece de los veinte archivos. Las demás
 apariciones de tuteo se concentran en las lecturas de patrocinio.
 
-Es decir: la prosa de análisis va en vosotros, y el tú aparece solo cuando el
-texto se dirige al oyente como cliente y no como público. En un texto escrito
-esa segunda función no existe, así que el tuteo no entra.
+Es decir: en el original el tú aparece solo cuando el texto se dirige al oyente
+como cliente y no como público. En un texto escrito esa función no existe, así
+que el tuteo no entra ni siquiera por esa puerta. La sección 9.2 de la base lo
+cierra de todos modos.
 
 ### 5.3. Primera persona
 
@@ -392,10 +409,10 @@ Se ejecuta después de la lista normativa de la base.
     enumerativas en lugar de subordinadas?
  3. ¿Se alternan tramos breves con una oración larga que ordena, sin cuatro
     largas seguidas ni una ristra de cortas fuera de un remate?
- 4. ¿La interpelación al público va en segunda persona del plural peninsular de
-    forma sostenida, y no solo una vez?
- 5. ¿Está ausente el tuteo, que en el material medido solo aparece en bloques de
-    autopromoción?
+ 4. ¿La interpelación al público va en «ustedes» de forma sostenida, y no solo
+    una vez?
+ 5. ¿Están ausentes el tuteo, que en el material medido solo aparece en bloques
+    de autopromoción, y toda forma de «vosotros»?
  6. ¿La primera oración nombra al actor, al país o al lugar y afirma algo
     comprobable sobre él, o bien plantea la pregunta que el texto responderá?
  7. ¿Se formula en voz alta la objeción que el público ya tiene, y se responde

@@ -52,14 +52,14 @@ forma y la manera de presentar la información.
 | Skill de tono | Cuándo se usa | Voz |
 |---|---|---|
 | `camus-writing` | Textos académicos, técnicos y formales: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos. Es el tono por defecto. | Impersonal, económica, oraciones breves |
-| `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, tuteo, entrada por algo concreto y glosa constante |
-| `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin tuteo |
+| `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, interpelación de usted, entrada por algo concreto y glosa constante |
+| `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin interpelación al lector |
 | `han-writing` | Diagnóstico epocal y ensayo filosófico breve, construido por oposición de conceptos. | Aforística, sin dato empírico, capítulo corto |
 | `freddy-writing` | Divulgación tecnológica y educativa que busca mover a alguien a actuar. | El mecanismo antes del juicio, cifra repartida, imperativo frecuente |
 | `dotcsv-writing` | Divulgación técnica de un mecanismo difícil para público general. | Reducción del problema a su versión mínima, entusiasmo repartido |
 | `bettatech-writing` | Fundamentos de informática y computación antes que la receta práctica. | El nombre después del fenómeno, caso de ingeniería en vez de analogía |
 | `fonseca-writing` | Actualidad internacional, geopolítica y economía a partir de un hecho reciente. | Entrada por el hecho, alternancia brusca de longitud, apodo burlón sostenido |
-| `schiavenato-writing` | Divulgación jurídica y política dirigida a una comunidad. | Segunda persona del plural con «usted» conviviendo, definición por negación, imperativo de mirar más cifra |
+| `schiavenato-writing` | Divulgación jurídica y política dirigida a una comunidad. | «Ustedes» para lo colectivo y «usted» para el caso individual, definición por negación, imperativo de mirar más cifra |
 | `medicendai-writing` | Análisis largo de una obra de ficción, recorrida en su orden. | Veredicto en el primer cuarto, juicio repartido en U, anclaje en escena recontada |
 | `sekkyoku-writing` | Análisis narrativo unidad por unidad de una obra serializada. | Posición propia frente a la obra declarada de entrada, la obra misma como prueba |
 | `kenway-writing` | Reseña crítica con sección de opinión marcada al final. | Veredicto global de entrada en esa sección, cierre en positivo, sin nota numérica |
@@ -72,8 +72,10 @@ base sola.
 Los doce tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
 un autor concreto, medida sobre un corpus de transcripciones, y cada uno declara
 en su sección de fuentes qué se midió, con qué números y qué no pudo
-verificarse. Ninguno toma la variedad dialectal de su modelo: el
-español de esta base gana siempre, y cada skill dice qué descarta y por qué.
+verificarse. Ninguno toma la variedad dialectal ni el tratamiento de su modelo:
+la sección 9.1 y la sección 9.2 ganan siempre, aunque el corpus medido diga otra
+cosa, y cada skill dice qué descarta y por qué. Varios de estos autores tutean a
+su público y algunos son peninsulares. Eso se mide y se documenta, no se imita.
 
 `humanizar-espanol` no es una skill de tono. Es una pasada que se ejecuta
 después, sobre un texto ya redactado, y solo cuando el usuario la pide de forma
@@ -402,7 +404,57 @@ Separador decimal: coma. En Colombia: 3,14.
 Referencia: Ortografía (RAE y ASALE, 2010), cap. VIII.
 
 
-## 9. Construcciones impersonales
+## 9. Variedad, tratamiento y construcciones impersonales
+
+### 9.1. Variedad del español: americana, nunca peninsular
+
+Todo texto se escribe en español americano. Queda prohibida la segunda persona
+del plural peninsular en cualquiera de sus formas, sin excepción y sin importar
+el destinatario:
+
+El pronombre «vosotros» y «vosotras». Los posesivos «vuestro», «vuestra»,
+«vuestros» y «vuestras». El pronombre átono «os». Las formas verbales en «áis»,
+«éis» e «ís» de segunda del plural: «podéis», «tenéis», «sabéis», «habéis»,
+«sois», «estáis», «queréis», «hacéis», «vais», «veis». El imperativo de segunda
+del plural: «mirad», «fijaos», «apoyadlo», «dadle», «escribidme».
+
+En su lugar va siempre «ustedes» con verbo en tercera del plural: «pueden»,
+«tienen», «saben», «han», «son», «están», «quieren», «hacen», «van», «ven».
+El imperativo correspondiente es «miren», «fíjense», «apóyenlo», «denle»,
+«escríbanme».
+
+También se descarta el léxico marcadamente peninsular cuando existe una forma
+panhispánica: «vale» como muletilla de asentimiento, «coger» con el sentido de
+«tomar», «ordenador» por «computador», «móvil» por «celular», «tío» como
+vocativo, «guay», «currar», «flipar», «chaval».
+
+Esta regla no admite excepción por destinatario. Un texto dirigido a España se
+escribe igual: el español americano se entiende en toda la lengua, y la
+alternativa reabre la puerta que esta base cierra.
+
+### 9.2. Tratamiento al lector: «usted» y «ustedes»
+
+Cuando el texto se dirige al lector, el tratamiento es «usted» en singular y
+«ustedes» en plural, con el verbo en tercera persona. Quedan prohibidos el tuteo
+y el voseo: «tú», «ti», «contigo», «tuyo», «tienes», «puedes», «sabes»,
+«fíjate», y también «vos», «sos», «tenés», «podés», «sabés», «fijate»,
+«acordate».
+
+Un texto que no interpela al lector cumple esta regla por omisión. La regla no
+obliga a dirigirse a nadie: obliga a que, si el texto se dirige a alguien, lo
+haga de usted.
+
+Esta es la forma cortés y neutra de la lengua, la que funciona en todos los
+países del ámbito hispanohablante sin arrastrar una marca regional. El tuteo
+reparte lectores según la costumbre de cada país y el voseo los reparte todavía
+más. El «usted» no reparte a nadie.
+
+Una skill de tono puede restringir esto todavía más, por ejemplo prohibiendo
+toda interpelación directa y escribiendo en impersonal. Ninguna puede
+sustituirlo por tuteo ni por voseo. Si una skill de tono parece autorizarlo,
+gana esta prohibición y esa skill tiene un defecto, según la sección 3.1.
+
+### 9.3. Construcciones impersonales
 
 El español dispone de tres construcciones para eliminar el agente. Su forma es
 normativa y se describe aquí. Cuál de ellas domina el texto, o si el texto
@@ -620,6 +672,8 @@ añade las suyas.
 19. ¿No hay emojis ni hashtags?
 20. ¿Los encabezados usan mayúscula solo en la primera palabra y en los
     nombres propios?
+21. ¿No hay formas de «vosotros» ni léxico peninsular?
+22. ¿El tratamiento al lector es «usted» o «ustedes», sin tuteo ni voseo?
 
 
 ## 15. Fuentes normativas de referencia

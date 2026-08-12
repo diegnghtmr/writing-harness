@@ -196,6 +196,101 @@ export type Tone = {
   rules: Rule[];
 };
 
+// Marcas de tuteo y voseo. Se listan solo las inequívocas: «te» y «tu» quedan
+// fuera porque aparecen en usos que no son interpelación directa.
+//
+// El voseo entra junto al tuteo. Las skills hablaban de «tutear», pero el ítem
+// que esta lista hace cumplir pide «usted», y el voseo tampoco lo es. Dejarlo
+// pasar habría abierto un agujero del tamaño de media Latinoamérica.
+const MARCAS_DE_SEGUNDA_PERSONA = [
+  // Tuteo
+  'tú',
+  'ti',
+  'contigo',
+  'tuyo',
+  'tuya',
+  'tuyos',
+  'tuyas',
+  'tienes',
+  'puedes',
+  'sabes',
+  'quieres',
+  'debes',
+  'haces',
+  'piensas',
+  'fíjate',
+  'acuérdate',
+  // Voseo
+  'vos',
+  'sos',
+  'tenés',
+  'podés',
+  'sabés',
+  'querés',
+  'debés',
+  'hacés',
+  'pensás',
+  'decís',
+  'venís',
+  'fijate',
+  'acordate',
+];
+
+// Segunda persona del plural peninsular. Pronombre, posesivo y morfología
+// verbal. El átono «os» no entra en esta lista: como palabra suelta es
+// ambigua en textos que citan latín o siglas, y va aparte con su propio
+// contexto.
+const MARCAS_PENINSULARES = [
+  'vosotros',
+  'vosotras',
+  'vuestro',
+  'vuestra',
+  'vuestros',
+  'vuestras',
+  'habéis',
+  'tenéis',
+  'sois',
+  'podéis',
+  'queréis',
+  'hacéis',
+  'estáis',
+  'sabéis',
+  'veis',
+  'vais',
+  // «venís» y «decís» son a la vez plural peninsular y voseo. Los cubre
+  // `tratamiento-de-usted`, que los nombra por lo que son en América.
+  'estabais',
+  'teníais',
+  'podíais',
+  'seríais',
+  'tendréis',
+  'podréis',
+  'seréis',
+  'habréis',
+  'hagáis',
+  'tengáis',
+  'seáis',
+  'podáis',
+  'sepáis',
+  'queráis',
+  'os lo',
+  'os la',
+  'os he',
+  'os han',
+  'os voy',
+  'os dejo',
+  'os cuento',
+  'os digo',
+  'os pido',
+  'os quiero',
+  'os invito',
+  'os recuerdo',
+  'os parece',
+  'os gusta',
+  'os haya',
+  'se os',
+];
+
 // ---------------------------------------------------------------------------
 // Capa base: rige siempre, con cualquier tono.
 // ---------------------------------------------------------------------------
@@ -539,51 +634,132 @@ export const BASE_RULES: Rule[] = [
       { skill: 'humanizar-espanol', item: 'Emojis' },
     ],
   },
+  {
+    id: 'espanol-peninsular',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // Vivió un tiempo dentro de `catedra`, que era la única skill que lo
+    // declaraba. Subió a la base cuando el §9.1 lo convirtió en norma de toda
+    // la lengua, y desde entonces reclama los dos ítems.
+    //
+    // Solo entra la morfología, que no admite duda. El léxico del §9.1
+    // («vale», «coger», «tío») queda fuera a propósito: «coger» es corriente
+    // en varios países americanos, «vale» tiene usos que no son muletilla y
+    // «tío» es un pariente antes que un vocativo. Marcarlos produciría el
+    // falso positivo que hace que se deje de leer la salida.
+    pattern: frases(MARCAS_PENINSULARES),
+    message: 'Segunda persona del plural peninsular. El español de esta base es americano.',
+    fix: 'Pasar a «ustedes» con verbo en tercera del plural: «pueden», «tienen», «son», «están». El imperativo es «miren», «fíjense», «denle».',
+    source: 'spanish-writing §9.1',
+    // Seis skills lo declaran además de la base, porque seis modelos medidos
+    // eran peninsulares o mezclaban. Todas describen la misma prohibición y una
+    // sola regla las reclama: es lo que prueba que hay una casa y no seis.
+    checklist: [
+      { skill: 'spanish-writing', item: '¿No hay formas de «vosotros» ni léxico peninsular?' },
+      {
+        skill: 'catedra-writing',
+        item: '¿No se usa español peninsular (sin «vosotros», sin «coger» con sentido de «tomar», sin «vale» como muletilla)?',
+      },
+      {
+        skill: 'bettatech-writing',
+        item: '¿La interpelación al lector es sostenida y de usted, sin tuteo, sin «vos» y sin ninguna forma de «vosotros»?',
+      },
+      {
+        skill: 'dotcsv-writing',
+        item: '¿Se evitan el «vosotros» y el léxico peninsular, sin excepción, y el lector queda tratado de usted?',
+      },
+      {
+        skill: 'fonseca-writing',
+        item: '¿Están ausentes el tuteo, que en el material medido solo aparece en bloques de autopromoción, y toda forma de «vosotros»?',
+      },
+      {
+        skill: 'kenway-writing',
+        item: '¿El lector queda tratado de usted, sin tuteo y sin ninguna forma de vosotros?',
+      },
+      {
+        skill: 'sekkyoku-writing',
+        item: '¿Se interpela al lector de usted, sin tuteo y sin ninguna forma de segunda persona del plural peninsular?',
+      },
+      {
+        skill: 'schiavenato-writing',
+        item: '¿Queda descartado el tuteo al público y también el «vosotros»?',
+      },
+    ],
+  },
+  {
+    id: 'tratamiento-de-usted',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // Antes eran dos reglas de tono, `camus-sin-tuteo` y `catedra-sin-tuteo`,
+    // porque solo esos dos tonos renunciaban a interpelar. Al volverse norma
+    // de la base, una sola regla las sustituye y reclama los tres ítems. Tres
+    // reglas idénticas habrían marcado tres veces cada «tú».
+    pattern: frases(MARCAS_DE_SEGUNDA_PERSONA),
+    message: 'Tuteo o voseo. El tratamiento al lector es «usted» o «ustedes».',
+    fix: 'Pasar a «usted» con verbo en tercera del singular, o suprimir la interpelación y escribir en impersonal.',
+    source: 'spanish-writing §9.2',
+    // Diez skills declaran el tratamiento. Ninguna lo declara igual, porque
+    // cada modelo medido trataba a su público a su manera, y todas terminan en
+    // la misma prohibición. La regla cubre la mitad prohibitiva de cada ítem;
+    // la mitad que pide sostener la interpelación es criterio y no la cubre
+    // nadie, igual que pasaba cuando esto vivía dentro de camus.
+    checklist: [
+      {
+        skill: 'spanish-writing',
+        item: '¿El tratamiento al lector es «usted» o «ustedes», sin tuteo ni voseo?',
+      },
+      {
+        skill: 'camus-writing',
+        item: '¿Se usa tercera persona o primera del plural, sin tutear al lector?',
+      },
+      { skill: 'catedra-writing', item: '¿Se usa «nosotros» inclusivo y no «tú»?' },
+      {
+        skill: 'atenas-writing',
+        item: '¿El público recibe tratamiento de «ustedes», sin alternar con el tuteo ni con el vos?',
+      },
+      {
+        skill: 'atenas-writing',
+        item: '¿La generalización va con «uno» y no queda ninguna marca de «tú», ni siquiera impersonal?',
+      },
+      {
+        skill: 'bettatech-writing',
+        item: '¿La interpelación al lector es sostenida y de usted, sin tuteo, sin «vos» y sin ninguna forma de «vosotros»?',
+      },
+      {
+        skill: 'dotcsv-writing',
+        item: '¿Se evitan el «vosotros» y el léxico peninsular, sin excepción, y el lector queda tratado de usted?',
+      },
+      {
+        skill: 'fonseca-writing',
+        item: '¿Están ausentes el tuteo, que en el material medido solo aparece en bloques de autopromoción, y toda forma de «vosotros»?',
+      },
+      {
+        skill: 'freddy-writing',
+        item: '¿El tratamiento es «usted» o «ustedes», y el elegido se sostiene en todo el texto?',
+      },
+      {
+        skill: 'kenway-writing',
+        item: '¿El lector queda tratado de usted, sin tuteo y sin ninguna forma de vosotros?',
+      },
+      {
+        skill: 'sekkyoku-writing',
+        item: '¿Se interpela al lector de usted, sin tuteo y sin ninguna forma de segunda persona del plural peninsular?',
+      },
+      {
+        skill: 'schiavenato-writing',
+        item: '¿Queda descartado el tuteo al público y también el «vosotros»?',
+      },
+      {
+        skill: 'dotcsv-writing',
+        item: '¿Se reserva la primera persona del plural para el recorrido y el trato de usted para el lector?',
+      },
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------
 // Capa de tono: se elige exactamente una.
 // ---------------------------------------------------------------------------
-
-// Marcas de segunda persona del singular. Se listan solo las inequívocas: «te»
-// y «tu» quedan fuera porque aparecen en usos que no son interpelación directa.
-//
-// El voseo entra junto al tuteo. Las skills hablan de «tutear», pero el ítem que
-// esta regla hace cumplir pide tercera persona o primera del plural, y el voseo
-// no es ninguna de las dos. Dejarlo pasar habría abierto un agujero del tamaño
-// de media Latinoamérica.
-const MARCAS_DE_SEGUNDA_PERSONA = [
-  // Tuteo
-  'tú',
-  'ti',
-  'contigo',
-  'tuyo',
-  'tuya',
-  'tuyos',
-  'tuyas',
-  'tienes',
-  'puedes',
-  'sabes',
-  'quieres',
-  'debes',
-  'haces',
-  'piensas',
-  'fíjate',
-  'acuérdate',
-  // Voseo
-  'vos',
-  'sos',
-  'tenés',
-  'podés',
-  'sabés',
-  'querés',
-  'debés',
-  'hacés',
-  'pensás',
-  'decís',
-  'fijate',
-  'acordate',
-];
 
 /** El mismo criterio para los dos tonos que piden variar la longitud. */
 function variaLongitud(id: string, skill: string, item: string, seccion: string): Rule {
@@ -597,20 +773,6 @@ function variaLongitud(id: string, skill: string, item: string, seccion: string)
     message: 'Las oraciones están igualadas: falta contraste entre breves y largas.',
     fix: 'Alternar de verdad. Una oración de seis a diez palabras junto a otra de veinticinco o más, no todas en la misma banda.',
     source: `${skill} ${seccion}`,
-    checklist: [{ skill, item }],
-  };
-}
-
-/** El mismo criterio para los dos tonos que no interpelan al lector. */
-function sinTuteo(id: string, skill: string, item: string): Rule {
-  return {
-    id,
-    kind: 'forbidden-pattern',
-    severity: 'error',
-    pattern: frases(MARCAS_DE_SEGUNDA_PERSONA),
-    message: 'Este tono no interpela al lector en segunda persona del singular.',
-    fix: 'Pasar a tercera persona o a primera del plural inclusiva.',
-    source: `${skill} §4.1`,
     checklist: [{ skill, item }],
   };
 }
@@ -662,11 +824,6 @@ export const TONES: Record<string, Tone> = {
           { skill: 'camus-writing', item: '¿Los párrafos tienen entre 50 y 150 palabras?' },
         ],
       },
-      sinTuteo(
-        'camus-sin-tuteo',
-        'camus-writing',
-        '¿Se usa tercera persona o primera del plural, sin tutear al lector?',
-      ),
       variaLongitud(
         'camus-varia-longitud',
         'camus-writing',
@@ -682,17 +839,44 @@ export const TONES: Record<string, Tone> = {
       // Fonda es el único tono que se define por lo que exige y no por lo que
       // prohíbe. Sin `must-contain` sus tres ítems eran incomprobables.
       {
-        id: 'fonda-tutea',
+        id: 'fonda-interpela',
         kind: 'must-contain',
         severity: 'warning',
-        pattern: frases(MARCAS_DE_SEGUNDA_PERSONA),
+        // El corpus de este modelo tutea, y hasta la sección 9.2 de la base
+        // esta regla exigía tuteo. Lo que se conserva es la interpelación
+        // sostenida, que es el rasgo del tono; lo que cambia es la forma, que
+        // es de la base. Los imperativos de tercera admiten lectura de
+        // subjuntivo subordinado, y eso solo produce falsos presentes: una
+        // regla `must-contain` que se equivoca de más deja de avisar, no avisa
+        // de más.
+        pattern: frases([
+          'usted',
+          'ustedes',
+          'fíjese',
+          'fíjense',
+          'piense',
+          'piensen',
+          'imagine',
+          'imaginen',
+          'observe',
+          'observen',
+          'considere',
+          'consideren',
+          'pregúntese',
+          'pregúntense',
+          'recuerde',
+          'recuerden',
+        ]),
         minDistinct: 2,
         minSentences: 6,
-        message: 'El texto no tutea al lector, y este tono se dirige a él.',
-        fix: 'Interpelar al lector de forma sostenida, no una vez y nunca más.',
+        message: 'El texto no interpela al lector, y este tono se dirige a él.',
+        fix: 'Interpelar de usted y de forma sostenida, no una vez y nunca más: «fíjese en», «piense en», «como usted sabe».',
         source: 'fonda-writing §4.1',
         checklist: [
-          { skill: 'fonda-writing', item: '¿Se tutea al lector, con paso al plural solo al dirigirse al público?' },
+          {
+            skill: 'fonda-writing',
+            item: '¿Se interpela al lector de usted, con paso a «ustedes» solo al dirigirse al público?',
+          },
         ],
       },
       {
@@ -733,39 +917,6 @@ export const TONES: Record<string, Tone> = {
     id: 'catedra',
     skill: 'catedra-writing',
     rules: [
-      sinTuteo('catedra-sin-tuteo', 'catedra-writing', '¿Se usa «nosotros» inclusivo y no «tú»?'),
-      {
-        id: 'espanol-peninsular',
-        kind: 'forbidden-pattern',
-        severity: 'error',
-        // El ítem 16 nombra también «coger» y «vale». Quedan fuera: «coger» es
-        // corriente en varios países americanos y «vale» tiene usos que no son
-        // muletilla. Solo entran las formas de «vosotros», que no admiten duda.
-        pattern: frases([
-          'vosotros',
-          'vosotras',
-          'vuestro',
-          'vuestra',
-          'vuestros',
-          'vuestras',
-          'habéis',
-          'tenéis',
-          'sois',
-          'podéis',
-          'queréis',
-          'hacéis',
-          'estáis',
-        ]),
-        message: 'Español peninsular en un texto latinoamericano.',
-        fix: 'Usar «ustedes» y sus formas: «tienen», «son», «pueden», «están».',
-        source: 'catedra-writing §12',
-        checklist: [
-          {
-            skill: 'catedra-writing',
-            item: '¿No se usa español peninsular (sin «vosotros», sin «coger» con sentido de «tomar», sin «vale» como muletilla)?',
-          },
-        ],
-      },
       {
         id: 'coloquialismos',
         kind: 'forbidden-pattern',

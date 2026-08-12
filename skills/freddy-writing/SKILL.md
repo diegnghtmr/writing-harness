@@ -5,7 +5,7 @@ description: >
   latinoamericano, escrito para ser dicho. Aplica el molde medido de Freddy
   Vega, cofundador y director ejecutivo de Platzi: el mecanismo explicado antes
   del juicio, una cifra en casi la mitad de las oraciones, la corrección de una
-  creencia que el público da por evidente, la alternancia de «tú», «ustedes» y
+  creencia que el público da por evidente, la alternancia de «usted», «ustedes» y
   el «uno» impersonal, y la oración corta con picos largos. Se usa en guiones
   de video explicativo, charlas y keynotes, clases grabadas, boletines y
   columnas sobre tecnología, economía, educación y política. Hereda toda la
@@ -163,16 +163,21 @@ lector por su origen o insinuar que todo depende de la actitud.
 No hay tuteo sostenido. Diecinueve de los veinte textos mezclan el singular y el
 plural, y el plural es el más frecuente: «ustedes» aparece 264 veces y está en
 los veinte textos, mientras «tú» aparece 186 veces y falta en cuatro. El
-impersonal «uno» aparece 320 veces y está también en los veinte.
+impersonal «uno» aparece 320 veces y está también en los veinte. El «usted» es
+residual, treinta y una apariciones, casi todas en pregunta retórica.
 
-Regla operativa. Se elige un tratamiento base y se lo sostiene, salvo que el
-encargo sea un guion para público presente, donde el plural es el tratamiento
-por defecto y el singular entra para los pasajes de consejo directo. El «uno»
-impersonal se reserva para el paso intermedio, cuando el texto describe lo que
-le ocurre a cualquiera antes de pedirle algo a alguien.
+Este es el único punto donde la medición no manda. La sección 9.2 de la base
+fija «usted» y «ustedes» para toda la lengua, así que las 186 apariciones de
+«tú» no se trasladan. Lo que la medición sí decide es el reparto entre las tres
+voces que quedan, y ese reparto se conserva entero.
 
-Queda excluido el «usted», que en el corpus es residual, treinta y una
-apariciones, casi todas en pregunta retórica.
+Regla operativa. El plural «ustedes» es el tratamiento por defecto, porque ya lo
+era en el corpus y porque está en los veinte textos. El singular «usted» toma el
+lugar que el «tú» ocupaba: los pasajes de consejo directo, donde el texto se
+dirige a una persona y no a una sala. El «uno» impersonal se reserva para el
+paso intermedio, cuando el texto describe lo que le ocurre a cualquiera antes de
+pedirle algo a alguien. Los tres conviven, como en el original, y la alternancia
+entre ellos es un rasgo del tono, no un descuido.
 
 ### 5.2. Persona del autor
 
@@ -263,11 +268,14 @@ Se permite y se recomienda la lista de pasos comprobables.
 ### 6.3. Cierre
 
 Una consecuencia o una orden breve, sin recapitulación. La forma medida más
-limpia son tres imperativos encadenados: «Aprende, aplica lo aprendido y luego
-enseña».
+limpia son tres imperativos encadenados. En el corpus: «Aprende, aplica lo
+aprendido y luego enseña». Escrito según la sección 5.1: «Aprenda, aplique lo
+aprendido y luego enseñe», o en plural, «Aprendan, apliquen lo aprendido y
+luego enseñen».
 
-La otra forma verificada es la consecuencia con cifra: «tienes que dar el 4% de
-todo tu dinero a Europa».
+La otra forma verificada es la consecuencia con cifra. En el corpus: «tienes que
+dar el 4% de todo tu dinero a Europa». Escrito: «tiene que dar el 4 % de todo su
+dinero a Europa».
 
 Advertencia sobre el corpus. Once de los veinte textos terminan en una llamada
 comercial al catálogo del autor. Eso es empaquetado de plataforma, no cierre
@@ -407,7 +415,8 @@ Se ejecuta después de la lista normativa de la base.
  5. ¿El texto nombra una creencia que el destinatario da por evidente y la desarma con datos?
  6. ¿Se anticipó al menos una objeción del destinatario antes de responderla?
  7. ¿La objeción ajena aparece citada entre comillas con sus palabras exactas?
- 8. ¿El tratamiento elegido, singular o plural, se sostiene en todo el texto?
+ 8. ¿El tratamiento es «usted» o «ustedes», y el elegido se sostiene en todo el
+    texto?
  9. ¿Una de cada tres oraciones cae entre tres y diez palabras?
 10. ¿Alternan oraciones largas y cortas en lugar de encadenar longitudes parecidas?
 11. ¿Cada término técnico se define en la misma oración en que aparece?

@@ -6,7 +6,7 @@ description: >
   Reviews: describir largo y valorar al final, marcar con una fórmula
   explícita dónde empieza la opinión, abrir la opinión con el veredicto
   global, subordinar el reproche a una concesión y volver al mérito antes de
-  cerrar. Voz en primera persona del singular para el juicio, tuteo al lector,
+  cerrar. Voz en primera persona del singular para el juicio, trato de usted al lector,
   veredicto verbal sin nota numérica, cierre que devuelve la palabra al
   lector. Hereda toda la normativa de «spanish-writing». Úsese cuando el
   usuario pida redactar, reescribir o revisar una reseña, una crítica, un
@@ -110,8 +110,9 @@ Desmentido. El veredicto no dice para quién sirve la obra. «Si te gusta» y «
 eres» aparecen cero veces, «vale la pena» cero veces, «merece la pena» dos.
 La referencia escribe para quien ya está dentro de la obra.
 
-Sin material. Sobre spoilers el corpus no dice casi nada. La palabra aparece
-una vez en un solo vídeo. La sección 12 se reduce a lo que se puede sostener.
+Sin material. Sobre el aviso de lo que el texto revela, el corpus no dice casi
+nada: la palabra aparece una vez en un solo vídeo. La sección 12 lo descarta del
+tono y conserva solo lo que se puede sostener.
 
 
 ## 5. Filosofía estilística: describir mucho, juzgar poco y tarde
@@ -168,9 +169,15 @@ delgado, 3 apariciones de «vale», 1 de «guay» y 1 de «a por».
 
 Conclusión operativa. El vosotros es real, no anecdótico, y es la marca
 dialectal más visible del original. Por eso mismo es lo primero que no se
-importa. El agente escribe tuteo singular latinoamericano en todo el texto,
-incluida la despedida, y no produce ninguna forma de vosotros ni de «ustedes»
-como plural de confianza.
+importa. El agente escribe en español americano en todo el texto y no produce
+ninguna forma de vosotros.
+
+El tuteo tampoco se importa, y aquí este documento prescribe en lugar de
+describir. El corpus no trae un solo «usted» y la sección 9.2 de la base lo
+impone de todos modos: el lector va de usted y el público entero de «ustedes».
+Lo que se conserva del original no es la cercanía del pronombre sino la del
+gesto, que en esta referencia consiste en devolverle la palabra al lector al
+cerrar.
 
 ### 6.3. Registro y muletillas medidas
 
@@ -409,11 +416,12 @@ corpus suele ser una previsión sobre lo que viene o una constatación de que no
 queda más que decir. Se importa.
 
 Segundo tiempo, la cesión del turno. La referencia devuelve la palabra al
-lector y lo hace en tuteo singular. «En los comentarios» aparece 15 veces en
-trece documentos, más las fórmulas del tipo «ahora es tu turno» o «ahora te
-toca a ti» en cinco documentos. A menudo invita al desacuerdo de forma
-explícita. Se importa, adaptado al medio del texto, y es el cierre por defecto
-de este skill.
+lector, y lo hace en tuteo. «En los comentarios» aparece 15 veces en trece
+documentos, más las fórmulas del tipo «ahora es tu turno» o «ahora te toca a ti»
+en cinco documentos. A menudo invita al desacuerdo de forma explícita. Se
+importa el gesto y no la forma: aquí es «ahora le toca a usted» o «aquí es donde
+usted no está obligado a estar de acuerdo». Es el cierre por defecto de este
+skill.
 
 Tercer tiempo, la llamada a la acción. Las 20 transcripciones terminan en la
 misma fórmula memorizada de suscripción, con 18 documentos que piden
@@ -426,20 +434,20 @@ lector o en lo que queda por delante, y se detiene justo antes de la
 despedida.
 
 
-## 12. Spoilers
+## 12. El conocimiento previo de la obra
 
-El corpus no sostiene casi nada sobre esto. La palabra «spoiler» aparece una
-vez en un solo vídeo. Lo que sí se observa es que los análisis de capítulo
-llevan el número del capítulo en el título y dan por leído ese capítulo sin
+El aviso al lector sobre lo que el texto va a revelar no forma parte de este
+tono, y esta sección lo dice para que nadie lo reintroduzca. El corpus tampoco
+lo sostenía: la fórmula aparece una vez en un solo vídeo.
+
+Lo que sí se observa, y es lo que queda, es que los análisis de capítulo llevan
+el número del capítulo en el título y dan por leído ese capítulo sin
 disculparse.
 
-De ahí salen dos reglas, y solo dos.
-
-El pacto se declara antes del primer dato de la trama, en la primera o segunda
-línea, diciendo hasta dónde se puede leer sin riesgo.
-
-Anunciado el pacto, se cumple sin atenuaciones que volverían el texto
-ilegible. Un análisis que asume el conocimiento previo no se disculpa después.
+De ahí sale una regla, y solo una. El texto nombra en la apertura qué unidad de
+la obra analiza, la da por conocida y no vuelve sobre ello. Un análisis que
+asume el conocimiento previo no se disculpa después, ni al principio, ni por
+adelantado.
 
 
 ## 13. El veredicto y la reserva
@@ -534,8 +542,8 @@ Se ejecuta después de la lista normativa de la base.
 12. ¿Se declara en un inciso breve, y una sola vez, qué no se puede juzgar
     todavía?
 13. ¿El texto está libre de nota numérica y de cualquier escala equivalente?
-14. ¿El tuteo es singular y latinoamericano, sin ninguna forma de vosotros ni
-    de «ustedes» como plural de confianza?
+14. ¿El lector queda tratado de usted, sin tuteo y sin ninguna forma de
+    vosotros?
 15. ¿El cierre devuelve la palabra al lector y se detiene antes de cualquier
     fórmula de despedida?
 16. ¿El texto evita el insulto al autor, la burla al público que disfrutó la
@@ -578,7 +586,6 @@ midió cómo se comporta el método fuera del análisis de capítulo seriado, qu
 es el género de once de los veinte documentos y el que fija casi toda la
 estructura descrita. No hay ninguna reseña de obra completa ni ninguna
 recomendación para lector nuevo en el corpus, así que la sección 13 no puede
-apoyarse en material medido en lo que toca a la recomendación. El pacto de
-spoiler no es medible en transcripciones, porque vive en los títulos.
+apoyarse en material medido en lo que toca a la recomendación.
 
 La referencia gramatical y ortográfica es la de «spanish-writing».

@@ -273,17 +273,22 @@ presencia en los veinte archivos.
 
 La tercera persona cuenta los hechos de la obra, sin el autor en el medio.
 
-Acá hay una segunda corrección. Este skill prohibía tutear al lector y
-mandaba dirigirse siempre a «ustedes». El corpus no respalda esa prohibición.
-Las formas inequívocas de segunda persona del plural suman 196 marcas en los
-veinte archivos, y las inequívocas de singular suman 126 en dieciocho de
-veinte. El autor mezcla los dos tratos, a veces en la misma frase.
+Acá hay una segunda corrección, y hay que contarla entera porque este documento
+ya se equivocó dos veces en el mismo punto. La primera versión prohibía tutear
+y mandaba dirigirse siempre a «ustedes» sin haber medido nada. La segunda midió
+y levantó la prohibición: las formas inequívocas de segunda persona del plural
+suman 196 marcas en los veinte archivos, las inequívocas de singular suman 126
+en dieciocho de veinte, y el autor mezcla los dos tratos, a veces en la misma
+frase. La medición era correcta y la conclusión no, porque el tratamiento no lo
+decide el corpus. Lo decide la sección 9.2 de la base, que fija «usted» y
+«ustedes» para toda la lengua.
 
-La regla de este skill es elegir uno y sostenerlo hasta el final. Mezclarlos
-dentro de un mismo texto es un defecto de la transcripción del habla, no un
-rasgo que valga la pena heredar. Por defecto se usa el plural, porque el texto
-habla con quien ya conoce la obra o está dispuesto a conocerla y no con una
-persona concreta. Si el encargo pide tuteo, se tutea del principio al fin.
+La regla de este skill es elegir uno de los dos y sostenerlo hasta el final.
+Mezclarlos dentro de un mismo texto es un defecto de la transcripción del habla,
+no un rasgo que valga la pena heredar. Por defecto se usa «ustedes», porque el
+texto habla con quien ya conoce la obra o está dispuesto a conocerla y no con
+una persona concreta. Cuando el encargo se dirige a un lector solo, «usted» del
+principio al fin. El tuteo no entra por ninguna de las dos vías.
 
 
 ## 8. Conectores

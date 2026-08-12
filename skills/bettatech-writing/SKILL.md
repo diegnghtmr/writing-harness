@@ -7,7 +7,7 @@ description: >
   de la herramienta a lo que hay por debajo: apertura que corrige una creencia
   extendida, caso hipotético dentro del propio dominio técnico como recurso
   principal, nombre del concepto entregado después de describirlo, y cierre que
-  remite al paso siguiente. Tuteo sostenido, ejemplo abundante y analogía
+  remite al paso siguiente. Interpelación de usted sostenida, ejemplo abundante y analogía
   escasa. Hereda toda la normativa de «spanish-writing». Úsese cuando el
   usuario pida redactar, reescribir o revisar guiones de vídeo técnico,
   artículos o hilos de divulgación sobre programación, material de curso de
@@ -106,10 +106,16 @@ está escrita en tú.
 
 De ahí la decisión, que ahora tiene respaldo y no es una preferencia. Se toma
 su arquitectura explicativa y no se toma su variedad. El texto se escribe en el
-español neutro que fija la base, sin «vosotros», sin sus formas verbales y sin
-léxico coloquial peninsular. Esto no le quita nada al modelo, porque la capa
-que se importa nunca estuvo en plural. Si el usuario pide español peninsular de
-forma explícita, se le da, y entonces esta sección cede ante esa petición.
+español americano que fija la base, sin «vosotros», sin sus formas verbales y
+sin léxico coloquial peninsular. Esto no le quita nada al modelo, porque la
+capa que se importa nunca estuvo en plural. La regla no cede ante ninguna
+petición de destinatario: la sección 9.1 de la base cerró esa puerta.
+
+El tratamiento sí cambia respecto del modelo, y conviene decirlo sin adornos.
+El corpus tutea en los veinte textos y no trae ni un «usted». La sección 9.2 de
+la base impone «usted», y esta skill la obedece. Es prescripción, no retrato.
+Lo que se conserva del modelo no es el pronombre sino la relación que el
+pronombre sostenía: alguien que explica a alguien, de frente, sin tribuna.
 
 
 ## 5. La arquitectura del texto
@@ -117,7 +123,7 @@ forma explícita, se le da, y entonces esta sección cede ante esa petición.
 ### 5.1. Apertura
 
 Ninguno de los veinte textos abre con una definición. Trece de veinte meten la
-segunda persona en las primeras cuarenta palabras. Siete de veinte abren
+interpelación al lector en las primeras cuarenta palabras. Siete de veinte abren
 enunciando una creencia extendida para desmontarla acto seguido, que es el
 patrón más reconocible del corpus. Solo dos saludan, y son los mismos dos
 textos que concentran el plural peninsular.
@@ -232,8 +238,10 @@ la primera forma.
 
 ## 8. Voz
 
-El tuteo es sostenido y no admite alternancia, con 1.626 marcas repartidas por
-los veinte textos.
+La interpelación al lector es sostenida y no admite alternancia. El corpus la
+sostiene con 1.626 marcas de tuteo repartidas por los veinte textos. El texto
+escrito la sostiene con la misma frecuencia, pero de usted, según la sección 4.
+Lo que no se admite es empezar de usted y terminar en impersonal, ni al revés.
 
 La primera persona del singular está presente y es abundante: «yo» aparece 181
 veces en diecinueve textos, «para mí» 45 en catorce, «creo que» 27 en once. Se
@@ -348,21 +356,21 @@ Se ejecuta después de la lista normativa de la base.
 
  1. ¿La apertura enuncia una creencia extendida y la contradice antes de la
     tercera oración, en lugar de definir o de anunciar el plan?
- 2. ¿La segunda persona aparece dentro de las primeras cuarenta palabras?
+ 2. ¿La interpelación al lector aparece dentro de las primeras cuarenta palabras?
  3. ¿Cada nombre propio de la técnica llega después de describir el fenómeno
     que designa, y no antes?
  4. ¿El texto explica cómo funciona algo por debajo, y no qué pasos seguir?
  5. ¿Cada unidad del desarrollo termina en una consecuencia marcada, del tipo
     «por lo tanto» o «es por ello que»?
  6. ¿El recurso principal es el caso hipotético dentro del propio dominio
-    técnico, planteado en segunda persona y con cantidades concretas?
+    técnico, planteado con el lector dentro y con cantidades concretas?
  7. ¿Las analogías de dominio ajeno se limitan a una por texto, tomada de la
     casa, la cocina, el transporte o el trabajo, y no de otro concepto técnico?
  8. ¿La analogía que se usa se sostiene y se retoma, en lugar de mencionarse y
     abandonarse?
  9. ¿Hay al menos una pregunta directa al lector por cada quinientas palabras?
-10. ¿El tuteo es sostenido, sin «usted», sin «vos» y sin ninguna forma de
-    «vosotros»?
+10. ¿La interpelación al lector es sostenida y de usted, sin tuteo, sin «vos» y
+    sin ninguna forma de «vosotros»?
 11. ¿La primera persona del singular marca juicio o experiencia propia, y queda
     distinguida del hecho técnico?
 12. ¿La media de palabras por oración queda entre 20 y 26, con un cuarto del

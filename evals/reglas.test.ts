@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { check, rulesFor } from '../src/check.ts';
-import { allRules } from '../src/rules.ts';
+import { TONE_IDS, allRules } from '../src/rules.ts';
 import { REPO_ROOT } from '../src/skills.ts';
 import { countWords, splitParagraphs, splitSentences } from '../src/text.ts';
 
@@ -68,7 +68,65 @@ describe('capa base', () => {
   });
 
   test('la capa base corre sin elegir tono', () => {
-    assert.equal(rulesFor().length, 18);
+    assert.equal(rulesFor().length, 20);
+  });
+
+  test('el español peninsular se marca sin elegir tono y en todos los tonos', () => {
+    // Vivió dentro de catedra hasta que el §9.1 lo hizo norma de la lengua.
+    // Que se marque con `fonda`, cuyo modelo medido tutea y es americano, es
+    // lo que prueba que subió de capa y no se quedó donde estaba.
+    const t = 'Como podéis ver, vosotros tenéis la razón en este punto del análisis.';
+    assert.ok(check(t).some((x) => x.rule === 'espanol-peninsular'));
+    for (const tone of TONE_IDS) {
+      assert.ok(
+        check(t, { tone }).some((x) => x.rule === 'espanol-peninsular'),
+        `el tono ${tone} dejó pasar el peninsular`,
+      );
+    }
+  });
+
+  test('el átono «os» se marca por contexto y no como palabra suelta', () => {
+    assert.ok(check('Os dejo el enlace del informe.').some((x) => x.rule === 'espanol-peninsular'));
+    // Sin la lista de contextos, esta línea marcaría dos veces.
+    assert.deepEqual(
+      check('El sistema operativo OS corre sobre el kernel.').filter(
+        (x) => x.rule === 'espanol-peninsular',
+      ),
+      [],
+    );
+  });
+
+  test('el tuteo y el voseo se marcan sin elegir tono y en todos los tonos', () => {
+    const tuteo = 'Si tienes dudas sobre el método puedes revisar el anexo del informe.';
+    const voseo = 'Si tenés dudas sobre el método podés revisar el anexo del informe.';
+    for (const t of [tuteo, voseo]) {
+      assert.ok(check(t).some((x) => x.rule === 'tratamiento-de-usted'), t);
+      for (const tone of TONE_IDS) {
+        assert.ok(
+          check(t, { tone }).some((x) => x.rule === 'tratamiento-de-usted'),
+          `el tono ${tone} dejó pasar «${t}»`,
+        );
+      }
+    }
+  });
+
+  test('«usted» no dispara la regla que lo impone', () => {
+    const t = 'Si usted tiene dudas sobre el método, puede revisar el anexo del informe.';
+    assert.deepEqual(
+      check(t).filter((x) => x.rule === 'tratamiento-de-usted'),
+      [],
+    );
+  });
+
+  test('una sola regla marca el tuteo, no tres', () => {
+    // camus y catedra tenían cada uno la suya. Con la base encima habrían sido
+    // tres hallazgos por cada «tú», que es como se deja de leer una salida.
+    const t = 'Si tienes dudas puedes revisar el anexo.';
+    for (const tone of ['camus', 'catedra']) {
+      const f = check(t, { tone }).filter((x) => /tuteo|usted/u.test(x.rule));
+      assert.equal(f.length, 2, `${tone} marcó ${f.length} veces en vez de una por marca`);
+      assert.deepEqual([...new Set(f.map((x) => x.rule))], ['tratamiento-de-usted']);
+    }
   });
 
   test('el andamiaje vacío se marca', () => {
@@ -223,9 +281,9 @@ describe('lo que el texto debe contener', () => {
     'Detrás de esa apariencia hay una relación entre personas concretas. ' +
     'El fetichismo nombra justamente esa inversión de la mirada corriente.';
 
-  test('fonda reclama tuteo, voz propia y ritmo cuando faltan', () => {
+  test('fonda reclama interpelación, voz propia y ritmo cuando faltan', () => {
     const f = check(academico, { tone: 'fonda' }).map((x) => x.rule).sort();
-    assert.deepEqual(f, ['fonda-primera-persona', 'fonda-tutea', 'fonda-varia-longitud']);
+    assert.deepEqual(f, ['fonda-interpela', 'fonda-primera-persona', 'fonda-varia-longitud']);
   });
 
   test('ya no se exigen preguntas retóricas, porque la prosa dejó de pedirlas', () => {
@@ -285,26 +343,22 @@ describe('capa de tono', () => {
     assert.throws(() => check('texto', { tone: 'inventado' }), /tono desconocido/u);
   });
 
-  test('camus y catedra marcan tuteo y voseo por igual', () => {
-    // Las skills hablan de «tutear», pero el ítem pide tercera persona o
-    // primera del plural, y el voseo no es ninguna de las dos.
-    const tuteo = 'Si tienes dudas sobre el método puedes revisar el anexo del informe.';
-    const voseo = 'Si tenés dudas sobre el método podés revisar el anexo del informe.';
-    for (const t of [tuteo, voseo]) {
-      assert.ok(check(t, { tone: 'camus' }).some((x) => x.rule === 'camus-sin-tuteo'), t);
-      assert.ok(check(t, { tone: 'catedra' }).some((x) => x.rule === 'catedra-sin-tuteo'), t);
-    }
-  });
+  test('fonda pide interpelación y la de usted la satisface', () => {
+    // Antes este test decía «fonda no prohíbe el tuteo, lo exige». La base lo
+    // prohíbe desde el §9.2 y el tono conserva la exigencia de interpelar, no
+    // la forma. Seis oraciones porque `minSentences` es 6.
+    const conUsted =
+      'Fíjese en el detalle. Piense en lo que implica. La distinción no es menor. ' +
+      'El término tiene dos sentidos. El primero es corriente. El segundo no lo es.';
+    assert.deepEqual(
+      check(conUsted, { tone: 'fonda' }).filter((x) => x.rule === 'fonda-interpela'),
+      [],
+    );
 
-  test('fonda no prohíbe el tuteo, lo exige', () => {
-    const tuteo = 'Si tienes dudas sobre el método puedes revisar el anexo del informe.';
-    assert.deepEqual(check(tuteo, { tone: 'fonda' }), []);
-  });
-
-  test('el español peninsular se marca solo en catedra', () => {
-    const t = 'Como podéis ver, vosotros tenéis la razón en este punto del análisis.';
-    assert.ok(check(t, { tone: 'catedra' }).some((x) => x.rule === 'espanol-peninsular'));
-    assert.deepEqual(check(t, { tone: 'fonda' }), []);
+    const sinNadie =
+      'El detalle importa. Lo que implica no es menor. La distinción tampoco. ' +
+      'El término tiene dos sentidos. El primero es corriente. El segundo no lo es.';
+    assert.ok(check(sinNadie, { tone: 'fonda' }).some((x) => x.rule === 'fonda-interpela'));
   });
 });
 
