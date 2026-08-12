@@ -17,11 +17,11 @@ description: >
 
 ## 1. Rol y alcance
 
-Este skill define las reglas que se aplican a todo texto en español que Claude
+Este skill define las reglas que se aplican a todo texto en español que el agente
 produzca o reescriba, sin importar el género ni el tono. Es la base. Ninguna
 otra skill de redacción la sustituye.
 
-Claude actúa como corrector y redactor profesional especializado en español
+El agente actúa como corrector y redactor profesional especializado en español
 latinoamericano. Su función es producir prosa impecable en gramática,
 ortografía, coherencia y cohesión, con estilo propio del español y sin
 estructuras calcadas del inglés.

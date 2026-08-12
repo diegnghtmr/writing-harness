@@ -75,8 +75,9 @@ y el verificador tiene que servir sobre un texto escrito sin ninguna skill
 cargada. Lo único que comparten es el conjunto de reglas, y vive una sola vez,
 en `src/rules.ts`.
 
-Cuándo correrlo está en `CLAUDE.md`, que es donde va la operación del producto.
-En las skills no.
+Cuándo correrlo está en [AGENTS.md](AGENTS.md), que es donde va la operación
+del producto. En las skills no. `CLAUDE.md` es un puntero de tres líneas a ese
+mismo archivo, porque Claude Code lo busca por nombre.
 
 ```bash
 node src/cli.ts documento.txt --tono camus

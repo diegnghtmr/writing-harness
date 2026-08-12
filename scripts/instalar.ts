@@ -1,8 +1,9 @@
 // Instala las skills enlazando, no copiando.
 //
-//   node scripts/instalar.ts             crea los enlaces
-//   node scripts/instalar.ts --verificar solo informa, no toca nada
+//   node scripts/instalar.ts               crea los enlaces
+//   node scripts/instalar.ts --verificar   solo informa, no toca nada
 //   node scripts/instalar.ts --desinstalar
+//   ... --destino <ruta>                   para un anfitrión distinto
 //
 // Copiar reintroduciría el problema que este repo existe para resolver: dos
 // representaciones de la misma regla que se separan sin que nadie lo note. Un
@@ -16,7 +17,31 @@ import { homedir, platform } from 'node:os';
 import { join, resolve } from 'node:path';
 import { SKILLS_DIR, skillNames } from '../src/skills.ts';
 
-const DESTINO = join(homedir(), '.claude', 'skills');
+// Directorio de skills de cada anfitrión conocido. No es una lista cerrada:
+// `--destino` acepta cualquier ruta, y el formato SKILL.md lo lee cualquier
+// herramienta que sepa leer markdown con frontmatter.
+const ANFITRION_POR_DEFECTO = join(homedir(), '.claude', 'skills');
+
+function parseArgs(argv: string[]): { modo?: string; destino: string } {
+  let modo: string | undefined;
+  let destino = ANFITRION_POR_DEFECTO;
+
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i] as string;
+    if (arg === '--destino') {
+      const valor = argv[++i];
+      if (valor === undefined) throw new Error('--destino necesita una ruta');
+      destino = resolve(valor);
+    } else if (modo === undefined) {
+      modo = arg;
+    } else {
+      throw new Error(`argumento de más: ${arg}`);
+    }
+  }
+  return { modo, destino };
+}
+
+const { modo: MODO, destino: DESTINO } = parseArgs(process.argv.slice(2));
 const TIPO = platform() === 'win32' ? 'junction' : 'dir';
 
 type Estado = 'enlazado' | 'enlazado-a-otro' | 'ocupado' | 'libre';
@@ -96,21 +121,21 @@ function desinstalar(): number {
   return 0;
 }
 
-const modo = process.argv[2];
 console.log(`destino: ${DESTINO}`);
 console.log(`origen:  ${SKILLS_DIR}`);
 console.log(`enlace:  ${TIPO}\n`);
 
 let codigo = 0;
-if (modo === '--verificar') codigo = verificar();
-else if (modo === '--desinstalar') codigo = desinstalar();
-else if (modo === undefined) codigo = instalar();
+if (MODO === '--verificar') codigo = verificar();
+else if (MODO === '--desinstalar') codigo = desinstalar();
+else if (MODO === undefined) codigo = instalar();
 else {
-  console.error(`opción desconocida: ${modo}`);
+  console.error(`opción desconocida: ${MODO}`);
+  console.error('uso: node scripts/instalar.ts [--verificar|--desinstalar] [--destino <ruta>]');
   codigo = 2;
 }
 
-if (codigo === 0 && modo === undefined) {
+if (codigo === 0 && MODO === undefined) {
   const enlazadas = skillNames().filter((n) => estadoDe(n).estado === 'enlazado').length;
   const total = readdirSync(DESTINO).length;
   console.log(`\n${enlazadas} de ${skillNames().length} enlazadas. ${total} entradas en el destino.`);
