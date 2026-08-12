@@ -2,12 +2,13 @@
 name: kenway-writing
 description: >
   Skill de tono para reseña y crítica de obras. Aplica el método de juicio
-  argumentado que se observa en el canal de análisis Kenway Reviews: describir
-  antes de valorar, sostener cada juicio en un hecho concreto de la obra,
-  conceder el mérito antes de señalar el fallo, medir el reproche contra la
-  lógica interna de la obra y declarar en voz alta lo que todavía no se puede
-  juzgar. Voz en primera persona, tuteo al lector, veredicto verbal sin nota
-  numérica. Hereda toda la normativa de «spanish-writing». Úsese cuando el
+  argumentado medido en 20 transcripciones del canal de análisis Kenway
+  Reviews: describir largo y valorar al final, marcar con una fórmula
+  explícita dónde empieza la opinión, abrir la opinión con el veredicto
+  global, subordinar el reproche a una concesión y volver al mérito antes de
+  cerrar. Voz en primera persona del singular para el juicio, tuteo al lector,
+  veredicto verbal sin nota numérica, cierre que devuelve la palabra al
+  lector. Hereda toda la normativa de «spanish-writing». Úsese cuando el
   usuario pida redactar, reescribir o revisar una reseña, una crítica, un
   análisis de capítulo o episodio, una recomendación o un texto de opinión
   sobre una obra de manga, cómic, anime, cine, series, videojuegos, libros o
@@ -15,7 +16,7 @@ description: >
   reseñista» o «¿vale la pena?».
 ---
 
-# Skill de tono para reseña y crítica: juicio con pruebas
+# Skill de tono para reseña y crítica: la opinión llega al final y firmada
 
 
 ## 1. Rol y alcance
@@ -32,265 +33,437 @@ entra acá, porque su propósito es explicar y no valorar.
 
 ## 2. Relación con la base normativa
 
-Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.
-La base decide qué es correcto en español. Este skill decide cómo se ordena y
-cómo se defiende un juicio.
+Este skill hereda íntegras las reglas de «spanish-writing» y no las repite. La
+base decide qué es correcto en español y qué variedad se escribe. Este skill
+decide cómo se ordena y cómo se defiende un juicio.
 
 Ninguna regla de este documento levanta una prohibición de la base. En
-particular, la raya, el guion largo y el punto y coma siguen prohibidos, y
-también siguen prohibidos los emojis.
+particular siguen prohibidos la raya, la semirraya, el guion largo, el punto y
+coma y los emojis.
 
-La variedad del español la fija la base. La referencia estilística escribe en
-español peninsular y trata al público en segunda persona del plural. Eso no se
-importa. De la referencia se toma el método de la reseña, no su dialecto.
-
-Tampoco se importan sus desvíos normativos, que existen y que la base ya
-prohíbe: mayúscula después de dos puntos, interrogación sin signo de apertura,
-tilde en el adverbio «solo», risa escrita dentro de la prosa y emojis de
-cierre.
+La variedad del español la fija la base, que impone la variedad
+latinoamericana. La referencia escribe y habla en español peninsular. Del
+original se toma el método de la reseña, nunca su dialecto. La sección 6.2 da
+la medición que sostiene esta separación.
 
 
-## 3. Base documental de este skill
+## 3. Base documental
 
-La referencia es Kenway Reviews, canal de análisis de anime y manga registrado
-en España, con algo más de 25.000 suscriptores y unos 80 vídeos publicados.
-Analiza sobre todo Berserk capítulo a capítulo, y además Dragon Ball, Chainsaw
-Man, Boruto, Death Note, Evangelion, Shingeki no Kyojin y estrenos de
-temporada.
+La referencia es Kenway Reviews, canal español de análisis de anime y manga.
+El corpus medido son 20 transcripciones completas de vídeo, 61.779 palabras,
+337 minutos de locución, 183 palabras por minuto. Once son análisis de
+capítulo de Berserk y nueve son vídeos temáticos o de teoría, incluido uno
+sobre Dragon Ball.
 
-El material consultado es escrito: la descripción del canal, 78 de los 80
-títulos de vídeo, catorce descripciones de vídeo y treinta y nueve
-publicaciones de su tablón de comunidad, entre ellas una reseña completa de un
-tomo de manga. No se consiguió ninguna transcripción de su voz. La sección 15
-detalla qué se buscó y qué no apareció.
+Advertencia sobre el material. Las 20 transcripciones proceden de subtítulos
+generados por máquina. Catorce no traen ningún signo de puntuación. Seis traen
+puntuación insertada por el sistema de reconocimiento, no por el autor, y se
+reconoce que es de máquina porque conviven con errores de transcripción de
+nombres propios. Por eso todo lo que este documento afirma se apoya en
+recuentos de palabras y de estructuras, y nunca en comas ni en puntos. Las
+cifras de longitud de oración de la sección 6.4 se dan como orientación y se
+marcan como lo que son.
 
-Todo lo que sigue procede de ese material. Cuando una regla es una tendencia
-del corpus y no un rasgo constante, este documento lo dice con esas palabras.
+
+## 4. Lo que la medición corrigió
+
+La versión anterior de este documento se escribió sin transcripciones. El
+corpus confirmó una parte y desmintió otra. Esta sección deja el saldo por
+escrito para que no vuelva a colarse lo desmentido.
+
+Confirmado. No hay nota numérica. Cero apariciones de «sobre diez», de escala
+sobre cinco, de «del uno al diez», de «puntuación», de «le doy un» y de
+estrellas como calificación. Un barrido de todas las cifras del corpus con
+contexto evaluativo devolvió un único candidato, y era «diez minutos». Las
+cuatro apariciones de «nota» son «nota positiva», «se nota» y «nota menor».
+Ninguna califica.
+
+Confirmado. La descripción precede a la valoración, y con mucho más rigor del
+que se suponía. No es una tendencia, es un corte de sección declarado en voz
+alta y situado entre el 79 y el 91 por ciento del texto.
+
+Confirmado. El mérito se concede antes del reproche, aunque la figura real es
+distinta de la descrita. La sección 9 la corrige.
+
+Desmentido. No existe la apertura fija por marca temporal. «Analizaremos» no
+aparece ni una sola vez en 61.779 palabras. «Hoy» aparece 21 veces y ninguna
+está en la apertura de ningún vídeo. La sección 7 da la fórmula que sí existe.
+
+Desmentido. No hay reparto de personas gramaticales por función. La primera
+del plural y la primera del singular conviven en todo el texto, también dentro
+de la sección de opinión.
+
+Muy debilitado. «Lógica interna del manga» aparece una vez en todo el corpus,
+en un solo vídeo. Es la frase que la referencia usó para describir ese vídeo,
+no una vara recurrente. La sección 10 reconstruye la vara con lo que sí se
+repite.
+
+Desmentido. El fallo no se ubica en «la ejecución». La familia de «ejecutar»
+aparece cuatro veces y ninguna es crítica, todas son literales y pertenecen a
+la trama. La sección 9.3 dice dónde se ubica de verdad el reproche.
+
+Desmentido. El cierre sí es de fórmula, y muy fija. Las 20 transcripciones
+terminan en la misma llamada a suscribirse. La sección 11 explica qué parte de
+eso se importa y qué parte no.
+
+Desmentido. El veredicto no dice para quién sirve la obra. «Si te gusta» y «si
+eres» aparecen cero veces, «vale la pena» cero veces, «merece la pena» dos.
+La referencia escribe para quien ya está dentro de la obra.
+
+Sin material. Sobre spoilers el corpus no dice casi nada. La palabra aparece
+una vez en un solo vídeo. La sección 12 se reduce a lo que se puede sostener.
 
 
-## 4. Filosofía estilística: el juicio necesita pruebas
+## 5. Filosofía estilística: describir mucho, juzgar poco y tarde
 
-La referencia declara su propio programa en la descripción del canal, donde
-promete análisis, teorías y explicaciones «con un tono tranquilo». Sus vídeos
-de capítulo se titulan casi siempre con la misma tríada, «análisis, teorías y
-opinión», y los tres términos aparecen separados a propósito. Esa separación
-es el núcleo de este skill.
+La proporción es el rasgo más fuerte del corpus y es lo primero que hay que
+copiar. La referencia dedica entre el 79 y el 91 por ciento del texto a
+describir, ordenar y teorizar, y reserva el resto para valorar. Las secciones
+de opinión medidas van de 91 a 973 palabras sobre vídeos de dos mil a seis mil.
 
 De ahí salen tres disciplinas.
 
-La primera es no juzgar sin material suficiente. Ante un capítulo cuya
-traducción todavía no era fiable, la referencia escribió que prefería esperar
-a tener la versión definitiva antes de opinar. En su reseña del primer tomo de
-One Piece escribió, sobre el reparto secundario, «todavía no puedo opinar».
-Declarar el límite del juicio no debilita la reseña, la vuelve creíble.
+La primera es que el juicio se gana con material. El lector llega a la opinión
+después de haber recorrido la obra entera, y por eso la opinión puede ser
+breve. Un texto que valora en el primer párrafo pide crédito antes de haberlo
+ganado.
 
-La segunda es describir antes de valorar. Primero lo que la obra hace, después
-lo que el crítico piensa de eso. El lector tiene que poder disentir del juicio
-sin dejar de aprovechar la descripción.
+La segunda es que la opinión se anuncia. No se desliza dentro de la
+descripción, se separa con una frase que dice que ahora empieza otra cosa.
 
-La tercera es conceder antes de condenar. Su reseña de una película de Dragon
-Ball concede «un paso adelante positivo en varios aspectos» y solo entonces
-localiza el defecto en «una ejecución muy dudosa». El mérito reconocido es lo
-que le da peso al reproche.
-
-### 4.1. El límite de la reserva
-
-La cautela es un recurso, no una coartada. Un texto que solo enumera lo que
-todavía no se puede saber no es prudente, es cobarde. La reserva se declara
-una vez, se explica por qué, y el resto del texto juzga lo que sí tiene
-material para juzgarse.
-
-La referencia lo hace así: dedica un inciso breve a lo que aún no puede
-valorar y desarrolla en profundidad lo que sí. El equilibrio es ese.
+La tercera es que el juicio se firma. El corpus registra 84 apariciones de
+«creo», 82 de «yo», 37 de «pienso», 30 de «me parece», 13 de «para mí», 11 de
+«personalmente» y 8 de «en mi opinión». Contra eso, cero de «opino» y cero de
+«no me convence». El juicio nunca se presenta como propiedad de la obra.
 
 
-## 5. Voz y registro
+## 6. Voz y registro
 
-### 5.1. Persona gramatical
+### 6.1. Persona gramatical
 
-El juicio va en primera persona del singular. Es una opinión y se firma.
-Me parece que el desenlace traiciona la premisa...
+La opinión va en primera persona del singular, siempre. Las cifras de la
+sección 5 son la prueba y son constantes en 17 o 18 de los 20 documentos.
 
-El recorrido por la obra va en primera persona del plural, inclusiva del
-lector. Hoy analizaremos el capítulo... / Veremos qué cambia para el
-protagonista...
+El recorrido va en primera persona del plural, inclusiva del lector. El corpus
+registra 354 formas en «emos» o «amos», 41 futuros en «remos», 101 apariciones
+de «nos» y 33 de «vamos a».
 
-Esta alternancia es una tendencia clara del corpus, no una ley: los textos
-titulados como opinión abren en singular, los titulados como análisis abren en
-plural.
+Lo que la medición desmiente es que las dos personas se repartan el trabajo.
+Conviven en todo el texto y la primera del plural sigue viva dentro de la
+sección de opinión. La regla correcta es más simple. El plural conduce al
+lector por el material y el singular carga con el juicio, pero el singular
+puede aparecer en cualquier punto y el plural no desaparece cuando llega la
+valoración.
 
-Se tutea al lector, siempre en singular. Si te interesa la obra por su dibujo,
-este tomo te va a dar poco.
+### 6.2. Dialecto, resuelto con datos
 
-### 5.2. Registro
+La referencia mezcla las dos formas de tratamiento. En el cuerpo de los
+textos, descontada la despedida memorizada, hay 122 marcas de tuteo singular
+y 63 marcas de vosotros, una proporción de 1,9 a 1. Las marcas de vosotros son
+44 formas verbales, 12 clíticos «os», 4 imperativos, 2 infinitivos con «os» y
+1 posesivo, y aparecen en 14 de los 20 documentos. La despedida fija es tuteo
+puro, 25 marcas de tuteo y cero de vosotros. No hay ninguna aparición de
+«vos», ninguna de «ustedes» y ninguna de «usted». El léxico peninsular es
+delgado, 3 apariciones de «vale», 1 de «guay» y 1 de «a por».
+
+Conclusión operativa. El vosotros es real, no anecdótico, y es la marca
+dialectal más visible del original. Por eso mismo es lo primero que no se
+importa. El agente escribe tuteo singular latinoamericano en todo el texto,
+incluida la despedida, y no produce ninguna forma de vosotros ni de «ustedes»
+como plural de confianza.
+
+### 6.3. Registro y muletillas medidas
 
 Llano, directo y entusiasta, sin solemnidad y sin jerga académica. El crítico
 quiere a la obra y por eso mismo le exige. El afecto no exime del reproche y
 el reproche no autoriza el desprecio.
 
+El corpus permite fijar el inventario de conectores con números. Por diez mil
+palabras, «pero» aparece 71,2 veces y está en los 20 documentos, muy por
+encima de todo lo demás. Le siguen «pues» con 92 apariciones, «así que» con
+89, «simplemente» con 70, «aunque» con 65, «bueno» con 64, «bastante» con 62,
+«quizá» con 61, «por supuesto» con 39 y «realmente» con 42.
+
+Contra eso, los conectores de prosa formal casi no existen. «Por tanto» cero,
+«en otras palabras» cero, «ahora bien» cero, «por otra parte» cero,
+«evidentemente» cero. «Sin embargo» quince, «por lo tanto» once, «es decir»
+diez, «o sea» tres.
+
+De ahí la regla. El texto avanza por contraste con «pero» y con «aunque», y no
+por la maquinaria de un informe. Se admiten «sin embargo» y «es decir» con
+mano corta. Se evitan «por tanto», «en otras palabras», «ahora bien» y «por
+otra parte», que el original no usa. «En primer lugar» aparece doce veces en
+seis documentos, así que se tolera una vez por texto y nunca en cadena con
+«en segundo lugar» y «por último».
+
+Las fórmulas concesivas breves son un rasgo propio y se conservan. «Eso sí»
+once apariciones en siete documentos, «si bien» once en nueve, «es cierto que»
+nueve en cinco, «ojo» siete en cinco.
+
 Se prohíbe el insulto al autor, la burla al público que disfrutó la obra y el
-sarcasmo como sustituto del argumento. Un video de la referencia se titula «El
-derecho a crítica y los fans tóxicos», y la posición que defiende ese título
-es la de este skill: se critica la obra, no a quien la firma ni a quien la
-disfruta.
+sarcasmo como sustituto del argumento. Se critica la obra, no a quien la firma
+ni a quien la disfruta.
 
-### 5.3. Conectores
+### 6.4. Longitud de oración
 
-El eje son los adversativos y los concesivos, porque la reseña avanza por
-contraste: pero, aunque, aun así, en cambio, ahora bien, con todo. A ellos se
-suman los ordenadores de peso, que dicen qué importa más: por encima de todo,
-sobre todo, en cuanto a, dicho esto.
+El corpus no permite medir esto con seguridad, porque catorce documentos no
+traen puntuación y los seis que la traen la recibieron de una máquina. Con esa
+reserva declarada, sobre 610 oraciones de esos seis documentos la media es de
+26,8 palabras y la mediana de 22. El primer cuartil está en 13 palabras y el
+tercero en 35. Un 17,4 por ciento pasa de 40 palabras y un 29,8 por ciento
+queda por debajo de 15.
 
-Se evitan los estructuradores de informe, que suenan a plantilla en un texto
-de opinión: en primer lugar, por otra parte, por último.
+La medida que sí es independiente de la puntuación es la distancia entre
+conectores, tomada sobre los 20 documentos y 6.041 segmentos. La media es de
+9,2 palabras y la mediana de 7, con el primer cuartil en 4 y el tercero en 12.
+
+De las dos cifras sale una sola instrucción de ritmo. El texto se construye
+con tramos cortos de siete a doce palabras encadenados por conectores, y esos
+tramos se agrupan en oraciones de veinte a treinta y cinco palabras. Una de
+cada cuatro oraciones baja de quince palabras y sirve para sentenciar. No se
+encadenan tres oraciones largas seguidas ni tres cortas tampoco.
 
 
-## 6. Estructura de la reseña
+## 7. La apertura
 
-### 6.1. Los cinco movimientos
+No existe la apertura por marca temporal. Lo que el corpus registra son dos
+familias, según el género del texto.
+
+Los análisis de capítulo abren por reencuentro, situando el texto en la serie
+de textos anteriores. En las primeras cuarenta palabras aparecen «nos
+reunimos» o «nos encontramos» en tres vídeos, «volvemos» en dos y «aquí lo
+tenemos» en uno. El movimiento es siempre el mismo, se nombra el número del
+capítulo, se dice cuánto tiempo pasó desde el anterior y se adelanta en una
+línea qué clase de capítulo es.
+
+Los vídeos temáticos abren por el objeto o por la escena. O bien la primera
+oración enuncia el asunto y lo sitúa en la obra, o bien reconstruye en presente
+una escena concreta antes de nombrar el problema. Dos vídeos abren con una
+broma y uno con una cita ajena.
+
+Nunca se abre con una generalidad sobre el género, la industria o la época.
+La única excepción del corpus es un vídeo temático que arranca con una tesis
+sobre el mundo de la obra, no sobre el medio.
+
+Después de la apertura viene la hoja de ruta, que es el segundo rasgo más
+fijo del corpus. En las primeras ciento veinte palabras, diez de veinte vídeos
+anuncian qué va a hacer el texto con «vamos a» más infinitivo, cinco lo hacen
+con un futuro en primera del plural del tipo «repasaremos» o «comentaremos», y
+dos anuncian una lectura corrida previa al análisis. La fórmula se escribe en
+una sola oración y dice el orden de las partes.
+
+
+## 8. Estructura de la reseña
+
+El corpus da cuatro movimientos, no cinco, y su orden es rígido.
 
 Ocasión. Qué obra se juzga, qué parte de ella se conoce y por qué se escribe
-ahora. Va en la primera línea, sin rodeo.
+ahora. Primera línea, sin rodeo. Termina con la hoja de ruta.
 
-Descripción. Qué hace la obra, en presente y con la obra como sujeto. Termina
-señalando el elemento que gobierna todo lo demás.
+Recorrido. La obra contada en orden, en presente y con la obra como sujeto.
+Es la parte más larga con diferencia. Se detiene en los puntos que merecen
+atención y no en todos.
 
-Análisis del elemento central. El grueso del texto. Un rasgo, un personaje o
-una decisión narrativa, examinado con hechos de la obra.
+Análisis y teoría. Las consecuencias de lo descrito, las hipótesis sobre lo
+que viene, lo que el texto no cierra. Se declara qué es hipótesis. El corpus
+registra 33 apariciones de «teoría» y 11 de «especulación».
 
-Límites. Qué no se puede juzgar todavía y por qué. Breve.
+Opinión. Marcada, breve y terminal. Va entre el 79 y el 91 por ciento del
+texto. La sección 9 la regula entera.
 
-Veredicto. Una oración que resuma la valoración y otra que diga para quién.
-
-Los movimientos pueden fundirse en textos cortos, pero ninguno puede
-invertirse. La valoración nunca precede a la descripción.
-
-### 6.2. Párrafos y oraciones
-
-Un movimiento por párrafo.
-Extensión del párrafo: 40 a 100 palabras.
-Extensión de la oración: entre 25 y 50 palabras cuando enumera pruebas, por
-debajo de 15 cuando sentencia.
-
-### 6.3. Ritmo
-
-El patrón característico es la enumeración larga seguida de la frase corta que
-la cierra. Se acumulan los datos de la obra en una oración extensa, con
-paréntesis y aposiciones, y después se dicta el juicio en una oración breve
-que se puede citar sola.
-
-No encadenar tres oraciones largas seguidas. No encadenar tres cortas
-tampoco.
+Un movimiento por párrafo, de 40 a 100 palabras. Los movimientos pueden
+fundirse en textos cortos, pero ninguno puede invertirse. La valoración nunca
+precede al recorrido.
 
 
-## 7. La separación entre descripción y juicio
+## 9. La sección de opinión
 
-La descripción usa verbos de acción con la obra como sujeto: presenta,
-construye, plantea, resuelve, oculta, retrasa.
+Es donde se ve el criterio, así que es la parte más reglada de este skill. Las
+reglas que siguen salen de codificar las siete secciones de opinión que el
+corpus marca de forma explícita.
 
-El juicio usa verbos de opinión con el crítico como sujeto: me parece, creo,
-diría, considero, no me convence.
+### 9.1. Se declara la entrada
 
-El defecto que hay que perseguir es el adjetivo que juzga escondido dentro de
-la descripción. «El capítulo plantea un giro absurdo» mezcla los dos planos y
-no prueba nada. Se separa: «El capítulo plantea un giro. Me parece absurdo,
-porque contradice lo que el propio autor estableció hace veinte capítulos.»
+La opinión empieza con una fórmula que anuncia el cambio de plano. El corpus
+usa siempre la misma familia, «entrando en la parte de opinión», «pasemos
+ahora a la parte de opinión», «entrando ya en mi opinión del capítulo». Aparece
+en siete documentos y en todos ellos en el último cuarto.
 
-La descripción tiene que ser útil incluso para el lector que rechaza el
-juicio.
+El agente escribe una fórmula equivalente, corta, de una sola oración, y no la
+adorna. El objeto de la fórmula es que el lector sepa que lo que sigue ya no
+es descripción y pueda disentir sin perder lo anterior.
+
+### 9.2. El veredicto abre, no cierra
+
+Este es el hallazgo que corrige la versión anterior. La sección de opinión no
+construye hacia un veredicto final, arranca con él. Seis de las siete
+secciones medidas se abren con la valoración global en la primera cláusula y
+en menos de diez palabras. La séptima abre declarando división, que también es
+un veredicto.
+
+Después del veredicto viene la justificación. Nunca al revés.
+
+El veredicto es una oración autónoma que se sostiene citada fuera del texto.
+Cabe en una línea y no contiene subordinadas de excusa.
+
+### 9.3. La figura del reproche
+
+La versión anterior decía que se concede el mérito antes del reproche. Es
+cierto, pero la figura real es más precisa y más exigente.
+
+El mérito abre y el mérito cierra. El reproche va en medio, y va de una de
+estas dos formas. O bien subordinado dentro de una concesión, de modo que la
+oración principal se queda con el elogio. O bien seguido inmediatamente de su
+atenuante, que explica por qué el defecto era difícil de evitar. Seis de las
+siete secciones cierran su parte evaluativa en positivo, y una lo anuncia en
+voz alta al abrir el último párrafo.
+
+Un dato que conviene tener presente. De los 552 conectores contrastivos del
+corpus, solo doce tienen carga evaluativa clara a los dos lados, y de esos
+doce nueve van del reproche al mérito y tres del mérito al reproche. Es decir,
+la mayor parte de los «pero» de este autor son narrativos y no evaluativos, y
+cuando sí son evaluativos lo más frecuente es que rescaten algo después de
+haber señalado el fallo. El reproche nunca se queda solo al final de un
+período.
+
+Queda prohibido el reproche terminal sin rescate. Si el texto va a cerrar en
+negativo, tiene que decirlo desde el veredicto de apertura y sostenerlo con
+material, no dejarlo caer al final como una impresión.
+
+### 9.4. Dónde se ubica el fallo
+
+No en «la ejecución». Esa categoría no existe en el corpus.
+
+El corpus ubica el reproche en tres sitios, y hay que distinguirlos porque no
+valen lo mismo.
+
+En un elemento nombrado de la obra. El ritmo, el avance de la trama, la
+cantidad de páginas dedicadas a algo, la repetición de una situación ya vista.
+Este es el reproche legítimo y el que hay que preferir.
+
+En las condiciones de publicación. La fecha del siguiente capítulo, la
+irregularidad del calendario, la calidad de las copias disponibles, la
+traducción todavía provisional. El corpus lo hace mucho, «fecha» aparece 17
+veces en diez documentos y «retraso» o «tardar» 16 veces en once, y tres de
+las siete secciones de opinión dedican su parte negativa a esto.
+
+Aquí el skill se aparta del original de forma deliberada. El agente puede
+mencionar las condiciones de publicación, pero las marca como lo que son y no
+las hace pasar por juicio sobre la obra. Una queja por el calendario no es una
+crítica del capítulo, y confundir las dos cosas es el defecto más frecuente
+del corpus.
+
+En la reacción del público. El corpus discute mucho con la crítica ajena, 21
+apariciones de «crítica» y 8 de «criticar». Se admite, pero solo cuando el
+texto reconstruye el argumento contrario antes de responderlo.
+
+### 9.5. La negativa a repetir el elogio
+
+Rasgo menor pero constante y muy útil. Cuando un aspecto de la obra lleva
+mucho tiempo estando bien, la referencia se niega a volver a elogiarlo en
+detalle y lo dice. «Como digo siempre» cuatro apariciones, «como ya he dicho»
+cinco, más las declaraciones explícitas de no querer repetirse en tres
+documentos distintos.
+
+El agente lo hereda. Si el texto forma parte de una serie, el elogio ya
+emitido se da por hecho en una línea y el espacio se gasta en lo que cambió.
 
 
-## 8. La valoración negativa
+## 10. Las varas de medida
 
-Es donde se ve el criterio, así que es la parte más reglada de este skill.
+La versión anterior daba como central «si tiene sentido con la lógica interna
+del manga». La frase aparece una sola vez en 61.779 palabras. La vara existe,
+pero el corpus la construye con otras piezas y hay que nombrarlas bien.
 
-Primero se concede lo que la obra logra. Un texto que no encuentra nada
-rescatable casi siempre no ha mirado.
+La primera vara es la coherencia con lo que la obra estableció. El corpus
+registra 27 apariciones de «sentido», 7 de la familia de «establecer», 6 de
+«contradecir» y 3 de «coherente». Si la obra puso una regla y después la
+incumple sin hacerse cargo, eso es un defecto verificable.
 
-Después se ubica el fallo con precisión. Lo habitual es que el problema no
-esté en la idea sino en la ejecución, y decirlo así es más exacto y más justo.
+La segunda vara es lo que la obra prometió. Si un capítulo anuncia una escena
+y después la despacha, el crítico puede exigir la deuda.
 
-El reproche se mide contra dos varas, y solo contra esas dos.
-
-La primera es la lógica interna de la obra. Si la obra estableció una regla y
-después la incumple sin hacerse cargo, eso es un defecto verificable. La
-referencia describe uno de sus vídeos como el examen de si un ascenso de poder
-«tiene sentido con la lógica interna del manga».
-
-La segunda es lo que la obra prometió. Si un capítulo anuncia una escena y
-después la despacha, el crítico puede exigir la deuda.
+La tercera vara es la economía del material. Es la que el corpus usa más y la
+que la versión anterior no vio. La pregunta es si la obra gastó bien el
+espacio que tenía, si lo mostrado justificaba la extensión, si algo se pudo
+contar en una página en lugar de en veinte. Es una vara de proporción, no de
+gusto.
 
 Nunca se usa la decepción personal como argumento. Que el desenlace no sea el
-que el crítico esperaba no es un defecto de la obra. Cuando la referencia
-escribió que un capítulo le había dejado sentimientos encontrados, explicó qué
-esperaba, qué recibió y por qué la diferencia importaba, y acto seguido admitió
-que muchos lectores habían predicho justamente ese desarrollo.
-
-Ese último gesto es obligatorio. Si existe prueba en contra del juicio, se
-menciona. Ocultarla es lo que convierte una reseña en propaganda.
+que el crítico esperaba no es un defecto de la obra.
 
 Tampoco se apela al consenso. Ni «todo el mundo lo dice» ni «los fans
-exageran» son razones. Uno de los títulos de la referencia se burla de la
-crítica de rebaño y otro defiende una obra que casi nadie defendía, y en los
-dos casos lo que sostiene el texto es el material de la obra.
+exageran» son razones.
 
 Decir «no me gustó» no es una reseña. La reseña dice por qué, y ese porqué
 tiene que poder comprobarse abriendo la obra.
 
 
-## 9. Spoilers
+## 11. El cierre
 
-La referencia marca el pacto en el propio título cuando el texto está pensado
-para quien no conoce la obra, con etiquetas explícitas del tipo «sin
-spoilers». Sus análisis de capítulo hacen lo contrario: llevan el número del
-capítulo por delante y dan por leído ese capítulo.
+El corpus tiene un cierre de tres tiempos y hay que separarlos, porque solo
+dos se importan.
 
-De ahí salen tres reglas.
+Primer tiempo, el remate analítico. La última idea sustantiva, que en el
+corpus suele ser una previsión sobre lo que viene o una constatación de que no
+queda más que decir. Se importa.
+
+Segundo tiempo, la cesión del turno. La referencia devuelve la palabra al
+lector y lo hace en tuteo singular. «En los comentarios» aparece 15 veces en
+trece documentos, más las fórmulas del tipo «ahora es tu turno» o «ahora te
+toca a ti» en cinco documentos. A menudo invita al desacuerdo de forma
+explícita. Se importa, adaptado al medio del texto, y es el cierre por defecto
+de este skill.
+
+Tercer tiempo, la llamada a la acción. Las 20 transcripciones terminan en la
+misma fórmula memorizada de suscripción, con 18 documentos que piden
+suscribirse y 16 que nombran la campana. No se importa nunca. Es un artefacto
+de la plataforma y no una decisión de estilo, y la base ya prohíbe las
+fórmulas de cierre.
+
+Es decir, el cierre correcto termina en la pregunta que se le devuelve al
+lector o en lo que queda por delante, y se detiene justo antes de la
+despedida.
+
+
+## 12. Spoilers
+
+El corpus no sostiene casi nada sobre esto. La palabra «spoiler» aparece una
+vez en un solo vídeo. Lo que sí se observa es que los análisis de capítulo
+llevan el número del capítulo en el título y dan por leído ese capítulo sin
+disculparse.
+
+De ahí salen dos reglas, y solo dos.
 
 El pacto se declara antes del primer dato de la trama, en la primera o segunda
-línea. Se dice hasta dónde se puede leer sin riesgo.
+línea, diciendo hasta dónde se puede leer sin riesgo.
 
-Una reseña de recomendación no revela nada que la obra no muestre en su primer
-tramo. Se puede valorar el tono, el ritmo, el dibujo y el planteamiento sin
-contar lo que pasa.
-
-Un análisis de capítulo o de final asume el conocimiento previo, lo avisa y no
-se disculpa después. Anunciado el pacto, se cumple sin atenuaciones que
-volverían el texto ilegible.
+Anunciado el pacto, se cumple sin atenuaciones que volverían el texto
+ilegible. Un análisis que asume el conocimiento previo no se disculpa después.
 
 
-## 10. El veredicto
+## 13. El veredicto y la reserva
 
-No hay nota numérica. En todo el material consultado no aparece ninguna
-puntuación sobre diez ni escala equivalente, ni en títulos, ni en
-descripciones, ni en sus textos de comunidad. El veredicto es verbal.
+No hay nota numérica. La medición es concluyente y está en la sección 4. El
+veredicto es verbal, va en la primera cláusula de la sección de opinión y no
+se acompaña de escala de ninguna clase.
 
-El veredicto es una sola oración, autónoma, que se sostiene citada fuera del
-texto. Cabe en una línea y no contiene subordinadas de excusa.
+El veredicto no dice para quién sirve la obra. La referencia escribe para
+quien ya está dentro. Si el usuario pide una recomendación para lector nuevo,
+el agente añade esa oración, pero sabe que la está añadiendo por encargo y no
+por imitación.
 
-Va acompañado de una segunda oración que dice para quién sirve la obra. Un
-veredicto que no distingue destinatarios no es un juicio, es un gusto.
+El veredicto es reversible cuando la obra está en curso, y esa cláusula se
+escribe. La reserva se declara una vez, se explica por qué, y el resto del
+texto juzga lo que sí tiene material para juzgarse. El corpus la formula con
+«todavía no» ocho veces en cinco documentos, «no sabemos» nueve en ocho y «por
+ahora» siete en siete, siempre en incisos breves.
 
-El veredicto es reversible: si aparece material nuevo que lo desmienta, el
-crítico lo dice. Esa cláusula se escribe cuando la obra está en curso.
-
-
-## 11. Apertura y cierre
-
-La apertura es la ocasión concreta. Qué salió, qué se leyó, qué se terminó,
-qué pregunta trae el lector. Las descripciones de la referencia empiezan con
-una marca temporal directa y pasan al asunto en la misma oración. Nunca se
-abre con una generalidad sobre el género, la industria o la época.
-
-El cierre no se anuncia. Termina en lo que queda por delante: el tomo
-siguiente, la duda que el capítulo dejó abierta, la pregunta que se le
-devuelve al lector. La referencia cierra sus textos así, diciendo qué va a
-leer después o qué espera del próximo capítulo.
-
-Queda prohibido el cierre de fórmula, y la base ya enumera esas fórmulas.
+La cautela es un recurso, no una coartada. Un texto que solo enumera lo que
+todavía no se puede saber no es prudente, es cobarde.
 
 
-## 12. Formato de entrega
+## 14. Formato de entrega
 
 Al redactar texto nuevo, entregar la reseña solicitada. Si el usuario pide
 explicaciones sobre decisiones de criterio, estas van separadas del texto
@@ -298,98 +471,114 @@ producido.
 
 Al reescribir una reseña existente, entregar el texto reescrito sin preámbulos
 ni explicaciones, salvo que el usuario las solicite. El juicio del autor
-original se respeta: se reordenan los movimientos y se le exigen pruebas al
+original se respeta. Se reordenan los movimientos y se le exigen pruebas al
 juicio, pero no se cambia el veredicto por otro.
 
 Si el texto original valora sin ninguna prueba, y el agente no dispone de la
 obra, se marca el hueco y se pide el dato en vez de inventarlo.
 
 
-## 13. Ejemplo de aplicación
+## 15. Ejemplo de aplicación
 
-Antes (juicio sin prueba):
+Antes, juicio sin prueba y sin orden:
 
 «La segunda temporada es un desastre absoluto. Se nota que a los guionistas no
 les importa nada la obra original y que solo quieren sacar dinero. Una
 vergüenza de adaptación.»
 
-Después (juicio con prueba):
+Después, con la figura completa:
 
-«La segunda temporada mejora el dibujo de las escenas de acción y por fin le
-da tiempo en pantalla a la hermana, que en la primera era un mueble. El
-problema está en la ejecución del duelo final. La serie había establecido que
-el protagonista no puede pelear sin su bastón, y aquí pelea sin él durante
-doce minutos sin que nadie lo mencione. No es que el desenlace me decepcione,
-es que contradice la regla que la obra se puso a sí misma.»
+«Entrando ya en la opinión, la temporada me ha dejado a medias. Lo bueno
+primero, porque lo hay. El dibujo de las escenas de acción mejora mucho
+respecto a la primera, y la hermana por fin tiene tiempo en pantalla después
+de haber sido un mueble durante doce episodios. El problema está en el duelo
+final. La serie había establecido que el protagonista no puede pelear sin su
+bastón, y aquí pelea sin él durante doce minutos sin que nadie lo mencione.
+Entiendo que venían de un cambio de estudio a mitad de temporada y que algo
+tenía que caer, pero justo esa regla era la que sostenía todo el personaje. No
+es que el desenlace me decepcione, es que contradice lo que la propia serie se
+puso a sí misma. Con todo, me quedo con que ahora sé que saben dibujar una
+pelea, que es más de lo que podía decir hace un año. Ahora te toca a ti,
+¿lo viste igual?»
 
-Lo que cambia: se concede el mérito antes del reproche, el fallo se ubica en
-la ejecución y no en la intención, la vara es la lógica interna de la obra, se
-distingue la decepción del defecto, y desaparece la acusación de intenciones
-que ningún lector puede comprobar.
+Lo que cambia. La opinión se anuncia, el veredicto abre en una cláusula corta,
+el mérito va delante, el reproche queda entre la concesión y su atenuante, la
+vara es lo que la obra estableció, se distingue la decepción del defecto,
+desaparece la acusación de intenciones que ningún lector puede comprobar, el
+texto vuelve al mérito antes de cerrar y le devuelve la palabra al lector.
 
 
-## 14. Lista de verificación de tono
+## 16. Lista de verificación de tono
 
 Se ejecuta después de la lista normativa de la base.
 
- 1. ¿La primera línea dice qué obra se juzga y qué parte de ella se conoce?
- 2. ¿El pacto de spoiler se declara antes del primer dato de la trama?
- 3. ¿La descripción de lo que hace la obra va antes que la valoración?
- 4. ¿Los verbos de descripción están separados de los verbos de opinión?
- 5. ¿Cada juicio se apoya en un hecho concreto y comprobable de la obra?
- 6. ¿La valoración negativa concede primero un mérito?
- 7. ¿El reproche se mide contra la lógica interna de la obra o contra lo que
-    la obra prometió?
- 8. ¿Se menciona la prueba en contra del propio juicio cuando existe?
- 9. ¿Se declara qué no se puede juzgar todavía y por qué?
-10. ¿El juicio va en primera persona del singular y el recorrido en primera
-    del plural?
-11. ¿Se tutea al lector en singular?
-12. ¿Hay un veredicto de una sola oración que se sostenga citado aparte?
-13. ¿El veredicto dice para quién sirve la obra?
-14. ¿Alternan las oraciones largas de enumeración con las cortas de sentencia?
-15. ¿El texto evita el insulto al autor y la apelación al consenso?
-16. ¿El cierre termina en lo que queda pendiente, sin fórmula de cierre?
+ 1. ¿La primera línea nombra la obra concreta y la ocasión, sin generalidad
+    sobre el género o la industria?
+ 2. ¿Hay una hoja de ruta de una oración que diga el orden de las partes?
+ 3. ¿El recorrido por la obra ocupa la mayor parte del texto y la valoración
+    queda en el último cuarto?
+ 4. ¿La entrada en la opinión está marcada con una fórmula explícita?
+ 5. ¿La sección de opinión abre con el veredicto global en una cláusula de
+    menos de diez palabras?
+ 6. ¿El reproche va subordinado a una concesión o seguido de su atenuante, y
+    no suelto al final de un período?
+ 7. ¿El texto vuelve al mérito antes de cerrar la valoración?
+ 8. ¿Cada juicio se apoya en un hecho de la obra que el lector pueda
+    comprobar abriendo la obra?
+ 9. ¿El reproche se mide contra lo que la obra estableció, contra lo que
+    prometió o contra cómo gastó su espacio?
+10. ¿Se distingue el reproche a la obra del reproche a sus condiciones de
+    edición o publicación?
+11. ¿La opinión va firmada en primera persona del singular, con «creo»,
+    «pienso» o «me parece»?
+12. ¿Se declara en un inciso breve, y una sola vez, qué no se puede juzgar
+    todavía?
+13. ¿El texto está libre de nota numérica y de cualquier escala equivalente?
+14. ¿El tuteo es singular y latinoamericano, sin ninguna forma de vosotros ni
+    de «ustedes» como plural de confianza?
+15. ¿El cierre devuelve la palabra al lector y se detiene antes de cualquier
+    fórmula de despedida?
+16. ¿El texto evita el insulto al autor, la burla al público que disfrutó la
+    obra y la apelación al consenso?
 
 
-## 15. Fuentes
+## 17. Fuentes
 
-Material consultado, todo escrito y publicado por la propia referencia:
+Corpus medido. Veinte transcripciones completas de vídeo del canal Kenway
+Reviews, reunidas en un conjunto local de trabajo. Once análisis de
+capítulo de Berserk, ocho vídeos de teoría o temáticos sobre la misma obra y
+uno sobre Dragon Ball. Total, 61.779 palabras y 337 minutos de locución, con
+vídeos de 1.236 a 5.983 palabras.
 
-https://www.youtube.com/@Kenway_Reviews
-Descripción del canal y datos públicos. País declarado, España.
+Procedencia y límite del material. Las veinte transcripciones proceden de
+subtítulos generados automáticamente por la plataforma. Catorce carecen por
+completo de puntuación. Seis traen puntuación y mayúsculas insertadas por el
+sistema de reconocimiento, no por el autor, lo que se comprueba en que esa
+puntuación convive con errores de transcripción de nombres propios. Por eso
+ninguna afirmación de este documento se apoya en signos de puntuación, y las
+cifras de longitud de oración se declaran orientativas en la sección 6.4.
 
-https://www.youtube.com/@Kenway_Reviews/videos
-Setenta y ocho de los ochenta títulos de vídeo, con sus fórmulas de
-titulación, sus etiquetas de género y sus marcas de spoiler.
+Mediciones realizadas por el agente sobre el corpus. Recuento de palabras,
+duración y velocidad de locución por documento. Longitud de oración sobre los
+seis documentos puntuados, 610 oraciones. Longitud de segmento entre
+conectores sobre los veinte documentos, 6.041 segmentos. Frecuencia de 61
+conectores y muletillas con recuento por diez mil palabras y número de
+documentos. Recuento de marcas dialectales de vosotros y de tuteo, separando
+el cuerpo del texto de la despedida memorizada. Extracción y lectura de las
+primeras cincuenta y las últimas setenta palabras de los veinte documentos.
+Localización de los marcadores de sección de opinión y medición de su posición
+relativa. Codificación manual de las siete secciones de opinión explícitas.
+Clasificación de 552 conectores contrastivos por polaridad evaluativa a ambos
+lados. Barrido exhaustivo de cifras y de vocabulario de calificación para
+comprobar la ausencia de nota numérica.
 
-https://www.youtube.com/@Kenway_Reviews/posts
-Treinta y nueve publicaciones de comunidad, incluida una reseña escrita
-completa del primer tomo de un manga, que es la pieza más extensa de prosa
-crítica disponible.
-
-https://www.youtube.com/channel/UCwTMSs2uQje4OppWmigLGYA
-Catorce descripciones de vídeo, que son la muestra más regular de sus
-aperturas.
-
-Lo que no se consiguió, y que por lo tanto este skill no afirma:
-
-No se obtuvo ninguna transcripción de sus vídeos. Los subtítulos del canal son
-automáticos y no fue posible descargarlos. Todo lo que este documento dice
-sobre longitud de oración, ritmo y estructura procede de su prosa escrita, no
-de su prosa hablada, que puede diferir.
-
-No se obtuvo acceso a su cuenta de X, https://x.com/Kenway_Reviews, ni a
-https://www.facebook.com/kenwayreviews/, así que no hay muestras de su
-escritura breve fuera del tablón de comunidad.
-
-No se encontró ninguna entrevista, ningún artículo de terceros y ningún hilo
-de foro que cite o comente sus reseñas. La descripción de su método procede
-íntegramente de sus propios textos, sin contraste externo.
-
-No se verificó cómo cierra un vídeo en voz, ni si enuncia el veredicto al
-principio o al final de la locución. La afirmación de que no usa nota numérica
-se sostiene sobre la ausencia total de puntuaciones en el material escrito
-consultado, que es una prueba fuerte pero no concluyente.
+Lo que sigue sin verificarse. No hay material escrito por el autor en el
+corpus, así que no se sabe si su prosa escrita difiere de la hablada. No se
+midió cómo se comporta el método fuera del análisis de capítulo seriado, que
+es el género de once de los veinte documentos y el que fija casi toda la
+estructura descrita. No hay ninguna reseña de obra completa ni ninguna
+recomendación para lector nuevo en el corpus, así que la sección 13 no puede
+apoyarse en material medido en lo que toca a la recomendación. El pacto de
+spoiler no es medible en transcripciones, porque vive en los títulos.
 
 La referencia gramatical y ortográfica es la de «spanish-writing».

@@ -2,480 +2,451 @@
 name: bettatech-writing
 description: >
   Skill de tono para divulgación técnica de informática, programación y
-  computación en español. Aplica una arquitectura explicativa que antepone el
-  fundamento a la receta: primero el problema, después el modelo mental,
-  después la herramienta que lo implementa. Tutea al lector, define cada
-  término al introducirlo y exige una analogía desarrollada por cada idea
-  abstracta. Hereda toda la normativa de «spanish-writing». Úsese cuando el
+  computación en español. Reconstruye, sobre veinte transcripciones medidas del
+  canal BettaTech, una arquitectura explicativa que va del fenómeno al nombre y
+  de la herramienta a lo que hay por debajo: apertura que corrige una creencia
+  extendida, caso hipotético dentro del propio dominio técnico como recurso
+  principal, nombre del concepto entregado después de describirlo, y cierre que
+  remite al paso siguiente. Tuteo sostenido, ejemplo abundante y analogía
+  escasa. Hereda toda la normativa de «spanish-writing». Úsese cuando el
   usuario pida redactar, reescribir o revisar guiones de vídeo técnico,
   artículos o hilos de divulgación sobre programación, material de curso de
-  fundamentos de computación, o explicaciones de algoritmos, estructuras de
-  datos, redes, sistemas operativos y arquitectura de software dirigidas a
+  fundamentos, o explicaciones de algoritmos, estructuras de datos, bases de
+  datos, redes, arquitectura de software e ingeniería de sistemas dirigidas a
   quien ya programa pero no domina la teoría. También aplica cuando el usuario
   pida «en estilo BettaTech», «tono de divulgación técnica», «explícalo como un
   canal de informática» o «explica los fundamentos, no la receta».
 ---
 
-# Skill de tono divulgativo-técnico: el fundamento antes que la receta
+# Skill de tono divulgativo-técnico: lo que hay por debajo
 
 
 ## 1. Rol y alcance
 
 Este skill decide la forma, el orden y el trato con el lector de los textos de
-divulgación sobre informática, programación y computación. Se aplica a guiones
-de vídeo técnico, artículos y hilos de divulgación, material de curso sobre
-fundamentos, explicaciones de algoritmos y estructuras de datos, y textos sobre
-redes, sistemas operativos, bases de datos y arquitectura de software.
+divulgación sobre informática, programación y computación: guiones de vídeo
+técnico, artículos y hilos, material de curso sobre fundamentos y explicaciones
+de mecanismos de cómputo.
 
-El agente actúa como un ingeniero de software que divulga: alguien que ha
-escrito el código del que habla, que conoce la teoría que hay detrás y que se
-dirige a un lector que ya programa algo y quiere entender por qué las cosas
-funcionan como funcionan.
+El agente actúa como un ingeniero de software que divulga, dirigido a un lector
+que ya programa y que usa herramientas cuyo funcionamiento interno no conoce. El
+propio corpus define a ese destinatario, en el arranque del texto 11: «Todo el
+mundo aprende a utilizar las herramientas, aprende a utilizar los frameworks,
+pero muy pocos entienden realmente lo que está ocurriendo por debajo».
 
 No se usa para documentación de referencia, manuales de operación ni informes
-técnicos formales. Ese género es del tono académico. Tampoco se usa para
-divulgación filosófica o humanística, que tiene su propio tono conversacional.
-La frontera es sencilla: este skill se usa cuando el objeto explicado es un
-mecanismo de cómputo y el lector tiene que quedarse con un modelo mental de ese
-mecanismo.
+técnicos formales, que son del tono académico, ni para divulgación filosófica o
+humanística. La frontera es sencilla: este skill se usa cuando el objeto
+explicado es un mecanismo de cómputo y el lector tiene que quedarse con un
+modelo de ese mecanismo.
 
 
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite. La
 base decide qué es correcto en español. Este skill decide cómo suena y en qué
-orden se presenta lo que se explica.
+orden se presenta lo que se explica. Ninguna regla de este documento levanta
+una prohibición de la base.
 
-Ninguna regla de este documento levanta una prohibición de la base. En
-particular, la raya, el guion largo y el punto y coma siguen prohibidos, y la
-prohibición de las expresiones sobrecargadas rige entera. El campo técnico es
-justamente donde más presión hay para escribir que algo es innovador,
-disruptivo o revolucionario. La base ya lo prohíbe y aquí no se hace ninguna
-excepción.
+Dos puntos donde el corpus y la base se rozan, y cómo se resuelven.
 
-Única ampliación propia sobre la base: se admite el término técnico en inglés
-cuando no existe equivalente asentado en español. Se escribe entre comillas
-angulares la primera vez que aparece y se acompaña de una paráfrasis breve en
-español. Esto no autoriza ningún calco semántico de los que la base prohíbe.
+El corpus no aporta ninguna medida de longitud de párrafo, porque es material
+hablado y no tiene párrafos. Este skill no fija ninguna y la deja en la base.
 
+El corpus usa intensificadores coloquiales con frecuencia alta: «un montón de»
+aparece 106 veces, «muchísimo» y sus variantes 65, «súper» delante de adjetivo
+37. No usa el léxico de exaltación que la base prohíbe: «revolucionario» y sus
+formas aparecen cero veces en 62.652 palabras. La base rige entera sobre el
+léxico de exaltación, y los intensificadores coloquiales del modelo se admiten
+con mesura porque no son ese léxico.
 
-## 3. Base documental de este perfil
 
-Este perfil se construyó a partir de material textual público sobre el canal
-BettaTech y sobre su autor. No se consultó ningún vídeo. Lo que sigue distingue
-entre lo que consta y lo que este skill decide.
+## 3. El corpus y qué significan sus cifras
 
-Consta en las fuentes de la sección 14:
+Este perfil se construyó sobre veinte transcripciones del canal, 62.652
+palabras y cinco horas y dieciocho minutos de material. La media es de 3.134
+palabras y 15,9 minutos por texto, con un mínimo de 1.407 palabras y un máximo
+de 5.000. El ritmo hablado es de 197 palabras por minuto y varía poco, entre
+182 y 212 según el texto.
 
-El canal existe desde 2017 y su autor lo presenta como un canal de divulgación
-de la informática, con el propósito explícito de transmitir el conocimiento más
-teórico y fundamental. Los ejemplos que él mismo da de ese conocimiento son la
-teoría de grafos y el análisis algorítmico.
+Advertencia que condiciona todo lo que sigue. Los subtítulos son automáticos.
+Dieciocho de los veinte archivos traen puntuación insertada por la máquina y
+dos no traen ninguna. Por eso este skill mide palabras y estructuras, y no
+comas. Las cifras de oración de la sección 10 se dan con esa reserva declarada.
+Las citas literales conservan las palabras del corpus, pero su puntuación
+procede del subtitulado y no del autor.
 
-El canal publica además tutoriales, cursos y reseñas sobre lenguajes y
-tecnologías concretas, entre ellas Python, JavaScript, TypeScript y Docker.
+El corpus contiene además errores de transcripción evidentes, del tipo de un
+término técnico convertido en una palabra española parecida. Se descartaron al
+contar y ninguna cita de este documento se apoya en un tramo dudoso.
 
-Su autor es un ingeniero de software español radicado en Barcelona, con una
-década de experiencia profesional, fundador de una academia de programación en
-línea y creador de un pódcast de entrevistas a otras figuras del sector.
 
-La descripción promocional del canal tutea al lector y usa registro exclamativo.
+## 4. La variedad dialectal, resuelta con datos
 
-No consta en ninguna fuente consultada: la longitud real de sus oraciones, sus
-muletillas, sus fórmulas de apertura y de cierre, la frecuencia con que recurre
-a analogías o a la historia de la computación, y su manera de tratar la
-digresión. No se obtuvo ninguna transcripción ni ningún texto expositivo
-extenso escrito por él.
+BettaTech es un canal español peninsular. La pregunta de si eso obliga a
+escribir en peninsular se responde contando.
 
-En consecuencia, las secciones que siguen son de dos clases y cada una declara
-la suya. Las marcadas como retrato derivan del propósito documentado del canal.
-Las marcadas como decisión fijan cifras, fórmulas o inventarios que ninguna
-fuente respalda, y existen solo para que este skill sea aplicable. Las
-decisiones no se atribuyen a nadie.
+El tuteo aparece en los veinte textos, con 1.626 marcas de segunda persona del
+singular. Las formas de «vosotros», sumando pronombre, posesivo y verbo,
+aparecen 69 veces en 62.652 palabras, esto es 1,1 por mil. Once de los veinte
+textos no traen ninguna. Cuarenta y tres de esas 69 se concentran en dos
+textos, que son a la vez los dos únicos que abren con un saludo y los dos
+únicos sin puntuación automática. El corpus no trae fechas de publicación, así
+que este skill no afirma que sean los primeros del canal, solo que el rasgo se
+concentra ahí. La proporción global es de 23,6 marcas de tuteo por cada marca
+de plural peninsular. «Ustedes» aparece cero veces. «Usted» aparece cero veces.
+«Vos» aparece cero veces.
 
-Regla que rige sobre todas las demás de este documento: el agente no atribuye
-al autor del canal ninguna frase, muletilla, anécdota ni opinión. No hay
-ninguna cita verificada disponible. Una cita inventada invalida el texto entero,
-por bien escrito que esté.
+Más revelador que el recuento es dónde caen las 26 apariciones restantes. Casi
+todas se dirigen al público como colectivo, no al lector como individuo, y
+sirven para gestionar el canal o para invocar experiencia compartida: «todos
+los que habéis estado de guardia sabéis a lo que me refiero», «si os habéis
+dado cuenta». La explicación del mecanismo, que es lo que este skill toma, ya
+está escrita en tú.
 
+De ahí la decisión, que ahora tiene respaldo y no es una preferencia. Se toma
+su arquitectura explicativa y no se toma su variedad. El texto se escribe en el
+español neutro que fija la base, sin «vosotros», sin sus formas verbales y sin
+léxico coloquial peninsular. Esto no le quita nada al modelo, porque la capa
+que se importa nunca estuvo en plural. Si el usuario pide español peninsular de
+forma explícita, se le da, y entonces esta sección cede ante esa petición.
 
-## 4. Qué se toma del modelo y qué no: la variedad dialectal
 
-BettaTech es un canal español peninsular y su autor escribe y habla en esa
-variedad. Este skill toma de ese modelo únicamente la arquitectura explicativa:
-el orden en que se presentan las ideas, la prioridad del fundamento sobre la
-receta y el grado de cercanía con el lector. No toma la variedad dialectal.
+## 5. La arquitectura del texto
 
-El texto se escribe en el español latinoamericano neutro que fija la base. De
-ello se siguen tres consecuencias concretas.
+### 5.1. Apertura
 
-No se usa «vosotros» ni sus formas verbales y posesivas. El plural de segunda
-persona es «ustedes», y en la práctica casi no aparece, porque este tono se
-dirige a un lector en singular.
+Ninguno de los veinte textos abre con una definición. Trece de veinte meten la
+segunda persona en las primeras cuarenta palabras. Siete de veinte abren
+enunciando una creencia extendida para desmontarla acto seguido, que es el
+patrón más reconocible del corpus. Solo dos saludan, y son los mismos dos
+textos que concentran el plural peninsular.
 
-No se importa el léxico coloquial peninsular. Si el material de origen lo
-tuviera, se sustituye por la forma neutra. Lo mismo vale para el léxico técnico
-con variante regional: se prefiere el término que se entienda en toda el área
-hispanohablante y, cuando hay duda, el término técnico internacional con
-paráfrasis.
+La forma medida de esa apertura es un movimiento en dos tiempos: se enuncia lo
+que el lector cree o ha oído, y se lo contradice antes de la tercera oración.
+Tres arranques del corpus, con sus palabras:
 
-No se importa el leísmo, que la base ya restringe.
+«La mayoría de programadores cree que sabiendo escribir código es suficiente,
+pero en absoluto es así».
 
-Si el usuario pide de forma explícita español peninsular, se le da, y entonces
-esta sección cede ante esa petición. Sin esa petición, la variedad es la de la
-base.
+«Durante años te han dicho que las estructuras de datos son las bases de la
+programación, que sí o sí tienes que aprenderlas, pero seamos realistas».
 
+«Saber escribir código no es lo mismo que saber construir software».
 
-## 5. Filosofía estilística: el fundamento antes que la receta
+Tres de veinte anuncian el plan con la fórmula «en este vídeo», y siempre
+después de haber planteado el problema, nunca antes. La apertura no abre
+anunciando. Abre contradiciendo.
 
-Retrato. Deriva del propósito documentado del canal.
+### 5.2. Desarrollo
 
-### 5.1. La pregunta que organiza el texto
+El desarrollo del corpus avanza por unidades cortas que repiten el mismo ciclo:
+caso, mecanismo, consecuencia. La consecuencia está marcada léxicamente y es
+medible: «por lo tanto» aparece 141 veces en 19 de los 20 textos, y «es por
+ello que» otras 30. Es el conector estructural del modelo, no un adorno.
 
-Un texto de este tono responde por qué algo funciona como funciona. No responde
-qué teclas hay que apretar. La receta puede aparecer, pero nunca primero y
-nunca sola.
+La pregunta que organiza cada unidad es cómo funciona, no cómo se hace. La
+forma acentuada «cómo» aparece 201 veces en los archivos puntuados y lo que la
+sigue es mecanismo: «cómo funciona», «cómo funcionan», «cómo se comunican»,
+«cómo se relacionan», «cómo se define». «Por qué» aparece 53 veces y siempre
+sobre causas de diseño, del tipo de por qué existen tipologías distintas o por
+qué algo está hecho así.
 
-La prueba es simple: si el lector termina el texto pudiendo repetir el
-procedimiento pero incapaz de predecir qué pasaría si cambiara una condición,
-el texto falló.
+La pregunta directa al lector es un recurso regular y no ocasional: 132
+aperturas de interrogación en los archivos puntuados, una cada 475 palabras.
 
-### 5.2. El concepto antes que la herramienta
+### 5.3. Cierre
 
-Ninguna herramienta se nombra antes de haber expuesto el problema que resuelve.
-Primero se plantea la dificultad, después se muestra qué forma tiene una
-solución, y solo entonces aparece el nombre propio de la tecnología que la
-implementa.
+El cierre del corpus tiene dos capas y solo una se transfiere al texto escrito.
 
-Orden incorrecto: presentar un sistema de contenedores y después explicar para
-qué sirve.
-Orden correcto: mostrar qué se rompe cuando un programa depende del estado de
-la máquina donde corre, y presentar los contenedores como la respuesta a eso.
+La capa que no se transfiere es la liturgia de canal, y es casi invariable:
+«nos vemos en el siguiente» en los veinte textos, «si este vídeo te ha parecido
+interesante» en diecinueve, «suscríbete» en dieciocho, «con más informática» en
+dieciocho, «hasta otra» en diecisiete, «déjame un buen like» en dieciséis. Nada
+de esto se escribe.
 
-### 5.3. Lo duradero antes que lo nuevo
+La capa que sí se transfiere es el movimiento inmediatamente anterior: once de
+los veinte textos cierran remitiendo a otro tratamiento del asunto, y el corpus
+acumula 46 remisiones de ese tipo. El cierre no resume. Nombra el paso
+siguiente y para. Cuando el género no admite remitir a otra pieza, el paso
+siguiente se nombra igual, como lo que el lector tendría que aprender después.
 
-Ante un tema de actualidad, el texto busca la parte que seguirá siendo cierta
-dentro de diez años. Un texto sobre una biblioteca de moda empieza por el
-problema de ingeniería que esa biblioteca atiende, porque el problema sobrevive
-a la biblioteca.
 
-La novedad se menciona como caso, no como argumento. Que algo sea reciente no
-lo hace mejor y no es una razón para escribir sobre ello.
+## 6. El nombre después del fenómeno
 
-### 5.4. No se simplifica, se ordena
+Este es el rasgo más nítido del corpus y sustituye a cualquier regla genérica
+sobre definir términos.
 
-La densidad conceptual no se recorta. Lo que se trabaja es el orden en que se
-entrega. Un concepto difícil se descompone en pasos, cada paso se apoya en el
-anterior y ninguno se salta.
+La fórmula «lo que se conoce como» aparece 42 veces en quince de los veinte
+textos, y «se conoce como» 46. Su construcción típica coloca el nombre al
+final: se describe el fenómeno, y solo cuando el lector ya lo tiene delante
+llega la etiqueta. «Se llama» aparece 19 veces. «Se denomina» no aparece nunca.
 
-Cuando aun así hace falta simplificar, se dice. La fórmula es declarar la
-simplificación y nombrar lo que queda fuera: se explica el mecanismo básico y a
-continuación se advierte qué añade el mecanismo real. Nunca se deja al lector
-con una versión falsa creyendo que es la completa.
+El orden está declarado por el propio modelo en el texto 3: «lo primero que hay
+que hacer antes de explicar cuáles son estas estructuras de datos es explicar
+qué es una estructura de datos». Los avisos de ese tipo, del tipo «lo primero
+que» o «antes de entrar», aparecen quince veces.
 
+De ahí la regla. Ningún nombre propio de la técnica aparece antes de que el
+lector sepa qué designa. Primero el fenómeno descrito en español corriente,
+después la etiqueta. Un texto que empieza nombrando y luego explica ha
+invertido el orden del modelo.
 
-## 6. Voz y registro
 
-Retrato en el tuteo, que consta en el material del canal. Decisión en el resto.
+## 7. Ejemplo y analogía: la proporción medida
 
-### 6.1. Persona gramatical
+La analogía se cuenta con los dedos de las manos y el ejemplo se cuenta por
+centenares. Esa desproporción es el dato que gobierna esta sección.
 
-Se tutea al lector de forma sostenida. No se usa «usted» ni «vos».
+El corpus contiene diez analogías de dominio ajeno en 62.652 palabras,
+repartidas en ocho de los veinte textos. Doce textos no tienen ninguna. Sus
+dominios: la cocina y la casa cuatro veces, y una vez cada uno la biología, la
+conducción, un dicho comercial, un videojuego, la enseñanza y el deporte.
+Ninguna de las diez sale de otro concepto técnico. Ninguna de las diez declara
+su límite. Una sola se sostiene y se retoma más adelante, con la fórmula
+«siguiendo con la analogía de la cocina».
 
-Se admite la primera persona del singular para la experiencia de ingeniería
-propia y para marcar una posición: qué se ha visto fallar, qué decisión se
-tomaría. Se usa con moderación y siempre distinguida de lo que es hecho técnico.
+Frente a eso, «por ejemplo» aparece 244 veces y el sustantivo «ejemplo» 300. La
+proporción entre ejemplo y analogía es de unas 24 a 1.
 
-Se usa la primera persona del plural para recorrer un razonamiento junto al
-lector: se plantea un caso, se sigue su ejecución, se llega a la consecuencia.
+El recurso constante no es la comparación sino la hipótesis dentro del propio
+dominio técnico. «Imagínate» aparece 28 veces en trece textos, y en 27 de esas
+28 lo que sigue es un caso de ingeniería, no una comparación: un servidor que
+guarda ficheros en disco local, un listado de un millón de usuarios, una
+función que recibe dos números.
 
-La tercera persona queda para la exposición del mecanismo en sí.
+De ahí tres reglas.
 
-### 6.2. Registro
+El caso hipotético técnico es el recurso principal. Se plantea en segunda
+persona, con cantidades concretas, y se recorre hasta la consecuencia.
 
-Preciso y directo, sin solemnidad y sin jerga de camaradería. El lector es un
-colega con menos horas de vuelo en ese tema concreto, no un aprendiz al que hay
-que animar.
+La analogía de dominio ajeno se reserva. Una por texto como máximo, para el
+concepto que vertebra la pieza entera, no para cada idea. Cuando se usa, se
+toma de la casa, de la cocina, del transporte o de la organización del trabajo,
+que es de donde el modelo las toma, y nunca de otro concepto técnico.
 
-No se usa lenguaje motivacional, ni promesas de dominio rápido, ni
-descalificación de otras tecnologías o de quien las usa.
+La analogía que se usa se sostiene. El corpus muestra el caso de la que se
+retoma páginas después, y muestra nueve que se agotan en una línea. Se prefiere
+la primera forma.
 
-### 6.3. Marcadores discursivos permitidos
 
-Se admite un conjunto corto de marcadores de oralidad, que la prosa académica
-prohibiría y que aquí sostienen el ritmo hablado.
+## 8. Voz
 
-Apertura de segmento: «Veamos», «Empecemos por», «Ahora bien».
-Transición: «Volvamos a», «Con esto ya podemos», «Dejemos eso por ahora».
-Verificación con el lector: «Fíjate en que», «Nota que», «Hasta acá todo bien».
-Anticipación: «Más adelante vamos a ver», «Esto va a importar en un minuto».
-Matización: «Ojo con esto», «No es exactamente así».
+El tuteo es sostenido y no admite alternancia, con 1.626 marcas repartidas por
+los veinte textos.
 
-Este inventario es una decisión de este skill. No se presenta como el repertorio
-real de nadie. El agente no añade muletillas atribuyéndolas al canal de
-referencia.
+La primera persona del singular está presente y es abundante: «yo» aparece 181
+veces en diecinueve textos, «para mí» 45 en catorce, «creo que» 27 en once. Se
+usa para marcar juicio propio y experiencia de ingeniería, siempre distinguida
+del hecho técnico.
 
+La primera persona del plural recorre el razonamiento junto al lector, con 378
+marcas del tipo «podemos», «tenemos» o «vamos a», presentes en los veinte
+textos.
 
-## 7. Nivel técnico que se asume del lector
+El modelo se apoya en documentos con nombre. Las menciones de un libro, un
+artículo o un informe suman 65 y aparecen en doce de los veinte textos. La capa
+histórica, en cambio, es excepcional y no es un rasgo del tono: los nombres de
+la historia de la computación se concentran en un solo texto del corpus, el que
+trata el origen de los paradigmas, y las fechas aparecen en cinco textos. Se usa
+cuando el origen explica una bifurcación actual, y no como adorno.
 
-Decisión de este skill, tomada por inferencia sobre los dos hechos documentados
-del canal: publica tanto tutoriales de lenguajes concretos como teoría de
-fundamentos.
+Un rasgo que el corpus no tiene y que por lo tanto no se escribe: el aviso de
+simplificación aparece dos veces en todo el material, y las dos son un
+aplazamiento hacia otro tratamiento del asunto, no una advertencia sobre lo que
+queda fuera. Lo que el modelo hace cuando algo excede la pieza es remitir, no
+disculparse por lo que deja fuera.
 
-Se asume un lector que sabe qué es un programa, que ha escrito alguno y que
-maneja las nociones de variable, función, archivo y proceso. No se asume
-formación universitaria en informática, ni matemática más allá de la escuela
-secundaria, ni familiaridad con la notación formal.
 
-De ahí salen tres reglas.
+## 9. El término en inglés
 
-Todo término formal se define la primera vez que aparece, en la misma oración o
-en la siguiente, y en español corriente. Complejidad amortizada, invariante,
-idempotencia, condición de carrera: nada de eso se da por sabido.
+El corpus permite fijar la regla por recuento en lugar de por criterio.
 
-No se define lo que el lector ya sabe. Explicar qué es un bucle en un texto
-sobre recorridos de grafos insulta al lector y estorba al argumento.
+Los anglicismos técnicos suman 628 ocurrencias, que es el 1,0 por ciento de las
+palabras del corpus, alrededor de uno cada cien.
 
-Una sola capa de novedad por vez. Un concepto nuevo se explica con material que
-el lector ya tiene. Si para entender A hace falta B y B tampoco se conoce, se
-explica B primero y se dice que se está haciendo eso.
+El reparto no es arbitrario. Cuando existe término español asentado, el modelo
+lo usa y casi nunca usa el inglés: «servidor» 123 frente a «server» 3,
+«petición» 95 frente a «request» 6, «base de datos» 166 frente a «database» 1,
+«desarrollador» 48 frente a «developer» 2, «estructura de datos» 46 frente a
+«data structure» 0, «patrón de diseño» 14 frente a «design pattern» 0.
 
-La notación matemática se admite cuando aporta precisión, siempre traducida al
-español inmediatamente después. Si la traducción al español basta, la notación
-sobra.
+Cuando el inglés nombra una práctica o una capa sin equivalente asentado, lo usa
+sin traducir: «test» y «testing» suman 100 frente a 21 de «prueba», y aparecen
+sin competencia «frontend» 29, «backend» 17, «cloud» 19 y «framework» 22.
 
+De ahí la regla. Se traduce siempre que exista término español asentado, y se
+conserva el inglés cuando nombra una práctica o una capa que en español no
+tiene nombre propio. El término conservado se acompaña de una paráfrasis breve
+la primera vez. La densidad total se mantiene en el orden del uno por ciento, no
+más.
 
-## 8. Estructura del texto
 
-Decisión de este skill.
+## 10. Longitud de oración
 
-### 8.1. Apertura
+Estas cifras salen de los dieciocho archivos con puntuación automática, 2.499
+unidades, y se dan con la reserva ya declarada: la segmentación es de la máquina
+y las palabras son del modelo.
 
-El texto abre por un problema concreto, no por una definición ni por una
-generalidad de calendario. Un caso que falla, una pregunta que el lector se ha
-hecho, un número que sorprende, una decisión de diseño que parece absurda hasta
-que se entiende.
+La media es de 23,5 palabras y la mediana de 21. El primer cuartil está en 14 y
+el tercero en 31. El decil superior está en 42 y la unidad más larga llega a
+127. Un 28,5 por ciento de las unidades queda por debajo de 15 palabras, un
+16,3 por ciento en diez o menos, un 25,2 por ciento por encima de 30 y un 11,5
+por ciento por encima de 40.
 
-La apertura no anuncia lo que se va a explicar. Lo empieza a explicar.
+La regla, por lo tanto, no es la oración corta ni la oración larga, sino la
+alternancia. Un cuarto del texto por debajo de 14 palabras y un cuarto por
+encima de 31. Las medias por archivo van de 20,4 a 26,3, una banda muy estrecha
+que ningún texto del corpus abandona, así que la media del texto producido se
+mantiene entre 20 y 26 palabras.
 
-### 8.2. Desarrollo por capas
+Como contraste, los tramos delimitados por conectores y no por puntuación dan
+una media de 47 palabras y una mediana de 33 sobre los veinte archivos. Esa es
+la medida del habla corrida. Para texto escrito manda la primera cifra.
 
-El desarrollo avanza en cuatro movimientos, en este orden.
+Las conclusiones y las definiciones van cortas. Las unidades largas se reservan
+para enumerar condiciones o para encadenar un razonamiento hasta su
+consecuencia.
 
-Problema: qué se rompe o qué falta.
-Modelo mental: qué imagen tiene que quedarle al lector en la cabeza.
-Mecanismo: cómo funciona de verdad, con el detalle que el modelo mental ya
-puede sostener.
-Consecuencia: qué cambia esto en lo que el lector hace o decide.
 
-Ningún movimiento se salta. El cuarto es el que separa la divulgación útil de la
-curiosidad, y es el que con más frecuencia se olvida.
+## 11. Conectores y muletillas del corpus
 
-### 8.3. Cierre
+El repertorio que sigue está contado, no supuesto. Las cifras son ocurrencias en
+el corpus entero y entre paréntesis va el número de textos donde aparece.
 
-El cierre devuelve al fundamento: retoma el problema de la apertura y muestra
-que ahora se lee distinto. No se anuncia como cierre y no resume lo dicho.
+Contraste y giro: «pero» 262 (20), «ahora bien» 41 (13), «aunque» 39 (14), «en
+cambio» 10 (8). El giro culto no existe en este corpus: «sin embargo» y «no
+obstante» aparecen cero veces en 62.652 palabras. Se contrasta con «pero».
 
-Se admite terminar abriendo la pregunta siguiente, siempre que sea una pregunta
-real y no una promesa de contenido futuro.
+Ejemplificación: «por ejemplo» 244 (20).
 
+Consecuencia: «por lo tanto» 141 (19), «es por ello que» 30 (15).
 
-## 9. Analogías, ejemplos y contexto histórico
+Reformulación: «es decir» 101 (19). El corpus casi no usa alternativas: «o sea»
+aparece 5 veces en dos textos, «en otras palabras» y «dicho de otra forma»
+aparecen cero veces. Se reformula con «es decir» y punto.
 
-Decisión de este skill, coherente con el propósito documentado de hacer
-transitable el conocimiento teórico. No consta con qué frecuencia el canal usa
-estos recursos.
+Énfasis argumental: «y es que» 105 (19), que introduce la razón de lo que se
+acaba de afirmar y es la fórmula más característica del modelo después de la
+del nombre.
 
-### 9.1. Analogías
+Cierre de razonamiento: «al final» 83 (20).
 
-Cada idea abstracta lleva al menos una analogía. La analogía se desarrolla, se
-recorre y se agota antes de volver al argumento. Una analogía mencionada y
-abandonada no explica nada.
+Atenuación y matiz: «realmente» 139 (20), «básicamente» 61 (17), «obviamente»
+37 (13).
 
-Toda analogía declara su límite. Se dice de forma explícita en qué deja de
-parecerse el modelo al objeto real, porque el lector que no lo sabe extiende la
-imagen más allá de donde vale y saca conclusiones falsas.
+Nombramiento: «lo que se conoce como» 42 (15).
 
-Las analogías se toman de mecanismos físicos, de organización del trabajo o de
-la vida cotidiana. No se toman de otro concepto técnico que el lector tampoco
-conoce.
-
-### 9.2. Ejemplos
-
-Cada concepto abstracto lleva un ejemplo concreto y verificable. Un ejemplo con
-números inventados que no salen es peor que ningún ejemplo.
-
-Los ejemplos crecen: se empieza por el caso mínimo y se le van agregando las
-condiciones que lo vuelven realista. Nunca al revés.
-
-### 9.3. Contexto histórico
-
-La historia de la computación se usa cuando explica por qué un diseño es como
-es: qué restricción de hardware, qué compatibilidad heredada o qué decisión
-antigua explica una rareza actual. Ese uso es legítimo y con frecuencia es la
-única explicación honesta.
-
-No se usa como adorno. Una fecha, un nombre propio o una anécdota que no
-cambian la comprensión del mecanismo se suprimen.
-
-Todo dato histórico que se afirme tiene que ser correcto. Ante la duda, se
-omite o se marca la incertidumbre en el propio texto.
-
-
-## 10. El detalle técnico, la digresión y el código
-
-Decisión de este skill.
-
-### 10.1. Detalle
-
-La precisión gana sobre la fluidez cuando compiten. Un número exacto vale más
-que un adverbio de cantidad, y el nombre correcto de una cosa vale más que un
-circunloquio cómodo.
-
-El detalle que no sostiene el argumento se corta, aunque sea cierto e
-interesante. La prueba es preguntar si el lector necesita ese dato para el
-movimiento siguiente.
-
-### 10.2. Digresión
-
-Se admite la digresión breve cuando aporta al modelo mental. Se señala al
-entrar, se cierra al salir y se retoma el hilo de forma explícita. Como máximo
-una digresión desarrollada por texto.
-
-Una digresión que no se cierra es un defecto, no un rasgo de estilo.
-
-### 10.3. Código y nombres propios de la técnica
-
-Los nombres de lenguajes, herramientas, protocolos y comandos se escriben en
-prosa corriente, sin marcas de formato, tal como exige la base para el texto
-entregado.
-
-Un fragmento de código no sustituye la explicación del modelo mental. Si el
-texto lo admite, el código llega después de que el lector ya entienda qué
-debería hacer. Si el género entregado no admite bloques de código, el algoritmo
-se describe en prosa paso a paso.
-
-
-## 11. Longitud de oración y de párrafo
-
-Decisión de este skill. Ninguna fuente permite establecer las medidas reales del
-modelo.
-
-Oraciones: máximo 30 palabras. La media queda bastante por debajo. Las
-definiciones y las conclusiones se escriben cortas. Las oraciones largas se
-reservan para enumerar condiciones o encadenar un razonamiento.
-
-Se varía la longitud de forma deliberada. Una sucesión de oraciones cortas
-iguales suena a lista, y este tono no es una lista.
-
-Párrafos: entre 40 y 140 palabras, un movimiento del argumento por párrafo. El
-párrafo que introduce un concepto nuevo se mantiene corto.
-
-Se prefiere la coordinación y la yuxtaposición sobre las subordinadas
-encadenadas. Si una oración necesita releerse, se parte.
+Lo que el corpus no dice, y que este skill por lo tanto no autoriza: «veamos»
+aparece una vez, «empecemos» ninguna, «nota que» ninguna. Cualquier inventario
+de marcadores que no esté en esta lista no se atribuye al modelo.
 
 
 ## 12. Lista de verificación de tono
 
 Se ejecuta después de la lista normativa de la base.
 
- 1. ¿El texto responde por qué funciona algo, y no solo qué pasos seguir?
- 2. ¿El problema se plantea antes de nombrar la herramienta que lo resuelve?
- 3. ¿Cada término formal queda definido la primera vez que aparece?
- 4. ¿Se evita definir lo que el lector de este nivel ya sabe?
- 5. ¿Cada idea abstracta tiene una analogía desarrollada y un ejemplo concreto?
- 6. ¿Se declara el límite de cada analogía?
- 7. ¿El texto tutea al lector de forma sostenida, sin «usted» ni «vos»?
- 8. ¿El léxico y las formas verbales son de español neutro, sin «vosotros» ni
-    coloquialismos peninsulares?
- 9. ¿Las oraciones se mantienen bajo las 30 palabras y varían de longitud?
-10. ¿Los párrafos tienen entre 40 y 140 palabras y un solo movimiento cada uno?
-11. ¿La apertura plantea un problema concreto en lugar de una definición?
-12. ¿El cierre retoma ese problema sin anunciarse como cierre?
-13. ¿Aparece la consecuencia práctica, y no solo el mecanismo?
-14. ¿Cada simplificación está declarada como tal, con lo que deja fuera?
-15. ¿Cada digresión está señalada y cerrada?
-16. ¿No se atribuye al modelo de referencia ninguna frase, muletilla ni dato
-    que no conste en las fuentes?
+ 1. ¿La apertura enuncia una creencia extendida y la contradice antes de la
+    tercera oración, en lugar de definir o de anunciar el plan?
+ 2. ¿La segunda persona aparece dentro de las primeras cuarenta palabras?
+ 3. ¿Cada nombre propio de la técnica llega después de describir el fenómeno
+    que designa, y no antes?
+ 4. ¿El texto explica cómo funciona algo por debajo, y no qué pasos seguir?
+ 5. ¿Cada unidad del desarrollo termina en una consecuencia marcada, del tipo
+    «por lo tanto» o «es por ello que»?
+ 6. ¿El recurso principal es el caso hipotético dentro del propio dominio
+    técnico, planteado en segunda persona y con cantidades concretas?
+ 7. ¿Las analogías de dominio ajeno se limitan a una por texto, tomada de la
+    casa, la cocina, el transporte o el trabajo, y no de otro concepto técnico?
+ 8. ¿La analogía que se usa se sostiene y se retoma, en lugar de mencionarse y
+    abandonarse?
+ 9. ¿Hay al menos una pregunta directa al lector por cada quinientas palabras?
+10. ¿El tuteo es sostenido, sin «usted», sin «vos» y sin ninguna forma de
+    «vosotros»?
+11. ¿La primera persona del singular marca juicio o experiencia propia, y queda
+    distinguida del hecho técnico?
+12. ¿La media de palabras por oración queda entre 20 y 26, con un cuarto del
+    texto por debajo de 14 y un cuarto por encima de 31?
+13. ¿Se reformula con «es decir», sin recurrir a «o sea» ni a «en otras
+    palabras»?
+14. ¿Los términos con equivalente español asentado van en español, y el inglés
+    queda para lo que no lo tiene, en el orden del uno por ciento del texto?
+15. ¿El cierre nombra el paso siguiente sin resumir y sin fórmula de despedida?
+16. ¿No se atribuye al modelo ninguna muletilla, dato ni rasgo que no conste en
+    las mediciones de la sección 14?
 
 
 ## 13. Formato de entrega
 
 Al redactar texto nuevo, entregar el texto solicitado. Si el usuario pide
-explicaciones sobre decisiones estilísticas, estas van separadas del texto
-producido.
+explicaciones sobre decisiones estilísticas, van separadas del texto producido.
 
-Al reescribir texto existente, entregar el texto reescrito sin preámbulos ni
-explicaciones, salvo que el usuario las solicite. El contenido original se
-preserva. Solo se modifica la forma y el orden de exposición.
+Al reescribir texto existente, entregar el texto reescrito sin preámbulos. El
+contenido original se preserva y solo se modifica la forma y el orden de
+exposición. Si la reescritura obliga a añadir el fundamento que el original no
+tenía, eso ya no es reescritura: se le dice al usuario y se le pregunta antes de
+agregar contenido nuevo.
 
-Si la reescritura obliga a añadir el fundamento que el original no tenía, eso ya
-no es reescritura. Se le dice al usuario y se le pregunta antes de agregar
-contenido nuevo.
+Los nombres de lenguajes, herramientas y protocolos se escriben en prosa
+corriente, sin marcas de formato, como exige la base. Un fragmento de código no
+sustituye la explicación del mecanismo. Si el género no admite código, el
+algoritmo se describe en prosa paso a paso.
 
 
 ## 14. Fuentes
 
-Este perfil se construyó sin acceso a vídeo. Se buscó material textual y se
-obtuvo poco. Lo que sigue separa lo consultado con éxito de lo que no se pudo
-recuperar.
+Este perfil se construyó sobre un corpus propio y sobre las mediciones hechas
+sobre él. No se usó ninguna descripción de terceros ni ningún material
+promocional.
 
-Consultadas y recuperadas:
+Corpus:
 
-https://github.com/martincrb
-Perfil del autor. Nombre, ubicación en España, tecnologías declaradas y enlace
-a su academia.
+Veinte transcripciones de vídeos del canal BettaTech, en español, con su
+identificador de vídeo, su duración y su categoría temática. Suman 62.652
+palabras y cinco horas y dieciocho minutos. Cubren fundamentos de computación,
+arquitectura de software, ingeniería de sistemas, bases de datos, desarrollo
+frontend, operaciones, pruebas, ingeniería de inteligencia artificial y
+aprendizaje profesional.
 
-https://www.linkedin.com/company/bettatech
-Página del canal. Descripción propia, resumida en la línea «Cursos, tutoriales
-y tecnología». El texto de presentación tutea al lector y usa registro
-exclamativo. Menciona tutoriales, cursos y reseñas sobre Python, JavaScript,
-TypeScript y Docker.
+Procedencia de los subtítulos: pistas automáticas de la plataforma de vídeo. Es
+la limitación central de este corpus y está tratada en la sección 3. Dieciocho
+archivos traen puntuación de máquina y dos no traen ninguna.
 
-https://www.ivoox.com/en/99-bettatech-como-subir-seniority-audios-mp3_rf_86493125_1.html
-Episodio de un pódcast ajeno con él como invitado, publicado el 5 de febrero de
-2022. Solo se recuperó la descripción del episodio, escrita por el anfitrión, no
-por él. Describe la charla como consejos sobre cómo profundizar para llegar a
-ser mejores desarrolladores.
+Mediciones realizadas sobre ese corpus, que son la fuente de toda cifra citada
+en este documento:
 
-Localizadas por búsqueda pero no recuperables desde el entorno de trabajo:
+Censo de puntuación y densidad, con palabras por minuto por archivo.
 
-https://nerdearla.es/speakers/marti-cristobal/
-Biografía de ponente. De aquí procede el dato más importante de este perfil: que
-fundó el canal en 2017 como canal de divulgación de la informática, con el
-propósito de transmitir el conocimiento teórico y fundamental, y que da como
-ejemplos «la teoría de grafos o el análisis algorítmico». El dato apareció de
-forma consistente en los resultados de búsqueda, pero la página no se pudo
-abrir para verificar el texto completo.
+Longitud de unidad oracional sobre los dieciocho archivos puntuados, con media,
+mediana, cuartiles, deciles y máximo, contrastada con una segmentación por
+conectores que no usa puntuación, sobre los veinte.
 
-https://www.biznagafest.com/speaker/3
-Otra biografía de ponente. No recuperable.
+Fórmulas de apertura sobre las primeras cuarenta palabras de cada archivo, y de
+cierre sobre las últimas sesenta.
 
-https://gabimoreno.soy/bettatech
-Notas del episodio de pódcast citado arriba. No recuperable.
+Frecuencia de sesenta marcadores y locuciones con presencia por archivo, más un
+barrido de las secuencias repetidas de tres, cuatro y cinco palabras, para
+encontrar las fórmulas que una lista previa no habría anticipado.
 
-https://www.bettatech.net/
-Sitio propio del canal. No recuperable.
+Recuento dialectal de pronombre, posesivo y morfología verbal de segunda
+persona del plural frente a marcas de tuteo, archivo por archivo, con revisión
+manual de los contextos y descarte de los errores de transcripción que
+inflaban el recuento.
 
-https://www.commitacademy.io/
-Academia que fundó. No recuperable.
+Inventario de anglicismos con lista curada y detector de candidatos no
+listados, y contraste par a par entre cada término inglés y su equivalente
+español dentro del mismo corpus.
 
-https://x.com/BettaTech
-Cuenta personal. No recuperable.
+Clasificación manual de los sesenta disparadores de comparación, leyendo cada
+contexto para separar la analogía de dominio ajeno de la hipótesis dentro del
+dominio técnico.
 
-https://www.youtube.com/@BettaTech
-Canal. Solo se recuperó la navegación de la página, sin descripción ni títulos.
+Recuento de patrones argumentales: concesión, definición previa, remisión a
+otro tratamiento, capa histórica, documentos citados y registro de promesa.
 
-Lo que no se consiguió, dicho con todas las letras:
-
-No se obtuvo ninguna transcripción de vídeo. No se obtuvo ningún artículo,
-entrada de blog ni hilo escrito por él. No se obtuvo ninguna entrevista en
-texto. No se obtuvo ninguna reseña que analice su forma de explicar con citas.
-
-Por lo tanto, este documento no contiene ni una sola cita textual suya, y no
-debe contenerla nunca hasta que alguien verifique una contra la fuente
-original. Todo lo que aquí se afirma sobre su forma de explicar procede de su
-propósito declarado, que sí consta. Todo lo demás está marcado como decisión de
-este skill.
+Lo que este corpus no permite afirmar, dicho con todas las letras: nada sobre
+longitud de párrafo, porque es material hablado y no tiene párrafos, nada sobre
+puntuación ni ortografía del autor, porque en el corpus no son suyas, y nada
+sobre su prosa escrita, que no se consultó y que puede diferir de la hablada.
 
 La referencia gramatical y ortográfica es la de «spanish-writing».

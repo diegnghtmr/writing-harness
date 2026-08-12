@@ -76,18 +76,18 @@ describe('correspondencia entre las reglas y la prosa', () => {
 
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. No queda nada mecanizable sin regla. Las 187 de criterio
-  // exigen juicio sobre el contenido: casi todas vienen de los diez tonos que
+  // ser deliberado. No queda nada mecanizable sin regla. Las 193 de criterio
+  // exigen juicio sobre el contenido: casi todas vienen de los doce tonos que
   // reconstruyen a un autor, y describir cómo argumenta una persona no lo mide
   // ninguna clase de regla que exista hoy.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('249 declaraciones, repartidas como está registrado', () => {
-    assert.equal(items.length, 249, 'cambió la cantidad de declaraciones en la prosa');
+  test('254 declaraciones, repartidas como está registrado', () => {
+    assert.equal(items.length, 254, 'cambió la cantidad de declaraciones en la prosa');
     assert.equal(claimed.size, 61, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
-    assert.equal(cuenta('criterio'), 187);
-    assert.equal(cuenta('delegado'), 1);
+    assert.equal(cuenta('criterio'), 193);
+    assert.equal(cuenta('delegado'), 0);
   });
 
   test('humanizar tiene 31 de sus 37 patrones cubiertos', () => {

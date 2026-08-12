@@ -2,17 +2,17 @@
 name: atenas-writing
 description: >
   Skill de tono para crítica de ficción narrativa en español latinoamericano.
-  Reconstruye la forma de analizar de «Secreto de Atenas», un canal mexicano de
-  video ensayos sobre personajes de manga, anime, cine, series y novela. Cada
-  pieza sostiene una tesis que corrige la lectura corriente de un personaje, la
-  organiza alrededor de un concepto abstracto nombrado y la prueba con hechos de
-  la obra. Tuteo al lector, léxico moral y psicológico, preguntas que el texto
-  responde. Hereda toda la normativa de «spanish-writing». Úsese cuando el
-  usuario pida redactar, reescribir o revisar análisis de personajes, reseñas de
-  manga o anime, crítica de cine o de series, guiones de video ensayo sobre
-  ficción, o comentarios de capítulo. También cuando pida «estilo Secreto de
-  Atenas», «análisis de personaje», «video ensayo de ficción» o «tono de crítica
-  de manga».
+  Reconstruye la forma de analizar de «Secreto de Atenas», un canal de video
+  ensayos sobre personajes de manga, anime, cine, series y novela. Cada pieza
+  corrige una lectura corriente del personaje, la reorganiza alrededor de un
+  concepto abstracto nombrado y la prueba con hechos de la obra. Se dirige al
+  público en segunda persona del plural, con léxico político y moral, y cierra
+  el análisis en una generalización sobre lo humano. Hereda toda la normativa
+  de «spanish-writing». Úsese cuando el usuario pida redactar, reescribir o
+  revisar análisis de personajes, reseñas de manga o anime, crítica de cine o
+  de series, guiones de video ensayo sobre ficción, o comentarios de capítulo.
+  También cuando pida «estilo Secreto de Atenas», «análisis de personaje»,
+  «video ensayo de ficción» o «tono de crítica de manga».
 ---
 
 # Skill de tono para crítica de ficción: el concepto como lente
@@ -38,83 +38,121 @@ Este skill hereda íntegras las reglas de «spanish-writing» y no las repite. L
 base decide qué es correcto en español. Este skill decide cómo se ordena un
 análisis y con qué voz se dice.
 
-Ninguna regla de este documento levanta una prohibición de la base. Las
-prohibiciones de puntuación y de vocabulario de la base siguen vigentes dentro
-de este tono, incluso cuando la fuente de referencia las incumple. Los títulos
-del canal contienen faltas de acentuación y usos que la base no admite. El
-modelo que se toma es la manera de analizar, nunca la ortografía observada.
+Ninguna regla de este documento levanta una prohibición de la base. Sus
+prohibiciones de puntuación y de vocabulario siguen vigentes dentro de este
+tono, incluso donde la fuente las incumple. La fuente medida es hablada y su
+transcripción no lleva puntuación de autor, de modo que no aporta ningún
+modelo de puntuación. Lo que se toma de ella es la manera de argumentar y el
+reparto de las personas gramaticales, nunca la ortografía ni los signos.
 
 
 ## 3. Qué es «Secreto de Atenas» y qué no es
 
 El nombre del canal induce a error y conviene despejarlo antes de escribir.
 
-«Secreto de Atenas» no trata de la Atenas antigua, ni de historia clásica, ni de
-filosofía griega. El nombre es una marca. El canal analiza personajes de obras
-de ficción contemporáneas. Su catálogo verificado se concentra en manga y anime,
-sobre todo Hunter x Hunter, One Piece, Berserk, Vagabond, Naruto, Bleach, Death
-Note, Kengan Ashura y Kengan Omega. También cubre cine y series, y de manera
-ocasional novela.
+«Secreto de Atenas» no trata de la Atenas antigua, ni de historia clásica, ni
+de filosofía griega. El nombre es una marca. El canal analiza personajes de
+obras de ficción contemporáneas. En el corpus medido, 19 de 20 piezas tratan
+manga y anime, sobre todo Hunter x Hunter y One Piece, y una trata divulgación
+científica.
 
 El agente que aplique este skill no debe producir contenido sobre autores
 antiguos ni sobre la Grecia clásica por el solo hecho de haber leído el nombre.
 Si el usuario pide un texto sobre un autor de la Antigüedad, este no es el tono
 que corresponde.
 
-La filosofía sí entra, pero como herramienta y no como asunto. Entra cuando
-sirve para explicar por qué un personaje actúa como actúa.
+La filosofía sí entra, pero como herramienta y no como asunto. En el corpus
+aparece poco y siempre al servicio del personaje: 12 menciones de pensadores o
+de figuras míticas en 49.328 palabras, repartidas en cuatro piezas, con
+Nietzsche cuatro veces y Foucault una. El marco externo dominante no es la
+filosofía sino la política, con 59 apariciones de «política» y sus derivados en
+nueve piezas, por delante de psicología con 24 y de filosofía con 17.
 
 
 ## 4. Filosofía estilística: el concepto como lente
 
-### 4.1. La tesis que corrige la lectura corriente
+### 4.1. Los dos modos de la fuente y cuál se toma
 
-Un texto de este tono no empieza por presentar al personaje. Empieza por afirmar
-que la lectura habitual de ese personaje se queda corta, y se compromete a
-demostrarlo.
+La medición del corpus separa dos maneras de analizar que conviven en el
+catálogo, y este skill toma solo una.
 
-La fórmula que domina el catálogo verificado dice que el personaje es más de lo
-que parece. Esa es la operación de fondo. Hay una lectura cómoda y compartida
-por el público, y el análisis muestra que debajo de ella hay otra cosa.
+El modo enumerativo recorre al personaje por aspectos sucesivos. Sus marcas son
+«otro aspecto», «otra cosa», «también es», «por otro lado». Aparece a razón de
+1,60 marcas por cada mil palabras en las catorce piezas más antiguas del
+corpus.
 
-La tesis se enuncia pronto, en las primeras líneas, y no se reserva para el
-final. El interés no viene del suspenso sobre la conclusión, viene de ver cómo
-se sostiene.
+El modo conceptual lee al personaje por una idea única que se nombra. Sus
+marcas son «representa», «puede entenderse como», «se configura como», «desde
+esa perspectiva», «este término». Aparece a razón de 4,70 marcas por cada mil
+palabras en las seis piezas recientes, contra 0,46 en las antiguas, una
+diferencia de un orden de magnitud.
 
-### 4.2. El concepto abstracto que da nombre al análisis
+Este skill escribe siempre en modo conceptual. El modo enumerativo produce
+inventarios de rasgos y este tono no los admite.
+
+### 4.2. La tesis que corrige la lectura corriente
+
+Un texto de este tono no empieza por presentar al personaje. Empieza por
+atribuir a otros una lectura del personaje y por anunciar que se queda corta.
+
+La atribución es explícita y medida: en 15 de 20 piezas aparece en las primeras
+150 palabras alguna forma de «mucha gente», «muchos lectores», «algunos», «se
+suele», «generalmente», «el clásico personaje de», «el típico», «puede
+parecer». El giro que la corrige, «sin embargo» o «pero», aparece en las
+primeras 120 palabras de 16 de 20 piezas.
+
+La fórmula del título del canal, que el personaje es más de lo que parece, no
+es la fórmula de la prosa. Aparece una sola vez en 49.328 palabras. En el texto
+hablado la misma operación se realiza con otras tres construcciones, y son esas
+las que este skill usa: «puede parecer X, sin embargo Y», «no es solo» o «no es
+simplemente» (doce apariciones en cinco piezas), y el sustantivo «apariencia»
+opuesto a lo que hay debajo (siete apariciones en seis piezas).
+
+La tesis se enuncia pronto y no se reserva para el final. El interés no viene
+del suspenso sobre la conclusión, viene de ver cómo se sostiene.
+
+### 4.3. El concepto abstracto que da nombre al análisis
 
 Cada pieza se organiza alrededor de un concepto único, nombrado de manera
-explícita. El catálogo verificado lo hace en el propio título con sintagmas como
-la filosofía del perdón, la tiranía del orden, la maldad de los sueños, la
-tristeza del poder, el arte de la vida y la muerte, la crueldad de existir, la
-brutalidad de la naturaleza, el terror de la desorientación o el narcisismo de
-un demonio.
+explícita en la apertura. Ejemplos medidos en la fuente: el demonio tentador,
+el actor político informal, la sabiduría instintiva contra la racionalidad
+moderna, la organización criminal como obra artística viva, el miedo como
+instrumento de control.
 
 Ese concepto cumple tres funciones. Selecciona qué escenas se traen y cuáles se
 dejan fuera. Ordena el desarrollo, porque cada sección aporta una cara del
 concepto. Y da el cierre, porque el texto termina devolviéndolo transformado.
+
+El cierre en anillo es comprobable y este skill lo exige. En el corpus, el
+término conceptual dominante abre y cierra la pieza en cinco de las seis piezas
+del modo conceptual, y solo en cuatro de las catorce del modo enumerativo.
+
+Cuando el concepto es un término acuñado por el propio texto, se define en el
+acto, en una frase, antes de aplicarlo. La fuente lo hace así: nombra «actor
+político informal» y de inmediato explica qué es esa figura.
 
 Regla operativa. Antes de escribir, el agente formula el concepto en una frase
 nominal breve. Si no logra formularlo, todavía no hay análisis, hay resumen.
 
 Un concepto por texto. Dos conceptos compitiendo producen dos textos a medias.
 
-### 4.3. El personaje como caso, no como excusa
+### 4.4. El personaje como caso, no como excusa
 
-El concepto se prueba sobre el personaje, no se ilustra con él. La diferencia es
-práctica. Ilustrar consiste en enunciar una idea general y buscarle un ejemplo.
-Probar consiste en partir de lo que el personaje hace y llegar a la idea.
+El concepto se prueba sobre el personaje, no se ilustra con él. La diferencia
+es práctica. Ilustrar consiste en enunciar una idea general y buscarle un
+ejemplo. Probar consiste en partir de lo que el personaje hace y llegar a la
+idea.
 
 Toda afirmación sobre la psicología o la moral de un personaje se apoya en algo
-que la obra muestra. Una escena, una decisión, una línea de diálogo, una omisión
-significativa. Sin ese apoyo la afirmación es opinión sobre una persona
+que la obra muestra. Una escena, una decisión, una línea de diálogo, una
+omisión significativa. Sin ese apoyo la afirmación es opinión sobre una persona
 inexistente.
 
-### 4.4. El límite del método
+### 4.5. El límite del método
 
-El concepto no puede ser más interesante que la obra. Cuando el análisis empieza
-a producir afirmaciones que solo se sostienen dentro del propio análisis, el
-concepto dejó de ser una lente y pasó a ser un molde.
+El concepto no puede ser más interesante que la obra. Cuando el análisis
+empieza a producir afirmaciones que solo se sostienen dentro del propio
+análisis, el concepto dejó de ser una lente y pasó a ser un molde.
 
 La prueba es simple. Si un lector que conoce la obra no reconoce en el texto al
 personaje que leyó, el concepto se impuso sobre la evidencia y hay que rehacer
@@ -125,19 +163,46 @@ la lectura.
 
 ### 5.1. Persona gramatical
 
-Se tutea al lector. Es la voz verificada del canal en su propio texto escrito,
-que se dirige al espectador en segunda persona del singular.
+Al público se le habla en segunda persona del plural. Es la voz medida de la
+fuente y desmiente el tuteo que este documento afirmaba antes de disponer del
+corpus.
 
-El tuteo es constante. No se alterna con el usted dentro del mismo texto.
+Las cifras. Marcas de segunda persona del plural: 73 en 49.328 palabras,
+presentes en 16 de 20 piezas. Son «ustedes», «déjenme», «déjenlo», «háganlo»,
+«recuerden», «piensen», «imaginen», «sepan», «consideren», «les agradezco»,
+«les dejo», «les pido», «los invito». Formas de tuteo dirigidas al lector:
+ocho apariciones de «tú», «tu», «ti» o «contigo» en todo el corpus, y ninguna
+de «usted» ni de «vos».
 
-La primera persona del plural aparece cuando el texto invita a examinar algo
-junto al lector. Hablemos de este personaje, veamos qué hace en esta escena.
-Marca el tramo de exploración compartida.
+De esas ocho apariciones, la mayoría no interpela al lector. Son el «tú»
+impersonal de la generalización, el que equivale a «uno»: «ser un marine no te
+hace completamente bueno», «obstáculos que te harán más fuerte», «entre más
+alto tu cargo, mayor presión tendrás». Ese uso sí se permite y es útil, porque
+traslada el caso del personaje a cualquiera. No se confunde con dirigirse al
+lector.
+
+Regla. El vocativo y el imperativo van en plural. El «tú» impersonal se admite
+dentro de una generalización. No se alterna con el usted ni con el vos.
+
+La primera persona del plural es la voz del recorrido compartido, y es
+indicativa, no exhortativa. En el corpus, «vemos», «vimos», «veremos»,
+«podemos», «tenemos», «sabemos» y «hablaremos» suman 205 apariciones en 19 de
+20 piezas. El subjuntivo exhortativo casi no existe: «veamos» aparece una vez,
+«hablemos» ninguna, y todo el grupo exhortativo suma once apariciones. Se
+escribe «vemos que», no «veamos».
 
 La primera persona del singular está permitida, con una condición. Se usa para
-marcar un juicio propio, no para narrar un hecho de la obra. Lo que ocurre en la
-obra se afirma sin pronombre. Lo que el autor del texto sostiene contra otras
-lecturas posibles se marca como suyo.
+marcar un juicio propio, no para narrar un hecho de la obra. En el corpus,
+«en mi opinión», «me parece», «creo que» y «para mí» suman 80 apariciones en 14
+de 20 piezas, y todas marcan juicio.
+
+Hay un segundo uso medido de la primera persona del singular que este skill
+autoriza: narrar la lectura propia y su revisión. Cinco de veinte piezas abren
+así, con el autor contando qué esperaba del personaje y qué encontró después.
+«Cuando escuché por primera vez de este personaje, me imaginé que sería el
+típico padre de protagonista». «No quedó entre mis favoritos la primera vez que
+conocí la historia, sin embargo, al releer el manga fue ganándose mi
+apreciación».
 
 Correcto: Kurapika renuncia a su vida por la venganza. En mi lectura, esa
 renuncia es anterior a la masacre de su clan.
@@ -156,43 +221,67 @@ cortesía. Tampoco se decreta. Se argumenta.
 El entusiasmo se muestra en la precisión con que se describe una escena, no en
 adjetivos de intensidad.
 
-### 5.3. Léxico moral y psicológico
+La modalización es alta y forma parte del tono. «Quizá», «tal vez»,
+«probablemente» y «posiblemente» suman 67 apariciones en 14 de 20 piezas, y
+«puede entenderse», «podría interpretarse», «puede verse» suman 42 en otras 14.
+La interpretación se marca como interpretación.
 
-El vocabulario evaluativo verificado del canal es moral y psicológico antes que
-técnico. Maldad, bondad, oscuridad, crueldad, tristeza, soledad, sufrimiento,
-vacío, voluntad, empatía, moralidad, narcisismo, tiranía, egoísmo, libertad,
-determinación, venganza, perdón, locura, abandono, contradicción.
+### 5.3. Léxico moral y político
 
-Esa es la lengua del tono. Se nombra lo que un personaje es en términos que
-cualquier lector reconoce, y después se afina.
+El vocabulario evaluativo medido es político y moral antes que afectivo, y ese
+orden importa porque este documento lo tenía invertido.
+
+El núcleo real, por frecuencia en el corpus: poder con 123 apariciones, control
+con 52, violencia con 47, razón con 44, libertad con 44, justicia con 40, moral
+con 38, miedo con 36, humanidad con 36, voluntad con 34, deseo con 29, venganza
+con 25, muerte con 22, ideología con 20.
+
+La periferia afectiva existe, pero es marginal y no debe organizar el texto:
+maldad aparece 14 veces, tristeza ocho, oscuridad siete, sufrimiento seis,
+crueldad seis, bondad seis, soledad cuatro, contradicción tres, narcisismo dos,
+tiranía una, egoísmo una, abandono una.
+
+Regla. El eje del análisis se nombra con las palabras del primer grupo. Las del
+segundo se usan para matizar, nunca para sostener la tesis.
 
 Se evita la jerga de la crítica académica cuando existe una palabra corriente
 que dice lo mismo. Si el término técnico es el correcto, se usa y se explica en
 su primera aparición.
 
 Los términos propios de la obra se explican la primera vez que aparecen, en una
-frase, sin detener el argumento.
+frase, sin detener el argumento. La fuente lo hace de manera desigual, y este
+skill lo exige siempre.
 
 
 ## 6. Estructura del texto
 
 ### 6.1. Apertura
 
-El texto empieza por el personaje o por la escena, nunca por una generalidad
-sobre el género ni por una presentación de la obra.
+Ninguna pieza del corpus abre con un saludo. Cero apariciones de «hola», «qué
+tal», «bienvenidos» o «saludos» en las primeras 60 palabras de las veinte
+piezas. El texto entra directo en el asunto.
 
-Tres aperturas verificadas en el catálogo funcionan bien.
+Dos entradas están medidas y las dos son válidas.
 
-La afirmación contraintuitiva. Se declara que el personaje es más de lo que
-parece y se anuncia por dónde va la demostración.
+El marco de la obra y en seguida el personaje, en 11 de 20 piezas. «Dentro del
+manga de Hunter x Hunter, Gon puede parecer un personaje sencillo». «La tropa
+fantasma puede parecer simplemente una organización criminal violenta». El
+marco ocupa media línea y existe solo para dar el salto.
 
-La pregunta directa. Se plantea una pregunta que el público de la obra ya se ha
-hecho, del tipo de si un personaje debía morir o si un protagonista está vacío.
-La pregunta se formula con los dos signos que exige la base y el texto la
-responde antes de terminar.
+El personaje sin preámbulo, en 9 de 20 piezas. «Ging es extremadamente famoso
+en el mundo de Hunter x Hunter». «Akainu, un hombre de pocas palabras pero de
+fuertes acciones».
 
-La escena concreta. Se describe un momento de la obra y se muestra que contiene
-más de lo que el lector recordaba.
+En ambos casos, la apertura hace tres movimientos en el mismo tramo: atribuye
+la lectura corriente, la corrige con «sin embargo», y nombra el concepto que va
+a gobernar el análisis. Seis de las veinte piezas añaden un anuncio explícito
+del recorrido, del tipo «en este video exploraremos», y este skill lo permite
+solo cuando el texto va a leerse en voz alta.
+
+Una advertencia sobre la generalidad. La base prohíbe abrir por una generalidad
+de calendario, y esa prohibición sigue en pie. El marco de la obra no es una
+generalidad de calendario: nombra la obra concreta y desemboca en el personaje
+dentro de la misma oración.
 
 ### 6.2. Desarrollo
 
@@ -209,13 +298,15 @@ lector que conoce la obra lo nota.
 
 ### 6.3. El contraste entre dos personajes
 
-El contraste es una unidad de análisis propia y verificada del canal, que dedica
-piezas enteras a enfrentar dos personajes o a medir sus parecidos y sus
-diferencias.
+El contraste es una unidad de análisis propia de la fuente y está medido. «Es
+similar», «se parece» y «parecido» suman 48 apariciones en 17 de 20 piezas.
+«Mientras que» suma 24 en 15 piezas, «a diferencia de» siete en siete, «en
+cambio» cinco en tres. Una pieza entera del corpus está construida sobre el
+enfrentamiento de dos personajes.
 
 El contraste sirve para probar algo, no para clasificar. Se eligen dos
-personajes que comparten una situación y responden distinto, y lo que se explica
-es qué hace la diferencia.
+personajes que comparten una situación y responden distinto, y lo que se
+explica es qué hace la diferencia.
 
 Comparar por poder o por resultado sin extraer una consecuencia interpretativa
 produce una lista, no un análisis.
@@ -225,39 +316,74 @@ produce una lista, no un análisis.
 El cierre devuelve el concepto al lector con algo añadido por el recorrido. No
 resume lo dicho ni se anuncia como cierre, según la prohibición de la base.
 
-Dos cierres válidos. La consecuencia, que muestra qué implica lo demostrado para
-el resto de la obra. Y la devolución, que traslada el concepto de la ficción a
-la experiencia del lector sin moralizar ni dar consejos.
+El movimiento final medido en la fuente es la generalización. La última frase
+sale del personaje y afirma algo sobre lo humano, lo político o la vida.
+«Representa el potencial de maldad humana». «Para comprender la vida no basta
+con pensar sobre ella, también es necesario sentirla». «Revela lo que somos
+cuando ya no creemos en nada». Esa salida aparece en siete de las veinte piezas
+por prueba léxica estricta, y es sistemática en las seis piezas del modo
+conceptual.
 
 El cierre es breve. Una vez que el concepto está devuelto, el texto termina.
+
+Sobre el bloque de canal. La fuente añade después del análisis un paratexto de
+agradecimiento y de llamada al comentario, presente en 16 de 20 piezas, de 26
+palabras de mediana y nunca más del cinco por ciento de la pieza. Ocho piezas
+lo abren con una fórmula casi idéntica que interpela en plural y pide la
+opinión del público. Ese bloque no es parte del análisis y este skill no lo
+escribe salvo que el usuario pida un guion para publicar. Si lo pide, va
+después del cierre, separado, breve y en segunda persona del plural.
 
 ### 6.5. Párrafos y oraciones
 
 Un movimiento del argumento por párrafo.
-Extensión recomendada del párrafo: 60 a 120 palabras.
-Extensión recomendada de la oración: máximo 30 palabras.
-Dividir las oraciones que superen las 35 palabras.
 
-Se alterna la oración larga de análisis con la oración breve que sentencia. La
-frase corta después de un tramo explicativo es el recurso de énfasis del tono.
-Pierde efecto si se repite en cada párrafo.
+La longitud de oración de la fuente no se puede medir y este documento no la
+inventa. La transcripción disponible carece de puntuación, y su segmentación en
+líneas es mecánica: el 92 % de los intervalos entre líneas dura dos o tres
+segundos, de modo que no marca ni pausa ni frase. Cualquier cifra de oración o
+de párrafo extraída de ahí sería un artefacto del transcriptor.
+
+Lo que sí se midió es la distancia entre articulaciones del argumento, contando
+las palabras que separan cada marca de conexión de la siguiente. Sobre 1.120
+unidades: media de 44 palabras, mediana de 34, primer cuartil en 16 y tercer
+cuartil en 59. El 42 % de las unidades pasa de 40 palabras y el 22 % no llega a
+15. El ritmo de locución es de 166,5 palabras por minuto de media, con mediana
+de 166,6 y recorrido de 145 a 186.
+
+De ahí salen las dos reglas de este apartado. La primera es que el reparto
+manda sobre el promedio: un texto de este tono alterna tramos largos con golpes
+cortos, y la distancia entre el primer cuartil y el tercero, de 16 a 59
+palabras, es la horquilla que hay que reproducir. La segunda es que no hay
+techo fijo de oración. La versión anterior de este documento prescribía un
+máximo de 30 palabras y partir en 35, y la medición lo desmiente: la unidad
+media de la fuente es de 44 palabras.
+
+La frase corta después de un tramo explicativo es el recurso de énfasis del
+tono. Pierde efecto si se repite en cada párrafo.
 
 La descripción de una escena admite más longitud que la interpretación. Cuando
 se está interpretando, conviene la frase corta.
 
-### 6.6. La pregunta como armazón
+### 6.6. La pregunta, subordinada antes que directa
 
-Las preguntas estructuran el texto y siempre se responden. Una pregunta sin
-respuesta dentro del mismo texto es un defecto, no un recurso.
+La pregunta estructura el texto, pero en la fuente casi siempre va subordinada,
+no suelta. «Por qué» aparece 18 veces en 10 de 20 piezas, y la mayoría son
+anuncios de lo que el análisis va a explicar: «es esencial para entender por
+qué decidió luchar», «hay pistas para entender por qué creó ese grupo».
 
-Tres tipos verificados. La pregunta de valor, sobre si un personaje está bien
-construido. La pregunta de mecanismo, sobre por qué algo ocurre de esa manera en
-la obra. Y la pregunta contrafáctica, sobre qué habría pasado si dos personajes
-se hubieran encontrado.
+La pregunta directa existe pero es escasa, y cuando aparece se responde en el
+mismo texto. Una pregunta directa sin respuesta dentro de la pieza es un
+defecto, no un recurso. La única excepción medida es la pregunta final al
+público del bloque de canal, que no pertenece al análisis.
 
-La contrafáctica se responde con lo que la obra establece, no con deseos del
-autor del texto. Su valor está en mostrar qué reglas gobiernan el mundo de la
-obra.
+Regla. Se prefiere la pregunta subordinada para anunciar el problema y la
+pregunta directa para marcar el punto de giro, una o dos por texto como mucho.
+Toda pregunta directa lleva los dos signos que exige la base.
+
+La pregunta contrafáctica sobre qué habría pasado si dos personajes se hubieran
+encontrado es rara en la fuente, con tres apariciones en tres piezas. Se admite,
+y se responde con lo que la obra establece, no con deseos del autor del texto.
 
 
 ## 7. Manejo de la obra y de sus fuentes
@@ -265,20 +391,18 @@ obra.
 ### 7.1. Delimitación de la versión analizada
 
 Cuando la obra existe en más de una versión, el texto declara cuál analiza antes
-de argumentar. El canal lo hace con una nota breve al principio, que advierte
-que la pieza se basa solo en el anime.
+de argumentar. La advertencia va al principio, en una línea, y no se repite.
 
-Esa nota es obligatoria en este tono cuando manga y adaptación difieren, cuando
-hay novela y película, o cuando el material reciente todavía no llegó a todos
-los formatos.
-
-La advertencia va al principio, en una línea, y no se repite.
+Esta regla es una exigencia de este skill y no una práctica observada. En el
+corpus no hay ninguna nota de versión al principio de ninguna pieza. Lo único
+comparable es una mención intermedia en una pieza, donde el autor avisa que
+evitó los adelantos de trama de gran magnitud.
 
 ### 7.2. La referencia traída de fuera
 
-El canal conecta la ficción popular con literatura, mitología y filosofía. Lo
-hace de manera verificada en el marco de sus piezas, que enlazan literatura con
-One Piece o leen a un personaje como héroe mitológico.
+La referencia externa es real pero escasa, y conviene tratarla como un recurso
+caro. Doce menciones de pensadores o de figuras míticas en todo el corpus, en
+cuatro piezas de veinte, una cada 4.100 palabras aproximadamente.
 
 Cuando este tono trae una referencia externa, se aplican tres condiciones.
 
@@ -286,7 +410,9 @@ La referencia sirve al personaje, no al prestigio del texto. Si se puede quitar
 sin que el argumento pierda nada, sobra.
 
 La referencia se explica en sus propios términos antes de aplicarse. El lector
-que no la conoce tiene que poder seguir el argumento igual.
+que no la conoce tiene que poder seguir el argumento igual. La fuente lo hace
+así cuando funciona: explica qué criticó el pensador y solo entonces dice qué
+versión deformada de esa idea encarna el personaje.
 
 La referencia se aplica de manera literal y comprobable. Decir que un personaje
 funciona como héroe mitológico obliga a nombrar qué rasgos del molde cumple y
@@ -297,8 +423,18 @@ cuáles no.
 Las citas de la obra son literales o no son citas. Si el texto no dispone del
 diálogo exacto, describe la escena en lugar de entrecomillar.
 
+El anclaje de la fuente es narrativo y no bibliográfico, y conviene saberlo para
+no imitar una precisión que la fuente no tiene. «Vemos» y «vimos» suman 100
+apariciones, «cuando» seguido de verbo en pasado 40, y «dice que», «le dice» o
+«menciona» 38. En cambio, la referencia a capítulo con número aparece dos veces
+en todo el corpus. Este skill mantiene la exigencia de citar la unidad
+localizable cuando existe, porque la ausencia de la fuente es una debilidad, no
+un rasgo de estilo.
+
 No se atribuyen intenciones al autor de la obra que la obra no muestre. Se
-analiza lo que el texto de ficción hace, no lo que su creador quiso.
+analiza lo que el texto de ficción hace, no lo que su creador quiso. La fuente
+es prudente en esto: la atribución directa al autor aparece nueve veces en cinco
+piezas, y suele ir modalizada.
 
 Se distingue siempre lo que la obra establece de lo que el análisis interpreta.
 La confusión entre ambos planos es el defecto más grave de este género.
@@ -309,19 +445,25 @@ ya publicado.
 
 ## 8. Lo que este skill no afirma
 
-Este skill se construyó sobre material verificable por escrito. La sección de
-fuentes detalla su alcance.
+Este skill se construyó sobre veinte transcripciones automáticas de la locución
+del canal. La sección de fuentes detalla su alcance y sus límites.
 
-De la locución de las piezas no hay evidencia textual. Por eso este documento no
-fija fórmulas de saludo ni de despedida, no prescribe muletillas orales y no
-describe el uso de la anécdota personal del autor, que no pudo comprobarse.
+De la puntuación de la fuente no hay evidencia. Las transcripciones no llevan
+ni un punto ni una coma de autor, y por eso este documento no fija longitud de
+oración ni de párrafo, y las reglas de la sección 6.5 se apoyan en distancias
+entre conectores y no en frases.
 
-Tampoco fija rasgos dialectales. El canal está registrado en México, pero un
-dato de registro no prueba las marcas de habla del texto. El español que se
-escribe con este tono es el latinoamericano general que describe la base.
+De la escritura propia del autor fuera de los títulos no hay muestra en este
+corpus. Lo que se midió es habla transcrita, no prosa compuesta para leerse.
 
-Las longitudes de párrafo y de oración de la sección 6.5 son una adaptación
-prudente al género, no una medición de la fuente.
+Tampoco se fijan rasgos dialectales. El corpus no contiene ninguna marca
+dialectal estable: no hay voseo, no hay «usted» singular, y no hay jerga
+regional recurrente. El español que se escribe con este tono es el
+latinoamericano general que describe la base.
+
+No se describe la anécdota personal del autor como recurso estructural. Lo que
+sí está medido es la narración de la lectura propia y su revisión, que la
+sección 5.1 recoge.
 
 
 ## 9. Formato de entrega
@@ -343,97 +485,140 @@ Antes, resumen con adjetivos:
 
 «Este personaje es increíblemente complejo y fascinante. Su historia es
 realmente trágica y por eso conecta tanto con los espectadores, que ven en él
-algo muy profundo y humano.»
+algo muy profundo y humano».
 
-Después, análisis con concepto y evidencia:
+Después, análisis con concepto, evidencia y salida generalizadora:
 
 «A este personaje se lo suele leer como un vengador. Es más que eso. Cuando
 renuncia a su nombre delante del hombre que lo espera, ya no está persiguiendo
 una reparación, está administrando una deuda que sabe impagable. La venganza le
 sirve para no elegir. Mientras persigue, no tiene que decidir quién sería sin
-ese muerto encima.»
+ese muerto encima. Ahí está lo incómodo del personaje, y no en su tragedia: la
+deuda impagable es también la forma en que muchos posponen su propia vida».
 
 
 ## 11. Lista de verificación de tono
 
 Se ejecuta después de la lista normativa de la base.
 
-1. ¿El texto sostiene una tesis que corrige la lectura corriente del personaje o de la obra?
+1. ¿El texto atribuye una lectura corriente del personaje y la corrige en las primeras líneas?
 2. ¿Hay un concepto abstracto nombrado que organiza todo el análisis?
-3. ¿Ese concepto aparece en la apertura y vuelve transformado en el cierre?
-4. ¿Cada afirmación sobre el personaje se apoya en una escena, una decisión o un diálogo de la obra?
-5. ¿Se trata al menos un hecho de la obra que tensione la tesis?
-6. ¿Se declara qué versión de la obra se analiza cuando existe más de una?
-7. ¿Se tutea al lector de principio a fin, sin alternar con el usted?
-8. ¿La primera persona del singular aparece solo para marcar un juicio propio?
-9. ¿Las preguntas planteadas quedan respondidas dentro del texto?
-10. ¿El vocabulario evaluativo es moral y psicológico antes que técnico?
-11. ¿Los términos propios de la obra se explican en su primera aparición?
-12. ¿El contraste entre personajes extrae una consecuencia interpretativa?
-13. ¿Las referencias externas se explican antes de aplicarse y se aplican de manera comprobable?
-14. ¿Se distingue lo que la obra establece de lo que el análisis interpreta?
-15. ¿El cierre devuelve el concepto en lugar de resumir lo dicho?
-16. ¿Se alternan oraciones largas de análisis con oraciones breves de énfasis?
+3. ¿Ese concepto aparece en la apertura y vuelve en el cierre?
+4. ¿Se evitó el modo enumerativo, es decir, el recorrido por aspectos sueltos del personaje?
+5. ¿Cada afirmación sobre el personaje se apoya en una escena, una decisión o un diálogo de la obra?
+6. ¿Se trata al menos un hecho de la obra que tensione la tesis?
+7. ¿El público recibe tratamiento de segunda persona del plural, sin alternar con el usted ni con el vos?
+8. ¿El «tú» impersonal, si aparece, está dentro de una generalización y no interpela al lector?
+9. ¿La primera persona del plural es indicativa, del tipo «vemos que», y no exhortativa?
+10. ¿La primera persona del singular aparece solo para marcar un juicio propio o para narrar la lectura propia?
+11. ¿El eje del análisis se nombra con léxico político y moral antes que afectivo?
+12. ¿Las preguntas directas, si las hay, son pocas y quedan respondidas dentro del texto?
+13. ¿El texto alterna tramos largos de análisis con golpes cortos de énfasis?
+14. ¿El contraste entre personajes, si aparece, extrae una consecuencia interpretativa?
+15. ¿Se distingue lo que la obra establece de lo que el análisis interpreta, con la interpretación modalizada?
+16. ¿El cierre devuelve el concepto y sale del personaje hacia una afirmación general, sin resumir ni moralizar?
 
 
 ## 12. Fuentes
 
-Material consultado para reconstruir este tono, con la fecha de consulta del 11
-de agosto de 2026.
+Corpus medido, consultado el 12 de agosto de 2026.
 
-Canal y catálogo:
+Veinte transcripciones de la locución del canal, 49.328 palabras y 295 minutos
+de video, con una extensión por pieza de 757 a 4.528 palabras. Diecinueve
+piezas analizan personajes de manga y anime, sobre todo Hunter x Hunter y One
+Piece, y una es divulgación científica. La selección combina las piezas más
+vistas, trabajo reciente y cobertura de catálogo.
+
+Origen del material:
 https://www.youtube.com/@SecretodeAtenas
 https://www.youtube.com/@SecretodeAtenas/videos
-https://www.youtube.com/channel/UCjLIAl-cbWwnRDZcw4s9pQw
 
-Datos de identidad obtenidos de la ficha pública del canal: país de registro
-México, alta en enero de 2017, 389 videos publicados, cerca de 85 000
-suscriptores y más de 10 millones de reproducciones acumuladas. El campo de
-descripción del canal está vacío.
+Naturaleza del corpus y su límite principal. Las veinte transcripciones
+proceden de subtítulos generados de manera automática. No contienen puntuación
+de autor, contienen errores de reconocimiento en los nombres propios, y su
+corte en líneas responde a ventanas de dos o tres segundos. Por eso todas las
+mediciones de este documento cuentan palabras, formas verbales y construcciones,
+y ninguna cuenta comas, puntos ni oraciones.
 
-Autoría de los videos confirmada de manera independiente por el servicio público
-de incrustación de la plataforma, que devuelve «Secreto de Atenas» como autor de
-las piezas citadas.
+Mediciones que sostienen cada afirmación de este documento:
 
-Corpus textual efectivamente obtenido:
+Persona gramatical, en la sección 5.1. Segunda persona del plural, 73 marcas en
+16 de 20 piezas. Segunda persona del singular dirigida al lector, ocho marcas,
+la mayoría del tipo impersonal. «Usted» y «vos», cero. Primera persona del
+plural indicativa, 205 marcas en 19 de 20 piezas, contra once del subjuntivo
+exhortativo. Juicio en primera persona del singular, 80 marcas en 14 de 20
+piezas.
 
-Doscientos ochenta títulos de video del catálogo completo, recuperados por
-paginación de la pestaña de videos. De ahí salen las fórmulas de apertura, los
-sintagmas conceptuales, el uso de la pregunta con signos dobles, el tuteo en los
-títulos, el contraste entre personajes y el inventario de obras cubiertas.
+Modo conceptual y modo enumerativo, en la sección 4.1. Marcas conceptuales a
+4,70 por cada mil palabras en las seis piezas recientes contra 0,46 en las
+catorce antiguas. Marcas enumerativas a 1,60 por cada mil palabras en las
+antiguas contra 0,96 en las recientes.
 
-Fragmentos de las descripciones escritas por el autor, recuperados como
-extractos de búsqueda. De ahí salen tres datos que este skill usa: que el canal
-se define como análisis «de personajes de diferentes obras de ficción», que el
-autor llama a sus piezas «video ensayos», y que advierte por escrito cuando una
-pieza «se basa en el anime» solamente. El tuteo del autor queda confirmado por
-su propia fórmula de agradecimiento en segunda persona del singular.
+Concepto en anillo, en la sección 4.3. Prueba de palabra clave por peso
+relativo frente al resto del corpus. El término dominante abre y cierra en
+cinco de las seis piezas del modo conceptual y en cuatro de las catorce
+restantes.
 
-Lo que no se consiguió, declarado sin atenuantes:
+Apertura, en las secciones 4.2 y 6.1. Saludo inicial, cero de veinte.
+Atribución de una lectura corriente en las primeras 150 palabras, 15 de 20.
+Giro con «sin embargo» o «pero» en las primeras 120 palabras, 16 de 20. Marco
+de la obra antes del personaje, 11 de 20. Anuncio explícito del recorrido, seis
+de 20. Fórmula «más de lo que parece» en la prosa, una aparición en todo el
+corpus.
 
-Transcripciones. No se obtuvo ni una sola. Las pistas de subtítulos y los puntos
-de acceso al reproductor devolvieron respuestas vacías, error o exigencia de
-sesión. Los servicios de transcripción de terceros rechazaron las peticiones.
-Este skill no contiene, por lo tanto, ninguna cita de la locución, y ninguna
-afirmación sobre longitud real de oración, fórmulas de saludo, muletillas o
-prosodia.
+Cierre, en la sección 6.4. Paratexto de canal en 16 de 20 piezas, mediana de 26
+palabras, máximo del 4,7 % de la pieza. Fórmula casi idéntica de llamada al
+comentario en ocho piezas. Generalización final por prueba léxica estricta,
+siete de 20.
 
-Descripciones completas de los videos. Solo se obtuvieron extractos truncados.
-Las páginas de reproducción quedaron bloqueadas por control de tráfico.
+Ritmo, en la sección 6.5. Distancia entre marcas de conexión sobre 1.120
+unidades: media 44, mediana 34, primer cuartil 16, tercer cuartil 59, 42 % por
+encima de 40 palabras y 22 % por debajo de 15. Intervalos entre líneas de
+subtítulo de dos o tres segundos en el 92 % de los casos, lo que invalida el
+corte como marca de frase. Ritmo de locución de 166,5 palabras por minuto de
+media, mediana 166,6, recorrido de 145 a 186.
 
-Entrevistas, sitio propio, blog o cobertura de prensa sobre el canal. No existe
-ninguna localizable. Las búsquedas devolvieron material sobre la Atenas antigua
-y sobre otros canales homónimos, ajeno a esta fuente.
+Léxico, en la sección 5.3. Recuento por lema sobre el corpus completo. Núcleo
+político y moral encabezado por poder con 123 apariciones. Periferia afectiva
+encabezada por maldad con 14.
 
-Discusión en foros que cite sus contenidos. No se localizó ninguna.
+Contraste, en la sección 6.3. «Similar» y «parecido» con 48 apariciones en 17
+de 20 piezas, «mientras que» con 24 en 15, «a diferencia de» con siete en siete,
+«en cambio» con cinco en tres.
 
-El canal declara un vínculo de mecenazgo en https://www.patreon.com/AHD1 que no
-respondió a la consulta.
+Referencia externa, en las secciones 3 y 7.2. Doce menciones de pensadores o
+figuras míticas en cuatro piezas. Política con 59 apariciones en nueve piezas,
+psicología con 24 en nueve, filosofía con 17 en 10, mitología con tres en dos,
+literatura con tres en una.
 
-Advertencia sobre atribuciones falsas. Durante la investigación aparecieron
-resúmenes automáticos que atribuían al canal descripciones que su ficha no
-contiene, y resultados de búsqueda de otros canales sobre Atenas clásica y sobre
-Evangelion. Nada de ese material se incorporó. Toda afirmación de este documento
-procede de texto escrito por el autor del canal o de la ficha pública del canal.
+Anclaje en la obra, en la sección 7.3. «Vemos» y «vimos» con 100 apariciones,
+«cuando» con verbo en pasado con 40, verbos de cita indirecta con 38, capítulo
+con número con dos.
+
+Pregunta, en la sección 6.6. «Por qué» con 18 apariciones en 10 de 20 piezas,
+mayoritariamente subordinada. Contrafáctico con tres apariciones en tres piezas.
+
+Aviso de versión, en la sección 7.1. Cero notas de versión al principio en las
+veinte piezas.
+
+Afirmaciones de la versión anterior que la medición corrigió, una por línea.
+
+El tuteo al lector, que el corpus desmiente y sustituye por el plural.
+
+La fórmula «más de lo que parece» como fórmula de prosa, que resultó ser
+fórmula de título.
+
+El concepto único como rasgo de todo el catálogo, que resultó ser rasgo del
+trabajo reciente.
+
+El orden del léxico evaluativo, que estaba invertido.
+
+El par exhortativo «hablemos» y «veamos», que la fuente no usa.
+
+La nota de versión al principio, que la fuente no trae.
+
+Las longitudes de párrafo y de oración de la sección 6.5, que dejaron de ser una
+estimación de género y pasaron a ser el reparto medido entre articulaciones del
+argumento.
 
 La referencia gramatical y ortográfica es la de «spanish-writing».

@@ -2,23 +2,23 @@
 name: schiavenato-writing
 description: >
   Skill de tono para divulgación cívica y jurídica dirigida a una comunidad,
-  en español colombiano. Aplica el principio de la prueba adjunta: toda
-  afirmación sobre dinero público, contrato, nombramiento o norma llega con el
-  documento que la sostiene y con la invitación a revisarlo. Trata al lector de
-  «ustedes», lo nombra como amigo y alterna el registro cercano con la
-  precisión del abogado que cita la disposición por artículo y número. Hereda
-  toda la normativa de «spanish-writing». Úsese cuando el usuario pida
-  redactar, reescribir o revisar guiones de vídeo de control político,
-  denuncias documentadas sobre gestión pública, rendiciones de cuentas,
-  explicaciones de derecho para público no jurista, o contenido de
-  productividad y método de estudio dirigido a una comunidad propia. También
-  aplica cuando el usuario pida «en estilo Schiavenato», «como abogado que le
-  explica a la gente», «tono de denuncia con documentos» o «rendición de
-  cuentas para redes».
+  en español colombiano. Reconstruye la forma de exponer de Ángelo Schiavenato
+  medida sobre transcripciones: unidad breve y encadenada por marcadores,
+  alternancia entre el «ustedes» de la comunidad y el «usted» del espectador
+  individual, imperativo de mirar seguido de cifra, definición por negación, y
+  la relación de mandato invertida según la cual quien escucha es el jefe de
+  quien habla. La norma jurídica con artículo y número existe, pero es un
+  registro puntual y no un hábito de cada texto. Hereda toda la normativa de
+  «spanish-writing». Úsese cuando el usuario pida redactar, reescribir o
+  revisar guiones de vídeo de control político, denuncias documentadas sobre
+  gestión pública, rendiciones de cuentas, explicaciones de derecho para
+  público no jurista, o contenido de productividad y método de estudio
+  dirigido a una comunidad propia. También aplica cuando pida «en estilo
+  Schiavenato», «como abogado que le explica a la gente», «tono de denuncia
+  con documentos» o «rendición de cuentas para redes».
 ---
 
-# Skill de tono cívico-jurídico: la prueba adjunta
-
+# Skill de tono cívico y jurídico: la prueba a la vista
 
 ## 1. Rol y alcance
 
@@ -32,14 +32,15 @@ audiencia propia.
 El agente actúa como un abogado en ejercicio que además ocupa un cargo de
 elección popular y le rinde cuentas a la gente que lo eligió. Sabe citar una
 norma por su número y sabe que quien lo lee no estudió derecho. Esas dos cosas
-conviven en el mismo texto.
+conviven en el mismo texto, pero no en la misma proporción: la medición del
+corpus muestra que el registro corriente ocupa casi todo el espacio y que el
+tramo técnico aparece cuando el asunto lo exige, no por costumbre.
 
 No se usa para textos académicos ni para documentación técnica, que son del
 tono formal. Tampoco para divulgación filosófica o humanística, que tiene su
 propio tono conversacional. La frontera es sencilla: este skill se usa cuando
 el texto le pide cuentas a alguien con poder, o le explica a una comunidad algo
 que la afecta, y el autor firma lo que afirma.
-
 
 ## 2. Relación con la base normativa
 
@@ -49,150 +50,220 @@ base decide qué es correcto en español. Este skill decide cómo suena.
 Ninguna regla de este documento levanta una prohibición de la base. Donde la
 base y este documento parezcan chocar, gana la base y el defecto está aquí.
 
-Esta advertencia importa más en este perfil que en otros. El material de origen
-está publicado en redes y arrastra los hábitos de las redes. La sección 5.4
-lista uno por uno los rasgos del modelo que no se importan.
+Esta advertencia importa más en este perfil que en otros. El material medido es
+habla transcrita, y el habla arrastra repeticiones, anacolutos y arranques
+falsos que la base prohíbe por escrito. La sección 5.5 lista uno por uno los
+rasgos del modelo que no se importan.
 
+## 3. Qué se midió y con qué límite
 
-## 3. Qué se verificó y qué no
+Este documento se apoya en una medición sobre veinte transcripciones completas
+del autor, 48.629 palabras, 294 minutos de habla, a un ritmo global de 165
+palabras por minuto. La sección 12 detalla el corpus y las cuentas.
 
-Este documento describe una manera de escribir observada en material textual
-real y verificable: la descripción del canal, treinta títulos de vídeo
-literales en su idioma original y una veintena de descripciones de vídeo
-firmadas por el autor. La sección 12 lista las fuentes.
+Hay un límite que condiciona todo lo demás. Las transcripciones vienen de
+subtítulos generados de forma automática, así que la puntuación no es del autor
+sino del motor que los produjo. Nueve de los veinte archivos no traen ni un
+punto. Por eso este documento mide palabras, marcadores y estructuras, y trata
+cualquier cifra derivada de comas y puntos como aproximación declarada, nunca
+como rasgo de autor.
 
-No se obtuvo ninguna transcripción ni ningún archivo de subtítulos. Todo lo que
-aquí se afirma sobre su prosa procede de texto escrito por él, no de su habla.
-En consecuencia, este documento no afirma nada sobre sus muletillas orales, ni
-sobre la longitud de sus oraciones habladas, ni sobre su entonación. Cuando
-algo no se pudo comprobar, se dice en el punto correspondiente y no se
-convierte en regla.
+Cuatro afirmaciones de la versión anterior de este documento cayeron con la
+medición y aparecen corregidas en su sitio: la longitud de la oración, la
+prohibición del «usted» en singular, el vocativo de apertura y la frecuencia de
+la cita normativa con número de artículo.
 
+## 4. Filosofía estilística
 
-## 4. Filosofía estilística: la prueba adjunta
-
-### 4.1. Principio de la prueba adjunta
+### 4.1. Principio de la prueba a la vista
 
 Es el rasgo que define este tono. Una afirmación fuerte sobre dinero público,
 contrato, nombramiento o conducta de un funcionario no se sostiene sola. Llega
 con el documento que la respalda y con la invitación explícita a que el lector
 lo revise por su cuenta.
 
-El material observado lo hace con constancia. «Aquí está el contrato de cómo se
-paga con plata de los bogotanos las camionetas blindadas de los concejales de
-Bogotá». Y de forma más explícita todavía: «son datos reales y no improvisación
-basada en noticias, es por eso que les dejo este google drive abierto donde
-pueden consultar las fuentes usadas».
+La medición precisa el alcance del principio y lo vuelve más exigente. El
+movimiento típico es un imperativo de mirar seguido de una cifra: «miren» y sus
+variantes suman 65 apariciones de plural, 28 de singular y 22 de tuteo genérico,
+repartidas por diecisiete de los veinte archivos, y las cantidades en millones o
+billones suman 111 apariciones en ocho archivos, de las cuales tres de cada
+cuatro caen en los que tratan de dinero público. La entrega del expediente
+completo, en cambio, es escasa y localizada:
+las palabras que nombran la carpeta abierta aparecen cinco veces, en dos
+archivos. «Aquí está» o «acá está» aparece trece veces en nueve archivos.
 
-El movimiento tiene tres tiempos. Primero la afirmación, sin rodeos. Después la
-prueba, identificada. Al final, el permiso para desconfiar y comprobar.
-
-En un texto entregado, la prueba se nombra con precisión en la prosa, no se
-cuelga como enlace. Se dice qué documento es, quién lo firmó y qué dice.
+De ahí la regla. La prueba se exhibe siempre que haya afirmación fuerte, con el
+imperativo de mirar y con la cifra o el nombre del documento en la misma línea.
+La invitación a consultar el expediente entero se reserva para el texto que de
+verdad lo tiene, y entonces se nombra el documento, quién lo firmó y qué dice.
+En un texto entregado no se cuelga un enlace: se identifica la prueba en la
+prosa.
 
 ### 4.2. Principio de la norma citada por su número
 
 Cuando el asunto es jurídico, la norma se invoca con su artículo y su número, y
-enseguida se traduce a lenguaje corriente. El material lo muestra con claridad:
-«En primer lugar el artículo 65 del Decreto Ley 1421 de 1993 establece que para
-ser nombrado alcalde se requiere demostrar un arraigo, es decir, haber vivido o
-trabajado en» el lugar del que se trate.
+enseguida se traduce a lenguaje corriente.
 
-La estructura es fija. Se enuncia la disposición, se dice qué exige y se cierra
-con «es decir» seguido de la versión que entiende cualquiera. La cita técnica
-nunca queda sin traducción.
+La medición obliga a rebajar este principio de hábito constante a registro
+puntual. En 48.629 palabras hay quince citas de norma con número, y trece están
+en un solo archivo, el que explica cómo se estructura un argumento jurídico. La
+fórmula «artículo» seguida de número aparece exactamente dos veces en todo el
+corpus. «Ley» aparece veintiuna veces en seis archivos, «código» once veces en
+cinco, «decreto» cuatro veces en dos, «constitución» dos veces en uno. No hay ni
+una aparición de «sentencia», «resolución» o «jurisprudencia».
 
-### 4.3. Principio de la definición por negación
+La consecuencia práctica: un texto de este tono no necesita norma citada. La
+cita entra cuando el argumento depende de ella, y entonces entra completa, con
+número y año, y traducida acto seguido. Sembrar artículos en un texto que no los
+necesita imita la fachada del modelo, no su forma de razonar.
 
-Las ideas se fijan diciendo primero lo que no son. El material está lleno de
-este movimiento: «no es magia, es disciplina». «Nada de cosas técnicas, esto es
-una review de HOMBRES». «son datos reales y no improvisación basada en
-noticias». «Sin filtro, sin adornos».
+Lo que sí es constante es el vocabulario del expediente. «Contrato» aparece
+treinta y tres veces en ocho archivos, «denuncia» y sus derivados veintiocho
+veces en siete, «delito» y los tipos penales concretos veintiséis veces en
+nueve. El texto habla de derecho por sus objetos mucho más que por sus normas.
 
-La negación va delante y es breve. La afirmación va detrás y es la que se
-recuerda. Sirve para descartar la interpretación fácil antes de que el lector
-la adopte.
+### 4.3. Principio de la reformulación inmediata
 
-### 4.4. Principio de la doble capa
+Todo término técnico o toda cifra se vuelve a decir en palabras corrientes, sin
+esperar al párrafo siguiente.
 
-El texto sostiene dos registros a la vez y esa convivencia es el sello. Por un
-lado, el trato de comunidad, cálido y directo. Por otro, la precisión del
-jurista que redacta una constancia.
+La medición identifica el operador real. «O sea» aparece 82 veces en quince
+archivos y «es decir» 22 veces en ocho, casi cuatro a uno a favor del primero.
+Además, lo que «es decir» traduce casi nunca es una norma: de sus veintidós
+apariciones, veintiuna reformulan una cifra, un negocio o un mecanismo, y solo
+una sigue a un artículo citado.
 
-El mismo autor que escribe «Gracias por ver los videos los quiero mucho»
-escribe también: «Quiero dejar una constancia muy grave de tal manera que,
-cuando el alcalde Galán y el señor Secretario Gustavo Quintero tomen la
-decisión, no pueda alegar falta de conocimiento, que no sabían, que no les
-contaron o que no sospecharon nada acerca de la ilegalidad del nombramiento».
+En texto entregado, «o sea» es demasiado oral y se sustituye. Lo que se conserva
+es el movimiento: enunciado técnico, coma, versión corriente, en la misma
+unidad. Nunca se deja un tecnicismo sin su equivalente cerca.
 
-Ninguna de las dos capas se sacrifica. El afecto no ablanda la denuncia y la
-denuncia no enfría el trato.
+### 4.4. Principio de la definición por negación
 
-### 4.5. Principio de la curul prestada
+Las ideas se fijan diciendo primero lo que no son. La medición confirma este
+rasgo con holgura: el molde «no es esto, es aquello» aparece veintiséis veces en
+trece de los veinte archivos, «no es que» veintitrés veces en doce, y «no esto
+sino aquello» diecisiete veces en diez.
+
+Los casos medidos son estos, y sirven de patrón: «estar ocupados no es ser
+productivos», «gobernar no es anunciar las camaritas, gobernar es instalarlas»,
+«leer no es aprender», «la marca no es la empresa». La negación va delante y es
+breve. La afirmación va detrás y es la que se recuerda.
+
+Conviene una advertencia de origen. La fórmula «no es magia, es disciplina» que
+circulaba como ejemplo canónico de este autor no está en el corpus hablado: la
+palabra «magia» aparece una sola vez y en un contexto ajeno. Las máximas que sí
+están medidas son «la disciplina vence al talento natural» y «el trabajo duro
+derrota el talento natural».
+
+### 4.5. Principio del mandato invertido
 
 El autor devuelve al lector la titularidad de lo que hace. No se presenta como
-benefactor sino como mandatario. «esta curul es suya, este puesto en el Concejo
-es suyo, yo los ayudo». Y en otro lugar: «Amigos como ustedes son los que
-mandan en este canal».
+benefactor sino como empleado.
 
-Cuando el texto rinde cuentas, la propiedad de lo rendido es del lector.
+Es la fórmula cívica mejor atestiguada del corpus. «Ustedes son mis jefes»
+aparece siete veces en cinco archivos, con variantes que dicen «mis patrones»,
+«ustedes me contrataron» y «exíjanme». La imagen del escaño prestado también
+consta, en la forma «esta curul es de ustedes, hagan respetar esta curul».
+
+Cuando el texto rinde cuentas, la propiedad de lo rendido es del lector, y se
+dice con esas palabras, no con una perífrasis de cortesía.
 
 ### 4.6. El límite
 
-La cercanía es un recurso, no una obligación en cada línea. Un texto que
-repite el vocativo y la declaración de afecto en cada párrafo deja de ser
-cercano y pasa a ser pegajoso. El vocativo abre, y reaparece una o dos veces
-más en un texto largo, no más.
+La cercanía es un recurso, no una obligación en cada línea. Un texto que repite
+el vocativo y la declaración de afecto en cada párrafo deja de ser cercano y
+pasa a ser pegajoso. La medición respalda la contención: el vocativo «amigos»
+aparece veintisiete veces en 48.629 palabras, es decir menos de una vez cada mil
+quinientas.
 
-La prueba adjunta tampoco se convierte en muletilla. Si el texto no hace una
-afirmación fuerte, no necesita documento. Aparecer siempre con un documento
-para afirmaciones triviales es simulacro de rigor.
-
+La prueba a la vista tampoco se convierte en muletilla. Si el texto no hace una
+afirmación fuerte, no necesita documento. Aparecer siempre con un documento para
+afirmaciones triviales es simulacro de rigor.
 
 ## 5. Voz y registro
 
 ### 5.1. Persona gramatical
 
-Primera persona del singular para lo que el autor afirma, hace y asume. «Quiero
-dejar una constancia», «decidí grabar este video», «me fui a preguntarles». La
-responsabilidad de lo dicho tiene dueño y se nota.
+Primera persona del singular para lo que el autor afirma, hace y asume. El
+pronombre explícito «yo» aparece 397 veces, 8,1 por mil palabras, en los veinte
+archivos. La responsabilidad de lo dicho tiene dueño y se nota.
 
-Primera persona del plural para el equipo o para el trabajo conjunto: «aquí
-analizamos el caso», «Acá hablamos claro».
+Primera persona del plural, sobre todo en la forma «vamos a», para arrastrar al
+lector por el recorrido del texto: 166 apariciones en diecinueve archivos, de
+las cuales treinta y tres son «vamos a ver». Es el modo en que el texto anuncia
+el paso siguiente sin encabezado.
 
-Al lector se lo trata de «ustedes», siempre. Es la marca más constante y mejor
-documentada del material. «espero les guste», «los invito a revisarlo»,
-«pueden consultar las fuentes usadas», «déjenme saber qué opinan», «Piensen
-como deportistas de alto rendimiento», «qué hacen ustedes con su tiempo».
+### 5.2. El trato con el público
 
-No se tutea. No se usa «usted» en singular para dirigirse al lector. No se usa
-«vosotros». El plural americano es la única forma de trato admitida en este
-tono.
+Aquí está la corrección más grande respecto de la versión anterior de este
+documento, que prohibía el «usted» en singular. La medición muestra dos tratos
+vivos y en alternancia.
 
-### 5.2. El vocativo de apertura
+El primero es «ustedes», que nombra a la comunidad entera. Aparece 187 veces en
+diecinueve archivos, el clítico «les» 197 veces en los veinte, y los imperativos
+de segunda persona del plural del tipo «miren», «piensen», «acuérdense» o
+«escriban» suman 165 apariciones.
 
-El texto abre nombrando al lector como parte de un grupo. La forma canónica del
-material es «Amigos» o «Hola amigos», al principio de la primera oración y
-seguida de coma o directamente del verbo.
+El segundo es «usted» en singular, que nombra al espectador individual y al
+caso genérico. Aparece 172 veces en dieciocho archivos, y los imperativos
+correspondientes del tipo «mire», «organice», «póngase» o «créame» suman 86. En
+los dos textos de método y productividad es el trato dominante: 48 apariciones
+en uno y 35 en otro. Los dos tratos conviven a pocas palabras de distancia, como
+en «no le asignen más tiempo y verán que ustedes lo pueden lograr si usted le
+asigna a una tarea que quiere completar».
 
-Las variantes atestiguadas son «Mis amigos», «mis compas» y «mi hermosa
-comunidad». El material también abre a veces con «Bueno» antes del vocativo:
-«Bueno amigos yo quiero de verdad saber», «Bueno mis compas el video de hoy
-es».
+La regla que se deriva es de reparto, no de exclusión. «Ustedes» para lo que le
+toca al grupo: el saludo, la rendición de cuentas, la petición y el dinero
+común. «Usted» para lo que le toca a uno solo: el consejo, la hipótesis, el caso
+que le puede pasar a cualquiera. No se mezclan dentro de la misma unidad.
 
-Ese vocativo no es un adorno. Constituye al lector como comunidad antes de
-pedirle atención sobre un asunto público.
+El tuteo no se usa nunca para dirigirse al público, y esto la medición lo
+confirma. De los 131 rastros de tuteo del corpus, 122 están en los diez archivos
+donde hay otra voz ante la cámara, y son diálogo con invitados, con
+entrevistados de calle o con la pareja. En los diez archivos de monólogo quedan
+nueve rastros, y ninguno se dirige al público: son letra de canción, doblaje de
+una escena ajena, cita de lo que dicen otros y el «tú» impersonal de refrán. La
+proporción es concluyente. En monólogo, «ustedes» aparece a razón de 5,98 por
+mil palabras y el tuteo a 0,36. En los archivos con otra voz, se invierte a 1,62
+contra 5,08.
 
-### 5.3. Variedad de español
+Tampoco se usa «vosotros», que no aparece en el corpus.
 
-Español colombiano, con el habla de Bogotá como referencia. El léxico
-coloquial del material es de registro común y se entiende en toda América:
-«plata» por dinero, «huecos» por baches, «atracar» por robar, «juicioso» por
-aplicado, «compas» y «panas» por compañeros.
+### 5.3. El vocativo
+
+La versión anterior de este documento daba «Amigos» u «Hola amigos» como forma
+canónica de apertura. La medición lo desmiente. «Hola amigos» no aparece ni una
+vez en veinte aperturas. «Amigos» aparece en las primeras ocho palabras de dos
+archivos, y en ambos va detrás de una partícula: «Bueno amigos» y «Listo.
+Amigos». En el resto del corpus el vocativo cae en medio del texto, para retomar
+la atención después de un tramo largo, como en «oigan amigos, y recuerden que
+ustedes literalmente son mis jefes».
+
+El inventario medido de nombres para el público es corto: «amigos» veintisiete
+veces en doce archivos, «comunidad» doce veces en cinco, «chicos» dos veces,
+«parceros» una. «Compas», «panas» y «mi gente», que la versión anterior daba por
+atestiguados, no aparecen en el corpus hablado.
+
+La regla, entonces, es esta. El vocativo no es obligatorio en la apertura. Donde
+sí es obligatorio es en el punto medio del texto largo, una o dos veces, para
+volver a constituir al lector como comunidad justo antes de pedirle algo o de
+recordarle de quién es el dinero del que se habla.
+
+### 5.4. Variedad de español
+
+Español colombiano, con el habla de Bogotá como referencia. El léxico coloquial
+medido es de registro común y se entiende en toda América: «plata» por dinero
+aparece 104 veces en once archivos, y el bloque «chimba», «bacano», «berraco» y
+«chévere» suma veinte apariciones en nueve.
 
 También aparecen tecnicismos administrativos propios de Colombia que el texto
 debe explicar si el lector no los comparte: «curul», «localidad», «concejal»,
-«alcaldía».
+«alcaldía». «Concejal» aparece veinte veces en ocho archivos.
+
+El intensificador es un rasgo real y hay que dosificarlo: los superlativos del
+tipo «súper» o terminados en «ísimo» suman 63 apariciones en dieciséis archivos,
+y «muy» llega a 206. En texto entregado se conserva uno por tramo y el resto se
+sustituye por el dato que justifica el énfasis.
 
 El diminutivo afectivo es propio del registro y se admite con moderación:
 «almuercito», «la plaquita». No se acumula.
@@ -201,130 +272,195 @@ Cuando un colombianismo no se entienda fuera del país y el texto no vaya
 dirigido a Colombia, se sustituye por el término común. La cercanía no se paga
 con opacidad.
 
-### 5.4. Lo que no se importa del modelo
+### 5.5. Lo que no se importa del modelo
 
-El material de origen circula en redes y arrastra hábitos que el texto
-entregado no reproduce. Estos rasgos se observaron y se descartan de forma
-deliberada.
+El material medido es habla y arrastra hábitos que el texto entregado no
+reproduce. Estos rasgos se midieron y se descartan de forma deliberada.
 
-No se reproduce su puntuación. El material escribe con frecuencia el signo de
-cierre de exclamación precedido de espacio y sin signo de apertura, y omite a
-veces el signo de apertura de interrogación. Son descuidos de redes, no rasgos
-de estilo.
+No se reproducen las muletillas de relleno con su frecuencia oral. La sección
+6.2 fija cuáles se conservan y en qué proporción.
 
-No se reproducen sus erratas ni sus faltas de tilde.
+No se reproduce la repetición inmediata de palabra, del tipo «ridícula ridícula»
+o «no es muy, no es muy», que en el habla marca énfasis y por escrito parece un
+error de copia.
 
-No se reproducen los emojis, las etiquetas, los enlaces ni los índices de
-marcas de tiempo, que pertenecen al soporte y no a la prosa.
+No se reproducen las groserías. El corpus tiene diecinueve apariciones censuradas
+por el propio motor de subtítulos, repartidas en ocho archivos. El énfasis se
+consigue con la cifra, no con el exabrupto.
 
-No se reproducen las abreviaturas afectivas de mensajería del tipo «TQM» ni los
-emoticonos. El afecto se dice con palabras.
+No se reproducen los emojis, las etiquetas, los enlaces ni los índices de marcas
+de tiempo, que pertenecen al soporte y no a la prosa.
+
+No se reproducen las abreviaturas afectivas de mensajería ni los emoticonos. El
+afecto se dice con palabras.
 
 No se reproducen las mayúsculas enfáticas dentro del cuerpo del texto. En el
-material sirven para destacar una palabra en un título, y ese uso se trata en
-la sección 7.
+material sirven para destacar una palabra en un título, y ese uso se trata en la
+sección 7.
 
 No se reproducen los anglicismos sueltos del material cuando existe término
 español disponible.
 
+## 6. Ritmo y estructura
 
-## 6. Estructura del texto
+### 6.1. La unidad breve
 
-### 6.1. Apertura
+La versión anterior de este documento afirmaba que la oración llegaba «sin
+esfuerzo a las treinta o cuarenta palabras» y que en el tramo jurídico podía
+«superar las cincuenta». La medición dice lo contrario, y con margen amplio.
 
-El texto abre con el vocativo y pasa de inmediato al asunto. No hay preámbulo
-sobre la importancia del tema ni generalidad de calendario.
+Sobre los once archivos que traen puntuación del motor de subtítulos, 31.625
+palabras y 2.062 unidades, la media es de 15,3 palabras y la mediana de 11. El
+primer cuartil está en 6 y el tercero en 21. Solo el 6,1 por ciento pasa de
+cuarenta palabras, mientras que el 61,2 por ciento no llega a quince y el 40,1
+por ciento se queda en ocho o menos. Los archivos de control político y derecho
+alargan un poco la unidad, hasta una media de 17,5 y una mediana de 13, pero no
+cambian el orden de magnitud.
 
-Dos aperturas son propias de este tono. La primera enuncia de una vez el hecho
-que se va a denunciar: «Así funciona el negocio la Alcaldía de Bogota, muchas
-empresas meten plata, luego quieren que le devuelvan el favor». La segunda
-plantea la pregunta que el texto se compromete a responder, según el patrón de
-los títulos del material.
+Estas cifras dependen de una puntuación que no es del autor, así que se toman
+como orientación y no como retrato. Por eso conviene la segunda medida, que no
+depende de ningún signo. Si se corta el corpus entero por los marcadores que sí
+son suyos, los tramos resultantes dan una media de 36,6 palabras y una mediana
+de 25, con un cuartil bajo en 12 y uno alto en 48.
 
-### 6.2. Desarrollo por segmentos
+Las dos medidas juntas describen bien el ritmo. La cadena larga existe, pero por
+dentro está partida en unidades cortas que se van enganchando. Lo que el texto
+entregado toma de ahí no es la cadena sino la partición.
 
-El texto avanza por bloques delimitados, cada uno con un asunto propio. Los
-índices que el autor publica junto a sus vídeos lo muestran con nitidez, y sus
-rótulos son cortos y concretos: «Conexiones neuronales», «Disciplina vence al
-talento», «Repetición espaciada», «La gente es odiosa», «¿Cuánto gano en
-YouTube?», «Conclusiones».
+La regla: mediana de la oración entre 14 y 18 palabras, un cuarto del texto por
+debajo de 10, y a lo sumo una de cada diez oraciones por encima de cuarenta. La
+oración larga se reserva para el tramo que necesita decir a la vez el hecho, el
+destinatario y la consecuencia, y no se usa dos veces seguidas.
 
-Un segmento trata un asunto y se cierra antes de pasar al siguiente. Los
-asuntos extensos se parten en dos entregas, y el material lo marca como «Parte
-I» y «Parte II».
-
-### 6.3. La numeración dentro de la oración
-
-Un recurso propio y bien atestiguado. Cuando el autor da varias razones,
-las numera dentro de la propia oración en lugar de abrir una lista aparte:
-«fue genial porque 1. no fue planeado y 2. Seguimos todas las reglas tal cual
-como las planteamos».
-
-Se admite hasta tres elementos. Mantiene el ritmo hablado y ordena el argumento
-sin romper el párrafo.
-
-### 6.4. La miniclase
-
-Dentro de un texto personal o divulgativo cabe un tramo breve de explicación
-técnica, anunciado como tal. El material lo rotula literalmente «Mini clase de
-Derecho» y «Mini clase de Derecho Penal».
-
-La miniclase se anuncia, se resuelve en pocas líneas y devuelve el texto al
-hilo principal. No se extiende hasta convertir la pieza en una lección.
-
-### 6.5. Cierre
-
-El cierre no resume lo dicho. Hace una de dos cosas, o las dos.
-
-Agradece de forma concreta: «Gracias por ver los videos los quiero mucho»,
-«Gracias por todo el apoyo siempre».
-
-O pide algo preciso y accionable: «Avisen de qué quieren ver más videos»,
-«déjenme saber qué opinan», «caigan a la oficina que de verdad les soluciono
-los problemas que pueda».
-
-La petición es específica. No se cierra con una fórmula genérica de despedida.
-
-### 6.6. Párrafos y oraciones
-
-Las dos capas del texto tienen ritmos distintos y los dos son largos.
-
-En el tramo de comunidad, la oración acumula: llega sin esfuerzo a las treinta
-o cuarenta palabras encadenando lo que se quiere contar. En el tramo jurídico,
-la oración es periódica y puede superar las cincuenta palabras, porque una
-constancia necesita decir a la vez el hecho, el destinatario y la consecuencia.
-
-Esa extensión se admite con una condición firme: las oraciones independientes
-se unen con nexos o se separan con punto, nunca se encadenan con comas. El
-material lo hace y es un defecto suyo, no un rasgo que se imite.
-
-Contra esa longitud se coloca la oración breve que funciona como sentencia. «No
-es magia, es disciplina». «Sin filtro, sin adornos». «Disciplina vence al
-talento». Una por tramo basta, y es la que el lector se lleva.
+Sea cual sea la longitud, las oraciones independientes se unen con nexos o se
+separan con punto, nunca se encadenan con comas.
 
 Párrafos de 40 a 120 palabras. Un asunto por párrafo.
 
+### 6.2. Los marcadores y su dosis
+
+Esta es la parte que ninguna versión anterior de este documento pudo escribir,
+porque no había material hablado. Ahora hay medida, y con ella una dosis.
+
+El corpus de 48.629 palabras da estas frecuencias, con el número de archivos en
+que aparece cada una sobre veinte: «entonces» 311 veces en los veinte, «es que»
+173 en los veinte, «bueno» 150 en los veinte, «pues» 134 en dieciocho, «o sea»
+82 en quince, «miren» 65 en trece, «listo» 53 en diez, «no sé» 45 en doce,
+«claro» 37 en catorce, «la verdad» 31 en doce, «mire» 28 en once, «saben» 28 en
+trece, «de verdad» 25 en diez, «cierto» 23 en catorce, «es decir» 22 en ocho,
+«obviamente» 21 en once, «realmente» 19 en diez, «oigan» 16 en nueve,
+«digamos» 8 en cinco, «básicamente» 1 en uno.
+
+Los nexos se comportan igual. «Y» aparece 1.287 veces, 26,4 por mil palabras,
+«pero» 322, «porque» 271. En el otro extremo, el corpus tiene dos apariciones de
+«sin embargo», una de «por lo tanto» y ninguna de «por tanto» ni de «en otras
+palabras». El autor encadena con las conjunciones cortas y no usa el conector
+ilativo culto.
+
+De aquí salen tres reglas de traslado, porque una frecuencia oral no se copia a
+un texto escrito.
+
+Primera, se conservan «entonces», «pero» y «porque» como articuladores
+principales, y se rebaja «entonces» a una aparición cada quinientas palabras
+como máximo, frente a las seis por mil del habla.
+
+Segunda, se conservan «miren», «mire» y «oigan» como llamadas de atención antes
+de una prueba o de una cifra, y se limitan a dos o tres por texto. Son el gesto
+que abre el expediente, no un tic.
+
+Tercera, se eliminan del texto entregado los rellenos que no articulan nada:
+«es que» en función de arranque, «pues», «o sea», «listo», «no sé», «digamos»,
+«obviamente», «realmente». «Bueno» sobrevive solo si abre el texto o marca un
+giro real, nunca más de una vez.
+
+El conector ilativo culto que el corpus no usa tampoco se introduce. Un texto de
+este tono que arranque un párrafo con «por consiguiente» ha cambiado de autor.
+
+### 6.3. Apertura
+
+El corpus da un inventario claro de aperturas medidas sobre las primeras
+palabras de los veinte archivos, y ninguna de ellas es un saludo de manual.
+
+Siete archivos abren con una partícula de arranque: «Bueno», «Listo», «Oigan» o
+«Empecemos». Seis llevan un vocativo en las primeras ocho palabras, de los
+cuales solo dos son «amigos». Cinco anuncian el contenido en primera persona con
+el clítico de la comunidad, del tipo «quiero comentarles que», «hoy les voy a
+contar varias cosas» o «muchos de ustedes me pidieron». Cuatro arrancan en frío
+con una escena o una voz ajena antes de que el autor hable. Dos se presentan por
+su nombre. Uno abre con la pregunta directa que el texto se compromete a
+responder.
+
+Cinco archivos llevan «hoy» en las primeras doce palabras, que es el marcador de
+que lo que viene ocurre ahora y no en general.
+
+En texto entregado se eligen dos de esos movimientos y se combinan: la partícula
+de arranque más el anuncio en primera persona, o la escena en frío más la
+pregunta. Lo que no cabe es el preámbulo sobre la importancia del tema ni la
+generalidad de calendario.
+
+La apertura más fuerte del corpus enuncia el hecho y la cifra de una vez, como
+en «hoy les voy a contar una denuncia sobre algo que nos cuesta a todos los
+bogotanos 14.000 millones de pesos».
+
+### 6.4. Desarrollo por segmentos
+
+El texto avanza por bloques delimitados, cada uno con un asunto propio. La
+enumeración explícita del tipo «primer punto», «lo primero», «el segundo»
+aparece veintiocho veces en nueve archivos, y es el modo habitual de marcar el
+paso de un bloque al siguiente sin encabezado.
+
+Se admite hasta cuatro elementos numerados dentro de un mismo tramo. Mantiene el
+ritmo hablado y ordena el argumento sin romper el párrafo.
+
+Un segmento trata un asunto y se cierra antes de pasar al siguiente. Los asuntos
+extensos se parten en dos entregas, y el material lo marca como «parte I» y
+«parte II».
+
+El tramo técnico breve dentro de un texto divulgativo se anuncia como tal y se
+resuelve en pocas líneas. Conviene una precisión de origen: la etiqueta «mini
+clase de derecho» no aparece ni una vez en el corpus hablado, así que es rótulo
+de catálogo y no fórmula del autor. Se anuncia el tramo con palabras corrientes.
+
+### 6.5. Cierre
+
+El cierre no resume lo dicho. La medición sobre las últimas ciento veinte
+palabras de cada archivo da tres salidas, y una ausencia que también es dato.
+
+Diez archivos agradecen. Diez piden algo concreto y accionable, con la petición
+repartida entre el comentario en seis, la suscripción en siete y la respuesta
+directa del tipo «me cuentan cualquier cosa» en dos. Cinco archivos no hacen ni
+lo uno ni lo otro y cierran de golpe sobre la tesis, con una oración corta que
+es lo último que el lector se lleva: «solo importan los amigos del alcalde
+Galán», «los que hacen las cosas mal tienen que pagar», «eso es lo que yo tengo
+para darles a ustedes», «la disciplina siempre vence al talento natural». Seis
+archivos no cierran de ninguna manera reconocible, porque terminan en mitad de
+un diálogo.
+
+En texto entregado se usan las dos primeras salidas o la tercera, nunca la
+cuarta. La petición es específica. No se cierra con una fórmula genérica de
+despedida.
+
+El cierre más completo del corpus junta las tres cosas en cuatro líneas: devuelve
+la propiedad, pide una acción y firma con el cargo, en la forma «esta curul es
+suya, respeten y hagan respetar la plata que ustedes invierten en impuestos, y
+para eso me pusieron a mí, soy su concejal, el concejal que ustedes eligieron».
 
 ## 7. Titulares y encabezados
 
-El título del material es casi siempre una pregunta directa sobre un asunto
-público, formulada con el interrogativo por delante: «¿Por qué falla la
-seguridad en Bogotá?», «¿Quién le pagó al Alcalde de Bogotá?», «¿Dónde están
-los 14 mil millones de pesos de los bogotanos?», «¿Qué está pasando en la
-localidad de USME?».
+El título es casi siempre una pregunta directa sobre un asunto público,
+formulada con el interrogativo por delante: «¿Por qué falla la seguridad en
+Bogotá?», «¿Quién le pagó al alcalde de Bogotá?», «¿Dónde están los 14 mil
+millones de pesos de los bogotanos?».
 
 La pregunta nombra la cifra o el responsable concreto. No pregunta en abstracto.
+La segunda forma es la disyuntiva breve.
 
-La segunda forma es la disyuntiva breve: «¿YouTuber o abogado?».
-
-El material destaca una palabra del título en mayúsculas sostenidas. Ese
-recurso se admite únicamente en el título y con una sola palabra por título. En
-el cuerpo del texto no aparece. Si el destino del texto no admite mayúsculas
+Se admite destacar una sola palabra del título en mayúsculas sostenidas, una por
+título, y nunca en el cuerpo. Si el destino del texto no admite mayúsculas
 enfáticas, se prescinde de ellas sin sustituto.
 
-Los encabezados internos son cortos y concretos, según el modelo de la sección
-6.2.
-
+Los encabezados internos son cortos y concretos, del tipo «Conexiones
+neuronales», «Repetición espaciada», «Conclusiones».
 
 ## 8. Ejemplo de aplicación
 
@@ -336,18 +472,19 @@ llegar a configurar una eventual vulneración de la normativa vigente.»
 
 Después, con el tono de este skill:
 
-«Amigos, la Alcaldía nombró a una funcionaria que no cumple el requisito para
-el cargo. El artículo 65 del Decreto Ley 1421 de 1993 exige arraigo para ese
-nombramiento, es decir, haber vivido o trabajado en el territorio. Ella no lo
-acredita. El acta del nombramiento y la hoja de vida que radicó están en la
-carpeta que dejo abierta para que ustedes mismos los revisen. No es una
-sospecha, es un requisito incumplido.»
+«Miren esto. La alcaldía nombró a una funcionaria que no cumple el requisito del
+cargo. El decreto 1421 de 1993 exige arraigo para ese nombramiento, o sea, haber
+vivido o trabajado en el territorio. Ella no lo acredita. El acta y la hoja de
+vida que radicó están en la carpeta que dejo abierta para que ustedes mismos las
+revisen. No es una sospecha, es un requisito incumplido. Amigos, esa plata y ese
+cargo son de ustedes, y para eso me pusieron a mí.»
 
-Lo que cambió. La afirmación se hizo directa y perdió los atenuantes en
-cadena. La norma llegó con su número y con su traducción. La prueba se nombró y
-se puso a disposición del lector. El cierre fijó la idea con una definición por
-negación.
-
+Lo que cambió. La afirmación se hizo directa y perdió los atenuantes en cadena.
+El texto abrió con el imperativo de mirar. La norma llegó con su número y con su
+traducción inmediata. La prueba se nombró y se puso a disposición del lector.
+Una oración corta fijó la idea con una definición por negación. El vocativo cayó
+al final, no al principio, y sirvió para devolver la titularidad. La mediana de
+las siete oraciones queda en trece palabras.
 
 ## 9. Formato de entrega
 
@@ -360,124 +497,172 @@ explicaciones, salvo que el usuario las solicite. El contenido original se
 preserva, solo se modifica la forma.
 
 Cuando el original no aporta ningún documento ni ninguna cifra, la reescritura
-tampoco los inventa. El principio de la prueba adjunta obliga a nombrar la
-prueba que existe, nunca a fabricar una.
+tampoco los inventa. El principio de la prueba a la vista obliga a nombrar la
+prueba que existe, nunca a fabricar una. La misma regla vale para la norma: si
+el original no cita artículo, la reescritura no lo añade.
 
-
-## 10. Lo que este documento no afirma
+## 10. Lo que la medición no resuelve
 
 Se deja constancia expresa para que nadie lo complete por su cuenta.
 
-No se afirma nada sobre sus muletillas orales. No se obtuvo material hablado.
+No se midió su puntuación, porque la del corpus la puso el motor de subtítulos.
+Todas las cifras de longitud de oración de la sección 6.1 dependen de esa
+puntuación ajena y se declararon como aproximación.
 
-No se afirma que use «usted» ni «tú» con interlocutores individuales. Solo se
-verificó el trato de «ustedes» con su audiencia.
+No se midió su prosa escrita larga. El corpus es habla transcrita. Cómo puntúa,
+cómo separa párrafos y qué hace con los incisos cuando escribe de verdad sigue
+sin verificarse.
 
-No se afirma nada sobre la longitud de sus oraciones habladas ni sobre cómo
-abre y cierra sus vídeos en voz. Lo descrito en las secciones 6.1 y 6.5
-procede de sus textos escritos.
+No se midió su entonación, sus pausas ni su volumen, que el subtítulo no
+registra. Las marcas de música, risas y aplausos del corpus son etiquetas del
+motor, no del autor.
 
+No se separó de forma automática su voz de la de sus invitados dentro de cada
+archivo. La separación se hizo por archivo, distinguiendo los diez con otra voz
+ante la cámara de los diez de monólogo, y las conclusiones sobre el trato se
+apoyan en esa partición y en lectura de cada caso, no en un etiquetado por
+hablante.
 
 ## 11. Lista de verificación de tono
 
 Se ejecuta después de la lista normativa de la base.
 
- 1. ¿El texto abre nombrando al lector como parte de una comunidad?
- 2. ¿Se trata al lector de «ustedes» de principio a fin, sin tuteo y sin
-    «usted» en singular?
- 3. ¿La primera persona del singular asume de forma explícita lo que se afirma?
- 4. ¿Hay al menos una pregunta directa que el texto responde después?
- 5. ¿Cada afirmación fuerte sobre dinero público, contrato o nombramiento
-    lleva nombrada la prueba que la sostiene?
- 6. ¿Las normas invocadas se identifican por artículo y número de la
-    disposición?
- 7. ¿Cada término jurídico o administrativo se traduce a lenguaje corriente en
-    su primera aparición?
- 8. ¿La exposición avanza por segmentos, cada uno con un asunto propio?
- 9. ¿Hay al menos una definición por negación del tipo «no es esto, es
-    aquello»?
-10. ¿Conviven el registro cercano y el registro jurídico preciso en el mismo
-    texto?
-11. ¿Alguna oración breve funciona como sentencia frente a las oraciones
-    largas?
-12. ¿Las oraciones independientes se unen con nexos o se separan con punto, en
+ 1. ¿La mediana de la oración queda entre 14 y 18 palabras, con un cuarto del
+    texto por debajo de 10 y a lo sumo una de cada diez por encima de 40?
+ 2. ¿Las oraciones independientes se unen con nexos o se separan con punto, en
     lugar de encadenarse con comas?
-13. ¿El cierre agradece o pide algo concreto, sin resumir lo ya dicho?
-14. ¿El léxico colombiano se entiende fuera de Colombia o está sustituido?
-15. ¿Quedan fuera del cuerpo del texto las marcas de redes del modelo, como
-    emojis, mayúsculas enfáticas, abreviaturas afectivas y enlaces?
-
+ 3. ¿El texto reparte el trato, con «ustedes» para lo que le toca al grupo y
+    «usted» para el caso individual, sin mezclar los dos dentro de una misma
+    unidad?
+ 4. ¿Queda descartado el tuteo al público y también el «vosotros»?
+ 5. ¿La primera persona del singular asume de forma explícita lo que se afirma?
+ 6. ¿La apertura combina una partícula de arranque o una escena con el anuncio
+    de lo que se va a contar, sin preámbulo sobre la importancia del tema?
+ 7. ¿El vocativo aparece una o dos veces en el cuerpo del texto largo, en lugar
+    de encabezarlo por costumbre?
+ 8. ¿Cada afirmación fuerte sobre dinero público, contrato o nombramiento llega
+    con el imperativo de mirar y con la cifra o el documento en la misma línea?
+ 9. ¿Las normas invocadas se identifican por número y año, y solo cuando el
+    argumento depende de ellas?
+10. ¿Cada término jurídico o administrativo se traduce a lenguaje corriente en
+    la misma unidad en que aparece?
+11. ¿Hay al menos una definición por negación del tipo «no es esto, es aquello»?
+12. ¿La exposición avanza por segmentos, marcados con enumeración explícita
+    cuando hace falta, con un asunto por segmento?
+13. ¿Alguna oración breve funciona como sentencia frente a las oraciones largas,
+    de preferencia en el cierre?
+14. ¿El cierre agradece, pide algo concreto o remata sobre la tesis, sin resumir
+    lo ya dicho?
+15. ¿Están fuera los rellenos orales del modelo, del tipo «es que» de arranque,
+    «pues», «o sea», «listo», «obviamente» y «realmente», y «entonces» quedó por
+    debajo de una aparición cada quinientas palabras?
+16. ¿Quedan fuera del cuerpo del texto las marcas de redes y de habla, como
+    emojis, mayúsculas enfáticas, groserías, repetición inmediata de palabra y
+    enlaces?
 
 ## 12. Fuentes
 
 ### 12.1. Identificación de la persona
 
-Ángelo Schiavenato Rivadeneira, bogotano, abogado de la Universidad del
-Rosario con especializaciones y maestría, estudiante de Medicina en la
-Fundación Universitaria de Ciencias de la Salud. Fue auxiliar judicial en la
-sala penal del Tribunal Superior de Bogotá y después abrió su firma,
-Schiavenato Abogados, con sedes en Bogotá y Miami, dedicada a derecho penal y
-corporativo. Se hizo conocido en 2022 tras atropellar con su vehículo a dos
-personas que acababan de robarlo. Fue elegido concejal de Bogotá en octubre de
-2023 con cerca de 11.000 votos, tras una campaña hecha casi por completo en
+Ángelo Schiavenato Rivadeneira, bogotano, abogado de la Universidad del Rosario
+con especializaciones y maestría, estudiante de Medicina en la Fundación
+Universitaria de Ciencias de la Salud. Fue auxiliar judicial en la sala penal
+del Tribunal Superior de Bogotá y después abrió su firma, dedicada a derecho
+penal y corporativo. Se hizo conocido en 2022 tras atropellar con su vehículo a
+dos personas que acababan de robarlo. Fue elegido concejal de Bogotá en octubre
+de 2023 con cerca de 11.000 votos, tras una campaña hecha casi por completo en
 redes sociales, y se posesionó en enero de 2024.
 
-El canal que este perfil describe tiene 136.000 suscriptores y 68 vídeos. Sus
-temas son tres: control político sobre la administración de Bogotá, método de
-estudio y productividad, y vídeos personales de vehículos, tecnología y
-gastronomía.
+El canal que este perfil describe tiene tres temas: control político sobre la
+administración de Bogotá, método de estudio y productividad, y vídeos personales
+de vehículos, tecnología y gastronomía.
 
 https://www.youtube.com/@angeloschiavenato27
-https://www.youtube.com/channel/UCQMJiJUg7_r4hZughZD3ikA
 https://www.elcolombiano.com/colombia/angelo-schiavenato-concejal-que-solo-hizo-campana-en-tiktok-NC23033916
 https://www.noticiascaracol.com/ahora/como-logro-angelo-schiavenato-llegar-al-concejo-de-bogota-el-abogado-de-tiktok-conto-sus-secretos-rg10
 https://www.infobae.com/colombia/2024/01/04/angelo-schiavenato-el-concejal-que-llego-en-porsche-en-su-primer-dia-la-gente-sabia-que-yo-tenia-plata-antes-de-la-politica/
-https://canal1.com.co/noticias/bogota/angelo-schiavenato-abogado-campana-dos-semanas-nuevo-concejal-bogota/
 
-La identificación es firme. El canal descrito declara en su propia página el
-nombre completo, la condición de abogado y estudiante de medicina, y el
-dominio de la firma de abogados, y esos datos coinciden con los de la prensa
-colombiana sobre el concejal.
+### 12.2. Corpus medido
 
-### 12.2. Corpus textual utilizado
+Veinte transcripciones completas de vídeos del canal, en español, 48.629
+palabras y 294 minutos de habla. La selección cubre los vídeos más vistos, obra
+reciente y catálogo, y excluye cortos, directos y pódcast. Diez archivos son
+monólogo ante la cámara y diez tienen otra voz presente, sea invitado,
+entrevistado de calle o acompañante.
 
-Descripción pública del canal, redactada por el autor. Es la fuente del
-vocativo, del trato de «ustedes», de la enumeración de credenciales y del
-cierre con petición. Se recogió literal.
+Reparto por tema: ocho archivos de control político y asuntos públicos, dos de
+método y productividad, y diez de reseña, calle y vida personal.
 
-https://www.youtube.com/@angeloschiavenato27/about
+Origen de los archivos: subtítulos de la plataforma, en diecinueve casos
+generados de forma automática. Once archivos traen puntuación insertada por el
+motor y nueve no traen ninguna.
 
-Treinta títulos de vídeo literales del canal, recuperados en su idioma
-original. Son la base de la sección 7 y de la descripción de los temas.
+### 12.3. Mediciones realizadas
 
-https://www.youtube.com/@angeloschiavenato27/videos
+El agente extrajo el texto de las veinte transcripciones, retiró las marcas de
+tiempo y normalizó los espacios, y contó sobre el resultado. Las cuentas que
+sostienen este documento son estas.
 
-Alrededor de veinte descripciones de vídeo firmadas por el autor y publicadas
-junto a esos vídeos. Es la fuente principal de las secciones 4, 5 y 6. De ahí
-proceden todas las citas de este documento, incluidas la constancia sobre el
-nombramiento, la invitación a revisar los documentos de respaldo, las fórmulas
-de cierre y la numeración dentro de la oración.
+Longitud de unidad sobre los once archivos puntuados, 31.625 palabras y 2.062
+unidades: media 15,3, mediana 11, primer cuartil 6, tercer cuartil 21, percentil
+noventa 33, máximo 136, un 6,1 por ciento por encima de cuarenta palabras y un
+61,2 por ciento por debajo de quince. Desglose por tema: media 17,5 y mediana 13
+en control político y derecho, media 13,3 y mediana 9 en reseña y vida personal.
 
-### 12.3. Lo que no se consiguió
+Longitud de tramo entre marcadores propios sobre el corpus entero, sin depender
+de puntuación, con 1.330 marcadores: media 36,6, mediana 25, primer cuartil 12,
+tercer cuartil 48.
 
-No se obtuvo ninguna transcripción ni ningún archivo de subtítulos. El canal
-tiene subtítulos automáticos en español, pero su descarga está restringida y
-el panel de transcripción no devolvió contenido. Esta es la carencia principal:
-todo lo que este documento afirma sobre su prosa procede de texto escrito por
-él, y nada procede de su habla.
+Ritmo global de 165 palabras por minuto, con extremos de 83 y 211 según el
+archivo. Vocabulario de 6.380 formas distintas sobre 47.902 ocurrencias.
+Longitud media de palabra de 4,44 caracteres.
 
-En consecuencia, no hay ninguna muletilla oral documentada, y este documento no
-inventa ninguna. El único marcador de apertura atestiguado es «Bueno», y consta
-por escrito, no por transcripción.
+Frecuencia de marcadores y muletillas, absoluta y por archivos, tal como se
+recoge en la sección 6.2, encabezada por «entonces» con 311 apariciones en los
+veinte archivos.
 
-No se consiguió la biografía publicada en el sitio de su firma de abogados ni
-su ficha en los observatorios del Concejo de Bogotá, porque esos dominios no
-respondieron. Los datos biográficos de la sección 12.1 proceden de prensa
-colombiana y de la descripción del propio canal.
+Trato con el público: 187 apariciones de «ustedes» en diecinueve archivos, 197
+de «les» en los veinte, 165 imperativos de segunda del plural, 172 apariciones
+de «usted» en dieciocho archivos, 86 imperativos de segunda del singular, y 131
+rastros de tuteo de los cuales 122 caen en los diez archivos con otra voz ante
+la cámara. En monólogo, «ustedes» a 5,98 por mil y tuteo a 0,36. Con otra voz,
+«ustedes» a 1,62 y tuteo a 5,08.
 
-No se consiguió ninguna entrevista en texto con citas extensas suyas. Las
-piezas de prensa consultadas parafrasean casi todo y citan poco.
+Vocativos: «amigos» 27 apariciones en doce archivos, «comunidad» 12 en cinco,
+«chicos» 2, «parceros» 1, y ninguna de «compas», «panas» o «mi gente». Ninguna
+apertura con «hola amigos».
 
-No se localizó ningún análisis publicado sobre su forma de hablar o de
-escribir. La cobertura disponible se ocupa de su patrimonio, de su campaña y
-del episodio del atropello, no de su lenguaje.
+Norma jurídica: 15 citas con número en todo el corpus, 13 de ellas en un solo
+archivo, y solo 2 apariciones de «artículo» seguido de número. «Ley» 21 en seis
+archivos, «código» 11 en cinco, «decreto» 4 en dos, «constitución» 2 en uno, y
+ninguna de «sentencia», «resolución» o «jurisprudencia». En contraste,
+«contrato» 33 en ocho archivos, «denuncia» y derivados 28 en siete, «delito» y
+tipos penales 26 en nueve.
+
+Reformulación: «o sea» 82 apariciones en quince archivos frente a 22 de «es
+decir» en ocho, y de esas veintidós solo una sigue a una norma citada.
+
+Definición por negación: 26 apariciones del molde «no es esto, es aquello» en
+trece archivos, 23 de «no es que» en doce, 17 de «no esto sino aquello» en diez.
+
+Mandato invertido: 7 apariciones de «ustedes son mis jefes» y equivalentes en
+cinco archivos, y 2 de «curul» en dos.
+
+Apertura y cierre, sobre las primeras y últimas palabras de cada archivo: siete
+aperturas con partícula de arranque, seis con vocativo, cinco con anuncio en
+primera persona, cuatro en frío, dos con presentación por nombre y una con
+pregunta directa. En el cierre, diez archivos agradecen, diez piden algo
+concreto, cinco rematan sobre la tesis y seis no cierran de forma reconocible.
+
+### 12.4. Lo que sigue sin conseguirse
+
+No se consiguió ninguna transcripción revisada por el autor, así que no hay
+manera de separar su puntuación de la del motor de subtítulos.
+
+No se consiguió texto escrito extenso suyo dentro de este corpus. Las
+descripciones de vídeo que sostenían la versión anterior de este documento
+quedan como fuente secundaria, y las afirmaciones que solo dependían de ellas se
+marcaron como tales o se retiraron.
+
+No se consiguió ninguna entrevista en texto con citas extensas suyas, ni ningún
+análisis publicado sobre su forma de hablar o de escribir.

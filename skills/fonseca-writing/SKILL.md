@@ -3,10 +3,10 @@ name: fonseca-writing
 description: >
   Skill de tono para divulgación de actualidad: política internacional,
   geopolítica, conflictos y economía. Aplica el registro de análisis de
-  coyuntura derivado del canal Solo Fonseca (Enrique Fonseca): entrada por el
-  hecho concreto, oraciones breves, cifra y fuente pegadas a la afirmación,
-  opinión declarada en lugar de neutralidad fingida, e ironía por contraste
-  entre lo anunciado y lo ocurrido. Interpela al público de forma directa.
+  coyuntura medido sobre veinte transcripciones del canal Solo Fonseca
+  (Enrique Fonseca): oración corta con alternancia brusca, segunda persona
+  del plural peninsular sostenida, marcadores de recapitulación y de escala,
+  pregunta anticipada al público, y cifra abundante con atribución escasa.
   Úsese cuando el usuario pida redactar, reescribir o revisar guiones de vídeo
   de actualidad, explicadores de noticias, análisis de coyuntura, boletines,
   hilos informativos o piezas de divulgación geopolítica y económica. También
@@ -44,243 +44,329 @@ skill no introduce ninguna ampliación propia sobre ella. Donde la base y este
 documento parezcan chocar, gana la base y el defecto está aquí.
 
 
-## 3. Qué se verificó y qué no
+## 3. Qué se midió, sobre qué, y qué no vale
 
-Este documento describe una manera de escribir observada en material textual
-real: títulos de vídeo, entradillas de descripción publicadas junto a esos
-vídeos y publicaciones firmadas del autor. La sección 13 lista las fuentes.
+Las reglas de este documento salen de contar sobre veinte transcripciones
+completas del canal, 114.513 palabras. La sección 13 da el detalle.
 
-No se obtuvo ninguna transcripción ni ningún archivo de subtítulos. Todo lo que
-aquí se afirma sobre la prosa procede de texto escrito, no del habla. Las reglas
-que siguen se limitan a lo que ese material sostiene. Cuando algo no se pudo
-comprobar, se dice en el punto correspondiente y no se convierte en regla.
+Tres cautelas que condicionan todo lo que sigue.
+
+La primera es la puntuación. Los subtítulos la ponen la plataforma o el
+transcriptor, no el autor. Quince de los veinte archivos traen puntuación
+utilizable, 80.073 palabras, y cinco no traen ninguna. Todo lo que este
+documento afirma sobre longitud de oración procede solo de esos quince, y
+ninguna regla de aquí descansa sobre una coma. Se cuentan palabras y
+estructuras, no signos.
+
+La segunda es que la transcripción mezcla tres voces. Está el autor, están los
+cortes de informativo que inserta como prueba, y están las lecturas de
+patrocinio. Las lecturas de patrocinio y el cierre de canal suman algo más de
+22.700 palabras, cerca del 20 % del total, y se midieron aparte. Cuando este
+documento dice «el cuerpo», habla de las 91.773 palabras restantes.
+
+La tercera es que el corpus es habla, no escritura. Un guion leído en voz alta
+tolera repeticiones que un texto escrito no tolera. Donde la medición describe
+un tic de habla y no un recurso, este documento lo dice y no lo convierte en
+regla.
 
 
-## 4. Filosofía estilística: el hecho primero, el juicio después
+## 4. Ritmo: la oración corta con salto brusco
 
-### 4.1. Principio de entrada por el hecho
+### 4.1. Los números
 
-El texto empieza por lo que pasó, no por el contexto de lo que pasó. La primera
-oración nombra al actor, al país o al lugar, y afirma algo comprobable sobre él.
-Nunca abre con una generalidad de calendario ni con un preámbulo sobre la
-importancia del asunto.
+Sobre 4.984 oraciones de los quince archivos puntuados:
 
-Las entradillas del canal repiten ese movimiento con constancia. «Israel está
-ganando la guerra de Gaza». «Haití se ha convertido en un auténtico infierno».
-«Japón lleva 3 décadas en una crisis económica permanente». Sujeto, verbo y un
-hecho. La explicación viene después.
+Media 16,1 palabras. Mediana 14. Primer cuartil 8. Tercer cuartil 21. Percentil
+90 en 31. Máximo 80.
 
-La variante admitida es abrir con una pregunta que el texto va a responder:
-«¿De verdad está China preparada para invadir Taiwan?». La pregunta no adorna,
-compromete al texto con una respuesta.
+El 52,6 % de las oraciones queda por debajo de 15 palabras. El 30,8 % queda por
+debajo de 10. El 7,1 %, trescientas cincuenta y tres oraciones, tiene tres
+palabras o menos. Por arriba, el 10,4 % pasa de 30 palabras y el 3,6 % pasa de
+40.
 
-### 4.2. Principio del dato pegado a la afirmación
+La lectura correcta de esos números no es «oraciones cortas». Es que la mitad
+del texto vive por debajo de las 15 palabras y una décima parte se estira más
+allá de 30, y que las dos poblaciones conviven en el mismo párrafo. El intervalo
+entre cuartiles es de 13 palabras, casi tan ancho como la mediana entera.
 
-Toda afirmación fuerte lleva su cifra o su fuente en la oración siguiente, o en
-la misma. No hay valoración flotando sin sostén.
+### 4.2. La alternancia es la regla
 
-El material observado hace las dos cosas a la vez. «Europa se olvidó del gasto
-militar hasta dejarlo en un raquítico 1 % del PIB» junta el adjetivo valorativo
-y la cifra en un mismo sintagma. «La contraofensiva lanzada este verano ha
-fracasado. Lo reconoce el general Zaluzhnyi» pone primero el veredicto y después
-quién lo firma.
+En el 9,2 % de las transiciones entre oraciones consecutivas hay un salto de
+doce palabras o menos a treinta o más, o al revés. Las oraciones de doce
+palabras o menos aparecen en 1.134 rachas de dos oraciones de media, con rachas
+aisladas de hasta trece.
 
-El orden importa. Primero el juicio, inmediatamente después la prueba. El texto
-no se esconde detrás de la fuente, se apoya en ella.
+De ahí la regla operativa. Dos o tres oraciones breves seguidas y después una
+larga que ordena lo anterior. Nunca cuatro largas seguidas. Nunca diez cortas
+seguidas fuera de un remate deliberado.
 
-### 4.3. Principio de opinión declarada
+La oración larga de este registro no es subordinación encadenada. Es
+enumeración, aposición y coordinación: una lista de actores, una lista de
+cifras, una lista de consecuencias. Las oraciones de más de 45 palabras medidas
+en el corpus son casi todas eso.
 
-El autor no finge neutralidad. Toma partido, lo dice con todas las letras y lo
-marca como opinión suya, distinta del hecho que acaba de referir. Los títulos
-del canal lo sostienen: hay piezas tituladas como dilema moral propio y otras
-que anuncian una verdad incómoda antes de exponerla.
-
-La regla operativa es sencilla. El hecho se enuncia sin adjetivos de bando. El
-juicio se enuncia en primera persona o con una fórmula que lo señale como
-valoración. Nunca se disfraza un juicio de dato.
-
-### 4.4. Principio de ironía por contraste
-
-El humor del registro no viene del chiste ni del insulto. Viene de poner una
-al lado de la otra la expectativa y el resultado. «Lo que parecía que iba a ser
-la entrevista del año ha terminado siendo un infocomercial del Kremlin» es toda
-la técnica: se enuncia lo prometido, se enuncia lo entregado, y el lector saca
-la conclusión sin que nadie se la explique.
-
-La ironía se dirige a los hechos, a las promesas incumplidas y a las cifras que
-no cuadran. No se dirige a la persona por lo que es.
-
-### 4.5. El límite
+### 4.3. El límite
 
 La brevedad y el golpe son recursos, no metas. Una sucesión de frases cortas y
-rotundas sin ninguna oración que respire produce ruido, no urgencia. Y una
-ironía en cada párrafo deja de ser ironía y pasa a ser tic.
-
-La proporción observada es clara: el peso del texto está en la exposición, y el
-recurso aparece cuando el contraste lo justifica.
+rotundas sin ninguna oración que respire produce ruido, no urgencia.
 
 
-## 5. Voz y registro
+## 5. Voz y persona
 
-### 5.1. Persona gramatical
+### 5.1. Segunda persona del plural peninsular, y el dato es rotundo
 
-Segunda persona para interpelar al público de forma directa. El material
-verificado usa la segunda persona del plural peninsular, con formas como «espero
-que os guste» o «no os lo perdáis». Este skill conserva la interpelación
-directa y deja la forma concreta al ámbito que fije la base o el usuario.
+En el cuerpo del corpus, sin contar patrocinios ni cierre de canal: «sabéis» 75
+veces, «podéis» 61, «recordad» 61, «veis» 40, «atentos» 32, «vuestra» 25,
+«habéis» 24, «vosotros» 23, «tenéis» 23, «pensad» 22, «queréis» 16, «estáis»
+14, «mirad» 13, «fijaos» 10. Los enclíticos de segunda del plural aparecen en
+otras decenas de posiciones: «os digo» 21, «os hagáis» 20, «os podéis» 23, «os
+estaréis» 10.
 
-Primera persona del singular para la opinión, el dilema y la posición propia.
+Frente a eso, «ustedes» aparece dos veces en el cuerpo, y las dos en boca de un
+tercero citado. No hay una sola forma de voseo del autor.
 
-Primera persona del plural para recorrer el asunto junto con el público, en el
-sentido de «vamos a ver esto». No en el sentido de «nosotros los expertos».
+La conclusión es que la interpelación es peninsular y sostenida, no ocasional.
+Aparece en los veinte archivos. La versión anterior de este documento dejaba la
+forma concreta «al ámbito que fije la base o el usuario». La medición no
+sostiene esa neutralidad: el registro es de vosotros. Si el usuario pide una
+variante americana, se atiende como petición explícita del usuario y se
+convierte todo el texto, pero el defecto de este skill es vosotros.
 
-Tercera persona para todo lo demás, que es la mayor parte del texto.
+### 5.2. El tuteo existe y está acotado
 
-### 5.2. Registro
+En el cuerpo aparecen «suscríbete» 13 veces, «dale a la campanita» 13, «si eres
+nuevo» 13 y «te cuento» 13. Son el mismo bloque de autopromoción intercalado,
+repetido casi palabra por palabra en trece de los veinte archivos. Las demás
+apariciones de tuteo se concentran en las lecturas de patrocinio.
+
+Es decir: la prosa de análisis va en vosotros, y el tú aparece solo cuando el
+texto se dirige al oyente como cliente y no como público. En un texto escrito
+esa segunda función no existe, así que el tuteo no entra.
+
+### 5.3. Primera persona
+
+Primera del singular para la opinión y la posición propia, pero con parquedad
+medida: «creo que» 34 veces en todo el corpus, «yo creo» 3, «en mi opinión» 0.
+El autor toma partido con adjetivos y con selección de hechos mucho más que con
+fórmulas de opinión declarada.
+
+Primera del plural para recorrer el asunto junto con el público: «vamos a ver»
+71 veces en los veinte archivos, «hemos visto» 18. No en el sentido de
+«nosotros los expertos».
+
+
+## 6. Marcadores medidos
+
+### 6.1. Los tres que la versión anterior declaraba suyos
+
+«Vamos, que»: 65 apariciones en 18 de los 20 archivos. Confirmado, y confirmada
+también la función que se le atribuía. En los sesenta y cinco casos cierra una
+acumulación previa y entrega la conclusión práctica en una sola frase. Es el
+marcador más característico del registro y el único que ningún otro tono
+comparte.
+
+«Hablamos de»: 58 apariciones en 16 archivos, más «estamos hablando de» 33 en
+13. Confirmado.
+
+«Por supuesto que»: 12 apariciones en 6 archivos. Existe pero es marginal, y no
+funciona como concesión previa al veredicto en la mayoría de los casos. Se
+rebaja de regla a licencia. La forma frecuente es «por supuesto» a secas, 56
+veces, que no concede nada sino que refuerza.
+
+«En esta tesitura»: cero apariciones. Se retira del documento.
+
+«Por el momento»: 4 apariciones en 4 archivos. Demasiado poco para sostener un
+principio de acotación temporal del juicio. Se retira como regla.
+
+### 6.2. Los que la medición encontró y el documento anterior no tenía
+
+Escala pegada a la cifra, «para que os hagáis una idea»: 19 apariciones en 10
+archivos. Es el recurso central del manejo de números y funciona siempre igual.
+Se da una cifra, se admite que la cifra sola no dice nada, y se da un término
+de comparación que la vuelve imaginable. «En 2023 España celebró 40, y sabéis
+cuántos celebró Israel en el mismo año, más de 50». Toda cifra que importe lleva
+detrás una comparación de este tipo.
+
+Pregunta anticipada, «ya sé lo que os estaréis preguntando» y «os preguntaréis»:
+28 apariciones en 16 archivos. Se formula en voz alta la objeción o la duda que
+el público ya tiene, se marca como suya, y se responde de inmediato. Es la
+bisagra estructural del registro.
+
+Anuncio del paso siguiente, «ahora mismo lo vamos a ver»: 35 apariciones. Cierra
+un tramo prometiendo el siguiente en lugar de resumir el anterior.
+
+Retorno de digresión, «sigamos con la historia de hoy»: 19 apariciones. La
+digresión se abre y se cierra con marca explícita.
+
+Bisagra de objeción, «pero es que»: 56 apariciones. Introduce el hecho que
+desmonta lo que se acaba de conceder.
+
+Reformulación, «es decir, que»: 59 apariciones. Traduce a lengua llana la frase
+técnica que acaba de darse.
+
+Alerta antes del dato fuerte, «atentos» 32 y «ojo» 35. Señalan que lo que viene
+es el punto y no el relleno.
+
+Otros con peso medido: «recordad que» 44, «en cualquier caso» 27, «os podéis
+imaginar» 22, «a fin de cuentas» 17.
+
+### 6.3. Los conectores reales, contra los esperables
+
+Sobre el corpus completo: «pues» 389, «así que» 196, «es decir» 137, «además»
+131, «sin embargo» 122, «o sea» 112, «de hecho» 90, «bueno» 82, «claro» 79, «es
+más» 73, «por ejemplo» 64, «pues bien» 54, «vale» 52.
+
+Y el dato que decide el registro: «por tanto» 14 y «por lo tanto» 4. Dieciocho
+apariciones en 114.513 palabras. La consecuencia lógica no se marca con el
+conector de la prosa expositiva, se marca con «así que» y con «pues». Un texto
+en este tono que encadene «por tanto» suena a otra cosa.
+
+«En otras palabras» aparece 12 veces, así que está permitido, pero «es decir»
+lo supera once a uno y es la forma por defecto.
+
+«Bueno», «claro», «vale» y «o sea» son tics de habla. En un guion leído
+funcionan. En texto escrito se usan con cuentagotas o no se usan.
+
+
+## 7. Estructura de la pieza
+
+### 7.1. Apertura
+
+Quince de los veinte archivos abren con una oración declarativa del autor que
+nombra al actor y afirma algo comprobable sobre él, antes de cualquier otra
+cosa. «El Mossad ya está en Venezuela y tiene a Nicolás Maduro en el punto de
+mira». «Cuba está a punto de caer». «Dubái se ha convertido en la capital
+mundial del oro, sin embargo no tienen ni una sola mina». Sujeto, verbo, hecho.
+
+Los otros cinco abren en frío con una cita ajena, sin presentarla, y el autor
+entra después. Es un recurso, no el defecto.
+
+La variante interrogativa existe: «¿Quiénes son los buenos en el conflicto árabe
+israelí?». La pregunta no adorna, compromete al texto con una respuesta.
+
+Los veinte archivos tienen después una fórmula fija de presentación, «y ahora
+sí, vamos a ver un poco de historia, soy Fonseca y bienvenidos». Pertenece al
+formato de vídeo. No se traslada a texto escrito, y el agente no la imita.
+
+### 7.2. Desarrollo
+
+El argumento avanza por escalones y cada escalón tiene la forma «afirmación,
+prueba, consecuencia». Se responde primero lo que el público ya se está
+preguntando y solo después lo que el autor considera de fondo, según el patrón
+medido en 6.2.
+
+La densidad de pregunta en el cuerpo es de 4,1 signos de cierre por cada mil
+palabras en los archivos con puntuación fiable, con un rango de 3,7 a 14,7. Es
+decir, alrededor de una pregunta cada doscientas cuarenta palabras. La pregunta
+no es un adorno ocasional sino el modo normal de abrir un tramo.
+
+La estructura de contraste «no es X sino Y» aparece, pero solo ocho veces
+limpias en todo el corpus. Es una licencia, no una firma.
+
+### 7.3. Cierre
+
+Los veinte archivos cierran igual y en tres tiempos: una o dos preguntas
+abiertas dirigidas al público sobre lo que acaba de contarse, la invitación
+explícita a responderlas, y el bloque de despedida del canal.
+
+Esto corrige de raíz lo que decía la versión anterior. No es cierto que el
+registro evite la fórmula de despedida: en el material hablado la fórmula existe
+y es casi literal en los veinte archivos. Lo que sí se confirma es la dirección
+del cierre: la pieza no sella el asunto, lo devuelve.
+
+Para texto escrito, la regla que se conserva es la primera parte. El cierre
+entrega un veredicto o una pregunta abierta que devuelve el asunto al público.
+El bloque de despedida del canal pertenece al formato de vídeo y no se traslada,
+igual que la fórmula de presentación.
+
+### 7.4. Párrafos
+
+El corpus no permite medir párrafos, porque un subtítulo no los tiene. La
+extensión de párrafo que este skill fija, entre 40 y 120 palabras y un
+movimiento del argumento por párrafo, es una convención de escritura y se
+declara como tal, no como hallazgo.
+
+
+## 8. Cifras y fuentes
+
+### 8.1. Las cifras son abundantes
+
+En el cuerpo hay 11,0 tokens numéricos por cada mil palabras, con un rango por
+pieza de 4,9 a 21,0. Años a 3,1 por mil, órdenes de magnitud del tipo «millones»
+o «billones» a 1,7 por mil, porcentajes a 0,9 por mil.
+
+Una pieza de este registro sin cifras no es de este registro. Y toda cifra que
+importe lleva su comparación detrás, según 6.2.
+
+### 8.2. La atribución explícita es escasa, y esto contradice la versión anterior
+
+«Según» aparece 35 veces en 91.773 palabras de cuerpo, es decir 0,38 veces por
+cada mil palabras. Los medios identificables nombrados en voz alta suman seis
+menciones en todo el cuerpo: Reuters una, The New York Times una, The Economist
+una, El País tres. Ni Bloomberg, ni Financial Times, ni la BBC, ni la CNN, ni
+ningún organismo internacional aparecen como fuente citada con nombre en el
+cuerpo del argumento.
+
+La versión anterior de este documento afirmaba que «toda afirmación fuerte lleva
+su cifra o su fuente en la oración siguiente» y que «la fuente se nombra con su
+cargo o su medio». La medición desmiente la segunda mitad. Lo que ocurre en el
+material es otra cosa: la prueba no se enuncia, se inserta. El corte de
+informativo hace de fuente, y por eso la transcripción lo recoge como voz sin
+atribuir.
+
+De aquí salen dos reglas, y la segunda es la que importa.
+
+La cifra sí va pegada a la afirmación. Eso se confirma y se mantiene.
+
+La atribución, en un texto escrito, hay que escribirla. El recurso del corte de
+vídeo no existe sobre el papel, así que lo que allí resuelve la imagen aquí lo
+resuelve el nombre del medio o del cargo. El agente no imita la escasez medida
+de atribución, porque esa escasez es una propiedad del soporte y no del estilo.
+En texto, toda cifra y toda afirmación fuerte llevan su fuente.
+
+Este es el único punto donde este documento se aparta a conciencia de lo que
+midió, y queda dicho por qué.
+
+
+## 9. Humor e ironía
+
+El humor del registro no viene del chiste ni del insulto. Viene de tres cosas
+medidas.
+
+El contraste entre lo esperado y lo ocurrido, enunciado sin explicar la
+conclusión.
+
+El apodo burlón sostenido para el actor que se critica: «Superbigote» aparece 36
+veces referido a Maduro, «bolichicos» 10 veces referido a la élite económica
+chavista. Es la marca irónica más frecuente del corpus, y es un recurso de habla
+con riesgo alto. En texto se admite un apodo por pieza, aplicado a una conducta
+o a un cargo, nunca a un rasgo personal.
+
+El diminutivo o la rebaja aplicados al propio autor, que quitan solemnidad a un
+anuncio sin quitarle peso.
+
+Queda fuera el sarcasmo contra personas, la burla de rasgos físicos o
+personales, el chiste que interrumpe el argumento y la ironía que el lector
+podría leer como afirmación literal.
+
+Los marcadores explícitos de ironía se midieron y salen bajos: «curiosamente» 4,
+«sorpresa» 5, «lo mejor de todo» 4, «para colmo» 1. La ironía no se anuncia con
+un conector, se construye con el orden de los hechos.
+
+
+## 10. Registro y léxico
 
 Coloquial culto. El vocabulario es preciso en lo técnico y común en todo lo
 demás. Se admiten y se favorecen las locuciones del habla corriente cuando
-condensan bien: «a duras penas», «pasar factura», «dar la espalda», «poner la
-economía en pie de guerra», «no dejar títere con cabeza».
+condensan bien.
 
 No se admiten vulgarismos, jerga de redes, ni la solemnidad del informe
 institucional. El texto suena a alguien que explica algo de pie, no a alguien
 que lee un documento.
 
-### 5.3. Marcadores propios del registro
-
-Recapitulación coloquial: «Vamos, que», que cierra una acumulación de datos con
-la conclusión práctica en una sola frase.
-
-Glosa de un actor recién nombrado: «Hablamos de», que presenta en una oración
-quién es el sujeto que acaba de aparecer.
-
-Concesión antes del veredicto: «Por supuesto que», que reconoce lo que juega en
-contra y a continuación sostiene la tesis igualmente.
-
-Acotación temporal del juicio: «Por el momento», «En esta tesitura», que fechan
-la valoración y admiten que puede cambiar.
-
-Suspensión antes del giro: los puntos suspensivos separan la premisa de la
-vuelta de tuerca. «Según las últimas revelaciones de Bloomberg... ¡No lo
-parece!». El recurso funciona una o dos veces por pieza. Más veces, se gasta.
-
-
-## 6. Estructura del texto
-
-### 6.1. Apertura
-
-Un hecho fechado y verificable, o la pregunta que el texto responderá. Dos o
-tres oraciones como máximo antes de que aparezca la tensión del asunto.
-
-### 6.2. Desarrollo
-
-El argumento avanza por escalones, y cada escalón tiene la forma «afirmación,
-prueba, consecuencia». Se responde primero lo que el público ya se está
-preguntando y solo después lo que el autor considera de fondo.
-
-Las objeciones se plantean en voz alta y se contestan. La estructura de contraste
-«no es X sino Y» aparece de forma recurrente en el material observado y funciona
-como bisagra: descarta la explicación obvia y propone la que el texto defiende.
-
-### 6.3. Cierre
-
-Un veredicto o una pregunta abierta que devuelva el asunto al público. Nunca una
-fórmula de despedida, ni un resumen de lo ya dicho.
-
-No se pudo verificar cómo cierra una pieza hablada, porque no se obtuvo ninguna
-transcripción. Sí consta que el formato reserva un tramo final para responder a
-un comentario del público, lo que sugiere que el cierre devuelve la palabra en
-lugar de sellar el asunto. Este skill adopta esa dirección y no afirma más.
-
-### 6.4. Párrafos y oraciones
-
-Extensión de oración: la mayor parte por debajo de 25 palabras. Las entradillas
-verificadas se mueven entre 10 y 25, con muy poca subordinación encadenada.
-
-Extensión de párrafo: entre 40 y 120 palabras. Un movimiento del argumento por
-párrafo.
-
-Variación obligatoria. Tras dos o tres oraciones breves seguidas conviene una más
-extensa que ordene lo anterior. La monotonía de la frase corta cansa igual que la
-de la frase larga.
-
-
-## 7. Titulares y encabezados
-
-El titular del género es interrogativo o de anuncio, y suele llevar una acotación
-entre paréntesis que matiza la respuesta antes de abrir el texto. El material
-verificado incluye fórmulas como una pregunta seguida de «(y por qué no es una
-locura)» o de «(no, PERO...)».
-
-Ese paréntesis es el rasgo aprovechable: promete la respuesta y a la vez la
-complica, así que el titular informa en lugar de solo prometer.
-
-Las mayúsculas enfáticas que el titular del canal usa pertenecen a la miniatura y
-al escaparate del medio. No pasan al cuerpo del texto. Dentro de la prosa, el
-énfasis se consigue con el orden de la oración y con la posición de la información
-nueva al final.
-
-En los encabezados se aplican las mayúsculas que la base establece.
-
-
-## 8. Humor e ironía
-
-El material secundario describe el formato como análisis político mezclado con
-piezas de humor irónico, y la propia presentación del canal se anuncia como
-análisis con algo de humor. No se pudo verificar el contenido de esas piezas,
-porque exigen ver los vídeos.
-
-Lo que sí se verificó, y por tanto lo único que este skill regula, es la ironía
-escrita. Tres formas documentadas:
-
-Contraste entre lo prometido y lo entregado, descrito en 4.4.
-
-Respuesta parcial que desmonta la pregunta, del tipo «no, pero» seguido del
-matiz que importa.
-
-Diminutivo autoirónico aplicado al propio autor, como en «empiezo fuertecito»,
-que rebaja la solemnidad de un anuncio sin rebajar el anuncio.
-
-Queda fuera: el sarcasmo contra personas, la burla de rasgos personales, el
-chiste que interrumpe el argumento y la ironía que el lector podría leer como
-afirmación literal.
-
-
-## 9. Manejo de fuentes y cifras
-
-La fuente se nombra con su cargo o su medio, no con una referencia genérica.
-El material observado escribe «Lo reconoce el general Zaluzhnyi, comandante en
-jefe de las Fuerzas Armadas de Ucrania», y no «según fuentes militares».
-
-Cuando se cita a un gobierno o a un dirigente, se entrecomilla la fórmula exacta
-que usó y se comenta a continuación qué significa.
-
-Las cifras van con su unidad y con su punto de comparación. Un porcentaje solo
-informa si se sabe respecto de qué y comparado con cuándo.
-
-Las expresiones vagas que la base prohíbe son especialmente dañinas en este
-género, porque aquí el dato es el argumento.
-
-
-## 10. Ejemplo de aplicación
-
-Antes (nota informativa neutra):
-«En la actualidad, cabe señalar que el sector del transporte marítimo atraviesa
-una situación compleja que resulta fundamental analizar con detenimiento, dado
-que diversos factores han incidido negativamente en su desempeño.»
-
-Después (estilo de coyuntura):
-«El comercio marítimo mundial tiene dos cuellos de botella, y los dos se han
-estrechado a la vez. Uno por falta de agua, el otro por los ataques a los
-mercantes. Vamos, que la ruta más barata entre Asia y Europa ha dejado de ser
-la más barata. ¿Quién paga esa diferencia? La paga quien compra.»
-
-Cambios aplicados:
-Se eliminó la apertura de calendario y el andamiaje que anunciaba importancia.
-Se sustituyó «diversos factores» por los dos factores concretos.
-Se cerró la acumulación con una recapitulación coloquial.
-Se planteó la pregunta que el lector ya tenía y se respondió de inmediato.
+Las mayúsculas enfáticas del título de vídeo pertenecen al escaparate y no pasan
+al cuerpo del texto. Dentro de la prosa, el énfasis se consigue con el orden de
+la oración y con la posición de la información nueva al final.
 
 
 ## 11. Formato de entrega
@@ -300,23 +386,38 @@ dato, la reescritura tampoco lo inventa.
 
 Se ejecuta después de la lista normativa de la base.
 
- 1. ¿El texto abre con un hecho concreto y fechado, sin generalidad de calendario?
- 2. ¿La primera oración nombra al actor, al país o al lugar del que trata el texto?
- 3. ¿Cada afirmación fuerte lleva pegada su cifra o su fuente con nombre y cargo?
- 4. ¿Se interpela al público de forma directa al menos una vez?
- 5. ¿La mayor parte de las oraciones se mantiene por debajo de las 25 palabras?
- 6. ¿Se alterna la oración breve con alguna más extensa en lugar de igualarlas?
- 7. ¿La opinión del autor se declara como opinión y queda separada del hecho?
- 8. ¿La ironía nace del contraste entre lo anunciado y lo ocurrido, y no del
+ 1. ¿La mediana de oración del texto queda cerca de 14 palabras, con la mitad
+    del texto por debajo de 15?
+ 2. ¿Hay oraciones de más de 30 palabras, alrededor de una de cada diez, y son
+    enumerativas en lugar de subordinadas?
+ 3. ¿Se alternan tramos breves con una oración larga que ordena, sin cuatro
+    largas seguidas ni una ristra de cortas fuera de un remate?
+ 4. ¿La interpelación al público va en segunda persona del plural peninsular de
+    forma sostenida, y no solo una vez?
+ 5. ¿Está ausente el tuteo, que en el material medido solo aparece en bloques de
+    autopromoción?
+ 6. ¿La primera oración nombra al actor, al país o al lugar y afirma algo
+    comprobable sobre él, o bien plantea la pregunta que el texto responderá?
+ 7. ¿Se formula en voz alta la objeción que el público ya tiene, y se responde
+    de inmediato?
+ 8. ¿Toda cifra que sostiene el argumento lleva detrás una comparación que la
+    vuelve imaginable?
+ 9. ¿La densidad de cifras se acerca a once por cada mil palabras, en lugar de
+    quedar el texto en afirmación sin dato?
+10. ¿Cada afirmación fuerte lleva su fuente escrita con nombre de medio o de
+    cargo, ya que el texto no puede insertar el corte que la probaría?
+11. ¿La consecuencia se marca con «así que» o con «pues» en lugar de encadenar
+    «por tanto»?
+12. ¿Hay al menos una recapitulación con «Vamos, que» que cierre una
+    acumulación de datos con su conclusión práctica?
+13. ¿La ironía nace del contraste entre lo anunciado y lo ocurrido, y no del
     ataque a la persona?
- 9. ¿Los adjetivos valorativos acompañan a un dato en lugar de sustituirlo?
-10. ¿Hay al menos una pregunta que el texto responda después?
-11. ¿Los puntos suspensivos aparecen como suspensión antes de un giro y no como
-    relleno repetido?
-12. ¿Las mayúsculas enfáticas quedan fuera del cuerpo del texto?
-13. ¿El cierre entrega un veredicto o una pregunta abierta, sin fórmula de
-    despedida ni resumen de lo ya dicho?
-14. ¿Los coloquialismos son de registro común y no degradan la prosa?
+14. ¿Los apodos burlones, si los hay, se limitan a uno por pieza y apuntan a una
+    conducta o a un cargo?
+15. ¿El cierre entrega un veredicto o una pregunta abierta que devuelve el
+    asunto al público?
+16. ¿Quedan fuera la fórmula de presentación y el bloque de despedida del canal,
+    que pertenecen al formato de vídeo?
 
 
 ## 13. Fuentes
@@ -326,72 +427,87 @@ Se ejecuta después de la lista normativa de la base.
 Enrique Alberto Fonseca Porras, periodista formado en la Universidad de
 Valladolid y residente en Praga. Cofundador de VisualPolitik y VisualEconomik.
 Se separó de ese proyecto en el otoño de 2023 y abrió su canal propio, Solo
-Fonseca, en noviembre de 2023. El apodo Only-fons corresponde a una sección
+Fonseca, en noviembre de 2023. El apodo Only Fons corresponde a una sección
 recurrente del canal. Los temas son política internacional, geopolítica,
 conflictos armados, economía y batalla cultural.
 
 https://es.wikipedia.org/wiki/VisualPolitik
 https://www.youtube.com/@SoloFonseca
-https://youtube.fandom.com/es/wiki/Solo_Fonseca
 
-### 13.2. Corpus textual utilizado
+### 13.2. Corpus medido
 
-Catálogo de audio del canal, del que se recogieron cerca de noventa títulos de
-vídeo literales y una treintena de entradillas de descripción. Es la base
-principal de las secciones 4 a 9.
+Veinte transcripciones completas de vídeos del canal, 114.513 palabras, con
+duraciones de 18 a 50 minutos y fechas repartidas entre el catálogo antiguo y el
+material reciente. Todas en español, tomadas de los subtítulos publicados junto
+a cada vídeo. Catorce proceden de subtítulos generados de forma automática y
+seis de subtítulos revisados.
 
-https://www.ivoox.com/podcast-solo-fonseca_sq_f12494980_1.html
-https://www.ivoox.com/en/podcast-solo-fonseca_sq_f12494980_2.html
-https://www.ivoox.com/en/podcast-solo-fonseca_sq_f12494980_3.html
-https://www.ivoox.com/en/podcast-solo-fonseca_sq_f12494980_5.html
-https://www.ivoox.com/en/podcast-solo-fonseca_sq_f12494980_6.html
-https://www.ivoox.com/en/podcast-solo-fonseca_sq_f12494980_7.html
-https://www.ivoox.com/en/podcast-solo-fonseca_sq_f12494980_8.html
+Selección: piezas largas en solitario, con peso hacia las más vistas y con
+cobertura del catálogo. Quedan fuera cortos, directos, pódcast y entrevistas.
 
-Publicaciones firmadas del autor en su cuenta pública, usadas para la segunda
-persona del plural, la suspensión con puntos suspensivos y el diminutivo
-autoirónico.
+Reparto por utilidad de la medición:
 
-https://x.com/Sr_Fonseca
-https://x.com/Sr_Fonseca/status/1722327076680724676
-https://x.com/Sr_Fonseca/status/1294320203829055490
-https://x.com/Sr_Fonseca/status/1933432634861838352
-https://x.com/Sr_Fonseca/status/1949129312558346567
-https://x.com/Sr_Fonseca/status/2027719961158807906
+Quince archivos con puntuación utilizable, 80.073 palabras, base de todo lo que
+este documento dice sobre longitud de oración y densidad de pregunta.
 
-Descripción del formato y de las secciones del canal, incluida la mezcla de
-análisis con piezas de humor irónico y la posición declarada del autor sobre la
-imposibilidad de la objetividad total. Procede de una enciclopedia colaborativa
-y tiene fiabilidad media, así que se usó solo para orientar y no para fundar
-ninguna regla de forma.
+Cinco archivos sin puntuación, 34.440 palabras, usados solo para recuento de
+palabras y de expresiones.
 
-https://youtube.fandom.com/es/wiki/Solo_Fonseca
+Cuerpo de análisis después de separar lecturas de patrocinio y bloque de cierre
+de canal: 91.773 palabras, el 80,1 % del corpus. Base de las cifras de las
+secciones 5, 6.2, 7.2 y 8.
 
-### 13.3. Lo que no se consiguió
+### 13.3. Mediciones realizadas
 
-No se obtuvo ninguna transcripción ni ningún archivo de subtítulos de un vídeo.
-Esta es la carencia principal. Todo lo que este documento afirma sobre su prosa
-procede de texto escrito.
+Longitud de oración sobre 4.984 oraciones: media, mediana, cuartiles, deciles,
+histograma por tramos, proporción de saltos bruscos entre oraciones consecutivas
+y longitud de las rachas de oraciones breves.
 
-No se verificó cómo abre ni cómo cierra un vídeo hablado, ni existe registro de
-ninguna fórmula fija de saludo o de despedida. Lo que la sección 6 dice sobre el
-cierre es una inferencia declarada como tal.
+Frecuencia y reparto por archivo de doscientas cuarenta expresiones candidatas,
+agrupadas en marcadores del registro, formas de segunda persona del plural, de
+segunda del singular y de ustedes, conectores, fórmulas de pregunta retórica,
+marcas de ironía y fórmulas de apertura y cierre.
 
-No se verificó la longitud media de sus oraciones habladas. Las cifras de la
-sección 6.4 salen de las entradillas escritas y solo valen para el texto escrito.
+Recuento de las primeras cincuenta y cinco palabras y de las últimas setenta y
+cinco de los veinte archivos, para las fórmulas de apertura y de cierre.
 
-No se verificó ninguna muletilla oral. Los marcadores de la sección 5.3 están
-todos documentados en texto escrito suyo o en entradillas del canal, y ninguno
-se dedujo del habla.
+Densidad de cifras por millar de palabras, desglosada en tokens numéricos, años,
+porcentajes y órdenes de magnitud, con reparto por archivo.
 
-No se accedió a ninguna entrevista transcrita. Varios sitios con entrevistas y
-reseñas resultaron inalcanzables durante la investigación, entre ellos una ficha
-editorial, un análisis de marca personal y dos blogs de inversión.
+Recuento de atribución de fuente, tanto por verbo de cita como por nombre propio
+de medio y de organismo, con comprobación de mayúscula para descartar falsos
+positivos del tipo «el mundo» o «el país» en su sentido común.
 
-No se verificó el contenido de las piezas de humor del canal, que exigen ver los
-vídeos. Por eso la sección 8 regula únicamente la ironía escrita.
+Extracción de contextos para «Vamos, que», la pregunta anticipada, la escala
+comparativa y la estructura de contraste, para comprobar la función y no solo la
+frecuencia.
+
+Recuento de signos de puntuación del subtítulo, declarado no atribuible al
+autor y usado solo como cautela.
+
+### 13.4. Lo que sigue sin verificarse
+
+La puntuación del autor. Todo lo que este documento dice de ritmo son palabras y
+estructuras, nunca comas. Un guion original suyo permitiría medir puntuación de
+verdad y no se tiene.
+
+La extensión de párrafo. Un subtítulo no tiene párrafos. La cifra de la sección
+7.4 es convención declarada, no medición.
+
+La frontera exacta entre la voz del autor y los cortes de informativo que
+inserta. Se separaron los bloques de patrocinio y el cierre de canal, que son
+identificables por fórmula fija, pero las citas de informativo intercaladas en el
+cuerpo no llevan marca en la transcripción. Las cifras del cuerpo incluyen una
+porción indeterminada de voz ajena, y eso empuja a la baja la densidad medida de
+marcadores propios y al alza la de lenguaje periodístico neutro.
+
+Su prosa escrita larga. El corpus es habla. Las diferencias entre lo que este
+autor dice y lo que escribiría siguen sin medirse, y la sección 8.2 se aparta a
+conciencia de la medición por esa razón.
+
+El contenido de las piezas de humor del canal, que exige ver los vídeos.
 
 Ninguna cita de este documento es inventada. Cada fragmento entrecomillado
-procede de alguna de las fuentes listadas arriba.
+procede del corpus listado arriba o es una expresión contada en él.
 
 La referencia gramatical y ortográfica es la de «spanish-writing».

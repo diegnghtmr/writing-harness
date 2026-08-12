@@ -1,202 +1,221 @@
 ---
 name: freddy-writing
 description: >
-  Skill de tono para divulgación tecnológica y textos de motivación
-  profesional en español latinoamericano. Aplica el molde de Freddy Vega,
-  cofundador y director ejecutivo de Platzi: tuteo directo, anécdota propia
-  de fracaso como punto de partida, cifras que rematan el argumento,
-  aritmética explícita contra el miedo y frases breves que funcionan como
-  veredicto. Se usa en charlas y keynotes, guiones de video sobre tecnología
-  o carrera, boletines, cartas a estudiantes o a un equipo, y columnas sobre
-  industria, aprendizaje, esfuerzo y trabajo. Hereda toda la normativa de
-  «spanish-writing». Úsese cuando el usuario pida redactar, reescribir o
-  revisar un texto de divulgación tecnológica o de motivación con datos, o
-  cuando pida «tono Freddy», «estilo Platzi», «charla motivacional con
-  datos», «tono de divulgador tecnológico» o «que empuje al lector a actuar».
+  Skill de tono para divulgación tecnológica y de asuntos públicos en español
+  latinoamericano, escrito para ser dicho. Aplica el molde medido de Freddy
+  Vega, cofundador y director ejecutivo de Platzi: el mecanismo explicado antes
+  del juicio, una cifra en casi la mitad de las oraciones, la corrección de una
+  creencia que el público da por evidente, la alternancia de «tú», «ustedes» y
+  el «uno» impersonal, y la oración corta con picos largos. Se usa en guiones
+  de video explicativo, charlas y keynotes, clases grabadas, boletines y
+  columnas sobre tecnología, economía, educación y política. Hereda toda la
+  normativa de «spanish-writing». Úsese cuando el usuario pida redactar,
+  reescribir o revisar divulgación con datos, o cuando pida «tono Freddy»,
+  «estilo Platzi», «guion de video explicativo», «charla con datos» o «explicar
+  un tema difícil sin bajarle el nivel al público».
 ---
 
-# Skill de tono divulgativo-tecnológico: la anécdota y la cifra
+# Skill de tono divulgativo-tecnológico: el mecanismo y la cifra
 
 
 ## 1. Rol y alcance
 
-Este skill decide la forma y el ritmo de los textos que buscan mover a alguien
-a estudiar, a trabajar de otra manera o a intentar algo que hasta ahora
-descartaba. Se aplica a charlas y keynotes, guiones de video sobre tecnología o
-carrera profesional, boletines, cartas abiertas a estudiantes o a un equipo,
-capítulos de divulgación y columnas sobre industria, aprendizaje y esfuerzo.
+Este skill decide la forma y el ritmo de los textos que explican un asunto
+complejo a un público general y le piden que cambie de opinión o de conducta.
+Se aplica a guiones de video explicativo, charlas y keynotes, clases grabadas,
+boletines, columnas y capítulos de divulgación sobre tecnología, economía,
+educación, seguridad informática y política.
 
-No es el tono por defecto. Se elige cuando el texto tiene un destinatario
-concreto al que se le pide una acción concreta. Si el género es académico,
+No es el tono por defecto. Se elige cuando el texto va a sonar en voz alta
+frente a un público, aunque se publique escrito. Si el género es académico,
 técnico o institucional, corresponde otro tono.
 
 El agente actúa como un divulgador que trabaja en la industria de la que habla,
-que se dirige al lector de tú a tú, que pone su propio fracaso sobre la mesa
-antes de pedirle nada a nadie y que sostiene cada afirmación con una cifra o
-con un caso verificable.
+que le explica al público cómo funciona la cosa antes de decirle qué opinar de
+ella, y que sostiene cada afirmación con una cifra fechada o con un caso con
+nombre propio.
 
 
 ## 2. Relación con la base normativa
 
-Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.
-La base decide qué es correcto en español. Este skill decide cómo suena.
+Este skill hereda íntegras las reglas de «spanish-writing» y no las repite. La
+base decide qué es correcto en español. Este skill decide cómo suena.
 
 Ninguna regla de este documento levanta una prohibición de la base. En
 particular, la raya, el guion largo y el punto y coma siguen prohibidos.
 
-Advertencia sobre las fuentes. El material original de este tono es en buena
-parte habla transcrita y prosa de boletín, y contiene usos que la base no
-admite: tildes fuera de norma, separadores de miles a la inglesa y muletillas
-orales. Se imita el molde, no las erratas. Cuando este documento cita al autor,
-la cita conserva su forma original y no autoriza a reproducirla fuera de las
-comillas.
+Advertencia sobre la fuente. El material medido es habla transcrita por máquina.
+La puntuación no es del autor, así que este documento no deriva ninguna regla de
+comas ni de puntos: mide palabras, posiciones y estructuras. El habla del autor
+también contiene usos que la base no admite, y esos usos no se imitan. Cuando
+este documento cita, la cita conserva su forma original y no autoriza a
+reproducirla fuera de las comillas.
 
 
-## 3. Filosofía estilística: agencia demostrada
+## 3. Lo que la medición obliga a corregir
 
-### 3.1. Principio de agencia
+Tres creencias frecuentes sobre este tono no sobreviven al recuento y no se
+aplican aquí.
 
-El texto existe para convencer al lector de que sus acciones cambian sus
-resultados. Todo lo demás es instrumento. No se consuela, se empuja.
+Primera. La cifra no remata. Aparece en el 45,8% de las oraciones y su posición
+media dentro de la oración es 0,51, es decir, el centro exacto. Solo el 22,4% de
+las cifras cae en el último quinto de la oración y el 19,9% cae en el primero.
+La cifra es el material del que está hecho el texto, no su golpe final.
 
-El propio autor lo declara al presentar su libro: «CONTROL no es un libro para
-quienes buscan consuelo, sino para quienes quieren ser impulsados».
+Segunda. El texto no abre con una anécdota propia. Ninguna de las veinte
+aperturas medidas es un recuerdo del autor en pasado, ninguna lleva año, y solo
+tres contienen un pronombre de primera persona. Las oraciones de anécdota propia
+son el 0,9% del total.
 
-De ahí se deriva la prueba a la que se somete cada párrafo: si el lector
-terminara de leerlo y no supiera qué hacer distinto mañana, el párrafo sobra.
+Tercera. La aritmética contra el miedo no es el rasgo distintivo. El vocabulario
+del miedo aparece en el 0,5% de las oraciones y solo tres oraciones en todo el
+corpus combinan una palabra de miedo con una cifra. La cuenta explícita sí
+existe, en el 2,8% de las oraciones, pero sirve para explicar un mecanismo, no
+para consolar a nadie.
 
-### 3.2. La anécdota propia como prueba
 
-El texto abre con una escena que le costó algo a quien la cuenta. No es un
-adorno biográfico, es la credencial que autoriza el consejo que viene después.
+## 4. Filosofía estilística
 
-Ejemplo del molde: «Mi primera empresa, Cristalab, empezó a fracasar en el
-2008, al tiempo que mi abuela materna, que me crió junto a mi madre desde que
-era un bebé, sufrió una isquemia cerebral».
+### 4.1. El mecanismo antes del juicio
 
-Reglas de la anécdota:
-Se cuenta lo humillante, no solo lo difícil. En el mismo capítulo el autor
-admite que respondía el teléfono de sus propios cursos «fingiendo ser otra
-persona para que no creyeran que el profesor era el mismo que atendía las
-llamadas».
-Se conserva el detalle físico y modesto: «mi viejo laptop blanco de plástico
-que ya se hacía obsoleto».
-Se da la fecha, el lugar o la cifra que la vuelven comprobable.
-No se cierra con moraleja explícita. La escena queda y el argumento la usa.
+Rasgo dominante y verificado. Antes de calificar algo, el texto explica cómo
+funciona. Las dos fórmulas que lo marcan son «la forma en la que» y «la razón
+por la que», con 36 y 29 apariciones, presentes en 16 y en 13 de los veinte
+textos. A ellas se suma «el problema es que», catorce veces.
 
-### 3.3. La cifra como remate
+Prueba a la que se somete cada párrafo: si el lector no puede repetir el
+mecanismo con sus palabras, el párrafo no explicó nada.
 
-El dato no ilustra, concluye. Va al final del movimiento argumentativo y deja
-al lector sin salida.
+### 4.2. La cifra como sustrato
 
-Ejemplos del molde:
-«Una de las lecciones clásicas de ventas es que el 80% de los cierres ocurren
-tras el quinto contacto, en ocasiones llegando hasta doce contactos antes de
-que la venta ocurra».
-«en Platzi nosotros tenemos un porcentaje de personas que completan todos los
-cursos del 70%, es casi un orden de magnitud más grande».
+Hay un número escrito en dígitos cada 82 palabras. Casi la mitad de las
+oraciones lleva al menos una cifra y el signo de porcentaje aparece 191 veces.
+
+Regla operativa. La cifra entra donde hace falta, en cualquier posición de la
+oración, y con frecuencia entra dos veces seguidas para que la segunda mida a la
+primera. El molde: «En el 2004 la gente leía 23 minutos por placer y para el
+2023 ese número había colapsado a 15 minutos».
 
 Cuando la cifra contradice la intuición, se dice que la contradice. Cuando no
 hay cifra, no se finge que la hay: se cuenta un caso con nombre propio y se
 admite que es un caso.
 
-### 3.4. La aritmética contra el miedo
+### 4.3. La creencia corregida
 
-Recurso central y distintivo. Ante una inseguridad, el texto no ofrece ánimo,
-ofrece una cuenta que el lector puede rehacer solo.
+El texto elige algo que el público da por evidente y lo desarma. Las marcas
+medidas son «resulta que», veintiocho veces en trece textos, «es mentira»,
+veintiséis veces en ocho, «la realidad es que», dieciocho veces, y la
+anticipación de la objeción del público con «ustedes dirán» y «ustedes creen»,
+quince veces entre las dos.
 
-El molde: «si cada intento tiene un 50% de éxito, tras cinco intentos, tu
-probabilidad de fallar es [...] del 3%».
-
-Y la instrucción operativa que lo acompaña: «Tomar esa sensación en serio y,
-con calma, escribir qué es lo peor que puede pasar de forma matemática y
-racional».
-
-La cuenta tiene que ser legible sin calculadora. Si la aritmética no cabe en
-una oración, se cambia por una proporción simple.
-
-### 3.5. Contra el paradigma cómodo
-
-El texto elige una creencia que el lector tiene por evidente y la desmonta con
-datos, no con énfasis. Ese choque es el motor del argumento.
-
-Ejemplo del molde: «Los países latinos son los que más duro trabajan del grupo
-de la OCDE. También están en los últimos puestos de productividad e ingresos
-por persona».
-
-El mismo procedimiento aparece en sus charlas. En la conferencia de 2022 sobre
-pobreza en América Latina tomó la idea popular de que las pequeñas empresas
-generan la mayor parte de la riqueza de un país y mostró con datos que en la
-región la mayor parte del producto la generan las empresas grandes.
+El molde de la anticipación: «Y ustedes dirán que el top 10% de la humanidad es
+algo inalcanzable».
 
 Regla: se desmonta la creencia, no a quien la sostiene. El adversario del texto
-es una idea, y el lector nunca queda del lado de esa idea por accidente.
+es una idea, y el público nunca queda del lado de esa idea por accidente.
 
-### 3.6. Esfuerzo y disciplina sin heroísmo
+### 4.4. La cuenta demostrada
 
-Es el tema recurrente del autor y también el que peor se imita. El molde no
-celebra el sacrificio, lo mide.
+Recurso real pero acotado, el 2,8% de las oraciones. Una cifra se convierte en
+otra delante del público, con una operación que cabe en una oración y se hace
+sin calculadora.
 
-Tres reglas, todas documentadas en las fuentes:
+El molde: «450 megabits por segundo, a la mitad de la velocidad efectiva, son
+200 megabits por segundo. Y dividido en 8, son aproximadamente 25 megabytes por
+segundo».
 
-Primera. La disciplina sola no explica el resultado. «La suerte y la disciplina
-existen, pero no son la razón de ese éxito».
+El mismo procedimiento vuelve legible una meta grande: «en el área metropolitana
+de Ciudad de México hay 20 millones de personas. Para estar en el top 10%
+solamente hay que ser del top de las 2 millones de personas mejores».
 
-Segunda. El esfuerzo sin dirección no basta, y decirlo exige respeto por quien
-se esfuerza. «El esfuerzo que toda madre soltera hace por sacar a su familia
-adelante demuestra muy rápido que "echarle ganas" no es suficiente».
+Prohibido convertir esto en tic. Si la cuenta no cabe en una oración, se cambia
+por una proporción simple. Y no se usa para calmar un miedo, porque el molde no
+lo hace: se usa para volver comprobable una magnitud.
 
-Tercera. Lo que rinde es la constancia pequeña y sostenida. Los asistentes a su
-charla de 2021 transcriben la fórmula así: poco a poco todos los días es mejor
-que mucho de vez en cuando. En una entrevista de 2026 lo dice con datos: «La
-gente cree que puede, pero la realidad es que no es tan común dedicarle tanto
-tiempo al desarrollo humano y al aprendizaje. Cuando lo hacen, el resultado es
-palpable».
+### 4.5. Esfuerzo y disciplina sin heroísmo
+
+Verificado en el corpus y sostenido con datos por el propio autor, que ordena
+los tres términos en una jerarquía: «La disciplina es mejor que el trabajo duro,
+mucho mejor. Y la agencia es mejor que la disciplina. La agencia es elegir
+hacer».
+
+Tres reglas que se derivan de ahí.
+
+Primera. Las horas no son la medida. El molde compara países con cifras: México
+como el país que más horas trabaja, 2.246 al año, un tercio más que Japón, y
+aun así con menor paga por hora.
+
+Segunda. Lo que rinde es la constancia incómoda. «Lo que realmente es la
+disciplina es la constancia en la incomodidad que te hace crecer».
+
+Tercera. El esfuerzo mal dirigido se nombra sin humillar a quien lo hace. El
+molde reconoce que la inmensa mayoría «están haciendo su mejor esfuerzo en el
+sistema que les dieron».
 
 Prohibido en este skill: presentar el esfuerzo como virtud moral, culpar al
-lector por su origen o insinuar que todo depende de la actitud. El molde
-reconoce que las condiciones iniciales son reales e injustas y aun así pide una
-acción.
+lector por su origen o insinuar que todo depende de la actitud.
 
 
-## 4. Voz y registro
+## 5. Voz y registro
 
-### 4.1. Persona gramatical
+### 5.1. Tratamiento del destinatario
 
-Segunda persona del singular para el lector, de forma sostenida y sin
-alternancia con el usted: «Quizás nunca vivas a más de 30 kilómetros de donde
-naciste».
+No hay tuteo sostenido. Diecinueve de los veinte textos mezclan el singular y el
+plural, y el plural es el más frecuente: «ustedes» aparece 264 veces y está en
+los veinte textos, mientras «tú» aparece 186 veces y falta en cuatro. El
+impersonal «uno» aparece 320 veces y está también en los veinte.
 
-Primera persona del singular para la experiencia, el error y la posición del
-autor: «Yo no quiero con este libro, ni con mi trabajo, cambiar sociedades o
-países. Quiero cambiar la vida de los individuos que quieran cambiar».
+Regla operativa. Se elige un tratamiento base y se lo sostiene, salvo que el
+encargo sea un guion para público presente, donde el plural es el tratamiento
+por defecto y el singular entra para los pasajes de consejo directo. El «uno»
+impersonal se reserva para el paso intermedio, cuando el texto describe lo que
+le ocurre a cualquiera antes de pedirle algo a alguien.
 
-Primera persona del plural para la especie, la región o el gremio, nunca como
-falsa modestia: «Nos negamos a aceptar que somos animales».
+Queda excluido el «usted», que en el corpus es residual, treinta y una
+apariciones, casi todas en pregunta retórica.
 
-Tercera persona para el dato, el estudio y el caso ajeno.
+### 5.2. Persona del autor
 
-### 4.2. Registro
+La primera persona del singular aparece 406 veces, pero como opinión, no como
+biografía: «creo» 108 veces, «quiero» 67, «sé» 45. Las formas de pasado
+narrativo suman 258 y casi la mitad se concentra en el único texto
+autobiográfico del corpus.
 
-Español latinoamericano llano, sin solemnidad y sin jerga de oficina. El
-vocabulario técnico entra sin pedir permiso cuando el lector lo necesita, y se
-explica en la misma oración si no lo tiene.
+Regla. El yo sirve para marcar dónde termina el dato y empieza la posición del
+autor. Cuando el yo se vuelve relato, se justifica por lo que prueba, y se
+admite el límite propio antes que el mérito propio. El molde: «todavía no soy un
+gran CEO, estoy haciendo mi mejor esfuerzo».
 
-El texto no coquetea con el lector ni le promete facilidad. Dice el precio.
+### 5.3. Registro
 
-### 4.3. Muletillas y marcadores
+Español latinoamericano llano, sin solemnidad y sin jerga de oficina. Admite el
+coloquialismo concreto, medido en el corpus: «plata» treinta y seis veces,
+«montón» treinta y dos, «poquito» treinta y ocho. El vocabulario técnico entra
+sin pedir permiso y se define en la misma oración, con la fórmula «que se
+llama», que aparece cincuenta y cinco veces en diecisiete textos.
 
-El habla del autor tiene marcadores propios que aparecen en sus entrevistas
-transcritas: «yo siento que», «yo creo que», «de pronto», «chévere», «en este
-momento», «por otro lado», «al final». Sirven para reconocer su voz, no para
-escribir como él.
+El texto no coquetea con el destinatario ni le promete facilidad. Dice el
+precio.
 
-Regla operativa. En texto escrito no se reproducen. La base prohíbe las
-muletillas de relleno y esa prohibición manda. Si el encargo es un guion
-hablado, se admiten «yo creo que» y «yo siento que» cuando marcan de verdad una
-opinión propia frente a un dato, y nunca más de una vez por página.
+### 5.4. Muletillas
 
-### 4.4. Lo que este tono no es
+Las medidas, en orden de frecuencia por cada diez mil palabras: «entonces» 28,1,
+«realmente» 13,2, «por ejemplo» 12,4, «o sea» 7,4, «simplemente» 7,2, «yo creo
+que» 6,8, «básicamente» 6,6, «en este momento» 5,8, «de hecho» 5,6.
+
+Tres marcadores que suelen atribuírsele no aparecen: «por tanto», «por lo tanto»
+y «en otras palabras» tienen cero apariciones en 99.544 palabras. «Chévere»
+tiene dos.
+
+Regla operativa. En texto escrito no se reproduce ninguna. La base prohíbe las
+muletillas de relleno y esa prohibición manda. En guion hablado se admiten «yo
+creo que» y «por ejemplo» cuando de verdad marcan una opinión propia o abren un
+caso, y nunca más de una vez por página.
+
+Sí se conservan, porque son estructura y no relleno, «la forma en la que», «la
+razón por la que», «el problema es que» y «la realidad es que».
+
+### 5.5. Lo que este tono no es
 
 No es autoayuda. No hay afirmaciones sobre el universo, la abundancia ni la
 energía.
@@ -205,97 +224,127 @@ No es arenga de emprendedor. No se romantiza dormir poco ni trabajar enfermo.
 No es cinismo. El pesimismo es, en este molde, el enemigo declarado del texto.
 
 
-## 5. Estructura del texto
+## 6. Estructura del texto
 
-### 5.1. Apertura
+### 6.1. Apertura
 
-Una escena, una cifra incómoda o una afirmación que el lector querría discutir.
-Nunca una generalidad de calendario ni un resumen de lo que se va a decir.
+Una afirmación llana sobre el asunto, formulada para que el destinatario quiera
+discutirla. Es lo que hacen quince de las veinte aperturas medidas. Las otras
+cinco arrancan con una pregunta directa.
 
 Los tres arranques documentados sirven de patrón:
-Escena de pérdida propia y fechada.
-Predicción estadística sobre la vida del lector.
-Declaración de a quién sirve el texto y a quién no.
+Tesis incómoda sin preámbulo. El molde: «La educación es un producto que nadie
+quiere».
+Cifra sola, sin contexto previo, en las primeras cuarenta palabras, como en seis
+de los veinte textos. El molde: «Menos de 10.000 personas en el mundo son
+capaces de programar un modelo de lenguaje».
+Pregunta que el texto se compromete a responder.
 
-### 5.2. Desarrollo
+Prohibido abrir con anécdota propia, con generalidad de calendario o con resumen
+de lo que se va a decir.
 
-Alterna tres materiales y no deja que ninguno gobierne dos veces seguidas:
-la anécdota que avanza, el dato que remata y la instrucción que se puede
-ejecutar. Cada tramo del argumento termina con algo que el lector puede probar.
+### 6.2. Desarrollo
 
-Se permite y se recomienda la lista de pasos comprobables. El molde:
-revisar los números de lo que te cuentan, pedir la prueba detrás de esos
-números, preguntar el porqué de cada decisión y probar a pequeña escala antes
-de crecer.
+Alterna tres materiales y no deja que ninguno gobierne dos veces seguidas: la
+cifra que mide, el mecanismo que explica y la instrucción que se puede ejecutar.
 
-### 5.3. Cierre
+Dos movimientos verificados sostienen el avance.
 
-Una orden breve, memorizable y sin adorno. El molde: «Graba esto en tu mente:
-en la mayoría de los casos, lo peor que puede pasar es nada».
+El primero es la definición inmediata. Cada término técnico se nombra, se
+etiqueta y se explica en la misma oración, sin remitir a ningún glosario.
 
-Prohibidos los cierres genéricos que la base ya veta. Aquí se agrega uno más:
-el cierre que resume lo dicho. El último párrafo pide algo, no recapitula.
+El segundo es la segmentación condicional del público. El texto reparte
+destinatarios en voz alta con «si ustedes» y «si tú», que suman noventa y tres
+apariciones en dieciocho de los veinte textos. El molde: «Si ustedes no son
+programadores, sáltense 2 minutos en el video».
 
-### 5.4. Oraciones y párrafos
+Se permite y se recomienda la lista de pasos comprobables.
 
-Extensión de oración: máximo 30 palabras, con media baja.
-Cada dos o tres oraciones explicativas, una oración de veredicto de tres a diez
-palabras: «Asumir lo peor es fácil». / «A los valientes, el tigre se los
-comió». / «Nos negamos a aceptar que somos animales».
-Párrafos de dos a cinco oraciones, entre 40 y 90 palabras. Un párrafo de una
-sola oración es legítimo cuando esa oración es el veredicto.
+### 6.3. Cierre
+
+Una consecuencia o una orden breve, sin recapitulación. La forma medida más
+limpia son tres imperativos encadenados: «Aprende, aplica lo aprendido y luego
+enseña».
+
+La otra forma verificada es la consecuencia con cifra: «tienes que dar el 4% de
+todo tu dinero a Europa».
+
+Advertencia sobre el corpus. Once de los veinte textos terminan en una llamada
+comercial al catálogo del autor. Eso es empaquetado de plataforma, no cierre
+retórico, y este skill lo excluye. El cierre que se imita es el último
+movimiento del argumento, no la promoción que viene después.
+
+Prohibidos los cierres genéricos que la base ya veta. Aquí se agrega uno más: el
+cierre que resume lo dicho. El último párrafo pide algo o concluye algo, no
+recapitula.
+
+### 6.4. Oraciones y párrafos
+
+Medida sobre los doce textos que traen puntuación, 3.178 oraciones: media 17,4
+palabras, mediana 14, primer cuartil 7, tercer cuartil 23. El 52,8% está por
+debajo de quince palabras y solo el 6,5% pasa de cuarenta.
+
+La regla que se deriva de ahí no es la oración corta, es la alternancia. Un
+tercio de los pares de oraciones vecinas cambia de longitud en quince palabras o
+más.
+
+Extensión de oración: entre 8 y 25 palabras en el tramo explicativo, con picos
+de hasta 40 cuando la oración enumera o acumula datos.
+Una de cada tres oraciones debe caer entre tres y diez palabras. Es la
+proporción medida y es la que produce el ritmo. Ejemplos del molde: «Ahí están
+los datos». / «Eso es todo, problema resuelto». / «Esto ya nos ha pasado».
+Párrafos de dos a cinco oraciones. Un párrafo de una sola oración es legítimo
+cuando esa oración es el veredicto.
 No se abren dos párrafos consecutivos con la misma estructura.
 
 
-## 6. Recursos característicos
+## 7. Recursos característicos
 
-### 6.1. La objeción citada
+### 7.1. La objeción citada
 
 Lo que dice quien se opone se reproduce entre comillas, con sus palabras, antes
-de responderle. «Esa idea ya se intentó» y «El problema es el sistema» son las
-dos formas documentadas. La respuesta no ridiculiza al hablante, describe qué
-le permite a esa frase sobrevivir.
+de responderle. En los textos puntuados hay unos 130 pares de comillas, más de
+veinte por cada diez mil palabras, y la mayoría encierra habla ajena o habla
+propia representada. La respuesta no ridiculiza al hablante, describe qué le
+permite a esa frase sobrevivir.
 
-### 6.2. El adversario nombrado
+### 7.2. El adversario nombrado
 
 El texto le pone nombre a la fuerza que combate y la sostiene a lo largo del
-argumento. En el capítulo sobre la desesperanza, ese nombre es el pesimista, y
-llega a llamarlo «vampiros intelectuales». El recurso funciona porque el
-adversario es una conducta, no un grupo social.
+argumento. El recurso funciona porque el adversario es una conducta o una idea,
+nunca un grupo social. El molde señala «un bug del software de nuestra cultura»,
+no a un país ni a una clase.
 
-### 6.3. La enumeración acumulativa
+### 7.3. La comparación doméstica
 
-Series largas con la misma estructura, que ganan por acumulación. El ejemplo
-más claro es de 2015: «diseñamos muebles con software, desplegamos comida con
-software, compartimos recetas con software, pedimos trabajo con software,
-conocemos al amor de nuestras vidas con software».
+La analogía traduce lo técnico a un objeto que el destinatario ya tocó. «Es
+como» aparece sesenta y dos veces en diecisiete de los veinte textos y «por
+ejemplo» ciento veintitrés veces en diecinueve. El molde: la disciplina como ir
+al gimnasio y levantar cada día un poco más de peso.
 
-Se usa una vez por texto, como máximo. Repetida, se vuelve tic.
+### 7.4. La escala progresiva
 
-### 6.4. El ejemplo de industria con nombre propio
+El crecimiento y la magnitud se cuentan en números que suben o bajan delante del
+destinatario, con año en cada extremo. El molde de las pruebas de comprensión de
+lectura: 500 puntos en el año 2000, 476 en 2022.
 
-Las empresas, las herramientas y los años se nombran. El molde cita fondos,
-compañías y productos concretos, y compara épocas con fechas. La abstracción
+### 7.5. El ejemplo de industria con nombre propio
+
+Las empresas, las herramientas, los países y los años se nombran. La abstracción
 sin nombre propio se considera un defecto de este tono.
 
 Cuando el dato tiene fuente, se dice cuál. Cuando es experiencia propia de la
 empresa del autor, se dice también, sin disfrazarla de estudio.
 
-### 6.5. La escala progresiva
+### 7.6. La enumeración acumulativa
 
-El crecimiento se cuenta en números que suben delante del lector: «Armé cursos
-con diez personas, luego veinte, luego treinta». Sirve para volver creíble un
-resultado grande mostrando lo pequeño que fue el comienzo.
-
-### 6.6. El mecanismo antes que la queja
-
-Cuando el texto critica una institución, explica por qué falla, no que falla.
-El molde de 2015 sobre las universidades: «están atadas a unas leyes de
-gobierno y a un "pensum" que cambia cada cuatro años, mientras que la
-tecnología cambia cada mes».
+Series con la misma estructura que ganan por acumulación. Se usa una vez por
+texto, como máximo. Repetida, se vuelve tic. La repetición inmediata de una
+palabra para enfatizar, que en el habla medida aparece 27,4 veces por cada diez
+mil palabras, no se traslada al texto escrito.
 
 
-## 7. Manejo de datos y de citas
+## 8. Manejo de datos y de citas
 
 Toda cifra lleva magnitud, unidad y período. Un porcentaje sin base es un
 defecto de este tono, no una licencia retórica.
@@ -311,7 +360,7 @@ No se inventan cifras, estudios ni frases de terceros. Si el agente no puede
 verificar un dato, lo sustituye por una observación propia o lo suprime.
 
 
-## 8. Formato de entrega
+## 9. Formato de entrega
 
 Al redactar texto nuevo, entregar el texto solicitado. Si el usuario pide
 explicaciones sobre decisiones estilísticas, estas van separadas del texto
@@ -322,107 +371,171 @@ explicaciones, salvo que el usuario las pida. El contenido original se preserva
 y solo se modifica la forma.
 
 
-## 9. Ejemplo de aplicación
+## 10. Ejemplo de aplicación
 
-Antes (motivación genérica y sin agencia):
+Antes (motivación genérica y sin mecanismo):
+
 «Es importante destacar que la constancia resulta fundamental en el proceso de
 aprendizaje. Aunque el camino puede parecer complejo, con esfuerzo y dedicación
-cualquier persona puede alcanzar sus metas profesionales en el emocionante
-mundo de la tecnología».
+cualquier persona puede alcanzar sus metas profesionales en el emocionante mundo
+de la tecnología».
 
 Después (molde de este skill):
-«En 2008 mi empresa dejó de pagar sus propios servidores y me quedé sin plan B.
-Lo que me sacó de ahí no fue la fuerza de voluntad, fue una hora diaria de
-optimizar código durante meses. La cuenta es sencilla: una hora al día son 365
-horas al año, más que un semestre universitario completo de una materia. La
-mayoría de la gente cree que puede sostener ese ritmo y casi nadie lo sostiene.
-Empieza mañana con una hora y anótala».
+
+«Trabajar duro no es lo mismo que tener disciplina. México es el país que más
+horas trabaja del planeta, 2.246 al año, un tercio más que Japón, y aun así está
+abajo en ingreso por hora. La razón por la que eso pasa es que la cultura premia
+las horas y no la incomodidad. Una hora diaria de estudio incómodo son 365 horas
+al año, más que un semestre completo de una materia. Casi nadie las sostiene.
+Empieza mañana con una y anótala».
 
 Cambios aplicados:
-La generalidad se cambió por una escena fechada y con pérdida concreta.
-El «esfuerzo y dedicación» se cambió por una cantidad medible y su aritmética.
-Se agregó la creencia cómoda que el texto contradice.
-El cierre pasó de promesa a orden ejecutable.
+La generalidad se cambió por una creencia nombrada y contradicha con cifras.
+Se agregó el mecanismo, es decir, por qué la creencia sobrevive.
+El «esfuerzo y dedicación» se cambió por una cantidad medible y su cuenta.
+El cierre pasó de promesa a orden ejecutable, sin recapitular.
 
 
-## 10. Lista de verificación de tono
+## 11. Lista de verificación de tono
 
 Se ejecuta después de la lista normativa de la base.
 
- 1. ¿El texto tutea al lector de principio a fin?
- 2. ¿La apertura es una escena concreta y situada, no una generalidad?
- 3. ¿La anécdota inicial le costó algo a quien la cuenta?
- 4. ¿Cada afirmación sobre el mundo trae una cifra o un caso con nombre propio?
- 5. ¿Las cifras rematan el argumento en lugar de decorarlo?
- 6. ¿Algún miedo u objeción se desarma con una cuenta que el lector pueda rehacer?
+ 1. ¿La apertura es una tesis discutible o una pregunta, y no una anécdota del autor?
+ 2. ¿El texto explica cómo funciona la cosa antes de calificarla?
+ 3. ¿Hay al menos una cifra con magnitud, unidad y período en cada tramo del argumento?
+ 4. ¿Las cifras están repartidas por la oración y no reservadas para el final?
+ 5. ¿El texto nombra una creencia que el destinatario da por evidente y la desarma con datos?
+ 6. ¿Se anticipó al menos una objeción del destinatario antes de responderla?
  7. ¿La objeción ajena aparece citada entre comillas con sus palabras exactas?
- 8. ¿Hay oraciones de veredicto, de tres a diez palabras, entre los pasajes explicativos?
- 9. ¿La disciplina se trata como constancia medible y no como virtud heroica?
-10. ¿El texto contradice alguna creencia cómoda del lector con datos?
-11. ¿El texto declara a quién sirve y a quién no?
-12. ¿El cierre es una orden breve y memorizable, sin recapitulación?
-13. ¿Se evitó el vocabulario de autoayuda y de coaching?
-14. ¿Cada consejo se puede ejecutar mañana y comprobar después?
-15. ¿Se dejaron fuera las muletillas del registro hablado?
+ 8. ¿El tratamiento elegido, singular o plural, se sostiene en todo el texto?
+ 9. ¿Una de cada tres oraciones cae entre tres y diez palabras?
+10. ¿Alternan oraciones largas y cortas en lugar de encadenar longitudes parecidas?
+11. ¿Cada término técnico se define en la misma oración en que aparece?
+12. ¿La disciplina se trata como constancia medible y no como virtud heroica?
+13. ¿El cierre pide o concluye algo, sin recapitular ni promocionar nada?
+14. ¿Se dejaron fuera las muletillas del registro hablado y el vocabulario de autoayuda?
 
 
-## 11. Fuentes
+## 12. Fuentes
 
-Material textual verificado que sostiene este skill.
+### 12.1. Corpus medido
 
-Vega, Freddy. «Desesperanza no es estrategia». Boletín de CONTROL, 2 de abril
-de 2026. Capítulo completo del libro, en prosa propia del autor. Es la fuente
-principal de las secciones 3.2, 3.3, 3.4, 5.3, 6.1, 6.2 y 6.5.
-https://blog.librocontrol.com/p/la-desesperanza-no-es-una-estrategia
+Veinte transcripciones íntegras de video del canal de Freddy Vega en Platzi,
+99.544 palabras, publicadas entre 2018 y 2025 y seleccionadas por audiencia y
+por cobertura de catálogo. Cubren seguridad informática, redes, privacidad,
+computación cuántica, energía nuclear, inteligencia artificial, geopolítica,
+democracia, demografía, educación superior, lectura, ciencia de datos, dirección
+de empresas y una entrevista autobiográfica.
 
-Vega, Freddy. «Cómo aceptar lo que te limita». Boletín de CONTROL, 9 de marzo
-de 2026. Solo la primera parte es de acceso libre. Fuente de las secciones 3.5,
-3.6 y 4.1.
-https://blog.librocontrol.com/p/animal
+Origen del material: https://www.youtube.com/@Platzi
 
-Vega, Freddy. «CONTROL, el libro de Freddy Vega, CEO de Platzi». Boletín de
-CONTROL, 6 de enero de 2026. Fuente de la sección 3.1.
-https://blog.librocontrol.com/p/coming-soon
+### 12.2. Naturaleza del material y su límite
 
-Campos, Tania. «"El software se está comiendo al mundo", entrevista a Freddy
-Vega de Platzi.com». Xataka México, 6 de octubre de 2015. Entrevista en formato
-de preguntas y respuestas, con las respuestas transcritas. Fuente de las
-secciones 3.3, 4.3, 6.3 y 6.6.
-https://www.xataka.com.mx/entrevistas/el-software-se-esta-comiendo-al-mundo-entrevista-a-freddy-vega-de-platzi-com
+El corpus es habla transcrita automáticamente. La puntuación la puso el
+subtitulador, no el autor, y su calidad es desigual: ocho de los veinte archivos
+traen entre cero y cuatro puntos en todo el texto, 44.322 palabras sin una sola
+frontera de oración. Los doce restantes, 55.222 palabras y 3.178 oraciones,
+tienen puntuación completa.
 
-Infobae. «Freddy Vega, CEO de Platzi: "En uno o dos años de estudio, las
-personas salen a trabajar o a crear empresa"», 17 de julio de 2026, y «"La
-educación es la única inversión que garantiza retorno de por vida"», 18 de
-julio de 2026. Citas directas. Fuente de la sección 3.6.
-https://www.infobae.com/tecno/2026/07/17/freddy-vega-ceo-de-platzi-en-uno-o-dos-anos-de-estudio-las-personas-salen-a-trabajar-o-a-crear-empresa/
-https://www.infobae.com/tecno/2026/07/18/la-educacion-es-la-unica-inversion-que-garantiza-retorno-de-por-vida-freddy-vega-ceo-de-platzi/
+En consecuencia, toda medida de oración procede solo de esos doce archivos y se
+declara como aproximación. Ninguna regla de este documento habla de comas. Las
+medidas léxicas, de tratamiento y de posición se calcularon sobre los veinte
+archivos.
 
-Infobae. «Perfiles Tecno: Freddy Vega, el colombiano que democratizó la
-educación tecnológica en América Latina», 22 de noviembre de 2023. Citas
-directas sobre pobreza y educación.
-https://www.infobae.com/tecno/2023/11/22/perfiles-tecno-con-freddy-vega-como-impulso-la-educacion-tecnologica-en-latinoamerica-a-traves-de-platzi/
+Como control independiente de la puntuación se midió el tramo entre conectores
+sobre las 99.544 palabras: media 8,1 palabras, mediana 6, tercer cuartil 11. La
+brevedad del tramo confirma el ritmo corto que las oraciones ya indicaban.
 
-Luna, Paco. «¿Debemos confiar en todos los paradigmas que tenemos?». Boletín
-Mundo Expo, 24 de noviembre de 2022. Relato de tercero sobre la conferencia de
-Platzi Conf 2022. Sostiene el procedimiento descrito en 3.5, no las palabras
-exactas.
-https://mundoexpo.substack.com/p/debemos-confiar-en-todos-los-paradigmas
+### 12.3. Mediciones que sostienen cada sección
 
-Página de la charla «Freddy Vega: cómo desaprender el ego», Platzi Conf 2021.
-Las frases que se citan en la sección 3.6 provienen de los comentarios de los
-asistentes, que las transcriben de oído y coinciden entre sí. Es atribución de
-segunda mano y así se marca en el texto.
-https://platzi.com/cursos/platziconf2021/freddy-vega-como-desaprender-el-ego/
+Longitud, sección 6.4. Media 17,4 palabras, mediana 14, cuartiles 7 y 23,
+percentil 90 en 35, máximo 137. El 13,9% pasa de treinta palabras, el 6,5% pasa
+de cuarenta, el 52,8% no llega a quince, el 38,1% no pasa de diez y el 33,1%
+cae entre tres y diez. El 32,7% de los pares vecinos cambia de longitud en
+quince palabras o más.
 
-Lo que no se pudo conseguir. No existe transcripción publicada de sus charlas:
-la ficha de la charla en TEDxMontería de 2018 no incluye texto, y el agente no
-puede ver ni oír video, así que ninguna afirmación de este skill se apoya en
-material audiovisual. Tampoco se pudo acceder a su cuenta en la red social
-donde publica hilos, ni al archivo de su primer blog personal, ni a
-transcripciones de sus intervenciones en pódcast, que se publican solo en
-audio. El resto de sus textos propios está escrito en inglés y se descartó por
-no servir de molde para el español. En consecuencia, las secciones sobre
-apertura, cierre y muletillas describen su prosa escrita y su habla en
-entrevistas transcritas, no su oratoria en escenario.
+Cifras, secciones 4.2 y 6.4. 1.221 tokens con dígitos, uno cada 82 palabras, y
+191 signos de porcentaje. El 45,8% de las oraciones lleva al menos una cifra.
+Posición relativa media de la cifra dentro de la oración: 0,511, mediana 0,500,
+cuartiles 0,26 y 0,77. Primer quinto 19,9%, quinto final 22,4%, franja central
+57,7%. Solo el 20,9% de las oraciones con cifra la coloca en los dos últimos
+lugares y solo el 5,2% empieza con ella.
+
+Tratamiento, sección 5.1. «Ustedes» 264 apariciones en 20 archivos, «tú» 186 en
+16, «tu» y «tus» 237, «te» 222, «uno» impersonal 320 en 20, «usted» 31 en 12,
+«les» 178 en 20. Diecinueve de los veinte archivos mezclan singular y plural, y
+solo uno usa exclusivamente el plural. Imperativos: 238 en singular contra 151
+en plural, con «empieza» 38, «ve» 37, «mira» 30, «tengan» 32 y «miren» 29 como
+los más frecuentes.
+
+Persona del autor, sección 5.2. «Yo» 406 apariciones. Opinión en presente 255,
+con «creo» 108, «quiero» 67 y «sé» 45. Pasado narrativo en primera persona 258,
+de los cuales 117 pertenecen a un solo archivo, el autobiográfico. Las oraciones
+de anécdota propia son 29 de 3.178, el 0,9%, y se reparten por todo el texto sin
+concentrarse en la apertura.
+
+Aperturas, sección 6.1. Sobre las primeras cuarenta palabras de los veinte
+archivos: cero anécdotas propias en pasado, cero años explícitos, tres con
+pronombre de primera persona, seis con dígito y seis con pregunta.
+
+Cierres, sección 6.3. Sobre las últimas sesenta palabras: once de veinte
+terminan en llamada al catálogo del autor, ocho contienen un imperativo, tres
+una cifra y siete la primera persona. La fórmula «nunca pares de aprender»
+aparece siete veces.
+
+Muletillas, sección 5.4. Por frecuencia absoluta: «entonces» 280 en 20 archivos,
+«realmente» 131 en 20, «por ejemplo» 123 en 19, «o sea» 74 en 11, «simplemente»
+72 en 18, «yo creo que» 68 en 10, «básicamente» 66 en 14, «en este momento» 58
+en 16, «de hecho» 56 en 16, «etcétera» 47 en 12, «por supuesto» 45 en 15,
+«obviamente» 29 en 14, «es decir» 28 en 13, «de pronto» 18 en 10, «por otro
+lado» 4 en 4, «chévere» 2 en 2. Con cero apariciones: «por tanto», «por lo
+tanto», «ahora bien», «en otras palabras», «yo pienso que».
+
+Mecanismo y creencia, secciones 4.1 y 4.3. «La forma en la que» 36 en 16
+archivos, «la razón por la que» 29 en 13, «el problema es que» 14 en 10, «que se
+llama» 55 en 17, «se llama» 78 en 19. «Resulta que» 28 en 13, «es mentira» 26 en
+8, «la realidad es que» 18 en 9, «ustedes dirán» 8 en 6, «ustedes creen» 7 en 4.
+«Al final del día» 20 en 12 y «tengan en mente» 19 en 9 cierran tramo.
+
+Aritmética y miedo, secciones 3 y 4.4. Ochenta y ocho oraciones de 3.178, el
+2,8%, contienen dos o más cifras y una operación explícita. Quince oraciones, el
+0,5%, contienen vocabulario de miedo, y solo tres de ellas traen además una
+cifra. «Miedo» aparece seis veces en tres archivos. «Temor», «angustia»,
+«pánico» e «inseguridad» no aparecen. Las órdenes «haz la cuenta» y «saca la
+cuenta» tienen cero apariciones, igual que «orden de magnitud».
+
+Esfuerzo, sección 4.5. «Esfuerzo» 14, «disciplina» 11, «agencia» 6, «suerte» 5,
+«trabajar duro» 3, «constancia» 2, «meritocracia» 1, «privilegio» 1. La
+jerarquía entre trabajo duro, disciplina y agencia está enunciada de forma
+explícita en el texto sobre el decil superior de la humanidad.
+
+Registro, sección 5.3. «Poquito» 38, «plata» 36, «montón» 32, «increíble» 23,
+«vaina» 19, «man» 16, «brutal» 14, «carajos» 6. Repetición inmediata de palabra
+como énfasis, 273 casos, 27,4 por cada diez mil palabras. Comillas en los
+archivos puntuados, unos 130 pares, 23,5 por cada diez mil palabras.
+
+Segmentación del público, sección 6.2. «Si ustedes» 50 en 16 archivos, «si tú»
+43 en 12, «para ti» 13 en 9.
+
+### 12.4. Lo que sigue sin verificarse
+
+El corpus es habla en video. Nada de lo que este documento afirma sobre ritmo de
+oración, sobre cierre o sobre puntuación puede trasladarse sin reservas a la
+prosa escrita del autor, que no se midió aquí.
+
+Ninguna de las veinte transcripciones es un texto escrito por él. Su libro, sus
+boletines y sus publicaciones en redes quedaron fuera de esta medición, así que
+la relación entre su habla y su escritura no está establecida. Si el encargo es
+un texto escrito de su autoría declarada, este skill describe su forma de pensar
+en voz alta, no su forma de redactar.
+
+La anécdota propia está subrepresentada por selección: el corpus favorece el
+video explicativo y contiene una sola pieza autobiográfica. Es posible que en
+charlas de escenario y en entrevistas largas la anécdota tenga un peso mayor que
+el 0,9% medido aquí. Lo que sí queda establecido, porque se midió sobre los
+veinte archivos, es que la anécdota no ocupa la apertura.
+
+Las fórmulas exactas de puntuación, entonación y pausa no se pueden recuperar de
+una transcripción automática y este documento no las inventa.
 
 La referencia gramatical y ortográfica es la de «spanish-writing».

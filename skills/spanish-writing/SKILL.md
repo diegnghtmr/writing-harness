@@ -52,26 +52,27 @@ forma y la manera de presentar la información.
 | Skill de tono | Cuándo se usa | Voz |
 |---|---|---|
 | `camus-writing` | Textos académicos, técnicos y formales: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos. Es el tono por defecto. | Impersonal, económica, oraciones breves |
-| `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, tuteo, apertura por incidente propio |
+| `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, tuteo, entrada por algo concreto y glosa constante |
 | `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin tuteo |
 | `han-writing` | Diagnóstico epocal y ensayo filosófico breve, construido por oposición de conceptos. | Aforística, sin dato empírico, capítulo corto |
-| `freddy-writing` | Divulgación tecnológica y educativa que busca mover a alguien a actuar. | Tuteo con imperativos, anécdota propia fechada, la cifra como remate |
-| `dotcsv-writing` | Divulgación técnica de un mecanismo difícil para público general. | Analogía portante con su límite declarado, entusiasmo repartido |
-| `bettatech-writing` | Fundamentos de informática y computación antes que la receta práctica. | Explicativa, del principio al caso |
-| `fonseca-writing` | Actualidad internacional, geopolítica y economía a partir de un hecho reciente. | Entrada por el hecho, cifra y fuente pegadas, ironía por contraste |
-| `schiavenato-writing` | Divulgación jurídica y política dirigida a una comunidad, con documentación adjunta. | Trato de «ustedes», definición por negación, la prueba adjunta |
-| `medicendai-writing` | Análisis largo de una obra de ficción sostenido por su coherencia interna. | Primera persona que firma el juicio, veredicto declarado de entrada |
-| `sekkyoku-writing` | Análisis narrativo unidad por unidad de una obra serializada. | Aviso de spoiler explícito, la obra misma como prueba |
-| `kenway-writing` | Reseña crítica que concede el mérito antes del reproche. | Mérito primero, fallo ubicado en la ejecución, sin nota numérica |
-| `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, tuteo, el personaje leído por una sola idea |
+| `freddy-writing` | Divulgación tecnológica y educativa que busca mover a alguien a actuar. | El mecanismo antes del juicio, cifra repartida, imperativo frecuente |
+| `dotcsv-writing` | Divulgación técnica de un mecanismo difícil para público general. | Reducción del problema a su versión mínima, entusiasmo repartido |
+| `bettatech-writing` | Fundamentos de informática y computación antes que la receta práctica. | El nombre después del fenómeno, caso de ingeniería en vez de analogía |
+| `fonseca-writing` | Actualidad internacional, geopolítica y economía a partir de un hecho reciente. | Entrada por el hecho, alternancia brusca de longitud, apodo burlón sostenido |
+| `schiavenato-writing` | Divulgación jurídica y política dirigida a una comunidad. | Segunda persona del plural con «usted» conviviendo, definición por negación, imperativo de mirar más cifra |
+| `medicendai-writing` | Análisis largo de una obra de ficción, recorrida en su orden. | Veredicto en el primer cuarto, juicio repartido en U, anclaje en escena recontada |
+| `sekkyoku-writing` | Análisis narrativo unidad por unidad de una obra serializada. | Posición propia frente a la obra declarada de entrada, la obra misma como prueba |
+| `kenway-writing` | Reseña crítica con sección de opinión marcada al final. | Veredicto global de entrada en esa sección, cierre en positivo, sin nota numérica |
+| `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, segunda del plural, corrección de la lectura corriente en la apertura |
 
 Si el usuario no indica el tono y el texto es académico, técnico o formal, se
 usa `camus-writing`. Si el género no encaja en ninguna fila, se aplica esta
 base sola.
 
-Los diez tonos que siguen a `catedra-writing` reconstruyen la forma de exponer
-de un autor concreto y cada uno declara en su sección de fuentes qué pudo
-verificarse y qué no. Ninguno toma la variedad dialectal de su modelo: el
+Los doce tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
+un autor concreto, medida sobre un corpus de transcripciones, y cada uno declara
+en su sección de fuentes qué se midió, con qué números y qué no pudo
+verificarse. Ninguno toma la variedad dialectal de su modelo: el
 español de esta base gana siempre, y cada skill dice qué descarta y por qué.
 
 `humanizar-espanol` no es una skill de tono. Es una pasada que se ejecuta
