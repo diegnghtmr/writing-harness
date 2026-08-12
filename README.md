@@ -66,6 +66,58 @@ Todo lo posterior es diffable contra ese punto.
    de `humanizar-espanol` y que son normativas, no estilísticas: el andamiaje
    vacío, las aperturas de molde y la mayúscula de título calcada del inglés.
 
+## El verificador
+
+Las skills son prosa que lee un modelo. El verificador es lo que mide si un
+texto entregado las cumple. No se importan entre sí: las reglas viven una vez,
+como datos, en `src/rules.ts`.
+
+```bash
+node src/cli.ts documento.txt --tono camus
+```
+
+```bash
+node --test "evals/*.test.ts"
+```
+
+Cero dependencias. Node 22.6 o superior corre TypeScript y tests sin instalar
+nada, sin build y sin conexión.
+
+| Archivo | Qué hace |
+|---|---|
+| `src/rules.ts` | Las reglas como objetos planos y tipados. La misma decisión que `ChartTheme` en open-slide |
+| `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
+| `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
+| `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |
+| `evals/cobertura.ts` | El registro de qué falta. Generado por medición, no escrito a mano |
+
+### El gate
+
+Cada regla declara qué ítem de checklist de qué skill hace cumplir. El test de
+correspondencia falla en las dos direcciones: si una regla apunta a un ítem que
+la prosa ya no tiene, y si la prosa declara un ítem que ninguna regla cubre ni
+el registro reconoce.
+
+Existe porque el defecto ya ocurrió dos veces. La raya estaba prohibida en una
+skill, permitida en otra y marcada como señal de IA en una tercera. Y la
+prohibición del punto y coma se perdió entera al reescribir un ítem de
+checklist. Las dos veces el error era invisible porque nadie comparaba las dos
+representaciones.
+
+### Cobertura declarada
+
+| Estado | Ítems | Qué significa |
+|---|---|---|
+| cubierto | 2 | Tiene regla y test |
+| mecanizable | 29 | Se puede medir, falta construirlo |
+| criterio | 25 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
+| delegado | 2 | El ítem solo remite a la lista de otra skill |
+
+El techo real del verificador son **31 de 58**, no 58. Los 25 de criterio
+incluyen cosas como «¿se conserva toda la información original?» o «¿las
+analogías están desarrolladas?», que ningún linter decide. Queda escrito para
+no confundir después una cobertura parcial con una completa.
+
 ## Procedencia de las skills
 
 Las cuatro skills originales llegaron desde el plugin de skills instalado. Los

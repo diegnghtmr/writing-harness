@@ -1,0 +1,14 @@
+{
+  "name": "writing-harness",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Verificador de las skills de redacción en español. Cero dependencias.",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "test": "node --test \"evals/*.test.ts\"",
+    "check": "node src/cli.ts"
+  }
+}
