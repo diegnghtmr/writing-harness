@@ -157,6 +157,32 @@ describe('normativa del español', () => {
   });
 });
 
+describe('zonas que no se lintean como prosa', () => {
+  // Lo encontró un agente al escribir una sección de fuentes: todas sus URLs
+  // de video quedaban marcadas por el «?v=». Una URL lleva interrogación en su
+  // cadena de consulta, almohadilla en su fragmento y puntos decimales en
+  // cualquier parte, y nada de eso es prosa española.
+  test('una URL no dispara los signos de apertura', () => {
+    assert.deepEqual(check('Fuente: https://www.youtube.com/watch?v=abc123'), []);
+    assert.deepEqual(check('Ver https://ejemplo.com/a?b=1&c=2 para el detalle.'), []);
+  });
+
+  test('una URL no dispara los números ni los hashtags', () => {
+    assert.deepEqual(check('Referencia en https://ej.com/pi?v=3.14 exacta.'), []);
+    assert.deepEqual(check('Etiqueta https://x.com/tag#ciencia aquí.'), []);
+  });
+
+  test('el código entre acentos graves tampoco', () => {
+    assert.deepEqual(check('El archivo es `config.json?raw=true` en el repo.'), []);
+  });
+
+  test('pero la misma cadena fuera de una URL sí se marca', () => {
+    // Sin esto, la protección podría estar tragándose todo el texto.
+    assert.equal(check('Cómo estás?').length, 1);
+    assert.equal(check('El valor es 3.14 exacto.').length, 1);
+  });
+});
+
 describe('falsos positivos que costaron caro', () => {
   test('«de una» es preposición más artículo, no coloquialismo', () => {
     // Marcaba «dentro de una sociedad mercantil». Como coloquialismo

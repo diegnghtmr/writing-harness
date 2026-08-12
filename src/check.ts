@@ -54,6 +54,9 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
     return { line, column, excerpt: lineAt(text, offset).trim() };
   };
 
+  const protegidas = zonasProtegidas(text);
+  const protegido = (i: number) => protegidas.some(([a, b]) => i >= a && i < b);
+
   for (const rule of rules) {
     if (rule.kind === 'forbidden-pattern') {
       // La regex es compartida y lleva flag g, así que su lastIndex es estado.
@@ -61,6 +64,10 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
       const re = new RegExp(rule.pattern.source, rule.pattern.flags);
       let m: RegExpExecArray | null;
       while ((m = re.exec(text)) !== null) {
+        if (protegido(m.index)) {
+          if (m[0] === '') re.lastIndex++;
+          continue;
+        }
         findings.push({
           rule: rule.id,
           severity: rule.severity,
@@ -277,6 +284,27 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
   }
 
   return findings.sort((a, b) => a.line - b.line || a.column - b.column);
+}
+
+/**
+ * Tramos del texto que no se lintean como prosa española.
+ *
+ * Una URL lleva `?` en su cadena de consulta, `#` en su fragmento y puntos
+ * decimales en cualquier parte, así que dispara los signos de apertura, los
+ * hashtags y las convenciones de número sin que nada de eso sea prosa. Un
+ * fragmento de código entre acentos graves tiene el mismo problema.
+ *
+ * Lo encontró un agente al escribir una sección de fuentes: todas sus URLs de
+ * video quedaban marcadas por el `?v=`.
+ */
+function zonasProtegidas(text: string): [number, number][] {
+  const out: [number, number][] = [];
+  const re = /(?:https?:\/\/|www\.)\S+|`[^`\n]+`/gu;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    out.push([m.index, m.index + m[0].length]);
+  }
+  return out;
 }
 
 /**
