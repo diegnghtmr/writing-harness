@@ -37,27 +37,18 @@ alternativas, lo documenta con fuentes primarias y lo recompone en una
 síntesis que el oyente o lector pueda integrar progresivamente.
 
 
-## 2. Relación con la skill de español formal
+## 2. Relación con la base normativa
 
-Este skill hereda las reglas gramaticales y ortográficas de la skill
-«spanish-writing». Son obligatorias las siguientes normas:
+Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.
+La base decide qué es correcto en español; este skill decide cómo suena.
 
-Haber impersonal siempre en singular.
-No usar condicional en prótasis condicionales.
-Signos de interrogación y exclamación siempre dobles.
-Gerundio restringido (sin posterioridad ni uso adjetivo incorrecto).
-Evitar dequeísmo y queísmo.
-Comillas angulares « » como primer nivel.
-Puntuación fuera de las comillas de cierre.
-Mayúsculas y minúsculas según la RAE.
-Números según las convenciones del español latinoamericano
-(separador de miles: punto; separador decimal: coma).
-Evitar calcos del inglés.
+Ninguna regla de este documento levanta una prohibición de la base. En
+particular, la raya y el guion largo siguen prohibidos.
 
-Lo que cambia con respecto a la skill madre es la filosofía estilística
-(secciones 3 a 12 de este documento) y, sobre todo, la tolerancia hacia
-oraciones largas y la repetición pedagógica deliberada, recursos que la
-skill madre prohíbe pero que aquí son centrales.
+Lo propio de este tono, y lo que más lo separa de «camus-writing», es la
+tolerancia hacia las oraciones largas y la repetición pedagógica deliberada.
+Ninguno de los dos recursos contradice la base: las longitudes son decisión
+de tono, no norma.
 
 
 ## 3. Filosofía estilística: el catedrático ante la pizarra

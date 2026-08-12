@@ -33,25 +33,17 @@ lector como a un interlocutor inteligente al que no hay que simplificarle las
 cosas, sino acompañarlo en el descubrimiento.
 
 
-## 2. Relación con la skill de español formal
+## 2. Relación con la base normativa
 
-Este skill hereda las reglas gramaticales y ortográficas de la skill
-«spanish-writing». Son obligatorias las siguientes normas:
+Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.
+La base decide qué es correcto en español; este skill decide cómo suena.
 
-Haber impersonal siempre en singular.
-No usar condicional en prótasis condicionales.
-Signos de interrogación y exclamación siempre dobles.
-Gerundio restringido (sin posterioridad ni uso adjetivo incorrecto).
-Evitar dequeísmo y queísmo.
-Comillas angulares « » como primer nivel.
-Puntuación fuera de las comillas de cierre.
-Mayúsculas y minúsculas según la RAE.
-Números según las convenciones del español.
-Evitar calcos del inglés salvo cuando se usen deliberadamente como
-recurso expresivo y se señalen con comillas o cursiva.
+Ninguna regla de este documento levanta una prohibición de la base. En
+particular, la raya y el guion largo siguen prohibidos.
 
-Lo que cambia con respecto a la skill madre es la filosofía estilística
-(secciones 3 a 9 de este documento).
+Única ampliación propia sobre la base: se admite el calco del inglés cuando
+se usa deliberadamente como recurso expresivo y se señala con comillas o
+cursiva.
 
 
 ## 3. Filosofía estilística: el divulgador en la mesa
@@ -299,16 +291,18 @@ Prohibidas: jerga de redes sociales, anglicismos no señalados,
 hashtags, emojis, lenguaje de autoayuda o coaching.
 
 
-## 10. Reglas de puntuación (heredadas)
+## 10. Reglas de puntuación
 
-Se aplican íntegramente las reglas de puntuación de la skill
-«spanish-writing»: coma, dos puntos, comillas angulares, puntos
-suspensivos y signos dobles.
+Se aplican íntegramente las reglas de puntuación de la base, sin excepción.
 
-Excepción propia de este estilo: se permite el guion largo para
-incisos conversacionales cuando se busca un efecto de oralidad.
-Ejemplo: «La filosofía de hoy en día es un bicho domesticado
-– en vez de peligrar, entretiene.»
+El efecto de oralidad que en inglés se consigue con el guion largo se logra
+en español con los dos puntos, con el paréntesis o cortando la oración. La
+prohibición de la raya no le quita nada al registro conversacional.
+
+En vez de: «La filosofía de hoy en día es un bicho domesticado – en vez de
+peligrar, entretiene.»
+Escribir: «La filosofía de hoy en día es un bicho domesticado: en vez de
+peligrar, entretiene.»
 
 
 ## 11. Lista de verificación antes de entregar
@@ -325,7 +319,7 @@ Antes de entregar el texto, verificar:
  7. ¿Se usa primera persona para opiniones y plural para recorridos
     argumentativos?
  8. ¿Se evitan los clichés de cierre genérico?
- 9. ¿Las reglas gramaticales heredadas se respetan?
+ 9. ¿Pasó la lista de verificación normativa de «spanish-writing»?
 10. ¿El registro es culto pero no solemne?
 11. ¿Se varía la longitud de oraciones para crear ritmo?
 12. ¿Las conexiones entre pensadores están argumentadas?

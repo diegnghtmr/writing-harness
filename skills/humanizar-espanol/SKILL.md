@@ -234,17 +234,20 @@ opinión, sí cabe más personalidad: ahí la voz, el juicio y el ritmo variado 
 parte de lo humano.
 
 
-## 5. Reglas gramaticales heredadas
+## 5. Relación con la base normativa
 
-Esta skill hereda íntegras las reglas de «spanish-writing», que son obligatorias
-y nunca se sacrifican en nombre de la «naturalidad»: «haber» impersonal en
-singular; nada de condicional en la prótasis de las condicionales; signos de
-interrogación y exclamación dobles; gerundio restringido, sin posterioridad ni
-uso adjetivo indebido; ausencia de dequeísmo y queísmo; comillas angulares « »
-como primer nivel, con la puntuación fuera del cierre; mayúsculas y minúsculas
-según la norma; números según las convenciones del español. Humanizar no es
-introducir errores: un texto «mal escrito a propósito» no engaña a nadie y
-arruina el trabajo del autor.
+Esta skill hereda íntegras las reglas de «spanish-writing» y no las repite.
+Son obligatorias y nunca se sacrifican en nombre de la «naturalidad».
+
+Humanizar no es introducir errores: un texto «mal escrito a propósito» no
+engaña a nadie y arruina el trabajo del autor.
+
+Esta skill no es un tono. Es una pasada que se ejecuta sobre un texto ya
+redactado, y solo cuando el usuario la pide de forma explícita. No sustituye
+a la skill de tono. Lo único que le está permitido sobrescribir es el ritmo:
+si el texto viene de «camus-writing» y trae cadenas de oraciones cortas, esta
+pasada puede fundirlas, porque la petición explícita de humanizar es lo que
+autoriza ese cambio de criterio.
 
 
 ## 6. Flujo de trabajo

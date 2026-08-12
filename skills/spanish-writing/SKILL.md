@@ -1,31 +1,35 @@
 ---
 name: spanish-writing
 description: >
-  Skill de escritura y reescritura en español formal, académico y técnico.
-  Aplica las normas de la RAE, la Nueva gramática de la lengua española (2009),
-  la Ortografía de la lengua española (2010), el Diccionario panhispánico de dudas
-  y principios estilísticos derivados de la prosa de Albert Camus, entre otros
-  referentes literarios. Cubre corrección gramatical, coherencia, cohesión,
-  puntuación, estilo y detección de anglicismos.
-  Úsese cuando el usuario solicite reescribir, corregir, redactar o revisar textos
-  en español formal, académico o técnico.
+  Base normativa y orquestador de las skills de redacción en español.
+  Contiene las reglas que rigen todo texto en español, sin importar el tono:
+  normas de la RAE, la Nueva gramática de la lengua española (2009), la
+  Ortografía de la lengua española (2010) y el Diccionario panhispánico de
+  dudas. Cubre corrección gramatical, puntuación, mayúsculas, números,
+  anglicismos, léxico prohibido, citas y formato de entrega. Enruta hacia
+  la skill de tono que corresponda: camus-writing, fonda-writing o
+  catedra-writing. Úsese siempre que se redacte, reescriba, corrija o
+  revise un texto en español.
 ---
 
-# Skill de escritura en español formal, académico y técnico
+# Base normativa del español y enrutamiento de tono
 
 
 ## 1. Rol y alcance
 
-Este skill define las normas, principios y procedimientos que Claude debe seguir
-al producir o reescribir texto en español formal. Se aplica a textos académicos
-(tesis, artículos, ensayos, marcos teóricos), textos técnicos (informes,
-documentación, manuales) y textos formales (comunicaciones institucionales,
-propuestas, memorandos).
+Este skill define las reglas que se aplican a todo texto en español que Claude
+produzca o reescriba, sin importar el género ni el tono. Es la base. Ninguna
+otra skill de redacción la sustituye.
 
 Claude actúa como corrector y redactor profesional especializado en español
-académico latinoamericano. Su función es producir prosa impecable en gramática,
-ortografía, coherencia y cohesión, con estilo propio del español y sin estructuras
-calcadas del inglés.
+latinoamericano. Su función es producir prosa impecable en gramática,
+ortografía, coherencia y cohesión, con estilo propio del español y sin
+estructuras calcadas del inglés.
+
+Lo que este skill NO decide: la longitud de las oraciones y los párrafos, la
+persona gramatical, el uso de preguntas retóricas, la arquitectura del
+argumento y el grado de cercanía con el lector. Todo eso lo decide la skill de
+tono. Ver la sección 3.
 
 
 ## 2. Principio fundamental
@@ -34,45 +38,54 @@ El objetivo al reescribir es mejorar la gramática, la cohesión y el estilo SIN
 añadir, inventar ni eliminar información. El contenido original se preserva
 intacto. Solo se modifica la forma, nunca el fondo.
 
-Al redactar texto nuevo, se aplican las mismas normas gramaticales y estilísticas,
-con la libertad creativa que el contexto permita.
+Al redactar texto nuevo, se aplican las mismas normas gramaticales, con la
+libertad creativa que el contexto permita.
 
 
-## 3. Filosofía estilística
+## 3. Enrutamiento de tono
 
-La prosa que este skill produce se inspira en tres principios fundamentales:
+Este skill es el orquestador. Las reglas de las secciones 4 a 13 se aplican
+siempre. Encima de ellas se elige exactamente una skill de tono, que decide la
+forma y la manera de presentar la información.
 
-### 3.1. Claridad absoluta (principio RAE)
+| Skill de tono | Cuándo se usa | Voz |
+|---|---|---|
+| `camus-writing` | Textos académicos, técnicos y formales: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos. Es el tono por defecto. | Impersonal, económica, oraciones breves |
+| `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, tuteo al lector |
+| `catedra-writing` | Lecciones magistrales, cursos, exposiciones teóricas, análisis sistemáticos de autores o doctrinas. | Analítica, «nosotros» inclusivo, sin tuteo |
+
+Si el usuario no indica el tono y el texto es académico, técnico o formal, se
+usa `camus-writing`. Si el género no encaja en ninguna fila, se aplica esta
+base sola.
+
+`humanizar-espanol` no es una skill de tono. Es una pasada que se ejecuta
+después, sobre un texto ya redactado, y solo cuando el usuario la pide de forma
+explícita. No sustituye a la skill de tono ni a esta base.
+
+### 3.1. Regla de precedencia
+
+Una skill de tono puede ampliar o restringir lo que esta base deja abierto.
+Nunca puede contradecirla.
+
+Si una skill de tono parece autorizar algo que las secciones 4 a 13 prohíben,
+gana la prohibición, y esa skill de tono tiene un defecto que hay que corregir.
+No se resuelve el conflicto en el momento de escribir.
+
+### 3.2. Claridad absoluta (principio RAE)
 
 La Real Academia Española, en la Ortografía de la lengua española (2010) y la
 Nueva gramática (2009), establece que la escritura correcta persigue ante todo
 la comprensión inequívoca del mensaje. Cada oración transmite una idea. Cada
 párrafo desarrolla un argumento. El lector no debe releer para comprender.
 
-### 3.2. Economía expresiva (principio Camus)
-
-Albert Camus demostró que la profundidad no exige ornamento. Su prosa se
-caracteriza por oraciones cortas y declarativas, vocabulario preciso y concreto,
-descripción sensorial meticulosa sin adjetivación excesiva, distancia emocional
-que genera impacto mediante la contención y variación rítmica entre oraciones
-breves y pasajes más elaborados.
-
-Camus no decora: observa. No explica emociones: las deja inferir de los hechos.
-Esa disciplina es el modelo estilístico de este skill. La austeridad léxica no
-es pobreza; es precisión.
-
-Ejemplo del estilo Camus (de El extranjero, trad. al español):
-«Hoy ha muerto mamá. O quizá ayer. No lo sé.»
-
-Tres oraciones. Ningún adverbio superfluo. Ningún adjetivo. El efecto es
-devastador precisamente por su desnudez.
+Este principio rige en todos los tonos.
 
 ### 3.3. Rigor normativo (principio académico)
 
 La escritura académica latinoamericana exige coherencia interna, cohesión entre
-párrafos mediante conectores, impersonalidad, y respeto estricto de las normas
-ortográficas y gramaticales del español. Las fuentes normativas son la RAE y
-la ASALE, con atención a las variantes del español americano.
+párrafos mediante conectores, y respeto estricto de las normas ortográficas y
+gramaticales del español. Las fuentes normativas son la RAE y la ASALE, con
+atención a las variantes del español americano.
 
 
 ## 4. Reglas gramaticales obligatorias
@@ -295,6 +308,24 @@ No se coloca punto después del signo de cierre.
 Correcto: ¿Vienes? Esperamos tu respuesta.
 Incorrecto: ¿Vienes?. Esperamos tu respuesta.
 
+### 6.6. La raya y el guion largo: prohibidos, sin excepción
+
+No se usa la raya (—) ni el guion largo para incisos, en ningún tono y en
+ningún género. Tampoco se usan las variantes espaciadas ( — ) ni el doble
+guion ( -- ).
+
+Es un calco del inglés y una de las señales más fiables de texto generado.
+Sustituir, en este orden de preferencia: un punto y oración nueva, una coma
+para un inciso breve, dos puntos para una explicación, paréntesis para un
+inciso verdadero, o reestructurar la oración.
+
+Incorrecto: La política —anunciada sin aviso— afecta a miles de trabajadores.
+Correcto: La política, anunciada sin aviso, afecta a miles de trabajadores.
+
+Ninguna skill de tono puede levantar esta prohibición. La raya de diálogo en
+texto narrativo es el único uso que el español reserva para este signo, y no
+aparece en los géneros que estas skills cubren.
+
 
 ## 7. Mayúsculas y minúsculas
 
@@ -317,6 +348,11 @@ Cien años de soledad. / El extranjero.
 Mayúscula de respeto: solo cuando el cargo sustituye al nombre propio.
 El Papa visitó México. / El papa Francisco visitó México.
 
+En títulos y encabezados no se usa la mayúscula de título del inglés. Solo van
+en mayúscula la primera palabra y los nombres propios.
+Incorrecto: Negociaciones Estratégicas Y Alianzas Globales
+Correcto: Negociaciones estratégicas y alianzas globales
+
 Referencia: Ortografía (RAE y ASALE, 2010), cap. IV.
 
 
@@ -336,19 +372,11 @@ Separador decimal: coma. En Colombia: 3,14.
 Referencia: Ortografía (RAE y ASALE, 2010), cap. VIII.
 
 
-## 9. Estilo y estructura
+## 9. Construcciones impersonales
 
-### 9.1. Persona gramatical
-
-Textos académicos: tercera persona (preferida) o primera persona del plural
-(nosotros inclusivo, aceptable).
-El estudio analiza los factores... / Consideramos que los datos...
-
-Evitar primera persona del singular salvo para posiciones autorales explícitas.
-
-### 9.2. Construcciones impersonales
-
-El español académico latinoamericano prefiere las construcciones impersonales.
+El español dispone de tres construcciones para eliminar el agente. Su forma es
+normativa y se describe aquí; cuál de ellas domina el texto, o si el texto
+prefiere la voz personal, lo decide la skill de tono.
 
 Pasiva refleja (el verbo concuerda con el sujeto paciente):
 Se analizaron los datos. / Se observa un incremento.
@@ -359,29 +387,6 @@ Se considera necesario actuar. / Se espera que los resultados mejoren.
 Construcciones con «haber», «hacer», «ser»:
 Hay evidencia suficiente. / Hace años que se estudia el fenómeno.
 Es necesario considerar alternativas.
-
-### 9.3. Estructura de párrafos
-
-Un tema por párrafo.
-Extensión recomendada: 50 a 100 palabras.
-Máximo: 150 palabras en casos excepcionales.
-Oración temática preferiblemente al inicio.
-Desarrollo con argumentos, datos o ejemplos.
-Cierre o transición al párrafo siguiente (opcional, no genérico).
-
-### 9.4. Estructura de oraciones
-
-Extensión recomendada: máximo 25 palabras.
-Variar longitud para mantener ritmo (principio Camus).
-Dividir oraciones que superen 30 palabras.
-Colocar la información nueva al final de la oración (foco informativo).
-
-### 9.5. Variación sintáctica
-
-No comenzar dos oraciones consecutivas con la misma estructura.
-Alternar entre oraciones simples, compuestas coordinadas y subordinadas.
-Evitar cadenas de subordinadas que dificulten la comprensión.
-Mover circunstanciales y complementos para variar el orden oracional.
 
 
 ## 10. Conectores discursivos
@@ -416,7 +421,7 @@ De apertura: en primer lugar, para empezar, ante todo.
 De continuidad: en segundo lugar, seguidamente, a continuación, por otra parte.
 De cierre: por último, finalmente, para terminar.
 
-### Reglas de uso
+### 10.4. Reglas de uso
 
 Usar variedad dentro de cada categoría. No repetir el mismo conector en
 párrafos consecutivos.
@@ -428,6 +433,13 @@ positivos.»
 
 Incluir solo los conectores necesarios para explicitar relaciones lógicas.
 Un exceso de conectores produce artificialidad.
+
+No arrancar oraciones consecutivas con un conector formal. La cadena
+«Además, ... Asimismo, ... Por otro lado, ...» es una plantilla, no cohesión.
+Muchas transiciones pueden ser implícitas: la oración siguiente retoma un
+término de la anterior, y eso basta.
+
+Qué conectores favorece cada tono lo decide la skill de tono.
 
 
 ## 11. Vocabulario: palabras y expresiones prohibidas
@@ -471,28 +483,41 @@ Preferir: un cierre que retome la idea central sin anunciarse como cierre. El
 subir arriba, bajar abajo, volver a repetir, protagonista principal, prever de
 antemano, aterido de frío, lapso de tiempo, falso pretexto.
 
+### 11.7. Andamiaje vacío
+
+es importante destacar que, cabe señalar que, cabe resaltar que, vale la pena
+mencionar que, resulta fundamental subrayar que.
+
+Anuncian que algo importa en lugar de decirlo. Se suprimen sin sustituto.
+Antes: «Es importante destacar que los datos muestran una caída.»
+Después: «Los datos muestran una caída.»
+
+### 11.8. Aperturas de molde
+
+en la actualidad, hoy en día, a lo largo de la historia, desde tiempos
+inmemoriales, en un mundo cada vez más, en la era digital.
+
+Empezar por lo concreto del asunto, no por una generalidad de calendario.
+
 
 ## 12. Formato de entrega
 
 ### 12.1. Reglas absolutas de formato
 
 USAR lenguaje claro, directo y preciso.
-USAR voz activa o construcciones impersonales con SE.
-USAR tercera persona para lograr objetividad.
 USAR conectores discursivos formales para cohesión.
 USAR comillas latinas « » para citas textuales.
 USAR artículo definido con partes del cuerpo (no posesivo).
-USAR variación sintáctica para evitar monotonía.
-USAR párrafos con una sola idea principal cada uno.
 USAR datos concretos en lugar de expresiones vagas.
 USAR vocabulario preciso y específico.
 
-EVITAR guiones largos en todo el texto (sustituir por comas o puntos).
-EVITAR markdown, asteriscos o formato especial en el texto entregado.
+EVITAR la raya y los guiones largos en todo el texto (ver 6.6).
+EVITAR markdown, asteriscos, negritas o formato especial en el texto entregado.
 EVITAR introducciones o preámbulos innecesarios.
 EVITAR cierres genéricos como «en conclusión», «para cerrar», «en resumen».
 EVITAR advertencias o notas sobre el contenido.
 EVITAR hashtags en cualquier contexto.
+EVITAR emojis en cualquier contexto.
 EVITAR enlaces externos o códigos de referencia.
 EVITAR símbolos especiales innecesarios.
 
@@ -529,10 +554,14 @@ Si se traduce una cita de otro idioma, indicarlo: (traducción propia).
 Seguir el sistema que indique el usuario (APA, Vancouver, Chicago, IEEE).
 Si no se especifica, preguntar.
 
+Cómo se integra una cita en el argumento (preparación, cita, comentario) lo
+decide la skill de tono.
 
-## 14. Lista de verificación antes de entregar
 
-Antes de entregar el texto reescrito o redactado, verificar:
+## 14. Lista de verificación normativa
+
+Estas comprobaciones se ejecutan siempre, con cualquier tono. La skill de tono
+añade las suyas.
 
  1. ¿«Haber» impersonal está en singular?
  2. ¿No hay coma entre sujeto y predicado (salvo inciso)?
@@ -542,18 +571,19 @@ Antes de entregar el texto reescrito o redactado, verificar:
  6. ¿No hay calcos del inglés?
  7. ¿No hay dequeísmo ni queísmo?
  8. ¿Las mayúsculas son correctas (meses, días, gentilicios en minúscula)?
- 9. ¿No hay guiones largos ni punto y coma?
-10. ¿No hay markdown ni asteriscos en el texto?
+ 9. ¿No queda ninguna raya ni guion largo en el texto?
+10. ¿No hay markdown, asteriscos ni negritas?
 11. ¿No hay introducciones ni cierres genéricos?
 12. ¿Se conserva toda la información original (al reescribir)?
 13. ¿No se añadió información nueva (al reescribir)?
 14. ¿Los conectores son variados y no se repiten en párrafos contiguos?
-15. ¿Las oraciones no superan las 30 palabras?
-16. ¿Los párrafos tienen entre 50 y 150 palabras?
-17. ¿El vocabulario evita las palabras y expresiones prohibidas?
-18. ¿Los números siguen las convenciones del español?
-19. ¿Las comillas son angulares « » como primer nivel?
-20. ¿La puntuación de las comillas va fuera del cierre?
+15. ¿El vocabulario evita las palabras y expresiones prohibidas?
+16. ¿Los números siguen las convenciones del español?
+17. ¿Las comillas son angulares « » como primer nivel?
+18. ¿La puntuación va fuera de las comillas de cierre?
+19. ¿No hay emojis ni hashtags?
+20. ¿Los encabezados usan mayúscula solo en la primera palabra y en los
+    nombres propios?
 
 
 ## 15. Fuentes normativas de referencia
@@ -576,9 +606,6 @@ composición y del estilo. Madrid: Paraninfo, 2000.
 Seco, Manuel. Diccionario de dudas y dificultades de la lengua española.
 Madrid: Espasa, 2011.
 
-Camus, Albert. El extranjero (trad. José Ángel Valente). Madrid: Alianza, 1971.
-Referencia estilística: prosa directa, económica y sensorial.
-
 
 ## 16. Ejemplos de aplicación
 
@@ -596,7 +623,7 @@ investigativo (Daros, 2002).»
 
 Cambios aplicados:
 Se eliminó «en su núcleo» y «formidable» (expresiones vagas o sobrecargadas).
-Se dividió en dos oraciones para respetar el límite de 25 palabras.
+Se dividió en dos oraciones.
 Se mantuvo la información y la referencia.
 
 ### 16.2. Corrección de anglicismos
@@ -614,17 +641,3 @@ Voz pasiva perifrástica → voz activa.
 «aplicaron para» → «postularse a» (calco corregido).
 «hacen sentido» → «tienen sentido» (calco corregido).
 «básicamente» y «literalmente» eliminados (muletillas).
-
-### 16.3. Estilo Camus aplicado a prosa académica
-
-La prosa académica no debe ser seca, sino precisa. El modelo Camus enseña que
-se puede mantener interés sin sacrificar rigor:
-
-Antes (prosa sobrecargada):
-«Es fundamentalmente importante señalar que la complejidad inherente de este
-innovador enfoque revolucionario arroja luz sobre el panorama cambiante de las
-dinámicas socioculturales en constante evolución.»
-
-Después (estilo disciplinado):
-«Este enfoque modifica la comprensión de las dinámicas socioculturales. Su
-aporte radica en tres observaciones concretas.»
