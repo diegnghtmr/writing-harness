@@ -81,17 +81,30 @@ hacia este repositorio, con una junction en Windows y un symlink en el resto.
 Editar el repositorio cambia lo instalado en el momento. No copiar nunca: dos
 copias divergen, y eso es el defecto que este repositorio existe para evitar.
 
-El destino por defecto es el de Claude Code. Para otro anfitrión:
+El destino por defecto es `~/.agents/skills`, la convención entre clientes.
+Cada herramienta mantiene además su propio directorio.
 
 ```bash
-node scripts/instalar.ts --destino <ruta>
+node scripts/instalar.ts                   # solo ~/.agents/skills
+node scripts/instalar.ts --todos           # además, cada anfitrión que exista
+node scripts/instalar.ts --destino <ruta>  # uno concreto, repetible
 node scripts/instalar.ts --verificar
 node scripts/instalar.ts --desinstalar
 ```
 
+El script nunca borra nada. Si el nombre está ocupado por un directorio real,
+se detiene y sale con 1. Con `--reemplazar` lo renombra a
+`<nombre>.reemplazado` y enlaza al lado, así que siempre se puede volver atrás.
+
 El formato `SKILL.md`, markdown con frontmatter YAML, lo lee cualquier
 herramienta. Si la tuya no tiene un directorio de skills, las skills siguen
 sirviendo como documentos: se leen y se aplican igual.
+
+**Cuidado con las copias sueltas.** Una skill enlazada y una copia vieja del
+mismo nombre en otro directorio de anfitrión son dos reglas distintas con el
+mismo título. Ya pasó: había un `spanish-writing` en `~/.agents/skills` idéntico
+al primer commit de este repositorio, con la filosofía Camus todavía dentro de
+la base. `--verificar` sobre cada anfitrión es lo que las encuentra.
 
 ## Qué archivo lee cada anfitrión
 
