@@ -7,17 +7,21 @@
 
 import { readFileSync } from 'node:fs';
 import { check, format, type Finding } from './check.ts';
-import { TONE_IDS } from './rules.ts';
+import { PASADA_IDS, TONE_IDS } from './rules.ts';
 
 const USAGE = `uso: node src/cli.ts <archivo...> [--tono <${TONE_IDS.join('|')}>]
+                              [--pasada <${PASADA_IDS.join('|')}>]
 
 Sin --tono corre solo la capa base, que es la normativa y rige siempre.
 Con --tono añade las reglas de ese tono: longitudes, persona, ritmo.
+Con --pasada añade el catálogo de esa pasada, que no corre solo. Igual que la
+skill, humanizar se pide de forma explícita o no interviene.
 
 Lee de la entrada estándar si no se pasa ningún archivo.`;
 
-function parse(argv: string[]): { files: string[]; tone?: string } {
+function parse(argv: string[]): { files: string[]; tone?: string; pasadas: string[] } {
   const files: string[] = [];
+  const pasadas: string[] = [];
   let tone: string | undefined;
 
   for (let i = 0; i < argv.length; i++) {
@@ -28,6 +32,13 @@ function parse(argv: string[]): { files: string[]; tone?: string } {
       if (!TONE_IDS.includes(tone)) {
         throw new Error(`tono desconocido: ${tone}. Disponibles: ${TONE_IDS.join(', ')}`);
       }
+    } else if (arg === '--pasada' || arg === '-p') {
+      const valor = argv[++i];
+      if (valor === undefined) throw new Error('--pasada necesita un valor');
+      if (!PASADA_IDS.includes(valor)) {
+        throw new Error(`pasada desconocida: ${valor}. Disponibles: ${PASADA_IDS.join(', ')}`);
+      }
+      pasadas.push(valor);
     } else if (arg === '--help' || arg === '-h') {
       console.log(USAGE);
       process.exit(0);
@@ -37,7 +48,7 @@ function parse(argv: string[]): { files: string[]; tone?: string } {
       files.push(arg);
     }
   }
-  return { files, tone };
+  return { files, tone, pasadas };
 }
 
 function readStdin(): string {
@@ -49,7 +60,7 @@ function readStdin(): string {
 }
 
 function main(): void {
-  const { files, tone } = parse(process.argv.slice(2));
+  const { files, tone, pasadas } = parse(process.argv.slice(2));
   const inputs: { path: string; text: string }[] =
     files.length > 0
       ? files.map((path) => ({ path, text: readFileSync(path, 'utf8') }))
@@ -63,7 +74,7 @@ function main(): void {
       reports.push(`${path}: vacío`);
       continue;
     }
-    const findings: Finding[] = check(text, { tone });
+    const findings: Finding[] = check(text, { tone, pasadas });
     errors += findings.filter((f) => f.severity === 'error').length;
     reports.push(format(findings, path));
   }

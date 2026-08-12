@@ -66,7 +66,23 @@ export type SentenceLengthRule = Common & {
   max: number;
 };
 
-export type Rule = PatternRule | SentenceLengthRule;
+/**
+ * Términos que por separado son legítimos y juntos son una firma.
+ *
+ * El catálogo lo dice con todas las letras sobre el vocabulario de IA: «No
+ * están prohibidas de forma absoluta, pero su acumulación es una firma. Cuando
+ * veas varias en un mismo pasaje, reescribe». Modelarlo como prohibición plana
+ * contradiría el texto que dice hacer cumplir.
+ */
+export type DensityRule = Common & {
+  kind: 'pattern-density';
+  /** Debe llevar los flags `g` y `u`. */
+  pattern: RegExp;
+  /** Cuántos términos distintos tolera un mismo párrafo. Se marca al superarlo. */
+  maxDistinct: number;
+};
+
+export type Rule = PatternRule | SentenceLengthRule | DensityRule;
 
 /** Un tono es un conjunto de reglas propias más un nombre. Nada más. */
 export type Tone = {
@@ -231,9 +247,295 @@ export const TONES: Record<string, Tone> = {
 
 export const TONE_IDS = Object.keys(TONES);
 
+// ---------------------------------------------------------------------------
+// Capa de pasada: opcional, se pide de forma explícita.
+//
+// El catálogo de señales de IA pertenece a `humanizar-espanol`, que no es un
+// tono sino una pasada sobre un texto ya redactado. Por eso estas reglas no
+// corren solas: el verificador las aplica con `--pasada humanizar`, igual que
+// la skill solo se activa cuando el usuario la pide con esas palabras.
+//
+// Cada regla cita el patrón del catálogo que hace cumplir. Las listas están
+// tomadas literalmente de `references/patrones-de-ia.md`.
+// ---------------------------------------------------------------------------
+
+const p = (n: string): ChecklistRef[] => [{ skill: 'humanizar-espanol', item: n }];
+
+const SENALES_IA: Rule[] = [
+  {
+    id: 'inflacion-de-significancia',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'juega un papel crucial',
+      'juega un papel fundamental',
+      'juega un papel clave',
+      'constituye un pilar',
+      'marca un antes y un después',
+      'representa un hito',
+      'refleja una tendencia más amplia',
+      'deja una huella imborrable',
+      'sienta las bases de',
+    ]),
+    message: 'Inflación de significancia: infla la importancia de un detalle.',
+    fix: 'Decir qué hizo, cuándo y con qué efecto. Si el instituto se fundó en 1989, eso es el dato.',
+    source: 'humanizar-espanol, patrón 1',
+    checklist: p('Inflación de significancia, legado y tendencias amplias'),
+  },
+  {
+    id: 'lenguaje-promocional',
+    kind: 'forbidden-pattern',
+    // Advertencia y no error: «fascinante» o «imponente» pueden ser la palabra
+    // exacta en un texto concreto. El catálogo los llama «palabras a vigilar»,
+    // no prohibidas.
+    severity: 'warning',
+    pattern: frases([
+      'rico patrimonio cultural',
+      'vibrante',
+      'imponente',
+      'impresionante',
+      'fascinante',
+      'enclavado en el corazón de',
+      'enclavada en el corazón de',
+      'de visita obligada',
+      'joya escondida',
+      'belleza sin igual',
+    ]),
+    message: 'Lenguaje promocional: pierde el tono neutro.',
+    fix: 'Sustituir por lo que se puede comprobar. En vez de «vibrante enclave», decir qué tiene.',
+    source: 'humanizar-espanol, patrón 4',
+    checklist: p('Lenguaje promocional o publicitario'),
+  },
+  {
+    id: 'atribuciones-vagas',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'los expertos señalan',
+      'los expertos creen',
+      'los expertos coinciden',
+      'diversos estudios demuestran',
+      'según algunos observadores',
+      'se ha comprobado que',
+      'es bien sabido que',
+    ]),
+    message: 'Atribución vaga: adjudica una opinión a una autoridad sin nombre.',
+    fix: 'Nombrar la fuente con año y obra, o suprimir la afirmación.',
+    source: 'humanizar-espanol, patrón 5',
+    checklist: p('Atribuciones vagas y comodines'),
+  },
+  {
+    id: 'secciones-de-molde',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'a pesar de sus logros',
+      'pese a estos desafíos',
+      'pese a estos retos',
+      'de cara al futuro',
+    ]),
+    message: 'Sección de molde: el apartado formulaico de retos con repunte optimista.',
+    fix: 'Decir qué pasó y cuándo. El tráfico aumentó tras abrir tres parques en 2015.',
+    source: 'humanizar-espanol, patrón 6',
+    checklist: p('Secciones de molde «Retos y perspectivas futuras»'),
+  },
+  {
+    id: 'vocabulario-de-ia',
+    kind: 'pattern-density',
+    severity: 'warning',
+    // El catálogo es explícito: «No están prohibidas de forma absoluta, pero su
+    // acumulación es una firma. Cuando veas varias en un mismo pasaje». Por eso
+    // se mide por párrafo y por términos distintos, no por aparición suelta.
+    maxDistinct: 2,
+    pattern: frases([
+      'fomentar',
+      'potenciar',
+      'abordar',
+      'panorama',
+      'ámbito',
+      'en aras de',
+      'matices',
+      'entramado',
+      'tejido social',
+      'crisol',
+      'sumergirse',
+      'adentrarse en',
+      'desentrañar',
+      'arrojar luz',
+      'piedra angular',
+      'de vanguardia',
+      'robusto',
+      'integral',
+      'holístico',
+      'sinergia',
+      'paradigma',
+      'multifacético',
+      'invaluable',
+      'crucial',
+      'pivotal',
+      'subrayar',
+      'realzar',
+    ]),
+    message: 'Acumulación de vocabulario de IA en un mismo párrafo.',
+    fix: 'Reescribir con vocabulario llano y preciso. Una de estas palabras no dice nada; tres seguidas son una firma.',
+    source: 'humanizar-espanol, patrón 7',
+    checklist: p('Vocabulario de IA en español'),
+  },
+  {
+    id: 'evitacion-de-copula',
+    kind: 'forbidden-pattern',
+    // Advertencia: «constituye» y «representa» tienen usos legítimos que solo
+    // el contexto distingue. La regla señala, no sentencia.
+    severity: 'warning',
+    pattern: frases(['se erige como', 'se posiciona como', 'funge como', 'se alza como']),
+    message: 'Evitación de la cópula: rodea un «es» simple con una construcción recargada.',
+    fix: 'Usar «es» o «tiene». La galería es el espacio del colectivo y tiene cuatro salas.',
+    source: 'humanizar-espanol, patrón 8',
+    checklist: p('Evitación de la cópula «ser» o «estar»'),
+  },
+  {
+    id: 'abstraccion-comodin',
+    kind: 'forbidden-pattern',
+    severity: 'warning',
+    pattern: frases([
+      'diversos aspectos',
+      'múltiples factores',
+      'en términos de',
+      'a nivel de',
+      'distintas perspectivas',
+      'una serie de elementos',
+    ]),
+    message: 'Abstracción comodín: nombra una categoría en vez del concepto.',
+    fix: 'Sustituir por los conceptos concretos. La interacción social depende de la confianza y la reciprocidad.',
+    source: 'humanizar-espanol, patrón 18',
+    checklist: p('Abstracción comodín'),
+  },
+  {
+    id: 'artefactos-de-chatbot',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'espero que esto te sea de ayuda',
+      'espero que te sirva',
+      'tienes toda la razón',
+      'quieres que',
+      'te gustaría que',
+      'aquí tienes',
+      'avísame si',
+    ]),
+    message: 'Artefacto de conversación: texto de respuesta de chatbot pegado como contenido.',
+    fix: 'Suprimirlo. El contenido empieza donde empieza el contenido.',
+    source: 'humanizar-espanol, patrón 24',
+    checklist: p('Artefactos de conversación con el chatbot'),
+  },
+  {
+    id: 'avisos-de-corte',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'hasta mi última actualización',
+      'según la información disponible',
+      'aunque los detalles son escasos',
+      'mantiene un perfil bajo',
+      'prefiere mantener su vida privada',
+      'probablemente creció en',
+      'se cree que',
+    ]),
+    message: 'Aviso de corte o relleno especulativo: disfraza una conjetura de hecho.',
+    fix: 'Decir qué no se sabe, o suprimir la frase. Nunca inventar el relleno.',
+    source: 'humanizar-espanol, patrón 25',
+    checklist: p('Avisos de corte de conocimiento y relleno especulativo'),
+  },
+  {
+    id: 'tono-servil',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases(['excelente pregunta', 'gran pregunta', 'es un punto magnífico', 'punto magnífico']),
+    message: 'Tono servil: adula al lector en vez de responderle.',
+    fix: 'Ir al punto. Los factores económicos que mencionas son pertinentes acá.',
+    source: 'humanizar-espanol, patrón 26',
+    checklist: p('Tono servil o adulador'),
+  },
+  {
+    id: 'frases-de-relleno',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'con el fin de lograr esto',
+      'debido al hecho de que',
+      'en el caso de que',
+      'tiene la capacidad de',
+      'en este momento',
+    ]),
+    message: 'Frase de relleno: dice con seis palabras lo que se dice con una.',
+    fix: '«Debido al hecho de que llovía» es «porque llovía». «Tiene la capacidad de procesar» es «puede procesar».',
+    source: 'humanizar-espanol, patrón 27',
+    checklist: p('Frases de relleno'),
+  },
+  {
+    id: 'tropos-de-autoridad',
+    kind: 'forbidden-pattern',
+    // Advertencia: «en realidad» y «en el fondo» aparecen sueltos en prosa
+    // legítima. El delator es el racimo, no la aparición.
+    severity: 'warning',
+    pattern: frases([
+      'la verdadera pregunta es',
+      'en el fondo',
+      'en esencia',
+      'lo que de verdad importa',
+      'el meollo del asunto',
+    ]),
+    message: 'Tropo de autoridad: simula cortar el ruido para llegar a una verdad profunda.',
+    fix: 'Decir la cosa sin ceremonia. Lo que sigue a estas fórmulas suele ser un punto corriente.',
+    source: 'humanizar-espanol, patrón 30',
+    checklist: p('Tropos de autoridad persuasiva'),
+  },
+  {
+    id: 'senalizacion',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    pattern: frases([
+      'vamos a explorar',
+      'desglosemos esto',
+      'esto es lo que necesitas saber',
+      'adentrémonos en',
+      'sin más preámbulo',
+    ]),
+    message: 'Señalización: anuncia lo que va a hacer en lugar de hacerlo.',
+    fix: 'Hacerlo. En vez de «vamos a explorar cómo funciona el caché», explicar cómo funciona.',
+    source: 'humanizar-espanol, patrón 31',
+    checklist: p('Señalización y anuncios'),
+  },
+  {
+    id: 'aperturas-retoricas',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // El catálogo incluye «Mira» en la lista. Queda fuera a propósito: como
+    // palabra suelta es un verbo corriente y marcaría media prosa legítima.
+    // Una regla que grita en falso deja de leerse.
+    pattern: frases(['seamos sinceros', 'la verdad es que', 'el caso es que', 'honestamente']),
+    message: 'Apertura retórica: falsa confidencia para fabricar cercanía.',
+    fix: 'Decir la cosa sin preámbulo. «Que valga la pena depende de cuánto lo uses».',
+    source: 'humanizar-espanol, patrón 33',
+    checklist: p('Aperturas retóricas conversacionales'),
+  },
+];
+
+export type Pasada = { id: string; skill: string; rules: Rule[] };
+
+export const PASADAS: Record<string, Pasada> = {
+  humanizar: { id: 'humanizar', skill: 'humanizar-espanol', rules: SENALES_IA },
+};
+
+export const PASADA_IDS = Object.keys(PASADAS);
+
 /** Todas las reglas declaradas, de cualquier capa. */
 export function allRules(): Rule[] {
-  return [...BASE_RULES, ...Object.values(TONES).flatMap((t) => t.rules)];
+  return [
+    ...BASE_RULES,
+    ...Object.values(TONES).flatMap((t) => t.rules),
+    ...Object.values(PASADAS).flatMap((p2) => p2.rules),
+  ];
 }
 
 /**
@@ -248,13 +550,16 @@ export function assertRules(rules: Rule[] = allRules()): void {
     if (r.checklist.length === 0) {
       throw new Error(`la regla ${r.id} no reclama ningún ítem de checklist`);
     }
-    if (r.kind === 'forbidden-pattern') {
+    if (r.kind === 'forbidden-pattern' || r.kind === 'pattern-density') {
       if (!r.pattern.flags.includes('g')) {
         throw new Error(`la regla ${r.id} necesita el flag g`);
       }
       if (!r.pattern.flags.includes('u')) {
         throw new Error(`la regla ${r.id} necesita el flag u`);
       }
+    }
+    if (r.kind === 'pattern-density' && r.maxDistinct < 1) {
+      throw new Error(`la regla ${r.id} necesita un maxDistinct de al menos 1`);
     }
   }
 }

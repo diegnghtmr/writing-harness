@@ -83,10 +83,17 @@ describe('el techo de cobertura está declarado', () => {
 
   test('95 declaraciones, repartidas como está registrado', () => {
     assert.equal(items.length, 95, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 10, 'cambió la cantidad de declaraciones cubiertas por reglas');
-    assert.equal(cuenta('mecanizable'), 52);
+    assert.equal(claimed.size, 24, 'cambió la cantidad de declaraciones cubiertas por reglas');
+    assert.equal(cuenta('mecanizable'), 38);
     assert.equal(cuenta('criterio'), 31);
     assert.equal(cuenta('delegado'), 2);
+  });
+
+  test('humanizar tiene 19 de sus 37 patrones cubiertos', () => {
+    const suyos = declarations('humanizar-espanol');
+    const cubiertos = suyos.filter((d) => claimed.has(itemKey(d.skill, d.item)));
+    assert.equal(suyos.length, 37);
+    assert.equal(cubiertos.length, 19);
   });
 
   test('todas las skills aportan al recuento', () => {

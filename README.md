@@ -129,8 +129,8 @@ una sola casa.
 
 | Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | 10 | Tiene regla y test |
-| mecanizable | 52 | Se puede medir, falta construirlo |
+| cubierto | 24 | Tiene regla y test |
+| mecanizable | 38 | Se puede medir, falta construirlo |
 | criterio | 31 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 | delegado | 2 | El ítem solo remite a la lista de otra skill |
 
@@ -140,8 +140,26 @@ analogías están desarrolladas?» o la colocación léxica más previsible, que
 ningún linter decide. Queda escrito para no confundir después una cobertura
 parcial con una completa.
 
-Por skill: `humanizar-espanol` 37 declaraciones y 5 cubiertas, `spanish-writing`
-20 y 4, `catedra-writing` 16 y 0, `fonda-writing` 15 y 0, `camus-writing` 7 y 1.
+Por skill: `humanizar-espanol` 37 declaraciones y 19 cubiertas,
+`spanish-writing` 20 y 4, `catedra-writing` 16 y 0, `fonda-writing` 15 y 0,
+`camus-writing` 7 y 1.
+
+### Tres capas, igual que las skills
+
+| Capa | Cuándo corre | Qué mide |
+|---|---|---|
+| base | siempre | La normativa: raya, punto y coma, léxico prohibido, emojis |
+| tono | con `--tono` | Longitudes, ritmo, persona |
+| pasada | con `--pasada` | El catálogo de señales de IA de `humanizar-espanol` |
+
+La pasada no corre sola, igual que la skill: `humanizar-espanol` se activa solo
+si se pide con esas palabras, y el verificador hace lo mismo.
+
+Hay un tipo de regla que existe por fidelidad al texto. El catálogo dice del
+vocabulario de IA que «no están prohibidas de forma absoluta, pero su
+acumulación es una firma». Modelarlo como prohibición plana habría contradicho
+la prosa que dice hacer cumplir, así que `pattern-density` cuenta términos
+distintos por párrafo y marca al superar el umbral.
 
 ## Procedencia de las skills
 

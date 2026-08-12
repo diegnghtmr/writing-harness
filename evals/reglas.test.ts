@@ -129,6 +129,86 @@ describe('capa de tono', () => {
   });
 });
 
+describe('capa de pasada', () => {
+  const conSenales = 'Los expertos señalan que sin más preámbulo hay que actuar.';
+
+  test('el catálogo no corre solo', () => {
+    // humanizar-espanol es una pasada, no un tono. La skill solo se activa si
+    // se pide con esas palabras, y el verificador hace lo mismo.
+    assert.deepEqual(check(conSenales), []);
+  });
+
+  test('corre cuando se lo pide', () => {
+    const f = check(conSenales, { pasadas: ['humanizar'] });
+    assert.deepEqual(
+      f.map((x) => x.rule).sort(),
+      ['atribuciones-vagas', 'senalizacion'],
+    );
+  });
+
+  test('una pasada inexistente falla en vez de pasar en silencio', () => {
+    assert.throws(() => check('texto', { pasadas: ['inventada'] }), /pasada desconocida/u);
+  });
+
+  test('los artefactos de chatbot se marcan', () => {
+    const f = check('Aquí tienes el resumen. Avísame si querés que amplíe.', {
+      pasadas: ['humanizar'],
+    });
+    assert.equal(f.filter((x) => x.rule === 'artefactos-de-chatbot').length, 2);
+  });
+
+  test('el relleno especulativo se marca', () => {
+    const f = check('Se cree que mantiene un perfil bajo.', { pasadas: ['humanizar'] });
+    assert.equal(f.filter((x) => x.rule === 'avisos-de-corte').length, 2);
+  });
+
+  test('lo dudoso se marca como advertencia, no como error', () => {
+    const f = check('El museo se erige como referencia en el ámbito.', { pasadas: ['humanizar'] });
+    const copula = f.find((x) => x.rule === 'evitacion-de-copula');
+    assert.equal(copula?.severity, 'warning');
+  });
+
+  test('«Mira» queda fuera de las aperturas retóricas a propósito', () => {
+    // El catálogo la lista, pero como palabra suelta es un verbo corriente y
+    // marcaría media prosa legítima. Una regla que grita en falso deja de leerse.
+    assert.deepEqual(check('Mira el gráfico de la página 4.', { pasadas: ['humanizar'] }), []);
+    assert.equal(
+      check('Seamos sinceros, el dato no cambia.', { pasadas: ['humanizar'] }).length,
+      1,
+    );
+  });
+});
+
+describe('densidad de vocabulario de IA', () => {
+  // El catálogo es explícito: «No están prohibidas de forma absoluta, pero su
+  // acumulación es una firma». Modelarlo como prohibición plana contradiría el
+  // texto que la regla dice hacer cumplir.
+  const opts = { pasadas: ['humanizar'] } as const;
+
+  test('dos términos no alcanzan', () => {
+    const f = check('El paradigma es robusto.', opts);
+    assert.deepEqual(f.filter((x) => x.rule === 'vocabulario-de-ia'), []);
+  });
+
+  test('tres términos distintos en un párrafo sí', () => {
+    const f = check('El paradigma robusto permite abordar el problema.', opts);
+    const d = f.filter((x) => x.rule === 'vocabulario-de-ia');
+    assert.equal(d.length, 1);
+    assert.match(d[0]!.message, /Hay 3: abordar, paradigma, robusto\./u);
+  });
+
+  test('repetir el mismo término no cuenta como acumulación', () => {
+    // Se miden términos distintos. Repetir una palabra es otro problema.
+    const f = check('El paradigma es un paradigma y sigue siendo un paradigma.', opts);
+    assert.deepEqual(f.filter((x) => x.rule === 'vocabulario-de-ia'), []);
+  });
+
+  test('se mide por párrafo, no por texto entero', () => {
+    const repartido = 'El paradigma manda.\n\nEs robusto.\n\nHay que abordar eso.';
+    assert.deepEqual(check(repartido, opts).filter((x) => x.rule === 'vocabulario-de-ia'), []);
+  });
+});
+
 describe('fixtures', () => {
   test('el fixture sucio incumple lo que dice incumplir', () => {
     const f = check(fixture('sucio.txt'), { tone: 'camus' });

@@ -1,6 +1,6 @@
 // El verificador. Toma un texto entregado y devuelve lo que incumple.
 
-import { BASE_RULES, TONES, type Rule, type Severity, assertRules } from './rules.ts';
+import { BASE_RULES, PASADAS, TONES, type Rule, type Severity, assertRules } from './rules.ts';
 import { lineAt, positionAt, splitParagraphs } from './text.ts';
 
 export type Finding = {
@@ -18,19 +18,34 @@ export type Finding = {
 export type CheckOptions = {
   /** Identificador del tono. Si se omite, solo corre la capa base. */
   tone?: string;
+  /** Pasadas opcionales, que solo corren si se piden. */
+  pasadas?: readonly string[];
 };
 
-export function rulesFor(tone?: string): Rule[] {
-  if (tone === undefined) return [...BASE_RULES];
-  const t = TONES[tone];
-  if (t === undefined) {
-    throw new Error(`tono desconocido: ${tone}. Disponibles: ${Object.keys(TONES).join(', ')}`);
+export function rulesFor(tone?: string, pasadas: readonly string[] = []): Rule[] {
+  const out = [...BASE_RULES];
+
+  if (tone !== undefined) {
+    const t = TONES[tone];
+    if (t === undefined) {
+      throw new Error(`tono desconocido: ${tone}. Disponibles: ${Object.keys(TONES).join(', ')}`);
+    }
+    out.push(...t.rules);
   }
-  return [...BASE_RULES, ...t.rules];
+
+  for (const id of pasadas) {
+    const pasada = PASADAS[id];
+    if (pasada === undefined) {
+      throw new Error(`pasada desconocida: ${id}. Disponibles: ${Object.keys(PASADAS).join(', ')}`);
+    }
+    out.push(...pasada.rules);
+  }
+
+  return out;
 }
 
 export function check(text: string, options: CheckOptions = {}): Finding[] {
-  const rules = rulesFor(options.tone);
+  const rules = rulesFor(options.tone, options.pasadas);
   assertRules(rules);
 
   const findings: Finding[] = [];
@@ -60,7 +75,9 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
   }
 
   const lengthRules = rules.filter((r) => r.kind === 'sentence-length');
-  if (lengthRules.length > 0) {
+  const densityRules = rules.filter((r) => r.kind === 'pattern-density');
+
+  if (lengthRules.length > 0 || densityRules.length > 0) {
     for (const paragraph of splitParagraphs(text)) {
       for (const sentence of paragraph.sentences) {
         for (const rule of lengthRules) {
@@ -74,6 +91,25 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
               source: rule.source,
             });
           }
+        }
+      }
+
+      for (const rule of densityRules) {
+        const re = new RegExp(rule.pattern.source, rule.pattern.flags);
+        // Se cuentan términos distintos, no apariciones. Repetir una palabra
+        // es otro problema, y no el que esta regla mide.
+        const distintos = new Set(
+          [...paragraph.text.matchAll(re)].map((m) => m[0].toLowerCase().replace(/\s+/gu, ' ')),
+        );
+        if (distintos.size > rule.maxDistinct) {
+          findings.push({
+            rule: rule.id,
+            severity: rule.severity,
+            ...at(paragraph.offset),
+            message: `${rule.message} Hay ${distintos.size}: ${[...distintos].sort().join(', ')}.`,
+            fix: rule.fix,
+            source: rule.source,
+          });
         }
       }
     }
