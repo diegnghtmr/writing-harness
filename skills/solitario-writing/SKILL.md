@@ -270,18 +270,27 @@ Acá este documento prescribe en lugar de retratar, y conviene decirlo con las
 cifras delante.
 
 El autor es español y usa formas peninsulares, aunque menos de lo que su origen
-haría esperar. En el cuerpo de las treinta transcripciones, descontada la
-cabecera de metadatos de cada archivo, hay 33 marcas de segunda persona del
-plural peninsular repartidas en catorce archivos, 9,7 por cada diez mil
-palabras: 17 apariciones del pronombre y del posesivo, 8 del clítico átono y 8
-formas verbales terminadas en «áis» y en «éis», que son «podéis» dos veces y
-«creáis», «hacéis», «queráis», «sabréis», «sepáis» y «supliquéis» una vez cada
-una. No hay ni un imperativo de segunda del plural. Hay además léxico
-peninsular suelto y 2 usos de «coger» con el sentido de «tomar».
+haría esperar. El recuento va con su método, porque sin él una cifra de estas no
+se puede comprobar y ya se equivocó dos veces.
 
-Una versión anterior de este documento daba 42 marcas en quince archivos y «una
-veintena» de formas verbales. Las cifras no salían al recontarlas y quedan
-corregidas acá.
+Sobre el cuerpo de las treinta transcripciones, descontada la cabecera de
+metadatos de cada archivo y las marcas de tiempo, aparecen 29 marcas de segunda
+persona del plural peninsular en trece de los treinta archivos, 8,5 por cada
+diez mil palabras. Una por una: «vuestra» 8, «vosotros» 5, «sois» 5, «vuestro»
+4, «podéis» 2, y una vez cada uno «sepáis», «veis», «hacéis», «queráis» y el
+clítico de «os digo». No hay ni un imperativo de segunda del plural. Hay además
+léxico peninsular suelto y 2 usos de «coger» con el sentido de «tomar».
+
+Ese recuento es el de la lista cerrada de formas inequívocas. Contando también
+el clítico «os» suelto, que fuera de esa lista aparece 8 veces, y las formas
+verbales que la lista no incluye, el total sube a 33 en catorce archivos. Las
+dos cifras son ciertas y miden cosas distintas: 29 es lo que se marca, 33 es lo
+que hay.
+
+Dos versiones anteriores de este documento dieron 42 marcas en quince archivos y
+«una veintena» de formas verbales terminadas en «áis» y en «éis». Ninguna de las
+dos cifras sale al recontarlas: las formas verbales de esa terminación son 8, no
+veinte.
 
 Nada de eso se traslada. La sección 9.1 de la base lo prohíbe sin excepción y
 la conversión no cuesta nada, porque el propio corpus ofrece la alternativa
@@ -750,9 +759,9 @@ tomar cualquier cifra.
 
 ### 16.2. La variedad y el tratamiento
 
-Ya está en la sección 7.2, con las 42 marcas peninsulares y las 336 marcas de
-tuteo que la medición encontró. No se traslada ninguna de las dos. Se escribe en
-español americano y se trata al lector de usted y de ustedes.
+Ya está en la sección 7.2, con las 29 marcas peninsulares y las 391 de tuteo que
+la medición encontró. No se traslada ninguna de las dos. Se escribe en español
+americano y se trata al lector de usted y de ustedes.
 
 ### 16.3. El trato a la persona del adversario
 

@@ -58,6 +58,17 @@ export type PatternRule = Common & {
   kind: 'forbidden-pattern';
   /** Debe llevar los flags `g` y `u`. `assertRules` lo verifica. */
   pattern: RegExp;
+  /**
+   * Coincidencias literales que no son hallazgo, comparadas con mayúsculas.
+   *
+   * `frases()` compila sin distinguir mayúsculas, y eso hace que la sigla «TI»
+   * coincida con el pronombre «ti» y «SOS» con el voseo «sos». La primera
+   * solución fue descartar en el motor toda coincidencia de dos a cuatro letras
+   * escrita enteramente en mayúsculas, y era demasiado ancha: dejaba escapar
+   * «TÚ», «VOS», «SOIS» y «VEIS» de reglas que no admiten excepción. Esta lista
+   * nombra las excepciones una por una y no toca nada más.
+   */
+  excepciones?: readonly string[];
 };
 
 /** Un techo de palabras por oración. Pertenece a la capa de tono. */
@@ -858,6 +869,9 @@ export const BASE_RULES: Rule[] = [
     // de la base, una sola regla las sustituye y reclama los tres ítems. Tres
     // reglas idénticas habrían marcado tres veces cada «tú».
     pattern: frases(MARCAS_DE_SEGUNDA_PERSONA),
+    // «TI» es tecnologías de la información y «SOS» es una señal de auxilio.
+    // Las dos son corrientes en la clase de texto que estas skills producen.
+    excepciones: ['TI', 'SOS'],
     message: 'Tuteo o voseo. El tratamiento al lector es «usted» o «ustedes».',
     fix: 'Pasar a «usted» con verbo en tercera del singular, o suprimir la interpelación y escribir en impersonal.',
     source: 'spanish-writing §9.2',
@@ -1206,23 +1220,45 @@ export const TONES: Record<string, Tone> = {
         // El techo es la mitad, que es lo que el ítem pide con la palabra
         // «mayoría», y deja sitio de sobra sobre lo medido.
         //
-        // Dos descartes, y los dos costaron un juicio.
+        // Tres ramas, y cada una existe porque una versión anterior sin ella
+        // salió mal. Vale la pena dejar el registro completo.
         //
-        // El primero es la perífrasis progresiva («está creciendo»), donde
-        // «estar» es auxiliar y no cópula. La primera versión la excluía con
-        // `\p{L}+ndo`, que no describe un gerundio sino cualquier palabra
-        // terminada en esas tres letras: «es profundo», «es rotundo», «es
-        // fecundo» y «es segundo» quedaban fuera del recuento, que es lo
-        // contrario de lo que la regla existe para medir. Ahora se exige la
-        // terminación real del gerundio. «Es cuando» sigue cayendo dentro del
-        // descarte y se acepta: tampoco es una definición.
+        // Primera versión: una sola lista con dos filtros globales. Contaba «el
+        // son cubano» y «esta era digital», que son sustantivos, e inflaba la
+        // proporción.
         //
-        // El segundo es el sustantivo homógrafo. «El son cubano» y «esta era
-        // digital» no llevan verbo, y contarlos inflaba la proporción. Se
-        // descartan cuando un determinante los precede de forma inmediata,
-        // posición en la que «es», «son» o «está» no pueden ser verbo.
-        pattern:
-          /(?<!\p{L})(?<!(?:el|la|un|una|esta|este|esa|ese|del|al|nuestra|nuestro|otra|otro)\s)(?:es|son|era|eran|fue|fueron|será|serán|está|están|estaba|estaban)(?!\p{L})(?!\s+\p{L}*(?:ando|iendo|yendo)(?!\p{L}))/iu,
+        // Segunda versión: un descarte por determinante previo aplicado a
+        // TODOS los verbos, y un filtro de gerundio escrito `\p{L}+ndo`. Peor
+        // que la primera. El determinante global mataba «Esta es la clave» y
+        // «Este es el problema», que son justo la oración sentenciosa que la
+        // regla existe para contar; el filtro `ndo` no describe un gerundio
+        // sino cualquier palabra acabada en esas letras, así que «es profundo»
+        // y «es blando» también salían.
+        //
+        // Esta versión reparte el filtro según lo que cada forma admite:
+        //
+        // Rama uno, sin filtro. «es», «fue», «fueron», «será», «serán» y
+        // «eran» no son homógrafos de sustantivo y no forman perífrasis
+        // progresiva. No hay nada que descartar.
+        //
+        // Rama dos, con determinante. «son» y «era» son las dos únicas formas
+        // que coinciden con un sustantivo español, y solo ahí tiene sentido
+        // mirar lo que va delante. Queda un residuo conocido: «esa era la
+        // razón» se descarta y es cópula. Se acepta, porque el error va en la
+        // dirección segura para una regla que mide un techo.
+        //
+        // Rama tres, con gerundio. La perífrasis progresiva es «estar» más
+        // gerundio y nunca «ser» más gerundio, así que el filtro solo tiene
+        // sentido sobre las formas de «estar». Por eso «es blando» vuelve a
+        // contar, que es lo correcto.
+        pattern: new RegExp(
+          '(?<!\\p{L})(?:' +
+            '(?:es|fue|fueron|será|serán|eran)' +
+            '|(?<!(?:el|la|un|una|esta|este|esa|ese|del|al|otra|otro|nuestra|nuestro|su|sus)\\s)(?:son|era)' +
+            '|(?:está|están|estaba|estaban)(?!\\s+\\p{L}*(?:ando|iendo|yendo)(?!\\p{L}))' +
+            ')(?!\\p{L})',
+          'iu',
+        ),
         max: 0.5,
         minSentences: 8,
         message: 'Más de la mitad de las oraciones se apoyan en «ser» o «estar».',

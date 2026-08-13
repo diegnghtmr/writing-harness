@@ -57,16 +57,6 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
   const protegidas = zonasProtegidas(text);
   const protegido = (i: number) => protegidas.some(([a, b]) => i >= a && i < b);
 
-  // Una sigla no es una palabra. `frases()` compila con flag `i`, así que «TI»
-  // coincidía con «ti» y «SOS» con el voseo «sos»: dos errores de bloqueo sobre
-  // prosa correcta. Se descarta la coincidencia que llega enteramente en
-  // mayúsculas y mide de dos a cuatro letras, que es la forma de una sigla y
-  // nunca la de una palabra escrita así en prosa corriente.
-  //
-  // No vale mirar solo el texto coincidente: «TI» al principio de oración
-  // también va en mayúscula inicial. Por eso se exige que TODAS lo estén.
-  const esSigla = (s: string) =>
-    s.length >= 2 && s.length <= 4 && /^\p{Lu}+$/u.test(s);
 
   for (const rule of rules) {
     if (rule.kind === 'forbidden-pattern') {
@@ -75,7 +65,9 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
       const re = new RegExp(rule.pattern.source, rule.pattern.flags);
       let m: RegExpExecArray | null;
       while ((m = re.exec(text)) !== null) {
-        if (protegido(m.index) || esSigla(m[0])) {
+        // Las excepciones se comparan respetando mayúsculas, que es lo único
+        // que separa la sigla «TI» del pronombre «ti».
+        if (protegido(m.index) || rule.excepciones?.includes(m[0])) {
           if (m[0] === '') re.lastIndex++;
           continue;
         }

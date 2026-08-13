@@ -156,6 +156,19 @@ describe('capa base', () => {
     assert.ok(
       check('Esto es para ti, y vos lo sabés.').some((x) => x.rule === 'tratamiento-de-usted'),
     );
+    // La excepción es literal y nominada. El primer intento descartaba toda
+    // coincidencia de dos a cuatro letras escrita en mayúsculas, y con eso se
+    // escapaban «TÚ», «VOS», «SOIS» y «VEIS» de dos reglas que no admiten
+    // excepción.
+    const enfatico = 'Esto es para TÚ y para VOS. Vosotros SOIS el problema y no lo VEIS.';
+    assert.equal(
+      check(enfatico).filter((x) => x.rule === 'tratamiento-de-usted').length,
+      2,
+    );
+    assert.equal(
+      check(enfatico).filter((x) => x.rule === 'espanol-peninsular').length,
+      3,
+    );
   });
 
   test('el imperativo peninsular que la base nombra se marca', () => {
@@ -458,7 +471,18 @@ describe('capa de tono', () => {
     // sustantivos y no llevan verbo.
     const copula = allRules().find((r) => r.id === 'han-copula');
     const re = (copula as { pattern: RegExp }).pattern;
-    for (const s of ['El argumento es profundo', 'El fallo es rotundo', 'La atención es mercancía']) {
+    for (const s of [
+      'El argumento es profundo',
+      'El fallo es rotundo',
+      'El material es blando',
+      'La atención es mercancía',
+      // El demostrativo como sujeto. Una versión del filtro lo mataba, y es
+      // justo la oración sentenciosa que esta regla existe para contar.
+      'Esta es la clave',
+      'Este es el problema',
+      'Esa es la razón',
+      'Otra es la salida',
+    ]) {
       assert.ok(re.test(s), `debería contar: ${s}`);
     }
     for (const s of ['El sistema está creciendo', 'El son cubano cambió todo', 'Esta era digital llegó']) {

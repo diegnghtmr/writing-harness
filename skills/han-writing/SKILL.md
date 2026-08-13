@@ -342,8 +342,8 @@ cualquier cosa. Toda afirmación sobre el mundo tiene que ser algo que quien
 escribe pueda defender si se lo preguntan en voz alta.
 
 Queda prohibida la cuantificación sin cuantificar. Nada de «dimensiones
-epidémicas», «se ha multiplicado», «la inmensa mayoría» ni «cada vez más» sin
-una cifra detrás. Si la cifra existe, va y el texto cambia de tono. Si no
+epidémicas» ni «pandémicas», que es la forma exacta que trae el libro, ni «se ha
+multiplicado», «la inmensa mayoría» o «cada vez más» sin una cifra detrás. Si la cifra existe, va y el texto cambia de tono. Si no
 existe, la afirmación se acota o se cae.
 
 Y si la afirmación central necesita un dato, el texto pone el dato y cambia
