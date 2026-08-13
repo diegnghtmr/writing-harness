@@ -47,7 +47,7 @@ no frenan la entrega: señalan lo que solo el contexto decide.
 
 ## Lo que el verificador no ve
 
-De las 282 declaraciones que hacen las skills, **202 exigen juicio sobre el
+De las 282 declaraciones que hacen las skills, **199 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.
@@ -85,6 +85,32 @@ node --experimental-strip-types evals/gen.ts
 Conserva la clasificación de los ítems que ya estaban, imprime los nuevos para
 revisarlos uno por uno, y deja los recuentos que el test tiene grabados. Se
 escribió a mano una vez y quedó mintiendo en cuanto una skill movió sus ítems.
+
+## De dónde salieron las cifras
+
+Las skills enuncian centenares de cifras medidas sobre un corpus que no vive acá
+y no va a vivir. Son transcripciones ajenas y un libro; se juntaron para
+construir las skills y se borran.
+
+`src/corpus.ts` es lo que sobrevive: 13 corpus, 305 archivos, cada uno con su
+tamaño, sus palabras y su sha256, en 60 KB. Una skill dice «medido sobre 20
+transcripciones» y nunca dice cuáles. Acá está la lista, con el contenido exacto
+fijado, así que una cifra puede nombrar su origen aunque el origen ya no exista.
+
+```bash
+node --experimental-strip-types scripts/manifiesto.ts
+node --experimental-strip-types scripts/manifiesto.ts --desde <ruta>
+```
+
+No es un derivado y su gate es distinto por eso. El CI no puede regenerarlo ni
+compararlo, porque en esa máquina el corpus no está; así que
+`evals/corpus.test.ts` compara el archivo entero contra su propia huella.
+Cualquier edición a mano lo rompe, incluida la que sustituye un sha256 por otros
+sesenta y cuatro hexadecimales con buena pinta, que es justo lo que ningún otro
+gate podría notar una vez borrado el corpus.
+
+Ninguna skill nombra el manifiesto, igual que ninguna nombra una regla. La skill
+declara, el verificador mide.
 
 ## Que el gate no dependa de que alguien se acuerde
 
