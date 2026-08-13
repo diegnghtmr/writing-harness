@@ -1310,10 +1310,116 @@ export const TONES: Record<string, Tone> = {
     ],
   },
   bettatech: { id: 'bettatech', skill: 'bettatech-writing', rules: [] },
-  schiavenato: { id: 'schiavenato', skill: 'schiavenato-writing', rules: [] },
+  schiavenato: {
+    id: 'schiavenato',
+    skill: 'schiavenato-writing',
+    rules: [
+      {
+        id: 'schiavenato-relleno-oral',
+        kind: 'forbidden-pattern',
+        severity: 'error',
+        // La sección 6.2 cuenta el habla del modelo y saca de ahí tres reglas
+        // de traslado. La tercera elimina los rellenos que no articulan nada, y
+        // es la que esta regla hace cumplir.
+        //
+        // De la lista de la sección entran solo los que no admiten otra
+        // lectura. Quedan fuera «listo», «claro», «cierto» y «no sé», que son
+        // adjetivo, adjetivo, sustantivo y afirmación legítima antes que
+        // muletilla. «Es que» y «pues» entran solo en arranque de oración, que
+        // es donde el §6.2 los sitúa; a mitad de frase «pues» es una
+        // conjunción causal correcta y marcarla sería un error.
+        pattern: new RegExp(
+          '(?:^|(?<=[.!?…]["»)\\]]?\\s{1,3}))(?:[EeÉé]s que|[Pp]ues)(?!\\p{L})' +
+            '|(?<!\\p{L})(?:[Oo] sea|[Dd]igamos|[Oo]bviamente|[Rr]ealmente|[Bb]ásicamente)(?!\\p{L})',
+          'gmu',
+        ),
+        message: 'Relleno oral que no articula nada.',
+        fix: 'Suprimirlo. Si la oración pierde el enlace, el enlace era «entonces», «pero» o «porque», que este tono sí conserva.',
+        source: 'schiavenato-writing §6.2',
+        checklist: [
+          {
+            skill: 'schiavenato-writing',
+            item: '¿Están fuera los rellenos orales del modelo, del tipo «es que» de arranque, «pues», «o sea», «listo», «obviamente» y «realmente», y «entonces» quedó por debajo de una aparición cada quinientas palabras?',
+          },
+        ],
+      },
+      {
+        id: 'schiavenato-palabra-repetida',
+        kind: 'forbidden-pattern',
+        severity: 'warning',
+        // El ítem 16 nombra cinco cosas y esta regla cubre una: la repetición
+        // inmediata de palabra, que en el habla es énfasis y en el texto es un
+        // tropiezo. Las otras cuatro no se pueden medir hoy y conviene decirlo.
+        //
+        // Los emojis ya los marca la base. Los enlaces no se pueden marcar con
+        // una regla de patrón, porque el motor protege las URL para no
+        // lintearlas como prosa. Las mayúsculas enfáticas chocarían con las
+        // siglas, que en un texto jurídico abundan. Y la grosería exige una
+        // lista que cambia de país en país.
+        //
+        // Avisa en vez de bloquear: «muy muy» es un tropiezo casi siempre, y
+        // casi siempre no es nunca.
+        //
+        // El separador es espacio horizontal y no `\s`. Con `\s` la regla
+        // cruzaba el corte de párrafo y marcaba un título que acaba en una
+        // palabra seguido del párrafo que empieza con esa misma palabra, que
+        // es una coincidencia de maquetación y no una repetición. Se pierde
+        // «muy\nmuy» partido por un salto de línea, y es un precio barato.
+        pattern: /(?<!\p{L})(\p{L}{2,})[ \t]+\1(?!\p{L})/giu,
+        message: 'Palabra repetida de inmediato.',
+        fix: 'En el habla es énfasis y en el texto es un tropiezo. Suprimir la segunda, o cambiarla por la palabra que de verdad intensifica.',
+        source: 'schiavenato-writing §11',
+        checklist: [
+          {
+            skill: 'schiavenato-writing',
+            item: '¿Quedan fuera del cuerpo del texto las marcas de redes y de habla, como emojis, mayúsculas enfáticas, groserías, repetición inmediata de palabra y enlaces?',
+          },
+        ],
+      },
+    ],
+  },
   medicendai: { id: 'medicendai', skill: 'medicendai-writing', rules: [] },
   sekkyoku: { id: 'sekkyoku', skill: 'sekkyoku-writing', rules: [] },
-  kenway: { id: 'kenway', skill: 'kenway-writing', rules: [] },
+  kenway: {
+    id: 'kenway',
+    skill: 'kenway-writing',
+    rules: [
+      {
+        id: 'kenway-nota-numerica',
+        kind: 'forbidden-pattern',
+        severity: 'error',
+        // El corpus da cero en las seis formas que la sección 4 enumera, y un
+        // barrido de todas las cifras con contexto evaluativo devolvió un solo
+        // candidato que resultó ser «diez minutos». Es un conjunto cerrado y
+        // medido, así que se mide en vez de quedar a criterio.
+        //
+        // «Puntuación» queda fuera a propósito, aunque la sección la nombre:
+        // en español es también el sistema de signos, y una regla que marca
+        // «la puntuación del texto» se deja de leer al primer aviso.
+        pattern: new RegExp(
+          '(?<!\\p{L})(?:' +
+            'sobre\\s+(?:diez|cinco|10|5)' +
+            '|del\\s+uno\\s+al\\s+(?:diez|cinco|10|5)' +
+            '|le\\s+(?:doy|pongo)\\s+un(?:a)?' +
+            '|nota\\s+(?:final|numérica)' +
+            '|calificación\\s+de' +
+            '|\\d+(?:[.,]\\d+)?\\s*\\/\\s*(?:10|5)' +
+            '|(?:una|dos|tres|cuatro|cinco)\\s+estrellas' +
+            ')(?!\\p{L})',
+          'giu',
+        ),
+        message: 'Nota numérica o escala equivalente.',
+        fix: 'El veredicto es verbal y va en la primera cláusula de la sección de opinión. Decir qué falla y contra qué se mide, no cuánto puntúa.',
+        source: 'kenway-writing §13',
+        checklist: [
+          {
+            skill: 'kenway-writing',
+            item: '¿El texto está libre de nota numérica y de cualquier escala equivalente?',
+          },
+        ],
+      },
+    ],
+  },
   atenas: { id: 'atenas', skill: 'atenas-writing', rules: [] },
   solitario: { id: 'solitario', skill: 'solitario-writing', rules: [] },
 };

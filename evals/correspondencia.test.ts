@@ -79,7 +79,7 @@ describe('correspondencia entre las reglas y la prosa', () => {
 
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. No queda nada mecanizable sin regla. Las 202 de criterio
+  // ser deliberado. No queda nada mecanizable sin regla. Las 199 de criterio
   // exigen juicio sobre el contenido: casi todas vienen de los doce tonos que
   // reconstruyen a un autor, y describir cómo argumenta una persona no lo mide
   // ninguna clase de regla que exista hoy.
@@ -90,18 +90,22 @@ describe('el techo de cobertura está declarado', () => {
   //
   // El cero de `mecanizable` no es una ausencia verificada, y conviene no
   // leerlo como tal. El generador nunca asciende un ítem a esa clase: hereda la
-  // que tenía o pone `criterio`. Dos jueces señalaron ítems que hoy están en
-  // `criterio` y se podrían medir con clases de regla que ya existen, por
-  // ejemplo el que prohíbe la nota numérica en `kenway-writing` y los dos de
-  // relleno oral y marcas de redes en `schiavenato-writing`. El cero dice que
-  // nadie ha clasificado nada como pendiente, no que no quede nada por hacer.
+  // que tenía o pone `criterio`. Dice que nadie ha clasificado nada como
+  // pendiente, no que no quede nada por hacer.
+  //
+  // Dos jueces lo probaron señalando tres ítems que estaban en `criterio` y se
+  // podían medir con clases de regla que ya existían: la nota numérica de
+  // `kenway-writing`, y el relleno oral y las marcas de redes de
+  // `schiavenato-writing`. Los tres están cubiertos desde entonces. La lección
+  // no es que quedaran esos tres, es que el registro no sabe encontrarlos: hay
+  // que ir a buscarlos leyendo la prosa.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
   test('282 declaraciones, repartidas como está registrado', () => {
     assert.equal(items.length, 282, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 80, 'cambió la cantidad de declaraciones cubiertas por reglas');
+    assert.equal(claimed.size, 83, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
-    assert.equal(cuenta('criterio'), 202);
+    assert.equal(cuenta('criterio'), 199);
     assert.equal(cuenta('delegado'), 0);
   });
 

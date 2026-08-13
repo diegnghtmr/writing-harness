@@ -463,6 +463,51 @@ describe('lo que el texto debe contener', () => {
 });
 
 describe('capa de tono', () => {
+  test('la nota numérica se marca y la palabra «nota» sin escala no', () => {
+    const conNota =
+      'Merece un ocho sobre diez y cuatro estrellas. Le doy un 7/10. ' +
+      'Va del uno al diez, con nota final alta y calificación de aprobado.';
+    assert.equal(check(conNota, { tone: 'kenway' }).filter((x) => x.rule === 'kenway-nota-numerica').length, 7);
+    // El corpus midió cero notas y un solo falso candidato, «diez minutos».
+    const sinNota = 'La obra dura diez minutos y el autor lo nota. La nota es positiva y menor.';
+    assert.deepEqual(
+      check(sinNota, { tone: 'kenway' }).filter((x) => x.rule === 'kenway-nota-numerica'),
+      [],
+    );
+  });
+
+  test('el relleno oral se marca solo donde es relleno', () => {
+    const relleno = 'Es que el contrato no se firmó. Pues el plazo venció. O sea, nadie respondió.';
+    assert.equal(
+      check(relleno, { tone: 'schiavenato' }).filter((x) => x.rule === 'schiavenato-relleno-oral').length,
+      3,
+    );
+    // «pues» causal a mitad de frase es correcto, y «listo», «claro» y
+    // «cierto» son adjetivo, adjetivo y sustantivo antes que muletilla.
+    const legitimo = 'No vino, pues estaba enfermo, y el trámite quedó listo con el dato claro y cierto.';
+    assert.deepEqual(
+      check(legitimo, { tone: 'schiavenato' }).filter((x) => x.rule === 'schiavenato-relleno-oral'),
+      [],
+    );
+  });
+
+  test('la palabra repetida no cruza el corte de párrafo', () => {
+    assert.equal(
+      check('El caso es muy muy grave y el juez lo lo confirmó.', { tone: 'schiavenato' })
+        .filter((x) => x.rule === 'schiavenato-palabra-repetida').length,
+      2,
+    );
+    // Un título que acaba en una palabra y un párrafo que empieza con esa
+    // misma palabra son maquetación, no repetición. Con `\s` la regla los
+    // marcaba, y así se descubrió corriéndola sobre las propias skills.
+    assert.deepEqual(
+      check('Variedad de español\n\nEspañol colombiano, con el habla de Bogotá.', {
+        tone: 'schiavenato',
+      }).filter((x) => x.rule === 'schiavenato-palabra-repetida'),
+      [],
+    );
+  });
+
   test('la cópula de han cuenta el verbo y descarta el sustantivo y el gerundio', () => {
     // La regla estuvo rota en las dos direcciones a la vez. El descarte del
     // gerundio se escribió `\p{L}+ndo`, que no describe un gerundio sino
