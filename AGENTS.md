@@ -139,6 +139,25 @@ nadie lo note es distinto de fingir que no existen.
 Ninguna skill nombra el manifiesto ni las mediciones, igual que ninguna nombra
 una regla. La skill declara, el verificador mide.
 
+## El contrato de evidencia
+
+[contrato-de-evidencia.md](contrato-de-evidencia.md) vive dos veces: acá y en el
+repositorio de diapositivas, que llegó a las mismas cuatro casillas por su cuenta
+midiendo cómo se justifica un argumento. **Lo que se comparte son cuatro nombres,
+no código.** No hay paquete, ni tipo compartido, ni archivo que uno genere y el
+otro consuma; cada lado lo aplica con su propia máquina y sigue funcionando si el
+otro desaparece.
+
+Solo el bloque marcado es normativo, y cada copia declara su huella en su suite.
+Tocarlo de un lado hace fallar ese lado, y las dos huellas dejan de coincidir a
+la vista. Nada avisa automáticamente de que el otro se movió: ese es el precio de
+no acoplarlos, y lo que se compra es que ningún cambio pueda ser silencioso.
+
+`evals/contrato.test.ts` comprueba las dos cosas que corresponden a este lado: que
+el bloque no cambió, y que las mediciones lo cumplen. La segunda es la que evita
+que el contrato se vuelva un adorno, porque un documento que nadie comprueba dice
+lo que a cada uno le convenga que diga.
+
 ## Que el gate no dependa de que alguien se acuerde
 
 Dos redes, y las dos corren lo mismo.
