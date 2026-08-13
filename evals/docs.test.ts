@@ -169,7 +169,7 @@ describe('AGENTS.md dice lo que el código mide', () => {
         assert.doesNotMatch(b, /<\/?(?:b|i|strong|em)>/u, `${nombre}: etiqueta que puede no renderizar`);
       }
     }
-    assert.equal((README_CRUDO.match(/```mermaid/gu) ?? []).length, 4);
+    assert.equal((README_CRUDO.match(/```mermaid/gu) ?? []).length, 5);
     assert.equal((AGENTS_CRUDO.match(/```mermaid/gu) ?? []).length, 1);
   });
 

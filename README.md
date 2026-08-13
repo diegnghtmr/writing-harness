@@ -296,6 +296,49 @@ acoplarlos, y lo que se compra es que **ningún cambio pueda ser silencioso**: s
 alguien toca el bloque de un lado, ese lado falla y las dos huellas dejan de
 coincidir a la vista.
 
+### Usarlos juntos
+
+Se juntan desde fuera, con dos renglones. Ninguno de los dos aprende el nombre
+del otro: el que dibuja sabe volcar sus propias láminas a texto plano, y el que
+mide sabe medir texto plano. Lo que pase en medio no es asunto de ninguno.
+
+```mermaid
+flowchart TB
+    subgraph OS["repositorio de diapositivas"]
+        direction TB
+        M["un mazo<br/>EvidenceSlide"]
+        M --> PR["claim · method<br/>sources · unit"]
+        PR --> EX["scripts/slide-text.mjs<br/>vuelca sus propias frases"]
+    end
+
+    EX --> TX["texto plano<br/>77 láminas, 3.518 palabras"]
+    TX --> Q{"¿el mazo está<br/>en español?"}
+
+    Q -->|"no"| NA["no se mide.<br/>La raya es correcta en inglés,<br/>y la norma española la marcaría"]
+
+    Q -->|"sí"| WH
+
+    subgraph WH["writing-harness"]
+        direction TB
+        V["node src/cli.ts --tono ID"]
+        V --> H{"¿Hallazgos?"}
+    end
+
+    H -->|"ninguno"| OK(["la lámina se entrega"])
+    H -->|"error"| FIX["corregir la frase"]
+    FIX -.->|"se edita el mazo,<br/>no el texto volcado"| M
+```
+
+```bash
+node scripts/slide-text.mjs > mazo.txt   # en el repositorio de diapositivas
+node src/cli.ts mazo.txt --tono camus    # acá
+```
+
+**El rombo del medio no es adorno.** Corriendo la norma española sobre los mazos
+de ejemplo, que están en inglés, salen 66 errores y 50 son la raya, que en inglés
+es tipografía correcta. Una herramienta que se aplica donde no toca no da un
+resultado neutro: da uno equivocado con aspecto de riguroso.
+
 ## Instalación
 
 Las skills se enlazan, no se copian. Editar el repositorio cambia lo instalado en
