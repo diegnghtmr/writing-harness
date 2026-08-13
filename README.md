@@ -75,13 +75,31 @@ tono tiene un defecto que hay que corregir.
 
 ### Enrutamiento
 
-`spanish-writing` se aplica siempre y elige exactamente un tono. La tabla
-completa está en su §3; `camus-writing` es el que corre por defecto.
+`spanish-writing` se aplica siempre y elige exactamente un tono. Trece de los
+catorce reconstruyen la forma de exponer de un autor concreto, y no se
+escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su habla.
+Eso es lo que separa a este repositorio de una colección de instrucciones de
+estilo.
 
-Trece de los catorce reconstruyen la forma de exponer de un autor concreto, y no
-se escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su
-habla. Eso es lo que separa a este repositorio de una colección de instrucciones
-de estilo.
+**Cuando nadie elige, elige el enrutamiento.** No es un valor por defecto
+escondido: es una lista de catorce pasos que va de lo más estrecho a lo más
+amplio y siempre termina en un tono, porque un texto sin tono no es un texto
+neutro, es un texto cuya forma no decidió nadie. Vive dos veces, en §3 de la base
+y en `src/enrutamiento.ts`, y un gate comprueba que digan lo mismo y en el mismo
+orden.
+
+```bash
+node src/cli.ts --enrutar juridico
+```
+
+```
+schiavenato-writing
+  Divulgación jurídica y política dirigida a una comunidad.
+  Paso 8 de 14 de la lista de spanish-writing §3.
+```
+
+Siempre responde con el motivo. Una decisión que no se puede rebatir no es una
+decisión.
 
 ## El verificador
 
@@ -147,18 +165,14 @@ flowchart LR
     P -.->|"la prosa declara algo<br/>que nadie cubre ni registra"| F1
 ```
 
-Existe porque el defecto ya ocurrió tres veces. La raya vivía en tres versiones
-distintas. La prohibición del punto y coma se perdió entera al reescribir un ítem
-de checklist. Y `humanizar-espanol` estuvo fuera del gate por completo, porque
-declara sus reglas como patrones numerados en `references/` y el extractor solo
-miraba las listas del `SKILL.md`: era la skill con más reglas y aportaba cero al
-recuento. Las tres veces el error era invisible porque nadie comparaba las dos
-representaciones.
+Existe porque el defecto ya ocurrió tres veces: una prohibición que vivía en tres
+versiones distintas, otra que se perdió entera al reescribir un ítem, y una skill
+que declaraba sus reglas en un formato que el extractor no miraba, así que era la
+que más tenía y aportaba cero. Las tres veces el error era invisible, porque
+nadie comparaba las dos representaciones.
 
-Esa prohibición del punto y coma se retiró después por decisión, y el gate volvió
-a servir: obligó a tocar las cinco skills que la repetían por su cuenta. **Retirar
-una regla a propósito y perderla sin darse cuenta se parecen en el resultado y no
-se parecen en nada más.**
+**Retirar una regla a propósito y perderla sin darse cuenta se parecen en el
+resultado y no se parecen en nada más.** El gate distingue las dos cosas.
 
 ### Cobertura declarada
 
@@ -298,23 +312,3 @@ node scripts/instalar-hook.ts
 El hook se copia en vez de enlazarse, porque Git no sigue enlaces en todas las
 plataformas y un hook que no corre es peor que no tenerlo: da la sensación de
 estar cubierto.
-
-## Procedencia
-
-El commit `fee3700` guarda las cuatro skills originales tal como llegaron, byte a
-byte. Todo lo posterior es diffable contra ese punto.
-
-Los tres archivos de `humanizar-espanol` venían truncados a mitad de palabra desde
-el plugin, y se recuperaron desde la bóveda de Obsidian, que es la misma fuente
-sin cortar: sus copias de las otras tres skills tienen hash idéntico al del
-plugin.
-
-| archivo | plugin | Obsidian |
-|---|---|---|
-| `humanizar-espanol/SKILL.md` | 16 403 B, cortado | 22 502 B, completo |
-| `references/patrones-de-ia.md` | 18 604 B, cortado | 25 260 B, completo |
-| `references/que-preservar.md` | 4 874 B, cortado | 5 065 B, completo |
-
-Con la recuperación volvieron los puntos 2 a 5 de la auditoría mecánica, el
-ejemplo de aplicación, la lista de verificación de entrega y los patrones 33 a 37
-del catálogo. Nada de ese final se reconstruyó ni se inventó.

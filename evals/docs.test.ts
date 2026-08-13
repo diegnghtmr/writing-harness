@@ -27,9 +27,22 @@ import { TONE_IDS, allRules } from '../src/rules.ts';
 import { REPO_ROOT, allDeclarations, itemKey, skillNames } from '../src/skills.ts';
 import { SIN_REGLA } from './cobertura.ts';
 
+/**
+ * Lee el documento con los espacios en blanco colapsados.
+ *
+ * La prosa va justificada a ochenta columnas, así que una afirmación cae partida
+ * entre dos líneas en cuanto alguien añade una palabra antes. Un gate que
+ * depende de dónde cae el salto no vigila el contenido, vigila el formato, y se
+ * rompe cada vez que se reescribe un párrafo sin cambiar nada de lo que dice.
+ *
+ * Pasó dos veces mientras se escribía esto, y la segunda con la misma frase.
+ */
 const lee = (nombre: string) => readFileSync(join(REPO_ROOT, nombre), 'utf8');
-const README = lee('README.md');
-const AGENTS = lee('AGENTS.md');
+const llano = (texto: string) => texto.replace(/\s+/gu, ' ');
+const README = llano(lee('README.md'));
+const AGENTS = llano(lee('AGENTS.md'));
+const README_CRUDO = lee('README.md');
+const AGENTS_CRUDO = lee('AGENTS.md');
 
 const reglas = allRules();
 const cubiertas = new Set(
@@ -146,8 +159,8 @@ describe('AGENTS.md dice lo que el código mide', () => {
     // activadas, y salen literales si no. `<br/>` funciona igual en los dos
     // casos, así que es el único que se admite.
     for (const [nombre, texto] of [
-      ['README.md', README],
-      ['AGENTS.md', AGENTS],
+      ['README.md', README_CRUDO],
+      ['AGENTS.md', AGENTS_CRUDO],
     ] as const) {
       const bloques = [...texto.matchAll(/```mermaid\n([\s\S]*?)```/gu)].map((m) => m[1] as string);
       const aperturas = (texto.match(/```mermaid/gu) ?? []).length;
@@ -156,8 +169,8 @@ describe('AGENTS.md dice lo que el código mide', () => {
         assert.doesNotMatch(b, /<\/?(?:b|i|strong|em)>/u, `${nombre}: etiqueta que puede no renderizar`);
       }
     }
-    assert.equal((README.match(/```mermaid/gu) ?? []).length, 4);
-    assert.equal((AGENTS.match(/```mermaid/gu) ?? []).length, 1);
+    assert.equal((README_CRUDO.match(/```mermaid/gu) ?? []).length, 4);
+    assert.equal((AGENTS_CRUDO.match(/```mermaid/gu) ?? []).length, 1);
   });
 
   test('CLAUDE.md sigue siendo un puntero y no una copia', () => {
