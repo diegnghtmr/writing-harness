@@ -1,0 +1,173 @@
+// Las mediciones cuadran, y cuadran con la prosa que las enuncia.
+//
+// Mismo problema que el manifiesto y misma respuesta: `src/mediciones.ts` no se
+// puede regenerar sin el corpus, el corpus no está en el repositorio y va a
+// desaparecer, así que una edición a mano no la notaría nadie. La huella la
+// caza.
+//
+// Lo demás es lo que este repositorio hace siempre: comparar las dos
+// representaciones de un mismo hecho. Cada agregado tiene que salir de su
+// detalle, cada archivo medido tiene que estar en el manifiesto, y cada cifra
+// que una skill enuncia tiene que seguir siendo la que se midió.
+
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { describe, test } from 'node:test';
+import { CORPUS } from '../src/corpus.ts';
+import { MEDICIONES, POR_ARCHIVO } from '../src/mediciones.ts';
+import { REPO_ROOT, readSkill } from '../src/skills.ts';
+
+const valor = (id: string) => MEDICIONES.find((m) => m.id === id)?.valor;
+const filasDe = (skill: string) => POR_ARCHIVO.filter((f) => f.skill === skill);
+
+describe('las mediciones no se editaron a mano', () => {
+  test('el archivo entero coincide con su huella', () => {
+    // Para actualizarla: volver a correr `scripts/medir.ts` con el corpus
+    // delante y pegar acá el valor que este test reporte como recibido.
+    const bytes = readFileSync(join(REPO_ROOT, 'src', 'mediciones.ts'), 'utf8').replace(
+      /\r\n/gu,
+      '\n',
+    );
+    assert.equal(
+      createHash('sha256').update(bytes, 'utf8').digest('hex'),
+      '1d454b40ec5cf25ad4e2a724a75f3fd0616316b20c1843740b1b7a9fb0ad85fd',
+    );
+  });
+});
+
+describe('cada agregado sale de su detalle', () => {
+  test('63 mediciones sobre 280 archivos', () => {
+    assert.equal(MEDICIONES.length, 63);
+    assert.equal(POR_ARCHIVO.length, 280);
+  });
+
+  test('las palabras, los signos y las marcas suman lo que dice el agregado', () => {
+    for (const corpus of CORPUS) {
+      const filas = filasDe(corpus.skill);
+      const suma = (f: (x: (typeof filas)[number]) => number) => filas.reduce((n, x) => n + f(x), 0);
+
+      assert.equal(valor(`${corpus.skill}/archivos`), filas.length, corpus.skill);
+      assert.equal(valor(`${corpus.skill}/palabras`), suma((x) => x.palabras), corpus.skill);
+      assert.equal(
+        valor(`${corpus.skill}/signos-terminales`),
+        suma((x) => x.signos),
+        corpus.skill,
+      );
+
+      const marcas = valor(`${corpus.skill}/marcas-de-tiempo`);
+      if (marcas !== undefined) assert.equal(marcas, suma((x) => x.cues), corpus.skill);
+
+      const segundos = valor(`${corpus.skill}/segundos`);
+      if (segundos !== undefined) assert.equal(segundos, suma((x) => x.segundos ?? 0), corpus.skill);
+    }
+  });
+
+  test('cada archivo medido está en el manifiesto', () => {
+    // Sin esto, una medición podría apuntar a un archivo que nunca se fichó, y
+    // entonces su cifra no tendría origen comprobable: exactamente lo que las
+    // dos mitades existen para evitar.
+    const enManifiesto = new Set(
+      CORPUS.flatMap((c) => c.archivos.map((a) => `${c.skill}/${a.ruta}`)),
+    );
+    assert.deepEqual(
+      POR_ARCHIVO.map((f) => `${f.skill}/${f.archivo}`).filter((k) => !enManifiesto.has(k)),
+      [],
+    );
+  });
+
+  test('un corpus sin transcripción se mide entero, y lo dice', () => {
+    // Las fichas de han no tienen «## Transcripción», así que se cuenta el
+    // archivo completo. Es la única excepción, y tiene que verse en el dato en
+    // lugar de estar escondida en el script.
+    const completos = [...new Set(MEDICIONES.filter((m) => m.fuente === 'archivo-completo').map((m) => m.skill))];
+    assert.deepEqual(completos, ['han-writing']);
+    assert.equal(
+      filasDe('han-writing').reduce((n, f) => n + f.cues, 0),
+      0,
+      'han no debería tener marcas de tiempo',
+    );
+  });
+});
+
+describe('la prosa y la medición dicen lo mismo', () => {
+  // El total de palabras que una skill enuncia es la mayor cifra con separador
+  // de millar seguida de «palabras». catedra y sekkyoku no enuncian ninguna: la
+  // primera escribe sus cantidades con letra y la segunda solo declara cuántas
+  // transcripciones son.
+  //
+  // Los dos números están congelados a propósito, incluso donde no coinciden.
+  // Ocho corpus caen dentro del 0,5 % y dos dan exacto: eso confirma el método,
+  // porque el desvío que queda es del orden de lo que cambia al recortar las
+  // marcas de tiempo de otra manera. Congelar la diferencia impide que crezca
+  // sin que nadie lo note, que es distinto de fingir que no existe.
+  //
+  // han es el caso aparte. Enuncia 1.654 palabras de prosa real del libro y
+  // 2.217 de otra cuenta; el corpus de fichas mide 2.090. Sus cifras no salen
+  // de este corpus, y el dato lo deja dicho.
+  const DECLARADO: Record<string, { prosa: number | null; medido: number }> = {
+    'atenas-writing': { prosa: 49328, medido: 49379 },
+    'bettatech-writing': { prosa: 62652, medido: 62652 },
+    'catedra-writing': { prosa: null, medido: 45449 },
+    'dotcsv-writing': { prosa: 64830, medido: 64848 },
+    'fonda-writing': { prosa: 95038, medido: 95275 },
+    'fonseca-writing': { prosa: 114513, medido: 114453 },
+    'freddy-writing': { prosa: 99544, medido: 99371 },
+    'han-writing': { prosa: 2217, medido: 2090 },
+    'kenway-writing': { prosa: 61779, medido: 61892 },
+    'medicendai-writing': { prosa: 97907, medido: 98363 },
+    'schiavenato-writing': { prosa: 48629, medido: 48629 },
+    'sekkyoku-writing': { prosa: null, medido: 54264 },
+    'solitario-writing': { prosa: 34118, medido: 34150 },
+  };
+
+  const enProsa = (skill: string): number | null => {
+    const cifras = [...readSkill(skill).matchAll(/(\d{1,3}(?:[.,]\d{3})+)\s+palabras/gu)].map((m) =>
+      Number((m[1] as string).replace(/[.,]/gu, '')),
+    );
+    return cifras.length ? Math.max(...cifras) : null;
+  };
+
+  test('la cifra que enuncia cada skill sigue siendo la registrada', () => {
+    for (const [skill, esperado] of Object.entries(DECLARADO)) {
+      assert.equal(enProsa(skill), esperado.prosa, `${skill} cambió la cifra de su prosa`);
+    }
+  });
+
+  test('la medición sigue siendo la registrada', () => {
+    for (const [skill, esperado] of Object.entries(DECLARADO)) {
+      assert.equal(valor(`${skill}/palabras`), esperado.medido, `${skill} cambió su medición`);
+    }
+  });
+
+  test('dos corpus dan exacto y ocho caen dentro del 0,5 %', () => {
+    const con = Object.entries(DECLARADO).filter(([, d]) => d.prosa !== null);
+    const desvio = ([, d]: [string, { prosa: number | null; medido: number }]) =>
+      Math.abs((d.medido - (d.prosa as number)) / (d.prosa as number));
+    assert.equal(con.filter((e) => desvio(e) === 0).length, 2);
+    assert.equal(con.filter((e) => desvio(e) > 0 && desvio(e) <= 0.005).length, 8);
+    // han es el único que se sale, y por eso está nombrado.
+    assert.deepEqual(
+      con.filter((e) => desvio(e) > 0.005).map(([s]) => s),
+      ['han-writing'],
+    );
+  });
+
+  test('los minutos de habla coinciden donde la skill los enuncia', () => {
+    // Acá no hay desvío: los cuatro que declaran el total dan el mismo número
+    // que la suma de las cabeceras. kenway declara 337 y mide 338, un minuto de
+    // redondeo.
+    const MINUTOS: Record<string, number> = {
+      'atenas-writing': 295,
+      'schiavenato-writing': 294,
+      'sekkyoku-writing': 304,
+      'solitario-writing': 254,
+    };
+    for (const [skill, minutos] of Object.entries(MINUTOS)) {
+      const segundos = valor(`${skill}/segundos`) as number;
+      assert.equal(Math.round(segundos / 60), minutos, skill);
+      assert.match(readSkill(skill), new RegExp(`${minutos}\\s+minutos`, 'u'), skill);
+    }
+  });
+});

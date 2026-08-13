@@ -97,20 +97,42 @@ tamaño, sus palabras y su sha256, en 60 KB. Una skill dice «medido sobre 20
 transcripciones» y nunca dice cuáles. Acá está la lista, con el contenido exacto
 fijado, así que una cifra puede nombrar su origen aunque el origen ya no exista.
 
+`src/mediciones.ts` es la otra mitad: 63 mediciones sobre 280 archivos. El
+manifiesto dice qué archivos había; esto dice qué contenían. Cada medición trae
+las cuatro casillas que hacen comprobable una cifra: qué afirma, con qué regla se
+produjo, sobre cuántos archivos y en qué unidad.
+
 ```bash
 node --experimental-strip-types scripts/manifiesto.ts
-node --experimental-strip-types scripts/manifiesto.ts --desde <ruta>
+node --experimental-strip-types scripts/medir.ts
+node --experimental-strip-types scripts/medir.ts --desde <ruta>
 ```
 
-No es un derivado y su gate es distinto por eso. El CI no puede regenerarlo ni
-compararlo, porque en esa máquina el corpus no está; así que
-`evals/corpus.test.ts` compara el archivo entero contra su propia huella.
-Cualquier edición a mano lo rompe, incluida la que sustituye un sha256 por otros
-sesenta y cuatro hexadecimales con buena pinta, que es justo lo que ningún otro
-gate podría notar una vez borrado el corpus.
+`medir.ts` comprueba el sha256 de cada archivo contra el manifiesto antes de
+contar nada, y aborta si uno solo difiere. Medir un corpus distinto del que quedó
+fichado daría cifras que parecen trazables y no lo son, que es peor que no tener
+ninguna.
 
-Ninguna skill nombra el manifiesto, igual que ninguna nombra una regla. La skill
-declara, el verificador mide.
+**El texto que cuenta no es el archivo entero.** Una transcripción trae cabecera
+de metadatos y una marca `**[mm:ss]**` por línea; contar eso infla el recuento
+alrededor de un 15 %. Se cuenta lo que viene después de «## Transcripción», sin
+las marcas. Las fichas de han no tienen transcripción y se cuentan enteras, y el
+dato lo dice en su campo `fuente`.
+
+Ninguno de los dos es un derivado, y su gate es distinto por eso. El CI no puede
+regenerarlos ni compararlos, porque en esa máquina el corpus no está; así que
+`evals/corpus.test.ts` y `evals/mediciones.test.ts` comparan cada archivo contra
+su propia huella. Cualquier edición a mano los rompe, incluida la que sustituye
+un sha256 por otros sesenta y cuatro hexadecimales con buena pinta, que es justo
+lo que ningún otro gate podría notar una vez borrado el corpus.
+
+Además, la prosa y la medición se comparan entre sí. Dos corpus dan exacto, ocho
+caen dentro del 0,5 % y han se sale porque sus cifras salen del libro y no de las
+fichas. Las diferencias están congeladas como dato: impedir que crezcan sin que
+nadie lo note es distinto de fingir que no existen.
+
+Ninguna skill nombra el manifiesto ni las mediciones, igual que ninguna nombra
+una regla. La skill declara, el verificador mide.
 
 ## Que el gate no dependa de que alguien se acuerde
 
