@@ -79,7 +79,7 @@ describe('correspondencia entre las reglas y la prosa', () => {
 
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. No queda nada mecanizable sin regla. Las 183 de criterio
+  // ser deliberado. No queda nada mecanizable sin regla. Las 184 de criterio
   // exigen juicio sobre el contenido: casi todas vienen de los doce tonos que
   // reconstruyen a un autor, y describir cómo argumenta una persona no lo mide
   // ninguna clase de regla que exista hoy.
@@ -89,11 +89,11 @@ describe('el techo de cobertura está declarado', () => {
   // skill movió sus ítems.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('258 declaraciones, repartidas como está registrado', () => {
-    assert.equal(items.length, 258, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 75, 'cambió la cantidad de declaraciones cubiertas por reglas');
+  test('260 declaraciones, repartidas como está registrado', () => {
+    assert.equal(items.length, 260, 'cambió la cantidad de declaraciones en la prosa');
+    assert.equal(claimed.size, 76, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
-    assert.equal(cuenta('criterio'), 183);
+    assert.equal(cuenta('criterio'), 184);
     assert.equal(cuenta('delegado'), 0);
   });
 

@@ -112,6 +112,27 @@ describe('capa base', () => {
     assert.equal(check(tic).filter((x) => x.rule === 'punto-y-coma-abusado').length, 1);
   });
 
+  test('el artefacto de canal se marca en la base, no doce veces en los tonos', () => {
+    const t = 'Suscríbete al canal. En este video hablamos del método. Sin spoilers.';
+    assert.equal(check(t).filter((x) => x.rule === 'artefacto-de-canal').length, 3);
+    for (const tone of TONE_IDS) {
+      assert.ok(
+        check(t, { tone }).some((x) => x.rule === 'artefacto-de-canal'),
+        `el tono ${tone} dejó pasar el artefacto de canal`,
+      );
+    }
+  });
+
+  test('el marcador de discurso legítimo no se confunde con artefacto de canal', () => {
+    // «antes de empezar» y «ahora les cuento» quedaron fuera de la lista a
+    // propósito: en un ensayo son marcadores y no restos del video.
+    const t = 'Antes de empezar conviene fijar el término. Ahora les cuento por qué importa.';
+    assert.deepEqual(
+      check(t).filter((x) => x.rule === 'artefacto-de-canal'),
+      [],
+    );
+  });
+
   test('el hallazgo trae línea, columna y la línea completa', () => {
     const f = check('Primera línea.\nSegunda con — raya.');
     assert.equal(f.length, 1);
@@ -121,7 +142,7 @@ describe('capa base', () => {
   });
 
   test('la capa base corre sin elegir tono', () => {
-    assert.equal(rulesFor().length, 22);
+    assert.equal(rulesFor().length, 23);
   });
 
   test('el español peninsular se marca sin elegir tono y en todos los tonos', () => {

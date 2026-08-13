@@ -251,9 +251,14 @@ tiranía una, egoísmo una, abandono una.
 Regla. El eje del análisis se nombra con las palabras del primer grupo. Las del
 segundo se usan para matizar, nunca para sostener la tesis.
 
-Se evita la jerga de la crítica académica cuando existe una palabra corriente
-que dice lo mismo. Si el término técnico es el correcto, se usa y se explica en
-su primera aparición.
+Se evita el amaneramiento de la crítica académica, que es otra cosa que el
+tecnicismo: la fórmula de gremio que no nombra nada y solo señala pertenencia.
+El término técnico no se toca. Si es la palabra exacta de la cosa, entra, y se
+explica en su primera aparición, según el §11.9 de la base.
+
+La diferencia se prueba con una pregunta. Si al quitar la palabra hay que
+explicar el concepto con una perífrasis larga, era un tecnicismo y se conserva.
+Si al quitarla la oración dice exactamente lo mismo, era amaneramiento.
 
 Los términos propios de la obra se explican la primera vez que aparecen, en una
 frase, sin detener el argumento. La fuente lo hace de manera desigual, y este

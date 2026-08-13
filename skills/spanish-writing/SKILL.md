@@ -571,7 +571,7 @@ término de la anterior, y eso basta.
 Qué conectores favorece cada tono lo decide la skill de tono.
 
 
-## 11. Vocabulario: palabras y expresiones prohibidas
+## 11. Vocabulario: lo que se prohíbe y lo que se conserva
 
 ### 11.1. Palabras comodín (sustituir por términos específicos)
 
@@ -627,6 +627,49 @@ en la actualidad, hoy en día, a lo largo de la historia, desde tiempos
 inmemoriales, en un mundo cada vez más, en la era digital.
 
 Empezar por lo concreto del asunto, no por una generalidad de calendario.
+
+### 11.9. El tecnicismo se conserva siempre
+
+Ninguna regla de esta base ni de ninguna skill de tono autoriza a quitar un
+término técnico por ser técnico. El tecnicismo es la palabra exacta de una cosa,
+y sustituirlo por una aproximación corriente no simplifica el texto: le quita
+contenido y traslada al lector el trabajo de adivinar de qué se hablaba.
+
+Esto vale para todo campo: «cognitivo-conductual», «pasiva refleja», «tabla de
+hash», «pulsión de muerte», «acto administrativo», «sesgo de selección»,
+«plusvalía». Si el término es el correcto, entra.
+
+Lo que sí se exige es la glosa. La primera vez que un término técnico aparece
+en un texto dirigido a lector no especialista, se explica en la misma oración o
+en la siguiente, en una frase, sin detener el argumento. Un tono puede pedir más
+glosa que esta base. Ninguno puede pedir menos término.
+
+La regla aplica también a las skills que reconstruyen a un autor. Cuando el
+corpus medido de un autor está lleno de vocabulario técnico de su campo, ese
+vocabulario es parte de lo que se toma, no de lo que se descarta.
+
+Lo que sí se quita del léxico de un modelo es otra cosa: el coloquialismo de
+relleno, el vocativo de trato, la interjección y la muletilla regional. Esas
+palabras no nombran nada. Cada skill de tono declara cuáles admite y con qué
+cuota, y esa declaración se apoya en medición, no en gusto.
+
+### 11.10. El artefacto de canal no se traslada
+
+Los corpus con los que se construyen las skills de tono son en su mayoría habla
+grabada para un canal de video o para una plataforma. Ese material trae encima
+una capa que pertenece al medio y no al autor, y esa capa nunca entra en el
+texto escrito, en ningún tono.
+
+Queda fuera, sin excepción: el saludo de apertura y la despedida; el vocativo de
+comunidad; la petición de suscripción, de «me gusta», de campanita o de
+comentario; la lectura de patrocinio y toda mención de un producto pagado; el
+anuncio del video siguiente o del canal secundario; la deixis de pantalla («como
+ven acá», «este gráfico», «lo dejo en la descripción»); el aviso sobre lo que el
+texto va a revelar de una obra; y la promesa de revelación diferida («quédense
+hasta el final»).
+
+La prueba es simple. Si la frase deja de tener sentido cuando el texto se lee en
+una página, pertenecía al canal y no al argumento.
 
 
 ## 12. Formato de entrega
@@ -723,6 +766,9 @@ añade las suyas.
 22. ¿El tratamiento al lector es «usted» o «ustedes», sin tuteo ni voseo?
 23. ¿El punto y coma va seguido de minúscula y pegado a la palabra anterior?
 24. ¿El punto y coma aparece en menos de una de cada cinco oraciones?
+25. ¿Se conservó todo término técnico, glosado en su primera aparición?
+26. ¿El texto quedó libre de artefactos de canal: saludo, despedida, petición
+    de apoyo, patrocinio, deixis de pantalla y promesa de revelación?
 
 
 ## 15. Fuentes normativas de referencia

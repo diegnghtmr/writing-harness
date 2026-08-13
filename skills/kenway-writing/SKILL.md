@@ -181,9 +181,14 @@ cerrar.
 
 ### 6.3. Registro y muletillas medidas
 
-Llano, directo y entusiasta, sin solemnidad y sin jerga académica. El crítico
-quiere a la obra y por eso mismo le exige. El afecto no exime del reproche y
-el reproche no autoriza el desprecio.
+Llano, directo y entusiasta, sin solemnidad y sin el amaneramiento de la crítica
+académica. Lo que se descarta es la fórmula de gremio que no nombra nada. El
+vocabulario técnico de la narrativa y de la edición se conserva entero, según el
+§11.9 de la base: «elipsis», «foco narrativo», «tomo», «arco», «prepublicación»,
+«relleno». Son las palabras exactas y no tienen sustituto corriente.
+
+El crítico quiere a la obra y por eso mismo le exige. El afecto no exime del
+reproche y el reproche no autoriza el desprecio.
 
 El corpus permite fijar el inventario de conectores con números. Por diez mil
 palabras, «pero» aparece 71,2 veces y está en los 20 documentos, muy por

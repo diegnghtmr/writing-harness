@@ -195,4 +195,5 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'spanish-writing', origen: 'checklist', item: "¿No hay gerundios de posterioridad ni especificativos incorrectos?", estado: 'criterio' },
   { skill: 'spanish-writing', origen: 'checklist', item: "¿Se conserva toda la información original (al reescribir)?", estado: 'criterio' },
   { skill: 'spanish-writing', origen: 'checklist', item: "¿No se añadió información nueva (al reescribir)?", estado: 'criterio' },
+  { skill: 'spanish-writing', origen: 'checklist', item: "¿Se conservó todo término técnico, glosado en su primera aparición?", estado: 'criterio' },
 ];

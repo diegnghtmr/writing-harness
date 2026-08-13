@@ -691,6 +691,66 @@ export const BASE_RULES: Rule[] = [
     ],
   },
   {
+    id: 'artefacto-de-canal',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // Casi todos los corpus de tono son habla grabada para un canal, y traen
+    // encima una capa que pertenece al medio y no al autor. Doce skills la
+    // descartaban cada una por su cuenta, con su propia lista. Acá vive una
+    // vez, en la base, porque la prueba del §11.10 no depende del tono: si la
+    // frase deja de tener sentido leída en una página, era del canal.
+    //
+    // La deixis de pantalla («acá vemos», «este gráfico») no entra: en un
+    // texto con figuras numeradas es legítima, y distinguir las dos exige leer
+    // el documento entero.
+    pattern: frases([
+      'suscríbete',
+      'suscríbanse',
+      'suscribirse al canal',
+      'dale like',
+      'denle like',
+      'un me gusta',
+      'la campanita',
+      'activen la campanita',
+      'en los comentarios',
+      'déjenlo en los comentarios',
+      'coméntenme',
+      'nos vemos en el próximo',
+      'hasta el próximo video',
+      'bienvenidos al canal',
+      'bienvenidos a un nuevo',
+      'en el video de hoy',
+      'en este video',
+      'en el video de la semana pasada',
+      'el video de hoy',
+      'link en la descripción',
+      'enlace en la descripción',
+      'lo dejo en la descripción',
+      'lo dejo abajo',
+      'patrocinado por',
+      'gracias a nuestro patrocinador',
+      'el patrocinador de hoy',
+      'código de descuento',
+      'quédense hasta el final',
+      'quédate hasta el final',
+      'aviso de spoiler',
+      'alerta de spoiler',
+      'sin spoilers',
+      // Quedaron fuera «antes de empezar», «ahora les cuento» y «ya les voy a
+      // contar». En un ensayo son marcadores de discurso legítimos, y una
+      // regla que marca lo legítimo se deja de leer.
+    ]),
+    message: 'Artefacto de canal: pertenece al video, no al texto.',
+    fix: 'Suprimirlo. Si cargaba una idea del argumento, decirla sin la referencia al canal. La prueba: si la frase pierde sentido leída en una página, era del canal.',
+    source: 'spanish-writing §11.10',
+    checklist: [
+      {
+        skill: 'spanish-writing',
+        item: '¿El texto quedó libre de artefactos de canal: saludo, despedida, petición de apoyo, patrocinio, deixis de pantalla y promesa de revelación?',
+      },
+    ],
+  },
+  {
     id: 'espanol-peninsular',
     kind: 'forbidden-pattern',
     severity: 'error',
