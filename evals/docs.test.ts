@@ -85,8 +85,11 @@ describe('el README dice lo que el código mide', () => {
     const tipos = new Set(reglas.map((r) => r.kind)).size;
     const pares: [number, RegExp, string][] = [
       [skillNames().length, /(\p{L}+) skills en tres capas/u, 'skills'],
-      [TONE_IDS.length, /uno de (\p{L}+)/u, 'tonos'],
-      [TONE_IDS.length - 1, /(\p{L}+) tonos que reconstruyen/u, 'tonos de autor'],
+      // Las dos salen de la misma oración de §Enrutamiento, que las enuncia
+      // juntas: «Trece de los catorce reconstruyen la forma de exponer de un
+      // autor concreto».
+      [TONE_IDS.length, /de los (\p{L}+) reconstruyen/u, 'tonos'],
+      [TONE_IDS.length - 1, /(\p{L}+) de los \p{L}+ reconstruyen/u, 'tonos de autor'],
       [tipos, /se reparten en (\p{L}+) tipos/u, 'tipos de regla'],
     ];
     for (const [n, patron, que] of pares) {

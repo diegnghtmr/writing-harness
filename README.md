@@ -16,23 +16,48 @@ archivos, y basta con olvidar uno para que dos skills digan cosas distintas sobr
 la misma norma. Pasó de verdad con la raya, que estaba prohibida en una skill,
 permitida en otra y marcada como señal de IA en una tercera.
 
-Ahora cada regla vive en un solo lugar.
+Ahora cada regla vive en un solo lugar. Este es el camino completo, desde lo que
+pide el usuario hasta lo que se entrega:
 
 ```mermaid
 flowchart TD
-    T["Texto por escribir"] --> B
+    U(["Petición del usuario"]) --> Q0{"¿Sobre un texto<br/>que ya existe?"}
 
-    subgraph capas [" "]
-        direction TB
-        B["Base normativa<br/>spanish-writing<br/>qué es correcto en español"]
-        B --> R{"Enrutamiento<br/>por género y voz"}
-        R --> N["Un tono<br/>uno de catorce<br/>cómo suena"]
-    end
+    Q0 -->|"«humanizá esto»"| H["humanizar-espanol<br/>la pasada, 37 patrones de IA"]
+    Q0 -->|"escribir algo nuevo"| B["spanish-writing<br/>la base, siempre"]
 
-    N --> E["Entregable"]
-    E -.->|"solo si se pide"| P["Pasada<br/>humanizar-espanol<br/>señales de IA"]
-    P -.-> E
+    B --> R{"Enrutamiento<br/>por género y voz"}
+    R -->|"académico, técnico, formal"| T1["camus-writing<br/>el que corre por defecto"]
+    R -->|"divulgación"| T2["fonda · dotcsv · bettatech<br/>freddy · schiavenato"]
+    R -->|"análisis de una obra"| T3["medicendai · sekkyoku<br/>kenway · atenas"]
+    R -->|"sostener una tesis<br/>contra otra"| T4["catedra · solitario<br/>fonseca · han"]
+
+    T1 --> W["Redactar"]
+    T2 --> W
+    T3 --> W
+    T4 --> W
+    H --> W
+
+    W --> V["node src/cli.ts archivo --tono ID"]
+    V --> C1["capa base<br/>siempre"]
+    V --> C2["capa de tono<br/>con --tono"]
+    V --> C3["pasada<br/>solo con --pasada"]
+
+    C1 --> Q1{"¿Hallazgos?"}
+    C2 --> Q1
+    C3 --> Q1
+
+    Q1 -->|"ninguno"| E(["Entregable"])
+    Q1 -->|"error"| X["No se entrega"]
+    Q1 -->|"advertencia"| Q2{"¿El contexto<br/>lo justifica?"}
+    Q2 -->|"sí, y se dice por qué"| E
+    Q2 -->|"no"| X
+    X --> W
 ```
+
+Los dos rombos del final son la diferencia entre un linter y un gate. **Un error
+no se entrega.** Una advertencia sí, si quien escribe puede decir por qué el
+contexto la justifica; señalan lo que ninguna regla decide sola.
 
 | Capa | Qué decide | Cuántas |
 |---|---|---|
