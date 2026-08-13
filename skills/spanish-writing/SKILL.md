@@ -66,9 +66,35 @@ forma y la manera de presentar la información.
 | `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, segunda del plural, corrección de la lectura corriente en la apertura |
 | `solitario-writing` | Texto que sostiene una tesis contra quien la niega: ensayo polémico, alegato, réplica, crítica de una disciplina o de una práctica. | Tesis en la primera oración, adversario con turno de palabra, concesión antes de la refutación |
 
-Si el usuario no indica el tono y el texto es académico, técnico o formal, se
-usa `camus-writing`. Si el género no encaja en ninguna fila, se aplica esta
-base sola.
+Si el usuario no indica el tono, se recorre la lista siguiente en orden y se
+toma la primera que corresponda. Va de lo más estrecho a lo más amplio, porque
+un análisis de un personaje es algo más concreto que una divulgación y, al
+revés, nunca se elegiría.
+
+1. Si el asunto es un personaje de una obra de ficción, `atenas-writing`.
+2. Si es una obra serializada analizada unidad por unidad, `sekkyoku-writing`.
+3. Si es una obra de ficción recorrida entera en su orden, `medicendai-writing`.
+4. Si hay un veredicto sobre si vale la pena, `kenway-writing`.
+5. Si la tesis se sostiene contra alguien que la niega y ese alguien tiene
+   nombre, `solitario-writing`.
+6. Si la tesis se sostiene contra otra doctrina, `catedra-writing`.
+7. Si es un diagnóstico de la época por oposición de conceptos, `han-writing`.
+8. Si es derecho o política dirigidos a una comunidad, `schiavenato-writing`.
+9. Si parte de un hecho reciente de actualidad, geopolítica o economía,
+   `fonseca-writing`.
+10. Si son fundamentos de computación antes que la receta, `bettatech-writing`.
+11. Si explica un mecanismo para mover a alguien a actuar, `freddy-writing`.
+12. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
+13. Si es divulgación filosófica, humanística o cultural, `fonda-writing`.
+14. En cualquier otro caso, `camus-writing`.
+
+**La lista siempre termina en un tono.** Antes, un género que no encajaba en
+ninguna fila dejaba correr esta base sola, y eso no es una decisión sino una
+ausencia: un texto sin tono no es un texto neutro, es un texto cuya forma no
+decidió nadie.
+
+Elegido el tono, se dice cuál y por qué en una línea. Una decisión que no se
+puede rebatir no es una decisión.
 
 Los trece tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
 un autor concreto, medida sobre un corpus de transcripciones, y cada uno declara
