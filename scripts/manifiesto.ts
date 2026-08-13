@@ -20,6 +20,13 @@
 // No es un derivado que se recalcule en cada commit. El gate no puede
 // regenerarlo, porque en la máquina donde corre el corpus no está. Es un
 // registro: se escribe una vez y se conserva.
+//
+// El trabajo vive dentro de `main` y no suelto en el módulo, y no es cosmético.
+// Con el cuerpo al aire hacía falta `process.exit()` para abortar cuando falta
+// el corpus, y llamarlo durante la evaluación de un módulo con `await` de primer
+// nivel reventaba en Windows con una aserción de libuv y salía con 127 en vez de
+// con 1. Un script cuyo fallo previsto parece un cierre inesperado enseña a no
+// mirarlo.
 
 import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
@@ -37,13 +44,8 @@ function argumento(nombre: string): string | undefined {
   return i === -1 ? undefined : process.argv[i + 1];
 }
 
-const raiz = resolve(argumento('--desde') ?? join(REPO_ROOT, '..', 'datos'));
-
-if (!existsSync(raiz)) {
-  console.error(`no hay corpus en ${raiz}`);
-  console.error('el manifiesto solo se puede escribir con el corpus delante.');
-  console.error('si ya se borró, el archivo que hay en src/corpus.ts es lo que queda.');
-  process.exit(1);
+function hoy(): string {
+  return new Date().toISOString().slice(0, 10);
 }
 
 /** Recorre en profundidad. Los corpus son planos hoy; no tienen por qué serlo. */
@@ -63,36 +65,6 @@ function archivosDe(dir: string): string[] {
 function palabrasDe(ruta: string, crudo: Buffer): number | undefined {
   if (!ruta.endsWith('.md')) return undefined;
   return countWords(crudo.toString('utf8'));
-}
-
-const skills = new Set(skillNames());
-const corpus: Corpus[] = [];
-const huerfanos: string[] = [];
-
-for (const entrada of readdirSync(raiz, { withFileTypes: true })) {
-  if (!entrada.isDirectory()) continue;
-  if (!skills.has(entrada.name)) huerfanos.push(entrada.name);
-
-  const base = join(raiz, entrada.name);
-  const archivos = archivosDe(base).map((abs): Archivo => {
-    const crudo = readFileSync(abs);
-    const ruta = relative(base, abs).replace(/\\/gu, '/');
-    const palabras = palabrasDe(ruta, crudo);
-    return {
-      ruta,
-      bytes: statSync(abs).size,
-      sha256: createHash('sha256').update(crudo).digest('hex'),
-      ...(palabras === undefined ? {} : { palabras }),
-    };
-  });
-
-  corpus.push({ skill: entrada.name, medido: hoy(), archivos });
-}
-
-corpus.sort((a, b) => a.skill.localeCompare(b.skill));
-
-function hoy(): string {
-  return new Date().toISOString().slice(0, 10);
 }
 
 /**
@@ -120,8 +92,6 @@ async function conservarFechas(nuevos: Corpus[]): Promise<void> {
     if (igual) c.medido = antes.medido;
   }
 }
-
-await conservarFechas(corpus);
 
 const CABECERA = `// GENERADO por scripts/manifiesto.ts. La huella del corpus con el que se
 // construyeron las skills.
@@ -166,47 +136,88 @@ export type Corpus = {
 export const CORPUS: readonly Corpus[] = [
 `;
 
-const cuerpo = corpus
-  .map((c) => {
-    const archivos = c.archivos
-      .map((a) => {
-        const palabras = a.palabras === undefined ? '' : `, palabras: ${a.palabras}`;
-        return `      { ruta: ${JSON.stringify(a.ruta)}, bytes: ${a.bytes}${palabras}, sha256: '${a.sha256}' },`;
-      })
-      .join('\n');
-    return `  {
+async function main(): Promise<number> {
+  const raiz = resolve(argumento('--desde') ?? join(REPO_ROOT, '..', 'datos'));
+
+  if (!existsSync(raiz)) {
+    console.error(`no hay corpus en ${raiz}`);
+    console.error('el manifiesto solo se puede escribir con el corpus delante.');
+    console.error('si ya se borró, el archivo que hay en src/corpus.ts es lo que queda.');
+    return 1;
+  }
+
+  const skills = new Set(skillNames());
+  const corpus: Corpus[] = [];
+  const huerfanos: string[] = [];
+
+  for (const entrada of readdirSync(raiz, { withFileTypes: true })) {
+    if (!entrada.isDirectory()) continue;
+    if (!skills.has(entrada.name)) huerfanos.push(entrada.name);
+
+    const base = join(raiz, entrada.name);
+    const archivos = archivosDe(base).map((abs): Archivo => {
+      const crudo = readFileSync(abs);
+      const ruta = relative(base, abs).replace(/\\/gu, '/');
+      const palabras = palabrasDe(ruta, crudo);
+      return {
+        ruta,
+        bytes: statSync(abs).size,
+        sha256: createHash('sha256').update(crudo).digest('hex'),
+        ...(palabras === undefined ? {} : { palabras }),
+      };
+    });
+
+    corpus.push({ skill: entrada.name, medido: hoy(), archivos });
+  }
+
+  corpus.sort((a, b) => a.skill.localeCompare(b.skill));
+  await conservarFechas(corpus);
+
+  const cuerpo = corpus
+    .map((c) => {
+      const archivos = c.archivos
+        .map((a) => {
+          const palabras = a.palabras === undefined ? '' : `, palabras: ${a.palabras}`;
+          return `      { ruta: ${JSON.stringify(a.ruta)}, bytes: ${a.bytes}${palabras}, sha256: '${a.sha256}' },`;
+        })
+        .join('\n');
+      return `  {
     skill: '${c.skill}',
     medido: '${c.medido}',
     archivos: [
 ${archivos}
     ],
   },`;
-  })
-  .join('\n');
+    })
+    .join('\n');
 
-writeFileSync(DESTINO, `${CABECERA}${cuerpo}\n];\n`, 'utf8');
+  writeFileSync(DESTINO, `${CABECERA}${cuerpo}\n];\n`, 'utf8');
 
-const archivos = corpus.reduce((n, c) => n + c.archivos.length, 0);
-const bytes = corpus.reduce((n, c) => n + c.archivos.reduce((m, a) => m + a.bytes, 0), 0);
-const palabras = corpus.reduce(
-  (n, c) => n + c.archivos.reduce((m, a) => m + (a.palabras ?? 0), 0),
-  0,
-);
-
-console.log(`corpus leído en ${raiz}`);
-console.log(`${corpus.length} corpus, ${archivos} archivos, ${bytes} bytes, ${palabras} palabras`);
-for (const c of corpus) {
-  const p = c.archivos.reduce((m, a) => m + (a.palabras ?? 0), 0);
-  console.log(
-    `  ${c.skill.padEnd(22)} ${String(c.archivos.length).padStart(3)} archivos  ${String(p).padStart(7)} palabras  ${c.medido}`,
+  const archivos = corpus.reduce((n, c) => n + c.archivos.length, 0);
+  const bytes = corpus.reduce((n, c) => n + c.archivos.reduce((m, a) => m + a.bytes, 0), 0);
+  const palabras = corpus.reduce(
+    (n, c) => n + c.archivos.reduce((m, a) => m + (a.palabras ?? 0), 0),
+    0,
   );
-}
-if (huerfanos.length) {
-  // No es un error: puede haber corpus de una skill que todavía no existe. Pero
-  // tiene que verse, porque también puede ser una skill que se renombró y dejó
-  // su manifiesto apuntando a un nombre muerto.
+
+  console.log(`corpus leído en ${raiz}`);
+  console.log(`${corpus.length} corpus, ${archivos} archivos, ${bytes} bytes, ${palabras} palabras`);
+  for (const c of corpus) {
+    const p = c.archivos.reduce((m, a) => m + (a.palabras ?? 0), 0);
+    console.log(
+      `  ${c.skill.padEnd(22)} ${String(c.archivos.length).padStart(3)} archivos  ${String(p).padStart(7)} palabras  ${c.medido}`,
+    );
+  }
+  if (huerfanos.length) {
+    // No es un error: puede haber corpus de una skill que todavía no existe.
+    // Pero tiene que verse, porque también puede ser una skill que se renombró y
+    // dejó su manifiesto apuntando a un nombre muerto.
+    console.log('');
+    console.log(`sin skill que le corresponda: ${huerfanos.join(', ')}`);
+  }
   console.log('');
-  console.log(`sin skill que le corresponda: ${huerfanos.join(', ')}`);
+  console.log(`escrito: ${relative(REPO_ROOT, DESTINO).replace(/\\/gu, '/')}`);
+  return 0;
 }
-console.log('');
-console.log(`escrito: ${relative(REPO_ROOT, DESTINO).replace(/\\/gu, '/')}`);
+
+process.exitCode = await main();
