@@ -1,83 +1,70 @@
 # writing-harness
 
-Skills de redacción en español, organizadas en dos capas: una base normativa
-y varias skills de tono que se enchufan encima.
+Skills de redacción en español y el verificador que mide si un texto las cumple.
 
-El nombre del repositorio es provisional.
+Dieciséis skills en tres capas y 61 reglas mecanizadas, con un gate que ata cada
+regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
+entero sin instalar nada, sin build y sin conexión.
 
 ## La idea
 
 Las reglas del español no dependen del tono. La forma sí.
 
-Antes, cada skill de tono repetía a mano las reglas de la base en su sección 2.
-Eso es herencia por copia y pega: cuando una regla cambia hay que acordarse de
-tocar cuatro archivos, y basta con olvidar uno para que dos skills digan cosas
-distintas sobre la misma norma. Pasó de verdad con la raya, que estaba prohibida
-en una skill, permitida en otra y marcada como señal de IA en una tercera.
+Antes, cada skill de tono repetía a mano las reglas de la base. Eso es herencia
+por copia y pega: cuando una regla cambia hay que acordarse de tocar varios
+archivos, y basta con olvidar uno para que dos skills digan cosas distintas sobre
+la misma norma. Pasó de verdad con la raya, que estaba prohibida en una skill,
+permitida en otra y marcada como señal de IA en una tercera.
 
-Ahora hay un solo lugar donde vive cada regla.
+Ahora cada regla vive en un solo lugar.
 
-| Capa | Qué decide | Archivo |
+```mermaid
+flowchart TD
+    T["Texto por escribir"] --> B
+
+    subgraph capas [" "]
+        direction TB
+        B["<b>Base normativa</b><br/>spanish-writing<br/><i>qué es correcto en español</i>"]
+        B --> R{"Enrutamiento<br/>por género y voz"}
+        R --> N["<b>Un tono</b><br/>uno de catorce<br/><i>cómo suena</i>"]
+    end
+
+    N --> E["Entregable"]
+    E -.->|"solo si se pide"| P["<b>Pasada</b><br/>humanizar-espanol<br/><i>señales de IA</i>"]
+    P -.-> E
+```
+
+| Capa | Qué decide | Cuántas |
 |---|---|---|
-| **Base normativa** | Qué es correcto en español: gramática RAE, anglicismos, puntuación, mayúsculas, números, léxico prohibido, citas, formato de entrega | `skills/spanish-writing` |
-| **Tono** | Cómo suena: longitud de oración y párrafo, persona gramatical, conectores favorecidos, arquitectura del argumento, preguntas retóricas | `skills/camus-writing`, `skills/fonda-writing`, `skills/catedra-writing` |
-| **Pasada** | Se ejecuta sobre un texto ya redactado, solo si el usuario la pide | `skills/humanizar-espanol` |
+| **Base normativa** | Qué es correcto en español: gramática, anglicismos, puntuación, mayúsculas, números, léxico prohibido, citas, tratamiento, variedad, formato de entrega | 1 |
+| **Tono** | Cómo suena: longitud de oración y párrafo, persona gramatical, conectores favorecidos, arquitectura del argumento | 14 |
+| **Pasada** | Corre sobre un texto ya redactado, y solo si el usuario la pide con esas palabras | 1 |
 
-## Regla de precedencia
+### Regla de precedencia
 
-Una skill de tono puede ampliar o restringir lo que la base deja abierto.
-Nunca puede contradecirla.
+Un tono puede **ampliar o restringir** lo que la base deja abierto. Nunca puede
+contradecirla.
 
-Si una skill de tono parece autorizar algo que la base prohíbe, gana la
-prohibición, y esa skill de tono tiene un defecto que hay que corregir.
+Si un tono parece autorizar algo que la base prohíbe, gana la prohibición, y ese
+tono tiene un defecto que hay que corregir.
 
-## Enrutamiento
+### Enrutamiento
 
-`spanish-writing` es el orquestador. Se aplica siempre, y elige exactamente
-una skill de tono.
+`spanish-writing` se aplica siempre y elige exactamente un tono. La tabla
+completa está en su §3; `camus-writing` es el que corre por defecto.
 
-| Tono | Género | Voz |
-|---|---|---|
-| `camus-writing` | Académico, técnico, formal. Es el tono por defecto. | Impersonal, económica, oraciones breves |
-| `fonda-writing` | Divulgación filosófica, humanística, cultural | Conversacional, tuteo al lector |
-| `catedra-writing` | Lección magistral, curso, análisis sistemático | Analítica, «nosotros» inclusivo, sin tuteo |
-
-`humanizar-espanol` no es un tono y no compite con esta tabla. Corre después,
-y solo cuando se pide.
-
-## Lo que cambió respecto de las skills originales
-
-El commit `fee3700` guarda las cuatro skills tal como llegaron, byte a byte.
-Todo lo posterior es diffable contra ese punto.
-
-1. La filosofía Camus salió de `spanish-writing` y se convirtió en
-   `camus-writing`, una skill de tono más, hermana de las otras dos. Con ella
-   se fueron las longitudes de oración y párrafo, la persona gramatical, la
-   variación sintáctica y los dos ítems de la lista de verificación que medían
-   longitudes.
-2. `fonda-writing`, `catedra-writing` y `humanizar-espanol` dejaron de repetir
-   las reglas de la base. Cada una conserva únicamente lo que de verdad le es
-   propio: `fonda` mantiene su ampliación sobre el calco deliberado del inglés,
-   `catedra` su tolerancia a la oración larga y la repetición pedagógica.
-3. La raya y el guion largo quedaron prohibidos en todas las skills, sin
-   excepción. La excepción conversacional de `fonda-writing` desapareció, y en
-   su lugar quedó el mismo ejemplo resuelto con dos puntos.
-4. `spanish-writing` recibió tres reglas que antes solo vivían en el catálogo
-   de `humanizar-espanol` y que son normativas, no estilísticas: el andamiaje
-   vacío, las aperturas de molde y la mayúscula de título calcada del inglés.
+Trece de los catorce reconstruyen la forma de exponer de un autor concreto, y no
+se escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su
+habla. Eso es lo que separa a este repositorio de una colección de instrucciones
+de estilo.
 
 ## El verificador
 
-Las skills son prosa que lee un modelo. El verificador es lo que mide si un
-texto entregado las cumple. No se importan entre sí, y **ninguna skill nombra
-al verificador**: una skill tiene que servir donde este repositorio no existe,
-y el verificador tiene que servir sobre un texto escrito sin ninguna skill
-cargada. Lo único que comparten es el conjunto de reglas, y vive una sola vez,
-en `src/rules.ts`.
-
-Cuándo correrlo está en [AGENTS.md](AGENTS.md), que es donde va la operación
-del producto. En las skills no. `CLAUDE.md` es un puntero de tres líneas a ese
-mismo archivo, porque Claude Code lo busca por nombre.
+Las skills son prosa que lee un modelo. El verificador mide si un texto entregado
+las cumple. **No se nombran entre sí**: una skill tiene que servir en una máquina
+donde este verificador no existe, y el verificador tiene que servir sobre un texto
+escrito sin ninguna skill cargada. Lo único que comparten es el conjunto de
+reglas, y vive una sola vez, en `src/rules.ts`.
 
 ```bash
 node src/cli.ts documento.txt --tono camus
@@ -87,112 +74,215 @@ node src/cli.ts documento.txt --tono camus
 node --test "evals/*.test.ts"
 ```
 
-Cero dependencias. Node 22.6 o superior corre TypeScript y tests sin instalar
-nada, sin build y sin conexión.
+Cuándo correrlo está en [AGENTS.md](AGENTS.md), que es donde va la operación del
+producto. En las skills no.
 
 | Archivo | Qué hace |
 |---|---|
-| `src/rules.ts` | Las reglas como objetos planos y tipados. La misma decisión que `ChartTheme` en open-slide |
+| `src/rules.ts` | Las 61 reglas como objetos planos y tipados, sin comportamiento |
 | `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
 | `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
 | `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |
-| `evals/cobertura.ts` | El registro de qué falta. Generado por medición, no escrito a mano |
+| `src/corpus.ts` | La huella del corpus con el que se construyeron las skills |
+| `src/mediciones.ts` | Qué contenía ese corpus, con las cuatro casillas del contrato |
+| `evals/cobertura.ts` | El registro de qué declara la prosa y todavía no tiene regla |
 
-### El gate
+Las reglas se reparten en once tipos. `forbidden-pattern` cubre 43; las otras
+diez existen porque hay cosas que una expresión regular no ve: contar palabras
+por párrafo, detectar rachas de oraciones breves, comparar aperturas
+consecutivas, medir una proporción sobre el total, recorrer el texto con estado
+para distinguir niveles de comilla.
 
-Cada regla declara qué hace cumplir y dónde lo declara la prosa. El test de
-correspondencia falla en las dos direcciones: si una regla apunta a algo que la
-prosa ya no dice, y si la prosa declara algo que ninguna regla cubre ni el
-registro reconoce.
+`must-contain` es el reverso de todas las demás. Un tono no se define solo por lo
+que prohíbe: `fonda-writing` exige interpelación, preguntas retóricas y voz
+propia. Una regla que solo sabe prohibir no puede comprobar eso.
 
-Existe porque el defecto ya ocurrió tres veces. La raya estaba prohibida en una
-skill, permitida en otra y marcada como señal de IA en una tercera. La
-prohibición del punto y coma se perdió entera al reescribir un ítem de
-checklist. Y `humanizar-espanol` estuvo fuera del gate por completo, porque
+## El gate
+
+Cada regla declara qué ítem de la prosa hace cumplir. El test de correspondencia
+compara las dos representaciones y **falla en las dos direcciones**.
+
+```mermaid
+flowchart LR
+    subgraph P["Prosa"]
+        direction TB
+        C1["<i>N</i>. ¿…?<br/>listas del SKILL.md"]
+        C2["### <i>N</i>. Título<br/>catálogos de references/"]
+    end
+
+    subgraph D["Dato"]
+        direction TB
+        RR["src/rules.ts<br/><i>cada regla reclama un ítem</i>"]
+        CO["evals/cobertura.ts<br/><i>lo que ninguna regla cubre</i>"]
+    end
+
+    P <-->|"correspondencia.test.ts"| D
+
+    D -.->|"una regla apunta a<br/>un ítem que ya no existe"| F1["falla"]
+    P -.->|"la prosa declara algo<br/>que nadie cubre ni registra"| F1
+```
+
+Existe porque el defecto ya ocurrió tres veces. La raya vivía en tres versiones
+distintas. La prohibición del punto y coma se perdió entera al reescribir un ítem
+de checklist. Y `humanizar-espanol` estuvo fuera del gate por completo, porque
 declara sus reglas como patrones numerados en `references/` y el extractor solo
-miraba las listas del `SKILL.md`. Las tres veces el error era invisible porque
-nadie comparaba las dos representaciones.
+miraba las listas del `SKILL.md`: era la skill con más reglas y aportaba cero al
+recuento. Las tres veces el error era invisible porque nadie comparaba las dos
+representaciones.
 
-Esa prohibición del punto y coma se retiró después por decisión, y el gate
-volvió a servir: obligó a tocar las cinco skills que la repetían por su cuenta.
-Retirar una regla a propósito y perderla sin darse cuenta se parecen en el
-resultado y no se parecen en nada más.
-
-Por eso una skill declara de dos maneras y las dos cuentan:
-
-| Origen | Forma | Dónde |
-|---|---|---|
-| `checklist` | `N. ¿…?` | Listas de verificación del `SKILL.md` |
-| `patron` | `### N. Título` | Catálogos numerados en `references/` |
-
-Una misma regla puede reclamar en las dos a la vez. `no-raya` reclama el ítem 9
-de `spanish-writing` y el patrón 19 de `humanizar-espanol`, porque son la misma
-prohibición dicha desde dos lados. Reclamarlas juntas es lo que prueba que hay
-una sola casa.
+Esa prohibición del punto y coma se retiró después por decisión, y el gate volvió
+a servir: obligó a tocar las cinco skills que la repetían por su cuenta. **Retirar
+una regla a propósito y perderla sin darse cuenta se parecen en el resultado y no
+se parecen en nada más.**
 
 ### Cobertura declarada
 
 | Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | **62** | Tiene regla y test |
+| cubierto | **83** | Tiene regla y test |
 | mecanizable | **0** | Se puede medir, falta construirlo |
-| criterio | 31 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
-| delegado | 2 | El ítem solo remite a la lista de otra skill |
+| criterio | 199 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 
-El techo declarado eran **62 de 95**, y está alcanzado: no queda nada
-mecanizable sin regla. Los 31 de criterio
-incluyen cosas como «¿se conserva toda la información original?», «¿las
-analogías están desarrolladas?» o la colocación léxica más previsible, que
-ningún linter decide. Queda escrito para no confundir después una cobertura
-parcial con una completa.
+De las 282 declaraciones, 199 piden juicio: si se conservó toda la información
+del original, si una analogía está desarrollada o solo mencionada, si una
+expresión es la colocación más previsible del tema. El número creció con los
+trece tonos que reconstruyen a un autor, porque describir cómo argumenta una
+persona no lo mide ninguna clase de regla que exista hoy.
 
-Por skill: `humanizar-espanol` 31 de 37, `spanish-writing` 16 de 20,
-`fonda-writing` 6 de 15, `catedra-writing` 5 de 16, `camus-writing` 4 de 7.
+**El cero de `mecanizable` no es una ausencia verificada.** El generador nunca
+asciende un ítem a esa clase: hereda la que tenía o pone `criterio`. Dice que
+nadie ha clasificado nada como pendiente, no que no quede nada por hacer. Dos
+jueces lo probaron señalando tres ítems que estaban en `criterio` y sí se podían
+medir. Los tres tienen regla desde entonces.
 
-Son 53 reglas repartidas en diez tipos. Seis van más allá de la regex:
+`evals/cobertura.ts` no se edita a mano. Se regenera por medición:
 
-| Tipo | Qué necesita |
-|---|---|
-| `paragraph-length` | Contar palabras por párrafo |
-| `short-sentence-run` | Detectar rachas dentro de un párrafo |
-| `sentence-start-run` | Comparar oraciones consecutivas |
-| `paragraph-opening` | Mirar solo la primera oración de cada párrafo |
-| `pattern-density` | Contar términos distintos por párrafo |
-| `pattern-ratio` | Medir una proporción sobre el total de oraciones |
-| `must-contain` | Comprobar una ausencia, no una presencia |
-| `sentence-length-spread` | Exigir contraste entre breves y largas |
-| `quote-level` | Recorrer el texto con estado, para distinguir niveles de comilla |
+```bash
+node --experimental-strip-types evals/gen.ts
+```
 
-`must-contain` es el reverso de todas las demás. `fonda-writing` no se define
-solo por lo que prohíbe: exige tuteo, preguntas retóricas y voz propia. Una
-regla que solo sabe prohibir no puede comprobar eso.
+## El corpus que ya no está
 
-### Tres capas, igual que las skills
+Las skills enuncian centenares de cifras medidas sobre un corpus que nunca vivió
+en este repositorio y nunca va a vivir. Son transcripciones ajenas y un libro;
+se juntaron para construir las skills y se borran.
 
-| Capa | Cuándo corre | Qué mide |
-|---|---|---|
-| base | siempre | La normativa: raya, tratamiento, variedad, léxico prohibido, emojis |
-| tono | con `--tono` | Longitudes, ritmo, persona |
-| pasada | con `--pasada` | El catálogo de señales de IA de `humanizar-espanol` |
+```mermaid
+flowchart LR
+    C[("corpus<br/><i>fuera del repositorio</i><br/>13 corpus · 305 archivos")]
 
-La pasada no corre sola, igual que la skill: `humanizar-espanol` se activa solo
-si se pide con esas palabras, y el verificador hace lo mismo.
+    C -->|"scripts/manifiesto.ts"| M["<b>src/corpus.ts</b><br/>ruta · bytes · palabras · sha256"]
+    C -->|"scripts/medir.ts"| ME["<b>src/mediciones.ts</b><br/>63 mediciones · 280 archivos<br/>1.260 expresiones contadas"]
 
-Hay un tipo de regla que existe por fidelidad al texto. El catálogo dice del
-vocabulario de IA que «no están prohibidas de forma absoluta, pero su
-acumulación es una firma». Modelarlo como prohibición plana habría contradicho
-la prosa que dice hacer cumplir, así que `pattern-density` cuenta términos
-distintos por párrafo y marca al superar el umbral.
+    M -->|"comprueba el sha256<br/>antes de contar"| ME
 
-## Procedencia de las skills
+    M --> G["<b>gate de huella</b><br/>cada archivo contra<br/>su propio sha256"]
+    ME --> G
 
-Las cuatro skills originales llegaron desde el plugin de skills instalado. Los
-tres archivos de `humanizar-espanol` venían truncados a mitad de palabra y sin
-salto de línea final, así que se recuperaron desde la bóveda de Obsidian.
+    C -.->|"se borra"| X["∅"]
+    G -->|"sobrevive"| S["las cifras siguen<br/>siendo rastreables"]
+```
 
-Esa bóveda es la misma fuente sin cortar: sus copias de `spanish-writing`,
-`fonda-writing` y `catedra-writing` tienen hash idéntico al del plugin, y solo
-los tres archivos de `humanizar-espanol` difieren.
+Una skill dice «medido sobre 20 transcripciones» y nunca dice cuáles.
+`src/corpus.ts` tiene la lista, con el contenido de cada archivo fijado por su
+sha256. `src/mediciones.ts` tiene lo que contenían, con las cuatro casillas que
+hacen comprobable una cifra.
+
+**El texto que cuenta no es el archivo entero.** Una transcripción trae cabecera
+de metadatos y una marca de tiempo por línea; contarlo entero infla el recuento
+alrededor de un 15 %, y hace parecer que las skills se equivocaron. Contando el
+cuerpo, dos corpus dan exacto, ocho caen dentro del 0,5 % y los minutos de habla
+coinciden en los cuatro que los declaran.
+
+Esos ocho no se alinearon a la medición, y hay una razón medida: tres de sus
+totales se descomponen exactamente en otras cifras de la misma prosa, así que
+cambiarlos habría roto una aritmética que hoy está bien. Son dos sistemas
+coherentes que no coinciden entre sí. Se conservan los dos y se congela la
+diferencia.
+
+**El gate de estos dos archivos es distinto del de los demás.** No se pueden
+regenerar sin el corpus, y en el CI el corpus no está, así que cada uno se compara
+contra su propia huella. Cualquier edición a mano los rompe, incluida la que
+sustituye un sha256 por otros sesenta y cuatro hexadecimales con buena pinta, que
+es justo lo que ningún otro gate podría notar una vez borrado el origen.
+
+## El contrato de evidencia
+
+[contrato-de-evidencia.md](contrato-de-evidencia.md) vive dos veces: acá y en un
+repositorio de diapositivas que llegó a las mismas cuatro casillas por su cuenta,
+midiendo cómo se justifica un argumento en una lámina.
+
+```mermaid
+flowchart TB
+    subgraph WH["writing-harness"]
+        direction TB
+        A["contrato-de-evidencia.md<br/><i>explicación en español</i>"]
+        AB["bloque normativo<br/><b>971 B · b0cde722…</b>"]
+        A --- AB
+        AT["evals/contrato.test.ts"]
+    end
+
+    subgraph OS["repositorio de diapositivas"]
+        direction TB
+        B["docs/evidence-contract.md<br/><i>explicación en inglés</i>"]
+        BB["bloque normativo<br/><b>971 B · b0cde722…</b>"]
+        B --- BB
+        BT["contract.test.ts"]
+    end
+
+    AB -.->|"idénticos byte a byte<br/><b>sin import, sin paquete</b>"| BB
+    AT -->|"comprueba su copia"| AB
+    BT -->|"comprueba su copia"| BB
+```
+
+**Lo que se comparte son cuatro nombres, no código.** `claim`, `method`,
+`sources`, `unit`. No hay paquete, ni tipo compartido, ni archivo que uno genere y
+el otro consuma. Borre cualquiera de los dos repositorios y el otro sigue
+funcionando.
+
+Solo el bloque marcado es normativo, y va en inglés; la explicación de cada lado
+va en su idioma. Obligar a que la explicación coincidiera habría hecho que uno
+escribiera en el idioma del otro, y el contrato no trata de eso.
+
+Nada avisa automáticamente de que la otra copia se movió. Ese es el precio de no
+acoplarlos, y lo que se compra es que **ningún cambio pueda ser silencioso**: si
+alguien toca el bloque de un lado, ese lado falla y las dos huellas dejan de
+coincidir a la vista.
+
+## Instalación
+
+Las skills se enlazan, no se copian. Editar el repositorio cambia lo instalado en
+el momento.
+
+```bash
+node scripts/instalar.ts                   # solo ~/.agents/skills
+node scripts/instalar.ts --todos           # además, cada anfitrión que exista
+node scripts/instalar.ts --verificar
+```
+
+Dos copias divergen, y eso es el defecto que este repositorio existe para evitar.
+Ya pasó: había un `spanish-writing` suelto idéntico al primer commit, con la
+filosofía Camus todavía dentro de la base.
+
+El hook y el CI corren lo mismo:
+
+```bash
+node scripts/instalar-hook.ts
+```
+
+El hook se copia en vez de enlazarse, porque Git no sigue enlaces en todas las
+plataformas y un hook que no corre es peor que no tenerlo: da la sensación de
+estar cubierto.
+
+## Procedencia
+
+El commit `fee3700` guarda las cuatro skills originales tal como llegaron, byte a
+byte. Todo lo posterior es diffable contra ese punto.
+
+Los tres archivos de `humanizar-espanol` venían truncados a mitad de palabra desde
+el plugin, y se recuperaron desde la bóveda de Obsidian, que es la misma fuente
+sin cortar: sus copias de las otras tres skills tienen hash idéntico al del
+plugin.
 
 | archivo | plugin | Obsidian |
 |---|---|---|
@@ -201,8 +291,5 @@ los tres archivos de `humanizar-espanol` difieren.
 | `references/que-preservar.md` | 4 874 B, cortado | 5 065 B, completo |
 
 Con la recuperación volvieron los puntos 2 a 5 de la auditoría mecánica, el
-ejemplo de aplicación, la lista de verificación de entrega, el formato de
-entrega y los patrones 33 a 37 del catálogo, que es el bloque de perplejidad
-semántica. Nada de ese final se reconstruyó ni se inventó.
-
-La bóveda de Obsidian es de solo lectura para este repositorio. No se modifica.
+ejemplo de aplicación, la lista de verificación de entrega y los patrones 33 a 37
+del catálogo. Nada de ese final se reconstruyó ni se inventó.

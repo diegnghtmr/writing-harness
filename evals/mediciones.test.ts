@@ -176,6 +176,34 @@ describe('la prosa y la medición dicen lo mismo', () => {
     }
   });
 
+  test('el total que enuncia la prosa cuadra con las partes que enuncia', () => {
+    // Esta es la razón por la que las cifras de la prosa NO se alinearon con la
+    // medición aunque difieran. Tres de ellas se descomponen exactamente en
+    // otras cifras del mismo documento: cambiar el total habría roto una
+    // aritmética que hoy está bien, para ganar 0,1 % de exactitud en otra.
+    //
+    // Son dos sistemas coherentes que no coinciden entre sí. El de la prosa
+    // cuadra por dentro; el de la medición se puede volver a producir. Se
+    // conservan los dos y se congela la diferencia, que es lo honesto cuando no
+    // hay manera de decidir cuál método usó el original: se probaron cuatro
+    // variantes de conteo y ninguna reprodujo las diez cifras.
+    const DESCOMPONE: Record<string, [number, number, number]> = {
+      'fonseca-writing': [80073, 34440, 114513],
+      'freddy-writing': [44322, 55222, 99544],
+      'medicendai-writing': [96448, 1459, 97907],
+    };
+    for (const [skill, [a, b, total]] of Object.entries(DESCOMPONE)) {
+      assert.equal(a + b, total, `${skill}: la descomposición dejó de cuadrar`);
+      // El separador de millar se escribe siempre, también en las de cuatro
+      // cifras: la prosa escribe «1.459» y `toLocaleString` da «1459».
+      const conPunto = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/gu, '\\.');
+      const src = readSkill(skill);
+      for (const n of [a, b, total]) {
+        assert.match(src, new RegExp(conPunto(n), 'u'), `${skill}: falta ${n} en la prosa`);
+      }
+    }
+  });
+
   test('dos corpus dan exacto y ocho caen dentro del 0,5 %', () => {
     const con = Object.entries(DECLARADO).filter(([, d]) => d.prosa !== null);
     const desvio = ([, d]: [string, { prosa: number | null; medido: number }]) =>

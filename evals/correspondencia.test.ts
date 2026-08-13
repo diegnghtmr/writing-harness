@@ -82,7 +82,7 @@ describe('correspondencia entre las reglas y la prosa', () => {
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
   // ser deliberado. No queda nada mecanizable sin regla. Las 199 de criterio
-  // exigen juicio sobre el contenido: casi todas vienen de los doce tonos que
+  // exigen juicio sobre el contenido: casi todas vienen de los trece tonos que
   // reconstruyen a un autor, y describir cómo argumenta una persona no lo mide
   // ninguna clase de regla que exista hoy.
   //
@@ -120,7 +120,7 @@ describe('el techo de cobertura está declarado', () => {
 
   test('todas las skills aportan al recuento', () => {
     assert.equal(skillNames().length, 16);
-    // La base y la pasada no son tonos. Los otros trece sí, y el verificador
+    // La base y la pasada no son tonos. Los otros catorce sí, y el verificador
     // tiene que aceptarlos todos o la tabla de enrutamiento miente.
     assert.deepEqual(
       skillNames().filter((n) => n !== 'spanish-writing' && n !== 'humanizar-espanol').sort(),
