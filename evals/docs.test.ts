@@ -133,6 +133,30 @@ describe('AGENTS.md dice lo que el código mide', () => {
     );
   });
 
+  test('los diagramas no usan etiquetas que no rendericen en todas partes', () => {
+    // No se parsea mermaid acá: eso exigiría una dependencia, y este
+    // repositorio no tiene ninguna. Los cinco diagramas se validaron con el
+    // propio mermaid antes de entrar, y el validador se probó con uno roto a
+    // propósito. Lo que queda vigilado es lo que sí se puede sin dependencias.
+    //
+    // `<b>` e `<i>` solo se ven si el visor tiene las etiquetas HTML
+    // activadas, y salen literales si no. `<br/>` funciona igual en los dos
+    // casos, así que es el único que se admite.
+    for (const [nombre, texto] of [
+      ['README.md', README],
+      ['AGENTS.md', AGENTS],
+    ] as const) {
+      const bloques = [...texto.matchAll(/```mermaid\n([\s\S]*?)```/gu)].map((m) => m[1] as string);
+      const aperturas = (texto.match(/```mermaid/gu) ?? []).length;
+      assert.equal(bloques.length, aperturas, `${nombre}: un bloque mermaid quedó sin cerrar`);
+      for (const b of bloques) {
+        assert.doesNotMatch(b, /<\/?(?:b|i|strong|em)>/u, `${nombre}: etiqueta que puede no renderizar`);
+      }
+    }
+    assert.equal((README.match(/```mermaid/gu) ?? []).length, 4);
+    assert.equal((AGENTS.match(/```mermaid/gu) ?? []).length, 1);
+  });
+
   test('CLAUDE.md sigue siendo un puntero y no una copia', () => {
     const claude = lee('CLAUDE.md');
     assert.ok(claude.length < 500, 'CLAUDE.md creció: una copia se desincroniza, un puntero no');
