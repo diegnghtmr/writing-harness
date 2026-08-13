@@ -1,0 +1,44 @@
+name: gate
+
+# El gate deja de servir en cuanto depende de que alguien se acuerde de
+# correrlo. Un juicio encontró diez defectos en este repositorio y los encontró
+# porque los buscamos a mano. Esto los busca solo.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # 22.6 es el mínimo que ejecuta TypeScript sin build. El repositorio
+          # no tiene dependencias, así que no hay nada que instalar ni cachear.
+          node-version: '22.x'
+
+      - name: Correspondencia y reglas
+        run: node --test "evals/*.test.ts"
+
+      - name: El registro de cobertura está regenerado
+        # `gen.ts` es determinista. Si el archivo commiteado difiere de lo que
+        # produce, alguien lo editó a mano o cambió una skill sin regenerar.
+        run: |
+          node --experimental-strip-types evals/gen.ts
+          git diff --exit-code evals/cobertura.ts
+
+      - name: Las skills no nombran al verificador
+        # La separación que sostiene todo el diseño. Una skill tiene que servir
+        # en una máquina donde este verificador no existe.
+        run: |
+          ! grep -rn "cli\.ts\|node \|--tono\|writing-harness" skills/
+          ! grep -rn "\.claude\|cursor\|copilot" src/
+
+        # La comprobación de que ninguna skill trae raya vive en la suite y no
+        # acá. Se escribió primero como `grep -P '[\x{2014}]'` y ese escape no
+        # es portable: en la máquina donde se probó, grep respondía «character
+        # value too large», el paso lo tragaba y el guardián pasaba sin
+        # comprobar nada. Un guardián silencioso es peor que ninguno.

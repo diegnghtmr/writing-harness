@@ -1,0 +1,44 @@
+#!/bin/sh
+# Gate local. Se instala con `node scripts/instalar-hook.ts`.
+#
+# El CI es la red de seguridad y este es el aviso temprano. Corre la suite
+# entera, que incluye la correspondencia entre las reglas y la prosa, y aborta
+# el commit si algo falla.
+#
+# Para saltarlo en un caso concreto: `git commit --no-verify`. Existe a
+# propósito y no hace falta pedir permiso para usarlo, pero saltarlo dos veces
+# seguidas suele significar que el defecto es real.
+
+set -e
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "pre-commit: no hay node en el PATH, se salta el gate" >&2
+  exit 0
+fi
+
+raiz=$(git rev-parse --show-toplevel)
+cd "$raiz"
+
+echo "pre-commit: corriendo el gate"
+if ! node --test "evals/*.test.ts" >/tmp/gate.$$ 2>&1; then
+  tail -40 /tmp/gate.$$
+  rm -f /tmp/gate.$$
+  echo >&2
+  echo "pre-commit: el gate falló, el commit se aborta" >&2
+  echo "pre-commit: si el cambio es correcto, regenerá el registro con" >&2
+  echo "            node --experimental-strip-types evals/gen.ts" >&2
+  exit 1
+fi
+rm -f /tmp/gate.$$
+
+# El registro de cobertura es generado. Si difiere de lo que produce el
+# generador, alguien lo editó a mano o movió un ítem sin regenerarlo.
+node --experimental-strip-types evals/gen.ts >/dev/null
+if ! git diff --quiet evals/cobertura.ts; then
+  echo >&2
+  echo "pre-commit: evals/cobertura.ts no estaba regenerado y acaba de cambiar." >&2
+  echo "            Revisá el diff y agregalo al commit." >&2
+  exit 1
+fi
+
+echo "pre-commit: gate en verde"

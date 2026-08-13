@@ -14,9 +14,11 @@
 // que se actualiza el dato.
 
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { TONES, TONE_IDS, allRules, assertRules } from '../src/rules.ts';
-import { allDeclarations, declarations, itemKey, skillNames } from '../src/skills.ts';
+import { SKILLS_DIR, allDeclarations, declarations, itemKey, skillNames } from '../src/skills.ts';
 import { SIN_REGLA } from './cobertura.ts';
 
 const items = allDeclarations();
@@ -133,6 +135,24 @@ describe('el techo de cobertura está declarado', () => {
     const decl = declarations('humanizar-espanol');
     assert.equal(decl.filter((d) => d.origen === 'checklist').length, 0);
     assert.equal(decl.filter((d) => d.origen === 'patron').length, 37);
+  });
+
+  test('ninguna skill trae raya ni guion largo, salvo las dos que la enuncian', () => {
+    // Vive acá y no en el CI a propósito. Se escribió primero como un paso de
+    // `grep -P '[\x{2014}]'` y ese escape no es portable: en la máquina donde
+    // se probó, grep respondía «character value too large», el paso se lo
+    // tragaba y el guardián pasaba sin comprobar nada.
+    //
+    // Las dos excepciones son las que tienen que mostrar el carácter que
+    // prohíben: la base lo enuncia en su §6.6 y el catálogo de señales de IA
+    // lo lista como patrón.
+    const enuncian = new Set(['spanish-writing', 'humanizar-espanol']);
+    const conRaya = skillNames()
+      .filter((n) => !enuncian.has(n))
+      .filter((n) =>
+        /[—–]/u.test(readFileSync(join(SKILLS_DIR, n, 'SKILL.md'), 'utf8')),
+      );
+    assert.deepEqual(conRaya, []);
   });
 
   test('una regla puede reclamar en dos skills a la vez', () => {

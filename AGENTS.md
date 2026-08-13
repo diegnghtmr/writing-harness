@@ -86,6 +86,28 @@ Conserva la clasificación de los ítems que ya estaban, imprime los nuevos para
 revisarlos uno por uno, y deja los recuentos que el test tiene grabados. Se
 escribió a mano una vez y quedó mintiendo en cuanto una skill movió sus ítems.
 
+## Que el gate no dependa de que alguien se acuerde
+
+Dos redes, y las dos corren lo mismo.
+
+```bash
+node scripts/instalar-hook.ts     # aviso temprano, aborta el commit
+node scripts/instalar-hook.ts --desinstalar
+```
+
+El hook se copia en vez de enlazarse, porque Git no sigue enlaces en todas las
+plataformas y un hook que no corre es peor que no tenerlo: da la sensación de
+estar cubierto. El precio es reinstalarlo cuando el archivo cambia. Para saltarlo
+en un caso concreto, `git commit --no-verify`, que existe a propósito.
+
+`.github/workflows/gate.yml` es la red de verdad, la que no se puede saltar.
+Corre la suite, comprueba que `evals/cobertura.ts` esté regenerado y verifica la
+separación entre las skills y el verificador.
+
+Un juicio encontró diez defectos en este repositorio, y los encontró porque los
+buscamos a mano. Estas dos redes existen para que la próxima vez no dependa de
+eso.
+
 Dos comprobaciones más, que sostienen la separación de arriba:
 
 ```bash
