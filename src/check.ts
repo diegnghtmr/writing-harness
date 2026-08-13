@@ -1,6 +1,14 @@
 // El verificador. Toma un texto entregado y devuelve lo que incumple.
 
-import { BASE_RULES, PASADAS, TONES, type Rule, type Severity, assertRules } from './rules.ts';
+import {
+  BASE_RULES,
+  PASADAS,
+  TONES,
+  type Dominio,
+  type Rule,
+  type Severity,
+  assertRules,
+} from './rules.ts';
 import { countWords, lineAt, positionAt, splitParagraphs } from './text.ts';
 
 export type Finding = {
@@ -22,7 +30,30 @@ export type CheckOptions = {
   pasadas?: readonly string[];
 };
 
+/**
+ * Las tres capas, compuestas en el orden en que mandan.
+ *
+ * La base corre siempre y no cede nada. Encima va el tono, si se pidió uno.
+ * Encima van las pasadas, si se pidió alguna, y una pasada puede relevar al
+ * tono en lo que declare: cuando el usuario pide humanizar de forma explícita,
+ * la pasada decide el ritmo y las reglas de ritmo del tono se retiran.
+ *
+ * Esa precedencia estaba escrita en `camus-writing` §3.1 y no en el código,
+ * así que humanizar un texto académico devolvía once errores de `oracion-maxima`
+ * y el arreglo propuesto deshacía la humanización. Las tres combinaciones
+ * posibles quedan cubiertas: sin pasada no cambia nada, con pasada y sin tono no
+ * hay a quién relevar, y con tono y pasada gana la pasada en su dominio.
+ */
 export function rulesFor(tone?: string, pasadas: readonly string[] = []): Rule[] {
+  const activas = pasadas.map((id) => {
+    const pasada = PASADAS[id];
+    if (pasada === undefined) {
+      throw new Error(`pasada desconocida: ${id}. Disponibles: ${Object.keys(PASADAS).join(', ')}`);
+    }
+    return pasada;
+  });
+
+  const relevados = new Set<Dominio>(activas.flatMap((p) => p.anula));
   const out = [...BASE_RULES];
 
   if (tone !== undefined) {
@@ -30,17 +61,35 @@ export function rulesFor(tone?: string, pasadas: readonly string[] = []): Rule[]
     if (t === undefined) {
       throw new Error(`tono desconocido: ${tone}. Disponibles: ${Object.keys(TONES).join(', ')}`);
     }
-    out.push(...t.rules);
+    out.push(...t.rules.filter((r) => r.gobierna === undefined || !relevados.has(r.gobierna)));
   }
 
+  for (const pasada of activas) out.push(...pasada.rules);
+
+  return out;
+}
+
+/**
+ * Qué reglas del tono se retiraron por haber pedido una pasada, y cuál lo hizo.
+ *
+ * Existe para que la decisión se pueda ver desde fuera. Un texto al que se le
+ * relajó el techo de oración sin decirlo se parece demasiado a un texto que
+ * pasó porque nadie lo miró.
+ */
+export function relevadas(tone?: string, pasadas: readonly string[] = []): { regla: string; por: string }[] {
+  if (tone === undefined) return [];
+  const t = TONES[tone];
+  if (t === undefined) return [];
+  const out: { regla: string; por: string }[] = [];
   for (const id of pasadas) {
     const pasada = PASADAS[id];
-    if (pasada === undefined) {
-      throw new Error(`pasada desconocida: ${id}. Disponibles: ${Object.keys(PASADAS).join(', ')}`);
+    if (pasada === undefined) continue;
+    for (const r of t.rules) {
+      if (r.gobierna !== undefined && pasada.anula.includes(r.gobierna)) {
+        out.push({ regla: r.id, por: pasada.id });
+      }
     }
-    out.push(...pasada.rules);
   }
-
   return out;
 }
 

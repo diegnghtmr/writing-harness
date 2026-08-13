@@ -113,7 +113,9 @@ su público y algunos son peninsulares. Eso se mide y se documenta, no se imita.
 
 `humanizar-espanol` no es una skill de tono. Es una pasada que se ejecuta
 después, sobre un texto ya redactado, y solo cuando el usuario la pide de forma
-explícita. No sustituye a la skill de tono ni a esta base.
+explícita. Puede no pedirse nunca, puede pedirse sobre un texto sin tono, y
+puede pedirse después de haber aplicado un tono. La sección 3.1 dice qué manda
+en cada caso.
 
 ### 3.1. Regla de precedencia
 
@@ -123,6 +125,21 @@ Nunca puede contradecirla.
 Si una skill de tono parece autorizar algo que las secciones 4 a 13 prohíben,
 gana la prohibición, y esa skill de tono tiene un defecto que hay que corregir.
 No se resuelve el conflicto en el momento de escribir.
+
+**Una pasada pedida de forma explícita releva al tono en lo que ella gobierna.**
+Son tres casos y conviene tenerlos separados. Si no se pide ninguna pasada, el
+tono manda entero. Si se pide una pasada sin tono, no hay a quién relevar y
+corren la base y la pasada. Y si se pide una pasada después de un tono, la
+pasada gana en su dominio y el tono conserva todo lo demás.
+
+De momento hay una sola pasada y gobierna una sola cosa: `humanizar-espanol`
+gobierna el ritmo. Quien pide humanizar acepta ese criterio rítmico por encima
+del que traiga el tono, y por eso las longitudes de oración y de párrafo del
+tono se retiran mientras esa pasada corre. Todo lo demás del tono sigue en pie:
+la persona, el trato al lector, el léxico y la arquitectura no son ritmo.
+
+La base no cede nunca nada, ni ante un tono ni ante una pasada. Y relevar no es
+dejar sin gobierno: la pasada que releva el ritmo trae el suyo.
 
 ### 3.2. Claridad absoluta (principio RAE)
 

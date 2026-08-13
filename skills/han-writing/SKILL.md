@@ -468,6 +468,12 @@ Prescripción de este skill, declarada como tal:
 Sección de 300 a 700 palabras, con título nominal, corto y conceptual, sin
 verbo. Cada sección sostiene una sola tesis y se agota en ella.
 
+El título va en una línea suelta, sin almohadilla, sin negrita y sin ninguna
+otra marca de markdown. La sección 12.1 de la base prohíbe los encabezados en el
+texto entregado y gana, según la regla de precedencia de la base misma. Esto no
+retira el título: lo escribe como lo que es, una línea de texto que nombra la
+sección.
+
 Párrafo de 40 a 90 palabras. Se permite un párrafo de una sola oración por
 sección, nunca dos, y nunca dos seguidos.
 

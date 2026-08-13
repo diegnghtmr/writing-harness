@@ -42,6 +42,29 @@ function frases(lista: readonly string[]): RegExp {
   return new RegExp(`(?<!\\p{L})(?:${alternativas})(?!\\p{L})`, 'giu');
 }
 
+/**
+ * Aspecto del texto que una regla gobierna, cuando otra capa puede relevarla.
+ *
+ * Existe uno solo y basta para lo que hay que resolver. `camus-writing` §3.1
+ * dice, por escrito, que cuando el usuario pide humanizar de forma explícita la
+ * pasada decide el ritmo por encima del tono. Esa precedencia estaba declarada
+ * en la prosa y no en el código, así que humanizar un texto académico producía
+ * once errores de `oracion-maxima` y el arreglo que el propio verificador
+ * proponía deshacía la humanización. Este campo es lo que hace cierta la frase.
+ *
+ * Solo se declara en la capa de tono. La base no cede nada: §3.1 dice que una
+ * skill de tono nunca puede contradecirla, y una pasada tampoco.
+ */
+export type Dominio = 'ritmo';
+
+/** Clases de regla que gobiernan el ritmo. El gate las usa en las dos direcciones. */
+export const CLASES_DE_RITMO = [
+  'sentence-length',
+  'paragraph-length',
+  'sentence-length-spread',
+  'short-sentence-run',
+] as const;
+
 type Common = {
   id: string;
   severity: Severity;
@@ -51,6 +74,15 @@ type Common = {
   /** Sección de la skill que enuncia la regla. */
   source: string;
   checklist: ChecklistRef[];
+  /**
+   * Qué aspecto gobierna, para que una pasada pueda relevarla.
+   *
+   * Obligatorio en toda regla de tono de las clases de `CLASES_DE_RITMO`, y
+   * prohibido en cualquier otra. `assertDominios` lo comprueba en las dos
+   * direcciones: una regla de ritmo sin marcar sobreviviría a la pasada y
+   * volvería a pedir lo contrario que ella.
+   */
+  gobierna?: Dominio;
 };
 
 /** Un patrón que no debe aparecer en el texto entregado. */
@@ -943,6 +975,7 @@ function variaLongitud(id: string, skill: string, item: string, seccion: string)
   return {
     id,
     kind: 'sentence-length-spread',
+    gobierna: 'ritmo',
     severity: 'warning',
     shortWords: 10,
     longWords: 25,
@@ -962,6 +995,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'oracion-maxima',
         kind: 'sentence-length',
+        gobierna: 'ritmo',
         severity: 'error',
         // camus-writing §5.2 recomienda 25 y obliga a dividir por encima de 30.
         // El techo medible es 30; 25 es preferencia, no incumplimiento.
@@ -976,6 +1010,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'parrafo-maximo',
         kind: 'paragraph-length',
+        gobierna: 'ritmo',
         severity: 'error',
         // §5.1 dice «Máximo: 150 palabras en casos excepcionales». Es un techo.
         max: 150,
@@ -989,6 +1024,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'parrafo-minimo',
         kind: 'paragraph-length',
+        gobierna: 'ritmo',
         // Advertencia y no error: §5.1 llama a 50 «extensión recomendada», no
         // mínimo. Un párrafo corto de transición es legítimo, un texto entero
         // de párrafos cortos no.
@@ -1060,20 +1096,23 @@ export const TONES: Record<string, Tone> = {
         id: 'fonda-primera-persona',
         kind: 'must-contain',
         severity: 'warning',
-        pattern: frases([
-          'a mi juicio',
-          'creo que',
-          'me parece',
-          'hemos visto',
-          'podemos preguntar',
-          'volvamos a',
-          'veamos',
-          'pasemos a',
-        ]),
+        // El ítem pide «el yo de quien escribe con sus dudas, sus errores y su
+        // juicio», y esto se escribió como una lista cerrada de ocho frases.
+        // Una prueba real lo delató: un texto con «yo pienso que», «me di
+        // cuenta», «no estoy seguro» y «me parecería» quedaba reportado como
+        // texto sin voz de autor. La última ni siquiera fallaba por olvido,
+        // sino porque «me parece» iba con límite de palabra y «parecería»
+        // sigue con letra.
+        //
+        // Ahora el patrón cubre las tres cosas que el ítem nombra: el juicio,
+        // la duda y el recorrido en plural. Se escribe a mano y no con
+        // `frases()` porque hace falta la cola flexible de «me parec...».
+        pattern:
+          /(?<!\p{L})(?:yo|creo|creemos|pienso|opino|sostengo|considero|dudo|sospecho|reconozco|admito|me\s+parec\p{L}*|me\s+di\s+cuenta|me\s+consta|a\s+mi\s+juicio|a\s+mi\s+modo\s+de\s+ver|en\s+mi\s+opinión|para\s+mí|no\s+sé|no\s+estoy\s+segur[oa]|hemos\s+visto|volvamos\s+a|veamos|pasemos\s+a|podemos\s+preguntar|vamos\s+a\s+ver)(?!\p{L})/giu,
         minDistinct: 1,
         minSentences: 6,
         message: 'Falta la voz del autor: ni opinión en primera persona ni recorrido en plural.',
-        fix: '«A mi juicio», «creo que» para la posición propia. «Hemos visto», «volvamos a» para recorrer el argumento con el lector.',
+        fix: '«Creo que», «a mi juicio», «me parece», «no estoy seguro» para la posición y la duda propias. «Hemos visto», «volvamos a» para recorrer el argumento con el lector.',
         source: 'fonda-writing §4.1',
         checklist: [
           {
@@ -1174,6 +1213,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'han-oracion-maxima',
         kind: 'sentence-length',
+        gobierna: 'ritmo',
         severity: 'error',
         // Medido: máximo 40 palabras en 96 oraciones, mediana 16. La versión
         // anterior de la skill afirmaba un techo de 30 y la prosa real lo pasa
@@ -1192,6 +1232,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'han-staccato',
         kind: 'short-sentence-run',
+        gobierna: 'ritmo',
         severity: 'error',
         // Lo mismo que mide `staccato` en la pasada, con los mismos números,
         // pero reclamando el ítem de esta skill. La pasada solo corre cuando se
@@ -1794,6 +1835,22 @@ const SENALES_IA: Rule[] = [
     checklist: p('Efectismo manufacturado, staccato y aforismos'),
   },
   {
+    // La otra mitad del patrón 32, y sin ella la pasada relevaría al tono
+    // dejando un hueco: «No elimines todas las cortas: el objetivo es el
+    // contraste, no una nueva uniformidad de frases largas». `staccato` impide
+    // la cadena de breves y esta impide la cadena de largas.
+    id: 'humanizar-varia-longitud',
+    kind: 'sentence-length-spread',
+    severity: 'error',
+    shortWords: 10,
+    longWords: 25,
+    minSentences: 6,
+    message: 'Sin contraste de longitud: la pasada exige alternancia, no una banda nueva.',
+    fix: 'Dejar breves de seis a diez palabras junto a largas de veinticinco o más. Fundir no es alargarlo todo.',
+    source: 'humanizar-espanol, patrón 32',
+    checklist: p('Efectismo manufacturado, staccato y aforismos'),
+  },
+  {
     id: 'apertura-de-etiqueta',
     kind: 'paragraph-opening',
     severity: 'error',
@@ -1821,10 +1878,34 @@ const SENALES_IA: Rule[] = [
   },
 ];
 
-export type Pasada = { id: string; skill: string; rules: Rule[] };
+export type Pasada = {
+  id: string;
+  skill: string;
+  rules: Rule[];
+  /**
+   * Qué le releva a la capa de tono cuando esta pasada se pide.
+   *
+   * Releva, no apaga: la pasada trae sus propias reglas para lo que asume. Si
+   * se llevara por delante `oracion-maxima` sin poner nada en su lugar, el
+   * ritmo quedaría sin gobierno, que no es lo que ninguna de las dos skills
+   * dice. `staccato` y `humanizar-varia-longitud` son lo que pone en su lugar.
+   *
+   * La base nunca entra acá. `spanish-writing` §3.1 dice que ninguna capa de
+   * encima puede contradecirla, y una pasada es una capa de encima.
+   */
+  anula: readonly Dominio[];
+};
 
 export const PASADAS: Record<string, Pasada> = {
-  humanizar: { id: 'humanizar', skill: 'humanizar-espanol', rules: SENALES_IA },
+  humanizar: {
+    id: 'humanizar',
+    skill: 'humanizar-espanol',
+    rules: SENALES_IA,
+    // `humanizar-espanol` §4: «variar el ritmo, y es la estrategia decisiva.
+    // También es el punto donde esta skill se aparta de camus-writing».
+    // `camus-writing` §3.1 dice lo mismo desde el otro lado.
+    anula: ['ritmo'],
+  },
 };
 
 export const PASADA_IDS = Object.keys(PASADAS);
@@ -1870,6 +1951,60 @@ export function assertRules(rules: Rule[] = allRules()): void {
     }
     if (r.kind === 'paragraph-length' && r.min === undefined && r.max === undefined) {
       throw new Error(`la regla ${r.id} necesita al menos un límite`);
+    }
+  }
+}
+
+/**
+ * Toda regla de ritmo de un tono está marcada, y nada más lo está.
+ *
+ * Falla en las dos direcciones a propósito. Sin la primera, una regla de ritmo
+ * nueva sobreviviría a la pasada y seguiría pidiendo lo contrario que ella, que
+ * es el defecto que este mecanismo existe para cerrar. Sin la segunda, marcar
+ * una regla que no es de ritmo la haría desaparecer al pedir humanizar, y nadie
+ * se enteraría hasta leer un texto al que le falta un control.
+ *
+ * Las pasadas quedan fuera: son las que relevan, no las relevadas. Y la base
+ * también, porque no cede nada.
+ */
+export function assertDominios(): void {
+  const esDeRitmo = (kind: Rule['kind']) =>
+    (CLASES_DE_RITMO as readonly string[]).includes(kind);
+
+  for (const tono of Object.values(TONES)) {
+    for (const r of tono.rules) {
+      if (esDeRitmo(r.kind) && r.gobierna !== 'ritmo') {
+        throw new Error(
+          `la regla ${r.id} de ${tono.id} es de ritmo (${r.kind}) y no lo declara. ` +
+            'Sin declararlo sobrevive a la pasada humanizar y le pide al texto lo contrario que ella.',
+        );
+      }
+      if (!esDeRitmo(r.kind) && r.gobierna !== undefined) {
+        throw new Error(`la regla ${r.id} de ${tono.id} declara un dominio y no es de esa clase`);
+      }
+    }
+  }
+
+  for (const pasada of Object.values(PASADAS)) {
+    for (const r of pasada.rules) {
+      if (r.gobierna !== undefined) {
+        throw new Error(`la regla ${r.id} de la pasada ${pasada.id} no puede declarar dominio: releva, no la relevan`);
+      }
+    }
+    // Una pasada que releva un dominio tiene que traer con qué gobernarlo.
+    for (const dominio of pasada.anula) {
+      if (dominio === 'ritmo' && !pasada.rules.some((r) => esDeRitmo(r.kind))) {
+        throw new Error(
+          `la pasada ${pasada.id} releva el ritmo y no trae ninguna regla de ritmo. ` +
+            'Relevar sin reemplazar deja el ritmo sin gobierno.',
+        );
+      }
+    }
+  }
+
+  for (const r of BASE_RULES) {
+    if (r.gobierna !== undefined) {
+      throw new Error(`la regla ${r.id} es de la base y la base no cede nada`);
     }
   }
 }

@@ -745,21 +745,36 @@ describe('densidad de vocabulario de IA', () => {
 });
 
 describe('fixtures', () => {
-  test('el fixture sucio incumple lo que dice incumplir', () => {
-    const f = check(fixture('sucio.txt'), { tone: 'camus', pasadas: ['humanizar'] });
+  const cuenta = (f: { rule: string }[]) => {
     const porRegla = new Map<string, number>();
     for (const x of f) porRegla.set(x.rule, (porRegla.get(x.rule) ?? 0) + 1);
+    return Object.fromEntries([...porRegla].sort());
+  };
+
+  test('el fixture sucio incumple lo que dice incumplir', () => {
     assert.deepEqual(
-      Object.fromEntries([...porRegla].sort()),
+      cuenta(check(fixture('sucio.txt'), { tone: 'camus', pasadas: ['humanizar'] })),
       {
         'apertura-de-etiqueta': 1,
         'no-raya': 2,
-        'oracion-maxima': 1,
         'punto-y-coma-espaciado': 1,
         'punto-y-coma-mayuscula': 1,
         staccato: 1,
       },
     );
+  });
+
+  test('el mismo fixture sin la pasada suma el techo de oración del tono', () => {
+    // Esta es la precedencia vista desde el fixture, que es el sitio donde más
+    // se nota: los mismos bytes dan un hallazgo más cuando nadie pidió
+    // humanizar. La oración larga de `sucio.txt` incumple a camus y no incumple
+    // a la pasada, y quien pide humanizar aceptó el criterio de la pasada.
+    assert.deepEqual(cuenta(check(fixture('sucio.txt'), { tone: 'camus' })), {
+      'no-raya': 2,
+      'oracion-maxima': 1,
+      'punto-y-coma-espaciado': 1,
+      'punto-y-coma-mayuscula': 1,
+    });
   });
 
   test('el fixture limpio no da ningún hallazgo', () => {

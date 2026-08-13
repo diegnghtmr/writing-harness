@@ -13,7 +13,7 @@
 // darle la invocación.
 
 import { readFileSync } from 'node:fs';
-import { check, format, type Finding } from './check.ts';
+import { check, format, relevadas, type Finding } from './check.ts';
 import { RASGOS, type Rasgos, RUTAS, sugerirTono } from './enrutamiento.ts';
 import { PASADA_IDS, TONE_IDS } from './rules.ts';
 
@@ -25,6 +25,11 @@ Sin --tono corre solo la capa base, que es la normativa y rige siempre.
 Con --tono añade las reglas de ese tono: longitudes, persona, ritmo.
 Con --pasada añade el catálogo de esa pasada, que no corre solo. Igual que la
 skill, humanizar se pide de forma explícita o no interviene.
+
+Pedir una pasada puede relevar al tono en lo que esa pasada gobierna. humanizar
+gobierna el ritmo, así que con --pasada humanizar las reglas de longitud del
+tono se retiran y mandan las de la pasada. La capa base no cede nunca nada.
+Cuando eso ocurre, se dice cuáles se retiraron y por qué.
 
 --enrutar no mide ningún texto: responde qué tono corresponde a una petición y
 por qué, recorriendo la lista de spanish-writing §3 en orden. Siempre devuelve
@@ -100,6 +105,16 @@ function main(): void {
     files.length > 0
       ? files.map((path) => ({ path, text: readFileSync(path, 'utf8') }))
       : [{ path: '(entrada estándar)', text: readStdin() }];
+
+  // Una regla que se retira sin avisar deja un texto que pasó por permiso y no
+  // por mérito, y desde fuera las dos cosas se ven igual.
+  const cedidas = relevadas(tone, pasadas);
+  if (cedidas.length > 0) {
+    const por = [...new Set(cedidas.map((c) => c.por))].join(', ');
+    console.log(`La pasada ${por} releva al tono ${tone} en el ritmo. Se retiran:`);
+    for (const c of cedidas) console.log(`  ${c.regla}`);
+    console.log('');
+  }
 
   let errors = 0;
   const reports: string[] = [];

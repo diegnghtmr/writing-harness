@@ -9,7 +9,15 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
-import { RASGOS, RUTAS, RUTA_IDS, type Rasgos, assertRutas, sugerirTono } from '../src/enrutamiento.ts';
+import {
+  RASGOS,
+  RUTAS,
+  RUTA_IDS,
+  type Rasgos,
+  assertRutas,
+  rasgosSinRuta,
+  sugerirTono,
+} from '../src/enrutamiento.ts';
 import { TONES, TONE_IDS } from '../src/rules.ts';
 import { REPO_ROOT, readSkill } from '../src/skills.ts';
 
@@ -101,6 +109,33 @@ describe('la lista de rasgos y el tipo que los documenta coinciden', () => {
     const enElTipo = [...(cuerpo[1] as string).matchAll(/^\s{2}(\w+)\?:/gmu)].map((m) => m[1]);
     assert.deepEqual([...enElTipo].sort(), [...RASGOS].sort());
   });
+
+  test('ningún rasgo es decorativo: alguna ruta lo lee', () => {
+    // `academico` estuvo así desde el principio. El CLI lo validaba, el usuario
+    // lo escribía, y ninguna condición lo consultaba. El tono que salía era el
+    // correcto de casualidad, porque `camus` cierra la lista, y el motivo que se
+    // imprimía era falso: «ningún rasgo reclamó el texto», habiendo declarado
+    // uno. Lo destapó una prueba de uso, no una lectura del código.
+    assert.deepEqual(
+      rasgosSinRuta(),
+      [],
+      'un rasgo que ninguna ruta lee es una opción que el CLI acepta y no hace nada',
+    );
+  });
+
+  test('el análisis de rasgos muertos falla si alguien lo esquiva', () => {
+    // Lee el código de las condiciones, así que hay una forma de escribirlas que
+    // no vería. Prefiere romperse a mentir.
+    const original = RUTAS[0]?.eligeSi;
+    assert.ok(original);
+    try {
+      (RUTAS[0] as { eligeSi: (r: Rasgos) => boolean }).eligeSi = (r) =>
+        Boolean((r as Record<string, boolean>)['personaje']);
+      assert.throws(() => rasgosSinRuta(), /notación de corchetes/u);
+    } finally {
+      (RUTAS[0] as { eligeSi: (r: Rasgos) => boolean }).eligeSi = original;
+    }
+  });
 });
 
 describe('el procedimiento decide, y siempre decide', () => {
@@ -158,6 +193,21 @@ describe('el procedimiento decide, y siempre decide', () => {
     const a = sugerirTono(rasgos);
     const b = sugerirTono(rasgos);
     assert.deepEqual(a, b);
+  });
+
+  test('declarar el rasgo académico cuenta como reclamar, y se nota en el motivo', () => {
+    // `camus` cierra la lista aceptando cualquier cosa, y por eso `reclamado` se
+    // calculaba mirando si el tono era `camus`. Con eso, pedir el tono académico
+    // por su nombre recibía como respuesta que nadie había reclamado el texto.
+    const conRasgo = sugerirTono({ academico: true });
+    assert.equal(conRasgo.tono, 'camus');
+    assert.equal(conRasgo.reclamado, true);
+    assert.doesNotMatch(conRasgo.porque, /por defecto/u);
+
+    const sinNada = sugerirTono();
+    assert.equal(sinNada.tono, 'camus');
+    assert.equal(sinNada.reclamado, false);
+    assert.match(sinNada.porque, /por defecto/u);
   });
 
   test('el motivo se puede leer y discutir', () => {

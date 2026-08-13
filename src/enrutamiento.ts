@@ -93,6 +93,16 @@ export type Ruta = {
   cuando: string;
   /** Qué rasgo lo elige. El primero que da verdadero gana. */
   eligeSi: (r: Rasgos) => boolean;
+  /**
+   * Cuándo la elección viene de un rasgo y no de quedarse sin filas.
+   *
+   * Solo lo necesita `camus`, que cierra la lista aceptando cualquier cosa. Sin
+   * esto, `reclamado` se calculaba mirando si el tono era `camus`, y entonces
+   * pedir el tono académico con el rasgo `academico` respondía «ningún rasgo
+   * reclamó el texto», que es falso: el usuario declaró uno, y justamente el que
+   * nombra el dominio de esa skill.
+   */
+  reclamaSi?: (r: Rasgos) => boolean;
 };
 
 /**
@@ -185,9 +195,11 @@ export const RUTAS: readonly Ruta[] = [
   {
     tono: 'camus',
     skill: 'camus-writing',
-    cuando: 'Es el tono por defecto',
+    cuando: 'Textos académicos, técnicos y formales',
     // Recoge lo que nadie reclamó, y también lo académico dicho de frente.
     eligeSi: () => true,
+    // Lo segundo es lo que `reclamaSi` distingue de lo primero.
+    reclamaSi: (r) => Boolean(r.academico),
   },
 ];
 
@@ -211,14 +223,16 @@ export type Sugerencia = {
 export function sugerirTono(rasgos: Rasgos = {}): Sugerencia {
   for (const ruta of RUTAS) {
     if (!ruta.eligeSi(rasgos)) continue;
-    const porDefecto = ruta.tono === 'camus';
+    // Reclamar es que un rasgo la haya elegido. Quedarse con el texto por ser
+    // la última de la lista no es lo mismo, y el mensaje tiene que distinguirlo.
+    const reclamado = (ruta.reclamaSi ?? ruta.eligeSi)(rasgos);
     return {
       tono: ruta.tono,
       skill: ruta.skill,
-      porque: porDefecto
-        ? 'Ningún rasgo reclamó el texto; se aplica el tono por defecto.'
-        : `${ruta.cuando}.`,
-      reclamado: !porDefecto,
+      porque: reclamado
+        ? `${ruta.cuando}.`
+        : 'Ningún rasgo reclamó el texto; se aplica el tono por defecto.',
+      reclamado,
     };
   }
   // Inalcanzable: la última ruta acepta cualquier cosa. Queda por si alguien
@@ -228,6 +242,26 @@ export function sugerirTono(rasgos: Rasgos = {}): Sugerencia {
 
 /** Los tonos que este enrutamiento conoce, en el orden en que decide. */
 export const RUTA_IDS = RUTAS.map((r) => r.tono);
+
+/**
+ * Rasgos que la lista acepta y que ninguna ruta consulta.
+ *
+ * `academico` estuvo así desde el principio: el CLI lo validaba, el usuario lo
+ * escribía y ninguna condición lo leía. El resultado salía bien de casualidad,
+ * porque `camus` cierra la lista, y el motivo salía mal siempre.
+ *
+ * Se lee el código de las condiciones, que es la única fuente que no se puede
+ * desincronizar con el código. Tiene un límite y conviene que conste: si alguien
+ * leyera un rasgo con notación de corchetes, `r['academico']`, esto no lo vería.
+ * Ninguna condición se escribe así, y el gate lo comprueba también.
+ */
+export function rasgosSinRuta(): string[] {
+  const fuente = RUTAS.map((r) => `${r.eligeSi};${r.reclamaSi ?? ''}`).join(' ');
+  if (fuente.includes('[')) {
+    throw new Error('una condición usa notación de corchetes y este análisis no la ve');
+  }
+  return RASGOS.filter((rasgo) => !new RegExp(`\\.${rasgo}(?![A-Za-z])`, 'u').test(fuente));
+}
 
 /** Toda ruta tiene que apuntar a un tono que exista de verdad. */
 export function assertRutas(): void {

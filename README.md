@@ -2,7 +2,7 @@
 
 Skills de redacción en español y el verificador que mide si un texto las cumple.
 
-Dieciséis skills en tres capas y 61 reglas mecanizadas, con un gate que ata cada
+Dieciséis skills en tres capas y 62 reglas mecanizadas, con un gate que ata cada
 regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
 entero sin instalar nada, sin build y sin conexión.
 
@@ -73,6 +73,37 @@ contradecirla.
 Si un tono parece autorizar algo que la base prohíbe, gana la prohibición, y ese
 tono tiene un defecto que hay que corregir.
 
+**Una pasada pedida de forma explícita releva al tono en lo que ella gobierna.**
+Son tres combinaciones y el verificador las distingue:
+
+| Qué se pidió | Qué corre |
+|---|---|
+| Ninguna pasada | Base, y el tono entero si se pidió uno |
+| Pasada sin tono | Base y pasada. No hay a quién relevar |
+| Tono y después pasada | Base entera, la pasada entera, y del tono todo menos lo que la pasada gobierna |
+
+Hoy hay una sola pasada y gobierna una sola cosa. `humanizar-espanol` gobierna el
+ritmo, así que con `--pasada humanizar` se retiran las reglas de longitud de
+oración y de párrafo del tono, y mandan las suyas. Todo lo demás del tono sigue
+en pie: la persona, el trato al lector y la arquitectura no son ritmo. La base no
+cede nunca nada.
+
+Relevar no es indultar. La pasada que se lleva el ritmo trae el suyo, y el
+verificador dice en la salida qué reglas se retiraron y quién lo hizo.
+
+```
+La pasada humanizar releva al tono camus en el ritmo. Se retiran:
+  oracion-maxima
+  parrafo-maximo
+  parrafo-minimo
+  camus-varia-longitud
+```
+
+Esto vivía escrito en dos skills y no en el código. Lo destapó una prueba de uso:
+humanizar un texto académico devolvía once errores de `oracion-maxima`, y el
+arreglo que el propio verificador proponía deshacía la humanización y reconstruía
+el patrón que el catálogo señala como el que más penaliza.
+
 ### Enrutamiento
 
 `spanish-writing` se aplica siempre y elige exactamente un tono. Trece de los
@@ -129,7 +160,7 @@ producto. En las skills no.
 
 | Archivo | Qué hace |
 |---|---|
-| `src/rules.ts` | Las 61 reglas como objetos planos y tipados, sin comportamiento |
+| `src/rules.ts` | Las 62 reglas como objetos planos y tipados, sin comportamiento |
 | `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
 | `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
 | `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |

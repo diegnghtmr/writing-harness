@@ -111,6 +111,27 @@ condición de forma de una condición de tema es lectura, no expresión regular,
 una expresión regular que lo intentara daría verdes falsos. El gate obliga a
 responder la pregunta; que la respuesta sea buena se revisa leyendo.
 
+## Una pasada releva al tono en lo que gobierna
+
+Las capas se componen en `rulesFor`. La base siempre, el tono si se pidió, las
+pasadas si se pidieron. Lo que no era cierto hasta ahora es la última parte:
+una pasada puede retirar reglas del tono.
+
+Cada regla de tono que gobierna el ritmo lo declara con `gobierna: 'ritmo'`, y
+cada pasada declara qué releva con `anula`. `evals/precedencia.test.ts` cubre las
+tres combinaciones, porque el defecto vivía en la combinación y no en las piezas:
+sin pasada, con pasada y sin tono, y con las dos.
+
+`assertDominios` falla en las dos direcciones. Una regla de ritmo sin marcar
+sobreviviría a la pasada y le pediría al texto lo contrario que ella. Una regla
+marcada que no es de ritmo desaparecería al pedir humanizar y nadie se enteraría.
+Y una pasada que releva el ritmo sin traer reglas de ritmo lo dejaría sin
+gobierno, que no es relevar sino apagar.
+
+El defecto que esto cierra no lo encontró una lectura del código. Lo encontró
+escribir un texto humanizado y verlo salir con código 1, once veces por la misma
+regla, con un arreglo propuesto que deshacía el trabajo.
+
 ## De dónde salieron las cifras
 
 Las skills enuncian centenares de cifras medidas sobre un corpus que no vive acá
