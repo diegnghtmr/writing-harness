@@ -287,8 +287,10 @@ fuertes acciones».
 En ambos casos, la apertura hace tres movimientos en el mismo tramo: atribuye
 la lectura corriente, la corrige con «sin embargo», y nombra el concepto que va
 a gobernar el análisis. Seis de las veinte piezas añaden un anuncio explícito
-del recorrido, del tipo «en este video exploraremos», y este skill lo permite
-solo cuando el texto va a leerse en voz alta.
+del recorrido, del tipo «en este video exploraremos». Ese anuncio no se
+traslada, aunque el texto vaya a leerse en voz alta: nombra el soporte y no el
+argumento, y el §11.10 de la base lo descarta. Si hace falta anunciar el
+recorrido, se anuncia el problema y no el recipiente.
 
 Una advertencia sobre la generalidad. La base prohíbe abrir por una generalidad
 de calendario, y esa prohibición sigue en pie. El marco de la obra no es una
