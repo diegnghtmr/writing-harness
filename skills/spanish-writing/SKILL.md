@@ -64,12 +64,13 @@ forma y la manera de presentar la información.
 | `sekkyoku-writing` | Análisis narrativo unidad por unidad de una obra serializada. | Posición propia frente a la obra declarada de entrada, la obra misma como prueba |
 | `kenway-writing` | Reseña crítica con sección de opinión marcada al final. | Veredicto global de entrada en esa sección, cierre en positivo, sin nota numérica |
 | `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, segunda del plural, corrección de la lectura corriente en la apertura |
+| `solitario-writing` | Texto que sostiene una tesis contra quien la niega: ensayo polémico, alegato, réplica, crítica de una disciplina o de una práctica. | Tesis en la primera oración, adversario con turno de palabra, concesión antes de la refutación |
 
 Si el usuario no indica el tono y el texto es académico, técnico o formal, se
 usa `camus-writing`. Si el género no encaja en ninguna fila, se aplica esta
 base sola.
 
-Los doce tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
+Los trece tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
 un autor concreto, medida sobre un corpus de transcripciones, y cada uno declara
 en su sección de fuentes qué se midió, con qué números y qué no pudo
 verificarse. Ninguno toma la variedad dialectal ni el tratamiento de su modelo:

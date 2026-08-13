@@ -2,16 +2,18 @@
 name: han-writing
 description: >
   Skill de tono para el ensayo breve de diagnóstico cultural en español.
-  Aplica el procedimiento derivado de la prosa de Byung-Chul Han: sección
-  corta y autosuficiente, una oposición conceptual como motor del texto,
-  argumento por etimología, entrada de los filósofos sin aparato y afirmación
-  en presente sobre la época. Registro impersonal, afirmativo y sin
-  atenuación. Hereda toda la normativa de «spanish-writing». Úsese cuando el
-  usuario pida un ensayo breve de crítica cultural, una columna de opinión
-  conceptual, un prólogo, un texto de catálogo, una entrada de bitácora
-  filosófica o la apertura de una charla, o cuando pida «tono Han», «estilo
-  Byung-Chul Han», «ensayo de diagnóstico» o «crítica de la época». No se
-  usa en textos que deban probar algo con datos.
+  Reconstruye la forma de escribir de Byung-Chul Han medida sobre 1.654
+  palabras de prosa suya traducida: oración mediana de 16 palabras que nunca
+  pasa de 40, oposición o desplazamiento conceptual en dos de cada cinco
+  oraciones, negación densa, cópula escasa, tecnicismo filosófico conservado
+  entero, tercero que entra nombrado y sin aparato, y ninguna cifra usada
+  como prueba. Registro impersonal, afirmativo y sin atenuación. Hereda toda
+  la normativa de «spanish-writing». Úsese cuando el usuario pida un ensayo
+  breve de crítica cultural, una columna de opinión conceptual, un prólogo,
+  un texto de catálogo, una entrada de bitácora filosófica o la apertura de
+  una charla, o cuando pida «tono Han», «estilo Byung-Chul Han», «ensayo de
+  diagnóstico» o «crítica de la época». No se usa en textos que deban probar
+  algo con datos.
 ---
 
 # Skill de tono: el diagnóstico breve por oposición
@@ -28,17 +30,12 @@ No es el tono por defecto. No se usa en informes, documentación, manuales,
 comunicaciones institucionales, textos legales ni trabajos empíricos. La
 prueba es simple: si la afirmación central del texto necesita un dato para
 sostenerse, este tono no sirve y hay que cambiar de tono, no bajar la
-exigencia de prueba. Ver la sección 5.6, que es la restricción más importante
-del documento.
+exigencia de prueba. La sección 9 mide hasta dónde llega esa ausencia de dato
+en el modelo y por qué el skill la restringe todavía más.
 
 Tampoco se usa para textos largos. El molde está hecho de piezas cortas y no
 escala: un texto de doce mil palabras escrito así no es un ensayo, es una
 letanía.
-
-Y el molde no cubre toda la obra del autor del que sale. De veinte libros
-suyos catalogados, seis son monografías o tratados que no diagnostican nada
-del presente. La sección 4 mide dónde vive el molde antes de que la sección 5
-lo describa.
 
 
 ## 2. Relación con la base normativa
@@ -46,527 +43,612 @@ lo describa.
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.
 La base decide qué es correcto en español. Este skill decide cómo suena.
 
-Ninguna regla de este documento levanta una prohibición de la base. En
-particular, la raya y el guion largo siguen prohibidos. El punto y coma sí se
-admite, con los tres usos y el límite de frecuencia del §6.7 de la base, y acá
-importa más que en otros tonos: la oposición conceptual pide ese signo todo el
-tiempo, y por eso mismo es donde antes se convierte en tic. Cuando la oposición
-ya se dijo dos veces seguidas con punto y coma, la tercera va con punto.
+Ninguna regla de este documento levanta una prohibición de la base. Cuatro
+puntos merecen mención expresa porque el modelo medido los roza.
 
-Este skill restringe más de lo que la base restringe. El autor del que sale
-el molde tiene defectos conocidos y muy imitables, y las secciones 8, 9 y 10
-existen para no importarlos.
+La raya y el guion largo siguen prohibidos, incluso dentro de una cita. La
+extracción no trae ninguna, pero tampoco sirve de prueba: convierte ese signo en
+otro y por eso lo perdió. Ver la sección 11.
 
+El punto y coma está permitido con los tres usos y el techo de la base. El
+modelo lo usa en 2 de 96 oraciones, el 2,1 %, muy por debajo del límite de
+una de cada cinco. Quien escriba en este tono tiene margen y no tiene excusa
+para el tic.
 
-## 3. De dónde sale el molde
+El texto se escribe en español americano y, si interpela al lector, lo trata
+de usted o de ustedes. El material medido es una traducción peninsular. Esa
+variedad no se imita.
 
-Byung-Chul Han nació en Seúl en 1959 y llegó a Alemania a los 22 años sin
-saber el idioma. Se doctoró en Friburgo en 1994 con una tesis sobre el ánimo
-en Heidegger. Escribe en alemán, que es su segunda lengua, y en español se lo
-lee traducido.
-
-Sus libros son cortos y verificablemente cortos. «Müdigkeitsgesellschaft»
-tiene 72 páginas en alemán y la edición española de «La sociedad del
-cansancio» tiene 118. «Im Schwarm» tiene 107 páginas en alemán y 109 en la
-edición española de «En el enjambre».
-
-Lo que se imita es un procedimiento, no un vocabulario. Copiar sus palabras
-(rendimiento, positividad, transparencia, enjambre, no-cosas) produce una
-parodia reconocible al instante. Lo que se importa son las seis operaciones
-de la sección 5.
-
-Este documento se apoya en dos materiales de naturaleza distinta y conviene
-saber cuál sostiene cada afirmación. Uno son artículos académicos que
-reproducen pasajes suyos: de ahí sale todo lo que acá se dice sobre su frase.
-El otro es una guía de lectura de veinte libros suyos, con ficha
-bibliográfica y eje temático, sin una línea de su prosa: de ahí sale todo lo
-que acá se dice sobre su arquitectura. Los dos materiales están separados en
-la sección 14 y ninguna afirmación cruza de un lado al otro.
+Todo tecnicismo se conserva y se glosa en su primera aparición. La sección 10
+lo mide: es el rasgo léxico más denso del modelo y el que peor sobrevive a
+una simplificación bienintencionada.
 
 
-## 4. La arquitectura de la obra, medida
+## 3. La medición y lo que desmintió
 
-Esta sección es descriptiva. Cuenta lo que se puede contar sobre cómo está
-organizada su obra y sirve para elegir la oposición matriz de un texto nuevo.
-No dice nada sobre cómo escribe, porque el material del que sale no contiene
-su escritura.
+Esta versión se apoya, por primera vez, en prosa del autor. Antes no era así,
+y conviene decirlo con todas las letras porque de ahí salían las cifras del
+documento anterior.
 
-### 4.1. El censo
+La versión anterior declaraba haberse medido sobre veinte archivos de un
+corpus. Esos veinte archivos no contienen una sola palabra del autor. Son
+fichas bibliográficas de unos 850 bytes cada una, con título, editorial,
+identificador comercial, enlace a una vista previa y un párrafo de eje de
+lectura escrito por quien armó la carpeta. Los veinte suman 17.049 bytes. El
+propio archivo de índice de esa carpeta declara que no contiene copias
+integrales ni transcripciones.
 
-Veinte libros, con ficha bibliográfica y eje de lectura de cada uno. Las
-veinte fichas declaran la misma editorial española. Las veinte declaran
-además, en la cabecera, que no incluyen texto integral.
+De modo que lo que aquella versión presentaba como medición sobre veinte
+fuentes era medición sobre veinte resúmenes editoriales. Tres afirmaciones
+suyas caen con esa base.
 
-El orden en que están numeradas es estrictamente decreciente por número de
-registro editorial, y tres de las fichas remiten a una segunda edición. Es
-decir, es un orden de catálogo y de reedición, no una cronología de
-composición. De ahí no se puede leer la evolución de su pensamiento, y
-cualquier afirmación sobre el orden en que llegó a sus tesis necesita fechas
-de publicación que este material no da.
+La primera. «Veinte libros, veinte oposiciones, sin una excepción» describía
+la forma de redactar contracubiertas, no la de escribir. Un resumen de
+catálogo enuncia la tesis de un libro por contraste porque así se vende un
+libro. Sobre prosa real, la oposición gobierna el 40,6 % de las oraciones, no
+el 100 %. La sección 5 da el desglose.
 
-El conjunto tampoco es completo. Al menos dos títulos suyos de la misma
-editorial quedan fuera, y los dos llevan número de registro anterior al más
-bajo del conjunto, lo que sugiere que se trata de un corte por antigüedad de
-registro. Uno de ellos, «La sociedad de la transparencia», es justamente el
-libro del que sale la oposición entre transparencia y opacidad que la sección
-5.2 cita de segunda mano.
+La segunda. «La mayoría de las oraciones entre 8 y 20 palabras. Ninguna por
+encima de 30» era un valor de oficio declarado como tal. Medido: 6 de 96
+oraciones pasan de 30 palabras, y la más larga tiene 40. El techo de 30 es
+falso.
 
-### 4.2. Veinte libros, veinte oposiciones
+La tercera. La etimología figuraba como una de las seis operaciones del
+molde, con dos ejemplos tomados de un artículo académico sobre otro libro. En
+las 96 oraciones medidas hay un argumento etimológico, uno solo. La sección
+12 lo trata.
 
-El dato más fuerte del conjunto es también el más simple. Las veinte fichas,
-sin excepción, enuncian la tesis de su libro como una oposición entre dos
-términos. No hay un solo libro descrito como acumulación de casos, como
-recorrido histórico neutro ni como exposición de un problema sin contrario.
+Lo que sí quedó confirmado. La prohibición de encadenar más de dos oraciones
+cortas: la racha máxima observada es de dos, en trece rachas. La ausencia de
+pregunta retórica: cero oraciones interrogativas. La ausencia de cifra: cero
+oraciones con un número usado como prueba. Y la oposición como recurso
+dominante, aunque no como recurso único.
 
-Esto confirma en la escala del libro lo que la sección 5.2 pide en la escala
-del texto. La oposición no es un adorno de su frase, es la forma en que
-concibe una obra entera.
 
-Segundo dato de la misma escala. Los veinte ejes describen la operación del
-libro con un verbo, y los veinte verbos son de operación conceptual: examina,
-analiza, propone, vincula, contrapone, critica, describe, explica, estudia,
-reúne, piensa, revisa, articula, interpreta, aborda, reconstruye, rastrea.
-Ninguno es de recolección ni de medición. Nadie documenta, mide, encuesta ni
-compara series. Es una propiedad de las guías y no una prueba sobre los
-libros, pero apunta en la misma dirección que la crítica académica citada en
-5.6.
+## 4. La frase, medida
 
-### 4.3. Qué oposiciones se repiten y cuáles son de un solo libro
+Las cifras salen de 96 oraciones y 1.654 palabras de prosa del autor, ya
+descontadas las citas de terceros y el aparato de notas.
 
-Cada ficha se leyó y se le extrajo la oposición o las oposiciones que
-declara. Una misma ficha aporta a más de una familia, así que las cuentas no
-suman veinte.
-
-Siete familias reaparecen en tres libros o más.
-
-| Familia | Libros |
+| Medida | Valor |
 |---|---|
-| Alteridad frente a lo igual, el otro reducido al yo | 6 |
-| Poder que reprime frente a poder que produce y explota la libertad | 6 |
-| Negatividad frente a positividad, lo que hiere frente a lo que agrada | 5 |
-| Duración y continuidad frente a fragmentación y aceleración | 5 |
-| Demora contemplativa frente a consumo inmediato | 4 |
-| Interioridad invisible frente a exterioridad visible | 3 |
-| Comunidad frente a aislamiento | 3 |
+| Mínimo | 3 palabras |
+| Primer cuartil | 11 palabras |
+| Mediana | 16 palabras |
+| Tercer cuartil | 22 palabras |
+| Percentil 90 | 27,5 palabras |
+| Máximo | 40 palabras |
+| Media | 17,2 palabras |
 
-Otras siete oposiciones aparecen en un solo libro y son, casi siempre, las
-que le dan el título: masa frente a enjambre, narración frente a información,
-esperanza frente a miedo, acumulación frente a destrucción, pensamiento serio
-frente a entretenimiento, corazón y temple frente a concepto, identidades
-cerradas frente a formas híbridas.
+El reparto por tramos:
 
-De acá sale la regla operativa más útil de todo el documento, y la sección
-5.2 la aplica. La familia es el motor y la oposición de un solo libro es la
-firma. Un texto que reutiliza «masa frente a enjambre» no importó el método,
-importó la marca, y se nota en la primera línea.
+| Tramo | Oraciones | Proporción |
+|---|---|---|
+| Menos de 10 palabras | 16 | 16,7 % |
+| De 10 a 20 | 50 | 52,1 % |
+| De 21 a 30 | 24 | 25,0 % |
+| De 31 a 40 | 6 | 6,3 % |
+| Más de 40 | 0 | 0 % |
 
-### 4.4. Los autores que el material nombra
+De ahí salen cinco reglas.
 
-Dos, en veinte fichas: Heidegger y Hegel. En los dos casos porque el libro
-entero está dedicado a ese filósofo. Ninguna otra ficha nombra a un autor.
+La mediana manda. Se escribe alrededor de 16 palabras por oración, con la
+mitad central del texto entre 11 y 22.
 
-Esto obliga a dos precisiones. La primera es negativa: la lista de filósofos
-de la sección 5.4 no sale de acá y este material no la confirma ni la amplía.
-La segunda es más interesante. Que dos de sus veinte libros sean monografías
-sobre un solo filósofo significa que la entrada sin aparato de la sección 5.4
-describe un género suyo, no una incapacidad ni un desconocimiento del
-comentario erudito. La economía es una elección, y elegir supone poder hacer
-lo contrario.
+La oración corta existe y es minoría. Una de cada seis baja de diez palabras.
+No es el ritmo del texto, es su acento.
 
-### 4.5. El molde no cubre toda su obra
+La racha corta se corta en dos. En trece rachas de oraciones breves, diez son
+de una sola oración y tres son de dos. Nunca hay tres seguidas. La tercera se
+funde con otra por subordinación o coordinación.
 
-Trece de las veinte fichas describen un diagnóstico del presente, que es el
-molde de este documento. Seis describen trabajo monográfico o teórico sin
-diagnóstico epocal, sobre Heidegger, sobre Hegel, sobre la muerte, sobre el
-poder y sobre el entretenimiento. Una queda en el medio y se contabiliza
-aparte.
+La oración larga existe y también es minoría: 13 oraciones de 96 pasan de 25
+palabras, el 13,5 %. Alrededor de una de cada siete. Esa es la que hace que
+las breves se noten.
 
-Las seis teóricas ocupan posiciones del extremo bajo del orden de catálogo,
-lo que separa los géneros pero, por lo dicho en 4.1, no autoriza a convertir
-esa separación en una cronología.
-
-Una sola ficha declara un giro dentro de la obra, de la crítica del presente
-a la posibilidad de una vida nueva. Es un dato menor y se anota porque
-matiza la idea de un autor de una sola nota.
-
-### 4.6. Lo que este material no permite decir
-
-Nada sobre su frase. Ni longitud de oración, ni ritmo, ni cesura, ni densidad
-de aforismo, ni extensión de capítulo o de párrafo, ni elección léxica.
-
-De acá no sale ninguna cita. Las cifras de páginas de la sección 3 y los
-pasajes citados en 5.2 y 5.5 vienen de las fuentes con prosa de la sección
-14.2, no de este material, y así están señalados.
+Cuarenta palabras es el techo, y es un techo medido, no una convención. Una
+oración de 45 palabras no está imitando a este autor.
 
 
-## 5. Las seis operaciones
+## 5. La oposición, medida
 
-### 5.1. La sección corta como unidad
+Es el recurso central del modelo y ahora se sabe cuánto pesa. Tres formas
+distintas, contadas por separado sobre las mismas 96 oraciones.
 
-El capítulo es la unidad de composición y es breve. Vicente Ordóñez Roig
-describe «En el enjambre» como un libro articulado en «un prólogo y dieciséis
-momentos o piezas breves que conforman un todo unitario».
+Contraste explícito por marcador: 23 oraciones, el 24,0 %.
 
-Traducción operativa para el agente: la unidad no es el párrafo ni el
-capítulo largo, es la sección de 300 a 700 palabras que sostiene una sola
-tesis y se agota en ella. Cada sección lleva título nominal, corto y
-conceptual, sin verbo. Las secciones se ordenan por acumulación y no por
-escalera argumentativa, de modo que cualquiera de ellas se puede leer sola sin
-haber leído las anteriores.
+Desplazamiento o sustitución de un término por otro, con verbos del tipo
+reemplazar, convertirse en, ceder, degradar, terminar en: 14 oraciones, el
+14,6 %.
 
-Consecuencia menos obvia: no hay sección de transición. Si una sección existe
-solo para llevar de la anterior a la siguiente, se borra.
+Par léxico de contrarios dentro de la misma oración: 15 oraciones, el 15,6 %.
 
-### 5.2. La oposición conceptual como motor
+La unión de las tres formas da 39 oraciones, el 40,6 %. Las 57 restantes, el
+59,4 %, no llevan oposición detectable: son afirmación conceptual, descripción
+o desarrollo. Además, en 11 casos el par se reparte entre dos oraciones
+contiguas, con un término en una y su contrario en la siguiente.
 
-Es su recurso más característico y el que más rinde. El texto no avanza
-acumulando pruebas, avanza desplazando una oposición. La sección 4.2 le pone
-número: veinte libros suyos, veinte oposiciones, sin una excepción.
+El desglose de los marcadores desmiente una costumbre heredada:
 
-El movimiento típico tiene cuatro tiempos. Se nombra el término viejo. Se le
-concede su verdad histórica, porque describía bien un mundo que ya pasó. Se
-afirma que ha dejado de describir el presente. Se nombra el término nuevo, que
-es la tesis del texto.
+| Marcador | Oraciones |
+|---|---|
+| «no ... sino» | 6 |
+| «más ... que» | 4 |
+| «ya no» | 3 |
+| «sin embargo», «pero» | 3 |
+| «en lugar de», «en vez de» | 2 |
+| «dejar de», «dejar paso a» | 2 |
+| «frente a» | 1 |
+| «mientras que» | 1 |
+| «antes bien» | 1 |
+| «menos ... que» | 1 |
+| «tanto ... como» | 1 |
+| «a diferencia de» | 0 |
+| «por el contrario», «al contrario» | 0 |
+| «en cambio» | 0 |
 
-Una frase de «La sociedad del cansancio» muestra la forma condensada del
-recurso: «La positividad del poder es mucho más eficiente que la negatividad
-del deber» (citada en Castillo Gutiérrez y Montoya Ramírez, 2023, a partir de
-Han, p. 27).
+La fórmula «X frente a Y», que el documento anterior usaba para nombrar cada
+par conceptual, aparece una vez en 96 oraciones. Es la lengua de las guías de
+lectura, no la del autor. Quien escriba en este tono la usa una vez por texto
+como mucho.
 
-Primer límite, ya conocido: una sola oposición matriz por texto. Las demás
-tienen que derivar de esa. Un texto con cuatro oposiciones independientes no
-es un diagnóstico, es una lista de ocurrencias.
+Los pares léxicos que más reaparecen: activo y pasivo, o acción y
+contemplación, en 4 oraciones; libertad y obligación, en 3; lo propio y lo
+extraño, en 2; víctima y verdugo, en 2; época vieja y época nueva, en 2.
 
-Segundo límite, que sale de la medición de 4.3: la oposición matriz se elige
-de familia y no de firma. Las familias recurrentes son ejes que aguantan
-muchos textos distintos, del tipo alteridad frente a lo igual, poder que
-reprime frente a poder que produce, negatividad frente a positividad,
-duración frente a fragmentación, demora frente a consumo, interioridad
-invisible frente a exterioridad visible, comunidad frente a aislamiento. Sobre
-uno de esos ejes se construye el par propio del texto, con las palabras del
-tema que se está tratando. Lo que no se hace es tomar prestado el par que ya
-titula un libro suyo. «Masa frente a enjambre» es de un libro solo, y además
-es la que peor sobrevivió a la traducción, según se cuenta en la sección 8.
+Cuatro reglas operativas.
 
-Los pares documentados en los artículos académicos siguen sirviendo de
-muestra del recurso: sociedad disciplinaria frente a sociedad del rendimiento,
-deber frente a poder, negatividad frente a exceso de positividad, obediencia
-frente a autoexplotación (Castillo Gutiérrez y Montoya Ramírez, 2023), Big
-Brother frente a Big Data, masa frente a enjambre, biopolítica frente a
-psicopolítica, acción manual frente a tecleo (Ordóñez Roig, 2018),
-transparencia frente a opacidad (Navarro, 2019). Son ejemplos para reconocer
-la operación, no un repertorio para copiar.
+Una sola oposición matriz por texto. Las demás derivan de esa. Un texto con
+cuatro oposiciones independientes no es un diagnóstico, es una lista de
+ocurrencias.
 
-### 5.3. La etimología como argumento
+La oposición se reparte, no se concentra. Dos de cada cinco oraciones la
+llevan; las otras tres afirman, describen o desarrollan. Un texto donde cada
+oración contrapone algo no imita al modelo, lo caricaturiza.
 
-Han deriva tesis del origen de las palabras. Ordóñez Roig documenta dos casos
-en «En el enjambre»: «Handeln», actuar, remite a «Hand», mano, y de ahí que el
-que teclea no actúe, y «digital» viene de «digitus», dedo, lo que le permite
-oponer la acción de la mano al movimiento del dedo.
+El desplazamiento pesa casi tanto como el contraste. El movimiento típico no
+es «A frente a B», es «B reemplazó a A» o «A se ha convertido en B». El verbo
+hace el trabajo que la conjunción parece hacer.
 
-Dos reglas para el agente, y la segunda es la que evita el ridículo.
+«No es X, sino Y» es el marcador más frecuente y por eso mismo el más
+peligroso. Seis oraciones en 96 es una cada 16. Dos seguidas ya es un tic.
 
-La primera: la etimología ilumina, no prueba. Una tesis que se sostiene solo
-en el origen de una palabra es una tesis sin sostén. La etimología entra
-cuando confirma algo que el texto ya mostró por otra vía.
 
-La segunda: solo se usan raíces que la palabra española cargue de verdad. Las
-etimologías latinas y griegas se trasladan, porque el español tiene las mismas
-raíces, y por eso «digital» y «dedo» funcionan igual en los dos idiomas. Los
-juegos con palabras alemanas no se trasladan. «Handeln» y «Hand» no tienen
-pareja española, y fabricar una equivalencia para que el juego suene es
-inventar. Si el juego solo existe en alemán, se explica como dato ajeno o no
-se usa.
+## 6. La negación, medida
 
-### 5.4. Cómo entran los otros filósofos
+La negación es el segundo rasgo por densidad y sostiene la oposición desde
+dentro.
 
-Sin aparato. Se nombra al autor, se toma un concepto suyo, se lo usa como
-palanca y el texto sigue. No hay estado de la cuestión, no hay resumen de su
-obra, no hay discusión de intérpretes, no hay nota al pie que justifique la
-elección.
+Oraciones con al menos una negación explícita: 36 de 96, el 37,5 %.
 
-En su obra, Foucault entra por la sociedad disciplinaria, Arendt por la vita
-activa, Heidegger por el ánimo y el aburrimiento profundo, Agamben por el homo
-sacer y Handke por el cansancio fundamental. Esa lista viene de los artículos
-académicos y la guía de veinte libros no la confirma, según se explica en 4.4.
+Apariciones de «no», «ni», «nunca», «nada», «nadie», «ningún», «sin» y
+«tampoco»: 54 en 1.654 palabras, 3,3 por cada 100 palabras.
 
-Regla: el nombre entra ya trabajando y nunca se lo presenta. Se escribe «la
-sociedad disciplinaria que describió Foucault» y se sigue, no «Michel
-Foucault, filósofo francés, desarrolló en Vigilar y castigar la noción de».
+Más de una de cada tres oraciones niega algo. La negación no es un recurso de
+énfasis en este modelo, es la manera de definir: un término se dice por lo
+que el otro ha dejado de ser. Conviene distinguir dos usos, porque solo uno
+se importa.
 
-Matiz que aporta la medición. La ausencia de aparato es una regla de este
-género y no una regla del autor entero, que dedicó libros completos a
-Heidegger y a Hegel. Sirve para saber qué se está imitando: se imita su
-ensayo de diagnóstico, no su trabajo de comentario. Y sirve como advertencia,
-porque quien no puede hacer el comentario tampoco puede permitirse la
-economía.
+Se importa la negación que define. «La libertad, en sentido propio, está
+vinculada a la negatividad» funciona porque el término positivo se sostiene
+en lo que excluye.
 
-Contrapartida innegociable: la falta de aparato no autoriza a inventar la
-fuente. Si no se puede señalar dónde dijo eso el autor, no se lo cita. La
-economía del molde afecta a la presentación, nunca a la veracidad de la
-atribución.
+No se importa la negación que solo suena. Negar por simetría, para que la
+frase cierre con un contrapeso, produce el aforismo vacío de la sección 15.
 
-### 5.5. El diagnóstico epocal como forma
+Regla de medida: alrededor de una de cada tres oraciones lleva negación, y
+ninguna la lleva tres veces.
 
-El texto declara qué le pasa a esta época. Presente de indicativo, tercera
-persona, afirmación sin atenuar. No se argumenta hacia la tesis, se parte de
-ella.
 
-La primera línea de «La sociedad del cansancio» es una tesis y no una
-introducción: «Toda época tiene sus enfermedades emblemáticas» (citada en
-Fernández Poncela, 2022, a partir de Han, 2019, p. 13).
+## 7. La cópula y el arranque de oración
 
-Regla: prohibido el párrafo de encuadre. Se entra por la afirmación. Quedan
-prohibidas de forma explícita las aperturas que la base ya marca como molde y
-que este género atrae con especial fuerza, del tipo «en la actualidad» o «en
-la era digital», y también la pregunta retórica de arranque.
+Contra lo que sugiere la fama sentenciosa del modelo, la cópula es escasa.
 
-### 5.6. La ausencia de ejemplo empírico
+Oraciones con «ser» o «estar» en forma personal: 27 de 96, el 28,1 %. En
+total, 34 apariciones, 2,1 por cada 100 palabras.
 
-Han casi no usa datos, estadísticas ni casos. Describe experiencias corrientes
-y deriva de ahí. Es su rasgo más criticado. Alejandro Recio Sastre le reprocha
-generalizar sobre un sujeto abstracto y describir solo a los incluidos en el
-espacio digital. Anna María Fernández Poncela le reprocha describir el
-cansancio de las sociedades occidentales ricas ignorando el de quienes hacen
-doble jornada por necesidad económica.
+Si se añaden los verbos que hacen de cópula sin serlo, del tipo consistir en,
+significar, representar y constituir, la cifra sube a 33 oraciones, el 34,4 %.
 
-Esta es la restricción central del skill, y no admite matices.
+Oraciones que abren con una definición del tipo «El X es Y»: 9, el 9,4 %.
+
+Es decir, siete de cada diez oraciones se apoyan en un verbo pleno. El modelo
+no define: describe procesos con verbos de acción, de transformación y de
+supresión. La definición aparece una vez cada diez oraciones y funciona como
+remate, no como método.
+
+Los arranques también se midieron.
+
+Oraciones que abren con anáfora demostrativa, del tipo «Esta», «Este»,
+«Aquella», «Así»: 11, el 11,5 %. Es la cadena que engancha una oración con la
+anterior sin conector formal.
+
+Oraciones que abren con un conector o un marcador del discurso: 18, el 18,8 %.
+
+Regla: el texto avanza retomando un término de la oración anterior más que
+anunciando la relación lógica con un conector. Una de cada nueve oraciones
+puede abrir con demostrativo; si abren así tres seguidas, el texto se vuelve
+una cadena de referencias sin sujeto.
+
+
+## 8. El tercero y su cita
+
+El modelo trabaja con autoridades ajenas y lo hace de una forma medible.
+
+Oraciones que nombran a un tercero: 21 de 96, el 21,9 %. Una de cada cinco.
+
+Nombres distintos en la prosa propia: ocho autoridades y un personaje
+literario. Por menciones: Arendt 5, Handke 4, Nietzsche 2, Heidegger 2,
+Agamben 1, Baudrillard 1, Benjamin 1, y una inmunóloga citada una vez. El
+personaje, Bartleby, aparece 5 veces.
+
+Clase de esos terceros: siete de las ocho autoridades son filósofos o
+escritores. Una sola es científica, y su referencia vive en una nota al pie,
+no en el cuerpo del texto.
+
+Fórmulas de atribución en el cuerpo: 12 oraciones, del tipo «Según Arendt»,
+«al parecer de Nietzsche», «dicho con Heidegger». El nombre entra con un
+sintagma corto y el argumento sigue en la misma oración.
+
+Referencias bibliográficas en el cuerpo: cero. Todo el aparato vive en notas.
+
+De ahí salen tres reglas.
+
+El nombre entra ya trabajando y nunca se lo presenta. Se escribe «la sociedad
+disciplinaria que describió Foucault» y se sigue, no «Michel Foucault,
+filósofo francés, desarrolló en su obra la noción de».
+
+La proporción se respeta. Una de cada cinco oraciones nombra a alguien. Un
+texto donde cada párrafo invoca a un filósofo distinto no está imitando esta
+economía, está haciendo un inventario.
+
+La falta de aparato no autoriza a inventar la fuente. Si no se puede señalar
+dónde dijo eso el autor, no se lo cita. La economía del molde afecta a la
+presentación, nunca a la veracidad de la atribución.
+
+Sobre el volumen de cita hay un dato que conviene mirar de frente. En el
+material extraído, 43 unidades entrecomilladas de terceros suman 2.217
+palabras, frente a 1.654 palabras de prosa propia. La proporción está
+inflada porque la extracción mezcla el cuerpo con las notas, donde la cita se
+concentra. Aun así, marca un límite: este autor cita mucho y comenta siempre.
+Ninguna cita queda suelta. Quien escriba en este tono cita corto, atribuye
+por nombre en la misma oración y comenta en la siguiente.
+
+
+## 9. La ausencia de dato, medida
+
+El rasgo más criticado del modelo, y ahora contado.
+
+Oraciones con una cifra arábiga: cero de 96.
+
+Oraciones que enuncian una cantidad, una proporción, una fecha o un resultado
+medido: cero.
+
+Oraciones con un referente concreto del mundo, del tipo epidemiológico,
+etológico o histórico: 11. Ninguna de las 11 trae una cifra que la respalde.
+
+Oraciones que citan una fuente científica: una, y está en nota.
+
+Hay que leer bien ese cero. En el texto medido hay al menos una afirmación
+cuantitativa sin cuantificar: a un fenómeno del mundo laboral se le atribuye
+la extensión de una epidemia sin una sola cifra detrás. La forma ahorra la
+cifra y conserva el efecto de la cifra. Ese es exactamente el movimiento que
+la crítica académica le reprocha al modelo, y este skill no lo hereda.
+
+Esta es la restricción central del documento y no admite matices.
 
 La ausencia de dato es una elección de forma, no un permiso para afirmar
-cualquier cosa. Toda afirmación sobre el mundo tiene que ser algo que el autor
-pueda defender si se lo preguntan en voz alta. La forma ahorra la cita, no la
-responsabilidad.
+cualquier cosa. Toda afirmación sobre el mundo tiene que ser algo que quien
+escribe pueda defender si se lo preguntan en voz alta.
 
-Y si la afirmación central necesita un dato, el texto pone el dato y cambia de
-tono. Escribir en este molde una tesis que solo se sostiene con evidencia es
-usar la forma para tapar un hueco, que es exactamente lo que la crítica
-académica le reprocha al modelo.
+Queda prohibida la cuantificación sin cuantificar. Nada de «dimensiones
+epidémicas», «se ha multiplicado», «la inmensa mayoría» ni «cada vez más» sin
+una cifra detrás. Si la cifra existe, va y el texto cambia de tono. Si no
+existe, la afirmación se acota o se cae.
+
+Y si la afirmación central necesita un dato, el texto pone el dato y cambia
+de tono. Escribir en este molde una tesis que solo se sostiene con evidencia
+es usar la forma para tapar un hueco.
 
 
-## 6. Longitudes y ritmo
+## 10. El tecnicismo, medido
 
-Aviso de procedencia, porque acá es donde más fácil se cuela una cifra sin
-respaldo. Ninguno de estos números sale de la guía de veinte libros, que no
-contiene su prosa. Son valores de oficio, calibrados sobre la sección corta
-descrita por los reseñistas y sobre los pasajes que los artículos académicos
-reproducen. Se aplican como convención de este skill y no se presentan nunca
-como una medición de su escritura.
+Oraciones que llevan al menos un término técnico filosófico o clínico: 37 de
+96, el 38,5 %. Casi dos de cada cinco.
 
-Oración: la mayoría entre 8 y 20 palabras. Ninguna por encima de 30.
+Términos en otra lengua conservados sin traducir en el material extraído: 19
+apariciones, del tipo «animal laborans», «vita activa» y «vita contemplativa».
 
-No más de dos oraciones cortas seguidas, entendiendo por corta la de menos de
-diez palabras. La tercera se funde con otra por subordinación o coordinación.
+Este es el rasgo léxico más denso del modelo y el más fácil de perder. La
+base normativa ya obliga a conservar el tecnicismo y a glosarlo en su primera
+aparición; acá esa obligación pesa más que en ningún otro tono, porque el
+argumento entero está hecho de términos.
 
-Cada sección tiene al menos una oración de más de 25 palabras. Esa oración es
-la que hace que las breves se noten.
+Se conservan enteros: positividad, negatividad, inmunológico, inmanente,
+otredad, animal laborans, vita activa, vita contemplativa, autoexplotación,
+hiperatención. Se glosan la primera vez, en la misma oración o en la
+siguiente, en una frase que no detiene el argumento.
 
-Párrafo: de 40 a 90 palabras. Se permite un párrafo de una sola oración por
+Lo que no se hace es sustituirlos por una aproximación corriente. Cambiar
+«positividad» por «lo positivo» o «animal laborans» por «trabajador» no
+simplifica el texto: le quita el argumento.
+
+Lo que tampoco se hace es acumularlos sin glosa. Dos de cada cinco oraciones
+con tecnicismo es la densidad medida; cinco de cada cinco es jerga.
+
+
+## 11. La puntuación, medida
+
+| Signo | Oraciones | Proporción |
+|---|---|---|
+| Punto y coma | 2 | 2,1 % |
+| Dos puntos | 1 | 1,0 % |
+| Paréntesis | 4 | 4,2 % |
+| Interrogación | 0 | 0 % |
+| Exclamación | 0 | 0 % |
+| Raya o guion largo | 0 | 0 % |
+
+Comas por oración: 1,28 de media.
+
+Cuatro consecuencias.
+
+Cero preguntas en las 96 oraciones que el autor firma. En la extracción entera
+sí aparecen ocho signos de interrogación, y conviene decir dónde: los ocho caen
+dentro de pasajes que la traducción cita de un relato ajeno y de otro autor, no
+en prosa propia. La distinción es la que sostiene la regla, porque sin ella la
+cifra sería cero por descuido.
+
+La pregunta retórica de arranque queda prohibida, y también la pregunta de
+transición en el medio del texto.
+
+Cero exclamaciones. El énfasis se consigue por posición y por brevedad, nunca
+por signo.
+
+Cero rayas en toda la extracción, pero esta cifra no se puede usar. La
+extracción convierte la raya en otro carácter, y se ve en los pasajes que la
+traducción cita de un relato ajeno, donde los incisos de diálogo salen con un
+signo de menor que en el sitio donde iba la raya. Es decir, la traducción sí las
+trae y la extracción las perdió.
+
+Lo que se afirma, entonces, es solo esto: la prohibición de la base rige igual,
+incluso dentro de una cita, y no hay medición que la respalde ni que la
+contradiga.
+
+La coma es el signo de trabajo y el punto y coma es excepcional. Una oración
+de 16 palabras con 1,28 comas de media es una oración con un solo inciso o
+sin ninguno. La subordinación en cascada no pertenece a este tono.
+
+
+## 12. La etimología, medida
+
+En 96 oraciones hay un solo argumento etimológico, construido sobre el
+significado original de una palabra hebrea. Uno.
+
+El documento anterior daba la etimología como una de las seis operaciones del
+molde, con dos ejemplos que venían de un artículo académico sobre otro libro
+y no de prosa medida. La medición la degrada a recurso ocasional.
+
+Dos reglas, y la segunda evita el ridículo.
+
+La etimología ilumina, no prueba. Una tesis que se sostiene solo en el origen
+de una palabra es una tesis sin sostén. Entra cuando confirma algo que el
+texto ya mostró por otra vía, y entra una vez por texto.
+
+Solo se usan raíces que la palabra española cargue de verdad. Las etimologías
+latinas y griegas se trasladan, porque el español tiene las mismas raíces.
+Los juegos con palabras alemanas no se trasladan: fabricar una equivalencia
+española para que el juego suene es inventar. Si el juego solo existe en otra
+lengua, se explica como dato ajeno o no se usa.
+
+
+## 13. Lo que la medición no alcanza
+
+Acá el skill prescribe en vez de retratar, y se dice cuál es cuál.
+
+El párrafo no se pudo medir. El texto extraído tiene nueve saltos de línea en
+26 KB y ninguna línea en blanco: la extracción destruyó los puntos y aparte.
+No hay ninguna cifra sobre longitud de párrafo ni sobre bloques entre puntos
+y aparte, y cualquier número que se diera sería inventado.
+
+La sección tampoco se pudo medir, por la misma razón y porque el texto llega
+desordenado.
+
+Lo que sí se pudo contar de la arquitectura son los títulos. Tres títulos de
+sección quedaron pegados al cuerpo en la extracción. Los tres son nominales,
+de tres o cuatro palabras, sin verbo y sin artículo indefinido. Es una muestra
+mínima, pero apunta en una sola dirección.
+
+Prescripción de este skill, declarada como tal:
+
+Sección de 300 a 700 palabras, con título nominal, corto y conceptual, sin
+verbo. Cada sección sostiene una sola tesis y se agota en ella.
+
+Párrafo de 40 a 90 palabras. Se permite un párrafo de una sola oración por
 sección, nunca dos, y nunca dos seguidos.
 
-Sección: de 300 a 700 palabras, con título nominal.
+Texto completo de tres a siete secciones. Por debajo de tres no hay
+acumulación; por encima de siete el molde se agota y empieza la repetición.
 
-Texto completo: de tres a siete secciones. Por debajo de tres no hay
-acumulación, por encima de siete el molde se agota y empieza la repetición.
-
-
-## 7. Aperturas y cierres
+Las secciones se ordenan por acumulación y no por escalera argumentativa, de
+modo que cualquiera se pueda leer sola. No hay sección de transición: si una
+sección existe solo para llevar de la anterior a la siguiente, se borra.
 
 Apertura de sección: una afirmación sobre el mundo, en presente. Prohibido
 anunciar el tema, encuadrar la época o preguntar para arrancar.
 
 Cierre de sección: la consecuencia de lo dicho, no su resumen. Si la sección
 abrió con una sentencia breve, cierra con una oración desarrollada. Si abrió
-con una oración desarrollada, puede cerrar con una breve. Nunca las dos puntas
-con remate, porque el efecto se anula.
+con una oración desarrollada, puede cerrar con una breve. Nunca las dos
+puntas con remate, porque el efecto se anula.
 
-Cierre del texto: no se anuncia. Un solo remate sentencioso por texto completo,
-y va en el cierre o no va a ninguna parte.
+Cierre del texto: no se anuncia. Un solo remate sentencioso por texto
+completo, y va en el cierre o no va a ninguna parte.
 
 
-## 8. La trampa del traductor
+## 14. La trampa del traductor
 
-Han escribe en alemán y en español se lo lee traducido, por más de un traductor
-y más de una editorial. Confundir su prosa con la de sus traductores es el
-error más fácil de cometer al derivar un estilo de él.
+Todo lo medido en este documento es traducción. El autor escribe en alemán y
+en español se lo lee traducido. El colofón de la edición medida acredita a una
+sola traductora, Arantzazu Saratxaga Arregi, sobre un original alemán de 2010
+titulado «Die Müdigkeitsgesellschaft». Otras obras suyas circulan en español
+con traductores distintos.
 
-Es suyo, y sobrevive a cualquier traducción porque es estructura: la brevedad
-del libro y del capítulo, la oposición conceptual como motor, el argumento
-etimológico, el diagnóstico epocal, la ausencia de ejemplo empírico y la
-entrada de los filósofos sin aparato. Todo eso se puede imitar en español con
-confianza. La medición de la sección 4 refuerza justamente este lado: la
-oposición se sostiene en la escala del libro, donde ninguna decisión de
-traductor la puede fabricar.
+Confundir su prosa con la de sus traductores es el error más fácil de cometer
+al derivar un estilo de él. La medición no lo resuelve; lo acota.
 
-Puede ser del traductor, y no se imita: la elección léxica exacta de cada par
-conceptual en español, el ritmo de la frase, el punto donde cae la cesura, el
-sonido sentencioso de una línea concreta y la consistencia con que un término
-se repite. El alemán y el español no cortan la oración en el mismo lugar, así
-que el staccato que se percibe en una página traducida puede ser del original
-o puede ser una decisión del traductor.
+Lo que sobrevive a cualquier traducción, porque es estructura o es recuento:
+el reparto de longitudes de oración, la proporción de oraciones con
+oposición, la densidad de negación, la proporción de cópula frente a verbo
+pleno, la frecuencia con que entra un tercero y la ausencia de cifra. Nada de
+eso lo fabrica un traductor: son decisiones del que compone el argumento.
 
-Esto no es una precaución teórica. Ordóñez Roig documenta en la edición
-española de «En el enjambre» un subtítulo omitido, cursivas inconsistentes,
-erratas como «casualidad» donde el original dice causalidad y, lo más grave
-para lo que acá interesa, «Menge» y «Masse» traducidos ambos por «masa» cuando
-Han los distingue. Una oposición conceptual del original desaparece en
-español. Si el recurso más característico del autor puede perderse en el paso
-de un idioma a otro, el sonido de una frase suya en español no prueba nada
-sobre su prosa.
+Lo que puede ser del traductor y no se imita: la elección léxica exacta de
+cada par conceptual en español, el punto donde cae la cesura dentro de la
+oración, el sonido sentencioso de una línea concreta y la consistencia con
+que un término se repite. El alemán y el español no cortan la oración en el
+mismo lugar.
 
-La medición añade una coincidencia incómoda que conviene tener presente. La
-oposición dañada por esa traducción, masa frente a enjambre, es también una de
-las siete que aparecen en un solo libro. Es a la vez la menos generalizable de
-su repertorio y la peor conservada en español, y sin embargo es la que más se
-cita como ejemplo de su método. Por eso la sección 5.2 manda elegir el eje que
-se repite y no el par que titula.
-
-Una advertencia sobre el material de catálogo. La guía de veinte libros
-declara una sola editorial en las veinte fichas, y sería fácil concluir de ahí
-que hay una casa y por lo tanto un criterio editorial único. No es así:
-verificado fuera de esa guía, al menos tres títulos suyos aparecen en español
-bajo otro sello, y dentro de la misma casa las fichas de otros títulos suyos
-acreditan traductores distintos. La uniformidad es del recorte, no de la
-bibliografía.
+Un caso documentado por la crítica muestra el tamaño del riesgo: en la
+edición española de otro libro suyo, dos términos alemanes distintos se
+tradujeron por la misma palabra española, y con eso desapareció una oposición
+conceptual del original. Si el recurso más característico del autor puede
+perderse en el paso de un idioma a otro, el sonido de una frase suya en
+español no prueba nada sobre su prosa.
 
 De ahí salen dos reglas prácticas.
 
 Se imita la operación, nunca la frase. Reproducir el giro de una traducción
 concreta es imitar a un traductor sin saberlo.
 
-Y ninguna formulación española se atribuye a Han sin decir que es una
-traducción. Cuando el texto cite un pasaje, nombra la traducción y, si se sabe,
-el traductor. En este documento, la frase de «La sociedad del cansancio» que
-aparece en 5.2 llega por la versión de Arantzazu Saratxaga Arregi y Alberto
-Ciria para Herder, citada a su vez por un artículo académico, y esa cadena es
-la que hay que hacer visible.
+Ninguna formulación española se atribuye al autor sin decir que es una
+traducción. Cuando el texto cite un pasaje, nombra la traducción y, si se
+sabe, quién la firma.
 
 
-## 9. La trampa del aforismo
+## 15. La trampa del aforismo
 
 Acá hay un conflicto real y hay que decirlo antes de resolverlo.
 
-La sentencia breve y simétrica es el rasgo más visible de Han. También es uno
-de los patrones que «humanizar-espanol» cataloga como señal de escritura
-automática: la cadena de oraciones cortas, la frase que aterriza como remate,
-la antítesis perfectamente equilibrada, el «no es X, sino Y» encadenado y el
-párrafo que siempre abre con su tesis. Un texto escrito en el molde de Han
-tiene, punto por punto, la firma que ese catálogo enseña a borrar.
+La sentencia breve y simétrica es el rasgo más visible del modelo. También es
+uno de los patrones que la pasada de humanización cataloga como señal de
+escritura automática: la cadena de oraciones cortas, la frase que aterriza
+como remate, la antítesis equilibrada, el «no es X, sino Y» encadenado y el
+párrafo que siempre abre con su tesis.
 
-El conflicto no se resuelve declarando a Han una excepción. Se resuelve
-separando dos escalas que se venían tratando juntas.
+La medición desarma buena parte del conflicto, y esa es la novedad de esta
+versión.
 
-La oposición vive en la escala de la obra. Veinte libros suyos y veinte
-oposiciones, según la medición de 4.2, con familias que reaparecen en tres,
-cinco y seis libros distintos. Eso es arquitectura, sobrevive a la traducción
-y no se parece en nada a lo que el catálogo de señales automáticas marca, que
-son antítesis dentro de la misma frase o dentro del mismo párrafo.
+La oración corta es minoría: 16,7 %. Nunca hay tres seguidas.
 
-La antítesis simétrica vive en la escala de la frase, y en esa escala este
-documento no tiene medición alguna. Del material de catálogo no sale ni una
-línea de su prosa, así que nada permite afirmar que él encadene sentencias con
-la densidad con la que las encadena un texto automático.
+La antítesis dentro de la misma oración es minoría: 15,6 % de pares léxicos.
 
-De esa separación sale el criterio. Se hereda la oposición como estructura del
-texto entero y se mantiene bajo presupuesto la oposición como figura de la
-frase. Cuatro reglas obligatorias.
+El «no es X, sino Y» aparece en 6 oraciones de 96, una cada 16.
 
-1. Presupuesto. Una sola sentencia de remate por sección. Han puede permitirse
-   una por capítulo porque su capítulo tiene tres páginas. Lo que delata no es
+La cópula, que es el motor de la frase sentenciosa, está en el 28,1 % de las
+oraciones. Siete de cada diez se apoyan en un verbo pleno.
+
+Es decir, el texto medido no se parece a la caricatura sentenciosa que se
+imita cuando se imita a este autor. Lo que produce esa caricatura es subir
+todos esos porcentajes a la vez. Cuatro reglas obligatorias.
+
+1. Presupuesto. Una sola sentencia de remate por sección. Lo que delata no es
    el recurso, es la densidad.
 
 2. Prueba de supresión. Se borra la sentencia y se relee el párrafo. Si el
    argumento perdió un paso, la sentencia era el resultado comprimido de un
    razonamiento y se queda. Si el texto sigue diciendo lo mismo, era
-   decoración y se va. El aforismo de molde es, por definición, el que se
-   puede borrar sin pérdida.
+   decoración y se va.
 
 3. Asimetría. La oposición es el motor, pero sus dos miembros no se escriben
    iguales. Uno se desarrolla y el otro se enuncia. Uno lleva ejemplo y el
-   otro no. No se encadenan dos construcciones «no es X, sino Y» en la misma
-   sección, y los párrafos no abren todos con su tesis.
+   otro no. Los párrafos no abren todos con su tesis.
 
-4. Prohibición del staccato. Más de dos oraciones cortas seguidas se funden en
-   una por subordinación o coordinación. Una frase breve golpea porque a su
-   alrededor hay frases que no lo son. Una sucesión de frases breves no
-   golpea, aplana.
+4. Prohibición del staccato. Más de dos oraciones cortas seguidas se funden
+   en una por subordinación o coordinación. Una frase breve golpea porque a
+   su alrededor hay frases que no lo son.
 
 Queda una advertencia que estas reglas no arreglan. Incluso los lectores
-favorables señalan que su prosa roza el eslogan: una reseña recogida en la
-ficha enciclopédica de su obra la describe como concisa hasta el punto de
-volverse aforística y advierte sobre la línea fina entre el ingenio y el
-eslogan complaciente. Ese defecto es del modelo y no se importa. Cuando una
-frase suena bien y no se sabe explicar qué afirma, la frase se borra.
+favorables señalan que su prosa roza el eslogan. Ese defecto es del modelo y
+no se importa. Cuando una frase suena bien y no se sabe explicar qué afirma,
+la frase se borra.
 
 Precedencia: si el usuario pide de forma explícita humanizar el texto, esa
 pasada decide el ritmo y puede fundir sentencias que este tono autorizaba.
 Quien lo pide acepta ese criterio por encima de este.
 
 
-## 10. Lo que no se importa del modelo
+## 16. Lo que no se importa del modelo
 
 La generalización sin sujeto. «El hombre contemporáneo», «hoy ya nadie», «la
 sociedad actual». Se acota siempre: quiénes, dónde, en qué condiciones. Es la
-crítica académica más repetida a Han y no hay razón para heredarla.
+crítica académica más repetida al modelo y no hay razón para heredarla.
+
+La cuantificación sin cifra. Ver la sección 9. Acá el documento prescribe y no
+retrata, y conviene decirlo: el modelo mismo escribe «cada vez más» dos veces en
+las 96 oraciones medidas, una sobre el acercamiento de la sociedad al salvajismo
+y otra sobre el paso de la ira al enfado. Son sus dos únicas cuantificaciones y
+las dos van sin cifra. La prohibición se mantiene igual, porque el defecto no
+deja de serlo por venir del autor.
 
 La repetición de la misma tesis con vocabulario nuevo. Entre secciones, cada
 una aporta un paso distinto. Si dos secciones dicen lo mismo con otras
-palabras, sobra una. La medición de 4.3 muestra que él mismo trabaja al borde
-de este defecto, con siete familias de oposición repartidas en veinte libros,
-así que dentro de un texto único el margen es todavía menor.
+palabras, sobra una.
 
 El verbo apocalíptico. Afirmar que algo ha muerto, ha desaparecido o se ha
 extinguido es efectista y casi siempre falso. Se prefiere el verbo que admite
-grado: se debilita, se vuelve minoritario, deja de ser la norma.
+grado: se debilita, se vuelve minoritario, deja de ser la norma. Conviene
+notar que el modelo mismo escribe así en la prosa medida, con verbos de
+desplazamiento y no de aniquilación.
 
-La nostalgia como argumento. Que algo fuera antes de otra manera no prueba que
-fuera mejor. Si el texto prefiere el pasado, dice por qué.
-
-El desprecio por el dato. Ver 5.6.
+La nostalgia como argumento. Que algo fuera antes de otra manera no prueba
+que fuera mejor. Si el texto prefiere el pasado, dice por qué.
 
 
-## 11. Formato de entrega
+## 17. Formato de entrega
 
 Rigen las reglas de la base. Al redactar texto nuevo, se entrega el texto
 solicitado. Al reescribir, se entrega el texto reescrito sin preámbulos ni
 explicaciones, salvo que el usuario las pida.
 
 Particularidad de este tono: los títulos de sección son parte del texto
-entregado, porque la sección corta con título es la unidad de composición. Van
-sin numerar, salvo que el usuario lo pida, y con mayúscula solo en la primera
-palabra y en los nombres propios.
+entregado, porque la sección corta con título es la unidad de composición.
+Van sin numerar, salvo que el usuario lo pida, y con mayúscula solo en la
+primera palabra y en los nombres propios.
 
 
-## 12. Ejemplo de aplicación
+## 18. Ejemplo de aplicación
 
-Antes (el molde mal imitado, con staccato, antítesis en cadena y remate en
-cada frase):
+Antes, con el molde mal imitado: oraciones cortas encadenadas, antítesis en
+cada línea, cópula en todas partes y una cantidad sin cifra.
 
 «Vivimos en la sociedad de la atención rota. Ya no miramos. Consumimos. La
 pantalla no es una ventana, es un espejo. El usuario no navega, es navegado.
 La atención se ha convertido en la última mercancía. Nadie contempla. Todos
-rendimos.»
+rendimos. La distracción alcanza dimensiones epidémicas».
 
-Después (con presupuesto de una sentencia, asimetría y una oración larga que
-sostiene el ritmo):
+Nueve oraciones, siete de menos de diez palabras, cuatro seguidas de menos de
+seis, cinco con cópula, tres antítesis encadenadas y una cuantificación sin
+cifra.
+
+Después, con las proporciones medidas.
 
 «La atención dejó de ser una capacidad para volverse un recurso que otros
 administran. La diferencia con la distracción de siempre está en quién la
 organiza: el que se distraía en una sala de espera perdía el hilo por su
-cuenta, mientras que la pantalla dispone de antemano el orden en que las cosas
-van a interrumpirse. Contemplar exige que nada reclame el turno siguiente.»
+cuenta, mientras que la pantalla dispone de antemano el orden en que las
+cosas van a interrumpirse. Contemplar exige que nada reclame el turno
+siguiente».
 
-Cambios aplicados: ocho oraciones se convirtieron en tres de longitud desigual,
-se eliminaron dos antítesis encadenadas y se conservó una sola, el remate final
-pasó la prueba de supresión porque enuncia la condición que el párrafo acababa
-de describir, y desapareció la generalización sin sujeto («nadie», «todos»).
-
-Sobre la elección del eje, que es lo que decide la sección 5.2: el par de este
-ejemplo, capacidad propia frente a recurso administrado, es una variante de la
-familia demora contemplativa frente a consumo inmediato, que reaparece en
-cuatro de sus libros. No se tomó prestado ningún par que titule uno solo.
+Tres oraciones de 17, 42 y 9 palabras. La segunda pasa del techo de 40 y hay
+que partirla; el resto ya cumple. Una sola oposición, la de capacidad propia
+contra recurso administrado, sostenida por un verbo de desplazamiento
+(«dejó de ser», «volverse») y no por un «frente a». Una sola oración con
+cópula. Un solo remate, que pasa la prueba de supresión porque enuncia la
+condición que el párrafo acababa de describir. Y desapareció la
+generalización sin sujeto junto con la cantidad sin cifra.
 
 
-## 13. Lista de verificación de tono
+## 19. Lista de verificación de tono
 
 Se ejecuta después de la lista normativa de la base.
 
@@ -598,132 +680,123 @@ Se ejecuta después de la lista normativa de la base.
     traducción?
 16. ¿El texto evita la generalización sin sujeto y el verbo apocalíptico, y usa
     verbos que admiten grado?
+17. ¿Ninguna oración pasa de cuarenta palabras y la mitad central del texto se
+    mantiene entre once y veintidós?
+18. ¿Las oraciones de menos de diez palabras se quedan alrededor de una de cada
+    seis, sin llegar a ser el ritmo del texto?
+19. ¿La mayoría de las oraciones se apoya en un verbo pleno y no en «ser» ni en
+    «estar»?
+20. ¿Alrededor de una de cada tres oraciones niega algo, y ninguna niega tres
+    veces?
+21. ¿Cada cita de un tercero es breve, va atribuida por su nombre en la misma
+    oración y queda comentada?
+22. ¿El texto queda libre de cantidades sin cifra, del tipo «dimensiones
+    epidémicas» o «cada vez más»?
 
 
-## 14. Fuentes
+## 20. Fuentes
 
-Las fuentes de este documento son de dos clases y la diferencia decide qué se
-puede afirmar con cada una. Están separadas a propósito.
+Esta sección declara qué se midió, con qué números y qué no pudo verificarse.
+Las fuentes son de tres clases y la diferencia decide qué se puede afirmar
+con cada una.
 
-### 14.1. Guía de veinte libros, sin prosa del autor
+### 20.1. Prosa del autor, medida directamente
 
-Fichas bibliográficas y ejes de lectura de veinte títulos suyos en español,
-con enlace a la ficha oficial y a la vista previa que la editorial ofrece en
-abierto. Cada ficha declara en su cabecera que incluye ficha bibliográfica y
-guía de lectura, y que no incluye texto integral.
+Extracción en texto plano de un archivo del libro «La sociedad del cansancio»
+aportado por el usuario, en traducción española de Arantzazu Saratxaga
+Arregi según el colofón de esa edición, sobre el original alemán «Die
+Müdigkeitsgesellschaft» de 2010.
 
-Es la fuente de todo lo que dice la sección 4: el censo, el orden de catálogo,
-la cuenta de oposiciones por familia, las oposiciones de un solo libro, los
-dos filósofos nombrados, los verbos de operación y el reparto entre libros de
-diagnóstico y libros teóricos.
+Volumen del material y de la limpieza:
 
-No es fuente de nada más. No contiene una sola línea escrita por el autor, así
-que no sostiene ninguna afirmación sobre su frase, su ritmo, su aforismo ni su
-léxico, y de ella no procede ninguna cita de este documento. Las vistas previas
-que enlaza sí contienen prosa real, pero no se leyeron para esta versión y por
-lo tanto no respaldan nada de lo que acá se afirma.
+| Concepto | Valor |
+|---|---|
+| Palabras crudas de la extracción | 4.108 |
+| Palabras tras la limpieza | 4.039 |
+| Caracteres de control eliminados | 65 |
+| Números de nota pegados a la palabra anterior | 15 |
+| Unidades entrecomilladas de terceros | 43 |
+| Palabras dentro de esas citas | 2.217 |
+| Segmentos brutos | 126 |
+| Segmentos descartados | 30 |
+| Oraciones de prosa propia medidas | 96 |
+| Palabras de prosa propia medidas | 1.654 |
 
-### 14.2. Fuentes con prosa real o con análisis de la prosa
+Procedimiento, para que cualquiera pueda repetirlo. Se eliminaron los
+caracteres de control y la basura de fuentes incrustadas; se quitaron los
+números de nota pegados a la palabra anterior antes de contar y antes de
+segmentar; se retiró el colofón; se separaron las citas entre comillas
+angulares y cuatro bloques de cita sin comillas localizados a mano; se
+descartaron 30 segmentos, de los cuales 9 son costuras de página, 13 restos
+sin contenido, 5 aparato bibliográfico y 3 fragmentos sin cierre. Lo que
+quedó son las 96 oraciones que el autor firma.
 
-Ordóñez Roig, Vicente. «De Big Brother a Big Data: reflexiones a propósito de
-Im Schwarm. Ansichten des Digitalen de Byung-Chul Han». Araucaria, vol. 20,
-núm. 40, 2018. Es la fuente de los juegos etimológicos alemanes, de la
-estructura en piezas breves y del cotejo entre el original alemán y la edición
-española.
-https://www.redalyc.org/journal/282/28264622031/html/
+De esta fuente salen todas las cifras de las secciones 4 a 12: el reparto de
+longitudes, las tres formas de oposición, la densidad de negación, la
+proporción de cópula, los arranques de oración, los terceros y su clase, la
+ausencia de cifra, la densidad de tecnicismo, la puntuación y el único
+argumento etimológico.
 
-Recio Sastre, Alejandro. «Análisis crítico sobre las nociones de poder y
-psicopolítica en el pensamiento de Byung-Chul Han». Revista Scientific, vol. 4,
-núm. 13, 2019, pp. 240-260. Caracteriza su lenguaje como simple y sus
-sentencias como breves pero de amplio contenido conceptual, y documenta la
-crítica por generalizar sobre un sujeto abstracto.
-https://www.redalyc.org/journal/5636/563659492013/html/
+Una sola cita textual aparece en este documento, para ilustrar la negación
+que define: «La libertad, en sentido propio, está vinculada a la
+negatividad», en la traducción citada. Ninguna otra frase del autor se
+reproduce acá. El texto extraído sirvió para medir, no para copiar.
 
-Castillo Gutiérrez, María Consuelo y Montoya Ramírez, Juan Carlos. «La sociedad
-del cansancio y el rendimiento a la luz del pensamiento de Byung-Chul Han».
-Jangwa Pana, vol. 22, núm. 3, 2023. Fuente de las oposiciones de «La sociedad
-del cansancio» y de la frase citada en 5.2.
-https://www.redalyc.org/journal/5880/588082047012/html/
+### 20.2. Fichas bibliográficas, sin una palabra del autor
 
-Fernández Poncela, Anna María. «Las sociedades del cansancio: definiciones,
-experiencias y reflexiones durante la pandemia». Espiral, vol. 29, núm. 85,
-2022. Reproduce la primera línea del libro y formula la objeción sobre el
-cansancio que el modelo no ve.
-https://www.scielo.org.mx/scielo.php?script=sci_arttext_plus&pid=S1665-05652022000300121
+Veinte archivos con ficha bibliográfica y eje de lectura de veinte títulos
+suyos en español. Cada uno pesa alrededor de 850 bytes y los veinte suman
+17.049 bytes. Ninguno contiene prosa del autor, y su propio archivo de
+índice declara que no incluye copias integrales ni transcripciones.
 
-Navarro, Alberto. «¿Por qué no es posible la revolución hoy? Una teoría crítica
-de la Sociedad del rendimiento». En-claves del pensamiento, vol. XIII, núm. 25,
-2019, pp. 57-82. Fuente de las categorías binarias y de citas de «En el
-enjambre».
-https://www.redalyc.org/journal/1411/141160244003/html/
+Esta fuente no sostiene ninguna afirmación de este documento. Se describe acá
+porque la versión anterior del skill la presentaba como corpus medido y de
+ella salían las cifras que la sección 3 desmiente.
 
-Linares Abadía, Laura. Reseña de «La sociedad del cansancio», traducción de
-Arantzazu Saratxaga Arregi y Alberto Ciria, Herder, Barcelona, 2017, 118 pp.
-Res Publica, vol. 22, núm. 1, 2019, pp. 309-314. Fuente de los traductores y de
-la extensión de la edición española.
-https://dialnet.unirioja.es/servlet/articulo?codigo=7004728
+### 20.3. Crítica académica sobre el autor
 
-Fichas enciclopédicas sobre el autor y sobre «Müdigkeitsgesellschaft». Fuente
-de la biografía, de la lengua de escritura, de la tesis doctoral sobre el ánimo
-en Heidegger, de la extensión del original alemán y de la caracterización de su
-prosa como concisa hasta el punto de volverse aforística.
-https://es.wikipedia.org/wiki/Byung-Chul_Han
-https://en.wikipedia.org/wiki/Byung-Chul_Han
-https://es.wikipedia.org/wiki/La_sociedad_del_cansancio
-https://en.wikipedia.org/wiki/The_Burnout_Society
+Se conservan de la versión anterior tres afirmaciones que no vienen de prosa
+medida y que se marcan como tales en el cuerpo: la crítica por generalizar
+sobre un sujeto abstracto, la crítica por describir el cansancio de las
+sociedades ricas ignorando el de quienes hacen doble jornada, y el caso
+documentado de dos términos alemanes distintos traducidos por la misma
+palabra española. Las tres proceden de artículos académicos sobre el autor,
+no del texto medido.
 
-### 14.3. Registros de catálogo consultados para la sección 8
+### 20.4. Lo que no pudo verificarse
 
-Reseña de «La sociedad de la transparencia», Herder, Barcelona, 2014, 95 pp.
-Acredita un título suyo de la misma editorial que queda fuera de la guía de
-veinte libros.
-https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S0188-25032016000100153
+El párrafo. La extracción tiene nueve saltos de línea en 26 KB y ninguna
+línea en blanco. Los puntos y aparte no sobrevivieron. No hay ninguna medida
+de longitud de párrafo ni de bloque, y las cifras de la sección 13 son
+prescripción de oficio declarada como tal.
 
-Registros de catálogo de «El aroma del tiempo», Herder, con traducción
-acreditada a Paula Kuffer, y de «No-cosas», «Infocracia» y «Vida
-contemplativa», publicados en español bajo el sello Taurus. Sostienen que la
-uniformidad editorial de la guía es del recorte y no de la bibliografía.
-https://dialnet.unirioja.es/servlet/libro?codigo=669047
+La sección y el capítulo. Solo tres títulos de sección quedaron identificables
+en la extracción, pegados al cuerpo del texto. Alcanzan para decir que son
+nominales y sin verbo, no para medir extensión.
 
-### 14.4. Lo que sigue faltando
+El orden. El texto llega desordenado: mezcla cuerpo y notas, y contiene
+pasajes que no pertenecen a los dos primeros capítulos que el nombre del
+archivo anuncia. Nada de lo que este documento afirma depende del orden.
 
-Ningún libro suyo se leyó completo. Todos los pasajes citados en este documento
-llegan a través de artículos académicos que los reproducen, y así están
-señalados en el cuerpo. Por eso el documento describe operaciones y no dicta
-frases modelo.
+Las cifras del autor. Los números romanos y las siglas en versalitas se
+perdieron en la extracción: quedó «el comienzo del siglo» sin su numeral y
+una sigla clínica convertida en un signo suelto. Los números arábigos sí
+sobrevivieron, porque las llamadas de nota llegaron intactas, y por eso el
+cero de la sección 9 es un dato y no un artefacto. Aun así, se declara el
+límite.
 
-La guía de veinte libros no cambia esto. Amplía muchísimo el mapa conceptual,
-de dos o tres libros conocidos de segunda mano a veinte con su eje declarado,
-y no aporta ni una palabra de su escritura. El hueco de prosa sigue exactamente
-donde estaba.
+El comienzo. La extracción arranca a mitad de una oración. La primera parte
+del primer capítulo no se extrajo, y por lo tanto no se midió cómo abre el
+libro.
 
-Las vistas previas oficiales que la guía enlaza son la vía abierta más directa
-para cerrar ese hueco y no se abrieron. Mientras eso no ocurra, las cifras de
-la sección 6 siguen siendo convención de oficio y no medición.
+El alcance. Se midió un libro, y no entero. Nada de lo que este documento
+afirma se puede extender al resto de la obra. Diecinueve de los veinte
+títulos catalogados siguen sin una sola palabra leída.
 
-No se pudo leer ninguna columna suya en prensa. Los textos que publicó en El
-País y en Die Zeit no resultaron accesibles, ni en el original ni en las
-reproducciones que circulan. La descripción de cómo abre y cierra un texto se
-apoya en el comienzo de «La sociedad del cansancio» citado de segunda mano y en
-la estructura de capítulos descrita por los reseñistas, no en la lectura
-directa de una pieza breve completa.
+El recuento de oraciones. Las 96 oraciones son las de prosa propia. Si se
+cuentan también las 43 unidades citadas de terceros, el total de segmentos
+con forma de oración sube a unos 255. Cualquier cifra de este documento se
+refiere a las 96, nunca a ese total.
 
-Tampoco se consultaron entrevistas en las que el autor hable de su propio
-estilo, ni los ensayos de crítica anglosajona que analizan su prosa. Lo que el
-documento afirma sobre sus intenciones se limita a lo que consta en las fichas
-enciclopédicas citadas.
-
-Los traductores solo se verificaron para «La sociedad del cansancio» y, por
-registro de catálogo, para «El aroma del tiempo». Para las demás obras se sabe
-que hay varios traductores y más de un sello, y por eso la sección 8 evita
-atribuir una elección léxica concreta a nadie.
-
-Las etimologías alemanas que aparecen en 5.3 se toman tal como las expone
-Ordóñez Roig. No se cotejaron con un diccionario etimológico del alemán, y esa
-es justamente la razón por la que la sección prohíbe apoyarse en juegos que el
-español no puede verificar por su cuenta.
-
-La clasificación de la sección 4.5 entre libros de diagnóstico y libros
-teóricos se hizo leyendo el eje declarado de cada ficha, no los libros. Trece
-casos son claros, seis son claros en el otro sentido y uno quedó sin decidir,
-y así está contado.
+La lengua. Todo lo medido es traducción. Las cifras de recuento sobreviven al
+paso de un idioma a otro; el sonido de cada frase, no.

@@ -1102,13 +1102,120 @@ export const TONES: Record<string, Tone> = {
   freddy: { id: 'freddy', skill: 'freddy-writing', rules: [] },
   fonseca: { id: 'fonseca', skill: 'fonseca-writing', rules: [] },
   dotcsv: { id: 'dotcsv', skill: 'dotcsv-writing', rules: [] },
-  han: { id: 'han', skill: 'han-writing', rules: [] },
+  // Único tono con reglas propias fuera de camus, fonda y catedra, y por un
+  // motivo: es el único cuyo corpus es prosa escrita por el autor. Los otros
+  // doce se midieron sobre habla transcrita, donde la puntuación la pone el
+  // transcriptor y ninguna cifra de oración es atribuible.
+  han: {
+    id: 'han',
+    skill: 'han-writing',
+    rules: [
+      {
+        id: 'han-oracion-maxima',
+        kind: 'sentence-length',
+        severity: 'error',
+        // Medido: máximo 40 palabras en 96 oraciones, mediana 16. La versión
+        // anterior de la skill afirmaba un techo de 30 y la prosa real lo pasa
+        // seis veces, así que el número es el medido y no el heredado.
+        max: 40,
+        message: 'La oración supera las 40 palabras.',
+        fix: 'Partirla. La mediana medida del modelo es de 16 palabras y su mitad central va de 11 a 22.',
+        source: 'han-writing §4',
+        checklist: [
+          {
+            skill: 'han-writing',
+            item: '¿Ninguna oración pasa de cuarenta palabras y la mitad central del texto se mantiene entre once y veintidós?',
+          },
+        ],
+      },
+      {
+        id: 'han-staccato',
+        kind: 'short-sentence-run',
+        severity: 'error',
+        // Lo mismo que mide `staccato` en la pasada, con los mismos números,
+        // pero reclamando el ítem de esta skill. La pasada solo corre cuando se
+        // la pide, y este tono necesita el tope siempre: la racha máxima medida
+        // en el modelo es de dos, y el defecto que más se le imita es
+        // encadenarlas. Correr tono y pasada juntos marca dos veces, que es el
+        // precio de que cada capa haga cumplir lo suyo.
+        shortWords: 10,
+        maxRun: 2,
+        message: 'Más de dos oraciones cortas seguidas.',
+        fix: 'Fundirlas por subordinación o coordinación. Una frase breve golpea porque alrededor hay frases que no lo son.',
+        source: 'han-writing §15',
+        checklist: [
+          {
+            skill: 'han-writing',
+            item: '¿No hay más de dos oraciones cortas seguidas sin una oración larga que las corte?',
+          },
+        ],
+      },
+      {
+        id: 'han-copula',
+        kind: 'pattern-ratio',
+        severity: 'warning',
+        // La cópula es el motor de la frase sentenciosa, que es la caricatura
+        // con que se imita a este autor. Medida real: 28,1 % de las oraciones.
+        // El techo es la mitad, que es lo que el ítem pide con la palabra
+        // «mayoría», y deja sitio de sobra sobre lo medido.
+        //
+        // Se excluye la perífrasis progresiva («está creciendo»), donde
+        // «estar» es auxiliar y no cópula. Sin ese descarte la regla marca
+        // prosa que no define nada.
+        pattern:
+          /(?<!\p{L})(?:es|son|era|eran|fue|fueron|será|serán|está|están|estaba|estaban)(?!\p{L})(?!\s+\p{L}+ndo(?!\p{L}))/iu,
+        max: 0.5,
+        minSentences: 8,
+        message: 'Más de la mitad de las oraciones se apoyan en «ser» o «estar».',
+        fix: 'Pasar a verbo pleno de acción, de transformación o de supresión. En el modelo, siete de cada diez oraciones lo hacen.',
+        source: 'han-writing §7',
+        checklist: [
+          {
+            skill: 'han-writing',
+            item: '¿La mayoría de las oraciones se apoya en un verbo pleno y no en «ser» ni en «estar»?',
+          },
+        ],
+      },
+      {
+        id: 'han-cantidad-sin-cifra',
+        kind: 'forbidden-pattern',
+        severity: 'error',
+        // El modelo no usa una sola cifra como prueba en 96 oraciones, y ese
+        // es el rasgo: afirma sin medir. El defecto aparece cuando esa renuncia
+        // se disfraza de cantidad, que es lo peor de los dos mundos.
+        pattern: frases([
+          'dimensiones epidémicas',
+          'proporciones epidémicas',
+          'cada vez más',
+          'cada vez menos',
+          'de forma exponencial',
+          'de manera exponencial',
+          'a niveles nunca vistos',
+          'como nunca antes',
+          'una cantidad ingente',
+          'un número incalculable',
+          'incontables',
+          'infinidad de',
+        ]),
+        message: 'Cantidad afirmada sin cifra.',
+        fix: 'O se da la cifra, o se suprime la cuantificación y se afirma el cambio sin fingir que se midió.',
+        source: 'han-writing §9',
+        checklist: [
+          {
+            skill: 'han-writing',
+            item: '¿El texto queda libre de cantidades sin cifra, del tipo «dimensiones epidémicas» o «cada vez más»?',
+          },
+        ],
+      },
+    ],
+  },
   bettatech: { id: 'bettatech', skill: 'bettatech-writing', rules: [] },
   schiavenato: { id: 'schiavenato', skill: 'schiavenato-writing', rules: [] },
   medicendai: { id: 'medicendai', skill: 'medicendai-writing', rules: [] },
   sekkyoku: { id: 'sekkyoku', skill: 'sekkyoku-writing', rules: [] },
   kenway: { id: 'kenway', skill: 'kenway-writing', rules: [] },
   atenas: { id: 'atenas', skill: 'atenas-writing', rules: [] },
+  solitario: { id: 'solitario', skill: 'solitario-writing', rules: [] },
 };
 
 export const TONE_IDS = Object.keys(TONES);
