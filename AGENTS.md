@@ -102,6 +102,11 @@ manifiesto dice qué archivos había; esto dice qué contenían. Cada medición 
 las cuatro casillas que hacen comprobable una cifra: qué afirma, con qué regla se
 produjo, sobre cuántos archivos y en qué unidad.
 
+Trae además las 1.260 expresiones que las skills entrecomillan, contadas en su
+propio corpus; 884 aparecen en él. Una skill afirma que tal giro sale 191 veces y
+esa cuenta no se puede rehacer sin el corpus, así que están todas, incluidas las
+376 que dan cero. Un cero es una medición: dice que la expresión no estaba ahí.
+
 ```bash
 node --experimental-strip-types scripts/manifiesto.ts
 node --experimental-strip-types scripts/medir.ts

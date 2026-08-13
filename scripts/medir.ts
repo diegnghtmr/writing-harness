@@ -22,7 +22,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { CORPUS } from '../src/corpus.ts';
-import { REPO_ROOT } from '../src/skills.ts';
+import { REPO_ROOT, readSkill } from '../src/skills.ts';
 import { countWords } from '../src/text.ts';
 
 type Fuente = 'cuerpo-de-transcripcion' | 'archivo-completo';
@@ -91,9 +91,31 @@ function duracionesDelManifiesto(dir: string): Map<string, number> {
   );
 }
 
+type Expresion = { skill: string; expresion: string; veces: number };
+
 const porArchivo: ArchivoMedido[] = [];
 const mediciones: Medicion[] = [];
+const expresiones: Expresion[] = [];
 const desajustes: string[] = [];
+
+/** Los cuerpos ya extraídos, por skill, para contar expresiones encima. */
+const cuerpos = new Map<string, string>();
+
+function escapar(literal: string): string {
+  return literal.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+}
+
+/**
+ * Cuenta las apariciones de una expresión literal, sin distinguir mayúsculas.
+ *
+ * Con frontera de letra a los dos lados: sin ella, «os» aparecería dentro de
+ * «otros» y el recuento diría que un tono usa el vosotros trescientas veces
+ * cuando no lo usa ninguna.
+ */
+function apariciones(texto: string, literal: string): number {
+  const re = new RegExp(`(?<!\\p{L})${escapar(literal)}(?!\\p{L})`, 'giu');
+  return (texto.match(re) ?? []).length;
+}
 
 for (const corpus of CORPUS) {
   const dir = join(raiz, corpus.skill);
@@ -140,6 +162,17 @@ for (const corpus of CORPUS) {
       ...(segundos === undefined ? {} : { segundos }),
     });
   }
+
+  cuerpos.set(
+    corpus.skill,
+    seleccion
+      .map((a) => {
+        const t = textos.get(a.ruta);
+        if (!t) return '';
+        return fuente === 'cuerpo-de-transcripcion' ? t.cuerpo : t.crudo;
+      })
+      .join('\n'),
+  );
 
   const filas = porArchivo.filter((f) => f.skill === corpus.skill);
   const suma = (f: (x: ArchivoMedido) => number) => filas.reduce((n, x) => n + f(x), 0);
@@ -198,6 +231,22 @@ for (const corpus of CORPUS) {
       'segundos',
       conSegundos.reduce((n, f) => n + (f.segundos ?? 0), 0),
     );
+  }
+}
+
+// Las expresiones que cada skill entrecomilla, contadas en su propio corpus.
+//
+// Es la última clase de cifra que depende de la ventana. Una skill dice que tal
+// giro aparece 191 veces, y esa afirmación no se puede volver a comprobar en
+// cuanto el corpus desaparezca. Contarlas todas ahora es barato; recuperarlas
+// después es imposible.
+//
+// Se cuentan todas, incluidas las que dan cero. Un cero es una medición: dice
+// que la expresión no está en ese corpus. Una fila ausente no diría nada.
+for (const [skill, cuerpo] of cuerpos) {
+  const citas = [...new Set([...readSkill(skill).matchAll(/«([^»\n]{1,60})»/gu)].map((m) => m[1] as string))];
+  for (const expresion of citas.sort()) {
+    expresiones.push({ skill, expresion, veces: apariciones(cuerpo, expresion) });
   }
 }
 
@@ -287,6 +336,23 @@ export type ArchivoMedido = {
   segundos?: number;
 };
 
+/**
+ * Cuántas veces aparece en su corpus cada expresión que la skill entrecomilla.
+ *
+ * Una skill afirma que tal giro aparece 191 veces y esa cuenta no se puede
+ * rehacer sin el corpus. Acá quedan todas, con frontera de letra a los dos lados
+ * y sin distinguir mayúsculas.
+ *
+ * Un cero es una medición, no una ausencia de dato: dice que la expresión no
+ * está en ese corpus. Muchas dan cero porque no son giros del corpus sino
+ * nombres de skill o frases de invocación, y eso también conviene que conste.
+ */
+export type Expresion = {
+  skill: string;
+  expresion: string;
+  veces: number;
+};
+
 export const MEDICIONES: readonly Medicion[] = [
 `;
 
@@ -313,14 +379,24 @@ const cuerpoArchivos = porArchivo
   })
   .join('\n');
 
+const cuerpoExpresiones = expresiones
+  .map(
+    (e) =>
+      `  { skill: '${e.skill}', expresion: ${JSON.stringify(e.expresion)}, veces: ${e.veces} },`,
+  )
+  .join('\n');
+
 writeFileSync(
   DESTINO,
-  `${CABECERA}${cuerpoMediciones}\n];\n\nexport const POR_ARCHIVO: readonly ArchivoMedido[] = [\n${cuerpoArchivos}\n];\n`,
+  `${CABECERA}${cuerpoMediciones}\n];\n\nexport const POR_ARCHIVO: readonly ArchivoMedido[] = [\n${cuerpoArchivos}\n];\n\nexport const EXPRESIONES: readonly Expresion[] = [\n${cuerpoExpresiones}\n];\n`,
   'utf8',
 );
 
+const conApariciones = expresiones.filter((e) => e.veces > 0).length;
+
 console.log(`corpus leído en ${raiz}`);
 console.log(`${mediciones.length} mediciones sobre ${porArchivo.length} archivos`);
+console.log(`${expresiones.length} expresiones contadas, ${conApariciones} aparecen en su corpus`);
 console.log('');
 console.log('skill                   archivos  palabras   signos/1000  minutos');
 for (const corpus of CORPUS) {

@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { CORPUS } from '../src/corpus.ts';
-import { MEDICIONES, POR_ARCHIVO } from '../src/mediciones.ts';
+import { EXPRESIONES, MEDICIONES, POR_ARCHIVO } from '../src/mediciones.ts';
 import { REPO_ROOT, readSkill } from '../src/skills.ts';
 
 const valor = (id: string) => MEDICIONES.find((m) => m.id === id)?.valor;
@@ -32,7 +32,42 @@ describe('las mediciones no se editaron a mano', () => {
     );
     assert.equal(
       createHash('sha256').update(bytes, 'utf8').digest('hex'),
-      '1d454b40ec5cf25ad4e2a724a75f3fd0616316b20c1843740b1b7a9fb0ad85fd',
+      '02c2a1132bb6aa1c53d342c13106f81d15e498f58a1ab7d80a9c9607c02a5fef',
+    );
+  });
+});
+
+describe('las expresiones contadas están bien formadas', () => {
+  // A propósito NO se comprueba que cada expresión siga entrecomillada en su
+  // SKILL.md, aunque de ahí salieron. Sería atar la prosa futura a un corpus que
+  // ya no va a existir: reescribir un giro rompería el gate y nadie podría
+  // arreglarlo, porque arreglarlo exige volver a medir. La tabla es una prueba
+  // de lo que hubo, no una restricción sobre lo que se escriba después.
+
+  test('1260 expresiones, 884 aparecen en su corpus', () => {
+    assert.equal(EXPRESIONES.length, 1260);
+    assert.equal(EXPRESIONES.filter((e) => e.veces > 0).length, 884);
+  });
+
+  test('cada expresión pertenece a un corpus medido', () => {
+    const medidos = new Set(MEDICIONES.map((m) => m.skill));
+    assert.deepEqual([...new Set(EXPRESIONES.map((e) => e.skill))].filter((s) => !medidos.has(s)), []);
+  });
+
+  test('ninguna expresión se cuenta dos veces en la misma skill', () => {
+    const claves = EXPRESIONES.map((e) => `${e.skill} :: ${e.expresion}`);
+    assert.equal(new Set(claves).size, claves.length);
+  });
+
+  test('un cero es una medición, no un hueco', () => {
+    // Las 376 que dan cero no son fallos de conteo: son nombres de skill y
+    // frases de invocación que la prosa entrecomilla y que nunca estuvieron en
+    // el corpus. Que consten evita que alguien las cuente después como si
+    // fueran giros del autor.
+    assert.equal(EXPRESIONES.filter((e) => e.veces === 0).length, 376);
+    assert.ok(
+      EXPRESIONES.some((e) => e.expresion === 'spanish-writing' && e.veces === 0),
+      'el nombre de la base tendría que dar cero en todos los corpus',
     );
   });
 });
