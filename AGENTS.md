@@ -173,8 +173,41 @@ estar cubierto. El precio es reinstalarlo cuando el archivo cambia. Para saltarl
 en un caso concreto, `git commit --no-verify`, que existe a propósito.
 
 `.github/workflows/gate.yml` es la red de verdad, la que no se puede saltar.
-Corre la suite, comprueba que `evals/cobertura.ts` esté regenerado y verifica la
-separación entre las skills y el verificador.
+Corre la suite y comprueba que `evals/cobertura.ts` esté regenerado.
+
+No todos los archivos generados se protegen igual, y conviene tener presente por
+qué:
+
+```mermaid
+flowchart TD
+    subgraph R["Se regeneran en cualquier máquina"]
+        direction TB
+        CB["evals/cobertura.ts"]
+        CB --> CBG["el CI lo regenera y compara<br/>git diff --exit-code"]
+    end
+
+    subgraph H["No se pueden regenerar sin el corpus"]
+        direction TB
+        CO["src/corpus.ts"]
+        ME["src/mediciones.ts"]
+        CO --> HG["cada archivo contra su propio sha256"]
+        ME --> HG
+    end
+
+    subgraph C["Vive dos veces, en dos repositorios"]
+        direction TB
+        CT["contrato-de-evidencia.md"]
+        CT --> CTG["el bloque normativo contra su huella"]
+    end
+
+    R --> S["la suite"]
+    H --> S
+    C --> S
+```
+
+El de arriba se compara con lo que produce el generador. Los del medio no pueden:
+en la máquina del CI el corpus no está, así que se comparan consigo mismos. El de
+abajo tampoco, porque su otra mitad vive en otro repositorio que este no importa.
 
 Un juicio encontró diez defectos en este repositorio, y los encontró porque los
 buscamos a mano. Estas dos redes existen para que la próxima vez no dependa de

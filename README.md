@@ -24,13 +24,13 @@ flowchart TD
 
     subgraph capas [" "]
         direction TB
-        B["<b>Base normativa</b><br/>spanish-writing<br/><i>qué es correcto en español</i>"]
+        B["Base normativa<br/>spanish-writing<br/>qué es correcto en español"]
         B --> R{"Enrutamiento<br/>por género y voz"}
-        R --> N["<b>Un tono</b><br/>uno de catorce<br/><i>cómo suena</i>"]
+        R --> N["Un tono<br/>uno de catorce<br/>cómo suena"]
     end
 
     N --> E["Entregable"]
-    E -.->|"solo si se pide"| P["<b>Pasada</b><br/>humanizar-espanol<br/><i>señales de IA</i>"]
+    E -.->|"solo si se pide"| P["Pasada<br/>humanizar-espanol<br/>señales de IA"]
     P -.-> E
 ```
 
@@ -106,14 +106,14 @@ compara las dos representaciones y **falla en las dos direcciones**.
 flowchart LR
     subgraph P["Prosa"]
         direction TB
-        C1["<i>N</i>. ¿…?<br/>listas del SKILL.md"]
-        C2["### <i>N</i>. Título<br/>catálogos de references/"]
+        C1["N. ¿…?<br/>listas del SKILL.md"]
+        C2["### N. Título<br/>catálogos de references/"]
     end
 
     subgraph D["Dato"]
         direction TB
-        RR["src/rules.ts<br/><i>cada regla reclama un ítem</i>"]
-        CO["evals/cobertura.ts<br/><i>lo que ninguna regla cubre</i>"]
+        RR["src/rules.ts<br/>cada regla reclama un ítem"]
+        CO["evals/cobertura.ts<br/>lo que ninguna regla cubre"]
     end
 
     P <-->|"correspondencia.test.ts"| D
@@ -169,14 +169,14 @@ se juntaron para construir las skills y se borran.
 
 ```mermaid
 flowchart LR
-    C[("corpus<br/><i>fuera del repositorio</i><br/>13 corpus · 305 archivos")]
+    C[("corpus<br/>fuera del repositorio<br/>13 corpus · 305 archivos")]
 
-    C -->|"scripts/manifiesto.ts"| M["<b>src/corpus.ts</b><br/>ruta · bytes · palabras · sha256"]
-    C -->|"scripts/medir.ts"| ME["<b>src/mediciones.ts</b><br/>63 mediciones · 280 archivos<br/>1.260 expresiones contadas"]
+    C -->|"scripts/manifiesto.ts"| M["src/corpus.ts<br/>ruta · bytes · palabras · sha256"]
+    C -->|"scripts/medir.ts"| ME["src/mediciones.ts<br/>63 mediciones · 280 archivos<br/>1.260 expresiones contadas"]
 
     M -->|"comprueba el sha256<br/>antes de contar"| ME
 
-    M --> G["<b>gate de huella</b><br/>cada archivo contra<br/>su propio sha256"]
+    M --> G["gate de huella<br/>cada archivo contra<br/>su propio sha256"]
     ME --> G
 
     C -.->|"se borra"| X["∅"]
@@ -216,21 +216,21 @@ midiendo cómo se justifica un argumento en una lámina.
 flowchart TB
     subgraph WH["writing-harness"]
         direction TB
-        A["contrato-de-evidencia.md<br/><i>explicación en español</i>"]
-        AB["bloque normativo<br/><b>971 B · b0cde722…</b>"]
+        A["contrato-de-evidencia.md<br/>explicación en español"]
+        AB["bloque normativo<br/>971 B · b0cde722…"]
         A --- AB
         AT["evals/contrato.test.ts"]
     end
 
     subgraph OS["repositorio de diapositivas"]
         direction TB
-        B["docs/evidence-contract.md<br/><i>explicación en inglés</i>"]
-        BB["bloque normativo<br/><b>971 B · b0cde722…</b>"]
+        B["docs/evidence-contract.md<br/>explicación en inglés"]
+        BB["bloque normativo<br/>971 B · b0cde722…"]
         B --- BB
         BT["contract.test.ts"]
     end
 
-    AB -.->|"idénticos byte a byte<br/><b>sin import, sin paquete</b>"| BB
+    AB -.->|"idénticos byte a byte<br/>sin import, sin paquete"| BB
     AT -->|"comprueba su copia"| AB
     BT -->|"comprueba su copia"| BB
 ```
