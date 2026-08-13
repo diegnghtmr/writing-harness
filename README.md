@@ -245,6 +245,14 @@ contra su propia huella. Cualquier edición a mano los rompe, incluida la que
 sustituye un sha256 por otros sesenta y cuatro hexadecimales con buena pinta, que
 es justo lo que ningún otro gate podría notar una vez borrado el origen.
 
+Y un defecto conocido, medido y sin arreglo posible: las cuentas de expresiones
+de **varias palabras se quedan cortas**, porque se buscaron como literal y una
+transcripción parte los giros entre líneas de subtítulo. Las de una palabra
+coinciden con la prosa dos de cada tres veces; las de varias, una de cada nueve.
+En esas, la cifra buena es la de la prosa. Está medido en
+`evals/expresiones.test.ts`, que es donde tenía que quedar: una limitación que se
+mide deja de ser una trampa.
+
 ## El contrato de evidencia
 
 [contrato-de-evidencia.md](contrato-de-evidencia.md) vive dos veces: acá y en un

@@ -107,6 +107,17 @@ propio corpus; 884 aparecen en él. Una skill afirma que tal giro sale 191 veces
 esa cuenta no se puede rehacer sin el corpus, así que están todas, incluidas las
 376 que dan cero. Un cero es una medición: dice que la expresión no estaba ahí.
 
+**Esas cuentas se quedan cortas en las expresiones de varias palabras, y no tiene
+arreglo.** Se buscaron como literal, con un solo espacio entre sus palabras, pero
+una transcripción viene partida en líneas de subtítulo y un giro de dos palabras
+cae a menudo a caballo entre dos: «por ejemplo» con un salto dentro no coincide
+con «por ejemplo». Medido en `evals/expresiones.test.ts`: las de una palabra
+coinciden con la prosa dos de cada tres veces y las de varias, una de cada nueve,
+casi siempre por debajo. **En las de varias palabras, la cifra buena es la de la
+prosa.** El corpus ya no está y `src/mediciones.ts` está fijado por su huella, así
+que la tabla no se puede corregir; queda medido para que nadie la lea como
+exacta.
+
 ```bash
 node --experimental-strip-types scripts/manifiesto.ts
 node --experimental-strip-types scripts/medir.ts
