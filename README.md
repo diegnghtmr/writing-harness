@@ -311,7 +311,7 @@ flowchart TB
         PR --> EX["scripts/slide-text.mjs<br/>vuelca sus propias frases"]
     end
 
-    EX --> TX["texto plano<br/>77 láminas, 3.518 palabras"]
+    EX --> TX["texto plano"]
     TX --> Q{"¿el mazo está<br/>en español?"}
 
     Q -->|"no"| NA["no se mide.<br/>La raya es correcta en inglés,<br/>y la norma española la marcaría"]
