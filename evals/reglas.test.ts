@@ -78,6 +78,25 @@ describe('capa base', () => {
     );
   });
 
+  test('el nombre propio que empieza por artículo no se marca', () => {
+    // La primera versión de `punto-y-coma-mayuscula` traía los artículos en su
+    // lista de palabras «que nunca son nombre propio». El artículo es justo la
+    // palabra que más nombres propios abre en español.
+    for (const t of [
+      'La región vivía en calma; El Salvador rompió el silencio.',
+      'Leí tres novelas ese verano; El extranjero fue la que más me marcó.',
+      'Discutían de cine; Al Pacino ganó el premio esa noche.',
+      'Volvimos al Caribe; La Habana seguía igual que en la memoria.',
+      'Recorrimos el sur; Los Andes cerraban el horizonte.',
+    ]) {
+      assert.deepEqual(
+        check(t).filter((x) => x.rule === 'punto-y-coma-mayuscula'),
+        [],
+        t,
+      );
+    }
+  });
+
   test('el espaciado del punto y coma se marca por los dos lados', () => {
     assert.equal(
       check('No es evidente ; exige distinguir.').filter(
@@ -123,6 +142,30 @@ describe('capa base', () => {
     }
   });
 
+  test('la sigla no se confunde con una palabra', () => {
+    // `frases()` compila con flag `i`, así que «TI» coincidía con el pronombre
+    // «ti» y «SOS» con el voseo «sos». Dos errores de bloqueo sobre prosa
+    // correcta, y ninguno visible sin ejecutar la regla.
+    assert.deepEqual(
+      check('Las empresas de TI recibieron una señal de SOS del servidor.').filter(
+        (x) => x.rule === 'tratamiento-de-usted',
+      ),
+      [],
+    );
+    // Y la palabra sigue marcándose cuando es palabra.
+    assert.ok(
+      check('Esto es para ti, y vos lo sabés.').some((x) => x.rule === 'tratamiento-de-usted'),
+    );
+  });
+
+  test('el imperativo peninsular que la base nombra se marca', () => {
+    // El §9.1 los enumera uno por uno y la lista de la regla no los tenía. La
+    // prosa declaraba una prohibición que el dato no hacía cumplir, y el gate
+    // no lo ve porque ata regla e ítem, no regla y contenido del ítem.
+    const t = 'Fijaos en el resultado y escribidme. Mirad el dato. Dadle una vuelta. Pensad en eso.';
+    assert.equal(check(t).filter((x) => x.rule === 'espanol-peninsular').length, 5);
+  });
+
   test('el marcador de discurso legítimo no se confunde con artefacto de canal', () => {
     // «antes de empezar» y «ahora les cuento» quedaron fuera de la lista a
     // propósito: en un ensayo son marcadores y no restos del video.
@@ -131,6 +174,19 @@ describe('capa base', () => {
       check(t).filter((x) => x.rule === 'artefacto-de-canal'),
       [],
     );
+    // «en los comentarios» y «código de descuento» a secas salieron de la lista
+    // después de marcar estas dos oraciones, que no tienen canal por ningún
+    // lado.
+    for (const s of [
+      'El editor incluyó sus objeciones en los comentarios del manuscrito.',
+      'El sistema validó cada código de descuento antes de aplicar el impuesto.',
+    ]) {
+      assert.deepEqual(
+        check(s).filter((x) => x.rule === 'artefacto-de-canal'),
+        [],
+        s,
+      );
+    }
   });
 
   test('el hallazgo trae línea, columna y la línea completa', () => {
@@ -394,6 +450,22 @@ describe('lo que el texto debe contener', () => {
 });
 
 describe('capa de tono', () => {
+  test('la cópula de han cuenta el verbo y descarta el sustantivo y el gerundio', () => {
+    // La regla estuvo rota en las dos direcciones a la vez. El descarte del
+    // gerundio se escribió `\p{L}+ndo`, que no describe un gerundio sino
+    // cualquier palabra acabada en esas letras, así que «es profundo» y «es
+    // rotundo» salían del recuento. Y contaba «el son» y «esta era», que son
+    // sustantivos y no llevan verbo.
+    const copula = allRules().find((r) => r.id === 'han-copula');
+    const re = (copula as { pattern: RegExp }).pattern;
+    for (const s of ['El argumento es profundo', 'El fallo es rotundo', 'La atención es mercancía']) {
+      assert.ok(re.test(s), `debería contar: ${s}`);
+    }
+    for (const s of ['El sistema está creciendo', 'El son cubano cambió todo', 'Esta era digital llegó']) {
+      assert.ok(!re.test(s), `no debería contar: ${s}`);
+    }
+  });
+
   const larga =
     'Como dentro de una sociedad mercantil los seres humanos producen de manera separada e independiente, y como el carácter social de ese trabajo solo se manifiesta al intercambiar mercancías que son resultado del trabajo concreto y heterogéneo de muchos productores distintos, se hace necesario igualar los distintos tipos de trabajo.';
 

@@ -273,6 +273,41 @@ const MARCAS_PENINSULARES = [
   'podáis',
   'sepáis',
   'queráis',
+  // Imperativos de segunda del plural. El §9.1 de la base los nombra uno por
+  // uno y esta lista no los tenía, así que la prosa declaraba una prohibición
+  // que el dato no hacía cumplir. Es el defecto exacto que el gate existe para
+  // encontrar, y se le escapó porque el gate ata regla e ítem, no regla y
+  // contenido del ítem.
+  //
+  // No se usa un patrón de sufijo `-ad`, `-ed` ni `-id`: chocaría con
+  // «verdad», «pared», «Madrid» y media lengua. Solo entran formas verbales
+  // que no admiten otra lectura.
+  'mirad',
+  'fijaos',
+  'fijaros',
+  'apoyadlo',
+  'apoyadla',
+  'dadle',
+  'dadme',
+  'dadnos',
+  'escribidme',
+  'escuchad',
+  'pensad',
+  'recordad',
+  'imaginad',
+  'dejadme',
+  'dejadlo',
+  'venid',
+  'poned',
+  'haced',
+  'tomad',
+  'esperad',
+  'perdonad',
+  'sabed',
+  'atended',
+  'seguidme',
+  'contadme',
+  'decidme',
   'os lo',
   'os la',
   'os he',
@@ -327,11 +362,17 @@ export const BASE_RULES: Rule[] = [
     severity: 'error',
     // Después de punto y coma va minúscula, salvo nombre propio. Un patrón
     // amplio del tipo `;\s+\p{Lu}` marcaría «...; España decidió otra cosa»,
-    // que es correcto. Por eso solo entran palabras que nunca son nombre
-    // propio, con la misma lógica con que `coloquialismos` dejó fuera «de
-    // una»: más vale marcar menos que dejar de leerse.
+    // que es correcto. Por eso solo entran palabras que nunca abren un nombre
+    // propio, con la misma lógica con que `coloquialismos` dejó fuera «de una».
+    //
+    // La primera versión de esta lista traía los artículos y los indefinidos, y
+    // eso era el mismo error que dice evitar: «El Salvador», «La Habana», «Los
+    // Andes», «Al Pacino», «El extranjero», «Un mundo feliz». El artículo es
+    // justamente la palabra que más nombres propios y más títulos abre en
+    // español. Fuera los doce: El, La, Los, Las, Un, Una, Unos, Unas, Al, Del,
+    // De y Lo.
     pattern:
-      /;\s+(?:El|La|Los|Las|Un|Una|Unos|Unas|Es|Son|Era|Eran|Se|No|Sin|Por|Para|Esto|Esta|Este|Estos|Estas|Eso|Esa|Ese|Cuando|Aunque|Pero|Además|Ahora|Lo|Le|Les|Su|Sus|Al|Del|De|Si|Que|Como|Más|Menos|También|Tampoco|Todo|Toda|Todos|Todas|Nunca|Siempre|Hay|Hubo|Nada|Nadie|Cada|Otro|Otra|Otros|Otras|Tras|Desde|Hasta|Entre|Sobre|Bajo|Ante)(?!\p{L})/gu,
+      /;\s+(?:Es|Son|Era|Eran|Se|No|Sin|Por|Para|Esto|Esta|Este|Estos|Estas|Eso|Esa|Ese|Cuando|Aunque|Pero|Además|Ahora|Le|Les|Su|Sus|Si|Que|Como|Más|Menos|También|Tampoco|Todo|Toda|Todos|Todas|Nunca|Siempre|Hay|Hubo|Nada|Nadie|Cada|Otro|Otra|Otros|Otras|Tras|Desde|Hasta|Entre|Sobre|Bajo|Ante)(?!\p{L})/gu,
     message: 'Mayúscula después de punto y coma.',
     fix: 'Va minúscula, salvo nombre propio. Si lo que sigue es una oración nueva y sin relación estrecha con la anterior, el signo correcto es el punto.',
     source: 'spanish-writing §6.7',
@@ -383,7 +424,7 @@ export const BASE_RULES: Rule[] = [
     checklist: [
       {
         skill: 'spanish-writing',
-        item: '¿El punto y coma aparece en menos de una de cada cinco oraciones?',
+        item: '¿El punto y coma aparece en no más de una de cada cinco oraciones?',
       },
     ],
   },
@@ -709,11 +750,18 @@ export const BASE_RULES: Rule[] = [
       'suscribirse al canal',
       'dale like',
       'denle like',
-      'un me gusta',
+      'dale un me gusta',
+      'denle un me gusta',
       'la campanita',
       'activen la campanita',
-      'en los comentarios',
+      // «en los comentarios» a secas quedó fuera: marcaba «el editor puso sus
+      // objeciones en los comentarios del manuscrito», que no tiene nada que
+      // ver con un canal. Lo mismo con «código de descuento», legítimo en
+      // cualquier texto sobre comercio. Se conservan las formas que solo
+      // existen para gestionar un canal.
+      'en los comentarios del video',
       'déjenlo en los comentarios',
+      'comenten abajo',
       'coméntenme',
       'nos vemos en el próximo',
       'hasta el próximo video',
@@ -730,7 +778,6 @@ export const BASE_RULES: Rule[] = [
       'patrocinado por',
       'gracias a nuestro patrocinador',
       'el patrocinador de hoy',
-      'código de descuento',
       'quédense hasta el final',
       'quédate hasta el final',
       'aviso de spoiler',
@@ -1159,11 +1206,23 @@ export const TONES: Record<string, Tone> = {
         // El techo es la mitad, que es lo que el ítem pide con la palabra
         // «mayoría», y deja sitio de sobra sobre lo medido.
         //
-        // Se excluye la perífrasis progresiva («está creciendo»), donde
-        // «estar» es auxiliar y no cópula. Sin ese descarte la regla marca
-        // prosa que no define nada.
+        // Dos descartes, y los dos costaron un juicio.
+        //
+        // El primero es la perífrasis progresiva («está creciendo»), donde
+        // «estar» es auxiliar y no cópula. La primera versión la excluía con
+        // `\p{L}+ndo`, que no describe un gerundio sino cualquier palabra
+        // terminada en esas tres letras: «es profundo», «es rotundo», «es
+        // fecundo» y «es segundo» quedaban fuera del recuento, que es lo
+        // contrario de lo que la regla existe para medir. Ahora se exige la
+        // terminación real del gerundio. «Es cuando» sigue cayendo dentro del
+        // descarte y se acepta: tampoco es una definición.
+        //
+        // El segundo es el sustantivo homógrafo. «El son cubano» y «esta era
+        // digital» no llevan verbo, y contarlos inflaba la proporción. Se
+        // descartan cuando un determinante los precede de forma inmediata,
+        // posición en la que «es», «son» o «está» no pueden ser verbo.
         pattern:
-          /(?<!\p{L})(?:es|son|era|eran|fue|fueron|será|serán|está|están|estaba|estaban)(?!\p{L})(?!\s+\p{L}+ndo(?!\p{L}))/iu,
+          /(?<!\p{L})(?<!(?:el|la|un|una|esta|este|esa|ese|del|al|nuestra|nuestro|otra|otro)\s)(?:es|son|era|eran|fue|fueron|será|serán|está|están|estaba|estaban)(?!\p{L})(?!\s+\p{L}*(?:ando|iendo|yendo)(?!\p{L}))/iu,
         max: 0.5,
         minSentences: 8,
         message: 'Más de la mitad de las oraciones se apoyan en «ser» o «estar».',
@@ -1186,6 +1245,11 @@ export const TONES: Record<string, Tone> = {
         pattern: frases([
           'dimensiones epidémicas',
           'proporciones epidémicas',
+          // El libro dice «dimensiones pandémicas», no «epidémicas». La regla
+          // nació para cubrir esa aparición y no la cubría: el único ejemplo
+          // que la skill cita como justificación se le escapaba entero.
+          'dimensiones pandémicas',
+          'proporciones pandémicas',
           'cada vez más',
           'cada vez menos',
           'de forma exponencial',

@@ -269,13 +269,19 @@ de quien escribe, lo dice quien escribe.
 Acá este documento prescribe en lugar de retratar, y conviene decirlo con las
 cifras delante.
 
-El autor es español y usa formas peninsulares. En el corpus hay 42 marcas de
-segunda persona del plural peninsular repartidas en quince de los treinta
-archivos, 12,3 por cada diez mil palabras: 17 apariciones del pronombre y del
-posesivo, 8 del clítico átono y una veintena de formas verbales terminadas en
-«áis» y en «éis». En el subcorpus de argumento son 19 marcas en siete de las
-dieciséis piezas. Hay además 12 marcas de léxico peninsular en once archivos y
-2 usos de «coger» con el sentido de «tomar».
+El autor es español y usa formas peninsulares, aunque menos de lo que su origen
+haría esperar. En el cuerpo de las treinta transcripciones, descontada la
+cabecera de metadatos de cada archivo, hay 33 marcas de segunda persona del
+plural peninsular repartidas en catorce archivos, 9,7 por cada diez mil
+palabras: 17 apariciones del pronombre y del posesivo, 8 del clítico átono y 8
+formas verbales terminadas en «áis» y en «éis», que son «podéis» dos veces y
+«creáis», «hacéis», «queráis», «sabréis», «sepáis» y «supliquéis» una vez cada
+una. No hay ni un imperativo de segunda del plural. Hay además léxico
+peninsular suelto y 2 usos de «coger» con el sentido de «tomar».
+
+Una versión anterior de este documento daba 42 marcas en quince archivos y «una
+veintena» de formas verbales. Las cifras no salían al recontarlas y quedan
+corregidas acá.
 
 Nada de eso se traslada. La sección 9.1 de la base lo prohíbe sin excepción y
 la conversión no cuesta nada, porque el propio corpus ofrece la alternativa
@@ -283,23 +289,33 @@ dentro de su repertorio: donde el original dice «podéis», acá se escribe
 «pueden»; donde dice «sabéis», «saben»; donde dice «os doy», «les doy».
 
 El tratamiento al lector es el punto donde la distancia es mayor y donde la
-base gana igual. El corpus tutea de forma abrumadora: 336 marcas de tuteo en
-los treinta archivos, 98,5 por cada diez mil palabras, presentes sin excepción
-en todas las piezas. Contra eso hay 43 marcas de «ustedes» en dieciséis
-archivos, 12,6 por diez mil, una proporción de 7,8 a 1 a favor del tuteo. El
-«usted» singular aparece tres veces en todo el corpus y ninguna de las tres
-interpela al lector; una de ellas es metalingüística y las otras dos pertenecen
-a personajes. El voseo no aparece nunca.
+base gana igual. El corpus tutea de forma abrumadora: 391 marcas de tuteo en
+veintinueve de los treinta archivos, 114,5 por cada diez mil palabras, contando
+el pronombre, el posesivo, el clítico y la morfología verbal de segunda del
+singular.
+
+Contra eso no hay prácticamente nada. La palabra «ustedes» aparece una sola vez
+en las treinta piezas. El «usted» singular aparece tres veces y ninguna
+de las tres interpela al lector: una es metalingüística y las otras dos
+pertenecen a personajes. El voseo no aparece nunca.
+
+Una versión anterior de este documento daba 43 marcas de «ustedes» en dieciséis
+archivos y una proporción de 7,8 a 1. Es falso y la corrección va en la
+dirección contraria a la que convendría: la proporción real no es de ocho a uno,
+es de casi cuatrocientos a uno. Este tono no toma su tratamiento del corpus por
+la razón más simple, y es que el corpus no tiene uno que tomar.
 
 El agente escribe de usted en singular y de ustedes en plural, sin tuteo y sin
 ninguna forma peninsular. Y hay dos hallazgos del propio corpus que sostienen
 esa decisión mejor que la norma sola.
 
 El primero es que en la pieza más argumentativa de las treinta, la que critica
-una disciplina entera pidiendo cifras, el «ustedes» supera al tuteo, 9 marcas
-contra 7. Cuando el autor argumenta de verdad, se dirige a un público en plural
-y con verbo en tercera: permitan, déjenme que les cuente, consultemos, díganme,
-no intenten justificar. Ese es exactamente el repertorio que este tono usa.
+una disciplina entera pidiendo cifras, el trato de plural supera al tuteo, 6
+marcas contra 5. No por el pronombre, que ahí tampoco aparece, sino por la
+morfología: permitan, déjenme que les cuente, consultemos, no intenten
+justificar. Cuando el autor argumenta de verdad, se dirige a un público en
+plural y con verbo en tercera. Ese es exactamente el repertorio que este tono
+usa, y es la única parte del corpus que lo ofrece.
 
 El segundo es que el pasaje del corpus escrito en prosa expositiva pura no
 interpela a nadie: una sola marca de tuteo en 636 palabras y ninguna de plural.

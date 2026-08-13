@@ -399,7 +399,7 @@ contextos es intercambiable por el punto y seguido o por los dos puntos: cuando
 las tres opciones sirven igual, esa es la señal de que el punto y coma no estaba
 haciendo falta.
 
-La medida: menos de una de cada cinco oraciones lo lleva. Una enumeración larga
+La medida: no más de una de cada cinco oraciones lo lleva. Una enumeración larga
 puede acumular varios dentro de una sola oración y eso es correcto, porque es
 justamente el primer uso. Lo que se vigila es cuántas oraciones distintas se
 apoyan en él, no cuántos hay en el texto.
@@ -766,7 +766,7 @@ añade las suyas.
 21. ¿No hay formas de «vosotros» ni léxico peninsular?
 22. ¿El tratamiento al lector es «usted» o «ustedes», sin tuteo ni voseo?
 23. ¿El punto y coma va seguido de minúscula y pegado a la palabra anterior?
-24. ¿El punto y coma aparece en menos de una de cada cinco oraciones?
+24. ¿El punto y coma aparece en no más de una de cada cinco oraciones?
 25. ¿Se conservó todo término técnico, glosado en su primera aparición?
 26. ¿El texto quedó libre de artefactos de canal: saludo, despedida, petición
     de apoyo, patrocinio, deixis de pantalla y promesa de revelación?

@@ -30,7 +30,7 @@ Todo texto en español que se produzca trabajando en este repositorio pasa por
 el verificador antes de entregarse.
 
 ```bash
-node src/cli.ts <archivo> --tono <camus|fonda|catedra> [--pasada humanizar]
+node src/cli.ts <archivo> --tono <id> [--pasada humanizar]
 ```
 
 Sin `--tono` corre solo la capa normativa, que rige siempre. Con `--tono` añade
@@ -47,12 +47,12 @@ no frenan la entrega: señalan lo que solo el contexto decide.
 
 ## Lo que el verificador no ve
 
-De las 258 declaraciones que hacen las skills, **183 exigen juicio sobre el
+De las 282 declaraciones que hacen las skills, **202 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.
 
-El número creció con los doce tonos que reconstruyen a un autor: describir cómo
+El número creció con los trece tonos que reconstruyen a un autor: describir cómo
 argumenta una persona no lo mide ninguna clase de regla que exista hoy.
 
 Las skills declaran de dos maneras y las dos cuentan: ítems numerados `N. ¿…?`

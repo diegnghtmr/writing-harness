@@ -87,6 +87,14 @@ describe('el techo de cobertura está declarado', () => {
   // Se regeneran con `node --experimental-strip-types evals/gen.ts`. Nunca a
   // mano: el archivo se escribió a mano una vez y quedó mintiendo en cuanto una
   // skill movió sus ítems.
+  //
+  // El cero de `mecanizable` no es una ausencia verificada, y conviene no
+  // leerlo como tal. El generador nunca asciende un ítem a esa clase: hereda la
+  // que tenía o pone `criterio`. Dos jueces señalaron ítems que hoy están en
+  // `criterio` y se podrían medir con clases de regla que ya existen, por
+  // ejemplo el que prohíbe la nota numérica en `kenway-writing` y los dos de
+  // relleno oral y marcas de redes en `schiavenato-writing`. El cero dice que
+  // nadie ha clasificado nada como pendiente, no que no quede nada por hacer.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
   test('282 declaraciones, repartidas como está registrado', () => {

@@ -329,9 +329,9 @@ etológico o histórico: 11. Ninguna de las 11 trae una cifra que la respalde.
 
 Oraciones que citan una fuente científica: una, y está en nota.
 
-Hay que leer bien ese cero. En el texto medido hay al menos una afirmación
-cuantitativa sin cuantificar: a un fenómeno del mundo laboral se le atribuye
-la extensión de una epidemia sin una sola cifra detrás. La forma ahorra la
+Hay que leer bien ese cero. En el texto medido hay tres afirmaciones
+cuantitativas sin cuantificar. Una dice, del acoso laboral, que «alcanza
+dimensiones pandémicas», y las otras dos son «cada vez más». La forma ahorra la
 cifra y conserva el efecto de la cifra. Ese es exactamente el movimiento que
 la crítica académica le reprocha al modelo, y este skill no lo hereda.
 
@@ -584,11 +584,12 @@ sociedad actual». Se acota siempre: quiénes, dónde, en qué condiciones. Es l
 crítica académica más repetida al modelo y no hay razón para heredarla.
 
 La cuantificación sin cifra. Ver la sección 9. Acá el documento prescribe y no
-retrata, y conviene decirlo: el modelo mismo escribe «cada vez más» dos veces en
-las 96 oraciones medidas, una sobre el acercamiento de la sociedad al salvajismo
-y otra sobre el paso de la ira al enfado. Son sus dos únicas cuantificaciones y
-las dos van sin cifra. La prohibición se mantiene igual, porque el defecto no
-deja de serlo por venir del autor.
+retrata, y conviene decirlo: el modelo mismo lo hace tres veces en las 96
+oraciones medidas. Dos son «cada vez más», una sobre el acercamiento de la
+sociedad al salvajismo y otra sobre el paso de la ira al enfado. La tercera es
+la que atribuye al acoso laboral unas «dimensiones pandémicas». Son sus tres
+únicas cuantificaciones y las tres van sin cifra. La prohibición se mantiene
+igual, porque el defecto no deja de serlo por venir del autor.
 
 La repetición de la misma tesis con vocabulario nuevo. Entre secciones, cada
 una aporta un paso distinto. Si dos secciones dicen lo mismo con otras
