@@ -42,6 +42,11 @@ propio tono conversacional. La frontera es sencilla: este skill se usa cuando
 el texto le pide cuentas a alguien con poder, o le explica a una comunidad algo
 que la afecta, y el autor firma lo que afirma.
 
+**Precondición de forma:** hay una comunidad a la que el asunto la afecta y el
+autor firma lo que afirma. El derecho y la gestión pública son el dominio del
+corpus; la forma se sostiene con cualquier materia que alguien tenga que
+explicarle a la gente a la que le toca.
+
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite. La

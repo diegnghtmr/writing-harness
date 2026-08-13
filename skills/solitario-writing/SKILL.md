@@ -42,6 +42,10 @@ turno de palabra en vez de ser una escuela citada. Y acá el texto declara en vo
 alta lo que no va a tratar en lugar de agotar el terreno.
 
 
+**Precondición de forma:** hay un adversario con cuerpo y nombre al que se le
+puede dar turno de palabra, y quien lee puede estar de su lado. Lo que la forma
+exige es el adversario, no la materia de la disputa.
+
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite. La

@@ -93,6 +93,13 @@ ninguna fila dejaba correr esta base sola, y eso no es una decisión sino una
 ausencia: un texto sin tono no es un texto neutro, es un texto cuya forma no
 decidió nadie.
 
+**La lista enruta, no cerca.** Cada fila nombra el caso donde ese tono se
+encuentra casi siempre, que es además el caso que midió su corpus. No dice de
+qué se puede escribir con esa forma. Un tono es una forma, y una forma se pide
+para cualquier asunto que cumpla su precondición, que cada skill de tono declara
+al final de su sección 1. Si el usuario pide un tono, ese tono se aplica y esta
+lista no se recorre.
+
 Elegido el tono, se dice cuál y por qué en una línea. Una decisión que no se
 puede rebatir no es una decisión.
 

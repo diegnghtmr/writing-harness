@@ -15,7 +15,9 @@ description: >
   datos, redes, arquitectura de software e ingeniería de sistemas dirigidas a
   quien ya programa pero no domina la teoría. También aplica cuando el usuario
   pida «en estilo BettaTech», «tono de divulgación técnica», «explícalo como un
-  canal de informática» o «explica los fundamentos, no la receta».
+  canal de informática» o «explica los fundamentos, no la receta». La
+  computación es su dominio medido, no su límite: la forma sirve para cualquier
+  mecanismo que el lector use sin conocerlo por dentro.
 ---
 
 # Skill de tono divulgativo-técnico: lo que hay por debajo
@@ -36,9 +38,13 @@ pero muy pocos entienden realmente lo que está ocurriendo por debajo».
 
 No se usa para documentación de referencia, manuales de operación ni informes
 técnicos formales, que son del tono académico, ni para divulgación filosófica o
-humanística. La frontera es sencilla: este skill se usa cuando el objeto
-explicado es un mecanismo de cómputo y el lector tiene que quedarse con un
-modelo de ese mecanismo.
+humanística.
+
+**Precondición de forma:** el objeto es un mecanismo que el lector ya usa sin
+conocerlo por dentro, y el texto tiene que dejarle un modelo de ese mecanismo.
+La computación es el dominio que midió el corpus y de donde salen los casos de
+ingeniería de la sección 7; la forma no depende de que el mecanismo sea de
+cómputo, sino de que haya un mecanismo y un lector que lo usa a ciegas.
 
 
 ## 2. Relación con la base normativa

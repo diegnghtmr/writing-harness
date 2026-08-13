@@ -37,6 +37,12 @@ contarle a alguien por qué ese autor le importa. No divulga desde una tarima.
 Divulga desde una mesa, y esa diferencia decide todo lo que sigue.
 
 
+**Precondición de forma:** hay un lector que no es del oficio y hay algo
+concreto por donde entrar. La forma pide un destinatario y una puerta, no una
+materia: la filosofía y la cultura son de donde salió el corpus, y la misma
+forma sirve para cualquier asunto que se le pueda contar a alguien sentado
+enfrente.
+
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.

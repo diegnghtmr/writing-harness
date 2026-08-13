@@ -44,6 +44,11 @@ Todo lo que este documento afirma sobre el original está medido sobre el corpus
 descrito en la sección 13. Lo que no se pudo medir se declara ahí como tal.
 
 
+**Precondición de forma:** hay un mecanismo que se puede reducir a su versión
+mínima y un lector que después tiene que poder explicarlo con sus propias
+palabras. El mecanismo puede ser de cualquier campo: lo que la forma pide es que
+haya algo que funcione por dentro y se deje desarmar.
+
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite. La

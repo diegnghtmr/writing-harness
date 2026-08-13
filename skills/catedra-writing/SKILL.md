@@ -45,6 +45,11 @@ la persona de interpelación y el peso del dato. Cuando una regla vale para los
 dos registros no se marca. Cuando solo vale para uno, se dice.
 
 
+**Precondición de forma:** hay otra posición sostenida por gente seria, y el
+texto puede exponerla mejor de lo que ella se expone antes de refutarla. Sin
+adversario expuesto no hay contra qué sostener nada y la forma se queda sin su
+movimiento central.
+
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.

@@ -88,6 +88,13 @@ neutro, es un texto cuya forma no decidió nadie. Vive dos veces, en §3 de la b
 y en `src/enrutamiento.ts`, y un gate comprueba que digan lo mismo y en el mismo
 orden.
 
+**La lista enruta, no cerca.** Cada paso nombra el caso donde ese tono se
+encuentra casi siempre, que es además el caso que midió su corpus. No dice de
+qué se puede escribir con esa forma. Por eso cada tono cierra su sección 1 con
+una precondición de forma, que es lo que necesita para funcionar: una figura que
+corregir, unidades que citar, un orden dado de antemano. Si el usuario pide un
+tono, ese tono se aplica y la lista no se recorre.
+
 ```bash
 node src/cli.ts --enrutar juridico
 ```

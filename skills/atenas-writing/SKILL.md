@@ -12,7 +12,9 @@ description: >
   revisar análisis de personajes, reseñas de manga o anime, crítica de cine o
   de series, guiones de video ensayo sobre ficción, o comentarios de capítulo.
   También cuando pida «estilo Secreto de Atenas», «análisis de personaje»,
-  «video ensayo de ficción» o «tono de crítica de manga».
+  «video ensayo de ficción» o «tono de crítica de manga». La ficción es su
+  dominio medido, no su límite: lo que fija es la forma, y sirve para cualquier
+  figura que se deje leer como personaje.
 ---
 
 # Skill de tono para crítica de ficción: el concepto como lente
@@ -25,11 +27,19 @@ ficción narrativa. Se aplica a análisis de personajes, reseñas de manga y de
 anime, crítica de cine y de series, guiones de video ensayo, comentarios de
 capítulo, comparaciones entre personajes y listas razonadas.
 
-No es el tono por defecto. Se elige cuando el objeto del texto es una obra de
-ficción y el propósito es interpretarla, no resumirla.
+No es el tono por defecto. Se elige cuando el propósito es interpretar una
+figura y no resumirla.
 
-Si el texto expone doctrina, teoría o filosofía por sí mismas, sin una obra de
-ficción como objeto, no corresponde este skill.
+**Precondición de forma:** hay una figura que el texto puede tratar como
+personaje y hay una lectura corriente de ella que el texto va a corregir. La
+ficción narrativa es donde eso se encuentra casi siempre y es lo que midió el
+corpus, pero la forma no depende de que la figura sea inventada: un actor
+histórico, un gremio o una institución tratados como personaje cumplen la
+precondición igual.
+
+Si no hay figura, o no hay lectura corriente que corregir, la forma se queda sin
+su primer movimiento y corresponde otro tono. Lo que descalifica es la falta de
+esas dos cosas, nunca el asunto del que trate el texto.
 
 
 ## 2. Relación con la base normativa

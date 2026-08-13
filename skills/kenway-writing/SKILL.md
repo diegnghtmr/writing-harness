@@ -13,7 +13,9 @@ description: >
   análisis de capítulo o episodio, una recomendación o un texto de opinión
   sobre una obra de manga, cómic, anime, cine, series, videojuegos, libros o
   música, o cuando pida «tono de reseña», «tono de crítica», «estilo
-  reseñista» o «¿vale la pena?».
+  reseñista» o «¿vale la pena?». Los productos culturales son su dominio medido,
+  no su límite: la forma sirve para valorar cualquier cosa concreta que tenga
+  mérito y defecto.
 ---
 
 # Skill de tono para reseña y crítica: la opinión llega al final y firmada
@@ -26,9 +28,14 @@ obra. Se aplica a reseñas, críticas, análisis de capítulo o de episodio,
 comentarios de estreno, recomendaciones, comparaciones entre obras y textos de
 opinión sobre productos culturales.
 
-No es el tono por defecto. Se activa cuando el género es la valoración de una
-obra concreta o cuando el usuario lo pide. Un ensayo teórico sobre un autor no
-entra acá, porque su propósito es explicar y no valorar.
+No es el tono por defecto. Se activa cuando el propósito es valorar o cuando el
+usuario lo pide.
+
+**Precondición de forma:** hay algo concreto con mérito y con defecto, y hay un
+lector que decide si le vale la pena. Los productos culturales son el caso que
+midió el corpus; una política pública, una herramienta o una reconstrucción se
+valoran con esta misma forma. Un ensayo teórico sobre un autor no entra acá, y
+no por su asunto sino por su propósito: explica y no valora.
 
 
 ## 2. Relación con la base normativa

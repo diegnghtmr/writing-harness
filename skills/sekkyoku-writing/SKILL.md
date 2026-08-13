@@ -13,7 +13,9 @@ description: >
   serie, un manga, un cómic, una novela, una película o un videojuego, o
   cuando pida «análisis a fondo», «final explicado», «reseña de episodio»,
   «desglose de capítulo», «qué me perdí», «teoría» o un guion de video de
-  análisis. Hereda toda la normativa de «spanish-writing».
+  análisis. La ficción es su dominio medido, no su límite: la forma sirve para
+  cualquier objeto que se deje recorrer por unidades y citar por dentro. Hereda
+  toda la normativa de «spanish-writing».
 ---
 
 # Skill de tono: análisis narrativo largo de una obra de ficción
@@ -29,8 +31,14 @@ sobre una obra.
 
 No se aplica a la crítica académica con aparato de citas, que va en tono
 formal, ni a la divulgación de un campo del saber, que va en tono divulgativo.
-Aquí el objeto es siempre una obra concreta, y la obra es a la vez el tema y la
-prueba.
+
+**Precondición de forma:** el objeto se deja recorrer por unidades y esas
+unidades son a la vez el tema y la prueba. Un episodio, un capítulo o un arco la
+cumplen, que es lo que midió el corpus, y también la cumple cualquier objeto con
+unidades propias: una cronología, un proceso por etapas, un expediente. Lo que
+la forma pide no es que el objeto sea ficción, sino que se pueda citar por
+dentro, porque de ahí sale el anclaje cada 125 palabras y sin eso no hay de
+dónde sacarlo.
 
 
 ## 2. Relación con la base normativa

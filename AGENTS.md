@@ -86,6 +86,31 @@ Conserva la clasificación de los ítems que ya estaban, imprime los nuevos para
 revisarlos uno por uno, y deja los recuentos que el test tiene grabados. Se
 escribió a mano una vez y quedó mintiendo en cuanto una skill movió sus ítems.
 
+## Un tono acota por forma, no por materia
+
+Una skill de tono decide cómo suena un texto, no de qué trata. Cinco acotaban
+por el objeto: `atenas` y `sekkyoku` exigían una obra de ficción, `medicendai`
+una obra concreta sobre la mesa, `kenway` una obra que valorar, `bettatech` un
+mecanismo de cómputo. Escrito así, quien pidiera `atenas` para un asunto real se
+topaba con una skill que se negaba a existir para él, y eso contradice a la
+base: §3 recorre la lista solo «si el usuario no indica el tono», y §3.1 dice
+que ninguna skill de tono puede contradecirla.
+
+Ahora las catorce cierran su sección 1 con una precondición de forma, que es lo
+que la forma necesita para funcionar. Una figura que corregir. Unidades que
+citar. Un orden dado de antemano. Algo con mérito y con defecto. Un mecanismo
+que el lector usa a ciegas. Nada de eso es un tema, y cada una dice además de
+qué dominio salió su corpus, que es distinto de dónde se puede usar.
+
+`evals/alcance.test.ts` lo vigila en las dos direcciones. La base declara en qué
+sección vive la precondición y el test la busca ahí, así que mover el bloque sin
+mover la afirmación rompe, y al revés también.
+
+Lo que ese gate no hace es leer la precondición y juzgarla. Distinguir una
+condición de forma de una condición de tema es lectura, no expresión regular, y
+una expresión regular que lo intentara daría verdes falsos. El gate obliga a
+responder la pregunta; que la respuesta sea buena se revisa leyendo.
+
 ## De dónde salieron las cifras
 
 Las skills enuncian centenares de cifras medidas sobre un corpus que no vive acá

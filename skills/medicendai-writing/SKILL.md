@@ -14,7 +14,9 @@ description: >
   reseñar o criticar una obra de ficción (anime, manga, cómic, cine, series,
   videojuegos, novela), reconstruir la evolución de un personaje, o cuando
   pida «tono Me Dicen Dai», «historia y evolución», «análisis de anime» o
-  «análisis largo de un personaje».
+  «análisis largo de un personaje». La ficción es su dominio medido, no su
+  límite: la forma sirve para cualquier objeto con un orden propio que el texto
+  recorra y juzgue.
 ---
 
 # Skill de tono: el recorrido de la obra con el juicio encima
@@ -29,11 +31,16 @@ película o de temporada, comparaciones de poder dentro de un sistema de
 ficción, respuestas a una crítica recibida y guiones de video o de pódcast
 sobre cualquiera de esas cosas.
 
-No es el tono por defecto. Pide una obra concreta sobre la mesa, un texto
-largo y un juicio que el texto firme. Para una reseña breve que conceda el
-mérito antes del reproche corresponde otro tono. Para el análisis unidad por
-unidad de una obra serializada, también. Para exposición conceptual sin obra
-que juzgar, tampoco es este.
+No es el tono por defecto. Para una reseña breve que conceda el mérito antes
+del reproche corresponde otro tono. Para el análisis unidad por unidad de una
+obra serializada, también.
+
+**Precondición de forma:** el objeto tiene un orden propio, el texto lo recorre
+en ese orden y hay un juicio que el texto firma. La obra de ficción es el caso
+que midió el corpus; una cronología, un proceso o una trayectoria cumplen la
+precondición igual, porque lo que la forma necesita es un recorrido dado de
+antemano y no un asunto inventado. Para exposición conceptual sin orden que
+recorrer ni juicio que firmar, no es este.
 
 
 ## 2. Relación con la base normativa

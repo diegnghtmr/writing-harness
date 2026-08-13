@@ -36,6 +36,11 @@ ella, y que sostiene cada afirmación con una cifra fechada o con un caso con
 nombre propio.
 
 
+**Precondición de forma:** el texto va a sonar en voz alta ante un público y hay
+un mecanismo que explicar antes de pedirle a alguien que cambie de conducta. La
+tecnología y la seguridad informática son el dominio del corpus, no el límite de
+la forma.
+
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite. La

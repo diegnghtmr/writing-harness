@@ -38,6 +38,11 @@ escala: un texto de doce mil palabras escrito así no es un ensayo, es una
 letanía.
 
 
+**Precondición de forma:** la afirmación central se sostiene sin dato empírico y
+el texto es corto. Las dos condiciones son de forma y no de tema: entra
+cualquier asunto que se deje pensar por oposición de conceptos, y no entra
+ninguno que necesite una cifra para sostenerse, sea cual sea.
+
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.

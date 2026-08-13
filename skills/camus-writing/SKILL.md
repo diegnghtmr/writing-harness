@@ -26,6 +26,10 @@ Es el tono por defecto. Cuando el usuario no indica otro y el género es
 académico, técnico o formal, se usa este.
 
 
+**Precondición de forma:** el asunto admite voz impersonal y no necesita que el
+texto interpele a nadie. Es además el tono por defecto, así que recoge todo lo
+que ninguna otra fila reclamó.
+
 ## 2. Relación con la base normativa
 
 Este skill hereda íntegras las reglas de «spanish-writing» y no las repite.
