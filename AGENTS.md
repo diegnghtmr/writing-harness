@@ -224,12 +224,16 @@ Un juicio encontró diez defectos en este repositorio, y los encontró porque lo
 buscamos a mano. Estas dos redes existen para que la próxima vez no dependa de
 eso.
 
-Dos comprobaciones más, que sostienen la separación de arriba:
+La separación de arriba la comprueba `evals/separacion.test.ts`, y no hace falta
+correr nada a mano. Acá vivían dos `grep -r` que la hacían, y se fueron por el
+mismo motivo por el que se fueron del CI: el segundo buscaba «cursor» suelto y
+disparaba sobre la expresión «Tengo un precursor.», que un corpus contiene con
+todo derecho.
 
-```bash
-grep -rn "cli\.ts\|node \|--tono\|writing-harness" skills/   # tiene que dar vacío
-grep -rn "\.claude\|cursor\|copilot" src/                     # tiene que dar vacío
-```
+Un juez encontró que esa receta, ya corregida en el test, seguía intacta acá y
+seguía diciendo «tiene que dar vacío». **Una comprobación escrita en dos sitios
+se arregla en uno solo**, que es la enfermedad que este repositorio existe para
+evitar, cometida en su propio manual.
 
 ## Requisitos
 

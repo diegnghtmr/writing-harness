@@ -12,7 +12,7 @@
 //
 // Lo que NO se hizo, y conviene que conste. Se intentó decidir midiendo el texto
 // contra las reglas de cada tono, que sería lo propio de este repositorio. No se
-// sostiene: seis de los catorce tonos no tienen ninguna regla mecanizada
+// sostiene: 8 de los 14 tonos no tienen ninguna regla mecanizada
 // todavía, así que ganarían siempre por no poder incumplirse. También se
 // intentó comparar el perfil numérico que cada skill declara, y tampoco: la
 // prosa no lo enuncia de forma uniforme, y raspar cifras con expresiones

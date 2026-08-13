@@ -10,7 +10,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { RASGOS, RUTAS, RUTA_IDS, type Rasgos, assertRutas, sugerirTono } from '../src/enrutamiento.ts';
-import { TONE_IDS } from '../src/rules.ts';
+import { TONES, TONE_IDS } from '../src/rules.ts';
 import { REPO_ROOT, readSkill } from '../src/skills.ts';
 
 const BASE = readSkill('spanish-writing');
@@ -66,6 +66,27 @@ describe('cada ruta cita la tabla que dice seguir', () => {
       (m) => m[1] as string,
     );
     assert.deepEqual(pasos, RUTAS.map((r) => r.skill));
+  });
+});
+
+describe('el motivo por el que no se decide midiendo sigue siendo cierto', () => {
+  test('la cuenta de tonos sin regla que dice el comentario es la real', () => {
+    // El comentario de `enrutamiento.ts` justifica una decisión de diseño con
+    // una cifra, y esa cifra estaba mal: decía seis y son ocho. La escribí sin
+    // contarla, en el archivo cuyo comentario empieza diciendo «conviene que
+    // conste». Un juez la cazó leyendo `rules.ts`.
+    //
+    // Así que ahora la cuenta el test. Si algún día esos ocho tonos reciben
+    // reglas, esto falla y con ello cae el motivo entero: cuando ningún tono
+    // pueda ganar por no poder incumplirse, decidir midiendo vuelve a estar
+    // sobre la mesa y habrá que reconsiderarlo.
+    const sinReglas = TONE_IDS.filter((id) => TONES[id]?.rules.length === 0);
+    const fuente = readFileSync(join(REPO_ROOT, 'src', 'enrutamiento.ts'), 'utf8');
+    const dicho = /(\d+) de los (\d+) tonos no tienen ninguna regla/u.exec(fuente);
+    assert.ok(dicho, 'el comentario perdió la cifra que justifica la decisión');
+    assert.equal(Number(dicho[1]), sinReglas.length, 'tonos sin regla');
+    assert.equal(Number(dicho[2]), TONE_IDS.length, 'tonos en total');
+    assert.ok(sinReglas.length > 0, 'si ninguno queda sin reglas, el motivo caduca');
   });
 });
 
