@@ -2,7 +2,7 @@
 
 Skills de redacción en español y el verificador que mide si un texto las cumple.
 
-Trece skills en tres capas y 61 reglas mecanizadas, con un gate que ata cada
+Trece skills en tres capas y 74 reglas mecanizadas, con un gate que ata cada
 regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
 entero sin instalar nada, sin build y sin conexión.
 
@@ -160,7 +160,7 @@ producto. En las skills no.
 
 | Archivo | Qué hace |
 |---|---|
-| `src/rules.ts` | Las 61 reglas como objetos planos y tipados, sin comportamiento |
+| `src/rules.ts` | Las 74 reglas como objetos planos y tipados, sin comportamiento |
 | `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
 | `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
 | `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |
@@ -168,11 +168,12 @@ producto. En las skills no.
 | `src/mediciones.ts` | Qué contenía ese corpus, con las cuatro casillas del contrato |
 | `evals/cobertura.ts` | El registro de qué declara la prosa y todavía no tiene regla |
 
-Las reglas se reparten en once tipos. `forbidden-pattern` cubre 42; las otras
-diez existen porque hay cosas que una expresión regular no ve: contar palabras
-por párrafo, detectar rachas de oraciones breves, comparar aperturas
-consecutivas, medir una proporción sobre el total, recorrer el texto con estado
-para distinguir niveles de comilla.
+Las reglas se reparten en catorce tipos. `forbidden-pattern` cubre 42; las otras
+trece existen porque hay cosas que una expresión regular no ve: contar palabras
+por párrafo, detectar rachas de oraciones breves o largas, comparar aperturas
+consecutivas, medir qué proporción del texto cae en una banda de longitud,
+comprobar que la media de oración no abandone la suya, recorrer el texto con
+estado para distinguir niveles de comilla.
 
 `must-contain` es el reverso de todas las demás. Un tono no se define solo por lo
 que prohíbe: `fonda-writing` exige interpelación, preguntas retóricas y voz
@@ -216,11 +217,11 @@ resultado y no se parecen en nada más.** El gate distingue las dos cosas.
 
 | Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | **80** | Tiene regla y test |
+| cubierto | **89** | Tiene regla y test |
 | mecanizable | **0** | Se puede medir, falta construirlo |
-| criterio | 154 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
+| criterio | 146 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 
-De las 234 declaraciones, 154 piden juicio: si se conservó toda la información
+De las 235 declaraciones, 146 piden juicio: si se conservó toda la información
 del original, si una analogía está desarrollada o solo mencionada, si una
 expresión es la colocación más previsible del tema. El número creció con los
 diez tonos que reconstruyen a un autor, porque describir cómo argumenta una

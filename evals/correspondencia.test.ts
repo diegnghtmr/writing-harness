@@ -103,13 +103,15 @@ describe('el techo de cobertura está declarado', () => {
   // que ir a buscarlos leyendo la prosa.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('234 declaraciones, repartidas como está registrado', () => {
+  test('235 declaraciones, repartidas como está registrado', () => {
     // Eran 282 con las catorce skills de tono. Retirar kenway, medicendai y
-    // sekkyoku se llevó 48 declaraciones, y este gate es el que lo dijo.
-    assert.equal(items.length, 234, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 80, 'cambió la cantidad de declaraciones cubiertas por reglas');
+    // sekkyoku se llevó 48 declaraciones, y este gate es el que lo dijo. La 235
+    // la agregó `solitario-writing` §19: su §7.4 medía la longitud de oración y
+    // la checklist no la pedía, así que la regla no tenía qué reclamar.
+    assert.equal(items.length, 235, 'cambió la cantidad de declaraciones en la prosa');
+    assert.equal(claimed.size, 89, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
-    assert.equal(cuenta('criterio'), 154);
+    assert.equal(cuenta('criterio'), 146);
     assert.equal(cuenta('delegado'), 0);
   });
 

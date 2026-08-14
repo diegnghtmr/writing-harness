@@ -137,6 +137,7 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
   const densityRules = rules.filter((r) => r.kind === 'pattern-density');
   const paraRules = rules.filter((r) => r.kind === 'paragraph-length');
   const runRules = rules.filter((r) => r.kind === 'short-sentence-run');
+  const longRunRules = rules.filter((r) => r.kind === 'long-sentence-run');
   const startRules = rules.filter((r) => r.kind === 'sentence-start-run');
   const openingRules = rules.filter((r) => r.kind === 'paragraph-opening');
 
@@ -145,6 +146,7 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
     densityRules.length > 0 ||
     paraRules.length > 0 ||
     runRules.length > 0 ||
+    longRunRules.length > 0 ||
     startRules.length > 0 ||
     openingRules.length > 0;
 
@@ -218,6 +220,31 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
               severity: rule.severity,
               ...at(inicio),
               message: `${rule.message} Hay ${rule.maxRun + 1} de ${rule.shortWords} palabras o menos.`,
+              fix: rule.fix,
+              source: rule.source,
+            });
+          }
+        }
+      }
+
+      // El reverso de la racha corta, y con el mismo criterio: no cruza el
+      // corte de párrafo, porque un punto y aparte reinicia el ritmo.
+      for (const rule of longRunRules) {
+        let racha = 0;
+        let inicio = paragraph.offset;
+        for (const s of paragraph.sentences) {
+          if (s.words >= rule.longWords) {
+            if (racha === 0) inicio = s.offset;
+            racha++;
+          } else {
+            racha = 0;
+          }
+          if (racha === rule.maxRun + 1) {
+            findings.push({
+              rule: rule.id,
+              severity: rule.severity,
+              ...at(inicio),
+              message: `${rule.message} Hay ${rule.maxRun + 1} de ${rule.longWords} palabras o más.`,
               fix: rule.fix,
               source: rule.source,
             });
@@ -299,6 +326,50 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
           severity: rule.severity,
           ...at(encajan[0]?.offset ?? 0),
           message: `${rule.message} ${encajan.length} de ${todasLasOraciones.length} oraciones, ${Math.round(fraccion * 100)} %.`,
+          fix: rule.fix,
+          source: rule.source,
+        });
+      }
+    }
+
+    if (rule.kind === 'sentence-length-band') {
+      // Una proporción sobre pocas oraciones es ruido, y por eso el piso.
+      if (todasLasOraciones.length < rule.minSentences) continue;
+      const dentro = todasLasOraciones.filter(
+        (s) => s.words >= rule.min && s.words <= rule.max,
+      ).length;
+      const share = dentro / todasLasOraciones.length;
+      const pocas = rule.minShare !== undefined && share < rule.minShare;
+      const muchas = rule.maxShare !== undefined && share > rule.maxShare;
+      if (pocas || muchas) {
+        const techo = rule.max === Number.POSITIVE_INFINITY ? 'en adelante' : `a ${rule.max}`;
+        const declarado = pocas
+          ? `al menos el ${Math.round((rule.minShare as number) * 100)} %`
+          : `como mucho el ${Math.round((rule.maxShare as number) * 100)} %`;
+        findings.push({
+          rule: rule.id,
+          severity: rule.severity,
+          ...at(0),
+          message:
+            `${rule.message} ${dentro} de ${todasLasOraciones.length} oraciones ` +
+            `(${Math.round(share * 100)} %) caen de ${rule.min} ${techo} palabras, ` +
+            `y la skill declara ${declarado}.`,
+          fix: rule.fix,
+          source: rule.source,
+        });
+      }
+    }
+
+    if (rule.kind === 'sentence-length-mean') {
+      if (todasLasOraciones.length < rule.minSentences) continue;
+      const media =
+        todasLasOraciones.reduce((a, s) => a + s.words, 0) / todasLasOraciones.length;
+      if (media < rule.min || media > rule.max) {
+        findings.push({
+          rule: rule.id,
+          severity: rule.severity,
+          ...at(0),
+          message: `${rule.message} La media es ${media.toFixed(1)} y la banda declarada va de ${rule.min} a ${rule.max}.`,
           fix: rule.fix,
           source: rule.source,
         });

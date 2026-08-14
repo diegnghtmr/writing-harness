@@ -78,24 +78,46 @@ describe('cada ruta cita la tabla que dice seguir', () => {
 });
 
 describe('el motivo por el que no se decide midiendo sigue siendo cierto', () => {
-  test('la cuenta de tonos sin regla que dice el comentario es la real', () => {
-    // El comentario de `enrutamiento.ts` justifica una decisión de diseño con
-    // una cifra, y esa cifra estaba mal: decía seis y eran ocho. La escribí sin
-    // contarla, en el archivo cuyo comentario empieza diciendo «conviene que
-    // conste». Un juez la cazó leyendo `rules.ts`.
+  // La versión anterior de este bloque comprobaba una cifra: cuántos tonos no
+  // tenían ninguna regla mecanizada, que era el motivo que daba el comentario
+  // para no enrutar midiendo. Lo escribí con una condición de caducidad puesta:
+  // «si algún día los que quedan sin regla la reciben, esto falla y con ello cae
+  // el motivo entero».
+  //
+  // Ese día llegó. Se mecanizó el ritmo de los seis tonos que no tenían nada, el
+  // gate falló, y el motivo hubo que rehacerlo. Lo que sigue vigila el motivo
+  // nuevo, que es estructural en vez de contingente.
+
+  test('ningún tono queda sin reglas, así que el motivo viejo ya no vale', () => {
+    // Se deja escrito como comprobación y no como comentario, porque el
+    // comentario de `enrutamiento.ts` afirma que ese argumento caducó. Si
+    // volviera a haber un tono sin reglas, la afirmación sería falsa.
+    assert.deepEqual(
+      TONE_IDS.filter((id) => TONES[id]?.rules.length === 0),
+      [],
+      'volvió a haber un tono sin reglas: el comentario dice que eso ya no pasa',
+    );
+  });
+
+  test('la entrada del enrutamiento son rasgos y no un texto', () => {
+    // Este es el motivo que no caduca: el enrutamiento decide antes de que
+    // exista la prosa. Medir para enrutar exigiría escribir primero en algún
+    // tono, que es justo la decisión que se quería tomar.
     //
-    // Así que ahora la cuenta el test, y por eso sobrevivió a que se retiraran
-    // tres tonos: la cifra se movió sola y el gate señaló dónde. Si algún día
-    // los que quedan sin regla la reciben, esto falla y con ello cae el motivo
-    // entero: cuando ningún tono pueda ganar por no poder incumplirse, decidir
-    // midiendo vuelve a estar sobre la mesa y habrá que reconsiderarlo.
-    const sinReglas = TONE_IDS.filter((id) => TONES[id]?.rules.length === 0);
+    // Se comprueba sobre el tipo, que es donde entraría el texto si alguien lo
+    // metiera. Un campo que no sea booleano abre la puerta a pasarle prosa, y
+    // ese día la decisión de diseño vuelve a estar en discusión.
     const fuente = readFileSync(join(REPO_ROOT, 'src', 'enrutamiento.ts'), 'utf8');
-    const dicho = /(\d+) de los (\d+) tonos no tienen ninguna regla/u.exec(fuente);
-    assert.ok(dicho, 'el comentario perdió la cifra que justifica la decisión');
-    assert.equal(Number(dicho[1]), sinReglas.length, 'tonos sin regla');
-    assert.equal(Number(dicho[2]), TONE_IDS.length, 'tonos en total');
-    assert.ok(sinReglas.length > 0, 'si ninguno queda sin reglas, el motivo caduca');
+    const cuerpo = /export type Rasgos = \{([\s\S]*?)\n\};/u.exec(fuente);
+    assert.ok(cuerpo, 'no se encontró el tipo Rasgos');
+    const campos = [...(cuerpo[1] as string).matchAll(/^\s{2}(\w+)\?:\s*([^;]+);/gmu)];
+    assert.ok(campos.length > 0);
+    assert.deepEqual(
+      campos.filter((m) => (m[2] as string).trim() !== 'boolean').map((m) => m[1]),
+      [],
+      'un rasgo dejó de ser booleano: si por ahí entra un texto, enrutar midiendo vuelve a estar sobre la mesa',
+    );
+    assert.match(fuente, /el enrutamiento decide antes\n\/\/ de que exista el texto/u);
   });
 });
 

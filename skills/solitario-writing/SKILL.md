@@ -908,7 +908,9 @@ Se ejecuta después de la lista normativa de la base.
     atribución de motivos y sin diagnóstico de la persona?
 15. ¿El lector queda tratado de usted o de ustedes, sin tuteo, sin voseo y sin
     ninguna forma peninsular?
-16. ¿El cierre remata en la consecuencia, sin recapitular, sin anunciarse como
+16. ¿Al menos una de cada cuatro oraciones queda por debajo de doce palabras,
+    alternando con los periodos largos del argumento?
+17. ¿El cierre remata en la consecuencia, sin recapitular, sin anunciarse como
     cierre y sin pedirle nada al lector?
 
 

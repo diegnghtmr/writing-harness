@@ -11,13 +11,27 @@
 // motivo, para que se pueda discutir.
 //
 // Lo que NO se hizo, y conviene que conste. Se intentó decidir midiendo el texto
-// contra las reglas de cada tono, que sería lo propio de este repositorio. No se
-// sostiene: 6 de los 11 tonos no tienen ninguna regla mecanizada
-// todavía, así que ganarían siempre por no poder incumplirse. También se
-// intentó comparar el perfil numérico que cada skill declara, y tampoco: la
-// prosa no lo enuncia de forma uniforme, y raspar cifras con expresiones
-// regulares producía medias implausibles. Un gateway que decide por una medición
-// que no existe es peor que uno que decide por rasgos declarados.
+// contra las reglas de cada tono, que sería lo propio de este repositorio.
+//
+// El motivo que se dio entonces fue contingente y ya caducó: ocho de los catorce
+// tonos no tenían ninguna regla mecanizada, así que ganarían siempre por no
+// poder incumplirse. Hoy los once tienen reglas y ese argumento no vale. Lo dijo
+// su propio gate, que lo tenía escrito como condición de caducidad y falló el
+// día en que dejó de ser cierto.
+//
+// El motivo que queda es estructural y no caduca: **el enrutamiento decide antes
+// de que exista el texto**. `sugerirTono` responde qué forma le corresponde a una
+// petición, y en ese momento no hay prosa que medir. Medir para enrutar exigiría
+// escribir primero en algún tono, que es la decisión que se quería tomar. Por eso
+// la entrada son rasgos declarados y no un texto, y por eso `Rasgos` solo admite
+// booleanos: el día que alguien le meta una cadena, esto vuelve a estar en
+// discusión y el gate lo va a decir.
+//
+// Queda además el hallazgo menor de aquel intento: comparar el perfil numérico
+// que cada skill declara tampoco servía, porque la prosa no lo enuncia de forma
+// uniforme y raspar cifras con expresiones regulares producía medias
+// implausibles. Eso sí se resolvió, pero por el otro lado: las cifras se
+// mecanizaron como reglas en vez de rasparlas al vuelo.
 
 import { TONES } from './rules.ts';
 

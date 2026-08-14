@@ -47,7 +47,7 @@ no frenan la entrega: señalan lo que solo el contexto decide.
 
 ## Lo que el verificador no ve
 
-De las 234 declaraciones que hacen las skills, **154 exigen juicio sobre el
+De las 235 declaraciones que hacen las skills, **146 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.

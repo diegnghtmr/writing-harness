@@ -63,6 +63,9 @@ export const CLASES_DE_RITMO = [
   'paragraph-length',
   'sentence-length-spread',
   'short-sentence-run',
+  'sentence-length-band',
+  'long-sentence-run',
+  'sentence-length-mean',
 ] as const;
 
 type Common = {
@@ -142,6 +145,73 @@ export type ShortSentenceRunRule = Common & {
   shortWords: number;
   /** Cuántas cortas seguidas tolera. Se marca al superarlo. */
   maxRun: number;
+};
+
+/**
+ * Una racha de oraciones largas seguidas. El reverso del staccato.
+ *
+ * `fonseca-writing` §4.2 lo dice como prohibición: «Nunca cuatro largas
+ * seguidas». `dotcsv-writing` §6.4 lo dice como exigencia: «Dos oraciones
+ * largas seguidas exigen una corta después». Son la misma forma vista desde los
+ * dos lados, y ninguna clase de regla anterior la medía: `short-sentence-run`
+ * caza la cadena de breves y dejaba pasar la cadena de largas, que es el
+ * defecto contrario y también aplana el ritmo.
+ */
+export type LongSentenceRunRule = Common & {
+  kind: 'long-sentence-run';
+  /** Desde cuántas palabras cuenta como oración larga. */
+  longWords: number;
+  /** Cuántas largas seguidas tolera. Se marca al superarlo. */
+  maxRun: number;
+};
+
+/**
+ * Qué proporción del texto cae dentro de una banda de longitud.
+ *
+ * Es la clase que faltaba para hacer cumplir lo que las skills declaran con más
+ * frecuencia y nadie medía. `freddy-writing` pide «una de cada tres oraciones
+ * entre tres y diez palabras». `dotcsv-writing`, «las breves son alrededor de
+ * una de cada cuatro». `fonseca-writing`, «la mitad del texto por debajo de
+ * quince». `bettatech-writing` da sus dos cuartiles. Todas son la misma medida
+ * con distintos límites.
+ *
+ * Es advertencia y no error a propósito: una proporción sobre pocas oraciones
+ * es ruido, y por eso `minSentences` existe. Un perfil que no se cumple no es
+ * una falta, es una señal de que el texto no tiene la forma que dice tener.
+ */
+export type LengthBandRule = Common & {
+  /** Límite inferior en palabras, inclusive. */
+  min: number;
+  /** Límite superior en palabras, inclusive. `Infinity` para no poner techo. */
+  max: number;
+  kind: 'sentence-length-band';
+  /** Proporción mínima del total que tiene que caer dentro de la banda. */
+  minShare?: number;
+  /**
+   * Proporción máxima, para las skills que declaran la banda como minoría.
+   *
+   * `han-writing` §4 lo dice con las dos mitades: «La oración corta existe y es
+   * minoría. Una de cada seis baja de diez palabras. No es el ritmo del texto,
+   * es su acento». Con solo un piso, un texto hecho enteramente de frases cortas
+   * pasaba, y ese es justo el defecto que la sección 15 llama letanía.
+   */
+  maxShare?: number;
+  minSentences: number;
+};
+
+/**
+ * La media de palabras por oración, dentro de la banda que la skill declara.
+ *
+ * Solo `bettatech-writing` §10 la enuncia como rango cerrado, y con un motivo
+ * medido: «Las medias por archivo van de 20,4 a 26,3, una banda muy estrecha
+ * que ningún texto del corpus abandona». Una mediana la aproxima
+ * `sentence-length-band`; una media no, porque la arrastra la cola.
+ */
+export type MeanLengthRule = Common & {
+  kind: 'sentence-length-mean';
+  min: number;
+  max: number;
+  minSentences: number;
 };
 
 /** Oraciones consecutivas que arrancan con la misma clase de fórmula. */
@@ -224,6 +294,9 @@ export type Rule =
   | DensityRule
   | ParagraphLengthRule
   | ShortSentenceRunRule
+  | LongSentenceRunRule
+  | LengthBandRule
+  | MeanLengthRule
   | SentenceStartRunRule
   | ParagraphOpeningRule
   | MustContainRule
@@ -1183,9 +1256,131 @@ export const TONES: Record<string, Tone> = {
   // Los diez tonos siguientes se declaran sin reglas propias. El verificador ya
   // los acepta, así que su capa base y su enrutamiento funcionan, y sus ítems
   // quedan registrados en la cobertura como lo que son: criterio sin medir.
-  freddy: { id: 'freddy', skill: 'freddy-writing', rules: [] },
-  fonseca: { id: 'fonseca', skill: 'fonseca-writing', rules: [] },
-  dotcsv: { id: 'dotcsv', skill: 'dotcsv-writing', rules: [] },
+  freddy: {
+    id: 'freddy',
+    skill: 'freddy-writing',
+    rules: [
+      {
+        // §6.4: «Una de cada tres oraciones debe caer entre tres y diez
+        // palabras. Es la proporción medida y es la que produce el ritmo».
+        id: 'freddy-banda-corta',
+        kind: 'sentence-length-band',
+        gobierna: 'ritmo',
+        severity: 'warning',
+        min: 3,
+        max: 10,
+        minShare: 1 / 3,
+        minSentences: 9,
+        message: 'Faltan oraciones breves: este tono se dice en voz alta y su ritmo lo dan las cortas.',
+        fix: 'Partir alguna larga y dejar el remate suelto. «Ahí están los datos». «Eso es todo, problema resuelto».',
+        source: 'freddy-writing §6.4',
+        checklist: [
+          {
+            skill: 'freddy-writing',
+            item: '¿Una de cada tres oraciones cae entre tres y diez palabras?',
+          },
+        ],
+      },
+      variaLongitud(
+        'freddy-varia-longitud',
+        'freddy-writing',
+        '¿Alternan oraciones largas y cortas en lugar de encadenar longitudes parecidas?',
+        '§6.4',
+      ),
+    ],
+  },
+  fonseca: {
+    id: 'fonseca',
+    skill: 'fonseca-writing',
+    rules: [
+      {
+        // §4.1: «El 52,6 % de las oraciones queda por debajo de 15 palabras».
+        // La mediana medida es 14, así que la banda es la mitad del texto en 14
+        // o menos. Se mide la proporción y no la mediana porque es lo que el
+        // ítem enuncia, y porque una proporción dice dónde falla.
+        id: 'fonseca-mitad-breve',
+        kind: 'sentence-length-band',
+        gobierna: 'ritmo',
+        severity: 'warning',
+        min: 0,
+        max: 14,
+        minShare: 0.5,
+        minSentences: 8,
+        message: 'El texto no tiene la mitad de sus oraciones por debajo de quince palabras.',
+        fix: 'Bajar la mediana partiendo periodos. Este registro vive por debajo de quince y se estira solo para enumerar.',
+        source: 'fonseca-writing §4.1',
+        checklist: [
+          {
+            skill: 'fonseca-writing',
+            item: '¿La mediana de oración del texto queda cerca de 14 palabras, con la mitad del texto por debajo de 15?',
+          },
+        ],
+      },
+      {
+        // §4.2, y lo dice como prohibición: «Nunca cuatro largas seguidas».
+        id: 'fonseca-cuatro-largas',
+        kind: 'long-sentence-run',
+        gobierna: 'ritmo',
+        severity: 'error',
+        longWords: 30,
+        maxRun: 3,
+        message: 'Cadena de oraciones largas seguidas.',
+        fix: 'Cortar con una breve que ordene. Dos o tres breves y después una larga, no cuatro largas en fila.',
+        source: 'fonseca-writing §4.2',
+        checklist: [
+          {
+            skill: 'fonseca-writing',
+            item: '¿Se alternan tramos breves con una oración larga que ordena, sin cuatro largas seguidas ni una ristra de cortas fuera de un remate?',
+          },
+        ],
+      },
+    ],
+  },
+  dotcsv: {
+    id: 'dotcsv',
+    skill: 'dotcsv-writing',
+    rules: [
+      {
+        // §6.4: «La oración breve, de menos de 10 palabras, cierra el tramo y
+        // fija la idea», y el ítem pide que sean una de cada cuatro.
+        id: 'dotcsv-un-cuarto-breve',
+        kind: 'sentence-length-band',
+        gobierna: 'ritmo',
+        severity: 'warning',
+        min: 0,
+        max: 9,
+        minShare: 0.25,
+        minSentences: 8,
+        message: 'Faltan oraciones breves que cierren tramo: son una de cada cuatro en este registro.',
+        fix: 'Después de cada tramo largo, una oración de menos de diez palabras que fije la idea.',
+        source: 'dotcsv-writing §6.4',
+        checklist: [
+          {
+            skill: 'dotcsv-writing',
+            item: '¿Después de cada tramo largo hay una oración breve, y las breves son alrededor de una de cada cuatro?',
+          },
+        ],
+      },
+      {
+        // §6.4: «Dos oraciones largas seguidas exigen una corta después».
+        id: 'dotcsv-largas-seguidas',
+        kind: 'long-sentence-run',
+        gobierna: 'ritmo',
+        severity: 'error',
+        longWords: 30,
+        maxRun: 2,
+        message: 'Tres oraciones largas seguidas sin una breve que descargue.',
+        fix: 'Meter la oración breve que el tramo pide. Dos largas seguidas ya exigen una corta después.',
+        source: 'dotcsv-writing §6.4',
+        checklist: [
+          {
+            skill: 'dotcsv-writing',
+            item: '¿Después de cada tramo largo hay una oración breve, y las breves son alrededor de una de cada cuatro?',
+          },
+        ],
+      },
+    ],
+  },
   // Único tono con reglas propias fuera de camus, fonda y catedra, y por un
   // motivo: es el único cuyo corpus es prosa escrita por el autor. Los otros
   // doce se midieron sobre habla transcrita, donde la puntuación la pone el
@@ -1210,6 +1405,33 @@ export const TONES: Record<string, Tone> = {
           {
             skill: 'han-writing',
             item: '¿Ninguna oración pasa de cuarenta palabras y la mitad central del texto se mantiene entre once y veintidós?',
+          },
+        ],
+      },
+      {
+        // §4: «La oración corta existe y es minoría. Una de cada seis baja de
+        // diez palabras. No es el ritmo del texto, es su acento».
+        //
+        // Son las dos mitades del ítem y por eso la regla trae piso y techo. El
+        // piso se pone en la mitad de lo medido y el techo en el doble, que es
+        // la banda dentro de la cual la cifra sigue describiendo un acento. Sin
+        // el techo, la letanía que la sección 15 prohíbe pasaba entera.
+        id: 'han-banda-corta',
+        kind: 'sentence-length-band',
+        gobierna: 'ritmo',
+        severity: 'warning',
+        min: 0,
+        max: 9,
+        minShare: 1 / 12,
+        maxShare: 1 / 3,
+        minSentences: 8,
+        message: 'La proporción de oraciones breves se salió de la banda: acá son acento, no ritmo.',
+        fix: 'Una de cada seis baja de diez palabras. Ni ninguna, que borra el acento, ni tantas que el texto se vuelva letanía.',
+        source: 'han-writing §4',
+        checklist: [
+          {
+            skill: 'han-writing',
+            item: '¿Las oraciones de menos de diez palabras se quedan alrededor de una de cada seis, sin llegar a ser el ritmo del texto?',
           },
         ],
       },
@@ -1334,7 +1556,70 @@ export const TONES: Record<string, Tone> = {
       },
     ],
   },
-  bettatech: { id: 'bettatech', skill: 'bettatech-writing', rules: [] },
+  bettatech: {
+    id: 'bettatech',
+    skill: 'bettatech-writing',
+    rules: [
+      {
+        // §10: «Las medias por archivo van de 20,4 a 26,3, una banda muy
+        // estrecha que ningún texto del corpus abandona».
+        id: 'bettatech-media-oracion',
+        kind: 'sentence-length-mean',
+        gobierna: 'ritmo',
+        severity: 'warning',
+        min: 20,
+        max: 26,
+        minSentences: 10,
+        message: 'La media de oración se salió de la banda que este registro no abandona.',
+        fix: 'Si va corta, encadenar el razonamiento hasta su consecuencia. Si va larga, cortar las conclusiones y las definiciones.',
+        source: 'bettatech-writing §10',
+        checklist: [
+          {
+            skill: 'bettatech-writing',
+            item: '¿La media de palabras por oración queda entre 20 y 26, con un cuarto del texto por debajo de 14 y un cuarto por encima de 31?',
+          },
+        ],
+      },
+      {
+        id: 'bettatech-cuartil-breve',
+        kind: 'sentence-length-band',
+        gobierna: 'ritmo',
+        severity: 'warning',
+        min: 0,
+        max: 13,
+        minShare: 0.25,
+        minSentences: 10,
+        message: 'Falta el cuartil breve: un cuarto del texto va por debajo de catorce palabras.',
+        fix: 'Las conclusiones y las definiciones van cortas. Ahí es donde este registro baja.',
+        source: 'bettatech-writing §10',
+        checklist: [
+          {
+            skill: 'bettatech-writing',
+            item: '¿La media de palabras por oración queda entre 20 y 26, con un cuarto del texto por debajo de 14 y un cuarto por encima de 31?',
+          },
+        ],
+      },
+      {
+        id: 'bettatech-cuartil-largo',
+        kind: 'sentence-length-band',
+        gobierna: 'ritmo',
+        severity: 'warning',
+        min: 32,
+        max: Number.POSITIVE_INFINITY,
+        minShare: 0.25,
+        minSentences: 10,
+        message: 'Falta el cuartil largo: un cuarto del texto pasa de treinta y una palabras.',
+        fix: 'Las unidades largas enumeran condiciones o encadenan un razonamiento hasta su consecuencia. Sin ellas el mecanismo no se explica.',
+        source: 'bettatech-writing §10',
+        checklist: [
+          {
+            skill: 'bettatech-writing',
+            item: '¿La media de palabras por oración queda entre 20 y 26, con un cuarto del texto por debajo de 14 y un cuarto por encima de 31?',
+          },
+        ],
+      },
+    ],
+  },
   schiavenato: {
     id: 'schiavenato',
     skill: 'schiavenato-writing',
@@ -1403,8 +1688,53 @@ export const TONES: Record<string, Tone> = {
       },
     ],
   },
-  atenas: { id: 'atenas', skill: 'atenas-writing', rules: [] },
-  solitario: { id: 'solitario', skill: 'solitario-writing', rules: [] },
+  atenas: {
+    id: 'atenas',
+    skill: 'atenas-writing',
+    rules: [
+      variaLongitud(
+        'atenas-varia-longitud',
+        'atenas-writing',
+        '¿El texto alterna tramos largos de análisis con golpes cortos de énfasis?',
+        '§6',
+      ),
+    ],
+  },
+  solitario: {
+    id: 'solitario',
+    skill: 'solitario-writing',
+    rules: [
+      {
+        // §7.4 mide dos veces y las dos coinciden en esto: el 30,2 % de las
+        // oraciones reconstruidas queda por debajo de 12 palabras, y el 25 % en
+        // los pasajes declamados. Se toma el mínimo de las dos, que es lo que
+        // se puede afirmar de cualquier texto de este tono.
+        id: 'solitario-cuarto-breve',
+        kind: 'sentence-length-band',
+        gobierna: 'ritmo',
+        severity: 'warning',
+        min: 0,
+        max: 11,
+        minShare: 0.25,
+        minSentences: 8,
+        message: 'Faltan oraciones breves: este tono golpea con ellas entre los periodos de argumento.',
+        fix: 'Dejar caer la afirmación corta después del razonamiento largo, en lugar de igualar todas las oraciones.',
+        source: 'solitario-writing §7.4',
+        checklist: [
+          {
+            skill: 'solitario-writing',
+            item: '¿Al menos una de cada cuatro oraciones queda por debajo de doce palabras, alternando con los periodos largos del argumento?',
+          },
+        ],
+      },
+      variaLongitud(
+        'solitario-varia-longitud',
+        'solitario-writing',
+        '¿Al menos una de cada cuatro oraciones queda por debajo de doce palabras, alternando con los periodos largos del argumento?',
+        '§7.4',
+      ),
+    ],
+  },
 };
 
 export const TONE_IDS = Object.keys(TONES);
@@ -1893,6 +2223,29 @@ export function assertRules(rules: Rule[] = allRules()): void {
     }
     if (r.kind === 'paragraph-length' && r.min === undefined && r.max === undefined) {
       throw new Error(`la regla ${r.id} necesita al menos un límite`);
+    }
+    if (r.kind === 'sentence-length-band') {
+      if (r.min > r.max) throw new Error(`la regla ${r.id} tiene la banda al revés`);
+      if (r.minShare === undefined && r.maxShare === undefined) {
+        throw new Error(`la regla ${r.id} no declara ni piso ni techo de proporción: no mide nada`);
+      }
+      for (const share of [r.minShare, r.maxShare]) {
+        if (share !== undefined && (share <= 0 || share > 1)) {
+          throw new Error(`la regla ${r.id} necesita una proporción entre 0 y 1`);
+        }
+      }
+      if (r.minShare !== undefined && r.maxShare !== undefined && r.minShare > r.maxShare) {
+        throw new Error(`la regla ${r.id} pide más de lo que tolera`);
+      }
+      // Sin piso de oraciones, un texto de dos dispara o no dispara por azar.
+      if (r.minSentences < 4) throw new Error(`la regla ${r.id} necesita un piso de al menos 4 oraciones`);
+    }
+    if (r.kind === 'sentence-length-mean') {
+      if (r.min > r.max) throw new Error(`la regla ${r.id} tiene la banda al revés`);
+      if (r.minSentences < 4) throw new Error(`la regla ${r.id} necesita un piso de al menos 4 oraciones`);
+    }
+    if (r.kind === 'long-sentence-run' && r.maxRun < 1) {
+      throw new Error(`la regla ${r.id} tiene que tolerar al menos una oración larga`);
     }
   }
 }
