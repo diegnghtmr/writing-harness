@@ -117,16 +117,24 @@ Las capas se componen en `rulesFor`. La base siempre, el tono si se pidió, las
 pasadas si se pidieron. Lo que no era cierto hasta ahora es la última parte:
 una pasada puede retirar reglas del tono.
 
-Cada regla de tono que gobierna el ritmo lo declara con `gobierna: 'ritmo'`, y
-cada pasada declara qué releva con `anula`. `evals/precedencia.test.ts` cubre las
-tres combinaciones, porque el defecto vivía en la combinación y no en las piezas:
-sin pasada, con pasada y sin tono, y con las dos.
+Cada regla de tono declara qué dominio gobierna, y `DOMINIO_POR_CLASE` es la
+única fuente de qué dominio le toca a cada clase: `ritmo-de-oracion` para las de
+longitud, racha, banda y media, `ritmo-de-parrafo` para las de párrafo. Cada
+pasada declara qué releva con `anula`. `evals/precedencia.test.ts` cubre las tres
+combinaciones, porque el defecto vivía en la combinación y no en las piezas: sin
+pasada, con pasada y sin tono, y con las dos.
 
-`assertDominios` falla en las dos direcciones. Una regla de ritmo sin marcar
-sobreviviría a la pasada y le pediría al texto lo contrario que ella. Una regla
-marcada que no es de ritmo desaparecería al pedir humanizar y nadie se enteraría.
-Y una pasada que releva el ritmo sin traer reglas de ritmo lo dejaría sin
-gobierno, que no es relevar sino apagar.
+El dominio empezó siendo uno solo y era demasiado grueso. Con `ritmo` a secas, la
+pasada se llevaba el techo de párrafo del tono sin traer nada que midiera
+párrafos, y un párrafo de cuatrocientas palabras pasaba limpio.
+
+`assertDominios` falla en las dos direcciones. Una regla marcada con el dominio
+equivocado sobrevive a una pasada que debería relevarla, o desaparece ante una
+que no. Y una pasada que releva el ritmo de oración tiene que acotarlo por los
+dos lados: si trae con qué cazar la cadena de breves y nada para la de largas,
+relevar deja pasar la uniformidad contraria. Eso ocurrió: un texto de diecinueve
+oraciones de treinta y cinco palabras seguidas salía limpio con la pasada puesta,
+que es justo lo que su propio catálogo prohíbe.
 
 El defecto que esto cierra no lo encontró una lectura del código. Lo encontró
 escribir un texto humanizado y verlo salir con código 1, once veces por la misma

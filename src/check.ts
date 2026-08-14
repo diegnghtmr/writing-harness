@@ -45,7 +45,11 @@ export type CheckOptions = {
  * hay a quién relevar, y con tono y pasada gana la pasada en su dominio.
  */
 export function rulesFor(tone?: string, pasadas: readonly string[] = []): Rule[] {
-  const activas = pasadas.map((id) => {
+  // Se quitan las repetidas acá y no solo en el CLI. Pedir dos veces la misma
+  // pasada no la aplica dos veces, y sin esto sus reglas entraban duplicadas y
+  // `assertRules` abortaba con «regla duplicada», un mensaje interno sobre un
+  // error del que llama. El CLI se protegía solo a sí mismo.
+  const activas = [...new Set(pasadas)].map((id) => {
     const pasada = PASADAS[id];
     if (pasada === undefined) {
       throw new Error(`pasada desconocida: ${id}. Disponibles: ${Object.keys(PASADAS).join(', ')}`);

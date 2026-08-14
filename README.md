@@ -96,8 +96,6 @@ verificador dice en la salida qué reglas se retiraron y quién lo hizo.
 ```
 La pasada humanizar releva al tono camus en el ritmo. Se retiran:
   oracion-maxima
-  parrafo-maximo
-  parrafo-minimo
   camus-varia-longitud
 ```
 

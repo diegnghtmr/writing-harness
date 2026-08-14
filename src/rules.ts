@@ -80,8 +80,7 @@ export const DOMINIO_POR_CLASE = {
   'paragraph-length': 'ritmo-de-parrafo',
 } as const satisfies Record<string, Dominio>;
 
-/** Clases de regla que gobiernan algún dominio. El gate las usa en las dos direcciones. */
-export const CLASES_DE_RITMO = Object.keys(DOMINIO_POR_CLASE) as readonly string[];
+
 
 type Common = {
   id: string;
@@ -95,7 +94,7 @@ type Common = {
   /**
    * Qué aspecto gobierna, para que una pasada pueda relevarla.
    *
-   * Obligatorio en toda regla de tono de las clases de `CLASES_DE_RITMO`, y
+   * Obligatorio en toda regla de tono de las clases de `DOMINIO_POR_CLASE`, y
    * prohibido en cualquier otra. `assertDominios` lo comprueba en las dos
    * direcciones: una regla de ritmo sin marcar sobreviviría a la pasada y
    * volvería a pedir lo contrario que ella.
@@ -2147,11 +2146,14 @@ const SENALES_IA: Rule[] = [
     // el catálogo prohíbe: «el objetivo es el contraste, no una nueva
     // uniformidad de frases largas».
     //
-    // Veinticinco es el umbral que la §4 fija para «larga». Tres seguidas es lo
-    // que tolera antes de que la breve tenga que aparecer.
+    // Veinticinco es el umbral que la §4 fija para «larga». La cantidad de
+    // seguidas no la declara ninguna prosa de esta pasada, así que avisa y no
+    // bloquea, por la misma convención que el resto del archivo: un número
+    // prestado no puede impedir una entrega. Las rachas que sí bloquean llevan
+    // su cifra citada, como fonseca §4.2 con su «nunca cuatro largas seguidas».
     id: 'humanizar-uniformidad-larga',
     kind: 'long-sentence-run',
-    severity: 'error',
+    severity: 'warning',
     longWords: 25,
     maxRun: 3,
     message: 'Cadena de oraciones largas: fundir no es alargarlo todo.',

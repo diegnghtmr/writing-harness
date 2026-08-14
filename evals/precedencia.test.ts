@@ -211,6 +211,34 @@ describe('caso 3: tono y pasada, la pasada gana en su dominio', () => {
     assert.ok(puestas.includes('humanizar-varia-longitud'));
   });
 
+  test('el repro que destapó todo esto sigue cerrado, medido sobre el texto', () => {
+    // El otro test solo comprobaba que la regla estuviera en la lista, y con eso
+    // ensanchar su `maxRun` reabría el defecto con todos los gates en verde. Lo
+    // cazaron los dos jueces de la segunda ronda.
+    //
+    // Este es el caso literal: diecinueve oraciones de treinta y cinco palabras
+    // seguidas más una corta. Sin la corrección salía limpio con la pasada
+    // puesta, que es la «nueva uniformidad de frases largas» que el patrón 32
+    // prohíbe.
+    const larga = `${Array.from({ length: 35 }, () => 'palabra').join(' ')}.`;
+    const uniforme = `${Array.from({ length: 19 }, () => larga).join(' ')} Fue el suelo.`;
+    const hallazgos = check(uniforme, { tone: 'dotcsv', pasadas: ['humanizar'] });
+    assert.ok(
+      hallazgos.some((f) => f.rule === 'humanizar-uniformidad-larga'),
+      'la pasada volvió a dejar pasar la cadena de largas',
+    );
+  });
+
+  test('pedir la misma pasada dos veces no la aplica dos veces', () => {
+    // La primera corrección puso el filtro en el CLI y dejó la vía compartida
+    // como estaba, así que cualquiera que llamara a `check` con la lista
+    // repetida seguía reventando con «regla duplicada».
+    assert.deepEqual(
+      check('El texto llega y se lee.', { tone: 'camus', pasadas: ['humanizar', 'humanizar'] }),
+      check('El texto llega y se lee.', { tone: 'camus', pasadas: ['humanizar'] }),
+    );
+  });
+
   test('el ritmo de la pasada se hace cumplir de verdad', () => {
     // Relevar no es indultar. Una cadena de oraciones cortas sigue siendo un
     // hallazgo, y ahora lo pone la pasada en vez del tono.

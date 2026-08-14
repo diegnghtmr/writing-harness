@@ -127,10 +127,17 @@ corren la base y la pasada. Y si se pide una pasada después de un tono, la
 pasada gana en su dominio y el tono conserva todo lo demás.
 
 De momento hay una sola pasada y gobierna una sola cosa: `humanizar-espanol`
-gobierna el ritmo. Quien pide humanizar acepta ese criterio rítmico por encima
-del que traiga el tono, y por eso las longitudes de oración y de párrafo del
-tono se retiran mientras esa pasada corre. Todo lo demás del tono sigue en pie:
-la persona, el trato al lector, el léxico y la arquitectura no son ritmo.
+gobierna el ritmo de la oración. Quien pide humanizar acepta ese criterio
+rítmico por encima del que traiga el tono, y por eso las longitudes de oración
+del tono se retiran mientras esa pasada corre.
+
+El párrafo no se retira. Sobre él, esa pasada dice que su longitud va «también
+variada» y no da ninguna cifra, así que no tiene con qué relevar el techo que el
+tono sí declara. Un dominio que se releva sin traer con qué gobernarlo no es una
+precedencia, es un apagón.
+
+Todo lo demás del tono sigue en pie: la persona, el trato al lector, el léxico y
+la arquitectura no son ritmo.
 
 La base no cede nunca nada, ni ante un tono ni ante una pasada. Y relevar no es
 dejar sin gobierno: la pasada que releva el ritmo trae el suyo.

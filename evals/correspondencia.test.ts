@@ -21,6 +21,7 @@ import { TONES, TONE_IDS, allRules, assertRules } from '../src/rules.ts';
 import {
   SKILLS_DIR,
   allDeclarations,
+  cataloguePatterns,
   declarations,
   itemKey,
   readSkill,
@@ -86,41 +87,90 @@ describe('correspondencia entre las reglas y la prosa', () => {
   });
 });
 
-describe('cada regla cita una sección que existe', () => {
-  test('el `source` de cada regla resuelve a un encabezado real', () => {
-    // Un juicio encontró tres que no resolvían: `fonda-writing §4.1` no existe,
-    // `fonda-varia-longitud` citaba §5.3 cuando la prosa que mide está en §7, y
-    // `schiavenato-palabra-repetida` citaba la checklist en vez de §5.5.
-    //
-    // Las tres llevaban ahí desde antes y ningún gate las veía, porque el de
-    // correspondencia ata la regla al ÍTEM y no a la sección. El `source` sale
-    // impreso en cada hallazgo: mandar a alguien a leer una sección que no
-    // existe es peor que no citarla.
-    const vivas = new Set(skillNames());
-    const rotas: string[] = [];
-    for (const r of allRules()) {
-      const m = /^([a-z-]+)\s+§([\d.]+)$/u.exec(r.source);
-      // Las de `humanizar-espanol` citan «patrón N», que el catálogo numera
-      // aparte y el test de correspondencia ya ata.
-      if (!m) continue;
-      const skill = m[1] as string;
-      const seccion = m[2] as string;
+/**
+ * Citas de `source` que no resuelven a nada que se pueda leer.
+ *
+ * Un juicio encontró tres rotas: `fonda-writing §4.1` no existe,
+ * `fonda-varia-longitud` citaba §5.3 cuando la prosa que mide está en §7, y
+ * `schiavenato-palabra-repetida` citaba la checklist en vez de §5.5. Ninguna la
+ * veía nadie, porque el gate de correspondencia ata la regla al ÍTEM y no a la
+ * sección. El `source` sale impreso en cada hallazgo: mandar a alguien a leer
+ * una sección que no está es peor que no citarla.
+ *
+ * La primera versión de esta comprobación se saltaba veinticinco de las setenta
+ * y cinco reglas, porque solo entendía la forma `skill §N`. Los dos jueces de la
+ * segunda ronda lo cazaron. Ahora entiende las tres formas que el repositorio
+ * usa: la sección, la sección compuesta, y el patrón numerado del catálogo.
+ */
+export function citasRotas(reglas: readonly { id: string; source: string }[]): string[] {
+  const vivas = new Set(skillNames());
+  const rotas: string[] = [];
+
+  for (const r of reglas) {
+    const patron = /^([a-z-]+), patrón (\d+)$/u.exec(r.source);
+    if (patron) {
+      const skill = patron[1] as string;
       if (!vivas.has(skill)) {
         rotas.push(`${r.id} apunta a la skill ${skill}, que no existe`);
         continue;
       }
-      const marca = seccion.includes('.') ? `\n### ${seccion}.` : `\n## ${seccion}.`;
-      if (!readSkill(skill).replace(/\r\n/gu, '\n').includes(marca)) {
-        rotas.push(`${r.id} -> ${r.source}`);
-      }
+      const numeros = new Set(cataloguePatterns(skill).map((d) => d.number));
+      if (!numeros.has(Number(patron[2]))) rotas.push(`${r.id} -> ${r.source}`);
+      continue;
     }
-    assert.deepEqual(rotas, [], 'estas reglas mandan a leer una sección que no está');
+
+    const secciones = [...r.source.matchAll(/§([\d.]+)/gu)].map((m) => m[1] as string);
+    const skill = /^([a-z-]+)\s/u.exec(r.source)?.[1];
+    if (secciones.length === 0 || skill === undefined) {
+      rotas.push(`${r.id} -> ${r.source} no tiene forma de cita`);
+      continue;
+    }
+    if (!vivas.has(skill)) {
+      rotas.push(`${r.id} apunta a la skill ${skill}, que no existe`);
+      continue;
+    }
+    const prosa = readSkill(skill).replace(/\r\n/gu, '\n');
+    for (const seccion of secciones) {
+      // El punto final del encabezado impide que «§7» resuelva contra «7.5».
+      const marca = seccion.includes('.') ? `\n### ${seccion}.` : `\n## ${seccion}.`;
+      if (!prosa.includes(marca)) rotas.push(`${r.id} -> ${skill} §${seccion}`);
+    }
+  }
+  return rotas;
+}
+
+describe('cada regla cita una sección que existe', () => {
+  test('las setenta y cinco resuelven, y ninguna se salta', () => {
+    assert.deepEqual(citasRotas(allRules()), [], 'estas reglas mandan a leer algo que no está');
   });
 
-  test('el gate caza una cita rota', () => {
-    // Sin esto pasa aunque el bucle no mire nada.
-    const inventada = readSkill('camus-writing').replace(/\r\n/gu, '\n');
-    assert.ok(!inventada.includes('\n### 99.1.'));
+  test('ninguna forma de cita queda fuera del análisis', () => {
+    // La versión anterior se saltaba en silencio lo que no entendía, y por eso
+    // veinticinco reglas pasaban sin comprobar. Ahora lo que no tiene forma de
+    // cita se reporta como roto, y esto lo prueba.
+    assert.deepEqual(citasRotas([{ id: 'inventada', source: 'sin forma de cita' }]), [
+      'inventada -> sin forma de cita no tiene forma de cita',
+    ]);
+  });
+
+  test('el gate caza cada clase de cita rota', () => {
+    // Sin esto, los dos de arriba pasan aunque la función no mire nada. El
+    // canario anterior comprobaba que un encabezado inventado no estuviera en
+    // una skill, que es una afirmación sobre el archivo y no sobre el gate.
+    const casos: [string, string][] = [
+      ['seccion-inexistente', 'camus-writing §99'],
+      ['subseccion-inexistente', 'camus-writing §99.1'],
+      ['skill-inexistente', 'inventada-writing §1'],
+      ['patron-inexistente', 'humanizar-espanol, patrón 999'],
+      ['compuesta-con-una-rota', 'spanish-writing §5.5 y §99.9'],
+    ];
+    for (const [id, source] of casos) {
+      assert.equal(citasRotas([{ id, source }]).length, 1, `${source} tenía que caer`);
+    }
+    // Y las buenas de cada forma no caen.
+    for (const source of ['camus-writing §5.1', 'humanizar-espanol, patrón 32', 'spanish-writing §5.5 y §5.6']) {
+      assert.deepEqual(citasRotas([{ id: 'buena', source }]), [], source);
+    }
   });
 });
 
