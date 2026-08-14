@@ -2,7 +2,7 @@
 
 Skills de redacción en español y el verificador que mide si un texto las cumple.
 
-Dieciséis skills en tres capas y 62 reglas mecanizadas, con un gate que ata cada
+Trece skills en tres capas y 61 reglas mecanizadas, con un gate que ata cada
 regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
 entero sin instalar nada, sin build y sin conexión.
 
@@ -29,7 +29,7 @@ flowchart TD
     B --> R{"Enrutamiento<br/>por género y voz"}
     R -->|"académico, técnico, formal"| T1["camus-writing<br/>el que corre por defecto"]
     R -->|"divulgación"| T2["fonda · dotcsv · bettatech<br/>freddy · schiavenato"]
-    R -->|"análisis de una obra"| T3["medicendai · sekkyoku<br/>kenway · atenas"]
+    R -->|"análisis de una obra"| T3["atenas"]
     R -->|"sostener una tesis<br/>contra otra"| T4["catedra · solitario<br/>fonseca · han"]
 
     T1 --> W["Redactar"]
@@ -62,7 +62,7 @@ contexto la justifica; señalan lo que ninguna regla decide sola.
 | Capa | Qué decide | Cuántas |
 |---|---|---|
 | **Base normativa** | Qué es correcto en español: gramática, anglicismos, puntuación, mayúsculas, números, léxico prohibido, citas, tratamiento, variedad, formato de entrega | 1 |
-| **Tono** | Cómo suena: longitud de oración y párrafo, persona gramatical, conectores favorecidos, arquitectura del argumento | 14 |
+| **Tono** | Cómo suena: longitud de oración y párrafo, persona gramatical, conectores favorecidos, arquitectura del argumento | 11 |
 | **Pasada** | Corre sobre un texto ya redactado, y solo si el usuario la pide con esas palabras | 1 |
 
 ### Regla de precedencia
@@ -106,14 +106,14 @@ el patrón que el catálogo señala como el que más penaliza.
 
 ### Enrutamiento
 
-`spanish-writing` se aplica siempre y elige exactamente un tono. Trece de los
-catorce reconstruyen la forma de exponer de un autor concreto, y no se
+`spanish-writing` se aplica siempre y elige exactamente un tono. Diez de los
+once reconstruyen la forma de exponer de un autor concreto, y no se
 escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su habla.
 Eso es lo que separa a este repositorio de una colección de instrucciones de
 estilo.
 
 **Cuando nadie elige, elige el enrutamiento.** No es un valor por defecto
-escondido: es una lista de catorce pasos que va de lo más estrecho a lo más
+escondido: es una lista de once pasos que va de lo más estrecho a lo más
 amplio y siempre termina en un tono, porque un texto sin tono no es un texto
 neutro, es un texto cuya forma no decidió nadie. Vive dos veces, en §3 de la base
 y en `src/enrutamiento.ts`, y un gate comprueba que digan lo mismo y en el mismo
@@ -133,7 +133,7 @@ node src/cli.ts --enrutar juridico
 ```
 schiavenato-writing
   Divulgación jurídica y política dirigida a una comunidad.
-  Paso 8 de 14 de la lista de spanish-writing §3.
+  Paso 5 de 11 de la lista de spanish-writing §3.
 ```
 
 Siempre responde con el motivo. Una decisión que no se puede rebatir no es una
@@ -160,7 +160,7 @@ producto. En las skills no.
 
 | Archivo | Qué hace |
 |---|---|
-| `src/rules.ts` | Las 62 reglas como objetos planos y tipados, sin comportamiento |
+| `src/rules.ts` | Las 61 reglas como objetos planos y tipados, sin comportamiento |
 | `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
 | `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
 | `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |
@@ -168,7 +168,7 @@ producto. En las skills no.
 | `src/mediciones.ts` | Qué contenía ese corpus, con las cuatro casillas del contrato |
 | `evals/cobertura.ts` | El registro de qué declara la prosa y todavía no tiene regla |
 
-Las reglas se reparten en once tipos. `forbidden-pattern` cubre 43; las otras
+Las reglas se reparten en once tipos. `forbidden-pattern` cubre 42; las otras
 diez existen porque hay cosas que una expresión regular no ve: contar palabras
 por párrafo, detectar rachas de oraciones breves, comparar aperturas
 consecutivas, medir una proporción sobre el total, recorrer el texto con estado
@@ -216,14 +216,14 @@ resultado y no se parecen en nada más.** El gate distingue las dos cosas.
 
 | Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | **83** | Tiene regla y test |
+| cubierto | **80** | Tiene regla y test |
 | mecanizable | **0** | Se puede medir, falta construirlo |
-| criterio | 199 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
+| criterio | 154 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 
-De las 282 declaraciones, 199 piden juicio: si se conservó toda la información
+De las 234 declaraciones, 154 piden juicio: si se conservó toda la información
 del original, si una analogía está desarrollada o solo mencionada, si una
 expresión es la colocación más previsible del tema. El número creció con los
-trece tonos que reconstruyen a un autor, porque describir cómo argumenta una
+diez tonos que reconstruyen a un autor, porque describir cómo argumenta una
 persona no lo mide ninguna clase de regla que exista hoy.
 
 **El cero de `mecanizable` no es una ausencia verificada.** El generador nunca

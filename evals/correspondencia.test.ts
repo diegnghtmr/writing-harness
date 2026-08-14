@@ -103,11 +103,13 @@ describe('el techo de cobertura está declarado', () => {
   // que ir a buscarlos leyendo la prosa.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('282 declaraciones, repartidas como está registrado', () => {
-    assert.equal(items.length, 282, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 83, 'cambió la cantidad de declaraciones cubiertas por reglas');
+  test('234 declaraciones, repartidas como está registrado', () => {
+    // Eran 282 con las catorce skills de tono. Retirar kenway, medicendai y
+    // sekkyoku se llevó 48 declaraciones, y este gate es el que lo dijo.
+    assert.equal(items.length, 234, 'cambió la cantidad de declaraciones en la prosa');
+    assert.equal(claimed.size, 80, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
-    assert.equal(cuenta('criterio'), 199);
+    assert.equal(cuenta('criterio'), 154);
     assert.equal(cuenta('delegado'), 0);
   });
 
@@ -119,7 +121,7 @@ describe('el techo de cobertura está declarado', () => {
   });
 
   test('todas las skills aportan al recuento', () => {
-    assert.equal(skillNames().length, 16);
+    assert.equal(skillNames().length, 13);
     // La base y la pasada no son tonos. Los otros catorce sí, y el verificador
     // tiene que aceptarlos todos o la tabla de enrutamiento miente.
     assert.deepEqual(

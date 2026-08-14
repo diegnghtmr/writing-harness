@@ -12,7 +12,7 @@
 //
 // Lo que NO se hizo, y conviene que conste. Se intentó decidir midiendo el texto
 // contra las reglas de cada tono, que sería lo propio de este repositorio. No se
-// sostiene: 8 de los 14 tonos no tienen ninguna regla mecanizada
+// sostiene: 6 de los 11 tonos no tienen ninguna regla mecanizada
 // todavía, así que ganarían siempre por no poder incumplirse. También se
 // intentó comparar el perfil numérico que cada skill declara, y tampoco: la
 // prosa no lo enuncia de forma uniforme, y raspar cifras con expresiones
@@ -31,10 +31,7 @@ export const RASGOS = [
   'academico',
   'divulgacion',
   'obraDeFiccion',
-  'enSuOrden',
-  'serializada',
   'personaje',
-  'resena',
   'contraOtraTesis',
   'adversarioConNombre',
   'humanistico',
@@ -53,14 +50,8 @@ export type Rasgos = {
   divulgacion?: boolean;
   /** El asunto es una obra de ficción. */
   obraDeFiccion?: boolean;
-  /** Se recorre la obra en su orden, entera. */
-  enSuOrden?: boolean;
-  /** La obra sale por entregas y se analiza unidad por unidad. */
-  serializada?: boolean;
   /** El asunto es un personaje, no la obra completa. */
   personaje?: boolean;
-  /** Hay un veredicto: vale la pena o no. */
-  resena?: boolean;
   /** El texto sostiene una tesis contra otra que alguien defiende. */
   contraOtraTesis?: boolean;
   /** El adversario es una persona o un gremio, no una doctrina. */
@@ -119,24 +110,6 @@ export const RUTAS: readonly Ruta[] = [
     skill: 'atenas-writing',
     cuando: 'Análisis de un personaje de ficción',
     eligeSi: (r) => Boolean(r.obraDeFiccion && r.personaje),
-  },
-  {
-    tono: 'sekkyoku',
-    skill: 'sekkyoku-writing',
-    cuando: 'Análisis narrativo unidad por unidad de una obra serializada',
-    eligeSi: (r) => Boolean(r.obraDeFiccion && r.serializada),
-  },
-  {
-    tono: 'medicendai',
-    skill: 'medicendai-writing',
-    cuando: 'Análisis largo de una obra de ficción, recorrida en su orden',
-    eligeSi: (r) => Boolean(r.obraDeFiccion && r.enSuOrden),
-  },
-  {
-    tono: 'kenway',
-    skill: 'kenway-writing',
-    cuando: 'Reseña crítica con sección de opinión marcada al final',
-    eligeSi: (r) => Boolean(r.resena),
   },
   {
     tono: 'solitario',

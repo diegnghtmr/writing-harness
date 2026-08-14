@@ -80,14 +80,15 @@ describe('cada ruta cita la tabla que dice seguir', () => {
 describe('el motivo por el que no se decide midiendo sigue siendo cierto', () => {
   test('la cuenta de tonos sin regla que dice el comentario es la real', () => {
     // El comentario de `enrutamiento.ts` justifica una decisión de diseño con
-    // una cifra, y esa cifra estaba mal: decía seis y son ocho. La escribí sin
+    // una cifra, y esa cifra estaba mal: decía seis y eran ocho. La escribí sin
     // contarla, en el archivo cuyo comentario empieza diciendo «conviene que
     // conste». Un juez la cazó leyendo `rules.ts`.
     //
-    // Así que ahora la cuenta el test. Si algún día esos ocho tonos reciben
-    // reglas, esto falla y con ello cae el motivo entero: cuando ningún tono
-    // pueda ganar por no poder incumplirse, decidir midiendo vuelve a estar
-    // sobre la mesa y habrá que reconsiderarlo.
+    // Así que ahora la cuenta el test, y por eso sobrevivió a que se retiraran
+    // tres tonos: la cifra se movió sola y el gate señaló dónde. Si algún día
+    // los que quedan sin regla la reciben, esto falla y con ello cae el motivo
+    // entero: cuando ningún tono pueda ganar por no poder incumplirse, decidir
+    // midiendo vuelve a estar sobre la mesa y habrá que reconsiderarlo.
     const sinReglas = TONE_IDS.filter((id) => TONES[id]?.rules.length === 0);
     const fuente = readFileSync(join(REPO_ROOT, 'src', 'enrutamiento.ts'), 'utf8');
     const dicho = /(\d+) de los (\d+) tonos no tienen ninguna regla/u.exec(fuente);
@@ -153,9 +154,6 @@ describe('el procedimiento decide, y siempre decide', () => {
     // entera: seguiría en la lista, con su fila en la tabla, y jamás saldría.
     const CASOS: Record<string, Rasgos> = {
       atenas: { obraDeFiccion: true, personaje: true },
-      sekkyoku: { obraDeFiccion: true, serializada: true },
-      medicendai: { obraDeFiccion: true, enSuOrden: true },
-      kenway: { resena: true },
       solitario: { contraOtraTesis: true, adversarioConNombre: true },
       catedra: { contraOtraTesis: true },
       han: { epocal: true },
@@ -213,7 +211,7 @@ describe('el procedimiento decide, y siempre decide', () => {
   test('el motivo se puede leer y discutir', () => {
     // Una decisión sin motivo no se puede rebatir, y entonces no es una
     // decisión: es una imposición con aspecto de cálculo.
-    for (const rasgos of [{ juridico: true }, { epocal: true }, { resena: true }]) {
+    for (const rasgos of [{ juridico: true }, { epocal: true }, { actualidad: true }]) {
       const s = sugerirTono(rasgos);
       assert.ok(s.porque.length > 20, `${s.tono} decide sin explicar`);
       assert.equal(s.reclamado, true);

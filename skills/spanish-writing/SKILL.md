@@ -60,9 +60,6 @@ forma y la manera de presentar la información.
 | `bettatech-writing` | Fundamentos de informática y computación antes que la receta práctica. | El nombre después del fenómeno, caso de ingeniería en vez de analogía |
 | `fonseca-writing` | Actualidad internacional, geopolítica y economía a partir de un hecho reciente. | Entrada por el hecho, alternancia brusca de longitud, apodo burlón sostenido |
 | `schiavenato-writing` | Divulgación jurídica y política dirigida a una comunidad. | «Ustedes» para lo colectivo y «usted» para el caso individual, definición por negación, imperativo de mirar más cifra |
-| `medicendai-writing` | Análisis largo de una obra de ficción, recorrida en su orden. | Veredicto en el primer cuarto, juicio repartido en U, anclaje en escena recontada |
-| `sekkyoku-writing` | Análisis narrativo unidad por unidad de una obra serializada. | Posición propia frente a la obra declarada de entrada, la obra misma como prueba |
-| `kenway-writing` | Reseña crítica con sección de opinión marcada al final. | Veredicto global de entrada en esa sección, cierre en positivo, sin nota numérica |
 | `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, segunda del plural, corrección de la lectura corriente en la apertura |
 | `solitario-writing` | Texto que sostiene una tesis contra quien la niega: ensayo polémico, alegato, réplica, crítica de una disciplina o de una práctica. | Tesis en la primera oración, adversario con turno de palabra, concesión antes de la refutación |
 
@@ -72,21 +69,18 @@ un análisis de un personaje es algo más concreto que una divulgación y, al
 revés, nunca se elegiría.
 
 1. Si el asunto es un personaje de una obra de ficción, `atenas-writing`.
-2. Si es una obra serializada analizada unidad por unidad, `sekkyoku-writing`.
-3. Si es una obra de ficción recorrida entera en su orden, `medicendai-writing`.
-4. Si hay un veredicto sobre si vale la pena, `kenway-writing`.
-5. Si la tesis se sostiene contra alguien que la niega y ese alguien tiene
+2. Si la tesis se sostiene contra alguien que la niega y ese alguien tiene
    nombre, `solitario-writing`.
-6. Si la tesis se sostiene contra otra doctrina, `catedra-writing`.
-7. Si es un diagnóstico de la época por oposición de conceptos, `han-writing`.
-8. Si es derecho o política dirigidos a una comunidad, `schiavenato-writing`.
-9. Si parte de un hecho reciente de actualidad, geopolítica o economía,
+3. Si la tesis se sostiene contra otra doctrina, `catedra-writing`.
+4. Si es un diagnóstico de la época por oposición de conceptos, `han-writing`.
+5. Si es derecho o política dirigidos a una comunidad, `schiavenato-writing`.
+6. Si parte de un hecho reciente de actualidad, geopolítica o economía,
    `fonseca-writing`.
-10. Si son fundamentos de computación antes que la receta, `bettatech-writing`.
-11. Si explica un mecanismo para mover a alguien a actuar, `freddy-writing`.
-12. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
-13. Si es divulgación filosófica, humanística o cultural, `fonda-writing`.
-14. En cualquier otro caso, `camus-writing`.
+7. Si son fundamentos de computación antes que la receta, `bettatech-writing`.
+8. Si explica un mecanismo para mover a alguien a actuar, `freddy-writing`.
+9. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
+10. Si es divulgación filosófica, humanística o cultural, `fonda-writing`.
+11. En cualquier otro caso, `camus-writing`.
 
 **La lista siempre termina en un tono.** Antes, un género que no encajaba en
 ninguna fila dejaba correr esta base sola, y eso no es una decisión sino una
@@ -103,7 +97,7 @@ lista no se recorre.
 Elegido el tono, se dice cuál y por qué en una línea. Una decisión que no se
 puede rebatir no es una decisión.
 
-Los trece tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
+Los diez tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
 un autor concreto, medida sobre un corpus de transcripciones, y cada uno declara
 en su sección de fuentes qué se midió, con qué números y qué no pudo
 verificarse. Ninguno toma la variedad dialectal ni el tratamiento de su modelo:

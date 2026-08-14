@@ -1,8 +1,8 @@
 // Un tono acota por forma, no por materia.
 //
-// Cinco skills de tono acotaban su alcance por el objeto del texto: `atenas` y
-// `sekkyoku` exigían una obra de ficción, `medicendai` una obra concreta sobre
-// la mesa, `kenway` una obra que valorar, `bettatech` un mecanismo de cómputo.
+// Cinco skills de tono acotaban su alcance por el objeto del texto. Dos siguen
+// en el repositorio: `atenas` exigía una obra de ficción y `bettatech` un
+// mecanismo de cómputo. Las otras tres se retiraron después, por otro motivo.
 // Eso contradecía a la base, que en §3 recorre la lista solo «si el usuario no
 // indica el tono» y en §3.1 dice que una skill de tono nunca puede
 // contradecirla. Con la redacción vieja, un usuario que pidiera `atenas` para
@@ -13,7 +13,7 @@
 // recorrer, algo con mérito y defecto, un mecanismo que el lector usa a ciegas.
 // Nada de eso es un tema.
 //
-// Qué prueba este gate y qué no. Prueba que las catorce declaran su precondición
+// Qué prueba este gate y qué no. Prueba que todas declaran su precondición
 // y que la declaran donde la base dice que está, en las dos direcciones: si la
 // base cambia el número de sección, el gate va a buscarla al lugar nuevo y
 // falla. Lo que NO prueba es que la precondición esté bien escrita. Leer una
@@ -59,7 +59,7 @@ function marcasEnSeccion(texto: string, n: number): number {
 const SECCION = seccionQueApuntaLaBase(BASE);
 
 describe('cada tono declara qué necesita su forma', () => {
-  test('las catorce lo declaran, y una sola vez', () => {
+  test('todas lo declaran, y una sola vez', () => {
     const faltan = TONE_IDS.filter((id) => marcasEnSeccion(readSkill(`${id}-writing`), SECCION) !== 1);
     assert.deepEqual(
       faltan,
@@ -76,8 +76,8 @@ describe('cada tono declara qué necesita su forma', () => {
     }
   });
 
-  test('son catorce, las mismas que enruta la base', () => {
-    assert.equal(TONE_IDS.length, 14);
+  test('son once, las mismas que enruta la base', () => {
+    assert.equal(TONE_IDS.length, 11);
   });
 });
 

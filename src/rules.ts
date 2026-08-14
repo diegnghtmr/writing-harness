@@ -879,14 +879,6 @@ export const BASE_RULES: Rule[] = [
         item: '¿Están ausentes el tuteo, que en el material medido solo aparece en bloques de autopromoción, y toda forma de «vosotros»?',
       },
       {
-        skill: 'kenway-writing',
-        item: '¿El lector queda tratado de usted, sin tuteo y sin ninguna forma de vosotros?',
-      },
-      {
-        skill: 'sekkyoku-writing',
-        item: '¿Se interpela al lector de usted, sin tuteo y sin ninguna forma de segunda persona del plural peninsular?',
-      },
-      {
         skill: 'schiavenato-writing',
         item: '¿Queda descartado el tuteo al público y también el «vosotros»?',
       },
@@ -945,14 +937,6 @@ export const BASE_RULES: Rule[] = [
       {
         skill: 'freddy-writing',
         item: '¿El tratamiento es «usted» o «ustedes», y el elegido se sostiene en todo el texto?',
-      },
-      {
-        skill: 'kenway-writing',
-        item: '¿El lector queda tratado de usted, sin tuteo y sin ninguna forma de vosotros?',
-      },
-      {
-        skill: 'sekkyoku-writing',
-        item: '¿Se interpela al lector de usted, sin tuteo y sin ninguna forma de segunda persona del plural peninsular?',
       },
       {
         skill: 'schiavenato-writing',
@@ -1414,48 +1398,6 @@ export const TONES: Record<string, Tone> = {
           {
             skill: 'schiavenato-writing',
             item: '¿Quedan fuera del cuerpo del texto las marcas de redes y de habla, como emojis, mayúsculas enfáticas, groserías, repetición inmediata de palabra y enlaces?',
-          },
-        ],
-      },
-    ],
-  },
-  medicendai: { id: 'medicendai', skill: 'medicendai-writing', rules: [] },
-  sekkyoku: { id: 'sekkyoku', skill: 'sekkyoku-writing', rules: [] },
-  kenway: {
-    id: 'kenway',
-    skill: 'kenway-writing',
-    rules: [
-      {
-        id: 'kenway-nota-numerica',
-        kind: 'forbidden-pattern',
-        severity: 'error',
-        // El corpus da cero en las seis formas que la sección 4 enumera, y un
-        // barrido de todas las cifras con contexto evaluativo devolvió un solo
-        // candidato que resultó ser «diez minutos». Es un conjunto cerrado y
-        // medido, así que se mide en vez de quedar a criterio.
-        //
-        // «Puntuación» queda fuera a propósito, aunque la sección la nombre:
-        // en español es también el sistema de signos, y una regla que marca
-        // «la puntuación del texto» se deja de leer al primer aviso.
-        pattern: new RegExp(
-          '(?<!\\p{L})(?:' +
-            'sobre\\s+(?:diez|cinco|10|5)' +
-            '|del\\s+uno\\s+al\\s+(?:diez|cinco|10|5)' +
-            '|le\\s+(?:doy|pongo)\\s+un(?:a)?' +
-            '|nota\\s+(?:final|numérica)' +
-            '|calificación\\s+de' +
-            '|\\d+(?:[.,]\\d+)?\\s*\\/\\s*(?:10|5)' +
-            '|(?:una|dos|tres|cuatro|cinco)\\s+estrellas' +
-            ')(?!\\p{L})',
-          'giu',
-        ),
-        message: 'Nota numérica o escala equivalente.',
-        fix: 'El veredicto es verbal y va en la primera cláusula de la sección de opinión. Decir qué falla y contra qué se mide, no cuánto puntúa.',
-        source: 'kenway-writing §13',
-        checklist: [
-          {
-            skill: 'kenway-writing',
-            item: '¿El texto está libre de nota numérica y de cualquier escala equivalente?',
           },
         ],
       },

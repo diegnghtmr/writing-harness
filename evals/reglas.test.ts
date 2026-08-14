@@ -463,19 +463,6 @@ describe('lo que el texto debe contener', () => {
 });
 
 describe('capa de tono', () => {
-  test('la nota numérica se marca y la palabra «nota» sin escala no', () => {
-    const conNota =
-      'Merece un ocho sobre diez y cuatro estrellas. Le doy un 7/10. ' +
-      'Va del uno al diez, con nota final alta y calificación de aprobado.';
-    assert.equal(check(conNota, { tone: 'kenway' }).filter((x) => x.rule === 'kenway-nota-numerica').length, 7);
-    // El corpus midió cero notas y un solo falso candidato, «diez minutos».
-    const sinNota = 'La obra dura diez minutos y el autor lo nota. La nota es positiva y menor.';
-    assert.deepEqual(
-      check(sinNota, { tone: 'kenway' }).filter((x) => x.rule === 'kenway-nota-numerica'),
-      [],
-    );
-  });
-
   test('el relleno oral se marca solo donde es relleno', () => {
     const relleno = 'Es que el contrato no se firmó. Pues el plazo venció. O sea, nadie respondió.';
     assert.equal(

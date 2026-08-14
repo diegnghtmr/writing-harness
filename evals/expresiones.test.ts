@@ -11,7 +11,7 @@
 // dentro no coincide con «por ejemplo».
 //
 // El resultado se mide acá abajo: las expresiones de una sola palabra coinciden
-// con la prosa dos de cada tres veces, y las de dos o más, una de cada nueve, y
+// con la prosa siete de cada diez veces, y las de dos o más, una de cada ocho, y
 // siempre por debajo. La prosa es la que tiene razón en las de varias palabras.
 //
 // No se puede arreglar. El corpus se borró, `src/mediciones.ts` está fijado por
@@ -64,11 +64,13 @@ const deVarias = PARES.filter((p) => p.palabras > 1);
 const exactos = (ps: Par[]) => ps.filter((p) => p.prosa === p.medido).length;
 
 describe('las cifras de apariciones se pueden emparejar con lo medido', () => {
-  test('170 pares, 68 exactos', () => {
+  test('146 pares, 61 exactos', () => {
     // Congelados. Si cambian, o se reescribió una cifra de la prosa o alguien
     // tocó la tabla, y las dos cosas merecen mirarse.
-    assert.equal(PARES.length, 170);
-    assert.equal(exactos(PARES), 68);
+    // Bajaron al retirarse kenway, medicendai y sekkyoku: eran 170 y 68 con las
+    // catorce skills de tono. La tabla no cambió, cambió cuánta prosa la cita.
+    assert.equal(PARES.length, 146);
+    assert.equal(exactos(PARES), 61);
   });
 
   test('el emparejamiento no se desplaza dentro de una lista', () => {
@@ -113,6 +115,6 @@ describe('la tabla cuenta de menos las expresiones de varias palabras', () => {
     for (const p of deUnaPalabra) {
       assert.doesNotMatch(p.expresion, /\s/u);
     }
-    assert.ok(deUnaPalabra.length > 80);
+    assert.ok(deUnaPalabra.length > 70);
   });
 });

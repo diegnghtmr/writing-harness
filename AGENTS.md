@@ -47,12 +47,12 @@ no frenan la entrega: señalan lo que solo el contexto decide.
 
 ## Lo que el verificador no ve
 
-De las 282 declaraciones que hacen las skills, **199 exigen juicio sobre el
+De las 234 declaraciones que hacen las skills, **154 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.
 
-El número creció con los trece tonos que reconstruyen a un autor: describir cómo
+El número lo empujan los diez tonos que reconstruyen a un autor: describir cómo
 argumenta una persona no lo mide ninguna clase de regla que exista hoy.
 
 Las skills declaran de dos maneras y las dos cuentan: ítems numerados `N. ¿…?`
@@ -96,7 +96,7 @@ topaba con una skill que se negaba a existir para él, y eso contradice a la
 base: §3 recorre la lista solo «si el usuario no indica el tono», y §3.1 dice
 que ninguna skill de tono puede contradecirla.
 
-Ahora las catorce cierran su sección 1 con una precondición de forma, que es lo
+Ahora todas cierran su sección 1 con una precondición de forma, que es lo
 que la forma necesita para funcionar. Una figura que corregir. Unidades que
 citar. Un orden dado de antemano. Algo con mérito y con defecto. Un mecanismo
 que el lector usa a ciegas. Nada de eso es un tema, y cada una dice además de

@@ -94,12 +94,12 @@ describe('el README dice lo que el código mide', () => {
   test('las cuentas escritas con letra', () => {
     // Van con letra porque la base lo pide para las cantidades bajas. Que vayan
     // con letra no las exime de ser ciertas.
-    const LETRA: Record<number, string> = { 11: 'once', 13: 'trece', 14: 'catorce', 16: 'dieciséis' };
+    const LETRA: Record<number, string> = { 10: 'diez', 11: 'once', 13: 'trece', 14: 'catorce', 16: 'dieciséis' };
     const tipos = new Set(reglas.map((r) => r.kind)).size;
     const pares: [number, RegExp, string][] = [
       [skillNames().length, /(\p{L}+) skills en tres capas/u, 'skills'],
       // Las dos salen de la misma oración de §Enrutamiento, que las enuncia
-      // juntas: «Trece de los catorce reconstruyen la forma de exponer de un
+      // juntas: «Diez de los once reconstruyen la forma de exponer de un
       // autor concreto».
       [TONE_IDS.length, /de los (\p{L}+) reconstruyen/u, 'tonos'],
       [TONE_IDS.length - 1, /(\p{L}+) de los \p{L}+ reconstruyen/u, 'tonos de autor'],

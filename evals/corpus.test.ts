@@ -21,6 +21,8 @@ import { REPO_ROOT, skillNames } from '../src/skills.ts';
 
 const archivos = CORPUS.flatMap((c) => c.archivos);
 
+import { RETIRADAS } from './retiradas.ts';
+
 describe('el manifiesto no se editó a mano', () => {
   test('el archivo entero coincide con su huella', () => {
     // Las comprobaciones de forma cazan al descuidado, no al decidido. Un
@@ -55,14 +57,43 @@ describe('el manifiesto del corpus está bien formado', () => {
     );
   });
 
-  test('cada corpus corresponde a una skill que existe', () => {
+  test('cada corpus corresponde a una skill viva o a una retirada declarada', () => {
     // Un corpus que no corresponde a ninguna skill puede ser una skill futura,
     // y también puede ser una que se renombró dejando su huella apuntando a un
     // nombre muerto. Las dos merecen mirarse.
+    //
+    // Y puede ser una skill retirada a propósito, que es distinto de las dos
+    // anteriores y por eso se declara. Sin la lista, retirar una skill obligaba
+    // a elegir entre dos cosas malas: editar el manifiesto, que está fijado por
+    // huella y es el registro de una medición que ya no se puede rehacer, o
+    // apagar este gate.
     const skills = new Set(skillNames());
     assert.deepEqual(
-      CORPUS.map((c) => c.skill).filter((s) => !skills.has(s)),
+      CORPUS.map((c) => c.skill).filter((s) => !skills.has(s) && !RETIRADAS.has(s)),
       [],
+    );
+  });
+
+  test('ninguna retirada sigue viva: la lista se limpia sola o miente', () => {
+    // La otra dirección. Una skill que vuelve y se queda en la lista convierte
+    // el permiso en un agujero permanente, y nadie se entera hasta que otra
+    // desaparece por descuido y esta lista la tapa.
+    const skills = new Set(skillNames());
+    assert.deepEqual(
+      [...RETIRADAS].filter((s) => skills.has(s)),
+      [],
+      'una skill declarada como retirada existe otra vez: hay que sacarla de la lista',
+    );
+  });
+
+  test('toda retirada declarada tiene corpus en el manifiesto', () => {
+    // Y la tercera. Declarar retirada una skill que nunca tuvo corpus no
+    // documenta nada y deja la lista creciendo con nombres sin respaldo.
+    const conCorpus = new Set(CORPUS.map((c) => c.skill));
+    assert.deepEqual(
+      [...RETIRADAS].filter((s) => !conCorpus.has(s)),
+      [],
+      'sobra un nombre en la lista de retiradas: no tiene corpus que justificar',
     );
   });
 

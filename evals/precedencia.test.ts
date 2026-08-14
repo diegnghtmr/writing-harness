@@ -51,36 +51,36 @@ describe('los dominios están declarados donde tienen que estarlo', () => {
     // Sin esta comprobación, el test de arriba pasa aunque la función no mire
     // nada. Se simula el descuido que de verdad puede ocurrir: alguien agrega
     // un techo de oración a un tono y se olvida del dominio.
-    const original = TONES.kenway?.rules;
+    const original = TONES.schiavenato?.rules;
     assert.ok(original);
     try {
-      TONES.kenway.rules = [
+      TONES.schiavenato.rules = [
         ...original,
         {
-          id: 'kenway-inventada',
+          id: 'schiavenato-inventada',
           kind: 'sentence-length',
           severity: 'error',
           max: 30,
           message: 'x',
           fix: 'x',
-          source: 'kenway-writing §0',
-          checklist: [{ skill: 'kenway-writing', item: 'x' }],
+          source: 'schiavenato-writing §0',
+          checklist: [{ skill: 'schiavenato-writing', item: 'x' }],
         },
       ];
       assert.throws(() => assertDominios(), /es de ritmo .* y no lo declara/u);
     } finally {
-      TONES.kenway.rules = original;
+      TONES.schiavenato.rules = original;
     }
   });
 
   test('el gate caza un dominio puesto en una regla que no es de ritmo', () => {
-    const original = TONES.kenway?.rules;
+    const original = TONES.schiavenato?.rules;
     assert.ok(original);
     try {
-      TONES.kenway.rules = original.map((r) => ({ ...r, gobierna: 'ritmo' as const }));
+      TONES.schiavenato.rules = original.map((r) => ({ ...r, gobierna: 'ritmo' as const }));
       assert.throws(() => assertDominios(), /declara un dominio y no es de esa clase/u);
     } finally {
-      TONES.kenway.rules = original;
+      TONES.schiavenato.rules = original;
     }
   });
 

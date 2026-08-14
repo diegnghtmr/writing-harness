@@ -18,6 +18,7 @@ import { describe, test } from 'node:test';
 import { CORPUS } from '../src/corpus.ts';
 import { EXPRESIONES, MEDICIONES, POR_ARCHIVO } from '../src/mediciones.ts';
 import { REPO_ROOT, readSkill } from '../src/skills.ts';
+import { vive } from './retiradas.ts';
 
 const valor = (id: string) => MEDICIONES.find((m) => m.id === id)?.valor;
 const filasDe = (skill: string) => POR_ARCHIVO.filter((f) => f.skill === skill);
@@ -165,7 +166,10 @@ describe('la prosa y la medición dicen lo mismo', () => {
   };
 
   test('la cifra que enuncia cada skill sigue siendo la registrada', () => {
-    for (const [skill, esperado] of Object.entries(DECLARADO)) {
+    // Las retiradas conservan su fila en el manifiesto y ya no tienen prosa
+    // que leer.  comprueba que ese permiso no tape a una
+    // que desapareció por descuido.
+    for (const [skill, esperado] of Object.entries(DECLARADO).filter(([s]) => vive(s))) {
       assert.equal(enProsa(skill), esperado.prosa, `${skill} cambió la cifra de su prosa`);
     }
   });
@@ -192,7 +196,7 @@ describe('la prosa y la medición dicen lo mismo', () => {
       'freddy-writing': [44322, 55222, 99544],
       'medicendai-writing': [96448, 1459, 97907],
     };
-    for (const [skill, [a, b, total]] of Object.entries(DESCOMPONE)) {
+    for (const [skill, [a, b, total]] of Object.entries(DESCOMPONE).filter(([s]) => vive(s))) {
       assert.equal(a + b, total, `${skill}: la descomposición dejó de cuadrar`);
       // El separador de millar se escribe siempre, también en las de cuatro
       // cifras: la prosa escribe «1.459» y `toLocaleString` da «1459».
@@ -227,7 +231,7 @@ describe('la prosa y la medición dicen lo mismo', () => {
       'sekkyoku-writing': 304,
       'solitario-writing': 254,
     };
-    for (const [skill, minutos] of Object.entries(MINUTOS)) {
+    for (const [skill, minutos] of Object.entries(MINUTOS).filter(([s]) => vive(s))) {
       const segundos = valor(`${skill}/segundos`) as number;
       assert.equal(Math.round(segundos / 60), minutos, skill);
       assert.match(readSkill(skill), new RegExp(`${minutos}\\s+minutos`, 'u'), skill);
