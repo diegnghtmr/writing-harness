@@ -343,16 +343,25 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
       const muchas = rule.maxShare !== undefined && share > rule.maxShare;
       if (pocas || muchas) {
         const techo = rule.max === Number.POSITIVE_INFINITY ? 'en adelante' : `a ${rule.max}`;
+        const umbral = (pocas ? rule.minShare : rule.maxShare) as number;
+        // Redondear las dos por separado producía «33 % contra al menos 33 %»,
+        // que se lee como un falso positivo aunque el hallazgo sea correcto: la
+        // proporción real era 32,5. Cuando el redondeo las iguala, se muestran
+        // con un decimal, que es la precisión mínima que las separa.
+        const pct = (n: number, decimales: number) =>
+          `${n.toFixed(decimales).replace('.', ',')} %`;
+        const colisiona = Math.round(share * 100) === Math.round(umbral * 100);
+        const decimales = colisiona ? 1 : 0;
         const declarado = pocas
-          ? `al menos el ${Math.round((rule.minShare as number) * 100)} %`
-          : `como mucho el ${Math.round((rule.maxShare as number) * 100)} %`;
+          ? `al menos el ${pct(umbral * 100, decimales)}`
+          : `como mucho el ${pct(umbral * 100, decimales)}`;
         findings.push({
           rule: rule.id,
           severity: rule.severity,
           ...at(0),
           message:
             `${rule.message} ${dentro} de ${todasLasOraciones.length} oraciones ` +
-            `(${Math.round(share * 100)} %) caen de ${rule.min} ${techo} palabras, ` +
+            `(${pct(share * 100, decimales)}) caen de ${rule.min} ${techo} palabras, ` +
             `y la skill declara ${declarado}.`,
           fix: rule.fix,
           source: rule.source,

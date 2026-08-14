@@ -2,7 +2,7 @@
 
 Skills de redacción en español y el verificador que mide si un texto las cumple.
 
-Trece skills en tres capas y 74 reglas mecanizadas, con un gate que ata cada
+Trece skills en tres capas y 75 reglas mecanizadas, con un gate que ata cada
 regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
 entero sin instalar nada, sin build y sin conexión.
 
@@ -83,10 +83,12 @@ Son tres combinaciones y el verificador las distingue:
 | Tono y después pasada | Base entera, la pasada entera, y del tono todo menos lo que la pasada gobierna |
 
 Hoy hay una sola pasada y gobierna una sola cosa. `humanizar-espanol` gobierna el
-ritmo, así que con `--pasada humanizar` se retiran las reglas de longitud de
-oración y de párrafo del tono, y mandan las suyas. Todo lo demás del tono sigue
-en pie: la persona, el trato al lector y la arquitectura no son ritmo. La base no
-cede nunca nada.
+ritmo de oración, así que con `--pasada humanizar` se retiran las reglas del
+tono que miden longitud de oración y mandan las suyas. El párrafo no: sobre él
+esa skill dice que su longitud «también variada» y no da ningún número, así que
+no tiene con qué relevar el techo del tono. Todo lo demás sigue en pie: la
+persona, el trato al lector y la arquitectura no son ritmo. La base no cede
+nunca nada.
 
 Relevar no es indultar. La pasada que se lleva el ritmo trae el suyo, y el
 verificador dice en la salida qué reglas se retiraron y quién lo hizo.
@@ -160,7 +162,7 @@ producto. En las skills no.
 
 | Archivo | Qué hace |
 |---|---|
-| `src/rules.ts` | Las 74 reglas como objetos planos y tipados, sin comportamiento |
+| `src/rules.ts` | Las 75 reglas como objetos planos y tipados, sin comportamiento |
 | `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
 | `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
 | `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |
@@ -270,7 +272,7 @@ hacen comprobable una cifra.
 de metadatos y una marca de tiempo por línea; contarlo entero infla el recuento
 alrededor de un 15 %, y hace parecer que las skills se equivocaron. Contando el
 cuerpo, dos corpus dan exacto, ocho caen dentro del 0,5 % y los minutos de habla
-coinciden en los cuatro que los declaran.
+coinciden en los tres que quedan de los cuatro que los declaraban.
 
 Esos ocho no se alinearon a la medición, y hay una razón medida: tres de sus
 totales se descomponen exactamente en otras cifras de la misma prosa, así que

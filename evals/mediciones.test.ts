@@ -167,7 +167,7 @@ describe('la prosa y la medición dicen lo mismo', () => {
 
   test('la cifra que enuncia cada skill sigue siendo la registrada', () => {
     // Las retiradas conservan su fila en el manifiesto y ya no tienen prosa
-    // que leer.  comprueba que ese permiso no tape a una
+    // que leer. `evals/corpus.test.ts` comprueba que ese permiso no tape a una
     // que desapareció por descuido.
     for (const [skill, esperado] of Object.entries(DECLARADO).filter(([s]) => vive(s))) {
       assert.equal(enProsa(skill), esperado.prosa, `${skill} cambió la cifra de su prosa`);

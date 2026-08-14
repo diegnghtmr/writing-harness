@@ -22,7 +22,7 @@ import { describe, test } from 'node:test';
 import { check, relevadas, rulesFor } from '../src/check.ts';
 import {
   BASE_RULES,
-  CLASES_DE_RITMO,
+  DOMINIO_POR_CLASE,
   PASADAS,
   TONES,
   TONE_IDS,
@@ -30,7 +30,10 @@ import {
 } from '../src/rules.ts';
 
 const ids = (rs: { id: string }[]) => rs.map((r) => r.id);
-const esDeRitmo = (kind: string) => (CLASES_DE_RITMO as readonly string[]).includes(kind);
+const dominioDe = (kind: string): string | undefined =>
+  (DOMINIO_POR_CLASE as Record<string, string>)[kind];
+/** Lo que la pasada humanizar releva, que es el ritmo de oración y no el de párrafo. */
+const RELEVADO = 'ritmo-de-oracion';
 
 /** Texto humanizado de verdad: oraciones largas fundidas, con breves de contraste. */
 const HUMANIZADO = [
@@ -67,7 +70,7 @@ describe('los dominios están declarados donde tienen que estarlo', () => {
           checklist: [{ skill: 'schiavenato-writing', item: 'x' }],
         },
       ];
-      assert.throws(() => assertDominios(), /es de ritmo .* y no lo declara/u);
+      assert.throws(() => assertDominios(), /es de clase sentence-length, que gobierna ritmo-de-oracion/u);
     } finally {
       TONES.schiavenato.rules = original;
     }
@@ -77,8 +80,8 @@ describe('los dominios están declarados donde tienen que estarlo', () => {
     const original = TONES.schiavenato?.rules;
     assert.ok(original);
     try {
-      TONES.schiavenato.rules = original.map((r) => ({ ...r, gobierna: 'ritmo' as const }));
-      assert.throws(() => assertDominios(), /declara un dominio y no es de esa clase/u);
+      TONES.schiavenato.rules = original.map((r) => ({ ...r, gobierna: 'ritmo-de-oracion' as const }));
+      assert.throws(() => assertDominios(), /su clase no gobierna ninguno/u);
     } finally {
       TONES.schiavenato.rules = original;
     }
@@ -88,16 +91,42 @@ describe('los dominios están declarados donde tienen que estarlo', () => {
     assert.deepEqual(BASE_RULES.filter((r) => r.gobierna !== undefined).map((r) => r.id), []);
   });
 
-  test('una pasada que releva el ritmo trae reglas de ritmo', () => {
-    // Relevar sin reemplazar dejaría el ritmo sin gobierno, que no es lo que
-    // dice ninguna de las dos skills.
+  test('una pasada que releva el ritmo lo acota por los dos lados', () => {
+    // Traer una regla cualquiera de la familia no alcanza, y un juicio lo
+    // demostró: `staccato` acotaba la cadena de breves, nada acotaba la de
+    // largas, y diecinueve oraciones de treinta y cinco palabras seguidas
+    // pasaban limpias con la pasada puesta. Es la «nueva uniformidad de frases
+    // largas» que el patrón 32 de esa misma pasada prohíbe.
     for (const pasada of Object.values(PASADAS)) {
-      if (!pasada.anula.includes('ritmo')) continue;
-      assert.ok(
-        pasada.rules.some((r) => esDeRitmo(r.kind)),
-        `${pasada.id} releva el ritmo y no trae con qué gobernarlo`,
-      );
+      if (!pasada.anula.includes(RELEVADO)) continue;
+      const clases = new Set(pasada.rules.map((r) => r.kind));
+      assert.ok(clases.has('short-sentence-run'), `${pasada.id}: no acota la cadena de breves`);
+      assert.ok(clases.has('long-sentence-run'), `${pasada.id}: no acota la cadena de largas`);
+      assert.ok(clases.has('sentence-length-spread'), `${pasada.id}: no exige contraste`);
     }
+  });
+
+  test('el gate caza a la pasada que releva por un solo lado', () => {
+    // Sin esto, el test de arriba pasa aunque nadie compruebe nada.
+    const original = PASADAS.humanizar?.rules;
+    assert.ok(original);
+    try {
+      PASADAS.humanizar.rules = original.filter((r) => r.kind !== 'long-sentence-run');
+      assert.throws(() => assertDominios(), /no acota la cadena de largas/u);
+    } finally {
+      PASADAS.humanizar.rules = original;
+    }
+  });
+
+  test('el párrafo no lo releva nadie', () => {
+    // Fue el otro lado del mismo defecto: `parrafo-maximo` desaparecía con la
+    // pasada y ninguna regla suya miraba párrafos. `humanizar-espanol` §4 dice
+    // que la longitud de párrafo va «también variada» y no da número, así que
+    // no tiene con qué relevar el techo del tono.
+    for (const pasada of Object.values(PASADAS)) {
+      assert.ok(!pasada.anula.includes('ritmo-de-parrafo'), `${pasada.id} releva el párrafo`);
+    }
+    assert.ok(ids(rulesFor('camus', ['humanizar'])).includes('parrafo-maximo'));
   });
 });
 
@@ -144,14 +173,14 @@ describe('caso 3: tono y pasada, la pasada gana en su dominio', () => {
     assert.ok(check(HUMANIZADO, { tone: 'camus' }).length > 0);
   });
 
-  test('se retiran las reglas de ritmo del tono y solo esas', () => {
+  test('se retira lo que la pasada gobierna, y solo eso', () => {
     for (const id of TONE_IDS) {
       const conPasada = new Set(ids(rulesFor(id, ['humanizar'])));
       for (const r of TONES[id]?.rules ?? []) {
-        if (r.gobierna === 'ritmo') {
+        if (r.gobierna === RELEVADO) {
           assert.ok(!conPasada.has(r.id), `${id}: ${r.id} tenía que retirarse`);
         } else {
-          assert.ok(conPasada.has(r.id), `${id}: ${r.id} no es de ritmo y se retiró`);
+          assert.ok(conPasada.has(r.id), `${id}: ${r.id} no lo gobierna la pasada y se retiró`);
         }
       }
     }
@@ -177,6 +206,7 @@ describe('caso 3: tono y pasada, la pasada gana en su dominio', () => {
 
   test('la pasada pone su propio ritmo en el lugar del que retiró', () => {
     const puestas = ids(rulesFor('camus', ['humanizar']));
+    assert.ok(puestas.includes('humanizar-uniformidad-larga'), 'sin esto, la uniformidad larga pasa');
     assert.ok(puestas.includes('staccato'), 'sin esto, el ritmo queda sin gobierno');
     assert.ok(puestas.includes('humanizar-varia-longitud'));
   });
@@ -191,12 +221,8 @@ describe('caso 3: tono y pasada, la pasada gana en su dominio', () => {
 
   test('relevadas dice qué se retiró y quién lo hizo', () => {
     const cedidas = relevadas('camus', ['humanizar']);
-    assert.deepEqual(cedidas.map((c) => c.regla).sort(), [
-      'camus-varia-longitud',
-      'oracion-maxima',
-      'parrafo-maximo',
-      'parrafo-minimo',
-    ]);
+    // El párrafo no está en la lista: la pasada no lo gobierna.
+    assert.deepEqual(cedidas.map((c) => c.regla).sort(), ['camus-varia-longitud', 'oracion-maxima']);
     assert.deepEqual([...new Set(cedidas.map((c) => c.por))], ['humanizar']);
   });
 });

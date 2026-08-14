@@ -89,12 +89,12 @@ escribió a mano una vez y quedó mintiendo en cuanto una skill movió sus ítem
 ## Un tono acota por forma, no por materia
 
 Una skill de tono decide cómo suena un texto, no de qué trata. Cinco acotaban
-por el objeto: `atenas` y `sekkyoku` exigían una obra de ficción, `medicendai`
-una obra concreta sobre la mesa, `kenway` una obra que valorar, `bettatech` un
-mecanismo de cómputo. Escrito así, quien pidiera `atenas` para un asunto real se
-topaba con una skill que se negaba a existir para él, y eso contradice a la
-base: §3 recorre la lista solo «si el usuario no indica el tono», y §3.1 dice
-que ninguna skill de tono puede contradecirla.
+por el objeto. Dos siguen en el repositorio: `atenas` exigía una obra de ficción
+y `bettatech` un mecanismo de cómputo. Las otras tres, `sekkyoku`, `medicendai`
+y `kenway`, se retiraron después y por otro motivo. Escrito así, quien pidiera
+`atenas` para un asunto real se topaba con una skill que se negaba a existir
+para él, y eso contradice a la base: §3 recorre la lista solo «si el usuario no
+indica el tono», y §3.1 dice que ninguna skill de tono puede contradecirla.
 
 Ahora todas cierran su sección 1 con una precondición de forma, que es lo
 que la forma necesita para funcionar. Una figura que corregir. Unidades que

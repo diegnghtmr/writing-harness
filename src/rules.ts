@@ -55,18 +55,33 @@ function frases(lista: readonly string[]): RegExp {
  * Solo se declara en la capa de tono. La base no cede nada: §3.1 dice que una
  * skill de tono nunca puede contradecirla, y una pasada tampoco.
  */
-export type Dominio = 'ritmo';
+export type Dominio = 'ritmo-de-oracion' | 'ritmo-de-parrafo';
 
-/** Clases de regla que gobiernan el ritmo. El gate las usa en las dos direcciones. */
-export const CLASES_DE_RITMO = [
-  'sentence-length',
-  'paragraph-length',
-  'sentence-length-spread',
-  'short-sentence-run',
-  'sentence-length-band',
-  'long-sentence-run',
-  'sentence-length-mean',
-] as const;
+/**
+ * Qué dominio gobierna cada clase de regla.
+ *
+ * Empezó siendo un dominio solo, `ritmo`, y era demasiado grueso. Metía en el
+ * mismo saco el techo de oración, que `humanizar-espanol` sí releva porque su
+ * §4 manda fundir cadenas de breves, y el techo de párrafo, sobre el que esa
+ * skill no dice ningún número. El resultado se pudo reproducir: un párrafo de
+ * cuatrocientas palabras perdía el `parrafo-maximo` de camus y ninguna regla de
+ * la pasada lo miraba.
+ *
+ * Con dos dominios, una pasada releva lo que de verdad gobierna y deja en pie lo
+ * demás. Hoy ninguna releva el párrafo.
+ */
+export const DOMINIO_POR_CLASE = {
+  'sentence-length': 'ritmo-de-oracion',
+  'sentence-length-spread': 'ritmo-de-oracion',
+  'short-sentence-run': 'ritmo-de-oracion',
+  'long-sentence-run': 'ritmo-de-oracion',
+  'sentence-length-band': 'ritmo-de-oracion',
+  'sentence-length-mean': 'ritmo-de-oracion',
+  'paragraph-length': 'ritmo-de-parrafo',
+} as const satisfies Record<string, Dominio>;
+
+/** Clases de regla que gobiernan algún dominio. El gate las usa en las dos direcciones. */
+export const CLASES_DE_RITMO = Object.keys(DOMINIO_POR_CLASE) as readonly string[];
 
 type Common = {
   id: string;
@@ -1027,12 +1042,12 @@ export const BASE_RULES: Rule[] = [
 // Capa de tono: se elige exactamente una.
 // ---------------------------------------------------------------------------
 
-/** El mismo criterio para los dos tonos que piden variar la longitud. */
+/** El mismo criterio para los cinco tonos que piden variar la longitud. */
 function variaLongitud(id: string, skill: string, item: string, seccion: string): Rule {
   return {
     id,
     kind: 'sentence-length-spread',
-    gobierna: 'ritmo',
+    gobierna: 'ritmo-de-oracion',
     severity: 'warning',
     shortWords: 10,
     longWords: 25,
@@ -1052,7 +1067,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'oracion-maxima',
         kind: 'sentence-length',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'error',
         // camus-writing §5.2 recomienda 25 y obliga a dividir por encima de 30.
         // El techo medible es 30; 25 es preferencia, no incumplimiento.
@@ -1067,7 +1082,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'parrafo-maximo',
         kind: 'paragraph-length',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-parrafo',
         severity: 'error',
         // §5.1 dice «Máximo: 150 palabras en casos excepcionales». Es un techo.
         max: 150,
@@ -1081,7 +1096,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'parrafo-minimo',
         kind: 'paragraph-length',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-parrafo',
         // Advertencia y no error: §5.1 llama a 50 «extensión recomendada», no
         // mínimo. Un párrafo corto de transición es legítimo, un texto entero
         // de párrafos cortos no.
@@ -1141,7 +1156,7 @@ export const TONES: Record<string, Tone> = {
         minSentences: 6,
         message: 'El texto no interpela al lector, y este tono se dirige a él.',
         fix: 'Interpelar de usted y de forma sostenida, no una vez y nunca más: «fíjese en», «piense en», «como usted sabe».',
-        source: 'fonda-writing §4.1',
+        source: 'fonda-writing §6.1',
         checklist: [
           {
             skill: 'fonda-writing',
@@ -1170,7 +1185,7 @@ export const TONES: Record<string, Tone> = {
         minSentences: 6,
         message: 'Falta la voz del autor: ni opinión en primera persona ni recorrido en plural.',
         fix: '«Creo que», «a mi juicio», «me parece», «no estoy seguro» para la posición y la duda propias. «Hemos visto», «volvamos a» para recorrer el argumento con el lector.',
-        source: 'fonda-writing §4.1',
+        source: 'fonda-writing §6.1',
         checklist: [
           {
             skill: 'fonda-writing',
@@ -1182,7 +1197,7 @@ export const TONES: Record<string, Tone> = {
         'fonda-varia-longitud',
         'fonda-writing',
         '¿Hay periodos largos por acumulación cortados por oraciones mínimas?',
-        '§5.3',
+        '§7',
       ),
     ],
   },
@@ -1253,7 +1268,7 @@ export const TONES: Record<string, Tone> = {
     ],
   },
 
-  // Los diez tonos siguientes se declaran sin reglas propias. El verificador ya
+  // Los tonos que siguen tuvieron sus reglas de ritmo mecanizadas. El verificador
   // los acepta, así que su capa base y su enrutamiento funcionan, y sus ítems
   // quedan registrados en la cobertura como lo que son: criterio sin medir.
   freddy: {
@@ -1265,7 +1280,7 @@ export const TONES: Record<string, Tone> = {
         // palabras. Es la proporción medida y es la que produce el ritmo».
         id: 'freddy-banda-corta',
         kind: 'sentence-length-band',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'warning',
         min: 3,
         max: 10,
@@ -1300,7 +1315,7 @@ export const TONES: Record<string, Tone> = {
         // ítem enuncia, y porque una proporción dice dónde falla.
         id: 'fonseca-mitad-breve',
         kind: 'sentence-length-band',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'warning',
         min: 0,
         max: 14,
@@ -1320,7 +1335,7 @@ export const TONES: Record<string, Tone> = {
         // §4.2, y lo dice como prohibición: «Nunca cuatro largas seguidas».
         id: 'fonseca-cuatro-largas',
         kind: 'long-sentence-run',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'error',
         longWords: 30,
         maxRun: 3,
@@ -1345,7 +1360,7 @@ export const TONES: Record<string, Tone> = {
         // fija la idea», y el ítem pide que sean una de cada cuatro.
         id: 'dotcsv-un-cuarto-breve',
         kind: 'sentence-length-band',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'warning',
         min: 0,
         max: 9,
@@ -1365,7 +1380,7 @@ export const TONES: Record<string, Tone> = {
         // §6.4: «Dos oraciones largas seguidas exigen una corta después».
         id: 'dotcsv-largas-seguidas',
         kind: 'long-sentence-run',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'error',
         longWords: 30,
         maxRun: 2,
@@ -1381,7 +1396,8 @@ export const TONES: Record<string, Tone> = {
       },
     ],
   },
-  // Único tono con reglas propias fuera de camus, fonda y catedra, y por un
+  // Fue durante mucho tiempo el único con reglas propias fuera de camus, fonda
+  // y catedra, y por un
   // motivo: es el único cuyo corpus es prosa escrita por el autor. Los otros
   // doce se midieron sobre habla transcrita, donde la puntuación la pone el
   // transcriptor y ninguna cifra de oración es atribuible.
@@ -1392,7 +1408,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'han-oracion-maxima',
         kind: 'sentence-length',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'error',
         // Medido: máximo 40 palabras en 96 oraciones, mediana 16. La versión
         // anterior de la skill afirmaba un techo de 30 y la prosa real lo pasa
@@ -1418,7 +1434,7 @@ export const TONES: Record<string, Tone> = {
         // el techo, la letanía que la sección 15 prohíbe pasaba entera.
         id: 'han-banda-corta',
         kind: 'sentence-length-band',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'warning',
         min: 0,
         max: 9,
@@ -1438,13 +1454,13 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'han-staccato',
         kind: 'short-sentence-run',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'error',
         // Lo mismo que mide `staccato` en la pasada, con los mismos números,
         // pero reclamando el ítem de esta skill. La pasada solo corre cuando se
         // la pide, y este tono necesita el tope siempre: la racha máxima medida
         // en el modelo es de dos, y el defecto que más se le imita es
-        // encadenarlas. Correr tono y pasada juntos marca dos veces, que es el
+        // encadenarlas. Correr tono y pasada juntos marca una sola vez, porque la
         // precio de que cada capa haga cumplir lo suyo.
         shortWords: 10,
         maxRun: 2,
@@ -1565,7 +1581,7 @@ export const TONES: Record<string, Tone> = {
         // estrecha que ningún texto del corpus abandona».
         id: 'bettatech-media-oracion',
         kind: 'sentence-length-mean',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'warning',
         min: 20,
         max: 26,
@@ -1583,7 +1599,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'bettatech-cuartil-breve',
         kind: 'sentence-length-band',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'warning',
         min: 0,
         max: 13,
@@ -1602,7 +1618,7 @@ export const TONES: Record<string, Tone> = {
       {
         id: 'bettatech-cuartil-largo',
         kind: 'sentence-length-band',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'warning',
         min: 32,
         max: Number.POSITIVE_INFINITY,
@@ -1678,7 +1694,7 @@ export const TONES: Record<string, Tone> = {
         pattern: /(?<!\p{L})(\p{L}{2,})[ \t]+\1(?!\p{L})/giu,
         message: 'Palabra repetida de inmediato.',
         fix: 'En el habla es énfasis y en el texto es un tropiezo. Suprimir la segunda, o cambiarla por la palabra que de verdad intensifica.',
-        source: 'schiavenato-writing §11',
+        source: 'schiavenato-writing §5.5',
         checklist: [
           {
             skill: 'schiavenato-writing',
@@ -1711,7 +1727,7 @@ export const TONES: Record<string, Tone> = {
         // se puede afirmar de cualquier texto de este tono.
         id: 'solitario-cuarto-breve',
         kind: 'sentence-length-band',
-        gobierna: 'ritmo',
+        gobierna: 'ritmo-de-oracion',
         severity: 'warning',
         min: 0,
         max: 11,
@@ -2123,6 +2139,27 @@ const SENALES_IA: Rule[] = [
     checklist: p('Efectismo manufacturado, staccato y aforismos'),
   },
   {
+    // La tercera pieza del patrón 32, y la que faltaba. `staccato` acota la
+    // cadena de breves y `humanizar-varia-longitud` solo exige que las dos
+    // bandas existan, así que una breve entre veinte bastaba para pasar. Un
+    // juicio lo reprodujo: diecinueve oraciones de treinta y cinco palabras
+    // seguidas salían limpias con la pasada puesta, que es exactamente lo que
+    // el catálogo prohíbe: «el objetivo es el contraste, no una nueva
+    // uniformidad de frases largas».
+    //
+    // Veinticinco es el umbral que la §4 fija para «larga». Tres seguidas es lo
+    // que tolera antes de que la breve tenga que aparecer.
+    id: 'humanizar-uniformidad-larga',
+    kind: 'long-sentence-run',
+    severity: 'error',
+    longWords: 25,
+    maxRun: 3,
+    message: 'Cadena de oraciones largas: fundir no es alargarlo todo.',
+    fix: 'Dejar caer una breve. El catálogo pide contraste, y una sucesión de largas es tan de fábrica como una de cortas.',
+    source: 'humanizar-espanol, patrón 32',
+    checklist: p('Efectismo manufacturado, staccato y aforismos'),
+  },
+  {
     id: 'apertura-de-etiqueta',
     kind: 'paragraph-opening',
     severity: 'error',
@@ -2176,7 +2213,11 @@ export const PASADAS: Record<string, Pasada> = {
     // `humanizar-espanol` §4: «variar el ritmo, y es la estrategia decisiva.
     // También es el punto donde esta skill se aparta de camus-writing».
     // `camus-writing` §3.1 dice lo mismo desde el otro lado.
-    anula: ['ritmo'],
+    //
+    // Solo el ritmo de oración. Sobre el párrafo, esa §4 dice «con la longitud
+    // de los párrafos también variada» y no da ningún número, así que no tiene
+    // con qué relevar el techo del tono y no lo releva.
+    anula: ['ritmo-de-oracion'],
   },
 };
 
@@ -2263,19 +2304,20 @@ export function assertRules(rules: Rule[] = allRules()): void {
  * también, porque no cede nada.
  */
 export function assertDominios(): void {
-  const esDeRitmo = (kind: Rule['kind']) =>
-    (CLASES_DE_RITMO as readonly string[]).includes(kind);
+  const dominioDe = (kind: Rule['kind']): Dominio | undefined =>
+    (DOMINIO_POR_CLASE as Record<string, Dominio>)[kind];
 
   for (const tono of Object.values(TONES)) {
     for (const r of tono.rules) {
-      if (esDeRitmo(r.kind) && r.gobierna !== 'ritmo') {
+      const suyo = dominioDe(r.kind);
+      if (suyo !== undefined && r.gobierna !== suyo) {
         throw new Error(
-          `la regla ${r.id} de ${tono.id} es de ritmo (${r.kind}) y no lo declara. ` +
-            'Sin declararlo sobrevive a la pasada humanizar y le pide al texto lo contrario que ella.',
+          `la regla ${r.id} de ${tono.id} es de clase ${r.kind}, que gobierna ${suyo}, y declara ${r.gobierna ?? 'nada'}. ` +
+            'Sin declararlo bien sobrevive a una pasada que debería relevarla, o desaparece ante una que no.',
         );
       }
-      if (!esDeRitmo(r.kind) && r.gobierna !== undefined) {
-        throw new Error(`la regla ${r.id} de ${tono.id} declara un dominio y no es de esa clase`);
+      if (suyo === undefined && r.gobierna !== undefined) {
+        throw new Error(`la regla ${r.id} de ${tono.id} declara un dominio y su clase no gobierna ninguno`);
       }
     }
   }
@@ -2286,13 +2328,30 @@ export function assertDominios(): void {
         throw new Error(`la regla ${r.id} de la pasada ${pasada.id} no puede declarar dominio: releva, no la relevan`);
       }
     }
-    // Una pasada que releva un dominio tiene que traer con qué gobernarlo.
+
+    // Una pasada que releva un dominio tiene que traer con qué gobernarlo, y
+    // por los dos lados. Antes bastaba con traer una regla cualquiera de la
+    // familia, y con eso se coló el defecto que este gate existe para cerrar:
+    // `staccato` acota la cadena de breves y nada acotaba la de largas, así que
+    // un texto de diecinueve oraciones de treinta y cinco palabras seguidas
+    // pasaba limpio. Es justo la «nueva uniformidad de frases largas» que el
+    // patrón 32 de esa misma pasada prohíbe.
     for (const dominio of pasada.anula) {
-      if (dominio === 'ritmo' && !pasada.rules.some((r) => esDeRitmo(r.kind))) {
+      if (dominio !== 'ritmo-de-oracion') continue;
+      const clases = new Set(pasada.rules.map((r) => r.kind));
+      if (!clases.has('short-sentence-run')) {
         throw new Error(
-          `la pasada ${pasada.id} releva el ritmo y no trae ninguna regla de ritmo. ` +
-            'Relevar sin reemplazar deja el ritmo sin gobierno.',
+          `la pasada ${pasada.id} releva el ritmo de oración y no acota la cadena de breves`,
         );
+      }
+      if (!clases.has('long-sentence-run')) {
+        throw new Error(
+          `la pasada ${pasada.id} releva el ritmo de oración y no acota la cadena de largas. ` +
+            'Relevar solo por un lado deja pasar la uniformidad contraria.',
+        );
+      }
+      if (!clases.has('sentence-length-spread')) {
+        throw new Error(`la pasada ${pasada.id} releva el ritmo de oración y no exige contraste`);
       }
     }
   }

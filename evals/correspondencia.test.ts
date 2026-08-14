@@ -18,7 +18,14 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { TONES, TONE_IDS, allRules, assertRules } from '../src/rules.ts';
-import { SKILLS_DIR, allDeclarations, declarations, itemKey, skillNames } from '../src/skills.ts';
+import {
+  SKILLS_DIR,
+  allDeclarations,
+  declarations,
+  itemKey,
+  readSkill,
+  skillNames,
+} from '../src/skills.ts';
 import { SIN_REGLA } from './cobertura.ts';
 
 const items = allDeclarations();
@@ -79,10 +86,48 @@ describe('correspondencia entre las reglas y la prosa', () => {
   });
 });
 
+describe('cada regla cita una sección que existe', () => {
+  test('el `source` de cada regla resuelve a un encabezado real', () => {
+    // Un juicio encontró tres que no resolvían: `fonda-writing §4.1` no existe,
+    // `fonda-varia-longitud` citaba §5.3 cuando la prosa que mide está en §7, y
+    // `schiavenato-palabra-repetida` citaba la checklist en vez de §5.5.
+    //
+    // Las tres llevaban ahí desde antes y ningún gate las veía, porque el de
+    // correspondencia ata la regla al ÍTEM y no a la sección. El `source` sale
+    // impreso en cada hallazgo: mandar a alguien a leer una sección que no
+    // existe es peor que no citarla.
+    const vivas = new Set(skillNames());
+    const rotas: string[] = [];
+    for (const r of allRules()) {
+      const m = /^([a-z-]+)\s+§([\d.]+)$/u.exec(r.source);
+      // Las de `humanizar-espanol` citan «patrón N», que el catálogo numera
+      // aparte y el test de correspondencia ya ata.
+      if (!m) continue;
+      const skill = m[1] as string;
+      const seccion = m[2] as string;
+      if (!vivas.has(skill)) {
+        rotas.push(`${r.id} apunta a la skill ${skill}, que no existe`);
+        continue;
+      }
+      const marca = seccion.includes('.') ? `\n### ${seccion}.` : `\n## ${seccion}.`;
+      if (!readSkill(skill).replace(/\r\n/gu, '\n').includes(marca)) {
+        rotas.push(`${r.id} -> ${r.source}`);
+      }
+    }
+    assert.deepEqual(rotas, [], 'estas reglas mandan a leer una sección que no está');
+  });
+
+  test('el gate caza una cita rota', () => {
+    // Sin esto pasa aunque el bucle no mire nada.
+    const inventada = readSkill('camus-writing').replace(/\r\n/gu, '\n');
+    assert.ok(!inventada.includes('\n### 99.1.'));
+  });
+});
+
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. No queda nada mecanizable sin regla. Las 199 de criterio
-  // exigen juicio sobre el contenido: casi todas vienen de los trece tonos que
+  // ser deliberado. No queda nada mecanizable sin regla. Las 146 de criterio
+  // exigen juicio sobre el contenido: casi todas vienen de los diez tonos que
   // reconstruyen a un autor, y describir cómo argumenta una persona no lo mide
   // ninguna clase de regla que exista hoy.
   //
@@ -124,7 +169,7 @@ describe('el techo de cobertura está declarado', () => {
 
   test('todas las skills aportan al recuento', () => {
     assert.equal(skillNames().length, 13);
-    // La base y la pasada no son tonos. Los otros catorce sí, y el verificador
+    // La base y la pasada no son tonos. Los otros once sí, y el verificador
     // tiene que aceptarlos todos o la tabla de enrutamiento miente.
     assert.deepEqual(
       skillNames().filter((n) => n !== 'spanish-writing' && n !== 'humanizar-espanol').sort(),

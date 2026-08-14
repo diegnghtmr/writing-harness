@@ -78,7 +78,10 @@ function parse(argv: string[]): { files: string[]; tone?: string; pasadas: strin
       if (!PASADA_IDS.includes(valor)) {
         throw new Error(`pasada desconocida: ${valor}. Disponibles: ${PASADA_IDS.join(', ')}`);
       }
-      pasadas.push(valor);
+      // Repetirla no la aplica dos veces. Sin esto, sus reglas entraban dos
+      // veces en la lista y `assertRules` abortaba con «regla duplicada», que es
+      // un mensaje interno sobre un error del usuario.
+      if (!pasadas.includes(valor)) pasadas.push(valor);
     } else if (arg === '--help' || arg === '-h') {
       console.log(USAGE);
       process.exit(0);
