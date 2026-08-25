@@ -182,6 +182,7 @@ describe('el procedimiento decide, y siempre decide', () => {
       schiavenato: { juridico: true },
       fonseca: { actualidad: true },
       bettatech: { fundamentos: true },
+      'adria-sola': { metodoPersonal: true },
       freddy: { mueveAActuar: true, mecanismo: true },
       dotcsv: { mecanismo: true, divulgacion: true },
       fonda: { humanistico: true, divulgacion: true },

@@ -12,6 +12,19 @@ export type Estado = 'mecanizable' | 'criterio' | 'delegado';
 export type Origen = 'checklist' | 'patron';
 
 export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: Estado }[] = [
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿Hay oraciones largas, alrededor de una de cada nueve por encima de treinta palabras, y sirven para enumerar o para encadenar una consecuencia?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿La interpelación se sostiene de principio a fin, en lugar de abrir con el lector y abandonarlo después del primer párrafo?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿La primera persona del singular cuenta lo que el autor hizo y lo que le salió mal, sin convertirse en credencial?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿La apertura pone a una persona antes que al asunto, nombrando el estado del lector o el punto de partida del autor, sin definir nada?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿El cuerpo es un método ordenado, con los pasos en el orden en que hay que ejecutarlos y con lo que se rompe si se saltan?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿Cada paso termina en una instrucción ejecutable, con qué hacer, con qué material y con qué frecuencia?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿Al menos un procedimiento se muestra dos veces, primero como lo hace casi todo el mundo y después como el texto lo pide?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿El fracaso propio que se cuenta es el que el paso corrige, y no autobiografía suelta?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿Cada pregunta dirigida al lector queda respondida en lo que sigue inmediatamente?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿Los intensificadores adverbiales quedan por debajo de los del modelo, sin ninguna repetición inmediata de palabra?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿Lo que el texto ordena viene con su origen dicho, sea un hallazgo con autor y año o la experiencia propia declarada como tal?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿Los enlaces son los llanos que el corpus usa, sin la conectiva culta que el modelo recomienda y no practica?", estado: 'criterio' },
+  { skill: 'adria-sola-writing', origen: 'checklist', item: "¿El cierre remata en lo que el lector va a poder hacer, sin recapitular y sin anunciarse como cierre?", estado: 'criterio' },
   { skill: 'atenas-writing', origen: 'checklist', item: "¿El texto atribuye una lectura corriente del personaje y la corrige en las primeras líneas?", estado: 'criterio' },
   { skill: 'atenas-writing', origen: 'checklist', item: "¿Hay un concepto abstracto nombrado que organiza todo el análisis?", estado: 'criterio' },
   { skill: 'atenas-writing', origen: 'checklist', item: "¿Ese concepto aparece en la apertura y vuelve en el cierre?", estado: 'criterio' },
@@ -151,7 +164,6 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'solitario-writing', origen: 'checklist', item: "¿Cada pregunta planteada se responde en el texto inmediatamente posterior?", estado: 'criterio' },
   { skill: 'solitario-writing', origen: 'checklist', item: "¿El juicio va firmado en primera persona del singular, sin esconderse en un plural ni en un consenso?", estado: 'criterio' },
   { skill: 'solitario-writing', origen: 'checklist', item: "¿La crítica va contra la proposición y contra la práctica, sin insulto, sin atribución de motivos y sin diagnóstico de la persona?", estado: 'criterio' },
-  { skill: 'solitario-writing', origen: 'checklist', item: "¿El lector queda tratado de usted o de ustedes, sin tuteo, sin voseo y sin ninguna forma peninsular?", estado: 'criterio' },
   { skill: 'solitario-writing', origen: 'checklist', item: "¿El cierre remata en la consecuencia, sin recapitular, sin anunciarse como cierre y sin pedirle nada al lector?", estado: 'criterio' },
   { skill: 'spanish-writing', origen: 'checklist', item: "¿No hay coma entre sujeto y predicado (salvo inciso)?", estado: 'criterio' },
   { skill: 'spanish-writing', origen: 'checklist', item: "¿No hay gerundios de posterioridad ni especificativos incorrectos?", estado: 'criterio' },

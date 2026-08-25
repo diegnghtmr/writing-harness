@@ -2,9 +2,15 @@
 
 Skills de redacción en español y el verificador que mide si un texto las cumple.
 
-Trece skills en tres capas y 75 reglas mecanizadas, con un gate que ata cada
+Catorce skills en tres capas y 79 reglas mecanizadas, con un gate que ata cada
 regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
 entero sin instalar nada, sin build y sin conexión.
+
+> **Si sos un agente, no leas este archivo.** Está escrito para una persona que
+> llega y quiere entender qué es esto y por qué está hecho así. El procedimiento
+> operativo está en [AGENTS.md](AGENTS.md), separado en dos modos: usar el arnés
+> para escribir un texto, y mejorarlo, que es [CONTRIBUTING.md](CONTRIBUTING.md).
+> Los dos modos tocan cosas distintas y conviene no confundirlos.
 
 ## La idea
 
@@ -31,11 +37,13 @@ flowchart TD
     R -->|"divulgación"| T2["fonda · dotcsv · bettatech<br/>freddy · schiavenato"]
     R -->|"análisis de una obra"| T3["atenas"]
     R -->|"sostener una tesis<br/>contra otra"| T4["catedra · solitario<br/>fonseca · han"]
+    R -->|"entregar un método<br/>que el lector ejecuta"| T5["adria-sola"]
 
     T1 --> W["Redactar"]
     T2 --> W
     T3 --> W
     T4 --> W
+    T5 --> W
     H --> W
 
     W --> V["node src/cli.ts archivo --tono ID"]
@@ -62,7 +70,7 @@ contexto la justifica; señalan lo que ninguna regla decide sola.
 | Capa | Qué decide | Cuántas |
 |---|---|---|
 | **Base normativa** | Qué es correcto en español: gramática, anglicismos, puntuación, mayúsculas, números, léxico prohibido, citas, tratamiento, variedad, formato de entrega | 1 |
-| **Tono** | Cómo suena: longitud de oración y párrafo, persona gramatical, conectores favorecidos, arquitectura del argumento | 11 |
+| **Tono** | Cómo suena: longitud de oración y párrafo, persona gramatical, conectores favorecidos, arquitectura del argumento | 12 |
 | **Pasada** | Corre sobre un texto ya redactado, y solo si el usuario la pide con esas palabras | 1 |
 
 ### Regla de precedencia
@@ -106,14 +114,14 @@ el patrón que el catálogo señala como el que más penaliza.
 
 ### Enrutamiento
 
-`spanish-writing` se aplica siempre y elige exactamente un tono. Diez de los
-once reconstruyen la forma de exponer de un autor concreto, y no se
+`spanish-writing` se aplica siempre y elige exactamente un tono. Once de los
+doce reconstruyen la forma de exponer de un autor concreto, y no se
 escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su habla.
 Eso es lo que separa a este repositorio de una colección de instrucciones de
 estilo.
 
 **Cuando nadie elige, elige el enrutamiento.** No es un valor por defecto
-escondido: es una lista de once pasos que va de lo más estrecho a lo más
+escondido: es una lista de doce pasos que va de lo más estrecho a lo más
 amplio y siempre termina en un tono, porque un texto sin tono no es un texto
 neutro, es un texto cuya forma no decidió nadie. Vive dos veces, en §3 de la base
 y en `src/enrutamiento.ts`, y un gate comprueba que digan lo mismo y en el mismo
@@ -133,7 +141,7 @@ node src/cli.ts --enrutar juridico
 ```
 schiavenato-writing
   Divulgación jurídica y política dirigida a una comunidad.
-  Paso 5 de 11 de la lista de spanish-writing §3.
+  Paso 5 de 12 de la lista de spanish-writing §3.
 ```
 
 Siempre responde con el motivo. Una decisión que no se puede rebatir no es una
@@ -160,7 +168,7 @@ producto. En las skills no.
 
 | Archivo | Qué hace |
 |---|---|
-| `src/rules.ts` | Las 75 reglas como objetos planos y tipados, sin comportamiento |
+| `src/rules.ts` | Las 79 reglas como objetos planos y tipados, sin comportamiento |
 | `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
 | `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
 | `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |
@@ -168,7 +176,7 @@ producto. En las skills no.
 | `src/mediciones.ts` | Qué contenía ese corpus, con las cuatro casillas del contrato |
 | `evals/cobertura.ts` | El registro de qué declara la prosa y todavía no tiene regla |
 
-Las reglas se reparten en catorce tipos. `forbidden-pattern` cubre 42; las otras
+Las reglas se reparten en catorce tipos. `forbidden-pattern` cubre 43; las otras
 trece existen porque hay cosas que una expresión regular no ve: contar palabras
 por párrafo, detectar rachas de oraciones breves o largas, comparar aperturas
 consecutivas, medir qué proporción del texto cae en una banda de longitud,
@@ -217,14 +225,14 @@ resultado y no se parecen en nada más.** El gate distingue las dos cosas.
 
 | Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | **89** | Tiene regla y test |
+| cubierto | **96** | Tiene regla y test |
 | mecanizable | **0** | Se puede medir, falta construirlo |
-| criterio | 146 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
+| criterio | 158 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 
-De las 235 declaraciones, 146 piden juicio: si se conservó toda la información
+De las 254 declaraciones, 158 piden juicio: si se conservó toda la información
 del original, si una analogía está desarrollada o solo mencionada, si una
 expresión es la colocación más previsible del tema. El número creció con los
-diez tonos que reconstruyen a un autor, porque describir cómo argumenta una
+once tonos que reconstruyen a un autor, porque describir cómo argumenta una
 persona no lo mide ninguna clase de regla que exista hoy.
 
 **El cero de `mecanizable` no es una ausencia verificada.** El generador nunca
@@ -247,10 +255,10 @@ se juntaron para construir las skills y se borran.
 
 ```mermaid
 flowchart LR
-    C[("corpus<br/>fuera del repositorio<br/>13 corpus · 305 archivos")]
+    C[("corpus<br/>fuera del repositorio<br/>14 corpus · 326 archivos")]
 
     C -->|"scripts/manifiesto.ts"| M["src/corpus.ts<br/>ruta · bytes · palabras · sha256"]
-    C -->|"scripts/medir.ts"| ME["src/mediciones.ts<br/>63 mediciones · 280 archivos<br/>1.260 expresiones contadas"]
+    C -->|"scripts/medir.ts"| ME["src/mediciones.ts<br/>68 mediciones · 300 archivos<br/>1.284 expresiones contadas"]
 
     M -->|"comprueba el sha256<br/>antes de contar"| ME
 
@@ -269,8 +277,8 @@ hacen comprobable una cifra.
 **El texto que cuenta no es el archivo entero.** Una transcripción trae cabecera
 de metadatos y una marca de tiempo por línea; contarlo entero infla el recuento
 alrededor de un 15 %, y hace parecer que las skills se equivocaron. Contando el
-cuerpo, dos corpus dan exacto, ocho caen dentro del 0,5 % y los minutos de habla
-coinciden en los tres que quedan de los cuatro que los declaraban.
+cuerpo, tres corpus dan exacto, ocho caen dentro del 0,5 % y los minutos de habla
+coinciden en los cuatro que quedan de los cinco que los declaraban.
 
 Esos ocho no se alinearon a la medición, y hay una razón medida: tres de sus
 totales se descomponen exactamente en otras cifras de la misma prosa, así que
@@ -287,7 +295,7 @@ es justo lo que ningún otro gate podría notar una vez borrado el origen.
 Y un defecto conocido, medido y sin arreglo posible: las cuentas de expresiones
 de **varias palabras se quedan cortas**, porque se buscaron como literal y una
 transcripción parte los giros entre líneas de subtítulo. Las de una palabra
-coinciden con la prosa dos de cada tres veces; las de varias, una de cada nueve.
+coinciden con la prosa siete de cada diez veces; las de varias, una de cada ocho.
 En esas, la cifra buena es la de la prosa. Está medido en
 `evals/expresiones.test.ts`, que es donde tenía que quedar: una limitación que se
 mide deja de ser una trampa.
@@ -369,9 +377,13 @@ flowchart TB
 ```
 
 ```bash
-node scripts/slide-text.mjs > mazo.txt   # en el repositorio de diapositivas
+node scripts/slide-text.mjs > mazo.txt   # en otro repositorio, el de diapositivas
 node src/cli.ts mazo.txt --tono camus    # acá
 ```
+
+La primera línea no se corre acá y por eso lleva la marca. `scripts/slide-text.mjs`
+es del otro repositorio; buscarlo en este da un error que parece del arnés y no lo
+es. `evals/documentacion.test.ts` comprueba que todo lo demás sí exista.
 
 **El rombo del medio no es adorno.** Corriendo la norma española sobre los mazos
 de ejemplo, que están en inglés, salen 66 errores y 50 son la raya, que en inglés
@@ -392,6 +404,10 @@ node scripts/instalar.ts --verificar
 Dos copias divergen, y eso es el defecto que este repositorio existe para evitar.
 Ya pasó: había un `spanish-writing` suelto idéntico al primer commit, con la
 filosofía Camus todavía dentro de la base.
+
+Y mover el repositorio deja los enlaces apuntando a donde estaba, con el nombre
+correcto y sin nada detrás. `--verificar` lo dice: `enlazado-a-otro` con el
+destino al lado. Ese destino es lo que hay que leer.
 
 El hook y el CI corren lo mismo:
 

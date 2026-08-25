@@ -55,6 +55,7 @@ forma y la manera de presentar la información.
 | `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, interpelación de usted, entrada por algo concreto y glosa constante |
 | `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin interpelación al lector |
 | `han-writing` | Diagnóstico epocal y ensayo filosófico breve, construido por oposición de conceptos. | Aforística, sin dato empírico, capítulo corto |
+| `adria-sola-writing` | Texto que le entrega al lector un método para que lo ejecute: guías, manuales de procedimiento, protocolos de estudio y de trabajo, rutinas, cursos. | Oración corta, imperativo sostenido, pasos numerados que terminan en una instrucción |
 | `freddy-writing` | Divulgación tecnológica y educativa que busca mover a alguien a actuar. | El mecanismo antes del juicio, cifra repartida, imperativo frecuente |
 | `dotcsv-writing` | Divulgación técnica de un mecanismo difícil para público general. | Reducción del problema a su versión mínima, entusiasmo repartido |
 | `bettatech-writing` | Fundamentos de informática y computación antes que la receta práctica. | El nombre después del fenómeno, caso de ingeniería en vez de analogía |
@@ -77,10 +78,12 @@ revés, nunca se elegiría.
 6. Si parte de un hecho reciente de actualidad, geopolítica o economía,
    `fonseca-writing`.
 7. Si son fundamentos de computación antes que la receta, `bettatech-writing`.
-8. Si explica un mecanismo para mover a alguien a actuar, `freddy-writing`.
-9. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
-10. Si es divulgación filosófica, humanística o cultural, `fonda-writing`.
-11. En cualquier otro caso, `camus-writing`.
+8. Si el lector recibe un método para ejecutarlo sobre sí mismo,
+   `adria-sola-writing`.
+9. Si explica un mecanismo para mover a alguien a actuar, `freddy-writing`.
+10. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
+11. Si es divulgación filosófica, humanística o cultural, `fonda-writing`.
+12. En cualquier otro caso, `camus-writing`.
 
 **La lista siempre termina en un tono.** Antes, un género que no encajaba en
 ninguna fila dejaba correr esta base sola, y eso no es una decisión sino una
@@ -97,7 +100,7 @@ lista no se recorre.
 Elegido el tono, se dice cuál y por qué en una línea. Una decisión que no se
 puede rebatir no es una decisión.
 
-Los diez tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
+Los once tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
 un autor concreto, medida sobre un corpus de transcripciones, y cada uno declara
 en su sección de fuentes qué se midió, con qué números y qué no pudo
 verificarse. Ninguno toma la variedad dialectal ni el tratamiento de su modelo:

@@ -1,6 +1,6 @@
 // Las tres clases de regla que miden el ritmo por números.
 //
-// Existen porque seis de los once tonos declaraban su forma en cifras y ninguna
+// Existen porque seis de los once tonos de entonces declaraban su forma en cifras y ninguna
 // clase anterior las medía. La prueba cruzada lo dijo en números: nueve columnas
 // planas sobre catorce, y despues seis sobre once. Un tono sin reglas no
 // discrimina, y un enrutamiento que lleva a un tono que no discrimina reparte
@@ -103,7 +103,7 @@ describe('long-sentence-run: la cadena de oraciones largas', () => {
   });
 });
 
-describe('ahora los once tonos discriminan', () => {
+describe('ahora los doce tonos discriminan', () => {
   test('ninguno se queda sin reglas', () => {
     // Es la condición que hacía caducar el motivo del enrutamiento, y por eso
     // se comprueba también acá: es el hecho que estas reglas vinieron a cambiar.

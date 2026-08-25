@@ -1,30 +1,91 @@
 # writing-harness
 
-Skills de redacción en español y el verificador que mide si un texto las cumple.
+Catorce skills de redacción en español y un verificador que mide si un texto las
+cumple. Doce de esas skills son tonos. Las skills son prosa que vos leés; el
+verificador es un programa que cuenta. Lo que hace útil al conjunto es que las
+dos mitades declaran las mismas reglas y un gate las obliga a no contradecirse.
 
 Este es el archivo canónico de instrucciones para cualquier agente que trabaje
-en este repositorio. `CLAUDE.md` solo apunta acá. Si tu herramienta lee otro
-nombre de archivo, hacé lo mismo: un puntero de una línea, nunca una copia.
+acá. `CLAUDE.md` solo apunta a este. Si tu herramienta lee otro nombre de
+archivo, hacé lo mismo: un puntero de una línea, nunca una copia.
 
-## La separación que hay que respetar
+## Empezá por acá: hay dos modos y no se mezclan
 
-Las skills declaran reglas. El verificador las mide. **No se mencionan entre
-sí.**
+| Lo que te pidieron | Modo | Dónde está el procedimiento |
+|---|---|---|
+| Escribir, reescribir o revisar un texto en español | **usar** | La parte I de este archivo |
+| Agregar un tono, una regla o un corpus; tocar el verificador, un gate o una cifra | **mejorar** | [CONTRIBUTING.md](CONTRIBUTING.md) |
 
-Ninguna skill nombra al verificador, ni a Node, ni a este repositorio. Una
-skill tiene que servir en una máquina donde este verificador no existe, y el
-verificador tiene que servir sobre un texto escrito sin ninguna skill cargada.
-Lo único que comparten es el conjunto de reglas, y viven una sola vez, en
-`src/rules.ts`.
+La diferencia no es de tamaño, es de qué se toca. **Usar el arnés no modifica
+ningún archivo del arnés.** Si al escribir un texto te dan ganas de ablandar una
+regla que te molesta, estás cruzando de modo sin darte cuenta, y eso es
+exactamente el movimiento que este repositorio existe para hacer visible: la
+regla se arregla o se retira con su motivo escrito, nunca se esquiva para que
+pase un texto concreto.
 
-Si alguna vez hace falta que una skill invoque una herramienta, la respuesta no
-es agregarle la invocación. Es preguntarse por qué la herramienta no puede
-correr desde afuera.
+Un mismo pedido puede necesitar los dos, y entonces son dos trabajos seguidos y
+en este orden: primero entregás el texto, después proponés el cambio al arnés
+con lo que aprendiste escribiéndolo. Los mejores arreglos de este repositorio
+salieron así.
 
-La misma regla vale para el proveedor. Las skills no nombran a ningún modelo ni
-a ningún fabricante. Dicen «el agente» y describen qué papel cumple.
 
-## Regla operativa
+---
+
+# Parte I. Usar el arnés
+
+## 1. El procedimiento entero, en una pantalla
+
+```bash
+node src/cli.ts --enrutar <rasgo,rasgo>          # 1. qué tono corresponde
+                                                  # 2. leer ese SKILL.md entero
+                                                  # 3. escribir
+node src/cli.ts <archivo> --tono <id>            # 4. medir
+                                                  # 5. corregir y repetir
+```
+
+Cinco pasos y ninguno es opcional. El más saltado es el segundo, y es el que
+hace la diferencia: el verificador cubre 96 de las 254 declaraciones que hacen
+las skills. Las otras 158 solo las pone quien leyó la skill.
+
+## 2. Elegir el tono
+
+No lo elijas a ojo. El enrutamiento es un procedimiento determinista y responde
+con el motivo, para que se pueda discutir:
+
+```bash
+node src/cli.ts --enrutar juridico
+```
+
+```
+schiavenato-writing
+  Divulgación jurídica y política dirigida a una comunidad.
+  Paso 5 de 12 de la lista de spanish-writing §3.
+```
+
+Los rasgos son los de `RASGOS` en `src/enrutamiento.ts`, y el mismo comando sin
+argumentos válidos los lista. Siempre devuelve un tono: un texto sin tono no es
+un texto neutro, es un texto cuya forma no decidió nadie.
+
+**Si el usuario pide un tono por su nombre, ese tono se aplica y la lista no se
+recorre.** La tabla de §3 enruta, no cerca. Cada fila nombra el caso donde ese
+tono se encuentra casi siempre, que es además el caso que midió su corpus, y no
+dice de qué se puede escribir con esa forma. Lo único que un tono puede exigir
+es la precondición de forma que declara al final de su sección 1.
+
+## 3. Escribir con la skill delante
+
+Leé el `SKILL.md` completo del tono elegido, no su resumen. Están en
+`skills/<id>-writing/SKILL.md` y traen, en este orden: qué decide ese tono, qué
+se midió y qué no vale de esa medición, el ritmo en cifras, la voz, la
+estructura, los recursos, y una lista de verificación numerada al final.
+
+Se leen además dos siempre:
+
+- `skills/spanish-writing/SKILL.md` es la base y rige en todos los casos.
+- `skills/humanizar-espanol/SKILL.md` solo si el usuario pidió humanizar con
+  esas palabras.
+
+## 4. Verificar
 
 Todo texto en español que se produzca trabajando en este repositorio pasa por
 el verificador antes de entregarse.
@@ -45,14 +106,17 @@ son la palabra exacta.
 Sale con 1 si hay errores. Un texto con errores no se entrega. Las advertencias
 no frenan la entrega: señalan lo que solo el contexto decide.
 
-## Lo que el verificador no ve
+Cada hallazgo trae la línea, la columna, la sección de la skill que lo enuncia y
+qué hacer en su lugar. Señalar sin arreglar no sirve.
 
-De las 235 declaraciones que hacen las skills, **146 exigen juicio sobre el
+## 5. Lo que el verificador no ve
+
+De las 254 declaraciones que hacen las skills, **158 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.
 
-El número lo empujan los diez tonos que reconstruyen a un autor: describir cómo
+El número lo empujan los once tonos que reconstruyen a un autor: describir cómo
 argumenta una persona no lo mide ninguna clase de regla que exista hoy.
 
 Las skills declaran de dos maneras y las dos cuentan: ítems numerados `N. ¿…?`
@@ -62,59 +126,45 @@ en las listas del `SKILL.md`, y patrones `### N. Título` en los catálogos de
 
 `evals/cobertura.ts` los tiene listados uno por uno. Salir con 0 significa que
 el texto pasó las reglas mecanizables, no que esté bien escrito. Esa segunda
-parte sigue siendo lectura humana.
+parte sigue siendo lectura humana, y la lista de verificación del final de cada
+skill es la forma de hacerla.
 
-## Antes de tocar reglas
+## 6. Lo que no se hace al usar
 
-```bash
-node --test "evals/*.test.ts"
-```
+- **No se toca una regla para que pase un texto.** Si la regla está mal, eso es
+  el modo mejorar, va con su motivo escrito y lleva su gate.
+- **No se entrega con errores.** El código de salida es la decisión, no una
+  sugerencia.
+- **No se silencian las advertencias sin decir por qué.** Una advertencia
+  justificada se justifica en voz alta, en la entrega.
+- **No se corre `--pasada humanizar` por rutina.** Marca como defecto giros que
+  en un texto concreto son la palabra exacta.
+- **No se copia el `SKILL.md` al texto.** La skill decide la forma; no aparece
+  en el entregable.
 
-El test de correspondencia falla en las dos direcciones. Agregar una regla que
-cubre un ítem obliga a borrarlo de `evals/cobertura.ts`. Cambiar la redacción
-de un ítem en un `SKILL.md` obliga a actualizar el dato. Es a propósito: las
-dos veces que este repositorio perdió una regla fue porque nadie comparaba la
-prosa con el dato.
 
-`evals/cobertura.ts` no se edita a mano. Se regenera:
+---
 
-```bash
-node --experimental-strip-types evals/gen.ts
-```
+# Parte II. Cómo está hecho
 
-Conserva la clasificación de los ítems que ya estaban, imprime los nuevos para
-revisarlos uno por uno, y deja los recuentos que el test tiene grabados. Se
-escribió a mano una vez y quedó mintiendo en cuanto una skill movió sus ítems.
+Esta parte no es un procedimiento. Es lo que hay que entender para que las dos
+partes de arriba tengan sentido, y lo que hay que respetar en el modo mejorar.
 
-## Un tono acota por forma, no por materia
+## Las tres capas
 
-Una skill de tono decide cómo suena un texto, no de qué trata. Cinco acotaban
-por el objeto. Dos siguen en el repositorio: `atenas` exigía una obra de ficción
-y `bettatech` un mecanismo de cómputo. Las otras tres, `sekkyoku`, `medicendai`
-y `kenway`, se retiraron después y por otro motivo. Escrito así, quien pidiera
-`atenas` para un asunto real se topaba con una skill que se negaba a existir
-para él, y eso contradice a la base: §3 recorre la lista solo «si el usuario no
-indica el tono», y §3.1 dice que ninguna skill de tono puede contradecirla.
+| Capa | Qué decide | Cuándo corre |
+|---|---|---|
+| Base | Qué es correcto en español | Siempre |
+| Tono | Cómo suena | Se elige exactamente una |
+| Pasada | Qué se le hace a un texto ya escrito | Solo si el usuario la pide |
 
-Ahora todas cierran su sección 1 con una precondición de forma, que es lo
-que la forma necesita para funcionar. Una figura que corregir. Unidades que
-citar. Un orden dado de antemano. Algo con mérito y con defecto. Un mecanismo
-que el lector usa a ciegas. Nada de eso es un tema, y cada una dice además de
-qué dominio salió su corpus, que es distinto de dónde se puede usar.
-
-`evals/alcance.test.ts` lo vigila en las dos direcciones. La base declara en qué
-sección vive la precondición y el test la busca ahí, así que mover el bloque sin
-mover la afirmación rompe, y al revés también.
-
-Lo que ese gate no hace es leer la precondición y juzgarla. Distinguir una
-condición de forma de una condición de tema es lectura, no expresión regular, y
-una expresión regular que lo intentara daría verdes falsos. El gate obliga a
-responder la pregunta; que la respuesta sea buena se revisa leyendo.
+Se componen en `rulesFor`. La base nunca cede nada: `spanish-writing` §3.1 dice
+que ninguna capa de encima puede contradecirla, y eso incluye a las pasadas.
 
 ## Una pasada releva al tono en lo que gobierna
 
 Las capas se componen en `rulesFor`. La base siempre, el tono si se pidió, las
-pasadas si se pidieron. Lo que no era cierto hasta ahora es la última parte:
+pasadas si se pidieron. Lo que no era cierto hasta hace poco es la última parte:
 una pasada puede retirar reglas del tono.
 
 Cada regla de tono declara qué dominio gobierna, y `DOMINIO_POR_CLASE` es la
@@ -140,48 +190,86 @@ El defecto que esto cierra no lo encontró una lectura del código. Lo encontró
 escribir un texto humanizado y verlo salir con código 1, once veces por la misma
 regla, con un arreglo propuesto que deshacía el trabajo.
 
+## Un tono acota por forma, no por materia
+
+Una skill de tono decide cómo suena un texto, no de qué trata. Cinco acotaban
+por el objeto. Dos siguen en el repositorio: `atenas` exigía una obra de ficción
+y `bettatech` un mecanismo de cómputo. Las otras tres, `sekkyoku`, `medicendai`
+y `kenway`, se retiraron después y por otro motivo. Escrito así, quien pidiera
+`atenas` para un asunto real se topaba con una skill que se negaba a existir
+para él, y eso contradice a la base: §3 recorre la lista solo «si el usuario no
+indica el tono», y §3.1 dice que ninguna skill de tono puede contradecirla.
+
+Ahora todas cierran su sección 1 con una precondición de forma, que es lo
+que la forma necesita para funcionar. Una figura que corregir. Unidades que
+citar. Un orden dado de antemano. Algo con mérito y con defecto. Un mecanismo
+que el lector usa a ciegas. Un procedimiento que el lector ejecuta. Nada de eso
+es un tema, y cada una dice además de qué dominio salió su corpus, que es
+distinto de dónde se puede usar.
+
+`evals/alcance.test.ts` lo vigila en las dos direcciones. La base declara en qué
+sección vive la precondición y el test la busca ahí, así que mover el bloque sin
+mover la afirmación rompe, y al revés también.
+
+Lo que ese gate no hace es leer la precondición y juzgarla. Distinguir una
+condición de forma de una condición de tema es lectura, no expresión regular, y
+una expresión regular que lo intentara daría verdes falsos. El gate obliga a
+responder la pregunta; que la respuesta sea buena se revisa leyendo.
+
+## La separación que hay que respetar
+
+Las skills declaran reglas. El verificador las mide. **No se mencionan entre
+sí.**
+
+Ninguna skill nombra al verificador, ni a Node, ni a este repositorio. Una
+skill tiene que servir en una máquina donde este verificador no existe, y el
+verificador tiene que servir sobre un texto escrito sin ninguna skill cargada.
+Lo único que comparten es el conjunto de reglas, y viven una sola vez, en
+`src/rules.ts`.
+
+Si alguna vez hace falta que una skill invoque una herramienta, la respuesta no
+es agregarle la invocación. Es preguntarse por qué la herramienta no puede
+correr desde afuera.
+
+La misma regla vale para el proveedor. Las skills no nombran a ningún modelo ni
+a ningún fabricante. Dicen «el agente» y describen qué papel cumple.
+
+`evals/separacion.test.ts` lo comprueba en las dos direcciones y sin depender de
+que nadie se acuerde.
+
 ## De dónde salieron las cifras
 
 Las skills enuncian centenares de cifras medidas sobre un corpus que no vive acá
 y no va a vivir. Son transcripciones ajenas y un libro; se juntaron para
 construir las skills y se borran.
 
-`src/corpus.ts` es lo que sobrevive: 13 corpus, 305 archivos, cada uno con su
-tamaño, sus palabras y su sha256, en 60 KB. Una skill dice «medido sobre 20
+`src/corpus.ts` es lo que sobrevive: 14 corpus, 326 archivos, cada uno con su
+tamaño, sus palabras y su sha256. Una skill dice «medido sobre 20
 transcripciones» y nunca dice cuáles. Acá está la lista, con el contenido exacto
 fijado, así que una cifra puede nombrar su origen aunque el origen ya no exista.
 
-`src/mediciones.ts` es la otra mitad: 63 mediciones sobre 280 archivos. El
+`src/mediciones.ts` es la otra mitad: 68 mediciones sobre 300 archivos. El
 manifiesto dice qué archivos había; esto dice qué contenían. Cada medición trae
 las cuatro casillas que hacen comprobable una cifra: qué afirma, con qué regla se
 produjo, sobre cuántos archivos y en qué unidad.
 
-Trae además las 1.260 expresiones que las skills entrecomillan, contadas en su
-propio corpus; 884 aparecen en él. Una skill afirma que tal giro sale 191 veces y
+Trae además las 1.284 expresiones que las skills entrecomillan, contadas en su
+propio corpus; 899 aparecen en él. Una skill afirma que tal giro sale 191 veces y
 esa cuenta no se puede rehacer sin el corpus, así que están todas, incluidas las
-376 que dan cero. Un cero es una medición: dice que la expresión no estaba ahí.
+385 que dan cero. Un cero es una medición: dice que la expresión no estaba ahí.
 
 **Esas cuentas se quedan cortas en las expresiones de varias palabras, y no tiene
 arreglo.** Se buscaron como literal, con un solo espacio entre sus palabras, pero
 una transcripción viene partida en líneas de subtítulo y un giro de dos palabras
 cae a menudo a caballo entre dos: «por ejemplo» con un salto dentro no coincide
 con «por ejemplo». Medido en `evals/expresiones.test.ts`: las de una palabra
-coinciden con la prosa dos de cada tres veces y las de varias, una de cada nueve,
-casi siempre por debajo. **En las de varias palabras, la cifra buena es la de la
+coinciden con la prosa siete de cada diez veces y las de varias, una de cada ocho,
+siempre por debajo. **En las de varias palabras, la cifra buena es la de la
 prosa.** El corpus ya no está y `src/mediciones.ts` está fijado por su huella, así
 que la tabla no se puede corregir; queda medido para que nadie la lea como
 exacta.
 
-```bash
-node --experimental-strip-types scripts/manifiesto.ts
-node --experimental-strip-types scripts/medir.ts
-node --experimental-strip-types scripts/medir.ts --desde <ruta>
-```
-
-`medir.ts` comprueba el sha256 de cada archivo contra el manifiesto antes de
-contar nada, y aborta si uno solo difiere. Medir un corpus distinto del que quedó
-fichado daría cifras que parecen trazables y no lo son, que es peor que no tener
-ninguna.
+Cómo se incorpora un corpus nuevo está en [CONTRIBUTING.md](CONTRIBUTING.md).
 
 **El texto que cuenta no es el archivo entero.** Una transcripción trae cabecera
 de metadatos y una marca `**[mm:ss]**` por línea; contar eso infla el recuento
@@ -196,10 +284,12 @@ su propia huella. Cualquier edición a mano los rompe, incluida la que sustituye
 un sha256 por otros sesenta y cuatro hexadecimales con buena pinta, que es justo
 lo que ningún otro gate podría notar una vez borrado el corpus.
 
-Además, la prosa y la medición se comparan entre sí. Dos corpus dan exacto, ocho
+Además, la prosa y la medición se comparan entre sí. Tres corpus dan exacto, ocho
 caen dentro del 0,5 % y han se sale porque sus cifras salen del libro y no de las
-fichas. Las diferencias están congeladas como dato: impedir que crezcan sin que
-nadie lo note es distinto de fingir que no existen.
+fichas. El primero de los tres exactos es `adria-sola`, y lo es por un motivo
+distinto de los otros dos: su cifra se copió de la salida de este mismo script en
+vez de venir de un conteo anterior. Las diferencias están congeladas como dato:
+impedir que crezcan sin que nadie lo note es distinto de fingir que no existen.
 
 Ninguna skill nombra el manifiesto ni las mediciones, igual que ninguna nombra
 una regla. La skill declara, el verificador mide.
@@ -278,17 +368,6 @@ Un juicio encontró diez defectos en este repositorio, y los encontró porque lo
 buscamos a mano. Estas dos redes existen para que la próxima vez no dependa de
 eso.
 
-La separación de arriba la comprueba `evals/separacion.test.ts`, y no hace falta
-correr nada a mano. Acá vivían dos `grep -r` que la hacían, y se fueron por el
-mismo motivo por el que se fueron del CI: el segundo buscaba «cursor» suelto y
-disparaba sobre la expresión «Tengo un precursor.», que un corpus contiene con
-todo derecho.
-
-Un juez encontró que esa receta, ya corregida en el test, seguía intacta acá y
-seguía diciendo «tiene que dar vacío». **Una comprobación escrita en dos sitios
-se arregla en uno solo**, que es la enfermedad que este repositorio existe para
-evitar, cometida en su propio manual.
-
 ## Requisitos
 
 Node 22.6 o superior, nada más. El repositorio no tiene dependencias, ni build,
@@ -325,6 +404,31 @@ mismo nombre en otro directorio de anfitrión son dos reglas distintas con el
 mismo título. Ya pasó: había un `spanish-writing` en `~/.agents/skills` idéntico
 al primer commit de este repositorio, con la filosofía Camus todavía dentro de
 la base. `--verificar` sobre cada anfitrión es lo que las encuentra.
+
+**Y cuidado con los enlaces colgando, que es el mismo daño por el otro lado.**
+Mover el repositorio no reescribe los enlaces que apuntan a donde estaba: siguen
+ahí, con su nombre correcto, apuntando a una carpeta que ya no existe. Ninguna
+skill está instalada y el listado parece completo. Ya pasó también, y con las
+trece a la vez.
+
+`--verificar` las distingue: una skill enlazada a este repositorio dice
+`enlazado`, y una que apunta a otro sitio dice `enlazado-a-otro` con el destino
+al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
+`--reemplazar`, que renombra en vez de borrar.
+
+## Dónde está cada cosa
+
+| Ruta | Qué es |
+|---|---|
+| `skills/spanish-writing/` | La base. Rige siempre, y su §3 tiene la tabla de enrutamiento |
+| `skills/<id>-writing/` | Un tono |
+| `skills/humanizar-espanol/` | La pasada. Solo si el usuario la pide |
+| `src/rules.ts` | Las 79 reglas como datos, sin comportamiento y sin build |
+| `src/check.ts` | Compone las capas y mide |
+| `src/enrutamiento.ts` | La tabla de §3 como dato, y el procedimiento que decide |
+| `src/corpus.ts`, `src/mediciones.ts` | El registro del corpus borrado. No se editan a mano |
+| `evals/` | Los gates. Cada uno falla en las dos direcciones |
+| `scripts/` | Manifiesto, medición, instalación y hook |
 
 ## Qué archivo lee cada anfitrión
 

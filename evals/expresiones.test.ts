@@ -27,41 +27,12 @@
 
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
-import { EXPRESIONES } from '../src/mediciones.ts';
-import { readSkill, skillNames } from '../src/skills.ts';
-
-type Par = { skill: string; expresion: string; palabras: number; prosa: number; medido: number };
-
-/** Los pares que la prosa pone pegados, sin holgura. */
-function pares(): Par[] {
-  const E = '«([^»\\n]{1,45})»';
-  const N = '(\\d[\\d.]*)';
-  const out: Par[] = [];
-
-  for (const skill of skillNames()) {
-    const tabla = new Map(
-      EXPRESIONES.filter((e) => e.skill === skill).map((e) => [e.expresion, e.veces]),
-    );
-    if (tabla.size === 0) continue;
-    // Se aplanan los espacios: la prosa va a ochenta columnas y un par cae
-    // partido entre dos líneas sin que eso cambie lo que dice.
-    const src = readSkill(skill).replace(/\s+/gu, ' ');
-
-    for (const m of src.matchAll(new RegExp(`${E}\\s+${N}(?![\\d.,%\\p{L}])`, 'gu'))) {
-      const expresion = m[1] as string;
-      const prosa = Number((m[2] as string).replace(/\./gu, ''));
-      const medido = tabla.get(expresion);
-      if (medido === undefined || prosa === 0) continue;
-      out.push({ skill, expresion, palabras: expresion.trim().split(/\s+/u).length, prosa, medido });
-    }
-  }
-  return [...new Map(out.map((p) => [`${p.skill}|${p.expresion}|${p.prosa}`, p])).values()];
-}
-
-const PARES = pares();
-const deUnaPalabra = PARES.filter((p) => p.palabras === 1);
-const deVarias = PARES.filter((p) => p.palabras > 1);
-const exactos = (ps: Par[]) => ps.filter((p) => p.prosa === p.medido).length;
+import {
+  DE_UNA_PALABRA as deUnaPalabra,
+  DE_VARIAS as deVarias,
+  PARES,
+  exactos,
+} from './registro.ts';
 
 describe('las cifras de apariciones se pueden emparejar con lo medido', () => {
   test('146 pares, 61 exactos', () => {

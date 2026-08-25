@@ -925,6 +925,12 @@ export const BASE_RULES: Rule[] = [
         skill: 'spanish-writing',
         item: '¿El texto quedó libre de artefactos de canal: saludo, despedida, petición de apoyo, patrocinio, deixis de pantalla y promesa de revelación?',
       },
+      {
+        // Es el corpus donde más pesa: diecinueve de sus veinte piezas cierran
+        // con la liturgia del canal y trae 142 apariciones en total.
+        skill: 'adria-sola-writing',
+        item: '¿El texto quedó libre de los artefactos de canal del modelo: saludo, credencial de presentación, petición de apoyo y despedida?',
+      },
     ],
   },
   {
@@ -968,6 +974,18 @@ export const BASE_RULES: Rule[] = [
       {
         skill: 'schiavenato-writing',
         item: '¿Queda descartado el tuteo al público y también el «vosotros»?',
+      },
+      // Estas dos enuncian la prohibición entera en un solo ítem, así que las
+      // reclaman las dos reglas. `solitario` la declaraba desde hace tiempo y
+      // no la reclamaba nadie: quedaba anotada como criterio, es decir como
+      // algo que solo una persona puede juzgar, cuando dos reglas ya la medían.
+      {
+        skill: 'solitario-writing',
+        item: '¿El lector queda tratado de usted o de ustedes, sin tuteo, sin voseo y sin ninguna forma peninsular?',
+      },
+      {
+        skill: 'adria-sola-writing',
+        item: '¿El lector queda tratado de usted o de ustedes, sin tuteo, sin voseo y sin ninguna forma peninsular?',
       },
     ],
   },
@@ -1032,6 +1050,16 @@ export const BASE_RULES: Rule[] = [
       {
         skill: 'dotcsv-writing',
         item: '¿Se reserva la primera persona del plural para el recorrido y el trato de usted para el lector?',
+      },
+      // Las mismas dos de la regla anterior: un solo ítem que prohíbe el tuteo,
+      // el voseo y lo peninsular a la vez.
+      {
+        skill: 'solitario-writing',
+        item: '¿El lector queda tratado de usted o de ustedes, sin tuteo, sin voseo y sin ninguna forma peninsular?',
+      },
+      {
+        skill: 'adria-sola-writing',
+        item: '¿El lector queda tratado de usted o de ustedes, sin tuteo, sin voseo y sin ninguna forma peninsular?',
       },
     ],
   },
@@ -1748,6 +1776,235 @@ export const TONES: Record<string, Tone> = {
         '¿Al menos una de cada cuatro oraciones queda por debajo de doce palabras, alternando con los periodos largos del argumento?',
         '§7.4',
       ),
+    ],
+  },
+  // El único cuyo corpus llegó partido en dos por la puntuación: ocho archivos
+  // la traen y doce no traen ni un signo. Las dos reglas de longitud salen solo
+  // de los ocho, y su §3 lo declara antes que ninguna cifra. Las otras dos no
+  // dependen de la puntuación, y por eso son las que mandan.
+  'adria-sola': {
+    id: 'adria-sola',
+    skill: 'adria-sola-writing',
+    rules: [
+      {
+        // §4.1: «El 57,5 % queda en 14 o menos», y la proporción por archivo va
+        // del 50,8 % al 67,9 %. Ninguno de los ocho baja de la mitad, así que
+        // el piso es la mitad y no una media que se pueda compensar entre
+        // tramos. Se mide la proporción y no la mediana porque una proporción
+        // dice además dónde falla.
+        id: 'adria-sola-mitad-breve',
+        kind: 'sentence-length-band',
+        gobierna: 'ritmo-de-oracion',
+        severity: 'warning',
+        min: 0,
+        max: 14,
+        minShare: 0.5,
+        minSentences: 8,
+        message: 'El texto no tiene la mitad de sus oraciones en catorce palabras o menos.',
+        fix: 'Partir periodos. Este registro avanza en unidades que caben en una respiración y se estira solo para enumerar o para encadenar una consecuencia.',
+        source: 'adria-sola-writing §4.1',
+        checklist: [
+          {
+            skill: 'adria-sola-writing',
+            item: '¿La mitad de las oraciones queda en catorce palabras o menos, con la mediana cerca de doce?',
+          },
+        ],
+      },
+      {
+        // §4.2: «Las medias por archivo van de 12,8 a 18,5 palabras». La banda
+        // hace lo que la mediana no puede: la media la arrastra la cola, así
+        // que una media dentro de la banda dice que las largas están y que no
+        // se comieron el texto.
+        id: 'adria-sola-media-oracion',
+        kind: 'sentence-length-mean',
+        gobierna: 'ritmo-de-oracion',
+        severity: 'warning',
+        min: 12,
+        max: 19,
+        minSentences: 10,
+        message: 'La media de oración se salió de la banda que este registro no abandona.',
+        fix: 'Si va corta, el texto se quedó en la instrucción suelta y falta explicar por qué el paso está ahí. Si va larga, dejó de mandar y volvió a exponer.',
+        source: 'adria-sola-writing §4.2',
+        checklist: [
+          {
+            skill: 'adria-sola-writing',
+            item: '¿La media de palabras por oración queda entre doce y diecinueve, que es la banda que ningún archivo del corpus abandona?',
+          },
+        ],
+      },
+      {
+        // El rasgo que define el tono y el mejor medido, porque no depende de
+        // la puntuación: una marca de segunda persona cada 32,7 palabras sobre
+        // las 63.402 completas.
+        //
+        // Lo que se comprueba no es que el texto hable del lector, sino que le
+        // mande hacer algo. Por eso el patrón son imperativos de acción y no
+        // los de consideración que pide `fonda-interpela`: un texto que invita
+        // a fijarse y a pensar cumple aquel tono y no cumple este.
+        //
+        // Van en usted porque la base lo exige en su §9.2, aunque el corpus
+        // tutee sin excepción. Se traslada el imperativo, no su morfología.
+        // Varias de estas formas coinciden con un subjuntivo subordinado, y eso
+        // solo produce falsos presentes: una regla `must-contain` que se
+        // equivoca de más deja de avisar, no avisa de más.
+        //
+        // El error contrario sí importa, y esta lista empezó cometiéndolo. Tenía
+        // dieciocho verbos, todos traducidos uno a uno de los que el corpus usa
+        // tuteando, y el primer texto que se escribió con este tono salió
+        // marcado: era un método entero de cuatro pasos, con «busque», «pida»,
+        // «consulte», «mire», «recorra», «lleve» y «pregunte», y la regla
+        // reconoció uno solo. En un `must-contain` la lista corta no calla, que
+        // sería barato: avisa en falso sobre un texto que hace justo lo que la
+        // regla pide. No se puede derivar por morfología, porque el imperativo
+        // de usted es el subjuntivo y cualquier sustantivo acabado en «e» lo
+        // parecería, así que la lista se enumera y crece cuando se descubre que
+        // le falta un verbo corriente de instrucción.
+        id: 'adria-sola-manda-hacer',
+        kind: 'must-contain',
+        severity: 'warning',
+        pattern: frases([
+          'empiece',
+          'empiecen',
+          'deje de',
+          'dejen de',
+          'anote',
+          'anoten',
+          'apunte',
+          'apunten',
+          'pregúntese',
+          'pregúntense',
+          'pregunte',
+          'pregunten',
+          'sustituya',
+          'sustituyan',
+          'reemplace',
+          'reemplacen',
+          'practique',
+          'practiquen',
+          'repita',
+          'repitan',
+          'elija',
+          'elijan',
+          'escriba',
+          'escriban',
+          'construya',
+          'construyan',
+          'defina',
+          'definan',
+          'pruebe',
+          'prueben',
+          'aplique',
+          'apliquen',
+          'mida',
+          'midan',
+          'grábese',
+          'grábense',
+          'busque',
+          'busquen',
+          'pida',
+          'pidan',
+          'consulte',
+          'consulten',
+          'revise',
+          'revisen',
+          'compare',
+          'comparen',
+          'mire',
+          'miren',
+          'lea',
+          'lean',
+          'recorra',
+          'recorran',
+          'lleve',
+          'lleven',
+          'localice',
+          'localicen',
+          'calcule',
+          'calculen',
+          'marque',
+          'marquen',
+          'guarde',
+          'guarden',
+          'cambie',
+          'cambien',
+          'ponga',
+          'pongan',
+          'saque',
+          'saquen',
+          'siga',
+          'sigan',
+          'decida',
+          'decidan',
+          'elimine',
+          'eliminen',
+          'dedique',
+          'dediquen',
+          'evite',
+          'eviten',
+          'recuerde',
+          'recuerden',
+          'tome',
+          'tomen',
+          'use',
+          'usen',
+          'haga',
+          'hagan',
+        ]),
+        minDistinct: 2,
+        minSentences: 6,
+        message: 'El texto no le manda hacer nada al lector, y este tono le entrega un método.',
+        fix: 'Terminar los pasos en imperativo de usted y con qué ejecutarlos: «anote», «sustituya», «practique». Pasarlo a «se recomienda» es perder el tono entero.',
+        source: 'adria-sola-writing §5.1',
+        checklist: [
+          {
+            skill: 'adria-sola-writing',
+            item: '¿El texto le manda hacer algo al lector, con imperativo de usted y de forma sostenida, en lugar de exponerle el asunto y nada más?',
+          },
+        ],
+      },
+      {
+        // El defecto propio de este registro, y el único de sus rasgos que la
+        // skill prohíbe en vez de pedir. La §9.2 explica por qué: un texto que
+        // ordena hacer algo tiende a prometer lo que pasará después, y la
+        // promesa es el punto donde un método deja de poder juzgarse.
+        //
+        // La fórmula del corpus aparece 18 veces y es la primera de la lista.
+        // Van las dos personas a propósito: la base ya prohíbe el tuteo, pero
+        // «tu vida» no lleva marca de tuteo y se colaría entera.
+        //
+        // Avisa en vez de bloquear porque la primera admite lectura literal.
+        // Un texto sobre una jerarquía, un videojuego o un sistema de grados
+        // tiene niveles de verdad, y al que sube se lo dice sin vender nada.
+        // Las demás no admiten esa lectura y podrían bloquear; separarlas en
+        // dos reglas por eso sería partir en dos lo que la prosa declara junto.
+        id: 'adria-sola-promesa-inflada',
+        kind: 'forbidden-pattern',
+        severity: 'warning',
+        pattern: frases([
+          'al nivel superior',
+          'a un nivel superior',
+          'cambiará su vida',
+          'cambiará tu vida',
+          'le cambiará la vida',
+          'te cambiará la vida',
+          'transformar su vida',
+          'transformar tu vida',
+          'la vida que sueña',
+          'la vida que sueñas',
+          'la vida de sus sueños',
+          'la vida de tus sueños',
+          'nunca volverá a ser igual',
+        ]),
+        message: 'Promesa de transformación: nombra el destino en vez de lo que el método produce.',
+        fix: 'Decir qué va a poder hacer el lector que hoy no puede, en cuánto tiempo y con qué trabajo. Siempre es más pequeño y siempre es comprobable.',
+        source: 'adria-sola-writing §9.2',
+        checklist: [
+          {
+            skill: 'adria-sola-writing',
+            item: '¿Queda fuera la promesa de transformación, la que nombra el destino al que el método lleva en lugar de lo que el método produce?',
+          },
+        ],
+      },
     ],
   },
 };

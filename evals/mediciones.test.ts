@@ -18,6 +18,7 @@ import { describe, test } from 'node:test';
 import { CORPUS } from '../src/corpus.ts';
 import { EXPRESIONES, MEDICIONES, POR_ARCHIVO } from '../src/mediciones.ts';
 import { REPO_ROOT, readSkill } from '../src/skills.ts';
+import { DECLARADO, MINUTOS } from './registro.ts';
 import { vive } from './retiradas.ts';
 
 const valor = (id: string) => MEDICIONES.find((m) => m.id === id)?.valor;
@@ -33,7 +34,7 @@ describe('las mediciones no se editaron a mano', () => {
     );
     assert.equal(
       createHash('sha256').update(bytes, 'utf8').digest('hex'),
-      '02c2a1132bb6aa1c53d342c13106f81d15e498f58a1ab7d80a9c9607c02a5fef',
+      'a33a8f2f84841d6c242cdabae75e8ffbc1d562e07543a5d20d777af0f9ed91f3',
     );
   });
 });
@@ -45,9 +46,9 @@ describe('las expresiones contadas están bien formadas', () => {
   // arreglarlo, porque arreglarlo exige volver a medir. La tabla es una prueba
   // de lo que hubo, no una restricción sobre lo que se escriba después.
 
-  test('1260 expresiones, 884 aparecen en su corpus', () => {
-    assert.equal(EXPRESIONES.length, 1260);
-    assert.equal(EXPRESIONES.filter((e) => e.veces > 0).length, 884);
+  test('1284 expresiones, 899 aparecen en su corpus', () => {
+    assert.equal(EXPRESIONES.length, 1284);
+    assert.equal(EXPRESIONES.filter((e) => e.veces > 0).length, 899);
   });
 
   test('cada expresión pertenece a un corpus medido', () => {
@@ -61,11 +62,11 @@ describe('las expresiones contadas están bien formadas', () => {
   });
 
   test('un cero es una medición, no un hueco', () => {
-    // Las 376 que dan cero no son fallos de conteo: son nombres de skill y
+    // Las 385 que dan cero no son fallos de conteo: son nombres de skill y
     // frases de invocación que la prosa entrecomilla y que nunca estuvieron en
     // el corpus. Que consten evita que alguien las cuente después como si
     // fueran giros del autor.
-    assert.equal(EXPRESIONES.filter((e) => e.veces === 0).length, 376);
+    assert.equal(EXPRESIONES.filter((e) => e.veces === 0).length, 385);
     assert.ok(
       EXPRESIONES.some((e) => e.expresion === 'spanish-writing' && e.veces === 0),
       'el nombre de la base tendría que dar cero en todos los corpus',
@@ -74,9 +75,9 @@ describe('las expresiones contadas están bien formadas', () => {
 });
 
 describe('cada agregado sale de su detalle', () => {
-  test('63 mediciones sobre 280 archivos', () => {
-    assert.equal(MEDICIONES.length, 63);
-    assert.equal(POR_ARCHIVO.length, 280);
+  test('68 mediciones sobre 300 archivos', () => {
+    assert.equal(MEDICIONES.length, 68);
+    assert.equal(POR_ARCHIVO.length, 300);
   });
 
   test('las palabras, los signos y las marcas suman lo que dice el agregado', () => {
@@ -128,36 +129,6 @@ describe('cada agregado sale de su detalle', () => {
 });
 
 describe('la prosa y la medición dicen lo mismo', () => {
-  // El total de palabras que una skill enuncia es la mayor cifra con separador
-  // de millar seguida de «palabras». catedra y sekkyoku no enuncian ninguna: la
-  // primera escribe sus cantidades con letra y la segunda solo declara cuántas
-  // transcripciones son.
-  //
-  // Los dos números están congelados a propósito, incluso donde no coinciden.
-  // Ocho corpus caen dentro del 0,5 % y dos dan exacto: eso confirma el método,
-  // porque el desvío que queda es del orden de lo que cambia al recortar las
-  // marcas de tiempo de otra manera. Congelar la diferencia impide que crezca
-  // sin que nadie lo note, que es distinto de fingir que no existe.
-  //
-  // han es el caso aparte. Enuncia 1.654 palabras de prosa real del libro y
-  // 2.217 de otra cuenta; el corpus de fichas mide 2.090. Sus cifras no salen
-  // de este corpus, y el dato lo deja dicho.
-  const DECLARADO: Record<string, { prosa: number | null; medido: number }> = {
-    'atenas-writing': { prosa: 49328, medido: 49379 },
-    'bettatech-writing': { prosa: 62652, medido: 62652 },
-    'catedra-writing': { prosa: null, medido: 45449 },
-    'dotcsv-writing': { prosa: 64830, medido: 64848 },
-    'fonda-writing': { prosa: 95038, medido: 95275 },
-    'fonseca-writing': { prosa: 114513, medido: 114453 },
-    'freddy-writing': { prosa: 99544, medido: 99371 },
-    'han-writing': { prosa: 2217, medido: 2090 },
-    'kenway-writing': { prosa: 61779, medido: 61892 },
-    'medicendai-writing': { prosa: 97907, medido: 98363 },
-    'schiavenato-writing': { prosa: 48629, medido: 48629 },
-    'sekkyoku-writing': { prosa: null, medido: 54264 },
-    'solitario-writing': { prosa: 34118, medido: 34150 },
-  };
-
   const enProsa = (skill: string): number | null => {
     const cifras = [...readSkill(skill).matchAll(/(\d{1,3}(?:[.,]\d{3})+)\s+palabras/gu)].map((m) =>
       Number((m[1] as string).replace(/[.,]/gu, '')),
@@ -208,11 +179,11 @@ describe('la prosa y la medición dicen lo mismo', () => {
     }
   });
 
-  test('dos corpus dan exacto y ocho caen dentro del 0,5 %', () => {
+  test('tres corpus dan exacto y ocho caen dentro del 0,5 %', () => {
     const con = Object.entries(DECLARADO).filter(([, d]) => d.prosa !== null);
     const desvio = ([, d]: [string, { prosa: number | null; medido: number }]) =>
       Math.abs((d.medido - (d.prosa as number)) / (d.prosa as number));
-    assert.equal(con.filter((e) => desvio(e) === 0).length, 2);
+    assert.equal(con.filter((e) => desvio(e) === 0).length, 3);
     assert.equal(con.filter((e) => desvio(e) > 0 && desvio(e) <= 0.005).length, 8);
     // han es el único que se sale, y por eso está nombrado.
     assert.deepEqual(
@@ -225,12 +196,6 @@ describe('la prosa y la medición dicen lo mismo', () => {
     // Acá no hay desvío: los cuatro que declaran el total dan el mismo número
     // que la suma de las cabeceras. kenway declara 337 y mide 338, un minuto de
     // redondeo.
-    const MINUTOS: Record<string, number> = {
-      'atenas-writing': 295,
-      'schiavenato-writing': 294,
-      'sekkyoku-writing': 304,
-      'solitario-writing': 254,
-    };
     for (const [skill, minutos] of Object.entries(MINUTOS).filter(([s]) => vive(s))) {
       const segundos = valor(`${skill}/segundos`) as number;
       assert.equal(Math.round(segundos / 60), minutos, skill);

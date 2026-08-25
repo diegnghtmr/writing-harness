@@ -140,7 +140,7 @@ export function citasRotas(reglas: readonly { id: string; source: string }[]): s
 }
 
 describe('cada regla cita una sección que existe', () => {
-  test('las setenta y cinco resuelven, y ninguna se salta', () => {
+  test('las setenta y nueve resuelven, y ninguna se salta', () => {
     assert.deepEqual(citasRotas(allRules()), [], 'estas reglas mandan a leer algo que no está');
   });
 
@@ -176,8 +176,8 @@ describe('cada regla cita una sección que existe', () => {
 
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. No queda nada mecanizable sin regla. Las 146 de criterio
-  // exigen juicio sobre el contenido: casi todas vienen de los diez tonos que
+  // ser deliberado. No queda nada mecanizable sin regla. Las 158 de criterio
+  // exigen juicio sobre el contenido: casi todas vienen de los once tonos que
   // reconstruyen a un autor, y describir cómo argumenta una persona no lo mide
   // ninguna clase de regla que exista hoy.
   //
@@ -198,15 +198,15 @@ describe('el techo de cobertura está declarado', () => {
   // que ir a buscarlos leyendo la prosa.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('235 declaraciones, repartidas como está registrado', () => {
+  test('254 declaraciones, repartidas como está registrado', () => {
     // Eran 282 con las catorce skills de tono. Retirar kenway, medicendai y
     // sekkyoku se llevó 48 declaraciones, y este gate es el que lo dijo. La 235
     // la agregó `solitario-writing` §19: su §7.4 medía la longitud de oración y
     // la checklist no la pedía, así que la regla no tenía qué reclamar.
-    assert.equal(items.length, 235, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 89, 'cambió la cantidad de declaraciones cubiertas por reglas');
+    assert.equal(items.length, 254, 'cambió la cantidad de declaraciones en la prosa');
+    assert.equal(claimed.size, 96, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
-    assert.equal(cuenta('criterio'), 146);
+    assert.equal(cuenta('criterio'), 158);
     assert.equal(cuenta('delegado'), 0);
   });
 
@@ -218,8 +218,8 @@ describe('el techo de cobertura está declarado', () => {
   });
 
   test('todas las skills aportan al recuento', () => {
-    assert.equal(skillNames().length, 13);
-    // La base y la pasada no son tonos. Los otros once sí, y el verificador
+    assert.equal(skillNames().length, 14);
+    // La base y la pasada no son tonos. Los otros doce sí, y el verificador
     // tiene que aceptarlos todos o la tabla de enrutamiento miente.
     assert.deepEqual(
       skillNames().filter((n) => n !== 'spanish-writing' && n !== 'humanizar-espanol').sort(),

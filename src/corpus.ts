@@ -40,6 +40,33 @@ export type Corpus = {
 
 export const CORPUS: readonly Corpus[] = [
   {
+    skill: 'adria-sola-writing',
+    medido: '2026-08-25',
+    archivos: [
+      { ruta: "01-por-que-siempre-estas-cansado-triplica-tu-energia-y-vitalidad-segun-la-ciencia-vgWchSB-hlU.md", bytes: 17741, palabras: 2547, sha256: '48dcf49b89320d3d75de6750f460b46b30320e68afe0aade2e99e02d5b77ae4c' },
+      { ruta: "02-como-estructurar-tu-dia-productivo-segun-la-ciencia-rutina-perfecta-en-5-pasos-xCOZrtNFExg.md", bytes: 19287, palabras: 2853, sha256: 'e7d87d98ec4b8c0def8e8d0cb780de2dc77921bd7658966f794bed48d9be3497' },
+      { ruta: "03-como-ser-tan-productivo-que-parece-ilegal-conviertete-en-esa-persona-que-aprovecha-su-vida-LXggCtc_V20.md", bytes: 32190, palabras: 4751, sha256: '26f24a44170aa36ba1a61de3cda3d354ca7d9c3f8d4708968fc31d7f5293a697' },
+      { ruta: "04-como-ser-elegante-al-hablar-ciccJiAEJdM.md", bytes: 24759, palabras: 3549, sha256: '2d26820c33b9f0d32b12e659b1da22f1509d50b5101ec37a1343a4500a2aaf4c' },
+      { ruta: "05-dios-te-mostrara-este-video-solo-cuando-estes-listo-para-verlo-x_AqCboFKdc.md", bytes: 19726, palabras: 2903, sha256: 'd93582af15d7df245bd29bca6f4fde4be98ad0568b2f12998c2bd74684f64c09' },
+      { ruta: "06-como-tener-tanta-confianza-que-parece-ilegal-mira-este-video-para-volverte-peligrosamente-lVm-e9FIv_A.md", bytes: 35589, palabras: 5248, sha256: '718fdad8233ea25b71c782f76fa9aeaf02c97ec1f76a6cbbbd58979b7b9b8e12' },
+      { ruta: "07-como-empezar-tu-camino-en-el-desarrollo-personal-guia-definitiva-kC2NYpaAY8c.md", bytes: 16288, palabras: 2376, sha256: '7900ad51a23b545a230640a0743a9166c0f205017c0df51da83b8e3e2ff0560d' },
+      { ruta: "08-como-hacerte-respetar-la-guia-definitiva-CZLCz65uikE.md", bytes: 25661, palabras: 3787, sha256: '4a78f0421686f16fcc444525c3598cf1784ad3c5c2ec12a178facf87a5d902f0' },
+      { ruta: "09-como-aprender-el-ingles-rapido-y-facil-de-0-a-nativo-con-mi-metodo-4Ht9agqAEoo.md", bytes: 19799, palabras: 2894, sha256: '238cb654351c70bffb84931f40217d48d74422c1cec80e6b50fa1ff8ab9f16ea' },
+      { ruta: "10-como-aprendi-el-frances-en-4-meses-de-0-a-nativo-con-mi-metodo-QAeimnSecL8.md", bytes: 19338, palabras: 2782, sha256: '039678177c71c1345c34796474536182436ec589a27be236084e921d843f19b4' },
+      { ruta: "11-como-aplicar-el-active-recall-la-mejor-tecnica-de-estudio-segun-la-ciencia-QD-zwXc3dtQ.md", bytes: 20083, palabras: 2947, sha256: '8ae2456593dcf29dce6bb01dafcef6ae69ce002eae25a20c88512bb7f0a85491' },
+      { ruta: "12-como-hackear-tu-mente-para-volverte-adicto-a-estudiar-Gbt2hlXKkyE.md", bytes: 24452, palabras: 3515, sha256: '2e1567a2b54cbf65de13cc6857a8d71329c973954fa19820aa2f1c90bf076e21' },
+      { ruta: "13-he-leido-188-libros-de-desarrollo-personal-estos-10-cambiaron-mi-vida-clasificados-por-niv-rlN-DbIFWVo.md", bytes: 34155, palabras: 5097, sha256: 'a7c3f39a954a550e2ddff55ef060aa00c6fb1524d688fa189c7b7ab4ba115b44' },
+      { ruta: "14-como-hablar-mejor-transforma-tu-comunicacion-en-10-pasos-C3pv7S_MUd0.md", bytes: 24336, palabras: 3553, sha256: '8ab40f2f7c701776fb08d958faf9ccc4e866411905c7b364ad2e10203e68792f' },
+      { ruta: "15-he-creado-un-sistema-para-hablar-de-forma-articulada-U0c-MRn0ALI.md", bytes: 25090, palabras: 3642, sha256: '94325bc7c0baa75e5adae1dd8564e341f07d2e31d12dc50d504f16ac4a56c92b' },
+      { ruta: "16-como-gestionar-multiples-intereses-5YzWy6C0ZX8.md", bytes: 27797, palabras: 4051, sha256: 'fdda9ae9beca11e41040541e552aa194ebef8b13fddc3a7d38b5aee830613814' },
+      { ruta: "17-los-mejores-habitos-de-desarrollo-personal-clasificacion-definitiva-8g63ZsZDKzQ.md", bytes: 20622, palabras: 3025, sha256: 'f9d10383b6af024503e7f4e39aebd6a92a913e849c8059fcd410927a99bf650b' },
+      { ruta: "18-como-cambiar-tu-vida-en-6-meses-desaparece-y-consigue-tu-vida-ideal-IrMaRSeSPgA.md", bytes: 29139, palabras: 4227, sha256: 'c41b8cf03dd22db04480521f85abeea299e75d2f20cbd51eb0f41a32bc7327a1' },
+      { ruta: "19-la-biblia-el-mejor-libro-de-desarrollo-personal-8-versiculos-que-cambiaran-tu-vida-3vFYvM3YkfA.md", bytes: 25400, palabras: 3737, sha256: 'b2c1aaff44383b09bd972afff51c651dd2c7dc97346fcdffebef3f2a428552b9' },
+      { ruta: "20-tengo-25-anos-si-tienes-entre-15-y-30-anos-mira-este-video-por-favor-ImmU67wdLZs.md", bytes: 46923, palabras: 6893, sha256: '98b0205e06c1a779303f1f564f04b629c86a60adca46e39ce5d8d979dbfb4493' },
+      { ruta: "manifest.json", bytes: 14738, sha256: '7b9a5d9145e873e3116aaf08c9a82596552d97274302f932f544902705f949ac' },
+    ],
+  },
+  {
     skill: 'atenas-writing',
     medido: '2026-08-13',
     archivos: [

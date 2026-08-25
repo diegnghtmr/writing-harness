@@ -1,7 +1,10 @@
 # writing-harness
 
-Las instrucciones de este repositorio están en [AGENTS.md](AGENTS.md).
+Hay dos modos y no se mezclan.
 
-Este archivo existe solo porque Claude Code lo busca por nombre. Es un puntero,
-no una copia: una copia se desincroniza, que es exactamente el defecto que este
-repositorio existe para evitar.
+- **Usar** el arnés para escribir un texto en español: [AGENTS.md](AGENTS.md),
+  parte I. No modifica ningún archivo del arnés.
+- **Mejorar** el arnés: [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Todo lo demás está en AGENTS.md. Este archivo existe solo porque Claude Code lo
+busca por nombre, y es un puntero: una copia se desincroniza.

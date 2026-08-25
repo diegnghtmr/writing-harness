@@ -15,9 +15,9 @@
 //
 // El motivo que se dio entonces fue contingente y ya caducó: ocho de los catorce
 // tonos no tenían ninguna regla mecanizada, así que ganarían siempre por no
-// poder incumplirse. Hoy los once tienen reglas y ese argumento no vale. Lo dijo
-// su propio gate, que lo tenía escrito como condición de caducidad y falló el
-// día en que dejó de ser cierto.
+// poder incumplirse. Hoy los tiene cada uno de los doce y ese argumento no vale.
+// Lo dijo su propio gate, que lo tenía escrito como condición de caducidad y
+// falló el día en que dejó de ser cierto.
 //
 // El motivo que queda es estructural y no caduca: **el enrutamiento decide antes
 // de que exista el texto**. `sugerirTono` responde qué forma le corresponde a una
@@ -53,6 +53,7 @@ export const RASGOS = [
   'mecanismo',
   'fundamentos',
   'mueveAActuar',
+  'metodoPersonal',
   'actualidad',
   'juridico',
 ] as const;
@@ -80,6 +81,8 @@ export type Rasgos = {
   fundamentos?: boolean;
   /** El texto busca que alguien haga algo. */
   mueveAActuar?: boolean;
+  /** El lector recibe un procedimiento para ejecutarlo sobre sí mismo. */
+  metodoPersonal?: boolean;
   /** Parte de un hecho reciente: actualidad, geopolítica, economía. */
   actualidad?: boolean;
   /** Derecho o política dirigidos a una comunidad. */
@@ -160,6 +163,17 @@ export const RUTAS: readonly Ruta[] = [
     skill: 'bettatech-writing',
     cuando: 'Fundamentos de informática y computación antes que la receta',
     eligeSi: (r) => Boolean(r.fundamentos),
+  },
+  {
+    // Va antes que `freddy` porque es más estrecho, y la diferencia entre los
+    // dos es de forma y no de tema: `freddy` explica un mecanismo para que el
+    // lector se decida, y este le entrega un procedimiento para que lo ejecute.
+    // Sin este orden, un método personal que además explica algo caería en
+    // `freddy` y perdería la arquitectura de pasos, que es lo que lo define.
+    tono: 'adria-sola',
+    skill: 'adria-sola-writing',
+    cuando: 'Texto que le entrega al lector un método para que lo ejecute',
+    eligeSi: (r) => Boolean(r.metodoPersonal),
   },
   {
     tono: 'freddy',

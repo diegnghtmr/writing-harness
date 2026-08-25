@@ -26,6 +26,8 @@ import { EXPRESIONES, MEDICIONES, POR_ARCHIVO } from '../src/mediciones.ts';
 import { TONE_IDS, allRules } from '../src/rules.ts';
 import { REPO_ROOT, allDeclarations, itemKey, skillNames } from '../src/skills.ts';
 import { SIN_REGLA } from './cobertura.ts';
+import { DECLARADO, MINUTOS, PROPORCIONES } from './registro.ts';
+import { vive } from './retiradas.ts';
 
 /**
  * Lee el documento con los espacios en blanco colapsados.
@@ -81,6 +83,10 @@ describe('el README dice lo que el código mide', () => {
       reglas.filter((r) => r.kind === 'forbidden-pattern').length,
       'README, reglas de patrón',
     );
+    // La tabla de capas envejeció sin que nadie lo notara al agregar el
+    // duodécimo tono: seguía diciendo once. Era la afirmación más visible del
+    // documento y la única de las estructurales que no vigilaba nadie.
+    afirma(README, /\*\*Tono\*\* \|[^|]+\| (\d+) \|/gu, TONE_IDS.length, 'README, tabla de capas');
   });
 
   test('las cifras del corpus', () => {
@@ -94,16 +100,40 @@ describe('el README dice lo que el código mide', () => {
   test('las cuentas escritas con letra', () => {
     // Van con letra porque la base lo pide para las cantidades bajas. Que vayan
     // con letra no las exime de ser ciertas.
-    const LETRA: Record<number, string> = { 10: 'diez', 11: 'once', 13: 'trece', 14: 'catorce', 16: 'dieciséis' };
+    const LETRA: Record<number, string> = {
+      3: 'tres',
+      4: 'cuatro',
+      5: 'cinco',
+      7: 'siete',
+      8: 'ocho',
+      10: 'diez',
+      11: 'once',
+      12: 'doce',
+      13: 'trece',
+      14: 'catorce',
+    };
     const tipos = new Set(reglas.map((r) => r.kind)).size;
+    const conProsa = Object.values(DECLARADO).filter((d) => d.prosa !== null);
+    const exactos = conProsa.filter((d) => d.medido === d.prosa).length;
+    const minutosVivos = Object.keys(MINUTOS).filter((s) => vive(s)).length;
     const pares: [number, RegExp, string][] = [
       [skillNames().length, /(\p{L}+) skills en tres capas/u, 'skills'],
       // Las dos salen de la misma oración de §Enrutamiento, que las enuncia
-      // juntas: «Diez de los once reconstruyen la forma de exponer de un
+      // juntas: «Once de los doce reconstruyen la forma de exponer de un
       // autor concreto».
       [TONE_IDS.length, /de los (\p{L}+) reconstruyen/u, 'tonos'],
       [TONE_IDS.length - 1, /(\p{L}+) de los \p{L}+ reconstruyen/u, 'tonos de autor'],
       [tipos, /se reparten en (\p{L}+) tipos/u, 'tipos de regla'],
+      // Las cuatro de abajo se agregaron después de encontrarlas envejecidas.
+      // El README decía dos corpus exactos cuando eran tres, tres corpus con
+      // minutos de cuatro cuando eran cuatro de cinco, y las dos proporciones
+      // de expresiones seguían en la versión anterior a la retirada de tres
+      // skills. Ninguna la vigilaba nadie, y las cuatro se miden en otro lado.
+      [exactos, /cuerpo, (\p{L}+) corpus dan exacto/u, 'corpus exactos'],
+      [minutosVivos, /coinciden en los (\p{L}+) que quedan/u, 'corpus con minutos'],
+      [Object.keys(MINUTOS).length, /que quedan de los (\p{L}+) que los declaraban/u, 'minutos declarados'],
+      [PROPORCIONES.unaPalabraDeCadaDiez, /con la prosa (\p{L}+) de cada diez/u, 'expresiones de una palabra'],
+      [PROPORCIONES.variasUnaDeCada, /las de varias, una de cada (\p{L}+)/u, 'expresiones de varias'],
     ];
     for (const [n, patron, que] of pares) {
       const m = patron.exec(README);
@@ -112,24 +142,73 @@ describe('el README dice lo que el código mide', () => {
     }
   });
 
+  test('AGENTS.md dice de las expresiones lo mismo que el README', () => {
+    // Los dos documentos repetían la misma afirmación y los dos habían
+    // envejecido igual. Que digan lo mismo no basta: los dos tienen que decir
+    // lo que se midió, y por eso el par se comprueba contra la medición y no
+    // uno contra otro.
+    const LETRA: Record<number, string> = { 7: 'siete', 8: 'ocho' };
+    const una = /coinciden con la prosa (\p{L}+) de cada diez/u.exec(AGENTS);
+    const varias = /las de varias, una de cada (\p{L}+)/u.exec(AGENTS);
+    assert.ok(una && varias, 'AGENTS.md dejó de enunciar las proporciones de expresiones');
+    assert.equal((una[1] as string).toLowerCase(), LETRA[PROPORCIONES.unaPalabraDeCadaDiez]);
+    assert.equal((varias[1] as string).toLowerCase(), LETRA[PROPORCIONES.variasUnaDeCada]);
+  });
+
   test('no quedó ninguna afirmación de las viejas', () => {
     // Cada una fue verdad y dejó de serlo. Nombrarlas es más barato que volver a
     // descubrirlas.
+    //
+    // «doce tonos» estuvo en esta lista y salió, y el motivo importa más que la
+    // fila. Entró cuando eran catorce y alguien escribió doce, así que prohibir
+    // esa frase era correcto. Con el duodécimo tono la frase pasó a ser cierta y
+    // la guarda quedó prohibiendo una verdad, que es peor que no tener guarda:
+    // una cifra prohibida no se puede escribir aunque se mida.
+    //
+    // La lección es que una cifra concreta no sirve como afirmación retirada.
+    // Las que quedan describen una FORMA de decir las cosas que se abandonó, y
+    // ninguna vuelve a ser cierta por crecer un número.
     for (const vieja of [
       /organizadas en dos capas/u,
       /El nombre del repositorio es provisional/u,
       /\b62 de 95\b/u,
-      /\bdoce tonos\b/u,
     ]) {
       assert.doesNotMatch(README, vieja, `el README conserva una afirmación retirada`);
     }
+  });
+
+  test('las afirmaciones retiradas no pueden volver a ser ciertas al crecer una cifra', () => {
+    // El gate del gate. Sin esto, la fila que se acaba de quitar vuelve a entrar
+    // el día que alguien quiera prohibir «trece tonos» y el problema se repite
+    // con el tono siguiente.
+    const RETIRADAS = [
+      /organizadas en dos capas/u,
+      /El nombre del repositorio es provisional/u,
+      /\b62 de 95\b/u,
+    ];
+    const cifraDeInventario = /\b(?:diez|once|doce|trece|catorce|quince)\s+(?:tonos|skills|reglas)\b/u;
+    const sospechosas = RETIRADAS.filter((r) => cifraDeInventario.test(r.source));
+    assert.deepEqual(
+      sospechosas.map((r) => r.source),
+      [],
+      'una afirmación retirada nombra una cantidad que puede volver a ser cierta al agregar un tono',
+    );
   });
 });
 
 describe('AGENTS.md dice lo que el código mide', () => {
   test('las cifras que enuncia', () => {
-    afirma(AGENTS, /De las (\d+) declaraciones/gu, allDeclarations().length, 'AGENTS, declaraciones');
-    afirma(AGENTS, /\*\*(\d+) exigen juicio/gu, criterio, 'AGENTS, criterio');
+    // Recogen TODAS las apariciones, no la primera. Al reescribir este archivo
+    // en dos modos aparecieron segundas menciones de las mismas cifras en la
+    // parte de usar, y con un patrón que se conformara con una, la otra podía
+    // envejecer sola. Ahora dos menciones que se contradigan también fallan.
+    afirma(AGENTS, /(\d+) declaraciones/gu, allDeclarations().length, 'AGENTS, declaraciones');
+    // Las dos ramas capturan en el mismo grupo a propósito: `afirma` lee el
+    // primero, y una alternancia con dos grupos le entrega `undefined` en la
+    // rama que no coincidió.
+    afirma(AGENTS, /(\d+)(?: exigen juicio| solo las pone)/gu, criterio, 'AGENTS, criterio');
+    afirma(AGENTS, /cubre (\d+) de las/gu, cubiertas, 'AGENTS, cubiertas');
+    afirma(AGENTS, /Las (\d+) reglas como datos/gu, reglas.length, 'AGENTS, reglas');
     afirma(AGENTS, /(\d+) corpus, \d+ archivos/gu, CORPUS.length, 'AGENTS, corpus');
     afirma(AGENTS, /\d+ corpus, (\d+) archivos/gu, archivosDeCorpus, 'AGENTS, archivos');
     afirma(AGENTS, /(\d+) mediciones sobre \d+ archivos/gu, MEDICIONES.length, 'AGENTS, mediciones');
