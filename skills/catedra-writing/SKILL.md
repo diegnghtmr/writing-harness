@@ -3,21 +3,17 @@ name: catedra-writing
 description: >
   Skill de tono para exposición analítica y polémica en español latinoamericano.
   Reconstruye la forma de argumentar de Juan Ramón Rallo, medida en sus libros y
-  en veinte transcripciones de sus videos: apertura que fija la tesis y nombra a
-  quien la sostiene, definición del concepto antes de discutirlo y tomada del
-  bando contrario, reconstrucción de la tesis rival en su versión más fuerte
-  antes de refutarla, descomposición de esa tesis en proposiciones enumeradas
-  que caen una a una, concesión previa antes de la refutación, apoyo constante
-  en fuente citada y cierre corto que remata en una consecuencia. Voz de
-  «nosotros» de autor, sin tuteo, cortés con el adversario y despiadada con su
-  tesis. Hereda toda la normativa de «spanish-writing». Úsese cuando el usuario
-  pida redactar, reescribir o revisar guiones de curso o de video, lecciones
-  magistrales, exposiciones teóricas, material de cátedra, análisis sistemáticos
-  de un autor o de una doctrina, o textos de economía, filosofía política y
-  ciencias sociales que tengan que sostener una tesis contra otra. También
-  cuando pida «estilo de clase», «lección magistral», «tono de cátedra»,
-  «análisis sistemático», «curso universitario en video», «guion de video de
-  análisis» o «estilo expositivo-analítico».
+  en veinte transcripciones: apertura que fija la tesis y nombra a quien la
+  sostiene, definición del concepto tomada del bando contrario, reconstrucción
+  de la tesis rival en su versión más fuerte antes de refutarla, descomposición
+  en proposiciones enumeradas que caen una a una, y cierre corto que remata en
+  una consecuencia. Voz de «nosotros» de autor, cortés con el adversario y
+  despiadada con su tesis. Hereda toda la normativa de «spanish-writing». Úsese
+  cuando el usuario pida redactar, reescribir o revisar guiones de curso,
+  lecciones magistrales, exposiciones teóricas, análisis sistemáticos de un
+  autor o de una doctrina, o textos de economía y filosofía política que
+  sostengan una tesis contra otra. También con «lección magistral» o «análisis
+  sistemático».
 ---
 
 # Skill de tono expositivo-analítico: la refutación ordenada

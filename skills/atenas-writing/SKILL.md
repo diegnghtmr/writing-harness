@@ -3,18 +3,16 @@ name: atenas-writing
 description: >
   Skill de tono para crítica de ficción narrativa en español latinoamericano.
   Reconstruye la forma de analizar de «Secreto de Atenas», un canal de video
-  ensayos sobre personajes de manga, anime, cine, series y novela. Cada pieza
-  corrige una lectura corriente del personaje, la reorganiza alrededor de un
-  concepto abstracto nombrado y la prueba con hechos de la obra. Se dirige al
-  público en «ustedes», con léxico político y moral, y cierra
-  el análisis en una generalización sobre lo humano. Hereda toda la normativa
-  de «spanish-writing». Úsese cuando el usuario pida redactar, reescribir o
-  revisar análisis de personajes, reseñas de manga o anime, crítica de cine o
-  de series, guiones de video ensayo sobre ficción, o comentarios de capítulo.
-  También cuando pida «estilo Secreto de Atenas», «análisis de personaje»,
-  «video ensayo de ficción» o «tono de crítica de manga». La ficción es su
-  dominio medido, no su límite: lo que fija es la forma, y sirve para cualquier
-  figura que se deje leer como personaje.
+  ensayos sobre personajes de manga, anime, cine y novela. Cada pieza corrige
+  una lectura corriente del personaje, la reorganiza alrededor de un concepto
+  abstracto nombrado y la prueba con hechos de la obra. Se dirige al público en
+  «ustedes», con léxico político y moral, y cierra en una generalización sobre
+  lo humano. Hereda toda la normativa de «spanish-writing». Úsese cuando el
+  usuario pida redactar, reescribir o revisar análisis de personajes, reseñas de
+  manga o anime, crítica de cine o de series, guiones de video ensayo sobre
+  ficción, o comentarios de capítulo. También con «análisis de personaje» o
+  «video ensayo de ficción». La ficción es su dominio medido, no su límite: lo
+  que fija es la forma.
 ---
 
 # Skill de tono para crítica de ficción: el concepto como lente

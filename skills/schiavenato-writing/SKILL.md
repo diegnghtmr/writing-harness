@@ -1,21 +1,18 @@
 ---
 name: schiavenato-writing
 description: >
-  Skill de tono para divulgación cívica y jurídica dirigida a una comunidad,
-  en español colombiano. Reconstruye la forma de exponer de Ángelo Schiavenato
+  Skill de tono para divulgación cívica y jurídica dirigida a una comunidad, en
+  español colombiano. Reconstruye la forma de exponer de Ángelo Schiavenato
   medida sobre transcripciones: unidad breve y encadenada por marcadores,
   alternancia entre el «ustedes» de la comunidad y el «usted» del espectador
   individual, imperativo de mirar seguido de cifra, definición por negación, y
   la relación de mandato invertida según la cual quien escucha es el jefe de
-  quien habla. La norma jurídica con artículo y número existe, pero es un
-  registro puntual y no un hábito de cada texto. Hereda toda la normativa de
-  «spanish-writing». Úsese cuando el usuario pida redactar, reescribir o
-  revisar guiones de vídeo de control político, denuncias documentadas sobre
-  gestión pública, rendiciones de cuentas, explicaciones de derecho para
-  público no jurista, o contenido de productividad y método de estudio
-  dirigido a una comunidad propia. También aplica cuando pida «en estilo
-  Schiavenato», «como abogado que le explica a la gente», «tono de denuncia
-  con documentos» o «rendición de cuentas para redes».
+  quien habla. Hereda toda la normativa de «spanish-writing». Úsese cuando el
+  usuario pida redactar, reescribir o revisar guiones de control político,
+  denuncias documentadas sobre gestión pública, rendiciones de cuentas,
+  explicaciones de derecho para público no jurista, o método de estudio dirigido
+  a una comunidad propia. También con «en estilo Schiavenato» o «como abogado
+  que le explica a la gente».
 ---
 
 # Skill de tono cívico y jurídico: la prueba a la vista

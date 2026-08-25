@@ -86,9 +86,20 @@ estructura; los recursos; el formato de entrega; **la lista de verificación
 numerada** con ítems `N. ¿…?`; y las fuentes, con el corpus, las mediciones y lo
 que quedó sin verificar.
 
-Tres cosas que un gate va a rechazar: la raya o el guion largo en cualquier
-parte, nombrar al verificador o a Node, y no declarar la precondición de forma
-en la sección que la base dice.
+Cuatro cosas que un gate va a rechazar: la raya o el guion largo en cualquier
+parte, nombrar al verificador o a Node, no declarar la precondición de forma en
+la sección que la base dice, y una `description` de más de 1024 caracteres.
+
+**Ese último límite es del instalador de skills, no de este repositorio, y por
+eso conviene saber de dónde sale.** Seis de las catorce skills fueron rechazadas
+al subirlas por pasarlo, y ninguna lo sabía: la descripción es el único campo
+que crece solo, cada vez que un tono aprende a distinguirse mejor de sus
+hermanos. `evals/frontmatter.test.ts` lo vigila, y avisa además cuando una queda
+a menos de sesenta caracteres del techo, para que agregar una frase sea una
+decisión y no una sorpresa al subir. La cuenta es sobre el valor plegado del
+escalar `>`, con las líneas unidas por un espacio, y en caracteres y no en
+bytes: en español, los acentos y las comillas angulares ocupan dos bytes cada
+uno.
 
 ### 2. Las reglas
 

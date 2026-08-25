@@ -4,18 +4,16 @@ description: >
   Skill de tono para divulgación filosófica, humanística y cultural en español
   latinoamericano. Reconstruye la forma de exponer de La Fonda Filosófica, el
   proyecto de Darin McNabb: entrada por una pregunta o un objeto que ya está
-  sobre la mesa, con incidente en primera persona cuando lo hay, bisagra
-  explícita hacia el autor que se va a leer, glosa constante de los términos,
-  cita corta con comentario pegado, ejemplo material sostenido hasta agotarlo,
-  digresión marcada y cierre que casi siempre anuncia la entrega siguiente.
-  Interpelación al lector de usted, con paso a «ustedes» cuando se dirige al público entero.
-  Alternancia de oraciones medianas y mínimas, no periodo largo. Hereda toda la
-  normativa de «spanish-writing». Úsese cuando el usuario pida redactar,
-  reescribir o revisar guiones de video, ensayos de divulgación, material de
-  clase, textos de blog o de pódcast, o exposiciones filosóficas y humanísticas
-  para lector no especialista. También cuando pida «estilo Fonda», «tono de
-  divulgación», «como para un video», «como si se lo explicara a alguien» o
-  «tono didáctico conversacional».
+  sobre la mesa, bisagra explícita hacia el autor que se va a leer, glosa
+  constante de los términos, cita corta con comentario pegado, ejemplo material
+  sostenido hasta agotarlo y digresión marcada. Interpelación al lector de
+  usted, con paso a «ustedes» al dirigirse al público. Alternancia de oraciones
+  medianas y mínimas, no periodo largo. Hereda toda la normativa de
+  «spanish-writing». Úsese cuando el usuario pida redactar, reescribir o revisar
+  guiones de video, ensayos de divulgación, material de clase, textos de blog o
+  de pódcast, o exposiciones filosóficas y humanísticas para lector no
+  especialista. También con «estilo Fonda», «tono de divulgación» o «como si se
+  lo explicara a alguien».
 ---
 
 # Skill de tono divulgativo: la exposición de sobremesa

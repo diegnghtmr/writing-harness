@@ -2,20 +2,17 @@
 name: dotcsv-writing
 description: >
   Skill de tono para divulgación técnica y científica dirigida a público
-  general, en especial de informática, tecnología e inteligencia artificial.
-  Aplica la arquitectura explicativa medida en el habla de DotCSV (Carlos
-  Santana Vega): se abre mostrando el resultado o anclando en un hecho reciente,
-  se reduce el problema a su versión mínima antes de explicarlo, se nombran los
-  sistemas y las cifras en lugar de calificarlos, el entusiasmo recae sobre el
-  mecanismo y la reserva sobre lo que todavía no se ha probado, y la explicación
-  avanza en primera persona del plural mientras el lector queda situado en
-  segunda persona. Hereda toda la normativa de «spanish-writing». Úsese cuando
-  el usuario pida redactar, reescribir o revisar guiones de video de divulgación
-  técnica, hilos, boletines, artículos divulgativos sobre tecnología,
-  explicaciones de un modelo, de una arquitectura o de un artículo científico
-  para lectores no especialistas, o cuando pida «estilo DotCSV», «tono de
-  divulgación técnica», «explicalo como un divulgador de IA» o «que lo entienda
-  cualquiera sin bajar el nivel».
+  general, en especial de tecnología e inteligencia artificial. Aplica la
+  arquitectura explicativa medida en el habla de DotCSV (Carlos Santana Vega):
+  se abre mostrando el resultado o anclando en un hecho reciente, se reduce el
+  problema a su versión mínima antes de explicarlo, se nombran los sistemas y
+  las cifras en lugar de calificarlos, y el entusiasmo recae sobre el mecanismo
+  mientras la reserva recae sobre lo que todavía no se ha probado. Hereda toda
+  la normativa de «spanish-writing». Úsese cuando el usuario pida redactar,
+  reescribir o revisar guiones de video de divulgación técnica, hilos,
+  boletines, artículos sobre tecnología, o explicaciones de un modelo, de una
+  arquitectura o de un artículo científico para lectores no especialistas.
+  También con «estilo DotCSV» o «que lo entienda cualquiera sin bajar el nivel».
 ---
 
 # Skill de tono divulgativo-técnico: la arquitectura explicativa de DotCSV

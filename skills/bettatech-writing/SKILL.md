@@ -1,23 +1,19 @@
 ---
 name: bettatech-writing
 description: >
-  Skill de tono para divulgación técnica de informática, programación y
-  computación en español. Reconstruye, sobre veinte transcripciones medidas del
-  canal BettaTech, una arquitectura explicativa que va del fenómeno al nombre y
-  de la herramienta a lo que hay por debajo: apertura que corrige una creencia
-  extendida, caso hipotético dentro del propio dominio técnico como recurso
-  principal, nombre del concepto entregado después de describirlo, y cierre que
-  remite al paso siguiente. Interpelación de usted sostenida, ejemplo abundante y analogía
-  escasa. Hereda toda la normativa de «spanish-writing». Úsese cuando el
-  usuario pida redactar, reescribir o revisar guiones de vídeo técnico,
-  artículos o hilos de divulgación sobre programación, material de curso de
-  fundamentos, o explicaciones de algoritmos, estructuras de datos, bases de
-  datos, redes, arquitectura de software e ingeniería de sistemas dirigidas a
-  quien ya programa pero no domina la teoría. También aplica cuando el usuario
-  pida «en estilo BettaTech», «tono de divulgación técnica», «explícalo como un
-  canal de informática» o «explica los fundamentos, no la receta». La
-  computación es su dominio medido, no su límite: la forma sirve para cualquier
-  mecanismo que el lector use sin conocerlo por dentro.
+  Skill de tono para divulgación técnica de informática y computación.
+  Reconstruye, sobre veinte transcripciones del canal BettaTech, una
+  arquitectura que va del fenómeno al nombre y de la herramienta a lo que hay
+  debajo: apertura que corrige una creencia extendida, caso hipotético del
+  propio dominio técnico como recurso principal, nombre del concepto entregado
+  después de describirlo, y cierre que remite al paso siguiente. Interpelación
+  de usted sostenida, ejemplo abundante y analogía escasa. Hereda toda la
+  normativa de «spanish-writing». Úsese cuando el usuario pida redactar,
+  reescribir o revisar guiones de vídeo técnico, artículos sobre programación,
+  material de curso de fundamentos, o explicaciones de algoritmos, redes y
+  arquitectura de software para quien ya programa pero no domina la teoría.
+  También con «en estilo BettaTech» o «explica los fundamentos, no la receta».
+  La computación es su dominio medido, no su límite.
 ---
 
 # Skill de tono divulgativo-técnico: lo que hay por debajo

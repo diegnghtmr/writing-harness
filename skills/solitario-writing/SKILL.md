@@ -3,22 +3,17 @@ name: solitario-writing
 description: >
   Skill de tono para la polémica razonada en español latinoamericano.
   Reconstruye la forma de argumentar medida en treinta piezas del proyecto
-  Solitario: la tesis en las primeras palabras, la posición contraria puesta en
-  boca de alguien que habla en primera persona antes de ser refutada, la
-  objeción anticipada y nombrada, la concesión que acota el alcance de la
-  crítica antes de sostenerla, la definición del término antes de discutirlo, la
-  exigencia de prueba al contrario y la desconfianza de la fuente oficial, la
-  delimitación declarada de lo que el texto no va a tratar, y un cierre que
-  remata en la consecuencia sin recapitular. Voz de primera persona del
-  singular que firma cada juicio, trato de usted y de ustedes al lector, y
-  vocabulario técnico conservado entero. Hereda toda la normativa de
-  «spanish-writing». Úsese cuando el usuario pida redactar, reescribir o revisar
-  un texto que tenga que sostener una tesis discutible contra quien la niega:
-  ensayo polémico, columna de opinión razonada, alegato, réplica, crítica de una
-  disciplina o de una práctica, manifiesto argumentado, carta abierta o
-  intervención en un debate. También cuando pida «tono polémico», «tono de
-  alegato», «escribe una réplica», «rebate esto», «defiende esta tesis»,
-  «ensayo combativo» o «crítica frontal».
+  Solitario: tesis en las primeras palabras, la posición contraria dicha por
+  alguien que habla antes de ser refutada, objeción anticipada con su nombre,
+  concesión que acota la crítica antes de sostenerla, definición del término
+  antes de discutirlo, y cierre que remata en la consecuencia sin recapitular.
+  Primera persona del singular que firma cada juicio, y trato de usted al
+  lector. Hereda toda la normativa de «spanish-writing». Úsese cuando el
+  usuario pida redactar, reescribir o revisar un texto que sostenga una tesis
+  discutible contra quien la niega: ensayo polémico, columna de opinión,
+  alegato, réplica, crítica de una disciplina o de una práctica, o manifiesto
+  argumentado. También con «tono polémico», «escribe una réplica», «rebate
+  esto» o «defiende esta tesis».
 ---
 
 # Skill de tono para la polémica razonada: la tesis primero y el adversario con cuerpo
