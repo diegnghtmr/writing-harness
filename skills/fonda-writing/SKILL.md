@@ -2,8 +2,8 @@
 name: fonda-writing
 description: >
   Skill de tono para divulgación filosófica, humanística y cultural en español
-  latinoamericano. Reconstruye la forma de exponer de La Fonda Filosófica, el
-  proyecto de Darin McNabb: entrada por una pregunta o un objeto que ya está
+  latinoamericano. Reconstruye, sobre treinta guiones medidos, la forma de exponer de La Fonda
+  Filosófica, el proyecto de Darin McNabb: entrada por una pregunta o un objeto que ya está
   sobre la mesa, bisagra explícita hacia el autor que se va a leer, glosa
   constante de los términos, cita corta con comentario pegado, ejemplo material
   sostenido hasta agotarlo y digresión marcada. Interpelación al lector de

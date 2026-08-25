@@ -10,9 +10,9 @@ description: >
   lo humano. Hereda toda la normativa de «spanish-writing». Úsese cuando el
   usuario pida redactar, reescribir o revisar análisis de personajes, reseñas de
   manga o anime, crítica de cine o de series, guiones de video ensayo sobre
-  ficción, o comentarios de capítulo. También con «análisis de personaje» o
-  «video ensayo de ficción». La ficción es su dominio medido, no su límite: lo
-  que fija es la forma.
+  ficción, o comentarios de capítulo. También con «estilo Secreto de Atenas»,
+  «análisis de personaje» o «video ensayo de ficción». La ficción es su dominio
+  medido, no su límite: lo que fija es la forma.
 ---
 
 # Skill de tono para crítica de ficción: el concepto como lente

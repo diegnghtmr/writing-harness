@@ -10,9 +10,9 @@ description: >
   ejecutable. Úsese cuando el usuario pida redactar, reescribir o revisar
   guías, manuales de procedimiento personal, cursos, rutinas, protocolos de
   estudio o de trabajo, cartas de instrucciones y guiones formativos. También
-  aplica cuando pida «tono de método», «guía paso a paso», «estilo de
-  desarrollo personal» o «que le diga al lector qué hacer». Hereda toda la
-  normativa de «spanish-writing».
+  aplica cuando pida «estilo Adrià Solà», «tono de método», «guía paso a paso»
+  o «que le diga al lector qué hacer». Hereda toda la normativa de
+  «spanish-writing».
 ---
 
 # Skill de tono de método: el que ordena lo que hay que hacer

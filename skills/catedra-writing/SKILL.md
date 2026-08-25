@@ -9,11 +9,11 @@ description: >
   en proposiciones enumeradas que caen una a una, y cierre corto que remata en
   una consecuencia. Voz de «nosotros» de autor, cortés con el adversario y
   despiadada con su tesis. Hereda toda la normativa de «spanish-writing». Úsese
-  cuando el usuario pida redactar, reescribir o revisar guiones de curso,
-  lecciones magistrales, exposiciones teóricas, análisis sistemáticos de un
+  cuando el usuario pida redactar, reescribir o revisar guiones de curso o de
+  video, lecciones magistrales, exposiciones teóricas, análisis sistemáticos de un
   autor o de una doctrina, o textos de economía y filosofía política que
-  sostengan una tesis contra otra. También con «lección magistral» o «análisis
-  sistemático».
+  sostengan una tesis contra otra. También con «tono de cátedra», «lección
+  magistral» o «análisis sistemático».
 ---
 
 # Skill de tono expositivo-analítico: la refutación ordenada

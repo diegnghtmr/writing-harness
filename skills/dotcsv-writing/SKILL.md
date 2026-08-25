@@ -12,7 +12,8 @@ description: >
   reescribir o revisar guiones de video de divulgación técnica, hilos,
   boletines, artículos sobre tecnología, o explicaciones de un modelo, de una
   arquitectura o de un artículo científico para lectores no especialistas.
-  También con «estilo DotCSV» o «que lo entienda cualquiera sin bajar el nivel».
+  También con «estilo DotCSV», «tono de divulgación técnica» o «que lo entienda
+  cualquiera sin bajar el nivel».
 ---
 
 # Skill de tono divulgativo-técnico: la arquitectura explicativa de DotCSV

@@ -12,8 +12,8 @@ description: >
   usuario pida redactar, reescribir o revisar un texto que sostenga una tesis
   discutible contra quien la niega: ensayo polémico, columna de opinión,
   alegato, réplica, crítica de una disciplina o de una práctica, o manifiesto
-  argumentado. También con «tono polémico», «escribe una réplica», «rebate
-  esto» o «defiende esta tesis».
+  argumentado. También con «tono polémico», «tono de alegato», «escribe una
+  réplica», «rebate esto» o «defiende esta tesis».
 ---
 
 # Skill de tono para la polémica razonada: la tesis primero y el adversario con cuerpo

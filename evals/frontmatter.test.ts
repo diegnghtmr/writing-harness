@@ -106,6 +106,104 @@ describe('ninguna descripción pasa el techo del instalador', () => {
   });
 });
 
+describe('cada skill sigue siendo alcanzable por su nombre', () => {
+  // La descripción no es adorno: es la superficie por la que un modelo elige
+  // qué skill cargar. Recortarla para que quepa puede llevarse justamente eso,
+  // y no lo dice ningún gate de largo.
+  //
+  // Pasó al recortar las seis que el instalador rechazaba: se fueron dieciocho
+  // disparadores entrecomillados y cuatro quedaron sin dueño, entre ellos los
+  // dos más específicos que existen. `atenas` perdió el nombre de su canal y
+  // `catedra` perdió su propio nombre. Un usuario que escribiera «estilo
+  // Secreto de Atenas» dejaba de tener a qué acertar.
+  //
+  // Lo que esto comprueba es lo mínimo automatizable: que cada skill conserve
+  // al menos un disparador que no comparte con ninguna otra. Juzgar si el
+  // disparador es el bueno sigue siendo lectura.
+  const disparadores = (skill: string): string[] => {
+    const d = campoDeFrontmatter(readSkill(skill), 'description') ?? '';
+    // Solo las citas de la parte de invocación, que es donde viven. Las de la
+    // descripción del registro, como «ustedes» o «nosotros», no son
+    // disparadores y las comparten varias skills con todo derecho.
+    // El ancla cubre las tres formas que el repositorio usa para abrir esa
+    // parte. Con solo dos, `humanizar-espanol` daba cero disparadores y este
+    // gate la reportaba como inalcanzable cuando es la que más tiene.
+    const desde = d.search(/Úsese|Disparar|También con/u);
+    if (desde === -1) return [];
+    return [...d.slice(desde).matchAll(/«([^»]+)»/gu)].map((m) => (m[1] as string).toLowerCase());
+  };
+
+  // `spanish-writing` queda fuera y conviene decir por qué en vez de omitirla.
+  // Es la base: corre siempre, no se elige, y no declara ni una frase de
+  // invocación. Un disparador propio no le haría falta y exigírselo obligaría a
+  // inventarle uno.
+  const CON_DISPARADOR = () => skillNames().filter((s) => s !== 'spanish-writing');
+
+  test('ninguna queda sin un disparador propio', () => {
+    const todos = new Map<string, number>();
+    for (const s of CON_DISPARADOR()) {
+      for (const f of new Set(disparadores(s))) todos.set(f, (todos.get(f) ?? 0) + 1);
+    }
+    const sinPropio = CON_DISPARADOR().filter(
+      (s) => !disparadores(s).some((f) => todos.get(f) === 1),
+    );
+    assert.deepEqual(
+      sinPropio,
+      [],
+      'estas skills solo se invocan con frases que otra también reclama',
+    );
+  });
+
+  /**
+   * El disparador con el que se pide cada tono por el nombre de su modelo.
+   *
+   * Va como lista y no como heurística porque la primera versión fue heurística
+   * y no servía: aceptaba cualquier frase que empezara por «tono de», así que
+   * `dotcsv` podía perder «estilo DotCSV» y seguir pasando gracias a «tono de
+   * divulgación técnica», que además comparte con otra skill. Una lista dice
+   * exactamente qué se perdería.
+   *
+   * `camus` y `solitario` no están, y no es un olvido. `camus` es el tono por
+   * defecto y se pide por el género, no por el nombre. `solitario` nunca declaró
+   * uno. Que falten está escrito acá para que sea una decisión visible y no un
+   * hueco: el día que alguien les escriba el suyo, entra en esta lista.
+   */
+  const POR_SU_NOMBRE: Record<string, string> = {
+    'adria-sola-writing': 'estilo adrià solà',
+    'atenas-writing': 'estilo secreto de atenas',
+    'bettatech-writing': 'en estilo bettatech',
+    'catedra-writing': 'tono de cátedra',
+    'dotcsv-writing': 'estilo dotcsv',
+    'fonda-writing': 'estilo fonda',
+    'fonseca-writing': 'estilo fonseca',
+    'freddy-writing': 'tono freddy',
+    'han-writing': 'tono han',
+    'schiavenato-writing': 'en estilo schiavenato',
+  };
+
+  test('los diez que se piden por su nombre lo conservan', () => {
+    const perdidos = Object.entries(POR_SU_NOMBRE)
+      .filter(([skill, frase]) => !disparadores(skill).includes(frase))
+      .map(([skill, frase]) => `${skill}: ya no se puede pedir con «${frase}»`);
+    assert.deepEqual(perdidos, []);
+  });
+
+  test('la lista no nombra skills que ya no existen', () => {
+    // La otra dirección. Una entrada que sobrevive a su skill convierte la lista
+    // en folclore y el test de arriba en un verde que no comprueba nada.
+    const vivas = new Set(skillNames());
+    assert.deepEqual(Object.keys(POR_SU_NOMBRE).filter((s) => !vivas.has(s)), []);
+  });
+
+  test('el extractor mira la parte de invocación y no la de descripción', () => {
+    // Sin el corte, «ustedes» y «spanish-writing» contarían como disparadores
+    // compartidos y el primer test daría verde por el motivo equivocado.
+    const d = 'Trato de «ustedes». Hereda de «spanish-writing». Úsese con «tono X».';
+    const citas = [...d.slice(d.search(/Úsese|Disparar|También con/u)).matchAll(/«([^»]+)»/gu)];
+    assert.deepEqual(citas.map((m) => m[1]), ['tono X']);
+  });
+});
+
 describe('la cuenta es la del valor plegado', () => {
   // El canario. Sin esto, los tres tests de arriba pasan aunque el lector no
   // entienda el escalar `>` y devuelva siempre una cadena vacía.
