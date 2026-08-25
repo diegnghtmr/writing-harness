@@ -21,6 +21,14 @@
 // regenerarlo, porque en la máquina donde corre el corpus no está. Es un
 // registro: se escribe una vez y se conserva.
 //
+// Y por ser un registro, esto **no borra lo que no puede volver a producir**.
+// Los corpus que están en disco se vuelven a medir; los que no están se
+// conservan tal cual venían. La primera versión reescribía el archivo entero, y
+// eso era correcto mientras el corpus entero estuviera delante: la primera vez
+// que se corrió con un corpus nuevo y los trece anteriores ya borrados, habría
+// dejado el registro con una sola fila. `fusion.ts` explica la regla y
+// `evals/fusion.test.ts` la comprueba en las dos direcciones.
+//
 // El trabajo vive dentro de `main` y no suelto en el módulo, y no es cosmético.
 // Con el cuerpo al aire hacía falta `process.exit()` para abortar cuando falta
 // el corpus, y llamarlo durante la evaluación de un módulo con `await` de primer
@@ -33,6 +41,7 @@ import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from '
 import { join, relative, resolve } from 'node:path';
 import { REPO_ROOT, skillNames } from '../src/skills.ts';
 import { countWords } from '../src/text.ts';
+import { conservados, fusionarPorSkill } from './fusion.ts';
 
 type Archivo = { ruta: string; bytes: number; sha256: string; palabras?: number };
 type Corpus = { skill: string; medido: string; archivos: Archivo[] };
@@ -68,6 +77,20 @@ function palabrasDe(ruta: string, crudo: Buffer): number | undefined {
 }
 
 /**
+ * El registro anterior, o `undefined` si no hay ninguno todavía.
+ *
+ * Que sea ilegible no es lo mismo que que no exista, y por eso lo primero
+ * devuelve `undefined` y lo segundo revienta. Sobrescribir un registro que no se
+ * pudo leer es exactamente la pérdida que este archivo existe para evitar.
+ */
+async function registroAnterior(): Promise<Corpus[] | undefined> {
+  if (!existsSync(DESTINO)) return undefined;
+  const previo = (await import(`file://${DESTINO.replace(/\\/gu, '/')}`)) as { CORPUS?: Corpus[] };
+  if (!previo.CORPUS) throw new Error(`${DESTINO} no exporta CORPUS: no se sobrescribe a ciegas`);
+  return previo.CORPUS;
+}
+
+/**
  * Conserva la fecha de medición cuando el corpus no cambió.
  *
  * La fecha es procedencia, no ruido de generación: dice cuándo se miró ese
@@ -75,16 +98,9 @@ function palabrasDe(ruta: string, crudo: Buffer): number | undefined {
  * medición nueva, así que la fecha se queda donde estaba. La misma idea que
  * `gen.ts` aplica a la clasificación de los ítems.
  */
-async function conservarFechas(nuevos: Corpus[]): Promise<void> {
-  if (!existsSync(DESTINO)) return;
-  let previo: { CORPUS?: Corpus[] };
-  try {
-    previo = (await import(`file://${DESTINO.replace(/\\/gu, '/')}`)) as { CORPUS?: Corpus[] };
-  } catch {
-    return;
-  }
+function conservarFechas(nuevos: Corpus[], previos: readonly Corpus[]): void {
   for (const c of nuevos) {
-    const antes = previo.CORPUS?.find((p) => p.skill === c.skill);
+    const antes = previos.find((p) => p.skill === c.skill);
     if (!antes) continue;
     const igual =
       antes.archivos.length === c.archivos.length &&
@@ -147,12 +163,14 @@ async function main(): Promise<number> {
   }
 
   const skills = new Set(skillNames());
-  const corpus: Corpus[] = [];
+  const medidos: Corpus[] = [];
   const huerfanos: string[] = [];
+  const enDisco = new Set<string>();
 
   for (const entrada of readdirSync(raiz, { withFileTypes: true })) {
     if (!entrada.isDirectory()) continue;
     if (!skills.has(entrada.name)) huerfanos.push(entrada.name);
+    enDisco.add(entrada.name);
 
     const base = join(raiz, entrada.name);
     const archivos = archivosDe(base).map((abs): Archivo => {
@@ -167,11 +185,22 @@ async function main(): Promise<number> {
       };
     });
 
-    corpus.push({ skill: entrada.name, medido: hoy(), archivos });
+    // Una carpeta vacía produciría un corpus de cero archivos y se llevaría por
+    // delante el registro anterior de esa skill, que es justo lo que la fusión
+    // evita para las ausentes. Presente y vacía es un error, no una medición.
+    if (archivos.length === 0) {
+      console.error(`el corpus de ${entrada.name} está en disco y no tiene ningún archivo.`);
+      console.error('medirlo así borraría su registro anterior. no se escribió nada.');
+      return 1;
+    }
+
+    medidos.push({ skill: entrada.name, medido: hoy(), archivos });
   }
 
-  corpus.sort((a, b) => a.skill.localeCompare(b.skill));
-  await conservarFechas(corpus);
+  const previos = (await registroAnterior()) ?? [];
+  conservarFechas(medidos, previos);
+  const corpus = fusionarPorSkill(previos, medidos, enDisco);
+  const heredados = conservados(previos, enDisco);
 
   const cuerpo = corpus
     .map((c) => {
@@ -204,9 +233,18 @@ ${archivos}
   console.log(`${corpus.length} corpus, ${archivos} archivos, ${bytes} bytes, ${palabras} palabras`);
   for (const c of corpus) {
     const p = c.archivos.reduce((m, a) => m + (a.palabras ?? 0), 0);
+    const origen = enDisco.has(c.skill) ? 'medido' : 'del registro';
     console.log(
-      `  ${c.skill.padEnd(22)} ${String(c.archivos.length).padStart(3)} archivos  ${String(p).padStart(7)} palabras  ${c.medido}`,
+      `  ${c.skill.padEnd(22)} ${String(c.archivos.length).padStart(3)} archivos  ${String(p).padStart(7)} palabras  ${c.medido}  ${origen}`,
     );
+  }
+  if (heredados.length) {
+    // Tiene que verse en cada corrida. Un registro que se conserva en silencio
+    // es indistinguible de uno que se acaba de medir, y son cosas distintas: lo
+    // conservado no se pudo comprobar contra nada esta vez.
+    console.log('');
+    console.log(`conservados del registro anterior, sin corpus en disco: ${heredados.length}`);
+    console.log(`  ${heredados.join(', ')}`);
   }
   if (huerfanos.length) {
     // No es un error: puede haber corpus de una skill que todavía no existe.

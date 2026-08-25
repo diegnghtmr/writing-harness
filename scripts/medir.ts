@@ -22,8 +22,9 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { CORPUS } from '../src/corpus.ts';
-import { REPO_ROOT, readSkill } from '../src/skills.ts';
+import { REPO_ROOT, readSkill, skillNames } from '../src/skills.ts';
 import { countWords } from '../src/text.ts';
+import { conservados, fusionarPorSkill } from './fusion.ts';
 
 type Fuente = 'cuerpo-de-transcripcion' | 'archivo-completo';
 type ArchivoMedido = {
@@ -117,7 +118,24 @@ function apariciones(texto: string, literal: string): number {
   return (texto.match(re) ?? []).length;
 }
 
+/** Los corpus que de verdad están en disco. Los demás se conservan del registro. */
+const enDisco = new Set(CORPUS.map((c) => c.skill).filter((s) => existsSync(join(raiz, s))));
+
+if (enDisco.size === 0) {
+  console.error(`no hay ningún corpus del manifiesto dentro de ${raiz}`);
+  console.error('no habría nada que medir y sí un registro que perder. no se escribió nada.');
+  process.exit(1);
+}
+
 for (const corpus of CORPUS) {
+  // Un corpus ausente del disco es el estado normal de este repositorio: se
+  // borran a medida que las skills se construyen. Sus filas se conservan tal
+  // como quedaron el día que sí se pudo medir. Antes esto ni se planteaba,
+  // porque el script se escribió con el corpus entero delante; la primera
+  // corrida posterior al primer borrado habría reventado en el `readFileSync`
+  // de más abajo.
+  if (!enDisco.has(corpus.skill)) continue;
+
   const dir = join(raiz, corpus.skill);
   const duraciones = duracionesDelManifiesto(dir);
   const seleccion = corpus.archivos.filter((a) => ES_TRANSCRIPCION.test(a.ruta));
@@ -243,7 +261,15 @@ for (const corpus of CORPUS) {
 //
 // Se cuentan todas, incluidas las que dan cero. Un cero es una medición: dice
 // que la expresión no está en ese corpus. Una fila ausente no diría nada.
+//
+// Una skill retirada conserva su corpus en el manifiesto y ya no tiene prosa que
+// leer. `readSkill` reventaba con ENOENT sobre ella, así que este script quedó
+// roto el día de la primera retirada y nadie lo notó, porque para notarlo hacía
+// falta volver a correrlo con el corpus delante. Sus expresiones ya contadas se
+// conservan por la fusión de más abajo, que es donde tienen que estar.
+const vivas = new Set(skillNames());
 for (const [skill, cuerpo] of cuerpos) {
+  if (!vivas.has(skill)) continue;
   const citas = [...new Set([...readSkill(skill).matchAll(/«([^»\n]{1,60})»/gu)].map((m) => m[1] as string))];
   for (const expresion of citas.sort()) {
     expresiones.push({ skill, expresion, veces: apariciones(cuerpo, expresion) });
@@ -259,25 +285,44 @@ if (desajustes.length) {
   process.exit(1);
 }
 
-/**
- * Conserva la fecha cuando el valor no cambió.
- *
- * Volver a correr el script sobre el mismo corpus no es una medición nueva. La
- * misma idea que en `manifiesto.ts` y en `gen.ts`.
- */
+// El registro anterior, que es lo que se conserva de los corpus ausentes.
+//
+// Que no exista es legítimo la primera vez. Que exista y no se pueda leer no lo
+// es: la versión anterior se lo tragaba con un `catch` vacío y seguía, y con la
+// fusión eso ya no vale, porque seguir significaría escribir un registro con
+// trece corpus menos. Un archivo previo ilegible sí frena una medición.
+type Registro = {
+  MEDICIONES?: Medicion[];
+  POR_ARCHIVO?: ArchivoMedido[];
+  EXPRESIONES?: Expresion[];
+};
+let previo: Registro = {};
 if (existsSync(DESTINO)) {
-  try {
-    const previo = (await import(`file://${DESTINO.replace(/\\/gu, '/')}`)) as {
-      MEDICIONES?: Medicion[];
-    };
-    for (const m of mediciones) {
-      const antes = previo.MEDICIONES?.find((p) => p.id === m.id);
-      if (antes && antes.valor === m.valor) m.medido = antes.medido;
-    }
-  } catch {
-    // Un archivo previo ilegible no puede frenar una medición.
+  previo = (await import(`file://${DESTINO.replace(/\\/gu, '/')}`)) as Registro;
+  if (!previo.MEDICIONES || !previo.POR_ARCHIVO || !previo.EXPRESIONES) {
+    console.error(`${DESTINO} no exporta las tres tablas.`);
+    console.error('sobrescribirlo perdería el registro de los corpus que ya no están.');
+    process.exit(1);
   }
 }
+
+// Conserva la fecha cuando el valor no cambió. Volver a correr el script sobre
+// el mismo corpus no es una medición nueva. La misma idea que en
+// `manifiesto.ts` y en `gen.ts`.
+for (const m of mediciones) {
+  const antes = previo.MEDICIONES?.find((p) => p.id === m.id);
+  if (antes && antes.valor === m.valor) m.medido = antes.medido;
+}
+
+// Las expresiones solo se vuelven a contar donde hay corpus Y hay prosa que
+// leer. Una skill retirada con corpus en disco conserva las suyas: se contaron
+// cuando su prosa existía y no se pueden volver a producir.
+const conExpresiones = new Set([...enDisco].filter((s) => vivas.has(s)));
+
+const medicionesFinales = fusionarPorSkill(previo.MEDICIONES ?? [], mediciones, enDisco);
+const porArchivoFinal = fusionarPorSkill(previo.POR_ARCHIVO ?? [], porArchivo, enDisco);
+const expresionesFinales = fusionarPorSkill(previo.EXPRESIONES ?? [], expresiones, conExpresiones);
+const heredados = conservados(previo.MEDICIONES ?? [], enDisco);
 
 const CABECERA = `// GENERADO por scripts/medir.ts. Lo que el corpus contenía.
 //
@@ -356,7 +401,7 @@ export type Expresion = {
 export const MEDICIONES: readonly Medicion[] = [
 `;
 
-const cuerpoMediciones = mediciones
+const cuerpoMediciones = medicionesFinales
   .map(
     (m) => `  {
     id: '${m.id}',
@@ -372,14 +417,14 @@ const cuerpoMediciones = mediciones
   )
   .join('\n');
 
-const cuerpoArchivos = porArchivo
+const cuerpoArchivos = porArchivoFinal
   .map((f) => {
     const segundos = f.segundos === undefined ? '' : `, segundos: ${f.segundos}`;
     return `  { skill: '${f.skill}', archivo: ${JSON.stringify(f.archivo)}, palabras: ${f.palabras}, signos: ${f.signos}, cues: ${f.cues}${segundos} },`;
   })
   .join('\n');
 
-const cuerpoExpresiones = expresiones
+const cuerpoExpresiones = expresionesFinales
   .map(
     (e) =>
       `  { skill: '${e.skill}', expresion: ${JSON.stringify(e.expresion)}, veces: ${e.veces} },`,
@@ -392,15 +437,23 @@ writeFileSync(
   'utf8',
 );
 
-const conApariciones = expresiones.filter((e) => e.veces > 0).length;
+const conApariciones = expresionesFinales.filter((e) => e.veces > 0).length;
 
 console.log(`corpus leído en ${raiz}`);
-console.log(`${mediciones.length} mediciones sobre ${porArchivo.length} archivos`);
-console.log(`${expresiones.length} expresiones contadas, ${conApariciones} aparecen en su corpus`);
+console.log(`${medicionesFinales.length} mediciones sobre ${porArchivoFinal.length} archivos`);
+console.log(`${expresionesFinales.length} expresiones contadas, ${conApariciones} aparecen en su corpus`);
+if (heredados.length) {
+  // Igual que en el manifiesto: lo conservado no se comprobó contra nada esta
+  // vez, y eso tiene que verse en cada corrida en lugar de deducirse.
+  console.log('');
+  console.log(`medidos ahora: ${[...enDisco].sort().join(', ')}`);
+  console.log(`conservados del registro anterior: ${heredados.length}`);
+  console.log(`  ${heredados.join(', ')}`);
+}
 console.log('');
 console.log('skill                   archivos  palabras   signos/1000  minutos');
 for (const corpus of CORPUS) {
-  const de = (id: string) => mediciones.find((m) => m.id === `${corpus.skill}/${id}`)?.valor;
+  const de = (id: string) => medicionesFinales.find((m) => m.id === `${corpus.skill}/${id}`)?.valor;
   const palabras = de('palabras') ?? 0;
   const signos = de('signos-terminales') ?? 0;
   const segundos = de('segundos');
