@@ -54,6 +54,79 @@ describe('capa base', () => {
     assert.deepEqual(f, []);
   });
 
+  // Los portadores invisibles. Es el único defecto que la lista de verificación
+  // humana no puede cubrir, así que el test tiene que ser más terco que de
+  // costumbre: se comprueba cada clase por separado, porque un rango mal escrito
+  // deja fuera una clase entera sin que se note en un caso suelto.
+  //
+  // Todos los caracteres van con escape a propósito. Escritos de verdad, este
+  // archivo se vería con los literales vacíos y nadie podría revisar qué prueba.
+  describe('caracteres invisibles', () => {
+    const marca = (t: string) => check(t).filter((x) => x.rule === 'sin-portadores-invisibles');
+    const espacio = (t: string) => check(t).filter((x) => x.rule === 'espacio-exotico');
+
+    test('cada clase de portador se marca, una por una', () => {
+      const clases: [string, string][] = [
+        ['ancho cero', '\u200B'],
+        ['no union de ancho cero', '\u200C'],
+        ['union de ancho cero', '\u200D'],
+        ['marca de izquierda a derecha', '\u200E'],
+        ['union de palabras', '\u2060'],
+        ['reservado ignorable', '\u2065'],
+        ['marca de orden de bytes', '\uFEFF'],
+        ['guion blando', '\u00AD'],
+        ['union de grafemas', '\u034F'],
+        ['marca arabe', '\u061C'],
+        ['incrustacion bidi', '\u202A'],
+        ['aislamiento bidi', '\u2066'],
+        ['separador de vocales mongol', '\u180E'],
+        ['selector mongol', '\u180F'],
+        ['relleno hangul', '\u3164'],
+        ['relleno hangul de ancho medio', '\uFFA0'],
+        ['caracter de etiqueta', '\u{E0041}'],
+        ['no caracter', '\uFDD0'],
+      ];
+      const mudas = clases.filter(([, c]) => marca(`El dato${c} importa.`).length !== 1);
+      assert.deepEqual(mudas.map(([n]) => n), [], 'estas clases no las caza nadie');
+    });
+
+    test('el texto limpio no dispara nada', () => {
+      assert.deepEqual(check('El dato importa. La cifra también.'), []);
+    });
+
+    test('los dos espacios que la norma pide quedan fuera', () => {
+      // La § 9 de la base los prescribe: el fino como separador de miles, el
+      // duro para que un «25 %» no se parta al final de la línea. Una regla que
+      // los marcara estaría contradiciendo a la capa base desde dentro de la
+      // capa base.
+      assert.deepEqual(espacio('En 1\u2009000 casos.'), [], 'el espacio fino es normativo');
+      assert.deepEqual(espacio('Sube un 25\u00A0%.'), [], 'el espacio duro es normativo');
+    });
+
+    test('los demás espacios avisan, y avisan en vez de bloquear', () => {
+      const f = espacio('Un\u2000dos\u202Ftres\u3000cuatro.');
+      assert.equal(f.length, 3);
+      assert.deepEqual([...new Set(f.map((x) => x.severity))], ['warning']);
+    });
+
+    test('el portador bloquea y el espacio no, que es la diferencia entera', () => {
+      // La severidad es la decisión de este par de reglas. Lo que no se ve
+      // nunca hace falta y no se entrega; un espacio raro puede tener motivo y
+      // quien escribe lo dice en la entrega.
+      assert.deepEqual([...new Set(marca('El dato\u200B importa.').map((x) => x.severity))], [
+        'error',
+      ]);
+    });
+
+    test('el hallazgo dice la columna, que es lo único que lo hace encontrable', () => {
+      // Sin la columna, el mensaje sería «hay algo invisible en esta línea» y el
+      // autor tendría que buscarlo a ciegas en una línea de ochenta caracteres.
+      const f = marca('El dato\u200B importa.');
+      assert.equal(f[0]!.line, 1);
+      assert.equal(f[0]!.column, 8);
+    });
+  });
+
   test('el punto y coma bien usado no se marca', () => {
     // Estuvo prohibido y ya no lo está. Los dos usos del §6.7 que más
     // aparecen: unir dos oraciones de relación estrecha, y separar miembros
@@ -211,7 +284,7 @@ describe('capa base', () => {
   });
 
   test('la capa base corre sin elegir tono', () => {
-    assert.equal(rulesFor().length, 23);
+    assert.equal(rulesFor().length, 25);
   });
 
   test('el español peninsular se marca sin elegir tono y en todos los tonos', () => {

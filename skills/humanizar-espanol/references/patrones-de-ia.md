@@ -30,6 +30,8 @@ especulativo, 26) tono servil, 27) frases de relleno, 28) exceso de atenuación,
 Segundo nivel (perplejidad semántica, cuando lo anterior no basta): 34)
 colocación más previsible, 35) antítesis simétrica y arquitectura repetida, 36)
 nombre suelto o media concreción, 37) apertura corta de etiqueta.
+Portadores fuera del texto visible: 38) caracteres invisibles. Va al final por
+haber llegado después, no por ser menos grave: es el único que no se puede leer.
 
 
 ---
@@ -569,3 +571,36 @@ en un territorio y mantienen relaciones estables entre sí.»
 Después: «Cuando hablamos de sociedad nos referimos al entramado de relaciones que
 sostienen entre sí las personas que conviven en un territorio y mantienen lazos
 estables en el tiempo.»
+
+
+## Portadores fuera del texto visible
+
+### 38. Caracteres invisibles: bórralos
+
+Regla: la versión final no contiene caracteres que no se ven. Espacios y uniones
+de ancho cero, marcas bidireccionales, caracteres de etiqueta, no caracteres, y
+los que el estándar dibuja en blanco. Se cuelan al copiar de una página, al
+exportar de un procesador de textos, y algunos generadores los emiten a
+propósito como marca de procedencia.
+
+Este patrón es distinto de los treinta y siete anteriores y conviene saber por
+qué. Todos los demás se detectan leyendo: alguien atento ve la raya, la tríada,
+el conector de molde. Este no. Sobrevive a cuantas lecturas se le hagan, y por
+eso es el único del catálogo que solo una máquina puede encontrar.
+
+Fix: pasa el texto por una herramienta que los liste con su línea y su columna, y
+bórralos. No se sustituyen por nada: si el hueco necesitaba un espacio, va un
+espacio normal.
+
+Nota: el espacio fino y el espacio duro no entran acá. Son tipografía legítima,
+la norma los pide para el separador de miles y para que no se parta un 25 %, y
+borrarlos sería sobrecorregir. Los demás espacios de la tabla no tienen ese
+respaldo.
+
+El ejemplo va por su punto de código y no con el carácter puesto, que es la
+única forma de que se entienda: pegado de verdad no se vería nada, y además
+cualquiera que copiara el ejemplo se llevaría el defecto dentro.
+
+Antes: «la investigación[U+200B] muestra que el dato».
+
+Después: «la investigación muestra que el dato».

@@ -44,7 +44,7 @@ node src/cli.ts <archivo> --tono <id>            # 4. medir
 ```
 
 Cinco pasos y ninguno es opcional. El más saltado es el segundo, y es el que
-hace la diferencia: el verificador cubre 96 de las 254 declaraciones que hacen
+hace la diferencia: el verificador cubre 98 de las 256 declaraciones que hacen
 las skills. Las otras 158 solo las pone quien leyó la skill.
 
 ## 2. Elegir el tono
@@ -161,7 +161,7 @@ cambia. Lo que se pierde es la medición, no la entrega.
 
 ## 6. Lo que el verificador no ve
 
-De las 254 declaraciones que hacen las skills, **158 exigen juicio sobre el
+De las 256 declaraciones que hacen las skills, **158 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.
@@ -172,7 +172,7 @@ argumenta una persona no lo mide ninguna clase de regla que exista hoy.
 Las skills declaran de dos maneras y las dos cuentan: ítems numerados `N. ¿…?`
 en las listas del `SKILL.md`, y patrones `### N. Título` en los catálogos de
 `references/`. `humanizar-espanol` declara solo de la segunda manera, con sus
-37 patrones.
+38 patrones.
 
 `evals/cobertura.ts` los tiene listados uno por uno. Salir con 0 significa que
 el texto pasó las reglas mecanizables, no que esté bien escrito. Esa segunda
@@ -478,7 +478,7 @@ al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
 | `skills/spanish-writing/` | La base. Rige siempre, y su §3 tiene la tabla de enrutamiento |
 | `skills/<id>-writing/` | Un tono |
 | `skills/humanizar-espanol/` | La pasada. Solo si el usuario la pide |
-| `src/rules.ts` | Las 79 reglas como datos, sin comportamiento y sin build |
+| `src/rules.ts` | Las 81 reglas como datos, sin comportamiento y sin build |
 | `src/check.ts` | Compone las capas y mide |
 | `src/enrutamiento.ts` | La tabla de §3 como dato, y el procedimiento que decide |
 | `src/corpus.ts`, `src/mediciones.ts` | El registro del corpus borrado. No se editan a mano |

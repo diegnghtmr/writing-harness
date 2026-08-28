@@ -460,6 +460,31 @@ apoyan en él, no cuántos hay en el texto.
 
 Referencia: Ortografía (RAE y ASALE, 2010), § 3.3.3.
 
+### 6.8. Caracteres invisibles: prohibidos
+
+El texto entregado no lleva caracteres que no se ven. Espacios de ancho cero,
+uniones y separadores de ancho cero, marcas de dirección bidireccional,
+caracteres de etiqueta, no caracteres, y los tres que el estándar deja en blanco
+al dibujarlos: el separador de vocales mongol, el relleno hangul y su variante
+de ancho medio.
+
+Ninguno de ellos aporta nada al español escrito. Llegan de tres sitios y los
+tres son accidentes: copiar y pegar desde una página, exportar desde un
+procesador de textos, o la salida de un generador que los emite como marca de
+procedencia.
+
+Lo que los hace distintos de cualquier otra falta es que **no se pueden leer**.
+Una raya se ve, una coma mal puesta se ve, y una lista de verificación humana
+las caza. Un espacio de ancho cero sobrevive a que lo lea el autor, a que lo lea
+un corrector y a que lo lea un jurado, y se lleva por delante la búsqueda de
+texto, el conteo de palabras y la comparación entre versiones.
+
+Los espacios que sí existen en tipografía son otra cosa y no están prohibidos.
+El espacio fino y el espacio duro tienen uso normativo, y la § 9 los pide: fino
+como separador de miles, duro para que no se parta un 25 % al final de la línea.
+Los demás espacios de la tabla Unicode no tienen ese respaldo, y quien los use
+tiene que poder decir para qué.
+
 
 ## 7. Mayúsculas y minúsculas
 
@@ -824,6 +849,8 @@ añade las suyas.
 25. ¿Se conservó todo término técnico, glosado en su primera aparición?
 26. ¿El texto quedó libre de artefactos de canal: saludo, despedida, petición
     de apoyo, patrocinio, deixis de pantalla y promesa de revelación?
+27. ¿No queda ningún carácter invisible: ancho cero, marca bidireccional,
+    etiqueta, no carácter o espacio exótico sin uso normativo?
 
 
 ## 15. Fuentes normativas de referencia

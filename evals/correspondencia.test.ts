@@ -198,23 +198,23 @@ describe('el techo de cobertura está declarado', () => {
   // que ir a buscarlos leyendo la prosa.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('254 declaraciones, repartidas como está registrado', () => {
+  test('256 declaraciones, repartidas como está registrado', () => {
     // Eran 282 con las catorce skills de tono. Retirar kenway, medicendai y
     // sekkyoku se llevó 48 declaraciones, y este gate es el que lo dijo. La 235
     // la agregó `solitario-writing` §19: su §7.4 medía la longitud de oración y
     // la checklist no la pedía, así que la regla no tenía qué reclamar.
-    assert.equal(items.length, 254, 'cambió la cantidad de declaraciones en la prosa');
-    assert.equal(claimed.size, 96, 'cambió la cantidad de declaraciones cubiertas por reglas');
+    assert.equal(items.length, 256, 'cambió la cantidad de declaraciones en la prosa');
+    assert.equal(claimed.size, 98, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
     assert.equal(cuenta('criterio'), 158);
     assert.equal(cuenta('delegado'), 0);
   });
 
-  test('humanizar tiene 31 de sus 37 patrones cubiertos', () => {
+  test('humanizar tiene 32 de sus 38 patrones cubiertos', () => {
     const suyos = declarations('humanizar-espanol');
     const cubiertos = suyos.filter((d) => claimed.has(itemKey(d.skill, d.item)));
-    assert.equal(suyos.length, 37);
-    assert.equal(cubiertos.length, 31);
+    assert.equal(suyos.length, 38);
+    assert.equal(cubiertos.length, 32);
   });
 
   test('todas las skills aportan al recuento', () => {
@@ -233,7 +233,7 @@ describe('el techo de cobertura está declarado', () => {
     // skill con más reglas y aportaba cero al recuento.
     const decl = declarations('humanizar-espanol');
     assert.equal(decl.filter((d) => d.origen === 'checklist').length, 0);
-    assert.equal(decl.filter((d) => d.origen === 'patron').length, 37);
+    assert.equal(decl.filter((d) => d.origen === 'patron').length, 38);
   });
 
   test('ninguna skill trae raya ni guion largo, salvo las dos que la enuncian', () => {

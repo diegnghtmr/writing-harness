@@ -2,7 +2,7 @@
 
 Skills de redacción en español y el verificador que mide si un texto las cumple.
 
-Catorce skills en tres capas y 79 reglas mecanizadas, con un gate que ata cada
+Catorce skills en tres capas y 81 reglas mecanizadas, con un gate que ata cada
 regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
 entero sin instalar nada, sin build y sin conexión.
 
@@ -29,7 +29,7 @@ pide el usuario hasta lo que se entrega:
 flowchart TD
     U(["Petición del usuario"]) --> Q0{"¿Sobre un texto<br/>que ya existe?"}
 
-    Q0 -->|"«humanizá esto»"| H["humanizar-espanol<br/>la pasada, 37 patrones de IA"]
+    Q0 -->|"«humanizá esto»"| H["humanizar-espanol<br/>la pasada, 38 patrones de IA"]
     Q0 -->|"escribir algo nuevo"| B["spanish-writing<br/>la base, siempre"]
 
     B --> R{"Enrutamiento<br/>por género y voz"}
@@ -168,7 +168,7 @@ producto. En las skills no.
 
 | Archivo | Qué hace |
 |---|---|
-| `src/rules.ts` | Las 79 reglas como objetos planos y tipados, sin comportamiento |
+| `src/rules.ts` | Las 81 reglas como objetos planos y tipados, sin comportamiento |
 | `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
 | `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
 | `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |
@@ -176,7 +176,7 @@ producto. En las skills no.
 | `src/mediciones.ts` | Qué contenía ese corpus, con las cuatro casillas del contrato |
 | `evals/cobertura.ts` | El registro de qué declara la prosa y todavía no tiene regla |
 
-Las reglas se reparten en catorce tipos. `forbidden-pattern` cubre 43; las otras
+Las reglas se reparten en catorce tipos. `forbidden-pattern` cubre 45; las otras
 trece existen porque hay cosas que una expresión regular no ve: contar palabras
 por párrafo, detectar rachas de oraciones breves o largas, comparar aperturas
 consecutivas, medir qué proporción del texto cae en una banda de longitud,
@@ -225,11 +225,11 @@ resultado y no se parecen en nada más.** El gate distingue las dos cosas.
 
 | Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | **96** | Tiene regla y test |
+| cubierto | **98** | Tiene regla y test |
 | mecanizable | **0** | Se puede medir, falta construirlo |
 | criterio | 158 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 
-De las 254 declaraciones, 158 piden juicio: si se conservó toda la información
+De las 256 declaraciones, 158 piden juicio: si se conservó toda la información
 del original, si una analogía está desarrollada o solo mencionada, si una
 expresión es la colocación más previsible del tema. El número creció con los
 once tonos que reconstruyen a un autor, porque describir cómo argumenta una

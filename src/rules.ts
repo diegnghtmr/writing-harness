@@ -481,6 +481,70 @@ export const BASE_RULES: Rule[] = [
       { skill: 'humanizar-espanol', item: 'La raya (—) calcada del inglés: elimínala' },
     ],
   },
+  // Los portadores invisibles son el único defecto del catálogo que no se
+  // detecta leyendo, y por eso son el caso más claro de algo que solo una
+  // máquina puede vigilar. Van en la base y no en la pasada: un carácter de
+  // ancho cero está mal se haya pedido humanizar o no, y la pasada solo corre
+  // cuando el usuario la nombra.
+  //
+  // Se parten en dos reglas y la línea que las separa es normativa, no de
+  // gusto. Lo que no se ve nunca hace falta en español y es error. Los espacios
+  // que sí existen en tipografía son advertencia, porque el contexto decide, y
+  // dos de ellos quedan fuera del patrón: la § 9 de la base pide el fino como
+  // separador de miles y el duro para que no se parta un «25 %». Una regla que
+  // los marcara estaría contradiciendo a la capa que dice ser.
+  {
+    id: 'sin-portadores-invisibles',
+    kind: 'forbidden-pattern',
+    severity: 'error',
+    // Ancho cero y uniones, marcas y aislamientos bidireccionales, blando y
+    // CGJ, los tres que el estándar dibuja en blanco, los caracteres de
+    // etiqueta y los no caracteres de todos los planos.
+    // Van con escape y no con el carácter puesto, y no es estilo: pegados de
+    // verdad, esta línea se vería como un par de corchetes vacíos y nadie
+    // podría revisar qué prohíbe ni notar que alguien le quitó uno.
+    pattern: new RegExp(
+      '[\\u200B-\\u200F\\u2060-\\u2065\\uFEFF\\u00AD\\u034F\\u061C]' +
+        '|[\\u202A-\\u202E\\u2066-\\u2069]' +
+        '|[\\u180E\\u180F\\u3164\\uFFA0]' +
+        '|[\\u{E0000}-\\u{E007F}]' +
+        '|[\\uFDD0-\\uFDEF\\uFFFE\\uFFFF]',
+      'gu',
+    ),
+    message:
+      'Carácter invisible en esta columna. No se ve al leerlo, y rompe la búsqueda, el conteo de palabras y la comparación entre versiones.',
+    fix: 'Borrarlo. No se sustituye por nada: si el hueco pedía un espacio, va un espacio normal.',
+    source: 'spanish-writing §6.8',
+    checklist: [
+      {
+        skill: 'spanish-writing',
+        item: '¿No queda ningún carácter invisible: ancho cero, marca bidireccional, etiqueta, no carácter o espacio exótico sin uso normativo?',
+      },
+      // El catálogo de señales de IA lo declara por su cuenta, igual que la
+      // raya. Una prohibición, una regla, dos skills que la enuncian.
+      { skill: 'humanizar-espanol', item: 'Caracteres invisibles: bórralos' },
+    ],
+  },
+  {
+    id: 'espacio-exotico',
+    kind: 'forbidden-pattern',
+    severity: 'warning',
+    // Todo lo que ocupa como un espacio sin serlo, menos los dos que la norma
+    // pide. U+2009 (fino) y U+00A0 (duro) están deliberadamente fuera del
+    // rango: el primero por el separador de miles, el segundo por el «25 %».
+    // El rango salta del U+2008 al U+200A a propósito: en medio está el fino.
+    pattern: new RegExp('[\\u2000-\\u2008\\u200A\\u202F\\u205F\\u3000]', 'gu'),
+    message:
+      'Espacio que no es el espacio normal y que la norma no pide acá. Suele venir de copiar y pegar.',
+    fix: 'Sustituir por un espacio normal, o decir en la entrega por qué este texto lo necesita.',
+    source: 'spanish-writing §6.8',
+    checklist: [
+      {
+        skill: 'spanish-writing',
+        item: '¿No queda ningún carácter invisible: ancho cero, marca bidireccional, etiqueta, no carácter o espacio exótico sin uso normativo?',
+      },
+    ],
+  },
   // El punto y coma estuvo prohibido y ya no lo está. La prohibición era una
   // decisión de casa, no una norma, y la RAE lo describe en la Ortografía
   // (2010) § 3.3.3. Lo que se mide ahora es el uso, en tres reglas: dos de
