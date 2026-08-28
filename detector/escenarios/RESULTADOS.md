@@ -11,11 +11,16 @@
 3. **`3-skill-mas-detector/`**: sobre el escenario 2, una única pasada dirigida:
    el detector local puntuó los 55 párrafos del cuerpo uno por uno, se
    reescribieron solo los 10 peor puntuados (P16, P22, P54, P63, P70, P71, P77,
-   P85, P100, P101 del docx) aplicando las reglas de la skill, y se volvió a
-   medir. Incluye el docx resultante.
+   P85, P100, P101) aplicando las reglas de la skill, y se volvió a medir.
 
-Cada carpeta contiene los mismos cuatro fragmentos (`cuerpo`, `seleccion14k`,
-`teoria5k`, `casos`), idénticos en alcance entre escenarios.
+Los escenarios 1 a 3 traen los cuatro fragmentos (`cuerpo`, `seleccion14k`,
+`teoria5k`, `casos`), idénticos en alcance entre sí. Los escenarios 4 y 5 traen
+solo el cuerpo, que es lo único que el anexo de rendimientos decrecientes midió.
+
+Los `.docx` de cada escenario no están acá: son el mismo texto con formato, se
+regeneran desde estos `.txt` y pesan más que todo lo demás junto. La numeración
+de párrafos de arriba sale de esos documentos y se conserva como referencia de
+dónde se hizo el trabajo, no como algo que se pueda abrir desde este directorio.
 
 ## Medición local (Fast-DetectGPT analítico, modelo español)
 

@@ -17,6 +17,8 @@ import { describe, test } from 'node:test';
 import { REPO_ROOT } from '../src/skills.ts';
 import {
   CIFRAS,
+  ESCENARIO_DEL_PROCEDIMIENTO,
+  LA_SKILL_SOLA_EMPEORA_EL_PEOR,
   DESCARTADOS,
   DIRIGIDAS,
   ELEGIDOS,
@@ -125,6 +127,73 @@ describe('la asíntota es la razón de que el loop tenga tope', () => {
     const sinCarpeta = PASADAS.filter((p) => huella(`escenarios/${p.escenario}/cuerpo.txt`) === null)
       .map((p) => p.escenario);
     assert.deepEqual(sinCarpeta, []);
+  });
+
+  test('la escala del README cita los pisos que se midieron', () => {
+    // La escala decía «el peor párrafo original puntuaba −0,012» y ese valor no
+    // es del original: es del escenario 2, después de la skill. Y decía que el
+    // piso quedó en −0,13 «después del loop», que es el escenario 5, dos
+    // escenarios más allá de donde el procedimiento manda parar. Las dos se
+    // arrastraban de un resumen anterior y las dos eran comprobables corriendo
+    // la herramienta, que es como se encontraron.
+    const texto = README();
+    const hasta = PASADAS.findIndex((p) => p.escenario === ESCENARIO_DEL_PROCEDIMIENTO);
+    assert.ok(hasta > 0, 'el escenario del procedimiento ya no está en la serie');
+    const ausentes = PASADAS.slice(0, hasta + 1)
+      .filter((p) => !texto.includes(coma(p.peorParrafo).replace('-', '−')))
+      .map((p) => `${p.escenario}: ${coma(p.peorParrafo)}`);
+    assert.deepEqual(ausentes, [], 'la escala del README no cita estos pisos');
+
+    // Y no cita los de más allá del tope, que describen un loop que este
+    // repositorio dice explícitamente que no se corra.
+    const deMas = PASADAS.slice(hasta + 1)
+      .filter((p) => texto.includes(coma(p.peorParrafo).replace('-', '−')))
+      .map((p) => p.escenario);
+    assert.deepEqual(deMas, [], 'la escala cita pisos de iteraciones que el procedimiento prohíbe');
+  });
+
+  test('el hallazgo que justifica la pasada dirigida sigue siendo cierto', () => {
+    // Si un día los números se rehacen y la skill sola deja de empeorar el peor
+    // párrafo, el argumento de la pasada dirigida cambia y hay que reescribirlo,
+    // no descubrirlo leyendo. La comparación es «menos negativo es peor».
+    const original = PASADAS.find((p) => p.escenario === '1-original') as (typeof PASADAS)[number];
+    const skill = PASADAS.find((p) => p.escenario === '2-solo-skill') as (typeof PASADAS)[number];
+    const empeora = skill.peorParrafo > original.peorParrafo;
+    assert.equal(empeora, LA_SKILL_SOLA_EMPEORA_EL_PEOR);
+    // Y el agregado mejora al mismo tiempo, que es lo que lo hace un hallazgo y
+    // no simplemente un mal resultado.
+    assert.ok(skill.deepesp < original.deepesp);
+  });
+
+  test('cada escenario trae los fragmentos que el informe le atribuye', () => {
+    // El informe prometía cuatro fragmentos en cada carpeta y un docx en la
+    // tercera. Ninguna de las dos cosas era cierta: los escenarios 4 y 5 solo
+    // tienen el cuerpo, que es lo único que el anexo midió, y los docx no están.
+    // La primera afirmación ya estaba mal antes de traer esto al repositorio y
+    // la segunda la rompió el traslado. Las dos eran comprobables contra el
+    // disco y nadie las comprobaba.
+    const CUATRO = ['cuerpo', 'seleccion14k', 'teoria5k', 'casos'];
+    const completos = ['1-original', '2-solo-skill', '3-skill-mas-detector'];
+    const faltan: string[] = [];
+    for (const e of completos) {
+      for (const f of CUATRO) {
+        if (huella(`escenarios/${e}/${f}.txt`) === null) faltan.push(`${e}/${f}.txt`);
+      }
+    }
+    assert.deepEqual(faltan, [], 'el informe dice que estos escenarios traen los cuatro fragmentos');
+
+    // Y la otra dirección: los dos del anexo traen solo el cuerpo. Si alguien
+    // completa uno, la frase que dice «solo el cuerpo» pasa a mentir.
+    const deMas: string[] = [];
+    for (const e of ['4-skill-detector-iter2', '5-skill-detector-iter3']) {
+      for (const f of CUATRO.filter((x) => x !== 'cuerpo')) {
+        if (huella(`escenarios/${e}/${f}.txt`) !== null) deMas.push(`${e}/${f}.txt`);
+      }
+    }
+    assert.deepEqual(deMas, [], 'el informe dice que estos traen solo el cuerpo');
+
+    // El informe ya no promete ningún docx, porque no hay ninguno.
+    assert.doesNotMatch(ESCENARIOS(), /Incluye el docx/u);
   });
 
   test('la regla de la mitad aplicada a los deltas da el techo declarado', () => {

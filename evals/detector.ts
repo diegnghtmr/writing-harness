@@ -77,15 +77,43 @@ export type Pasada = {
   deepesp: number;
   /** Ganancia respecto del escenario anterior. `null` en el original. */
   ganancia: number | null;
+  /**
+   * La peor curvatura normalizada de un párrafo suelto, que es otra cosa que el
+   * agregado y por eso está.
+   */
+  peorParrafo: number;
 };
 
 export const PASADAS: readonly Pasada[] = [
-  { escenario: '1-original', deepesp: -0.189, ganancia: null },
-  { escenario: '2-solo-skill', deepesp: -0.222, ganancia: -0.033 },
-  { escenario: '3-skill-mas-detector', deepesp: -0.241, ganancia: -0.019 },
-  { escenario: '4-skill-detector-iter2', deepesp: -0.255, ganancia: -0.014 },
-  { escenario: '5-skill-detector-iter3', deepesp: -0.260, ganancia: -0.004 },
+  { escenario: '1-original', deepesp: -0.189, ganancia: null, peorParrafo: -0.027 },
+  { escenario: '2-solo-skill', deepesp: -0.222, ganancia: -0.033, peorParrafo: -0.012 },
+  { escenario: '3-skill-mas-detector', deepesp: -0.241, ganancia: -0.019, peorParrafo: -0.075 },
+  { escenario: '4-skill-detector-iter2', deepesp: -0.255, ganancia: -0.014, peorParrafo: -0.126 },
+  { escenario: '5-skill-detector-iter3', deepesp: -0.260, ganancia: -0.004, peorParrafo: -0.138 },
 ];
+
+/**
+ * El escenario que produce el procedimiento que el arnés enseña.
+ *
+ * AGENTS.md prescribe una pasada dirigida, y eso es el escenario 3. Importa
+ * tenerlo nombrado porque los escenarios 4 y 5 existen para probar que iterar de
+ * más no vale la pena, no para que alguien cite sus cifras como el resultado
+ * normal. Ya pasó: la escala del README citaba el piso del escenario 5 como «el
+ * piso después del loop», y el loop que este repositorio manda correr termina
+ * dos escenarios antes.
+ */
+export const ESCENARIO_DEL_PROCEDIMIENTO = '3-skill-mas-detector';
+
+/**
+ * Que la pasada de la skill sola empeora el peor párrafo.
+ *
+ * Es el hallazgo que justifica la pasada dirigida entera, y no estaba escrito en
+ * ninguna parte: el agregado mejora de −0,189 a −0,222 mientras el peor párrafo
+ * suelto va de −0,027 a −0,012, es decir se acerca al polo máquina. Una skill que
+ * levanta la media puede dejar un caso peor que como estaba, y encontrarlo es
+ * justamente lo que el agregado no sabe hacer.
+ */
+export const LA_SKILL_SOLA_EMPEORA_EL_PEOR = true;
 
 /**
  * Cuántas pasadas dirigidas admite el loop, y por qué son dos números y no uno.

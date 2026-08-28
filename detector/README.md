@@ -49,19 +49,24 @@ eso es el segundo juez y no otro.
 
 ## Instalación
 
-El entorno no está versionado, porque son 9,8 GB de los que 22 archivos son
-nuestros. Se reconstruye:
+El entorno no está versionado. La carpeta de trabajo pesaba 9,8 GB el día que se
+midió esto y casi todo era entorno de Python y datos de un experimento ajeno, las
+dos cosas reconstruibles. Se rehace así:
 
 ```bash
 python -m venv .venv
 .venv/Scripts/pip install torch transformers huggingface_hub tokenizers
 ```
 
+Eso deja PyTorch de CPU, que con un modelo de 355M alcanza de sobra. Para que use
+la tarjeta hay que pedir la rueda con CUDA a su propio índice, porque la de por
+defecto no la trae y no avisa: `torch.cuda.is_available()` devuelve `False` y todo
+sigue funcionando, más lento. El entorno donde se midió esto tenía `2.11.0+cu128`
+y `transformers` 5.
+
 Los modelos se descargan solos la primera vez, a la caché de Hugging Face.
 DeepESP son 355M y basta para `score_es.py` y `diagnostico.py`; EuroLLM-1.7B solo
 hace falta para la segunda opinión y para `comparar_modelos.py`.
-
-Corre en GPU si la hay y en CPU también, que con este tamaño de modelo alcanza.
 
 
 ## Uso
@@ -83,8 +88,17 @@ ordenados del más máquina al más humano.
   generaría. Cuanto más negativa, más humano. El polo máquina está en torno a
   +6,2; la prosa académica humana del corpus, entre −5 y −16 según la longitud.
 - **Curvatura normalizada por párrafo.** Valores cercanos a 0 son zona de
-  sospecha. En el documento de trabajo el peor párrafo original puntuaba −0,012 y
-  el piso quedó en −0,13 después del loop.
+  sospecha. En el documento de trabajo, el peor párrafo iba así: −0,027 en el
+  original, −0,012 con la skill sola y −0,075 tras la pasada dirigida, que es
+  donde el procedimiento se cierra.
+
+Ese segundo número merece que nos detengamos, porque es el argumento entero de la
+pasada dirigida. **La skill sola mejoró el agregado y empeoró el peor párrafo**:
+el cuerpo completo pasó de −0,189 a −0,222 mientras el peor caso suelto iba de
+−0,027 a −0,012, o sea acercándose al polo máquina. Una reescritura que sube la
+media puede dejar un párrafo peor que como estaba, y el promedio no lo dice.
+Encontrar ese párrafo es lo que hace `diagnostico.py` y lo que ninguna cifra
+agregada sabe hacer.
 - **Perplejidad.** Cuanto más alta, menos predecible. El umbral y los rangos están
   en el mapa de jueces, arriba, y solo ahí: son de EuroLLM y no valen para otro
   puntuador.
