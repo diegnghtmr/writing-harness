@@ -28,6 +28,24 @@ function archivos(dir: string, extension: string): string[] {
 
 const relativo = (p: string) => p.slice(REPO_ROOT.length).replace(/\\/gu, '/');
 
+/**
+ * Un identificador de modelo del catálogo de Hugging Face: `organizacion/modelo`.
+ *
+ * Se exige que el lado derecho parezca un modelo, y no basta con la barra:
+ * `org/nombre` a secas es la mitad de cualquier URL y las skills citan decenas,
+ * como `org/wiki`, `com/index.php` o `SecretodeAtenas/videos`. La mirada atrás
+ * descarta lo que viene pegado a un dominio o a otra ruta, que es donde viven
+ * todas esas.
+ *
+ * Lo que marca al modelo es el tamaño en parámetros, `1.7B` o `2b`, o un `gpt`
+ * con versión pegada. Se probó antes con una lista de familias y se retiró: con
+ * la comparación sin distinguir mayúsculas, `salamandra` es un animal, `llama`
+ * es un verbo y `bert` está dentro de «Alberto». Un delator que marca prosa
+ * española legítima dura hasta el segundo día.
+ */
+const MODELO =
+  /(?<![\w/.:-])[A-Za-z][\w.-]{1,30}\/(?=[A-Za-z])[\w.-]*(?:\d+(?:\.\d+)?[Bb]\b|gpt\d|gpt-)[\w.-]*/iu;
+
 describe('las skills y el verificador no se nombran', () => {
   test('ninguna skill nombra al verificador', () => {
     // «node » con el espacio a propósito: una skill puede hablar del nodo de un
@@ -38,6 +56,55 @@ describe('las skills y el verificador no se nombran', () => {
       return delatores.filter((d) => d.test(src)).map((d) => `${relativo(f)} :: ${d.source}`);
     });
     assert.deepEqual(hallazgos, []);
+  });
+
+  test('ninguna skill nombra un modelo concreto', () => {
+    // La otra mitad de la misma doctrina, y estuvo sin gate hasta que algo
+    // caminó por el hueco. Se escribió una skill que nombraba cinco modelos,
+    // tres scripts y un entorno de Python, y los cuatro delatores de arriba la
+    // dejaron pasar en verde: ninguno mira los nombres de modelo.
+    //
+    // Una skill tiene que servir en una máquina donde el modelo que la lee es
+    // otro. Dice «el agente» y describe qué papel cumple. El día que nombra un
+    // modelo, deja de ser una regla de escritura y pasa a ser la configuración
+    // de una instalación concreta.
+    //
+    // Lo que este gate NO hace es juzgar si un fabricante mencionado es el que
+    // ejecuta. `humanizar-espanol` cita «que no parezca de ChatGPT» como frase
+    // con la que el usuario la invoca, y nombra GPTZero y Turnitin porque habla
+    // de detectores: las tres son legítimas y ninguna expresión regular las
+    // distingue de una instrucción. Eso sigue siendo lectura.
+    const hallazgos = archivos(SKILLS_DIR, '.md')
+      .map((f) => [relativo(f), MODELO.exec(readFileSync(f, 'utf8'))] as const)
+      .filter(([, m]) => m !== null)
+      .map(([f, m]) => `${f} :: ${(m as RegExpExecArray)[0]}`);
+    assert.deepEqual(hallazgos, []);
+  });
+
+  test('el guardián de los modelos caza los de verdad y deja pasar la prosa', () => {
+    // El canario, y acá hacía más falta que en ningún otro sitio. «llama»
+    // aparece veinticinco veces repartidas en nueve skills y ni una sola es el
+    // modelo de Meta: son el verbo y el animal. Un delator escrito como lista
+    // de fabricantes habría marcado nueve skills el primer día y lo habrían
+    // apagado el segundo.
+    const dispara = (t: string) => MODELO.test(t);
+    // Los cuatro que traía la skill que no entró.
+    assert.ok(dispara('el juez es DeepESP/gpt2-spanish-medium'));
+    assert.ok(dispara('perplejidad con utter-project/EuroLLM-1.7B'));
+    assert.ok(dispara('descartado: Qwen/Qwen2.5-1.5B'));
+    assert.ok(dispara('descartado: BSC-LT/salamandra-2b'));
+    // Prosa española legítima y rutas que las skills citan de verdad.
+    assert.ok(!dispara('la llama se llama así'));
+    assert.ok(!dispara('ver `references/patrones-de-ia.md`'));
+    assert.ok(!dispara('https://es.wikipedia.org/wiki/Ensayo'));
+    assert.ok(!dispara('youtube.com/@SecretodeAtenas/videos'));
+    assert.ok(!dispara('«que no parezca de ChatGPT»'));
+    assert.ok(!dispara('la documentación de GPTZero'));
+    // Los tres que tumbaron la lista de familias. Van como test porque el día
+    // que alguien la reponga, esto se lo dice antes de que lo diga una skill.
+    assert.ok(!dispara('la salamandra de Alberto, que se llama así'));
+    assert.ok(!dispara('revista/salamandra'));
+    assert.ok(!dispara('autores/alberto-llamas'));
   });
 
   test('el verificador no nombra el directorio de ningún anfitrión', () => {
