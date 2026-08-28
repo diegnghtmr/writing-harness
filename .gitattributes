@@ -1,0 +1,14 @@
+# El corpus del detector se guarda tal cual, byte a byte, sin conversión de
+# finales de línea en ninguna dirección.
+#
+# No es una preferencia de formato. `evals/detector.ts` fija el sha256 de estos
+# archivos y las cifras del estudio describen exactamente esos bytes. Cualquier
+# normalización, la de `text=auto` o la de `core.autocrlf`, cambiaría el hash de
+# diecisiete archivos a la vez. En el mejor caso el gate falla y alguien pierde
+# una tarde; en el peor, alguien lo arregla pegando los hashes nuevos y las
+# mediciones pasan a hablar de un texto que ya no es el que se midió.
+#
+# `-text` es lo que apaga las dos conversiones. Va acá y no en la configuración
+# de nadie, porque una configuración local no viaja con el repositorio.
+detector/escenarios/** -text
+detector/eval/** -text
