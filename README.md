@@ -247,6 +247,24 @@ medir. Los tres tienen regla desde entonces.
 node --experimental-strip-types evals/gen.ts
 ```
 
+### Lo que sí se puede medir, pero no contando
+
+Dos de las declaraciones de `humanizar-espanol` no las cubre ninguna regla y
+tampoco son cuestión de juicio: son magnitudes estadísticas sobre el texto
+entero. Cuán previsible resulta cada palabra, y cuánto varía esa previsibilidad
+de una oración a otra. Contar palabras no llega ahí.
+
+`detector/` sí llega. Es una implementación local de Fast-DetectGPT en español y
+vive fuera del verificador a propósito: necesita Python, PyTorch y dos modelos
+descargados, y el arnés promete Node y nada más. Nada de `src/` la importa y la
+suite no la invoca, así que quien no la instale pierde esa medición y ninguna
+otra cosa.
+
+Qué juez se usa en cada punto lo decidió un estudio, no una preferencia: cinco
+modelos candidatos puntuando el mismo corpus etiquetado. Está en
+[detector/README.md](detector/README.md), con los que quedaron descartados y por
+qué, que es la mitad que suele faltar.
+
 ## El corpus que ya no está
 
 Las skills enuncian centenares de cifras medidas sobre un corpus que nunca vivió
