@@ -43,11 +43,15 @@ export function comandosDe(texto: string): { linea: string; ruta: string }[] {
       // y la mitad de ese canal no vive acá.
       if (/#[^\n]*en otro repositorio/u.test(linea)) continue;
       const limpia = linea.replace(/#.*$/u, '').trim();
-      if (!limpia.startsWith('node ')) continue;
+      // `python` entró con el detector. Era un agujero del tamaño exacto de lo
+      // que se acababa de documentar: la sección que enseña a medir la señal de
+      // IA trae dos comandos, y ninguno de los dos lo comprobaba nadie porque el
+      // extractor solo miraba los de Node.
+      if (!limpia.startsWith('node ') && !limpia.startsWith('python ')) continue;
       const ruta = limpia
         .split(/\s+/u)
         .slice(1)
-        .find((a) => /\.(?:ts|mjs|js)$/u.test(a) && !a.startsWith('<') && !a.includes('*'));
+        .find((a) => /\.(?:ts|mjs|js|py)$/u.test(a) && !a.startsWith('<') && !a.includes('*'));
       if (ruta !== undefined) out.push({ linea: limpia, ruta });
     }
   }
@@ -92,6 +96,11 @@ describe('los comandos que la documentación enseña existen', () => {
       { linea: 'node src/cli.ts <archivo> --tono <id>', ruta: 'src/cli.ts' },
     ]);
     assert.deepEqual(comandosDe('```bash\nnode --test "evals/*.test.ts"\n```'), []);
+    // Los del detector, que son de Python y viven fuera de `src/`.
+    assert.deepEqual(comandosDe('```bash\npython detector/score_es.py <archivo>\n```'), [
+      { linea: 'python detector/score_es.py <archivo>', ruta: 'detector/score_es.py' },
+    ]);
+    assert.deepEqual(comandosDe('```bash\npip install torch\n```'), []);
     // Y la marca de otro repositorio se respeta, que es la única puerta de
     // salida de este gate y por eso se prueba.
     assert.deepEqual(

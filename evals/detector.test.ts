@@ -11,7 +11,10 @@
 // arreglado cinco veces en otros documentos.
 
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, test } from 'node:test';
+import { REPO_ROOT } from '../src/skills.ts';
 import {
   CIFRAS,
   DESCARTADOS,
@@ -142,6 +145,21 @@ describe('la asíntota es la razón de que el loop tenga tope', () => {
       DIRIGIDAS.techo,
       'la regla de la mitad ya no da el techo que el módulo declara',
     );
+  });
+
+  test('AGENTS.md enseña el mismo tope que el módulo fija', () => {
+    // La cifra que un agente va a leer y obedecer. Vivía solo en la prosa y la
+    // prosa de este repositorio ya envejeció cinco veces por lo mismo: se
+    // escribe una vez y nadie la vuelve a mirar. Va con letra porque la base lo
+    // pide para las cantidades bajas, y que vaya con letra no la exime.
+    const LETRA: Record<number, string> = { 1: 'una', 2: 'dos', 3: 'tres' };
+    const agents = readFileSync(join(REPO_ROOT, 'AGENTS.md'), 'utf8').replace(/\s+/gu, ' ');
+    const defecto = /\*\*(\p{L}+) pasada dirigida y se cierra\.\*\*/u.exec(agents);
+    const techo = /El techo que la evidencia numérica sostiene son (\p{L}+)/u.exec(agents);
+    assert.ok(defecto, 'AGENTS.md dejó de enunciar cuántas pasadas dirigidas por defecto');
+    assert.ok(techo, 'AGENTS.md dejó de enunciar el techo');
+    assert.equal((defecto[1] as string).toLowerCase(), LETRA[DIRIGIDAS.porDefecto]);
+    assert.equal((techo[1] as string).toLowerCase(), LETRA[DIRIGIDAS.techo]);
   });
 
   test('el techo y el valor por defecto no son el mismo número, y eso es a propósito', () => {

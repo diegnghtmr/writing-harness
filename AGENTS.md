@@ -109,7 +109,57 @@ no frenan la entrega: señalan lo que solo el contexto decide.
 Cada hallazgo trae la línea, la columna, la sección de la skill que lo enuncia y
 qué hacer en su lugar. Señalar sin arreglar no sirve.
 
-## 5. Lo que el verificador no ve
+## 5. Medir la señal de IA, cuando se humaniza
+
+Esto no corre siempre. Corre en el mismo caso que la pasada: cuando el usuario
+pidió humanizar con esas palabras. Y es opcional además de eso, porque necesita
+una herramienta que el arnés no trae.
+
+El motivo de que exista es concreto. El verificador cuenta: longitudes, rachas,
+patrones. Dos de las afirmaciones centrales de `humanizar-espanol` no se cuentan,
+porque son magnitudes estadísticas sobre el texto entero: cuán previsible es cada
+palabra, y cuánto varía esa previsibilidad de una oración a otra. Ninguna regla
+las va a cubrir. `detector/` las mide.
+
+```bash
+python detector/score_es.py <archivo>              # la línea de base
+python detector/diagnostico.py <archivo> 12        # qué párrafos reescribir
+```
+
+El ciclo es este:
+
+1. Medir el texto original.
+2. Aplicar `humanizar-espanol` entera, con su propia auditoría, y volver a medir.
+3. Diagnosticar por párrafo y reescribir los peor puntuados con las reglas de la
+   skill, no con las del detector.
+4. Volver a medir y parar.
+
+**Una pasada dirigida y se cierra.** El techo que la evidencia numérica sostiene
+son dos, y está escrito para quien tenga un motivo y lo diga en voz alta, pero el
+valor por defecto es una. La diferencia entre los dos números no es un descuido:
+`evals/detector.ts` la explica y un gate la sostiene.
+
+Cuatro cosas que no se hacen acá, y las cuatro por el mismo motivo:
+
+- **No se itera hasta que el número baje.** Iterar contra la métrica produce el
+  parafraseo uniforme que los detectores marcan, que es Goodhart con otro nombre.
+  La ganancia por pasada cae a la mitad y lo que se gasta mientras tanto es voz.
+- **No se reescriben los párrafos de método ni de datos** aunque un juez los
+  marque. Cifras, criterios y listas de categorías tienen que ser llanas, y la
+  varianza entre lo llano y lo particular es justamente la señal.
+- **No se compara entre fragmentos de distinto tamaño.** La curvatura agregada
+  crece con la longitud: solo se comparan versiones del mismo fragmento.
+- **No se reporta un puntaje como prueba de autoría.** No lo es, ni este ni el de
+  ningún servicio web. Es una señal estadística y se entrega diciéndolo.
+
+Qué juez se usa en cada punto, y por qué ese y no otro, está en
+[detector/README.md](detector/README.md). Sale de comparar cinco candidatos sobre
+un corpus etiquetado, no de una preferencia.
+
+Cuando el detector no está, este paso no corre y el resto del procedimiento no
+cambia. Lo que se pierde es la medición, no la entrega.
+
+## 6. Lo que el verificador no ve
 
 De las 254 declaraciones que hacen las skills, **158 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
@@ -129,7 +179,7 @@ el texto pasó las reglas mecanizables, no que esté bien escrito. Esa segunda
 parte sigue siendo lectura humana, y la lista de verificación del final de cada
 skill es la forma de hacerla.
 
-## 6. Lo que no se hace al usar
+## 7. Lo que no se hace al usar
 
 - **No se toca una regla para que pase un texto.** Si la regla está mal, eso es
   el modo mejorar, va con su motivo escrito y lleva su gate.
@@ -373,6 +423,11 @@ eso.
 Node 22.6 o superior, nada más. El repositorio no tiene dependencias, ni build,
 ni `package-lock`. Corre offline.
 
+`detector/` es la excepción y por eso vive aparte. Necesita Python, PyTorch y dos
+modelos descargados, y nada de `src/` lo importa ni la suite lo invoca. Quien no
+lo instale pierde el paso 5 y ningún otro: el arnés sigue siendo Node y sigue
+corriendo offline. Meterlo dentro habría convertido esa frase en mentira.
+
 ## Las skills instaladas son enlaces
 
 `node scripts/instalar.ts` enlaza cada skill desde el directorio del anfitrión
@@ -429,6 +484,7 @@ al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
 | `src/corpus.ts`, `src/mediciones.ts` | El registro del corpus borrado. No se editan a mano |
 | `evals/` | Los gates. Cada uno falla en las dos direcciones |
 | `scripts/` | Manifiesto, medición, instalación y hook |
+| `detector/` | La herramienta opcional que mide la señal de IA. Corre por fuera |
 
 ## Qué archivo lee cada anfitrión
 
