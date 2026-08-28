@@ -29,11 +29,19 @@ eligió:
 
 - **Perplejidad con DeepESP, no.** Humano 29,6-76,0 contra máquina 22,3-36,8: se
   solapan, y el fragmento de Unamuno cae dentro del rango máquina.
-- **Curvatura con Qwen2.5 o Salamandra-2b, no.** Sus brechas mínimas son
-  negativas (−0,062, −0,088, −0,109), es decir que hay textos humanos puntuando
-  como máquina. Concuerda con la literatura de Fast-DetectGPT: para curvatura, un
-  puntuador chico y de distribución estrecha discrimina mejor en zero-shot que un
+- **Curvatura con los tres grandes, no.** `Qwen/Qwen2.5-0.5B` (brecha mínima
+  −0,062), `Qwen/Qwen2.5-1.5B` (−0,088) y `BSC-LT/salamandra-2b` (−0,109) tienen
+  brecha negativa, es decir que hay textos humanos puntuando como máquina.
+  Concuerda con la literatura de Fast-DetectGPT: para curvatura, un puntuador
+  chico y de distribución estrecha discrimina mejor en zero-shot que un
   multilingüe grande.
+
+Y conviene mirar por qué se descartan, porque el criterio no es el obvio.
+`Qwen/Qwen2.5-0.5B` tiene gap medio positivo, +0,048, y aun así queda fuera. **Lo
+que decide es la brecha mínima, no el promedio**: un modelo puede separar bien en
+media y aun así confundir un texto humano concreto con uno de máquina, y ese
+texto es el que importa cuando alguien acusa a un autor. Quedan descargados en la
+caché de Hugging Face para repetir las pruebas.
 
 EuroLLM es el único de los cinco que separa por las dos señales a la vez, y por
 eso es el segundo juez y no otro.
@@ -77,8 +85,9 @@ ordenados del más máquina al más humano.
 - **Curvatura normalizada por párrafo.** Valores cercanos a 0 son zona de
   sospecha. En el documento de trabajo el peor párrafo original puntuaba −0,012 y
   el piso quedó en −0,13 después del loop.
-- **Perplejidad.** Cuanto más alta, menos predecible. Con EuroLLM, por debajo de 8
-  es zona máquina y los humanos del corpus están entre 15,9 y 17,7.
+- **Perplejidad.** Cuanto más alta, menos predecible. El umbral y los rangos están
+  en el mapa de jueces, arriba, y solo ahí: son de EuroLLM y no valen para otro
+  puntuador.
 
 Tres advertencias que no son formalidades:
 
