@@ -1,0 +1,101 @@
+
+===== DeepESP/gpt2-spanish-medium =====
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/293 [00:00<?, ?it/s]Loading weights: 100%|##########| 293/293 [00:00<00:00, 42843.78it/s]
+[transformers] [1mGPT2LMHeadModel LOAD REPORT[0m from: DeepESP/gpt2-spanish-medium
+Key                                     | Status     |  | 
+----------------------------------------+------------+--+-
+transformer.h.{0...23}.attn.masked_bias | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+  detector/eval/humano/bolivar2014.txt          humano    cnorm= -0.260 ppl=    65.0 n=883
+  detector/eval/humano/rmie2014b.txt            humano    cnorm= -0.282 ppl=    76.0 n=806
+  detector/eval/humano/unamuno.txt              humano    cnorm= -0.105 ppl=    29.6 n=1021
+  detector/eval/maquina/claude_brecha.txt       maquina   cnorm= -0.080 ppl=    36.8 n=358
+  detector/eval/maquina/claude_convivencia.txt  maquina   cnorm= -0.020 ppl=    26.5 n=369
+  detector/eval/maquina/claude_evaluacion.txt   maquina   cnorm=  0.015 ppl=    22.3 n=397
+  detector/eval/maquina/gen_deepesp.txt         maquina   cnorm=  0.250 ppl=    15.0 n=467
+  detector/eval/maquina/gen_qwen15.txt          maquina   cnorm= -0.226 ppl=    66.5 n=378
+  escenarios/1-original/cuerpo.txt              escenario cnorm= -0.189 ppl=    60.7 n=5649
+  escenarios/2-solo-skill/cuerpo.txt            escenario cnorm= -0.222 ppl=    71.3 n=5437
+  escenarios/3-skill-mas-detector/cuerpo.txt    escenario cnorm= -0.241 ppl=    75.4 n=5465
+  -> gap medio maquina-humano: 0.138 | brecha minima: -0.122 | orden escenarios ok: True
+
+===== Qwen/Qwen2.5-0.5B =====
+C:\Users\diego\Desktop\tarea\detector\.venv\Lib\site-packages\huggingface_hub\file_download.py:141: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\diego\.cache\huggingface\hub\models--Qwen--Qwen2.5-0.5B. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|##########| 290/290 [00:00<00:00, 7486.14it/s]
+  detector/eval/humano/bolivar2014.txt          humano    cnorm= -0.008 ppl=    17.7 n=1119
+  detector/eval/humano/rmie2014b.txt            humano    cnorm= -0.068 ppl=    18.7 n=1064
+  detector/eval/humano/unamuno.txt              humano    cnorm=  0.018 ppl=    19.4 n=1297
+  detector/eval/maquina/claude_brecha.txt       maquina   cnorm=  0.075 ppl=     6.1 n=478
+  detector/eval/maquina/claude_convivencia.txt  maquina   cnorm=  0.057 ppl=     5.5 n=492
+  detector/eval/maquina/claude_evaluacion.txt   maquina   cnorm= -0.044 ppl=     5.2 n=510
+  detector/eval/maquina/gen_deepesp.txt         maquina   cnorm=  0.064 ppl=    14.4 n=601
+  detector/eval/maquina/gen_qwen15.txt          maquina   cnorm=  0.022 ppl=    16.1 n=470
+  escenarios/1-original/cuerpo.txt              escenario cnorm=  0.033 ppl=    13.3 n=7102
+  escenarios/2-solo-skill/cuerpo.txt            escenario cnorm=  0.009 ppl=    15.4 n=6846
+  escenarios/3-skill-mas-detector/cuerpo.txt    escenario cnorm= -0.002 ppl=    16.5 n=6889
+  -> gap medio maquina-humano: 0.057 | brecha minima: -0.062 | orden escenarios ok: True
+
+===== Qwen/Qwen2.5-1.5B =====
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights: 100%|##########| 338/338 [00:00<00:00, 4302.33it/s]
+  detector/eval/humano/bolivar2014.txt          humano    cnorm= -0.027 ppl=    13.6 n=1119
+  detector/eval/humano/rmie2014b.txt            humano    cnorm= -0.062 ppl=    14.4 n=1064
+  detector/eval/humano/unamuno.txt              humano    cnorm=  0.013 ppl=    13.2 n=1297
+  detector/eval/maquina/claude_brecha.txt       maquina   cnorm= -0.025 ppl=     4.0 n=478
+  detector/eval/maquina/claude_convivencia.txt  maquina   cnorm=  0.009 ppl=     3.7 n=492
+  detector/eval/maquina/claude_evaluacion.txt   maquina   cnorm= -0.075 ppl=     3.4 n=510
+  detector/eval/maquina/gen_deepesp.txt         maquina   cnorm= -0.012 ppl=    13.5 n=601
+  detector/eval/maquina/gen_qwen15.txt          maquina   cnorm=  0.123 ppl=    10.4 n=470
+  escenarios/1-original/cuerpo.txt              escenario cnorm=  0.028 ppl=     9.5 n=7102
+  escenarios/2-solo-skill/cuerpo.txt            escenario cnorm= -0.002 ppl=    10.9 n=6846
+  escenarios/3-skill-mas-detector/cuerpo.txt    escenario cnorm= -0.016 ppl=    11.6 n=6889
+  -> gap medio maquina-humano: -0.000 | brecha minima: -0.088 | orden escenarios ok: True
+
+===== utter-project/EuroLLM-1.7B =====
+C:\Users\diego\Desktop\tarea\detector\.venv\Lib\site-packages\huggingface_hub\file_download.py:141: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\diego\.cache\huggingface\hub\models--utter-project--EuroLLM-1.7B. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights: 100%|##########| 219/219 [00:00<00:00, 25304.48it/s]
+  detector/eval/humano/bolivar2014.txt          humano    cnorm= -0.027 ppl=    15.9 n=974
+  detector/eval/humano/rmie2014b.txt            humano    cnorm= -0.063 ppl=    17.7 n=915
+  detector/eval/humano/unamuno.txt              humano    cnorm= -0.008 ppl=    15.9 n=1175
+  detector/eval/maquina/claude_brecha.txt       maquina   cnorm=  0.113 ppl=     3.9 n=398
+  detector/eval/maquina/claude_convivencia.txt  maquina   cnorm=  0.098 ppl=     3.9 n=411
+  detector/eval/maquina/claude_evaluacion.txt   maquina   cnorm=  0.004 ppl=     3.6 n=427
+  detector/eval/maquina/gen_deepesp.txt         maquina   cnorm=  0.019 ppl=    21.7 n=504
+  detector/eval/maquina/gen_qwen15.txt          maquina   cnorm= -0.064 ppl=    21.0 n=406
+  escenarios/1-original/cuerpo.txt              escenario cnorm=  0.051 ppl=    10.9 n=6199
+  escenarios/2-solo-skill/cuerpo.txt            escenario cnorm=  0.027 ppl=    12.3 n=6004
+  escenarios/3-skill-mas-detector/cuerpo.txt    escenario cnorm=  0.013 ppl=    13.0 n=6044
+  -> gap medio maquina-humano: 0.067 | brecha minima: -0.056 | orden escenarios ok: True
+
+===== BSC-LT/salamandra-2b =====
+C:\Users\diego\Desktop\tarea\detector\.venv\Lib\site-packages\huggingface_hub\file_download.py:141: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\diego\.cache\huggingface\hub\models--BSC-LT--salamandra-2b. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+Loading weights:   0%|          | 0/219 [00:00<?, ?it/s]Loading weights: 100%|##########| 219/219 [00:00<00:00, 7955.11it/s]
+  detector/eval/humano/bolivar2014.txt          humano    cnorm= -0.002 ppl=    15.4 n=954
+  detector/eval/humano/rmie2014b.txt            humano    cnorm= -0.054 ppl=    19.0 n=879
+  detector/eval/humano/unamuno.txt              humano    cnorm=  0.049 ppl=    13.7 n=1160
+  detector/eval/maquina/claude_brecha.txt       maquina   cnorm=  0.058 ppl=     4.8 n=375
+  detector/eval/maquina/claude_convivencia.txt  maquina   cnorm= -0.049 ppl=     4.4 n=386
+  detector/eval/maquina/claude_evaluacion.txt   maquina   cnorm= -0.060 ppl=     4.2 n=390
+  detector/eval/maquina/gen_deepesp.txt         maquina   cnorm= -0.002 ppl=    21.6 n=498
+  detector/eval/maquina/gen_qwen15.txt          maquina   cnorm= -0.110 ppl=    23.4 n=396
+  escenarios/1-original/cuerpo.txt              escenario cnorm=  0.052 ppl=    11.9 n=6005
+  escenarios/2-solo-skill/cuerpo.txt            escenario cnorm=  0.027 ppl=    13.6 n=5815
+  escenarios/3-skill-mas-detector/cuerpo.txt    escenario cnorm=  0.008 ppl=    14.3 n=5853
+  -> gap medio maquina-humano: -0.030 | brecha minima: -0.158 | orden escenarios ok: True
+
+===== RESUMEN =====
+modelo                          gap medio  brecha min  orden 1>2>3
+DeepESP/gpt2-spanish-medium         0.138      -0.122         True
+utter-project/EuroLLM-1.7B          0.067      -0.056         True
+Qwen/Qwen2.5-0.5B                   0.057      -0.062         True
+Qwen/Qwen2.5-1.5B                  -0.000      -0.088         True
+BSC-LT/salamandra-2b               -0.030      -0.158         True

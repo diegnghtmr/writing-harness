@@ -1,3 +1,10 @@
 node_modules/
 dist/
 .DS_Store
+
+# El entorno del detector y el clon del repositorio oficial. Son 9,8 GB de los
+# que 22 archivos son nuestros, y los dos se reconstruyen: el venv con pip y el
+# clon con git. Lo que no se reconstruye es `detector/eval/`, y ese sí entra.
+detector/.venv/
+detector/fast-detect-gpt/
+detector/__pycache__/
