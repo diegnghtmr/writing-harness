@@ -326,6 +326,56 @@ describe('pattern-ratio-floor: el piso que la base no puede dar', () => {
     assert.deepEqual(solo(pocas, 'triangulacion', 'triangulacion-punto-y-coma'), []);
   });
 
+  test('dispara cuando las oraciones no declaran su relación con la anterior', () => {
+    // El defecto que sobrevivió a todo lo demás. El corpus abre con conector el
+    // 43 % de sus oraciones y el apartado conceptual el 49 %; el texto que
+    // motivó esta regla iba en el 20 %, con la apertura de párrafo ya correcta.
+    const sueltas = conLongitudes(Array.from({ length: 16 }, () => 26));
+    const f = solo(sueltas, 'triangulacion', 'triangulacion-oracion-encadenada');
+    assert.equal(f.length, 1);
+    assert.match(f[0]!.message, /0 de 16 oraciones, 0 %/u);
+    assert.match(f[0]!.message, /el m[íi]nimo es 25 %/u);
+  });
+
+  test('calla con una de cada cuatro, sin dos seguidas', () => {
+    // La otra dirección, y con el margen justo. Van alternadas a propósito:
+    // `conectores-de-molde-seguidos` es de la base y es error, así que un texto
+    // que cumpla este piso amontonándolos estaría rompiendo la base.
+    const enlaces = ['Por ende', 'No obstante', 'De hecho', 'En consecuencia'];
+    const partes: string[] = [];
+    for (let i = 0; i < 16; i += 1) {
+      const cuerpo = Array.from({ length: 25 }, () => 'palabra').join(' ');
+      partes.push(i % 4 === 0 ? `${enlaces[i / 4]}, ${cuerpo}.` : `${cuerpo}.`);
+    }
+    const texto = partes.join(' ');
+    assert.deepEqual(solo(texto, 'triangulacion', 'triangulacion-oracion-encadenada'), []);
+
+    // Y el canario que lo vuelve una prueba: el piso del tono se cumple sin
+    // disparar la regla de la base que prohíbe dos enlaces seguidos.
+    assert.deepEqual(
+      check(texto, { tone: 'triangulacion' }).filter((f) => f.rule === 'conectores-de-molde-seguidos'),
+      [],
+    );
+  });
+
+  test('la apertura de párrafo correcta no basta para pasar la de oración', () => {
+    // Las dos reglas miden cosas distintas y hacen falta las dos. Este texto
+    // acierta el encadenado de párrafo y deja el interior suelto, que es
+    // exactamente lo que pasó con el documento que motivó la regla.
+    const cuerpo = conLongitudes([26, 26, 26, 26]);
+    const texto = [
+      cuerpo,
+      `No obstante, ${cuerpo}`,
+      cuerpo,
+      `Por el contrario, ${cuerpo}`,
+      cuerpo,
+      cuerpo,
+      cuerpo,
+    ].join('\n\n');
+    assert.deepEqual(solo(texto, 'triangulacion', 'triangulacion-parrafo-encadenado'), []);
+    assert.equal(solo(texto, 'triangulacion', 'triangulacion-oracion-encadenada').length, 1);
+  });
+
   test('el piso del tono deja sitio bajo el techo de la base', () => {
     // Un tono no puede pedir lo que la base castiga. El piso está en el 8 % y
     // `spanish-writing` §6.7 pone el techo en el 20 %: un texto que cumpla el

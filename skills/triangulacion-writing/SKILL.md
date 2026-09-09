@@ -136,6 +136,14 @@ El piso práctico es una de cada cinco, bastante por debajo de lo medido, para
 que la exigencia acuse a un texto que abandonó el registro y no a uno que
 respiró.
 
+Y la cifra que hace falta al lado de esa, porque sin ella la anterior se cumple
+mal: **solo el 15 % de las oraciones del corpus baja de quince palabras.** La
+oración breve de este registro es rara, y por eso destaca cuando cae. El error
+que produce leer la primera cifra sola es un texto que alterna periodos de
+cuarenta palabras con frases de ocho y no tiene nada en el medio; el corpus pasa
+la mayor parte del tiempo entre veinte y treinta y cinco, que es donde cabe una
+subordinación sin que el periodo se descosa.
+
 ### 4.2. La media no abandona su banda
 
 La media del corpus es de 26,5 palabras por oración y la mediana, de 25. Los
@@ -339,9 +347,28 @@ registro, está en la parodia que la sección 15 llama caricatura culta.
 Esta es la sección que hace al tono. Todo lo demás la sirve.
 
 Un texto de esta forma casi nunca pone dos ideas una detrás de otra sin decir
-qué las une. El 36,4 % de las oraciones abre con un conector y el 32,2 % de los
-párrafos también, y esa densidad no es un tic: es lo que permite que un periodo
-de treinta palabras se enganche con el siguiente sin que el lector se pierda.
+qué las une, y conviene empezar por la cifra porque es más alta de lo que nadie
+supone al leerla.
+
+**Cuarenta y tres de cada cien oraciones del corpus abren declarando su
+relación con la anterior.** En el apartado conceptual son cuarenta y nueve, es
+decir, prácticamente una de cada dos. La cuenta incluye tanto el enlace de la
+tabla de la sección 6.1 como el que sitúa sin encadenar («así», «pese a»,
+«según», «de lo contrario»); contando solo los primeros la cifra baja al 36,4 %,
+y las dos maneras de contar dicen lo mismo, que es que el rasgo es constante.
+
+**Esto es un redoble, no un adorno, y es lo que más cuesta creer.** Leído de
+corrido, el corpus dice «por ello», «por consiguiente», «por tanto», «por ende»,
+«en consecuencia», «de hecho», «así», «además» cada dos oraciones. Un texto que
+acierte todo lo demás y ponga el enlace cada cinco oraciones no suena a este
+registro: suena a una exposición ordenada cualquiera, y es el defecto que más
+veces sobrevivió a todas las otras correcciones.
+
+La medida práctica está en **una de cada cuatro**, muy por debajo de lo medido, y
+lo está para acusar al texto que abandonó el rasgo y no al que respiró. El 32,2 %
+de los párrafos abre además con conector, y de eso se ocupa la sección 6.2; las
+dos cifras son distintas y hacen falta las dos, ya que un texto puede acertar la
+apertura de cada párrafo y dejar todo el interior sin encadenar.
 
 ### 6.1. El conector es de rango alto, y el inventario está contado
 
@@ -1318,66 +1345,68 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
 10. ¿Lo que cuelga del punto y coma continúa la oración anterior, la rebautiza o
     trae el miembro siguiente de una serie, en vez de ser una oración que podría
     ir suelta?
-11. ¿Cada unidad declara qué relación tiene con la anterior, en vez de quedar
+11. ¿Al menos una de cada cuatro oraciones abre declarando qué relación tiene
+    con la anterior?
+12. ¿Cada unidad declara qué relación tiene con la anterior, en vez de quedar
     puesta al lado sin decirlo?
-12. ¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos
+13. ¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos
     oraciones seguidas?
-13. ¿El enlace culto poco frecuente aparece una o dos veces en todo el texto, y
+14. ¿El enlace culto poco frecuente aparece una o dos veces en todo el texto, y
     no en cada párrafo?
-14. ¿Hay al menos una reformulación que vuelva a decir en llano un pasaje denso,
+15. ¿Hay al menos una reformulación que vuelva a decir en llano un pasaje denso,
     y ninguna que reformule algo que ya era claro?
-15. ¿Alguna corrección se hace reemplazando dentro de la misma oración, con «no
+16. ¿Alguna corrección se hace reemplazando dentro de la misma oración, con «no
     X, sino Y», en vez de negando y volviendo a empezar?
-16. ¿Las enumeraciones van dentro de la prosa con ordinales, sin una sola lista
+17. ¿Las enumeraciones van dentro de la prosa con ordinales, sin una sola lista
     con viñetas?
-17. ¿Algún par de dos puntos entrega en pocas palabras el nombre de lo que se
+18. ¿Algún par de dos puntos entrega en pocas palabras el nombre de lo que se
     acaba de describir, en vez de abrir siempre una explicación larga?
-18. ¿Las clasificaciones definen a cada miembro en el acto y dentro del mismo
+19. ¿Las clasificaciones definen a cada miembro en el acto y dentro del mismo
     periodo, con la misma pieza para todos y punto y coma entre ellos?
-19. ¿La palabra culta entra por el sustantivo o por el verbo, y al cambiarla por
+20. ¿La palabra culta entra por el sustantivo o por el verbo, y al cambiarla por
     la corriente la oración pierde algo?
-20. ¿Los términos que lo necesitan traen su glosa entre paréntesis, sin abrir
+21. ¿Los términos que lo necesitan traen su glosa entre paréntesis, sin abrir
     oración para explicarlos?
-21. ¿Los adverbios en -mente aparecen cada pocas líneas, dentro de la oración
+22. ¿Los adverbios en -mente aparecen cada pocas líneas, dentro de la oración
     y sin repetirse?
-22. ¿Los adverbios elegidos son los poco corrientes, sin «claramente», sin
+23. ¿Los adverbios elegidos son los poco corrientes, sin «claramente», sin
     «evidentemente» y sin «obviamente»?
-23. ¿Algún adjetivo va delante del sustantivo para valorar, y ninguno queda
+24. ¿Algún adjetivo va delante del sustantivo para valorar, y ninguno queda
     puesto solo para elevar el tono?
-24. ¿El periodo se alarga con gerundio, con «al» más infinitivo o con «a fin
+25. ¿El periodo se alarga con gerundio, con «al» más infinitivo o con «a fin
     de», y no solo con comas?
-25. ¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a
+26. ¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a
     decir, sin que un dato demuestre lo que apenas perfila?
-26. ¿El verbo con que se le atribuye una idea a un autor lo sitúa respecto del
+27. ¿El verbo con que se le atribuye una idea a un autor lo sitúa respecto del
     anterior, en vez de limitarse a «señala» o a «explica»?
-27. ¿La reserva va delante de la afirmación que matiza, y es concesiva en vez de
+28. ¿La reserva va delante de la afirmación que matiza, y es concesiva en vez de
     probabilística?
-28. ¿Los conceptos que hacen de sujeto llevan un verbo de cuerpo o de
+29. ¿Los conceptos que hacen de sujeto llevan un verbo de cuerpo o de
     movimiento, en vez de «implica» y «consiste en»?
-29. ¿Quien escribe no aparece nunca en primera persona, ni del singular ni del
+30. ¿Quien escribe no aparece nunca en primera persona, ni del singular ni del
     plural?
-30. ¿Las citas conservan la persona, el vocabulario y el registro de quien habló,
+31. ¿Las citas conservan la persona, el vocabulario y el registro de quien habló,
     sin limpiarlos?
-31. ¿Cada autor entra con su oficio y su nombre completo la primera vez y solo
+32. ¿Cada autor entra con su oficio y su nombre completo la primera vez y solo
     con el apellido después, y el verbo que lo sitúa va en esa primera oración?
-32. ¿Cada posición del recorrido entra por su relación con la anterior, y no
+33. ¿Cada posición del recorrido entra por su relación con la anterior, y no
     puesta en fila?
-33. ¿Cada cita larga entra por unos dos puntos y el párrafo siguiente la
+34. ¿Cada cita larga entra por unos dos puntos y el párrafo siguiente la
     convierte, sin que ninguna cierre un párrafo ni un apartado?
-34. ¿El recorrido cierra estipulando en futuro con qué alcance se usará el
+35. ¿El recorrido cierra estipulando en futuro con qué alcance se usará el
     término y con cuál no, y esa estipulación queda antes de lo que el término
     va a leer, en vez de al final del texto?
-35. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
-36. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
-37. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
-38. ¿Cada afirmación del análisis se apoya a la vez en cosas de procedencia
+36. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
+37. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
+38. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
+39. ¿Cada afirmación del análisis se apoya a la vez en cosas de procedencia
     distinta y en un concepto ya estipulado?
-39. ¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo
+40. ¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo
     mismo?
-40. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
-41. ¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe
+41. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
+42. ¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe
     destacar» y sin «en conclusión»?
-42. ¿La apertura nombra lo que se va a poner en relación, en vez de definir o de
+43. ¿La apertura nombra lo que se va a poner en relación, en vez de definir o de
     ponderar la importancia del tema?
 
 
@@ -1409,7 +1438,10 @@ cautelas de la sección 3.
 | Variación del tamaño de párrafo | 48 % |
 | Párrafos por debajo de ochenta palabras | 21 % |
 | Párrafos que abren con objeción | 6 de 87 |
-| Oraciones que abren con conector | 36,4 % |
+| Oraciones que abren con conector, con el inventario de la sección 6.1 | 36,4 % |
+| Oraciones que abren con conector, contando también el enlace que sitúa | 43 % |
+| Oraciones que abren con conector, en el apartado conceptual | 49 % |
+| Oraciones de quince palabras o menos | 15 % |
 | Párrafos que abren con conector | 32,2 % |
 | Nexos subordinantes | 188, uno cada 65 palabras |
 | «cuyo» y sus formas, contra «del cual» | 42 contra 1 |
@@ -1487,7 +1519,9 @@ sección 4. Ilustran la forma; no son evidencia de ella.
 
 **El bloque metodológico del corpus no alcanza el piso de la sección 6.2.** Sus
 párrafos abren con conector el 11 % de las veces, contra el 27 % del bloque
-conceptual y el 40 % del analítico. Se deja dicho en vez de bajar el piso, por
+conceptual y el 40 % del analítico, y sus oraciones el 22 %, contra el 49 % y el
+41 %. Es el único bloque que queda por debajo de los dos pisos de la sección 6, y
+lo hace por el mismo motivo en los dos. Se deja dicho en vez de bajar el piso, por
 dos razones. La primera es que ese apartado se apoya en el orden de los pasos y
 no en la relación entre ellos, así que el rasgo le falta de verdad y no por
 medirlo mal. La segunda es que un texto que sea solo metodología recibirá el

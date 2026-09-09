@@ -2484,6 +2484,44 @@ export const TONES: Record<string, Tone> = {
           },
         ],
       },
+      {
+        // §6. El rasgo central del tono y el último en mecanizarse, porque la
+        // cifra estaba escrita desde la primera versión y ninguna regla la
+        // exigía. Contado con este inventario, el corpus abre con conector el
+        // 43 % de sus oraciones, el apartado conceptual el 49 % y el analítico
+        // el 41 %. Es un redoble, no un adorno: casi una de cada dos.
+        //
+        // La regla de párrafo no alcanzaba. Un texto puede acertar la apertura
+        // de párrafo y dejar el interior sin encadenar, y eso fue exactamente
+        // lo que pasó: 29 % de párrafos encadenados con 20 % de oraciones, la
+        // mitad de lo medido, y el usuario lo vio leyendo.
+        //
+        // El piso va en el 25 %, algo más de la mitad de lo medido. Los tres
+        // bloques largos del corpus pasan entre 41 % y 49 %, y los quince
+        // documentos de prueba de los otros tonos caen entre 0 % y 9 %.
+        //
+        // No choca con `conectores-de-molde-seguidos`, que es de la base y es
+        // error: aquella prohíbe dos seguidos de una lista de trece, y esta
+        // pide una de cada cuatro repartidas. Una de cada cuatro sin dos
+        // seguidas se escribe sin esfuerzo, y `triangulacion-conectores-variados`
+        // ya obliga además a que sean cinco distintos.
+        id: 'triangulacion-oracion-encadenada',
+        kind: 'pattern-ratio-floor',
+        severity: 'warning',
+        pattern:
+          /^(?:no obstante|sin embargo|empero|por el contrario|en contraste|en cambio|con todo|ahora bien|en consecuencia|por consiguiente|por ende|por tanto|por lo tanto|por ello|de manera que|de modo que|de tal manera que|de ah[íi] que|adem[áa]s|asimismo|adicionalmente|en efecto|de hecho|del mismo modo|igualmente|an[áa]logamente|correlativamente|por cierto|en primer lugar|por un lado|por otro lado|por otra parte|por [úu]ltimo|en suma|en definitiva|con todo ello|es decir|en otras palabras|dicho de otro modo|en pocas palabras|en este sentido|con ello|aun as[íi]|as[íi]|en atenci[óo]n a|de esta manera|de ah[íi]|a pesar de|pese a|de lo contrario|por su parte|seg[úu]n)(?:,|\s)/iu,
+        minShare: 0.25,
+        minSentences: 12,
+        message: 'Las oraciones van una detrás de otra sin decir qué relación tienen, y este registro lo declara casi en una de cada dos.',
+        fix: 'Poner al frente de la oración el enlace que dice qué hace con la anterior: «Por ende», «Por consiguiente», «No obstante», «De hecho», «En este sentido». Sin dos seguidas y sin repetir el mismo.',
+        source: 'triangulacion-writing §6',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿Al menos una de cada cuatro oraciones abre declarando qué relación tiene con la anterior?',
+          },
+        ],
+      },
     ],
   },
 };
