@@ -178,6 +178,6 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada afirmación del análisis se apoya a la vez en un dato, en un testimonio y en un concepto ya estipulado?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Los tres apoyos se confrontan entre sí, en vez de repetir lo mismo tres veces?", estado: 'criterio' },
-  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada dato y cada testimonio traen la referencia que permite volver a ellos?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada cifra dice de qué es fracción, y cada testimonio de quién es la voz?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿La apertura nombra las clases de evidencia que se van a confrontar, en vez de definir o de ponderar la importancia del tema?", estado: 'criterio' },
 ];

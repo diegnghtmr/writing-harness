@@ -53,11 +53,11 @@ base decide qué es correcto en español. Este skill decide cómo suena.
 Ninguna regla de este documento levanta una prohibición de la base. Donde la
 base y este documento parezcan chocar, gana la base y el defecto está aquí.
 
-Un caso merece explicarse porque parece un choque y no lo es. Este tono exige
-citar la cifra; la base exige escribirla con la convención del español, con coma
-decimal y con espacio antes del signo de porcentaje. Las dos cosas valen a la
-vez: el tono conserva el dato y la base le arregla el espaciado. Se escribe
-«9,38 %» y no «9.38%», y el dato que iba dentro no se toca.
+Conviene decir además qué no decide este documento. Cómo se anota una fuente,
+con qué norma bibliográfica y con qué paréntesis, no es asunto suyo: eso lo fija
+el trabajo, la institución o el editor, y cambia de uno a otro sin que la forma
+de redactar cambie en nada. Lo que este skill decide es qué hace la prosa con la
+evidencia, no cómo se la referencia.
 
 
 ## 3. Qué se midió, sobre qué, y qué no vale
@@ -139,7 +139,7 @@ palabras eso no cabe.
 La estructura interna del párrafo típico, en orden:
 
 1. **La afirmación que se va a sostener**, enunciada sin adorno.
-2. **La evidencia**, con su referencia.
+2. **La evidencia**, dicha con su magnitud y su alcance.
 3. **La confrontación**, que es donde la evidencia se pone contra otra evidencia
    o contra lo que se esperaba.
 4. **La consecuencia**, que casi nunca es la afirmación inicial repetida.
@@ -277,35 +277,29 @@ sección. Si de todo este documento solo se retiene una cosa, que sea esta.
 Una afirmación del análisis se apoya, en la misma unidad de texto, en tres cosas
 nombradas:
 
-1. **Un dato de la serie cuantitativa**, con su referencia para volver a él.
-2. **Un testimonio citado literalmente**, con su código para volver a él. El
-   código lleva letra y guion, `E2-23` para la unidad 23 de la segunda
-   entrevista, y no punto: escrito `2.23` la base lo lee como un decimal mal
-   puntuado y tiene razón en leerlo así, porque en español el decimal va con
-   coma. Una convención de citación que obliga a incumplir la norma está mal
-   elegida, no exenta.
+1. **Un dato de la serie cuantitativa**, con la magnitud dicha.
+2. **Un testimonio citado literalmente**, en las palabras de quien habló.
 3. **Un concepto del apartado teórico**, traído por el nombre con que se estipuló.
 
-El corpus lo hace 21 veces con referencia a dato, 22 con código de testimonio y
-33 con porcentaje.
+El corpus lo hace 33 veces con una cifra puesta al lado de una voz.
 
 Así se ve completo:
 
-> La mentira aparece como necesaria para el 85,94 % de los encuestados (p. 3), y
-> los entrevistados la describen del mismo modo cuando cuentan cómo salieron de
-> un apuro: «no sabía qué responder y pensé rápido» (E2-23). Leídas con la ley de
+> La mentira aparece como necesaria para el 85,94 % de los encuestados, y los
+> entrevistados la describen del mismo modo cuando cuentan cómo salieron de un
+> apuro: «no sabía qué responder y pensé rápido». Leídas con la ley de
 > prägnanz, las dos evidencias dejan de coincidir por casualidad: la mente
 > prefiere la salida simple y disponible cuando la situación no da tiempo, de
 > manera que lo que la cifra registra como necesidad y el testimonio narra como
 > reflejo son el mismo fenómeno visto desde dos lados.
 
-Los tres apoyos están, cada uno con su referencia, y el párrafo no termina
-repitiéndolos: termina diciendo qué significan juntos.
+Los tres apoyos están, y el párrafo no termina repitiéndolos: termina diciendo
+qué significan juntos.
 
 Y así se ve **cuando falla**, que es la trampa más común:
 
-> El 85,94 % de los encuestados considera que la mentira es necesaria (p. 3). Los
-> entrevistados también dicen que es necesaria (E2-23). La teoría de la Gestalt
+> El 85,94 % de los encuestados considera que la mentira es necesaria. Los
+> entrevistados también dicen que es necesaria. La teoría de la Gestalt
 > confirma que es necesaria.
 
 Tres evidencias en fila que dicen lo mismo. Nadie contradijo a nadie, así que no
@@ -318,9 +312,9 @@ Tres cosas que lo arruinan:
 - **Traer el concepto teórico sin haberlo estipulado antes.** Un término que
   aparece por primera vez en el análisis no fue el instrumento de lectura: fue la
   justificación buscada después.
-- **Citar el dato sin la referencia que permite volver.** Una cifra sin su origen
-  y un testimonio sin su código son afirmaciones de quien escribe con tipografía
-  de evidencia.
+- **Dar la cifra pelada, sin decir de qué es fracción.** Un 85,94 % que no dice
+  de cuántos ni sobre qué pregunta no es un dato: es un adorno numérico, y la
+  prosa que lo usa está afirmando por su cuenta con aire de estar midiendo.
 
 Cuando falta una de las tres clases, no se rellena: se dice cuál falta y qué
 habría permitido decidir.
@@ -375,9 +369,7 @@ confunde con ellos.
 
 ## 10. Formato de entrega
 
-Se entrega el texto solo, sin preámbulo. Las referencias a la evidencia van
-dentro del texto, en la forma que el trabajo haya fijado, y esa forma no cambia a
-mitad del documento.
+Se entrega el texto solo, sin preámbulo.
 
 Si falta una de las clases de evidencia para sostener una afirmación, se dice
 cuál falta en vez de escribir la afirmación sin ella.
@@ -420,7 +412,7 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
     y en un concepto ya estipulado?
 11. ¿Los tres apoyos se confrontan entre sí, en vez de repetir lo mismo tres
     veces?
-12. ¿Cada dato y cada testimonio traen la referencia que permite volver a ellos?
+12. ¿Cada cifra dice de qué es fracción, y cada testimonio de quién es la voz?
 13. ¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos
     oraciones seguidas?
 14. ¿La apertura nombra las clases de evidencia que se van a confrontar, en vez
