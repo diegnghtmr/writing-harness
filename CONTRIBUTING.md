@@ -106,20 +106,43 @@ fragmento citado, la tabla de qué se dice en vez de qué. `evals/muestras.test.
 pide tres fragmentos como piso, y tres no hacen una buena skill: solo impiden la
 que no muestra ninguno. Lo que hace útil a una skill sigue siendo lectura.
 
-**Una skill queda floja cuando la medición quedó floja, y eso se nota
-contando.** El mismo tono del párrafo anterior volvió a quedarse corto después
-de arreglarle los ejemplos, y la causa no era la escritura: se habían medido
-cuatro rasgos, el ritmo de oración, el de párrafo, la persona y la cohesión.
-`han-writing` mide nueve. Cuatro rasgos dan cuatro secciones y una skill que
-describe un registro por fuera.
+**Se lee el corpus primero y se cuenta después, nunca al revés.** Es la lección
+más cara de este proyecto y costó tres rondas en el mismo tono. La primera
+versión midió cuatro rasgos, todos de tamaño: longitud de oración, longitud de
+párrafo, persona y densidad de conectores. Salió una skill con las cifras
+correctas que describía el registro por fuera, y el usuario la rechazó dos veces
+seguidas antes de que quedara claro por qué.
 
-Antes de escribir, conviene mirar cuántos rasgos distintos mide la skill más
-completa de la casa y no parar hasta acercarse. Los que casi siempre faltan son
-los que no se ven en un promedio: con qué nexos se arma el periodo largo, qué
-par de formas elige el registro y cuál descarta, con qué verbo habla la
-evidencia, dónde va la reserva respecto de lo que matiza, qué signo hace de
-junta, y **qué es lo que el corpus no dice nunca**, que es lo mejor medido de
-todo porque son ceros contados y no proporciones interpretadas.
+**Una medición de tamaño no descubre una maquinaria.** Un promedio dice cuánto
+mide una oración; no dice con qué está pegada a la anterior, y eso último es lo
+que hace que un registro suene como suena. Los cuatro rasgos que faltaban
+aparecieron leyendo el corpus de corrido, no corriendo otro contador: que el
+texto se reformula a sí mismo cada tantas páginas, que corrige reemplazando
+dentro de la misma oración con «no X, sino Y», que enumera con ordinales dentro
+del párrafo y jamás con viñetas, y que el léxico alto es deliberado y no un
+descuido.
+
+El orden que funciona es este. Primero se lee un apartado entero de corrido,
+subrayando cada vez que una oración se engancha con la anterior de un modo que
+uno no habría escrito. Después se convierte cada subrayado en algo contable y se
+mide sobre el corpus completo. La lectura propone y la cuenta confirma o
+desmiente; saltarse la lectura deja una skill que solo sabe de longitudes.
+
+Los rasgos que casi siempre faltan cuando se midió sin leer: con qué nexos se
+arma el periodo largo, qué par de formas elige el registro y cuál descarta, cómo
+entra cada posición nueva respecto de la anterior, si el texto se traduce a sí
+mismo, cómo corrige, cómo enumera, de qué altura es el léxico, y **qué es lo que
+el corpus no dice nunca**, que es lo mejor medido de todo porque son ceros
+contados y no proporciones interpretadas.
+
+**Y una advertencia sobre el registro alto.** La tentación es tratar la palabra
+culta como ruido del corpus y prohibirla. En este tono se hizo, y fue un error
+que hubo que revertir: el corpus tiene una palabra de registro alto cada
+trescientas, que es aproximadamente una por párrafo largo, y quitarlas todas
+dejaba un resumen escolar con las longitudes correctas. Lo que sí se prohíbe es
+el adjetivo que no cambia lo que la oración dice, porque la base ya lo rechaza.
+La línea está en la clase de palabra: el registro alto de una prosa entra por el
+sustantivo y por el verbo, casi nunca por el adjetivo.
 
 **Un tono no puede exigir lo que la base castiga.** Un tono se suma a la base y
 no la corrige, así que cuando el corpus trae un rasgo que la base prohíbe, ese

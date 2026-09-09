@@ -2185,7 +2185,7 @@ export const TONES: Record<string, Tone> = {
         minSentences: 12,
         message: 'El repertorio de conectores es demasiado estrecho para este registro.',
         fix: 'Variar la relación que cada paso declara con el anterior. Repetir el mismo enlace no es cohesión, es una muletilla con aspecto de método.',
-        source: 'triangulacion-writing §10',
+        source: 'triangulacion-writing §6.1',
         checklist: [
           {
             skill: 'triangulacion-writing',
@@ -2217,7 +2217,7 @@ export const TONES: Record<string, Tone> = {
         ]),
         message: 'Andamiaje escolar: este registro no anuncia que mira, dice qué encontró.',
         fix: 'Nombrar el sujeto que dice algo y el verbo con que lo dice. «Se observa que el daño fue desigual» es «El registro muestra un daño desigual».',
-        source: 'triangulacion-writing §6.3',
+        source: 'triangulacion-writing §7.4',
         checklist: [
           {
             skill: 'triangulacion-writing',
