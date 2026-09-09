@@ -334,11 +334,10 @@ su propia huella. Cualquier edición a mano los rompe, incluida la que sustituye
 un sha256 por otros sesenta y cuatro hexadecimales con buena pinta, que es justo
 lo que ningún otro gate podría notar una vez borrado el corpus.
 
-Además, la prosa y la medición se comparan entre sí. Tres corpus dan exacto, ocho
-caen dentro del 0,5 % y dos se salen. han se sale porque sus cifras salen del
-libro y no de las fichas; triangulacion, porque su medición suma dos archivos y
-su prosa enuncia solo el segundo, que es un hueco del registro y no una cifra
-mal contada. El primero de los tres exactos es `adria-sola`, y lo es por un motivo
+Además, la prosa y la medición se comparan entre sí. Tres corpus dan exacto,
+nueve caen dentro del 0,5 % y uno se sale: han, porque sus cifras salen del libro
+y no de las fichas. Un corpus cuya prosa habla de un archivo y no del total
+declara cuál mira, y entonces se compara contra ese en vez de contra la suma. El primero de los tres exactos es `adria-sola`, y lo es por un motivo
 distinto de los otros dos: su cifra se copió de la salida de este mismo script en
 vez de venir de un conteo anterior. Las diferencias están congeladas como dato:
 impedir que crezcan sin que nadie lo note es distinto de fingir que no existen.

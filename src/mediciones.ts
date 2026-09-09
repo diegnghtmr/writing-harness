@@ -14,7 +14,9 @@
 // `fuente` dice qué texto se contó. `cuerpo-de-transcripcion` es lo que viene
 // después de «## Transcripción», sin las marcas de tiempo; contar el archivo
 // entero mete la cabecera de metadatos e infla el recuento alrededor de un 15 %.
-// `archivo-completo` es para las fichas de han, que no tienen transcripción.
+// `archivo-completo` es para los corpus que no traen esa cabecera, que hoy son
+// las fichas de han y un informe de investigación. No se supone de qué material
+// son: se cuenta el archivo entero y se dice que se hizo eso.
 //
 // Los signos terminales están para que nadie derive longitud de oración sin
 // mirar antes. Una transcripción automática sin puntuar da menos de diez signos

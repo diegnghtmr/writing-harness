@@ -35,7 +35,22 @@ import { readSkill, skillNames } from '../src/skills.ts';
  * de otra cuenta; el corpus de fichas mide 2.090. Sus cifras no salen de este
  * corpus, y el dato lo deja dicho.
  */
-export const DECLARADO: Record<string, { prosa: number | null; medido: number }> = {
+export const DECLARADO: Record<
+  string,
+  {
+    prosa: number | null;
+    medido: number;
+    /**
+     * Contra qué archivo se compara `prosa`, cuando no es contra el agregado.
+     *
+     * Casi ninguna skill lo necesita: enuncian el total de su corpus y el
+     * agregado cuenta ese mismo total. Hace falta cuando el corpus tiene un
+     * archivo entero y otro con el subconjunto que se midió, porque entonces el
+     * agregado suma los dos y la prosa habla de uno.
+     */
+    archivo?: string;
+  }
+> = {
   // El primero que da exacto porque se midió con este mismo script y su cifra
   // se copió de la salida. Los otros dos exactos lo son por coincidencia: sus
   // skills se escribieron antes y con otro método de conteo.
@@ -53,17 +68,21 @@ export const DECLARADO: Record<string, { prosa: number | null; medido: number }>
   'schiavenato-writing': { prosa: 48629, medido: 48629 },
   'sekkyoku-writing': { prosa: null, medido: 54264 },
   'solitario-writing': { prosa: 34118, medido: 34150 },
-  // triangulacion no lleva `prosa` y el motivo no es un descuido. Su corpus son
-  // dos archivos: el informe entero y el subconjunto que se midió. La medición
-  // agregada cuenta los dos, 36.342 palabras, y la skill enuncia 12.209, que es
-  // el subconjunto. No son la misma magnitud, así que compararlas daría un
-  // desvío del 197 % sobre dos cifras que las dos son ciertas.
+  // triangulacion es el único que necesita decir contra qué archivo se compara.
   //
-  // Lo que haría falta es una medición por archivo, y el detalle está en
-  // `POR_ARCHIVO`. Enlazarlas exigiría que el agregado dijera qué archivos entran
-  // en cada afirmación, y ese campo no existe en el contrato de `Medicion`.
-  // Queda anotado como lo que es: un hueco del registro, no una cifra torcida.
-  'triangulacion-writing': { prosa: 12239, medido: 36342 },
+  // Su corpus son dos: el informe entero y el subconjunto que se midió. El
+  // agregado cuenta los dos, 36.342 palabras, y la skill enuncia 12.239, que es
+  // el subconjunto. Comparar una contra otra da un desvío del 197 % sobre dos
+  // cifras que las dos son ciertas, y durante un rato este renglón lo declaró
+  // así, como excepción, al lado de han. Era esconder el problema en la lista de
+  // los que se salen.
+  //
+  // La cifra comparable estaba en `POR_ARCHIVO` todo el tiempo:
+  // «02-informe-medido.md» mide 12.209 palabras contra las 12.239 que la prosa
+  // enuncia, un desvío del 0,245 % que cae holgado dentro de la banda del 0,5 %.
+  // Lo que faltaba no era el dato sino decir cuál de los dos archivos mira este
+  // renglón, y para eso está `archivo`.
+  'triangulacion-writing': { prosa: 12239, medido: 36342, archivo: '02-informe-medido.md' },
 };
 
 /**

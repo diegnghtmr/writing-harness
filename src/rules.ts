@@ -182,8 +182,15 @@ export type ParagraphSpreadRule = Common & {
  * uno de cada ocho, y el defecto no se oye como error: se oye como una
  * exposición que pone los párrafos al lado en vez de encadenarlos.
  *
- * Se cuenta desde el segundo párrafo. El primero no tiene anterior con el que
- * relacionarse, y exigírselo sería contar un imposible en el denominador.
+ * Se cuenta desde el segundo párrafo DE PROSA. El primero no tiene anterior con
+ * el que relacionarse, y exigírselo sería contar un imposible en el denominador.
+ *
+ * «De prosa» no es un detalle: un lector señaló que con un título delante el
+ * párrafo que se descarta ya no es el primero del documento. Es cierto y es lo
+ * que se quiere. Un título no es una afirmación de la que se pueda discrepar, así
+ * que el primer párrafo que viene detrás sigue sin tener anterior con el que
+ * encadenar. Queda dicho acá porque el código lo hacía bien y el comentario lo
+ * describía mal, que es la clase de desajuste que este repositorio persigue.
  */
 export type ParagraphOpeningRatioRule = Common & {
   kind: 'paragraph-opening-ratio';
@@ -2450,7 +2457,7 @@ export const TONES: Record<string, Tone> = {
         //
         // El piso va en el 16 %, la mitad de lo medido. Con él, los tres
         // bloques largos del corpus pasan holgados —conceptual 27 %, análisis
-        // 40 %, corpus entero 30 %— y los dieciséis documentos de prueba del
+        // 40 %, corpus entero 32,2 %— y los dieciséis documentos de prueba del
         // arnés caen todos por debajo, entre 0 % y 13 %.
         //
         // Un bloque del corpus no lo alcanza: el metodológico, con 11 %. Queda
@@ -2509,9 +2516,18 @@ export const TONES: Record<string, Tone> = {
       {
         // §6. El rasgo central del tono y el último en mecanizarse, porque la
         // cifra estaba escrita desde la primera versión y ninguna regla la
-        // exigía. Contado con este inventario, el corpus abre con conector el
-        // 43 % de sus oraciones, el apartado conceptual el 49 % y el analítico
-        // el 41 %. Es un redoble, no un adorno: casi una de cada dos.
+        // exigía. Contado con este inventario, que es el estrecho de la §6.1, el
+        // corpus abre con conector el 36 % de sus oraciones, el apartado
+        // conceptual el 39 % y el analítico el 37 %. Es un redoble, no un
+        // adorno: más de una de cada tres.
+        //
+        // Las cifras de este comentario dijeron 43 %, 49 % y 41 % mientras la
+        // regla usaba el inventario ancho, que suma «según» y «pese a». Al
+        // unificarla con la de párrafo en el estrecho se actualizó la §6 de la
+        // skill y se olvidó este comentario, de modo que el código citaba una
+        // medición que su propio patrón ya no producía. Lo encontraron dos
+        // lectores independientes y va anotado porque es el defecto que este
+        // repositorio existe para no cometer.
         //
         // La regla de párrafo no alcanzaba. Un texto puede acertar la apertura
         // de párrafo y dejar el interior sin encadenar, y eso fue exactamente
@@ -3072,6 +3088,25 @@ export function assertRules(rules: Rule[] = allRules()): void {
       if (r.minShare <= 0 || r.minShare > 1) {
         throw new Error(`la regla ${r.id} necesita una proporción entre 0 y 1`);
       }
+    }
+    // El piso de muestra, que las clases viejas ya tenían y las tres nuevas no.
+    // Una proporción sobre dos párrafos o dos oraciones dispara o calla por
+    // azar, y la propia documentación de cada tipo dice que por debajo de cierta
+    // cantidad la cifra es ruido. Decirlo en el comentario y no comprobarlo es
+    // como no decirlo.
+    if (r.kind === 'paragraph-opening-ratio' || r.kind === 'paragraph-length-spread') {
+      if (r.minParagraphs < 4) {
+        throw new Error(`la regla ${r.id} necesita un piso de al menos cuatro párrafos`);
+      }
+    }
+    if (r.kind === 'pattern-ratio-floor' && r.minSentences < 4) {
+      throw new Error(`la regla ${r.id} necesita un piso de al menos cuatro oraciones`);
+    }
+    // Y la dispersión, que nunca se acotó: fuera de (0, 1] no mide nada, porque
+    // un coeficiente de variación negativo no existe y uno mayor que uno exige
+    // una desviación típica más grande que la media.
+    if (r.kind === 'paragraph-length-spread' && (r.minVariation <= 0 || r.minVariation > 1)) {
+      throw new Error(`la regla ${r.id} necesita una variación entre 0 y 1`);
     }
     if (r.kind === 'paragraph-length' && r.min === undefined && r.max === undefined) {
       throw new Error(`la regla ${r.id} necesita al menos un límite`);

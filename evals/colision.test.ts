@@ -32,8 +32,39 @@ import { TONE_IDS, TONES } from '../src/rules.ts';
  * ejemplo, y un ejemplo inventado probaría lo que uno quisiera.
  */
 function alternativasLiterales(re: RegExp): string[] {
-  const cuerpo = re.source.replace(/^\\b\(\?:/u, '').replace(/\)\\b$/u, '');
-  return cuerpo.split('|').filter((a) => /^[a-záéíóúñü ]+$/iu.test(a));
+  // La lista va donde el patrón la ponga. La primera versión de esta función
+  // recortaba a mano el prefijo `\b(?:` y el sufijo `)\b`, que era la única
+  // forma que existía entonces, y cuando llegó un patrón anclado con `^(?:…)`
+  // seguido de `(?:,|\s)` los recortes no encajaron: el cuerpo quedó entero, y
+  // al partirlo por barras la primera alternativa salió pegada al prefijo y la
+  // última al sufijo. Las dos dejaban de parecer texto llano y el filtro las
+  // tiraba, de modo que el censo no probaba nunca ni «no obstante» ni «de lo
+  // contrario» sobre las dos reglas que este archivo acababa de incorporar.
+  //
+  // Se descubrió leyendo, no con el canario, y por una razón que conviene
+  // guardar: el canario planta «en definitiva», que cae en mitad de la lista y
+  // por eso sobrevivía al recorte. Un canario plantado en el medio no prueba
+  // los extremos.
+  //
+  // Ahora la lista se saca del primer grupo del patrón, esté donde esté, y las
+  // clases de un carácter con sus variantes de acento se resuelven a su primera
+  // opción en vez de descartarse: «adem[áa]s» vale «además», que es una frase de
+  // prueba legítima y no un ejemplo inventado.
+  const grupo = /\(\?:([^)]*)\)/u.exec(re.source);
+  const cuerpo = grupo ? (grupo[1] as string) : re.source;
+  return cuerpo
+    .split('|')
+    .map((a) =>
+      a
+        // Una clase de acentos vale su primera opción: «adem[áa]s» es «además».
+        .replace(/\[(.)[^\]]*\]/gu, '$1')
+        // Y el separador de palabras vale un espacio: «me\s+consta» es «me
+        // consta». Sin esto, catorce de las veintiséis alternativas de
+        // `fonda-primera-persona` no se probaban nunca, que es un hueco anterior
+        // a este archivo y del mismo tamaño que el que lo motivó.
+        .replace(/\\s\+/gu, ' '),
+    )
+    .filter((a) => /^[a-záéíóúñü ]+$/iu.test(a));
 }
 
 /** Los errores que la capa base sola le pone a una frase. */
@@ -89,17 +120,72 @@ describe('ningún tono premia lo que la base prohíbe', () => {
     //
     // La prueba de si una clase premia es corta: ¿puede un texto pasar de
     // incumplirla a cumplirla AGREGANDO algo? Si sí, premia.
-    const premian = new Set(
-      TONE_IDS.flatMap((id) => TONES[id]?.rules ?? [])
-        .filter((r) => r.kind === 'must-contain' || r.kind.endsWith('-floor') || r.kind.endsWith('-ratio'))
-        .map((r) => r.kind),
-    );
-    const fuera = [...premian].filter((k) => !CLASES_QUE_PREMIAN.has(k) && k !== 'pattern-ratio');
+    // Se decide clase por clase y a mano, no por cómo se llama. La primera
+    // versión miraba el sufijo del nombre, `-floor` o `-ratio`, que es una
+    // convención de bautismo y no un hecho sobre la regla: una clase nueva que
+    // premiara y se llamara de otro modo se habría escapado igual, que es el
+    // defecto que este canario viene a impedir.
+    const PROHIBEN = new Set([
+      'forbidden-pattern',
+      'pattern-density',
+      'pattern-ratio',
+      'quote-level',
+      'paragraph-opening',
+      'sentence-start-run',
+      'short-sentence-run',
+      'long-sentence-run',
+      'sentence-length',
+      'sentence-length-band',
+      'sentence-length-mean',
+      'sentence-length-spread',
+      'paragraph-length',
+      'paragraph-length-spread',
+    ]);
+    const clases = new Set(TONE_IDS.flatMap((id) => TONES[id]?.rules ?? []).map((r) => r.kind));
+    const fuera = [...clases].filter((k) => !CLASES_QUE_PREMIAN.has(k) && !PROHIBEN.has(k));
     assert.deepEqual(
       fuera,
       [],
       'estas clases premian y el censo no las mira: agregalas a CLASES_QUE_PREMIAN',
     );
+  });
+
+  test('el lector de alternativas no pierde ni la primera ni la última', () => {
+    // El canario que faltaba, y el que habría ahorrado el defecto. El de más
+    // abajo planta una colisión en mitad de la lista, y una lista mal recortada
+    // pierde los extremos y conserva el medio: pasaba en verde con nueve
+    // alternativas de cuarenta y seis sin probar.
+    //
+    // Se prueban las dos formas de patrón que conviven en el repositorio,
+    // porque el defecto fue exactamente que una función escrita para una de
+    // ellas se aplicó a la otra sin que nadie lo notara.
+    const anclado = /^(?:no obstante|adem[áa]s|de lo contrario)(?:,|\s)/iu;
+    assert.deepEqual(alternativasLiterales(anclado), ['no obstante', 'además', 'de lo contrario']);
+
+    const conFrontera = /(?:en consecuencia|por ende|en suma)/iu;
+    assert.deepEqual(alternativasLiterales(conFrontera), ['en consecuencia', 'por ende', 'en suma']);
+
+    // Y sobre las reglas de verdad, la comprobación acotada al defecto: si el
+    // primero o el último de la lista es texto llano, tiene que estar censado.
+    // No se exige que estén todos, porque una alternativa con cuantificador
+    // («me parec\p{L}*») no se puede convertir en frase sin inventarle un
+    // ejemplo, y un ejemplo inventado probaría lo que uno quisiera.
+    const llana = (a: string) =>
+      /^[a-záéíóúñü ]+$/iu.test(a.replace(/\[(.)[^\]]*\]/gu, '$1').replace(/\\s\+/gu, ' '));
+    for (const id of TONE_IDS) {
+      for (const r of TONES[id]?.rules ?? []) {
+        if (!CLASES_QUE_PREMIAN.has(r.kind)) continue;
+        const grupo = /\(\?:([^)]*)\)/u.exec(r.pattern.source);
+        if (!grupo) continue;
+        const crudas = (grupo[1] as string).split('|');
+        const censadas = new Set(alternativasLiterales(r.pattern));
+        for (const extremo of [crudas[0] as string, crudas[crudas.length - 1] as string]) {
+          if (!llana(extremo)) continue;
+          const limpia = extremo.replace(/\[(.)[^\]]*\]/gu, '$1').replace(/\\s\+/gu, ' ');
+          assert.ok(censadas.has(limpia), `${r.id}: «${limpia}» está en el patrón y no en el censo`);
+        }
+      }
+    }
   });
 
   test('el censo encuentra la colisión cuando la hay', () => {

@@ -57,6 +57,30 @@ describe('los ejemplos de un tono son del asunto de su corpus', () => {
     assert.deepEqual(fantasmas, [], 'sobra un renglón en SIN_DECLARAR');
   });
 
+  test('la lista de deuda está congelada y solo puede encoger', () => {
+    // EL AGUJERO QUE ESTO CIERRA. `evals/asuntos.ts` dice que la lista solo
+    // puede encoger y que un tono nuevo no entra ahí, y eso era prosa: nada lo
+    // impedía. Cualquiera podía saltarse el gate entero copiando un renglón,
+    // porque los otros dos tests solo comprueban que un tono esté en una lista o
+    // en la otra, no en cuál merece estar.
+    //
+    // Congelada por contenido, no por longitud: cambiar un nombre por otro
+    // conserva la cuenta y no conserva el hecho.
+    assert.deepEqual([...sinDeclarar].sort(), [
+      'adria-sola-writing',
+      'atenas-writing',
+      'bettatech-writing',
+      'catedra-writing',
+      'dotcsv-writing',
+      'fonda-writing',
+      'fonseca-writing',
+      'freddy-writing',
+      'han-writing',
+      'schiavenato-writing',
+      'solitario-writing',
+    ]);
+  });
+
   test('cada tono declarado llega al piso', () => {
     for (const a of ASUNTOS) {
       const md = readSkill(a.skill);

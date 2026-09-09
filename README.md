@@ -297,7 +297,7 @@ hacen comprobable una cifra.
 **El texto que cuenta no es el archivo entero.** Una transcripción trae cabecera
 de metadatos y una marca de tiempo por línea; contarlo entero infla el recuento
 alrededor de un 15 %, y hace parecer que las skills se equivocaron. Contando el
-cuerpo, tres corpus dan exacto, ocho caen dentro del 0,5 % y los minutos de habla
+cuerpo, tres corpus dan exacto, nueve caen dentro del 0,5 % y los minutos de habla
 coinciden en los cuatro que quedan de los cinco que los declaraban.
 
 Esos ocho no se alinearon a la medición, y hay una razón medida: tres de sus

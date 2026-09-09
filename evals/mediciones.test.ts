@@ -30,21 +30,35 @@ describe('las mediciones no se editaron a mano', () => {
     // Para actualizarla: volver a correr `scripts/medir.ts` con el corpus
     // delante y pegar acá el valor que este test reporte como recibido.
     //
-    // Esta huella se actualizó una vez sin el corpus delante, y conviene decir
-    // qué certifica desde entonces. Se corrigió la redacción de seis filas, tres
-    // campos de texto que describían su material con las palabras de otro
-    // corpus, sin tocar un solo valor medido. La huella dice «no cambió desde
-    // aquello»; lo que dice que la redacción es la correcta es el test que la
-    // deriva, más abajo, en vez de confiar en que nadie la haya tocado. Las dos
-    // hacen falta y no comprueban lo mismo: una vigila los números, que ya no se
-    // pueden volver a producir, y la otra el texto, que sí.
+    // Esta huella se actualizó dos veces sin el corpus delante, y conviene decir
+    // exactamente qué certifica desde entonces, porque la primera versión de
+    // este comentario se atribuyó un mérito que no es suyo.
+    //
+    // Lo que se cambió las dos veces fueron campos de texto: la redacción de
+    // seis filas que describían su material con las palabras de otro corpus, y
+    // la cabecera que decía lo mismo. Ningún valor medido se tocó.
+    //
+    // Qué vigila cada cosa, que es lo que el comentario anterior decía mal:
+    //
+    // - La huella dice «este archivo no cambió desde aquella edición». Nada más.
+    //   Después de regenerarla a mano ya no puede decir «esto es lo que produjo
+    //   el script con el corpus delante», y no hay manera de que lo diga otra
+    //   vez sin el corpus.
+    // - Los NÚMEROS los vigila «las palabras, los signos y las marcas suman lo
+    //   que dice el agregado», que rederiva cada total desde el detalle por
+    //   archivo. Se comprobó rompiéndolo: alterar un agregado o una fila de
+    //   detalle hace fallar ese test además de la huella. Lo que sigue sin
+    //   cazarse es una edición que cambie los dos de forma coherente, y eso era
+    //   igual de cierto antes de tocar el archivo.
+    // - El TEXTO lo vigila el test que lo deriva, más abajo. Ese sí dice «es el
+    //   correcto», no solo «no cambió».
     const bytes = readFileSync(join(REPO_ROOT, 'src', 'mediciones.ts'), 'utf8').replace(
       /\r\n/gu,
       '\n',
     );
     assert.equal(
       createHash('sha256').update(bytes, 'utf8').digest('hex'),
-      'dda30564ec103ce138b91f93593340f9b1f1b92b4e901e42929605f530e1b638',
+      '6c0092c45691d666ef9f47c533910c74df599d360a74916fb1a02416269732de',
     );
   });
 });
@@ -240,27 +254,39 @@ describe('la prosa y la medición dicen lo mismo', () => {
     }
   });
 
-  test('tres corpus dan exacto y ocho caen dentro del 0,5 %', () => {
+  test('tres corpus dan exacto y nueve caen dentro del 0,5 %', () => {
     const con = Object.entries(DECLARADO).filter(([, d]) => d.prosa !== null);
-    const desvio = ([, d]: [string, { prosa: number | null; medido: number }]) =>
-      Math.abs((d.medido - (d.prosa as number)) / (d.prosa as number));
+    /**
+     * Contra qué se compara la cifra de la prosa.
+     *
+     * Contra el agregado, salvo que el renglón diga qué archivo mira. Ese campo
+     * existe porque un corpus de dos archivos, el informe entero y el
+     * subconjunto medido, hacía que el agregado sumara los dos mientras la prosa
+     * hablaba de uno. Sin él, la comparación daba un 197 % que no medía un error
+     * sino dos magnitudes distintas puestas una contra otra.
+     */
+    const contra = (skill: string, d: { medido: number; archivo?: string }) => {
+      if (!d.archivo) return d.medido;
+      const fila = POR_ARCHIVO.find((f) => f.skill === skill && f.archivo === d.archivo);
+      assert.ok(fila, `${skill}: el renglón nombra un archivo que no está medido: ${d.archivo}`);
+      return fila.palabras;
+    };
+    const desvio = ([skill, d]: [string, { prosa: number | null; medido: number; archivo?: string }]) =>
+      Math.abs((contra(skill, d) - (d.prosa as number)) / (d.prosa as number));
     assert.equal(con.filter((e) => desvio(e) === 0).length, 3);
-    assert.equal(con.filter((e) => desvio(e) > 0 && desvio(e) <= 0.005).length, 8);
-    // Los dos que se salen están nombrados, y se salen por motivos distintos.
+    assert.equal(con.filter((e) => desvio(e) > 0 && desvio(e) <= 0.005).length, 9);
+    // han es el único que se sale, y por eso está nombrado: mide un corpus de
+    // fichas y su prosa enuncia palabras del libro, dos textos y dos cifras.
     //
-    // `han` mide un corpus de fichas y su prosa enuncia palabras del libro: dos
-    // textos, dos cifras, y la skill lo dice.
-    //
-    // `triangulacion` mide dos archivos, el informe entero y el subconjunto que
-    // se midió, y su prosa enuncia solo el segundo. No es una cifra torcida sino
-    // dos magnitudes distintas comparadas por falta de un campo: el contrato de
-    // `Medicion` no dice qué archivos entran en cada afirmación, así que el
-    // agregado suma los dos y no hay manera de pedirle uno. Es el hueco que deja
-    // registrado este renglón, y se cierra el día que `Medicion` sepa decir
-    // sobre qué archivos habla.
+    // `triangulacion` estuvo un rato en esta lista y no le correspondía. Se
+    // comparaba su prosa contra el agregado de dos archivos, el informe entero y
+    // el subconjunto medido, lo que daba un 197 % que no medía ningún error sino
+    // dos magnitudes distintas puestas una contra otra. Comparada contra el
+    // archivo que la prosa enuncia, la desviación es del 0,245 % y entra con los
+    // demás. Declararla excepción era esconder un dato que estaba a mano.
     assert.deepEqual(
       con.filter((e) => desvio(e) > 0.005).map(([s]) => s).sort(),
-      ['han-writing', 'triangulacion-writing'],
+      ['han-writing'],
     );
   });
 
