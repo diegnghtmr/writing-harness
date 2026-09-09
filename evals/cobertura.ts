@@ -170,6 +170,7 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'spanish-writing', origen: 'checklist', item: "¿Se conserva toda la información original (al reescribir)?", estado: 'criterio' },
   { skill: 'spanish-writing', origen: 'checklist', item: "¿No se añadió información nueva (al reescribir)?", estado: 'criterio' },
   { skill: 'spanish-writing', origen: 'checklist', item: "¿Se conservó todo término técnico, glosado en su primera aparición?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Al menos un párrafo abre contradiciendo al que acaba de terminar, y no todos abren con un enlace?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las oraciones largas se sostienen con subordinación, y no encadenando miembros con comas?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Aparece «cuyo» donde la perífrasis con «del cual» partiría el periodo, y «ello» donde hay que retomar lo dicho entero?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada unidad declara qué relación tiene con la anterior, en vez de quedar puesta al lado sin decirlo?", estado: 'criterio' },

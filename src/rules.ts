@@ -78,6 +78,7 @@ export const DOMINIO_POR_CLASE = {
   'sentence-length-band': 'ritmo-de-oracion',
   'sentence-length-mean': 'ritmo-de-oracion',
   'paragraph-length': 'ritmo-de-parrafo',
+  'paragraph-length-spread': 'ritmo-de-parrafo',
 } as const satisfies Record<string, Dominio>;
 
 
@@ -147,6 +148,30 @@ export type ParagraphLengthRule = Common & {
   kind: 'paragraph-length';
   min?: number;
   max?: number;
+};
+
+/**
+ * Cuánto tienen que diferir entre sí los párrafos de un texto.
+ *
+ * Existe porque una media y un piso no bastan para describir un ritmo, y el
+ * defecto que cierra ocurrió: un texto escrito con esta clase de regla ausente
+ * salió con ocho párrafos de entre 104 y 139 palabras, una variación del 9 %,
+ * mientras el corpus del que salían esas cifras reparte los suyos entre 26 y
+ * 301, con una variación del 48 %. Las dos medias eran parecidas; los dos
+ * ritmos, no.
+ *
+ * Se mide con el coeficiente de variación, es decir, la desviación típica
+ * dividida por la media, porque la comparación tiene que sobrevivir a que un
+ * tono escriba párrafos de sesenta palabras y otro de doscientas. Una razón
+ * entre el más largo y el más corto la decidirían dos párrafos solos; el
+ * coeficiente los usa todos.
+ */
+export type ParagraphSpreadRule = Common & {
+  kind: 'paragraph-length-spread';
+  /** Coeficiente de variación mínimo, de 0 a 1. Se marca por debajo. */
+  minVariation: number;
+  /** Por debajo de esta cantidad de párrafos la cifra es ruido y no se mide. */
+  minParagraphs: number;
 };
 
 /**
@@ -307,6 +332,7 @@ export type Rule =
   | SentenceLengthRule
   | DensityRule
   | ParagraphLengthRule
+  | ParagraphSpreadRule
   | ShortSentenceRunRule
   | LongSentenceRunRule
   | LengthBandRule
@@ -2252,6 +2278,37 @@ export const TONES: Record<string, Tone> = {
           {
             skill: 'triangulacion-writing',
             item: '¿La causa se dice con «ya que» y la consecuencia con «de manera que», antes que con «porque» y «así que»?',
+          },
+        ],
+      },
+      {
+        // §4.4. El corpus reparte sus 87 párrafos entre 26 y 301 palabras, con
+        // un coeficiente de variación del 48 %: el 21 % baja de ochenta y el
+        // 20 % pasa de doscientas. No es descuido, es el ritmo.
+        //
+        // El piso va en el 20 %, menos de la mitad de lo medido, y es el número
+        // que hace falta para que un texto tenga al menos un párrafo que rompa
+        // el patrón: siete párrafos de 120 palabras y uno de 40 dan un 24 %.
+        //
+        // Existe porque el defecto ocurrió y lo encontró una persona leyendo.
+        // Con la media, la mediana y el piso declarados, y sin esta regla, un
+        // texto escrito con este tono salió con ocho párrafos de entre 104 y
+        // 139 palabras: variación del 9 %, la más baja de los dieciséis
+        // documentos de prueba del arnés. Una media y un piso no describen un
+        // ritmo, y lo que no se pide, converge.
+        id: 'triangulacion-parrafo-disperso',
+        kind: 'paragraph-length-spread',
+        gobierna: 'ritmo-de-parrafo',
+        severity: 'warning',
+        minVariation: 0.2,
+        minParagraphs: 6,
+        message: 'Los párrafos miden todos casi lo mismo, y este registro alterna el que desarrolla con el que gira en tres líneas.',
+        fix: 'Partir el más denso donde cambia de asunto, o dejar en un párrafo corto el giro que hoy va enterrado dentro de uno largo. Al menos uno tiene que romper el patrón.',
+        source: 'triangulacion-writing §4.4',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿Los párrafos difieren de tamaño entre sí, con al menos uno que rompa el patrón, en vez de medir todos casi lo mismo?',
           },
         ],
       },

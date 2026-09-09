@@ -44,8 +44,8 @@ node src/cli.ts <archivo> --tono <id>            # 4. medir
 ```
 
 Cinco pasos y ninguno es opcional. El más saltado es el segundo, y es el que
-hace la diferencia: el verificador cubre 104 de las 283 declaraciones que hacen
-las skills. Las otras 179 solo las pone quien leyó la skill.
+hace la diferencia: el verificador cubre 105 de las 285 declaraciones que hacen
+las skills. Las otras 180 solo las pone quien leyó la skill.
 
 ## 2. Elegir el tono
 
@@ -161,7 +161,7 @@ cambia. Lo que se pierde es la medición, no la entrega.
 
 ## 6. Lo que el verificador no ve
 
-De las 283 declaraciones que hacen las skills, **179 exigen juicio sobre el
+De las 285 declaraciones que hacen las skills, **180 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.
@@ -478,7 +478,7 @@ al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
 | `skills/spanish-writing/` | La base. Rige siempre, y su §3 tiene la tabla de enrutamiento |
 | `skills/<id>-writing/` | Un tono |
 | `skills/humanizar-espanol/` | La pasada. Solo si el usuario la pide |
-| `src/rules.ts` | Las 87 reglas como datos, sin comportamiento y sin build |
+| `src/rules.ts` | Las 88 reglas como datos, sin comportamiento y sin build |
 | `src/check.ts` | Compone las capas y mide |
 | `src/enrutamiento.ts` | La tabla de §3 como dato, y el procedimiento que decide |
 | `src/corpus.ts`, `src/mediciones.ts` | El registro del corpus borrado. No se editan a mano |

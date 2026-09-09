@@ -149,7 +149,36 @@ cabe, así que el piso está ahí: por debajo, lo que hay es un enunciado suelto
 que le falta el desarrollo, y la solución no es alargarlo sino traerle la
 relación que le falta o fundirlo con el párrafo que lo continúa.
 
-### 4.4. Lo que la cifra no autoriza
+### 4.4. Los párrafos no miden todos lo mismo, y esa es la mitad del ritmo
+
+La cifra anterior es una media, y una media escrita sola produce el peor defecto
+de esta forma: ocho párrafos de ciento veinte palabras, uno detrás de otro, todos
+correctos y todos iguales. Conviene por eso decir cómo se reparten.
+
+Los 87 párrafos del corpus van **de 26 a 301 palabras**. El más largo mide once
+veces y media lo que el más corto, y la variación en torno a la media es del
+48 %. Repartidos por tamaño: **el 21 % baja de ochenta palabras y el 20 % pasa de
+doscientas**, es decir, uno de cada cinco es breve y uno de cada cinco es
+extenso.
+
+Ese reparto no es descuido. El párrafo largo desarrolla: trae la posición, la
+discute, la pone contra la anterior y concluye. El breve hace otra cosa, y hace
+solo una: gira, remata o estipula.
+
+> Lo primero se corrige esperando. Lo segundo no.
+
+> La sacudida que llega a la roca no es la que llega a la superficie.
+
+Un párrafo así no está incompleto. Está haciendo el trabajo que un párrafo de
+doscientas palabras no puede hacer, que es detener la lectura en una sola
+afirmación.
+
+La medida práctica es baja a propósito: **al menos uno de cada texto tiene que
+romper el patrón**. Con siete párrafos de ciento veinte palabras y uno de
+cuarenta, la variación ya llega al 24 %, que es holgadamente suficiente. Lo que
+no puede pasar es que el más largo y el más corto se parezcan.
+
+### 4.5. Lo que la cifra no autoriza
 
 Una media no es una licencia para escribir largo. La oración de este registro es
 larga **porque tiene junturas**, y las junturas son lo que la sección 5
@@ -286,7 +315,41 @@ segunda es que el enlace no tiene por qué ir siempre al principio: «El desfase
 entonces, no es solo temporal sino de alcance» dice lo mismo que «Por
 consiguiente, el desfase...» y no gasta una apertura.
 
-### 6.2. La reformulación: decir otra vez lo que se acaba de decir
+### 6.2. El párrafo entero abre declarando su relación con el anterior
+
+El 32,2 % de los párrafos del corpus abre con un conector, y lo que importa no es
+esa cifra sino de qué clase es. Contados sobre los 87 párrafos:
+
+| Clase | Párrafos | Con qué abre |
+| --- | ---: | --- |
+| Refuerzo | 10 | «Además», «Asimismo», «De hecho», «En efecto», «Adicionalmente» |
+| Síntesis | 7 | «En suma», «Con todo ello» |
+| Objeción | 6 | «No obstante», «Sin embargo», «Empero», «Por el contrario», «En contraste» |
+| Orden | 3 | «Por otro lado», «Por un lado», «Por último» |
+| Marco | 1 | «En este sentido» |
+
+**La objeción a la cabeza del párrafo es el movimiento que hay que aprender**,
+porque es donde la forma se ve de un vistazo: el párrafo nuevo no continúa al
+anterior, lo discute, y lo dice en su primera palabra.
+
+> No obstante, estos significados solo se sostienen si se aceptan las tres
+> condiciones del apartado anterior, y la segunda de ellas es más fuerte de lo
+> que el caso necesita.
+
+> Por el contrario, la escuela que sigue admite la introspección como método, y
+> objeta casi todas las conclusiones de la anterior salvo una.
+
+Cumplir la cifra es fácil y no basta. Un texto puede abrir tres párrafos con
+«Adicionalmente», «Con todo» y «Asimismo», acertar el porcentaje y no sonar a
+esto, ya que ninguno de los tres marca un giro. Lo que hace al registro es que
+**al menos un párrafo empiece contradiciendo al que acaba de terminar**.
+
+Y la contrapartida, que evita el vicio contrario: dos de cada tres párrafos del
+corpus **no** abren con conector. Abren con el concepto de la sección 8.2, con un
+sintagma que sitúa, o con el nombre de quien va a entrar. Un texto donde todos
+los párrafos empiecen con un enlace suena a plantilla.
+
+### 6.3. La reformulación: decir otra vez lo que se acaba de decir
 
 Dieciocho reformuladores en el corpus, uno cada 678 palabras: «es decir» 9, «en
 otras palabras» 5, y sueltos «dicho de otro modo», «en pocas palabras» y «esto
@@ -305,7 +368,7 @@ reformulación va después de lo difícil, no después de lo fácil.** Reformula
 frase que ya era clara suena a relleno, y una cada seiscientas palabras es más o
 menos una por página larga, no una por párrafo.
 
-### 6.3. «No X, sino Y»: corregir reemplazando, no negando
+### 6.4. «No X, sino Y»: corregir reemplazando, no negando
 
 Quince apariciones, una cada 814 palabras. Es la figura con que este registro
 corrige, y explica por qué casi nunca suena polémico: no dice que algo esté mal,
@@ -327,7 +390,7 @@ Escrito sin la figura, el mismo contenido pierde el filo y gana una oración:
 > El conocimiento no se forma por el individualismo. Se forma por las
 > interacciones con otros más conocedores.
 
-### 6.4. La enumeración va dentro de la prosa, nunca en viñetas
+### 6.5. La enumeración va dentro de la prosa, nunca en viñetas
 
 Sesenta y ocho marcas de orden en el corpus, una cada 180 palabras, y ni una
 sola lista con viñetas: «segundo» 13, «el segundo» 11, «primero» 9, «el primero»
@@ -344,7 +407,7 @@ las desarrolla en el mismo aliento:
 La misma información en viñetas se lee más rápido y dice menos, ya que la lista
 pierde exactamente lo que este texto quería decir: cuál de las tres pesa.
 
-### 6.5. Los dos puntos abren el desarrollo
+### 6.6. Los dos puntos abren el desarrollo
 
 Setenta y una apariciones. Los dos puntos de este registro no introducen una
 lista: introducen la explicación de lo que se acaba de afirmar, o el caso que la
@@ -710,9 +773,9 @@ Cambios aplicados, uno por sección:
 | 5.3 | «cuya presencia bajo la ciudad no es uniforme» pega la cualidad al depósito sin abrir oración nueva |
 | 5.4 | «ello» retoma la discrepancia entera y la vuelve sujeto de lo que sigue |
 | 5.5 | El punto y coma une las dos mediciones, que no se pueden leer por separado |
-| 6.2 | «Dicho de otro modo» traduce el periodo denso a una frase llana |
-| 6.3 | «no es la fuerza del sismo, sino el suelo» corrige reemplazando dentro de la misma oración |
-| 6.5 | Los dos puntos abren la explicación de lo que se acaba de afirmar |
+| 6.3 | «Dicho de otro modo» traduce el periodo denso a una frase llana |
+| 6.4 | «no es la fuerza del sismo, sino el suelo» corrige reemplazando dentro de la misma oración |
+| 6.6 | Los dos puntos abren la explicación de lo que se acaba de afirmar |
 | 7.2 | «perfila» y «muestra» gradúan lo que cada evidencia alcanza a decir |
 | 7.3 | «Pese a que las dos mediciones son fiables» va delante de la afirmación que matiza |
 | 7.4 | Desaparecieron «en conclusión» y «se puede observar» |
@@ -814,6 +877,12 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
    entra cuando es la exacta.
 10. **La viñeta.** Tres puntos en lista donde el registro pedía tres ordinales
    dentro del párrafo, con lo cual se pierde cuál de los tres pesa.
+11. **El párrafo de tamaño único.** Ocho párrafos de ciento veinte palabras, uno
+    detrás de otro, todos correctos y todos iguales. Es el defecto que aparece
+    cuando se leyó la media y no el reparto, y se oye antes de poder nombrarlo.
+12. **El párrafo que nunca contradice.** Todos abren sumando, aunque acierten la
+    proporción de conectores. Sin un «No obstante» o un «Por el contrario» a la
+    cabeza de algún párrafo, el texto expone en fila y no discute.
 
 
 ## 16. Lista de verificación de tono
@@ -822,49 +891,53 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
     cada cinco?
  2. ¿La media de palabras por oración cae entre veintiuna y treinta y dos?
  3. ¿Los párrafos desarrollan, con ninguno por debajo de cuarenta palabras?
- 4. ¿Las oraciones largas se sostienen con subordinación, y no encadenando
+ 4. ¿Los párrafos difieren de tamaño entre sí, con al menos uno que rompa el
+    patrón, en vez de medir todos casi lo mismo?
+ 5. ¿Al menos un párrafo abre contradiciendo al que acaba de terminar, y no
+    todos abren con un enlace?
+ 6. ¿Las oraciones largas se sostienen con subordinación, y no encadenando
     miembros con comas?
- 5. ¿La causa se dice con «ya que» y la consecuencia con «de manera que», antes
+ 7. ¿La causa se dice con «ya que» y la consecuencia con «de manera que», antes
     que con «porque» y «así que»?
- 6. ¿Aparece «cuyo» donde la perífrasis con «del cual» partiría el periodo, y
+ 8. ¿Aparece «cuyo» donde la perífrasis con «del cual» partiría el periodo, y
     «ello» donde hay que retomar lo dicho entero?
- 7. ¿Cada unidad declara qué relación tiene con la anterior, en vez de quedar
+ 9. ¿Cada unidad declara qué relación tiene con la anterior, en vez de quedar
     puesta al lado sin decirlo?
- 8. ¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos
+10. ¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos
     oraciones seguidas?
- 9. ¿El enlace culto poco frecuente aparece una o dos veces en todo el texto, y
+11. ¿El enlace culto poco frecuente aparece una o dos veces en todo el texto, y
     no en cada párrafo?
-10. ¿Hay al menos una reformulación que vuelva a decir en llano un pasaje denso,
+12. ¿Hay al menos una reformulación que vuelva a decir en llano un pasaje denso,
     y ninguna que reformule algo que ya era claro?
-11. ¿Alguna corrección se hace reemplazando dentro de la misma oración, con «no
+13. ¿Alguna corrección se hace reemplazando dentro de la misma oración, con «no
     X, sino Y», en vez de negando y volviendo a empezar?
-12. ¿Las enumeraciones van dentro de la prosa con ordinales, sin una sola lista
+14. ¿Las enumeraciones van dentro de la prosa con ordinales, sin una sola lista
     con viñetas?
-13. ¿La palabra culta entra por el sustantivo o por el verbo, y al cambiarla por
+15. ¿La palabra culta entra por el sustantivo o por el verbo, y al cambiarla por
     la corriente la oración pierde algo?
-14. ¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a
+16. ¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a
     decir, sin que un dato demuestre lo que apenas perfila?
-15. ¿La reserva va delante de la afirmación que matiza, y no detrás?
-16. ¿Quien escribe no aparece nunca en primera persona, ni del singular ni del
+17. ¿La reserva va delante de la afirmación que matiza, y no detrás?
+18. ¿Quien escribe no aparece nunca en primera persona, ni del singular ni del
     plural?
-17. ¿Las citas conservan la persona, el vocabulario y el registro de quien habló,
+19. ¿Las citas conservan la persona, el vocabulario y el registro de quien habló,
     sin limpiarlos?
-18. ¿Cada posición del recorrido entra por su relación con la anterior, y no
+20. ¿Cada posición del recorrido entra por su relación con la anterior, y no
     puesta en fila?
-19. ¿El recorrido cierra estipulando en futuro con qué alcance se usará el
+21. ¿El recorrido cierra estipulando en futuro con qué alcance se usará el
     término y con cuál no, y esa estipulación queda antes de lo que el término
     va a leer, en vez de al final del texto?
-20. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
-21. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
-22. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
-23. ¿Cada afirmación del análisis se apoya a la vez en cosas de procedencia
+22. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
+23. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
+24. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
+25. ¿Cada afirmación del análisis se apoya a la vez en cosas de procedencia
     distinta y en un concepto ya estipulado?
-24. ¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo
+26. ¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo
     mismo?
-25. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
-26. ¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe
+27. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
+28. ¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe
     destacar» y sin «en conclusión»?
-27. ¿La apertura nombra lo que se va a poner en relación, en vez de definir o de
+29. ¿La apertura nombra lo que se va a poner en relación, en vez de definir o de
     ponderar la importancia del tema?
 
 
@@ -892,6 +965,10 @@ cautelas de la sección 3.
 | Media de palabras por párrafo | 140,3 |
 | Mediana de palabras por párrafo | 136 |
 | Párrafos de más de doscientas palabras | 19,5 % |
+| Párrafo más corto y más largo | 26 y 301 palabras |
+| Variación del tamaño de párrafo | 48 % |
+| Párrafos por debajo de ochenta palabras | 21 % |
+| Párrafos que abren con objeción | 6 de 87 |
 | Oraciones que abren con conector | 36,4 % |
 | Párrafos que abren con conector | 32,2 % |
 | Nexos subordinantes | 188, uno cada 65 palabras |

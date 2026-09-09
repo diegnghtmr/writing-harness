@@ -389,6 +389,33 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
       }
     }
 
+    if (rule.kind === 'paragraph-length-spread') {
+      // Se mide sobre los párrafos que son prosa. Un párrafo de una línea suelta
+      // no es un párrafo corto del registro: es un título, una firma o un pie, y
+      // contarlo inflaría la dispersión justo en los textos que no la tienen.
+      const largos = splitParagraphs(text)
+        .map((par) => par.sentences.reduce((n, o) => n + o.words, 0))
+        .filter((n) => n >= 10);
+      if (largos.length >= rule.minParagraphs) {
+        const media = largos.reduce((a, b) => a + b, 0) / largos.length;
+        const de = Math.sqrt(largos.reduce((a, b) => a + (b - media) ** 2, 0) / largos.length);
+        const variacion = media > 0 ? de / media : 0;
+        if (variacion < rule.minVariation) {
+          findings.push({
+            rule: rule.id,
+            severity: rule.severity,
+            ...at(0),
+            message:
+              `${rule.message} Varían un ${Math.round(variacion * 100)} %, y el mínimo es ` +
+              `${Math.round(rule.minVariation * 100)} %: ${largos.length} párrafos entre ` +
+              `${Math.min(...largos)} y ${Math.max(...largos)} palabras.`,
+            fix: rule.fix,
+            source: rule.source,
+          });
+        }
+      }
+    }
+
     if (rule.kind === 'sentence-length-spread') {
       if (todasLasOraciones.length < rule.minSentences) continue;
       const breves = todasLasOraciones.filter((s) => s.words <= rule.shortWords).length;

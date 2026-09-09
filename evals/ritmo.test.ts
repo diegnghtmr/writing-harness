@@ -147,6 +147,41 @@ describe('triangulacion: el primer tono que exige periodo largo', () => {
     assert.deepEqual(largo, [], 'sesenta palabras pasan el piso de cuarenta');
   });
 
+  test('paragraph-length-spread: marca los parrafos que miden todos lo mismo', () => {
+    // El defecto real, reducido: ocho parrafos del mismo tamano. El corpus del
+    // que salen las cifras de este tono reparte los suyos entre 26 y 301
+    // palabras, con una variacion del 48 %.
+    const parrafo = conLongitudes([30, 30, 30, 30]);
+    const uniforme = Array.from({ length: 8 }, () => parrafo).join('\n\n');
+    const f = solo(uniforme, 'triangulacion', 'triangulacion-parrafo-disperso');
+    assert.equal(f.length, 1);
+    assert.match(f[0]!.message, /Var[íi]an un 0 %/u);
+  });
+
+  test('paragraph-length-spread: calla en cuanto uno rompe el patron', () => {
+    // La otra direccion, y con el margen justo: siete parrafos iguales y uno
+    // corto bastan. La regla pide que algo se salga, no una dispersion alta.
+    const parrafo = conLongitudes([30, 30, 30, 30]);
+    const variado = [...Array.from({ length: 7 }, () => parrafo), conLongitudes([12])].join('\n\n');
+    assert.deepEqual(solo(variado, 'triangulacion', 'triangulacion-parrafo-disperso'), []);
+  });
+
+  test('paragraph-length-spread: no mide un texto de pocos parrafos', () => {
+    // Con menos de seis la cifra es ruido. Cinco parrafos identicos pasan, y es
+    // deliberado: en un texto corto no hay nada que dispersar.
+    const parrafo = conLongitudes([30, 30, 30, 30]);
+    const pocos = Array.from({ length: 5 }, () => parrafo).join('\n\n');
+    assert.deepEqual(solo(pocos, 'triangulacion', 'triangulacion-parrafo-disperso'), []);
+  });
+
+  test('paragraph-length-spread: una linea suelta no cuenta como parrafo corto', () => {
+    // El canario. Si contara, un titulo o una firma inflarian la dispersion
+    // justo en los textos que no la tienen, y la regla se volveria decorativa.
+    const parrafo = conLongitudes([30, 30, 30, 30]);
+    const conTitulo = ['Sobre el asunto', ...Array.from({ length: 8 }, () => parrafo)].join('\n\n');
+    assert.equal(solo(conTitulo, 'triangulacion', 'triangulacion-parrafo-disperso').length, 1);
+  });
+
   test('el repertorio de conectores se mide por variedad y no por cantidad', () => {
     // Doce oraciones que abren siempre con el mismo enlace. Hay densidad y no
     // hay repertorio, y es justo la muletilla que la seccion 8 de la skill
