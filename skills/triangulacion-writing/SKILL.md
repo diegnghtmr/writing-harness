@@ -262,6 +262,28 @@ holgado, pero no por eso el punto y coma se reparte a voluntad. Donde va es entr
 dos afirmaciones que no se pueden leer por separado.
 
 
+### 5.6. Las piezas menores con que se alarga el periodo
+
+Ninguna de estas hace sola al registro, y por eso van juntas y con su cuenta.
+Sumadas, son lo que convierte cuatro afirmaciones en un periodo.
+
+| Pieza | Veces | Cómo se ve |
+| --- | ---: | --- |
+| El gerundio que continúa la oración en vez de cerrarla | 27 | «delimita el alcance, **complementando** al resto del apartado» |
+| «al» más infinitivo, para la causa o el momento | 11 | «facilita la lectura **al precisar** el valor de la intención» |
+| «a fin de», que este registro prefiere a «para» | 9 | «se descompone el dato **a fin de** explicar cada parte» |
+| La cleft «lo que… no es… sino…» | 6 | «**lo que** valida el acto **no es** el saber, **sino** el creer» |
+| «no solo… sino también», que suma en vez de reemplazar | 6 | «**no solo** temporal **sino también** de alcance» |
+| «a su vez», que engancha una consecuencia de la consecuencia | 6 | «una acción que, **a su vez**, cumple lo que enuncia» |
+
+El gerundio es el más frecuente y el más delicado. Va bien cuando lo que
+introduce es simultáneo o consecuencia de lo anterior, y va mal cuando cuenta un
+hecho posterior, que es el gerundio de posterioridad que la base rechaza.
+
+> El material no responde a la tracción, quedando el muro sin nada que lo
+> amarre.
+
+
 ## 6. El encadenamiento: cada paso declara qué relación tiene con el anterior
 
 Esta es la sección que hace al tono. Todo lo demás la sirve.
@@ -500,6 +522,77 @@ con esfuerzo: sencillamente no aparece, y un texto de esta forma que lo use est�
 imitando otra cosa. El análisis impersonal entero («se desprende», «se aprecia»,
 «se observa») suma cuatro apariciones, una cada tres mil palabras, así que
 tampoco es la marca que muchos suponen.
+
+
+### 7.5. El término se glosa entre paréntesis, sin abrir oración
+
+Es el rasgo más denso del apartado conceptual y el que más rápido separa esta
+prosa de una exposición corriente: **63 glosas en el corpus, una cada 194
+palabras**, es decir, casi una por párrafo.
+
+El paréntesis no interrumpe la oración: la deja seguir. Por eso este registro
+casi nunca escribe «es decir, X significa Y» para explicar un término; lo mete al
+lado y continúa.
+
+Seis cosas van ahí, y conviene distinguirlas porque hacen trabajos distintos:
+
+| Qué se glosa | Ejemplo del corpus |
+| --- | --- |
+| La forma en la lengua de origen | las formas (gestalten) · la ley de la pregnancia (prägnanz) |
+| La traducción llana del tecnicismo | la centración (selección particular de un estímulo ambiental) |
+| La etimología del término | filogénesis (nacimiento de la especie) |
+| El nombre alterno con que se conoce | la introspección (o percepción interna) · el habla egocéntrica (habla privada) |
+| La equivalencia operativa, en una palabra | los hechos ambientales (estímulos) · el comportamiento del individuo (respuesta a los estímulos) |
+| El par cuya oposición está en la glosa misma | directas (conexión entre locutivo e ilocutivo) e indirectas (desconexión entre locutivo e ilocutivo) |
+
+**La última es la más lograda y la que menos se imita.** Los dos términos se
+glosan en paralelo, con la misma estructura, de manera que la diferencia entre
+ellos queda dicha por los dos paréntesis y no por una oración aparte.
+
+La etimología, cuando aparece, suele venir en serie:
+
+> El desarrollo mental atraviesa un momento de filogénesis (nacimiento de la
+> especie), otro de sociogénesis (nacimiento de la sociedad) y otro de
+> ontogénesis (nacimiento del hombre).
+
+Y una distinción que hay que sostener: **el paréntesis de glosa no es el
+paréntesis de referencia**. El corpus trae 67 paréntesis que remiten a una
+fuente y 35 que glosan, y son dos recursos distintos con el mismo signo. Este
+documento decide sobre el segundo; del primero no dice nada, porque cómo se
+remite a una fuente lo fija el trabajo y no la forma.
+
+### 7.6. El adverbio va por dentro de la oración, y casi nunca se repite
+
+**Noventa y siete adverbios en -mente, uno cada 126 palabras**, que es el rasgo
+de mayor densidad de todo el corpus. Y el dato que lo vuelve difícil de imitar:
+**63 formas distintas para esas 97 apariciones.** El más repetido,
+«respectivamente», sale seis veces; treinta y ocho de ellos salen una sola vez.
+
+Dónde se paran, contados: **ninguno abre la oración.** Treinta y tres caen entre
+el verbo y su complemento, once después del sujeto, y el resto dentro de un
+inciso.
+
+> las mentiras requieren inexorablemente al lenguaje para ser consideradas
+> como tal
+
+> delimita ciertamente aquello que se entiende por cada consideración
+
+> la mente aplicará instantáneamente una distribución equilibrada del campo
+
+Puesto al principio, el mismo adverbio suena a otra cosa:
+
+Incorrecto: Ciertamente, las mentiras requieren el lenguaje.
+Correcto: Las mentiras requieren ciertamente el lenguaje.
+
+El vicio del rasgo es la repetición, no la abundancia. Sesenta y tres formas
+para noventa y siete apariciones significa que este registro casi nunca vuelve
+sobre el mismo adverbio; un texto que escriba «claramente» cuatro veces está
+haciendo lo contrario de lo que parece.
+
+Del inventario, los que más salen: «respectivamente» y «ciertamente» 6,
+«puramente» y «solamente» 5, «mayormente», «posteriormente» y «principalmente»
+3, «meramente», «únicamente», «previamente», «esencialmente», «necesariamente»,
+«francamente», «totalmente» y «gradualmente» 2.
 
 
 ## 8. Voz y persona
@@ -826,19 +919,30 @@ Ocho apariciones. La base las prohíbe y la prohibición se mantiene: donde el
 corpus abre un inciso con raya, aquí va entre comas o entre paréntesis. No se
 pierde nada, porque el inciso es el mismo.
 
-### 13.4. El adjetivo que no hace trabajo
+### 13.4. El adjetivo que no hace trabajo, que no es lo mismo que el adjetivo delante
 
-Este es el que más cuidado exige, ya que se parece al rasgo bueno de la sección
-7.1 y es su contrario. El corpus escribe «una formidable investigación», «el
-inmenso catálogo de ideas», «los conceptos deslucidos». Ninguno de esos tres
-adjetivos cambia lo que la oración dice, y la base los rechaza como adjetivación
+Este es el que más cuidado exige, porque se parece a un rasgo bueno y es su
+contrario, y una versión anterior de este documento los confundió y prohibió los
+dos.
+
+**El adjetivo antepuesto sí es del registro.** El corpus lo usa: «el presente
+marco», «su respectivo momento», «la inherente relación», «una única línea», «la
+previsible inexactitud», «los principales opositores», «la osada presunción».
+Delante del sustantivo, el adjetivo deja de clasificar y pasa a valorar, y eso
+es justamente lo que esta prosa quiere: «la inherente relación» dice que la
+relación no podría no darse, mientras que «la relación inherente» suena a que hay
+otras relaciones y esta es la inherente.
+
+**Lo que no se hereda es el adjetivo que no cambia nada.** El corpus también
+escribe «una formidable investigación», «el inmenso catálogo de ideas» y «los
+conceptos deslucidos». Quitar «formidable», «inmenso» y «deslucidos» no le resta
+una sola idea a esas tres oraciones, y la base los rechaza como adjetivación
 vacía.
 
-La diferencia con el léxico culto que sí se hereda está en dónde cae la palabra.
-«Aserción», «estriba» y «versa» son sustantivos y verbos que nombran algo con una
-precisión que la palabra corriente no tiene. «Formidable» e «inmenso» son
-adjetivos puestos delante para elevar el tono. **La palabra culta entra por el
-sustantivo y por el verbo; casi nunca por el adjetivo.**
+La prueba, que es la misma de la sección 7.1, se aplica sin mirar la posición:
+si al quitar el adjetivo la oración dice lo mismo, sobraba. Antepuesto o
+pospuesto, un adjetivo que solo eleva el tono es un defecto; antepuesto o
+pospuesto, uno que precisa es del registro.
 
 
 ## 14. Formato de entrega
@@ -883,6 +987,12 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
 12. **El párrafo que nunca contradice.** Todos abren sumando, aunque acierten la
     proporción de conectores. Sin un «No obstante» o un «Por el contrario» a la
     cabeza de algún párrafo, el texto expone en fila y no discute.
+13. **El término sin glosa.** Se nombra un concepto técnico y se sigue, o peor,
+    se abre una oración entera para explicarlo. Este registro lo glosa al lado,
+    entre paréntesis, y no pierde el hilo.
+14. **La prosa sin adverbios.** Es el defecto más silencioso, ya que nada suena
+    mal: sencillamente falta la capa que gradúa lo que se afirma. El corpus pone
+    uno cada 126 palabras y casi nunca repite el mismo.
 
 
 ## 16. Lista de verificación de tono
@@ -915,29 +1025,37 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
     con viñetas?
 15. ¿La palabra culta entra por el sustantivo o por el verbo, y al cambiarla por
     la corriente la oración pierde algo?
-16. ¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a
+16. ¿Los términos que lo necesitan traen su glosa entre paréntesis, sin abrir
+    oración para explicarlos?
+17. ¿Los adverbios en -mente aparecen cada pocas líneas, dentro de la oración
+    y sin repetirse?
+18. ¿Algún adjetivo va delante del sustantivo para valorar, y ninguno queda
+    puesto solo para elevar el tono?
+19. ¿El periodo se alarga con gerundio, con «al» más infinitivo o con «a fin
+    de», y no solo con comas?
+20. ¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a
     decir, sin que un dato demuestre lo que apenas perfila?
-17. ¿La reserva va delante de la afirmación que matiza, y no detrás?
-18. ¿Quien escribe no aparece nunca en primera persona, ni del singular ni del
+21. ¿La reserva va delante de la afirmación que matiza, y no detrás?
+22. ¿Quien escribe no aparece nunca en primera persona, ni del singular ni del
     plural?
-19. ¿Las citas conservan la persona, el vocabulario y el registro de quien habló,
+23. ¿Las citas conservan la persona, el vocabulario y el registro de quien habló,
     sin limpiarlos?
-20. ¿Cada posición del recorrido entra por su relación con la anterior, y no
+24. ¿Cada posición del recorrido entra por su relación con la anterior, y no
     puesta en fila?
-21. ¿El recorrido cierra estipulando en futuro con qué alcance se usará el
+25. ¿El recorrido cierra estipulando en futuro con qué alcance se usará el
     término y con cuál no, y esa estipulación queda antes de lo que el término
     va a leer, en vez de al final del texto?
-22. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
-23. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
-24. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
-25. ¿Cada afirmación del análisis se apoya a la vez en cosas de procedencia
+26. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
+27. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
+28. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
+29. ¿Cada afirmación del análisis se apoya a la vez en cosas de procedencia
     distinta y en un concepto ya estipulado?
-26. ¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo
+30. ¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo
     mismo?
-27. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
-28. ¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe
+31. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
+32. ¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe
     destacar» y sin «en conclusión»?
-29. ¿La apertura nombra lo que se va a poner en relación, en vez de definir o de
+33. ¿La apertura nombra lo que se va a poner en relación, en vez de definir o de
     ponderar la importancia del tema?
 
 
@@ -982,6 +1100,15 @@ cautelas de la sección 3.
 | Marcas de orden dentro de la prosa | 68, una cada 180 palabras |
 | Listas con viñetas | 0 |
 | Léxico de registro culto | 40, uno cada 305 palabras |
+| Glosas entre paréntesis | 63, una cada 194 palabras |
+| Paréntesis de referencia, que no son glosa | 67 |
+| Adverbios en -mente | 97, uno cada 126 palabras |
+| Formas distintas de esos adverbios | 63 |
+| Adverbios que abren la oración | 0 |
+| Gerundios que continúan la oración | 27 |
+| «al» más infinitivo | 11 |
+| «a fin de» | 9 |
+| Construcciones «lo que… no es… sino…» | 6 |
 | Verbos con que la evidencia habla | 36, uno cada 339 palabras |
 | Marcas de modalización | 35, una cada 349 palabras |
 | Oraciones con punto y coma | 13,8 % |

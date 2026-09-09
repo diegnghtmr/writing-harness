@@ -2312,6 +2312,61 @@ export const TONES: Record<string, Tone> = {
           },
         ],
       },
+      {
+        // §7.5. El corpus glosa 63 veces entre paréntesis, una cada 194
+        // palabras: casi una por párrafo. Es el rasgo más denso del apartado
+        // conceptual y el que menos se transmitía: el texto escrito con este
+        // tono antes de existir esta regla traía CERO, y los otros quince
+        // documentos de prueba del arnés también.
+        //
+        // El patrón va sin ignorar mayúsculas a propósito. Con la bandera `i`,
+        // `[a-z]` y `{Ll}` cazan mayúsculas en JavaScript, y entonces
+        // «(Ibid., p. 19)» y «(Koffka, 1935, p. 83)» entraban como glosas. Sin
+        // ella, el censo sobre el corpus descarta los 67 paréntesis de
+        // referencia y se queda con las 35 glosas, que es lo que se quería.
+        // Es el cuarto delator de este repositorio que marcaba de más antes de
+        // afinarse.
+        id: 'triangulacion-glosa',
+        kind: 'must-contain',
+        severity: 'warning',
+        pattern: /\((?!(?:op|cit|ibid|vid|cf|pp?)\b)[a-záéíóúüñ][^)0-9]{3,60}\)/gu,
+        minDistinct: 2,
+        minSentences: 12,
+        message: 'Ningún término se explica entre paréntesis, y este registro glosa casi en cada párrafo.',
+        fix: 'Poner al lado del término su traducción llana, su forma en la lengua de origen o el nombre alterno con que se lo conoce, entre paréntesis y sin abrir oración.',
+        source: 'triangulacion-writing §7.5',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿Los términos que lo necesitan traen su glosa entre paréntesis, sin abrir oración para explicarlos?',
+          },
+        ],
+      },
+      {
+        // §7.6. Noventa y siete adverbios en -mente, uno cada 126 palabras, y
+        // 63 formas distintas para esas 97 apariciones: casi no se repiten.
+        //
+        // El piso pide cuatro distintos. Con la densidad del corpus, un texto de
+        // novecientas palabras traería unos siete, así que cuatro deja sitio de
+        // sobra. Al escribirse esta regla, el texto que el arnés producía con
+        // este tono traía uno solo en 949 palabras, y ninguno de los otros
+        // quince documentos de prueba pasaba de cuatro.
+        id: 'triangulacion-adverbio-variado',
+        kind: 'must-contain',
+        severity: 'warning',
+        pattern: /(?<!\p{L})[a-záéíóúüñ]{4,}mente(?!\p{L})/gu,
+        minDistinct: 4,
+        minSentences: 12,
+        message: 'Faltan adverbios en -mente: este registro los reparte cada pocas líneas y casi nunca repite el mismo.',
+        fix: 'Graduar con ellos lo que se afirma, dentro de la oración y no al principio: «requiere inexorablemente», «delimita ciertamente», «se organiza instantáneamente».',
+        source: 'triangulacion-writing §7.6',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿Los adverbios en -mente aparecen cada pocas líneas, dentro de la oración y sin repetirse?',
+          },
+        ],
+      },
     ],
   },
 };

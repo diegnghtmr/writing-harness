@@ -182,6 +182,36 @@ describe('triangulacion: el primer tono que exige periodo largo', () => {
     assert.equal(solo(conTitulo, 'triangulacion', 'triangulacion-parrafo-disperso').length, 1);
   });
 
+  test('la glosa entre parentesis se pide, y la referencia no cuenta como glosa', () => {
+    // Doce oraciones largas sin un solo parentesis: el defecto real, porque el
+    // texto que este arnes producia con este tono traia cero glosas y el corpus
+    // trae 63, una cada 194 palabras.
+    const sinGlosa = conLongitudes(Array.from({ length: 12 }, () => 26));
+    assert.equal(solo(sinGlosa, 'triangulacion', 'triangulacion-glosa').length, 1);
+
+    // El canario, y hace falta: el corpus trae 67 parentesis de referencia y 35
+    // de glosa, con el mismo signo. Sin distinguirlos, un texto que solo cite
+    // fuentes pasaria como si estuviera glosando.
+    const soloCitas = sinGlosa + ' Una afirmacion con fuente (Ibid., p. 19) y otra (op. cit.) y otra mas (2012, p. 94).';
+    assert.equal(solo(soloCitas, 'triangulacion', 'triangulacion-glosa').length, 1);
+
+    const conGlosa = sinGlosa + ' Las formas (gestalten) ordenan el caos sensible en fenomenos (percepciones).';
+    assert.deepEqual(solo(conGlosa, 'triangulacion', 'triangulacion-glosa'), []);
+  });
+
+  test('el adverbio en -mente se pide variado, no repetido', () => {
+    const base = conLongitudes(Array.from({ length: 12 }, () => 26));
+    assert.equal(solo(base, 'triangulacion', 'triangulacion-adverbio-variado').length, 1);
+
+    // Cuatro veces el mismo no alcanza, que es justo el vicio del rasgo: el
+    // corpus trae 63 formas distintas para 97 apariciones.
+    const repetido = base + ' Ciertamente. Ciertamente. Ciertamente. Ciertamente.';
+    assert.equal(solo(repetido, 'triangulacion', 'triangulacion-adverbio-variado').length, 1);
+
+    const variado = base + ' Requiere inexorablemente. Delimita ciertamente. Organiza instantaneamente. Gradua puntualmente.';
+    assert.deepEqual(solo(variado, 'triangulacion', 'triangulacion-adverbio-variado'), []);
+  });
+
   test('el repertorio de conectores se mide por variedad y no por cantidad', () => {
     // Doce oraciones que abren siempre con el mismo enlace. Hay densidad y no
     // hay repertorio, y es justo la muletilla que la seccion 8 de la skill

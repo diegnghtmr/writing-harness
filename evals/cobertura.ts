@@ -179,6 +179,8 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Alguna corrección se hace reemplazando dentro de la misma oración, con «no X, sino Y», en vez de negando y volviendo a empezar?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las enumeraciones van dentro de la prosa con ordinales, sin una sola lista con viñetas?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿La palabra culta entra por el sustantivo o por el verbo, y al cambiarla por la corriente la oración pierde algo?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Algún adjetivo va delante del sustantivo para valorar, y ninguno queda puesto solo para elevar el tono?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿El periodo se alarga con gerundio, con «al» más infinitivo o con «a fin de», y no solo con comas?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a decir, sin que un dato demuestre lo que apenas perfila?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿La reserva va delante de la afirmación que matiza, y no detrás?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Quien escribe no aparece nunca en primera persona, ni del singular ni del plural?", estado: 'criterio' },
