@@ -77,7 +77,7 @@ investigación: 12.239 palabras, 461 oraciones y 87 párrafos, repartidos en cin
 bloques que cubren el apartado conceptual, el metodológico y el analítico. La
 sección 17 da el detalle.
 
-Tres cautelas condicionan todo lo que sigue.
+Cuatro cautelas condicionan todo lo que sigue.
 
 **La primera es que el corpus es un documento y no una obra.** Con un solo texto
 detrás no se puede contrastar una media entre archivos. Lo que sí se pudo hacer
@@ -100,6 +100,15 @@ siguiente, y encontró cuatro rasgos que la primera no había mirado: la
 reformulación, el léxico culto, la corrección por sustitución y la enumeración
 dentro de la prosa. **Una cifra de longitud no descubre una maquinaria; solo la
 lectura la descubre, y después se cuenta.**
+
+**La cuarta es que el apartado conceptual mide más denso que el resto, y este
+documento se escribió sobre él.** Hubo una tercera pasada, esta vez leyendo el
+apartado conceptual entero de corrido y subrayando cada juntura que no se habría
+escrito de otro modo. Ahí se ve que ese bloque no es el promedio del documento:
+lleva punto y coma en el 21 % de sus oraciones contra el 18 % del conjunto, y
+glosa entre paréntesis una vez cada 177 palabras contra una cada 194. Donde las
+dos cifras difieren, este documento declara las dos y trabaja con la del
+conjunto, que es la más prudente.
 
 
 ## 4. Ritmo: la oración que sostiene una subordinación
@@ -251,15 +260,43 @@ anterior en bloque.
 > La norma obliga a quien pide licencia y no alcanza a quien construye sin ella,
 > y ello desplaza el problema del calendario a la cobertura.
 
-### 5.5. El punto y coma es una junta, no un adorno
+### 5.5. El punto y coma cuelga una cola, y hay que poner unos cuantos
 
-El corpus lo usa en el 13,8 % de sus oraciones. Es mucho, y tiene una función:
-separa dos miembros que van juntos porque uno explica o completa al otro, sin
-bajar a punto.
+Es la juntura más frecuente del registro y la que menos se transmite. El corpus
+lo lleva en el 18 % de sus oraciones y el apartado conceptual en el 21 %, es
+decir, una de cada cinco.
 
-La base pone el techo en una de cada cinco oraciones, así que este registro cabe
-holgado, pero no por eso el punto y coma se reparte a voluntad. Donde va es entre
-dos afirmaciones que no se pueden leer por separado.
+Lo primero es la cantidad, porque el defecto observado no fue usarlo mal sino no
+usarlo. **La banda va de una oración de cada doce a una de cada cinco**, y el
+extremo de arriba no es de este tono: es el techo que pone la base, que este
+registro roza y no puede pasar. Por debajo de una de cada doce, el texto está
+poniendo puntos donde este registro pone junta, y se le nota en que cada
+afirmación queda sola.
+
+Lo segundo es qué se cuelga del signo, que es lo que lo distingue de un punto
+disfrazado. **Casi nunca separa dos oraciones que podrían vivir sueltas.** De
+las cuarenta apariciones del apartado conceptual, apenas cuatro unen dos
+principales completas. Treinta y una se reparten en tres formas, y las nueve
+restantes traen detrás un conector o un relativo:
+
+| Qué cuelga | Veces | Cómo se ve |
+| --- | ---: | --- |
+| El verbo que sigue sin repetir el sujeto, o un gerundio o participio que continúa | 16 | «están predispuestos a mirar objetos antes que características aisladas; demarcando de inmediato un fondo y una figura» |
+| Un sintagma que rebautiza lo que se acaba de decir | 7 | «el exterior es caótico; una mezcla de impresiones desordenadas» |
+| El miembro siguiente de una serie | 8 | «un momento de filogénesis; luego, un momento de sociogénesis» |
+
+La primera es la que más rinde y la más fácil de escribir mal: después del signo
+no se abre oración nueva, se sigue la misma sin volver a nombrar de quién se
+habla.
+
+> La mente ordena la realidad para interpretarla con relativa facilidad;
+> apoyándose en lo que el sujeto ya cree saber.
+
+La segunda pone el nombre de lo dicho después de decirlo, que es el mismo
+movimiento de los dos puntos de la sección 6.6 con un signo más leve.
+
+> El aislamiento de las partes llega después del todo; el todo es antes que las
+> partes.
 
 
 ### 5.6. Las piezas menores con que se alarga el periodo
@@ -282,6 +319,19 @@ hecho posterior, que es el gerundio de posterioridad que la base rechaza.
 
 > El material no responde a la tracción, quedando el muro sin nada que lo
 > amarre.
+
+Aparte va el arcaísmo de juntura, que no es una pieza más de la tabla sino un
+condimento, y conviene decir cuánto: **«cual» sin artículo en función
+comparativa aparece dos veces en el apartado conceptual, «mas» por «pero» otras
+dos, y «empero» y «sobremanera» una cada uno.** Todas caen en el nudo que une
+dos bloques y ninguna dentro del sintagma.
+
+> La forma del funcionamiento cerebral y la de los procesos mentales coinciden
+> pese a su distinción, cual principio de isomorfismo.
+
+La proporción es la regla entera: **una o dos en todo un texto, o ninguna.** Un
+escrito que ponga «cual» tres veces y «empero» en cada objeción no está en este
+registro, está en la parodia que la sección 15 llama caricatura culta.
 
 
 ## 6. El encadenamiento: cada paso declara qué relación tiene con el anterior
@@ -412,6 +462,18 @@ Escrito sin la figura, el mismo contenido pierde el filo y gana una oración:
 > El conocimiento no se forma por el individualismo. Se forma por las
 > interacciones con otros más conocedores.
 
+Un detalle de ejecución que aparece nueve veces en el apartado conceptual y que
+vale la pena tener: **entre «sino» y lo que reemplaza suele meterse un inciso
+entre comas**, «más bien» o «al contrario». Separa la conjunción de su
+complemento y obliga a leer más despacio justo donde está el reemplazo.
+
+> El conocimiento no se forma por el individualismo, sino, al contrario, por las
+> interacciones con otros más conocedores.
+
+Lo mismo le pasa a la «y» que enlaza una consecuencia: «y, por consiguiente,»,
+«y, por ende,». No es una coma de más, es el inciso que hace pausa antes de la
+consecuencia.
+
 ### 6.5. La enumeración va dentro de la prosa, nunca en viñetas
 
 Sesenta y ocho marcas de orden en el corpus, una cada 180 palabras, y ni una
@@ -429,14 +491,75 @@ las desarrolla en el mismo aliento:
 La misma información en viñetas se lee más rápido y dice menos, ya que la lista
 pierde exactamente lo que este texto quería decir: cuál de las tres pesa.
 
-### 6.6. Los dos puntos abren el desarrollo
+### 6.6. Los dos puntos entregan el nombre después de la descripción
 
-Setenta y una apariciones. Los dos puntos de este registro no introducen una
-lista: introducen la explicación de lo que se acaba de afirmar, o el caso que la
-concreta.
+Setenta y una apariciones en el corpus y veintiocho en el apartado conceptual.
+Una versión anterior de este documento decía que no introducen una lista sino la
+explicación de lo afirmado, y contarlas mostró que eso era la mitad de la
+verdad, y no la mitad más característica.
+
+Lo que llama la atención al contarlas es lo corto que es lo que viene detrás.
+**La mitad de ellas cierra en nueve palabras o menos, y diez de las veintiocho,
+en seis o menos.** No abren un desarrollo: sueltan el nombre de lo que se acaba
+de describir.
+
+> La primera corriente psicológica nació de ese método: el estructuralismo.
+
+> La calidad de la configuración depende de las condiciones del entorno: la ley
+> de la pregnancia.
+
+El orden está invertido respecto de lo que haría cualquiera. Un escritor
+corriente nombra primero y explica después; este describe con todo el aparato
+subordinado y entrega el nombre al final, desnudo y sin verbo. El caso extremo
+del corpus resuelve en una palabra lo que el periodo entero venía rodeando: una
+posición coincide con otra, y lo que comparten se dice después de los dos puntos
+en un solo sustantivo.
+
+Los otros dos trabajos son menos marcados y también están. Uno es abrir la serie
+que la prosa desarrolla enseguida, y de eso se ocupa la sección 6.7. El otro es
+dar entrada a la cita larga, y de eso se ocupa la sección 9.6.
+
+Queda el uso corriente, que este registro también hace, aunque no sea el suyo:
 
 > El desfase no es solo temporal sino de alcance: una norma obliga a quien pide
 > licencia y no alcanza a quien construye sin ella.
+
+### 6.7. La serie define a cada miembro en el acto, dentro de una sola oración
+
+Aquí se juntan tres piezas que las secciones anteriores describieron por
+separado, y juntas hacen el movimiento que más rápido delata a esta prosa. La
+sección 6.5 dijo que la enumeración va dentro del párrafo; la 5.5, que el punto
+y coma cuelga una cola; la 7.5, que el término se glosa entre paréntesis. Una
+clasificación de este registro las usa las tres a la vez.
+
+La forma es fija: se anuncia cuántos son, dos puntos, y después cada miembro se
+nombra y se define ahí mismo con la misma pieza para todos, separados por punto
+y coma. La pieza que define es «aquel que», «donde» o el paréntesis de glosa. Y
+todo eso ocurre **dentro de una sola oración**, sin un verbo principal por
+miembro.
+
+> Los actos se distinguen por su propósito: el asertivo, aquel que dice cómo son
+> las cosas; el directivo, aquel que busca que algo se haga; el expresivo, aquel
+> que manifiesta un estado de quien habla.
+
+> La lengua se desglosa en tres partes: el habla social, donde el uso se limita
+> a comunicar; el habla privada, donde regula a la vez el pensamiento y la
+> conducta; y el habla interna, donde sirve para dirigir el propio pensamiento.
+
+Seis series así en el apartado conceptual, cinco con «aquel que» y cuatro con
+«donde», y ni una sola lista con viñetas en todo el corpus.
+
+**Lo que se pierde al imitarlo es que van en el mismo periodo.** Escrito con un
+punto entre miembro y miembro, el paralelismo se deshace y quedan tres
+definiciones sueltas que ya no se leen una contra otra:
+
+> El asertivo dice cómo son las cosas. El directivo busca que algo se haga. El
+> expresivo manifiesta un estado de quien habla.
+
+Va con la advertencia de la sección 6.5, que aquí pesa más: la serie sirve
+cuando los miembros son de la misma clase y se definen en paralelo. Tres cosas
+que no se parecen no forman una serie, forman una lista, y una lista pierde
+justamente cuál de las tres pesa.
 
 
 ## 7. Léxico: el registro es alto, y es deliberado
@@ -500,6 +623,21 @@ un trabajo doble, ya que concede antes de objetar:
 
 > Pese a su preferencia por el saber sobre el creer, tuvo el acierto de
 > distinguir la mentira del engaño como algo puramente lingüístico.
+
+Y hay una segunda mitad de la regla, que es un cero y por eso se puede afirmar
+con firmeza: **la reserva de este registro es concesiva y nunca probabilística.**
+Sobre las 12.239 palabras del corpus, «quizá», «tal vez», «acaso», «al parecer»,
+«probablemente», «aparentemente», «en gran medida», «hasta cierto punto», «en
+cierto modo» y «por lo general» suman cero.
+
+La diferencia no es de cortesía. Una reserva probabilística rebaja lo que se
+afirma y deja al lector sin saber cuánto vale; una concesiva admite algo entero
+y a continuación dice qué no se sigue de ello, que es una afirmación más fuerte
+y no más débil. Este registro no dice «quizá el dato sea insuficiente»: dice que
+el dato sostiene una cosa y no la otra.
+
+Incorrecto: El reparto por edades quizá no sostenga la cifra general.
+Correcto: Pese a que la cifra registra una necesidad general, el reparto por edades no la sostiene en los extremos.
 
 ### 7.4. Lo que este registro no dice nunca
 
@@ -594,6 +732,46 @@ Del inventario, los que más salen: «respectivamente» y «ciertamente» 6,
 3, «meramente», «únicamente», «previamente», «esencialmente», «necesariamente»,
 «francamente», «totalmente» y «gradualmente» 2.
 
+Y una cosa más, que se ve al mirar cuáles faltan: **el adverbio de este registro
+es siempre el poco corriente.** «Claramente», «evidentemente», «obviamente»,
+«generalmente», «básicamente», «simplemente», «completamente» y «especialmente»
+suman cero en todo el corpus. Los que están son «inexorablemente»,
+«forzosamente», «netamente», «indistintamente», «puntualmente», «sobremanera».
+
+Tiene sentido con lo que el adverbio hace acá. Los corrientes casi siempre
+enfatizan, y enfatizar es lo que este registro no hace: los suyos gradúan,
+restringen o dicen de qué modo, que es información y no énfasis.
+
+### 7.7. El verbo con que se le atribuye una idea a un autor no es «señala»
+
+La sección 7.2 dice con qué verbo habla un dato. Este dice con cuál habla una
+persona, que no es lo mismo y se elige distinto.
+
+El cero que lo ordena todo: **«señala» y «señaló» no aparecen ni una vez en las
+12.239 palabras del corpus.** Tampoco «explica», «sugiere», «concluye»,
+«define», «destaca», «enfatiza» ni «sostiene». Es el verbo por defecto de la
+prosa académica en español y aquí está ausente por completo.
+
+Lo que hay en su lugar, contado: «considera» 9, «resalta» y «resaltaba» 5,
+«plantea» 2, «describe» 2, «discrepa» 2, «formula» 2, «valida» 2, «alude» 2,
+«coincide» 3, y uno solo de «detalla», «clasifica», «descarta», «niega»,
+«propone», «objeta», «sintetiza», «designa», «distingue», «acepta», «separa»,
+«rechaza» y «expone».
+
+Leída de corrido, esa lista dice algo. **Ninguno de esos verbos es neutro: todos
+sitúan.** «Señala» solo informa de que alguien dijo algo; «considera» dice que
+lo sostiene como juicio, «objeta» que lo dice contra alguien, «acepta» que lo
+concede a regañadientes, «discrepa» que se aparta de quien venía antes. El verbo
+hace en una palabra el trabajo de encadenamiento que la sección 9.1 pide para el
+párrafo entero.
+
+Incorrecto: Beck señala que el riesgo ya no llega de fuera.
+Correcto: Beck discrepa de esa lectura y considera que el riesgo ya no llega de fuera.
+
+La contracara está en la sección 7.2 y conviene no cruzarlas: «indica»,
+«muestra» o «refleja» son de los datos, no de las personas. Un autor que
+«refleja» algo no está sosteniéndolo, y una cifra que «objeta» no existe.
+
 
 ## 8. Voz y persona
 
@@ -631,6 +809,24 @@ las cosas le pasen a alguien: es que los conceptos hacen cosas.
 > La organización de la experiencia perceptiva es inmediata.
 
 > La presencia de la mentira en cada situación subraya su alta incidencia.
+
+Y hay una segunda mitad, que es la que casi nadie copia: **el verbo que se le da
+a ese sujeto abstracto es de cuerpo o de movimiento.** Veintidós casos en el
+apartado conceptual, con verbos que en su uso corriente piden algo material:
+arraigar, estribar, subyacer, perfilar, brotar, viajar, recaer, radicar, lanzar,
+apuntar, desenrollar, devenir. Lo que un imitador escribe en su lugar es
+«implica», «supone» y «consiste en», y con eso la prosa pierde exactamente lo
+que la hacía reconocible.
+
+> El peso de la decisión estriba en el suelo que recibe la sacudida, no en la
+> fuerza que sale de la falla.
+
+> En el reparto previo del territorio subyace el daño que después se cuenta.
+
+Escrito con el verbo neutro, la misma frase se apaga:
+
+> El daño que después se cuenta está relacionado con el reparto previo del
+> territorio.
 
 El riesgo del recurso es el abuso, ya que un texto entero de conceptos actuando
 se vuelve irrespirable. La contrapartida es la sección 8.3: cuando hay una voz
@@ -671,8 +867,29 @@ Los verbos con que se enganchan, tal como se usan: «fue continuada por»,
 «discrepó en varios apartados», «rechaza profundamente», «coincide con», «objeta
 ante», «resulta más admisible que», «lleva ese desplazamiento más lejos».
 
-Al autor se lo presenta con su oficio y con su nombre completo, ocho veces en el
-corpus: «el filósofo», «el psicólogo», «el médico».
+Cómo entra un autor tiene una forma fija, y son tres cosas a la vez.
+
+La primera es la presentación: **artículo, oficio y nombre completo**, ocho veces
+en el corpus y sin una sola excepción en el apartado conceptual. «El filósofo
+Alejandro Tomasini», «el psicólogo Lev Semiónovich Vygotsky», «el médico Wilhelm
+Wundt». Nunca el apellido a secas la primera vez, y nunca el oficio detrás.
+
+La segunda es que **desde la segunda mención queda solo el apellido**. Piaget
+aparece siete veces y lleva nombre una; Vygotsky, cinco y una. El nombre
+completo es un acto de presentación y no se repite, del mismo modo que no se
+vuelve a decir el oficio.
+
+La tercera es la que hace el encadenamiento de esta sección: **el verbo que
+sitúa al autor va en la primera oración en que aparece, antes de exponer lo
+suyo.** No entra, se explica y después se lo compara: entra ya comparado.
+
+Incorrecto: Ulrich Beck estudió el riesgo en las sociedades industriales. A diferencia de White, sostiene que lo producen las decisiones mismas.
+Correcto: El sociólogo Ulrich Beck lleva ese desplazamiento más lejos y sostiene que el riesgo de las sociedades industriales lo producen las decisiones que pretenden controlarlo.
+
+Hay una excepción medida y conviene tenerla: los nombres que cualquiera reconoce
+entran sin oficio y sin nombre de pila. En el corpus, «Kant», «Spinoza» y
+«Descartes» aparecen a secas. Presentar a Kant como «el filósofo Immanuel Kant»
+suena a ficha, no a exposición.
 
 Así se ve el recorrido armado:
 
@@ -781,6 +998,46 @@ con qué. No se cierra resumiendo lo dicho: se cierra evaluando si alcanzó.
 Cuando no alcanzó, se dice. Un apartado que declara haber respondido lo que no
 respondió es el único defecto de esta forma que ningún lector puede detectar sin
 volver al principio.
+
+### 9.6. La cita larga entra por una rampa y sale convertida
+
+El corpus trae cinco citas en bloque en el apartado conceptual, y las cinco están
+montadas igual. Es la maquinaria más regular de todo el documento y la que ningún
+texto escrito con versiones anteriores de esta skill reprodujo.
+
+**Antes.** La oración que precede a la cita no la anuncia diciendo quién habla:
+termina en un verbo o un sustantivo de enunciación y en dos puntos, con la cita
+colgando de la sintaxis de esa oración. Ninguna de las cinco va precedida de
+«Como afirma X:».
+
+> Ese desfase, que no es solo de calendario sino también de alcance, queda
+> reconocido al advertir que:
+
+**La cita.** Entre cincuenta y sesenta palabras las cinco veces, ninguna más
+corta y ninguna más larga. Cuatro de las cinco abren con puntos suspensivos
+entre corchetes, porque se entra a la frase ajena empezada y no desde su
+principio.
+
+**Después.** Aquí está lo que se pierde. **El párrafo siguiente no comenta la
+cita: la convierte.** Toma lo que la cita dijo, lo vuelve un sustantivo abstracto
+y lo pone de sujeto de su primera oración, o lo engancha con un relativo que
+continúa la sintaxis de la cita. Cuatro de las cinco aterrizan así.
+
+> La cobertura desigual de la norma configura que su fecha de entrada en vigor
+> no diga casi nada sobre lo que quedó en pie.
+
+> Lo que ello denota es que la exigencia recayó sobre quien pidió licencia y no
+> sobre quien construyó al margen de ella.
+
+Escrito del modo corriente, la cita queda huérfana y el párrafo siguiente
+empieza otra cosa:
+
+> Como se puede ver en la cita anterior, el autor tiene razón en lo que dice.
+
+**La regla, en una línea: una cita nunca cierra un párrafo ni un apartado.** Si
+después de la cita no hay nada que la convierta, la cita no hacía falta, y lo
+que corresponde es parafrasearla dentro de la oración propia. Una cita puesta al
+final es una firma ajena en un texto que tenía que concluir por su cuenta.
 
 
 ## 10. El recurso característico: la afirmación que se sostiene por discrepancia
@@ -944,6 +1201,31 @@ si al quitar el adjetivo la oración dice lo mismo, sobraba. Antepuesto o
 pospuesto, un adjetivo que solo eleva el tono es un defecto; antepuesto o
 pospuesto, uno que precisa es del registro.
 
+### 13.5. El hueco de la llamada de nota
+
+Diecinueve oraciones del apartado conceptual terminan con un espacio antes del
+punto. No es una pausa ni un rasgo de puntuación: es el sitio donde iba el
+número volado de una nota al pie que se perdió al pasar el documento a texto
+plano.
+
+Se deja dicho porque una lectura atenta lo encuentra, ve que aparece siempre al
+cerrar la exposición de una fuente y puede confundirlo con una convención. Aquí
+el punto va pegado a la palabra anterior, como en cualquier texto, y de dónde
+salió lo que se expone se resuelve como lo resuelva el trabajo, que es lo que
+dice la sección 2.
+
+### 13.6. El gerundio que arranca una oración sin verbo principal
+
+El corpus lo hace unas cuantas veces: cierra con punto y abre la oración
+siguiente con un gerundio que se queda sin nada que lo sostenga.
+
+> Aseverando la existencia de campos de organización irreducibles.
+
+Ahí no hay verbo principal, y la oración no llega a serlo. La base lo rechaza y
+la prohibición se mantiene. El rasgo bueno del que este defecto se parece está
+en la sección 5.6: el gerundio de este registro continúa una oración que ya
+tiene verbo, colgado tras coma o tras punto y coma, y no abre una nueva.
+
 
 ## 14. Formato de entrega
 
@@ -993,6 +1275,26 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
 14. **La prosa sin adverbios.** Es el defecto más silencioso, ya que nada suena
     mal: sencillamente falta la capa que gradúa lo que se afirma. El corpus pone
     uno cada 126 palabras y casi nunca repite el mismo.
+15. **La prosa sin punto y coma.** Cada afirmación termina en punto y queda
+    sola, con lo cual el texto acierta las longitudes y pierde la junta. Es el
+    hermano del anterior y se corrige igual: no agregando, sino bajando a punto
+    y coma los puntos que separaban cosas que se leen juntas.
+16. **La cita que cierra.** Se trae una cita larga, se la deja al final del
+    párrafo y se pasa a otra cosa. Nadie la convirtió, así que la firma de otro
+    quedó donde tenía que ir la conclusión propia.
+17. **La serie partida en oraciones.** Tres tipos definidos en tres oraciones
+    con punto entre ellas, cuando el registro los define en un solo periodo con
+    la misma pieza para los tres. Con el punto, el paralelismo se deshace y la
+    comparación entre los miembros desaparece.
+18. **El verbo de atribución neutro.** «Señala», «explica», «sostiene»: un autor
+    entra sin quedar situado respecto del anterior, y el encadenamiento hay que
+    hacerlo entonces con una oración aparte que casi nunca se escribe.
+19. **La reserva probabilística.** «Quizá», «tal vez», «en cierta medida». Rebaja
+    la afirmación en vez de acotarla, y deja al lector sin saber cuánto vale lo
+    que acaba de leer.
+20. **El concepto con verbo apagado.** El sujeto abstracto está bien elegido y el
+    verbo lo desperdicia: «implica», «supone», «consiste en», «está relacionado
+    con». La prosa queda correcta y deja de moverse.
 
 
 ## 16. Lista de verificación de tono
@@ -1011,51 +1313,71 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
     que con «porque» y «así que»?
  8. ¿Aparece «cuyo» donde la perífrasis con «del cual» partiría el periodo, y
     «ello» donde hay que retomar lo dicho entero?
- 9. ¿Cada unidad declara qué relación tiene con la anterior, en vez de quedar
+ 9. ¿El punto y coma aparece en al menos una de cada doce oraciones, uniendo lo
+    que no se puede leer por separado?
+10. ¿Lo que cuelga del punto y coma continúa la oración anterior, la rebautiza o
+    trae el miembro siguiente de una serie, en vez de ser una oración que podría
+    ir suelta?
+11. ¿Cada unidad declara qué relación tiene con la anterior, en vez de quedar
     puesta al lado sin decirlo?
-10. ¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos
+12. ¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos
     oraciones seguidas?
-11. ¿El enlace culto poco frecuente aparece una o dos veces en todo el texto, y
+13. ¿El enlace culto poco frecuente aparece una o dos veces en todo el texto, y
     no en cada párrafo?
-12. ¿Hay al menos una reformulación que vuelva a decir en llano un pasaje denso,
+14. ¿Hay al menos una reformulación que vuelva a decir en llano un pasaje denso,
     y ninguna que reformule algo que ya era claro?
-13. ¿Alguna corrección se hace reemplazando dentro de la misma oración, con «no
+15. ¿Alguna corrección se hace reemplazando dentro de la misma oración, con «no
     X, sino Y», en vez de negando y volviendo a empezar?
-14. ¿Las enumeraciones van dentro de la prosa con ordinales, sin una sola lista
+16. ¿Las enumeraciones van dentro de la prosa con ordinales, sin una sola lista
     con viñetas?
-15. ¿La palabra culta entra por el sustantivo o por el verbo, y al cambiarla por
+17. ¿Algún par de dos puntos entrega en pocas palabras el nombre de lo que se
+    acaba de describir, en vez de abrir siempre una explicación larga?
+18. ¿Las clasificaciones definen a cada miembro en el acto y dentro del mismo
+    periodo, con la misma pieza para todos y punto y coma entre ellos?
+19. ¿La palabra culta entra por el sustantivo o por el verbo, y al cambiarla por
     la corriente la oración pierde algo?
-16. ¿Los términos que lo necesitan traen su glosa entre paréntesis, sin abrir
+20. ¿Los términos que lo necesitan traen su glosa entre paréntesis, sin abrir
     oración para explicarlos?
-17. ¿Los adverbios en -mente aparecen cada pocas líneas, dentro de la oración
+21. ¿Los adverbios en -mente aparecen cada pocas líneas, dentro de la oración
     y sin repetirse?
-18. ¿Algún adjetivo va delante del sustantivo para valorar, y ninguno queda
+22. ¿Los adverbios elegidos son los poco corrientes, sin «claramente», sin
+    «evidentemente» y sin «obviamente»?
+23. ¿Algún adjetivo va delante del sustantivo para valorar, y ninguno queda
     puesto solo para elevar el tono?
-19. ¿El periodo se alarga con gerundio, con «al» más infinitivo o con «a fin
+24. ¿El periodo se alarga con gerundio, con «al» más infinitivo o con «a fin
     de», y no solo con comas?
-20. ¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a
+25. ¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a
     decir, sin que un dato demuestre lo que apenas perfila?
-21. ¿La reserva va delante de la afirmación que matiza, y no detrás?
-22. ¿Quien escribe no aparece nunca en primera persona, ni del singular ni del
+26. ¿El verbo con que se le atribuye una idea a un autor lo sitúa respecto del
+    anterior, en vez de limitarse a «señala» o a «explica»?
+27. ¿La reserva va delante de la afirmación que matiza, y es concesiva en vez de
+    probabilística?
+28. ¿Los conceptos que hacen de sujeto llevan un verbo de cuerpo o de
+    movimiento, en vez de «implica» y «consiste en»?
+29. ¿Quien escribe no aparece nunca en primera persona, ni del singular ni del
     plural?
-23. ¿Las citas conservan la persona, el vocabulario y el registro de quien habló,
+30. ¿Las citas conservan la persona, el vocabulario y el registro de quien habló,
     sin limpiarlos?
-24. ¿Cada posición del recorrido entra por su relación con la anterior, y no
+31. ¿Cada autor entra con su oficio y su nombre completo la primera vez y solo
+    con el apellido después, y el verbo que lo sitúa va en esa primera oración?
+32. ¿Cada posición del recorrido entra por su relación con la anterior, y no
     puesta en fila?
-25. ¿El recorrido cierra estipulando en futuro con qué alcance se usará el
+33. ¿Cada cita larga entra por unos dos puntos y el párrafo siguiente la
+    convierte, sin que ninguna cierre un párrafo ni un apartado?
+34. ¿El recorrido cierra estipulando en futuro con qué alcance se usará el
     término y con cuál no, y esa estipulación queda antes de lo que el término
     va a leer, en vez de al final del texto?
-26. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
-27. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
-28. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
-29. ¿Cada afirmación del análisis se apoya a la vez en cosas de procedencia
+35. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
+36. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
+37. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
+38. ¿Cada afirmación del análisis se apoya a la vez en cosas de procedencia
     distinta y en un concepto ya estipulado?
-30. ¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo
+39. ¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo
     mismo?
-31. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
-32. ¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe
+40. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
+41. ¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe
     destacar» y sin «en conclusión»?
-33. ¿La apertura nombra lo que se va a poner en relación, en vez de definir o de
+42. ¿La apertura nombra lo que se va a poner en relación, en vez de definir o de
     ponderar la importancia del tema?
 
 
@@ -1111,7 +1433,24 @@ cautelas de la sección 3.
 | Construcciones «lo que… no es… sino…» | 6 |
 | Verbos con que la evidencia habla | 36, uno cada 339 palabras |
 | Marcas de modalización | 35, una cada 349 palabras |
-| Oraciones con punto y coma | 13,8 % |
+| Oraciones con punto y coma, en el corpus | 18 % |
+| Oraciones con punto y coma, en el apartado conceptual | 21 % |
+| Punto y coma que unen dos oraciones independientes | 4 de 40 |
+| Punto y coma que cuelgan una continuación, una aposición o un miembro de serie | 31 de 40 |
+| Dos puntos que resuelven en nueve palabras o menos | 15 de 28 |
+| Dos puntos que resuelven en seis palabras o menos | 10 de 28 |
+| Series que definen a cada miembro en el acto | 6 |
+| Citas en bloque del apartado conceptual | 5, de 54 a 62 palabras |
+| Citas en bloque introducidas por dos puntos | 5 de 5 |
+| Citas en bloque convertidas por el párrafo siguiente | 4 de 5 |
+| «señala» y «señaló», en todo el corpus | 0 |
+| «explica», «sugiere», «concluye», «define», «destaca», «enfatiza», «sostiene» | 0 |
+| Verbo de atribución más usado | «considera», 9 |
+| Reserva probabilística («quizá», «tal vez», «acaso», «al parecer», «por lo general») | 0 |
+| Adverbios corrientes en -mente («claramente», «evidentemente», «obviamente») | 0 |
+| Conceptos como sujeto con verbo de cuerpo o de movimiento | 22 |
+| «sino» con inciso entre comas, y «y» con conector entre comas | 9 |
+| «cual» comparativo sin artículo, «mas» por «pero» | 2 cada uno |
 | Oraciones que abren con un concepto como sujeto | 39 |
 | Autores presentados con su oficio | 8 |
 | Impersonales con «se» | 168 |
@@ -1145,3 +1484,18 @@ cuando ninguna de las evidencias es alguien hablando.
 **Los ejemplos de este documento no son del corpus.** Se escribieron para mostrar
 cada movimiento, sobre asuntos ajenos al texto medido, y cumplen las cifras de la
 sección 4. Ilustran la forma; no son evidencia de ella.
+
+**El bloque metodológico del corpus no alcanza el piso de la sección 6.2.** Sus
+párrafos abren con conector el 11 % de las veces, contra el 27 % del bloque
+conceptual y el 40 % del analítico. Se deja dicho en vez de bajar el piso, por
+dos razones. La primera es que ese apartado se apoya en el orden de los pasos y
+no en la relación entre ellos, así que el rasgo le falta de verdad y no por
+medirlo mal. La segunda es que un texto que sea solo metodología recibirá el
+aviso, y el aviso no estará equivocado: le está diciendo que encadena menos que
+el resto del documento del que salió.
+
+**La densidad del apartado conceptual se midió sobre un bloque y no sobre el
+documento.** Las cifras de punto y coma, de dos puntos y de glosa que dan más
+alto en la sección 3 salen de 5.141 palabras. Sostienen que ese bloque es más
+denso que el conjunto; no sostienen que la diferencia sea del apartado
+conceptual como género y no de quien lo escribió.

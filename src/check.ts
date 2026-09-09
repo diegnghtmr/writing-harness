@@ -389,6 +389,51 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
       }
     }
 
+    if (rule.kind === 'paragraph-opening-ratio') {
+      // Mismo criterio de prosa que la dispersión: un párrafo de una línea es un
+      // título o un pie, y ni abre declarando nada ni debe engordar el
+      // denominador. El primer párrafo del texto queda fuera porque no tiene
+      // anterior con el que relacionarse.
+      const prosa = splitParagraphs(text).filter(
+        (par) => par.sentences.reduce((n, o) => n + o.words, 0) >= 10,
+      );
+      const candidatos = prosa.slice(1);
+      if (candidatos.length >= rule.minParagraphs) {
+        const abren = candidatos.filter((par) => rule.pattern.test(par.text));
+        const share = abren.length / candidatos.length;
+        if (share < rule.minShare) {
+          findings.push({
+            rule: rule.id,
+            severity: rule.severity,
+            ...at(candidatos[0]?.offset ?? 0),
+            message:
+              `${rule.message} ${abren.length} de ${candidatos.length} párrafos, ` +
+              `${Math.round(share * 100)} %, y el mínimo es ${Math.round(rule.minShare * 100)} %.`,
+            fix: rule.fix,
+            source: rule.source,
+          });
+        }
+      }
+    }
+
+    if (rule.kind === 'pattern-ratio-floor') {
+      if (todasLasOraciones.length < rule.minSentences) continue;
+      const encajan = todasLasOraciones.filter((s) => rule.pattern.test(s.text));
+      const share = encajan.length / todasLasOraciones.length;
+      if (share < rule.minShare) {
+        findings.push({
+          rule: rule.id,
+          severity: rule.severity,
+          ...at(0),
+          message:
+            `${rule.message} ${encajan.length} de ${todasLasOraciones.length} oraciones, ` +
+            `${Math.round(share * 100)} %, y el mínimo es ${Math.round(rule.minShare * 100)} %.`,
+          fix: rule.fix,
+          source: rule.source,
+        });
+      }
+    }
+
     if (rule.kind === 'paragraph-length-spread') {
       // Se mide sobre los párrafos que son prosa. Un párrafo de una línea suelta
       // no es un párrafo corto del registro: es un título, una firma o un pie, y

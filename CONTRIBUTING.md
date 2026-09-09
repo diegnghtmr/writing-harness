@@ -144,6 +144,30 @@ el adjetivo que no cambia lo que la oración dice, porque la base ya lo rechaza.
 La línea está en la clase de palabra: el registro alto de una prosa entra por el
 sustantivo y por el verbo, casi nunca por el adjetivo.
 
+**Un techo sin piso se lee como permiso.** Es el defecto que más veces se
+repitió, y siempre con la misma forma: la prosa declara una media, o dice que un
+rasgo «cabe holgado» bajo el límite de la base, y no pide un mínimo de nada. Lo
+que no se pide, converge. Pasó tres veces en el mismo tono y en tres rasgos
+distintos: los párrafos salieron todos del mismo tamaño porque había media y
+piso pero ninguna exigencia de dispersión; el punto y coma cayó a una de cada
+treinta oraciones porque la prosa decía dónde estaba el techo y nunca dónde
+estaba el suelo; y los párrafos dejaron de abrir con conector porque la cifra
+del corpus estaba escrita y nadie la exigía. **Todo rasgo que la prosa declare
+como densidad necesita un piso medido, y el piso va lejos de lo medido para que
+acuse al texto que abandonó el rasgo y no al que respiró.**
+
+**Para extraer un tono conviene leerlo con ojos que no sean los propios.** El
+riesgo de la tercera relectura del mismo corpus es encontrar lo que uno ya
+escribió. Lo que funcionó fue mandar a leer el mismo apartado a varios lectores
+independientes, cada uno con un encargo distinto —cómo está armada la oración,
+cómo avanza el párrafo, qué léxico y qué fórmulas fijas—, sin acceso a la skill
+existente y con la obligación de citar literal y de contar. Después se cruza:
+lo que dos encuentran por separado es un rasgo, lo que dice uno solo es una
+hipótesis, y **todo lo que entre a la skill se vuelve a contar con la mano
+propia antes de escribirlo**. En esa ronda salieron cuatro rasgos que tres
+lecturas anteriores no habían visto, y dos afirmaciones de la skill que había
+que corregir porque contarlas las desmentía.
+
 **Un tono no puede exigir lo que la base castiga.** Un tono se suma a la base y
 no la corrige, así que cuando el corpus trae un rasgo que la base prohíbe, ese
 rasgo se saca del tono y se dice en la prosa que se sacó. Pasó con dos enlaces

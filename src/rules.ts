@@ -175,6 +175,27 @@ export type ParagraphSpreadRule = Common & {
 };
 
 /**
+ * Cuántos párrafos tienen que abrir declarando su relación con el anterior.
+ *
+ * Existe porque el rasgo no se transmitía. Un tono que solo describe en prosa
+ * «el 32 % de los párrafos abre con conector» produjo tres textos seguidos con
+ * uno de cada ocho, y el defecto no se oye como error: se oye como una
+ * exposición que pone los párrafos al lado en vez de encadenarlos.
+ *
+ * Se cuenta desde el segundo párrafo. El primero no tiene anterior con el que
+ * relacionarse, y exigírselo sería contar un imposible en el denominador.
+ */
+export type ParagraphOpeningRatioRule = Common & {
+  kind: 'paragraph-opening-ratio';
+  /** Se prueba contra el arranque de cada párrafo. Sin flag `g`. */
+  pattern: RegExp;
+  /** Fracción mínima, de 0 a 1. Se marca por debajo. */
+  minShare: number;
+  /** Por debajo de esta cantidad de párrafos la proporción es ruido. */
+  minParagraphs: number;
+};
+
+/**
  * Una racha de oraciones cortas seguidas. Es el staccato del patrón 32: una
  * frase breve destaca, una cadena de frases breves suena de fábrica.
  */
@@ -297,6 +318,29 @@ export type RatioRule = Common & {
 };
 
 /**
+ * Proporción mínima de oraciones que encajan en un patrón. El reverso de
+ * `pattern-ratio`, y no una opción suya, porque la pregunta es otra: aquella
+ * pone un techo a lo que sobra y esta un piso a lo que falta.
+ *
+ * Existe por el mismo hallazgo que `paragraph-length-spread`: lo que no se
+ * pide, converge. Un tono cuyo corpus lleva punto y coma en una de cada cinco
+ * oraciones, descrito solo en prosa y con la base poniéndole un techo, produjo
+ * tres textos seguidos con una de cada treinta. La prosa decía «cabe holgado» y
+ * el texto lo leyó como permiso, no como exigencia.
+ *
+ * El piso va deliberadamente lejos del techo de la base. Un tono que pidiera
+ * lo que la base castiga sería un tono mal escrito, no una regla estricta.
+ */
+export type RatioFloorRule = Common & {
+  kind: 'pattern-ratio-floor';
+  /** Se prueba contra cada oración. Sin flag `g`. */
+  pattern: RegExp;
+  /** Fracción mínima, de 0 a 1. Se marca por debajo. */
+  minShare: number;
+  minSentences: number;
+};
+
+/**
  * Comillas inglesas usadas como primer nivel.
  *
  * No se puede con una regex: hay que recorrer el texto llevando la cuenta de si
@@ -339,8 +383,10 @@ export type Rule =
   | MeanLengthRule
   | SentenceStartRunRule
   | ParagraphOpeningRule
+  | ParagraphOpeningRatioRule
   | MustContainRule
   | RatioRule
+  | RatioFloorRule
   | QuoteLevelRule
   | LengthSpreadRule;
 
@@ -2367,6 +2413,77 @@ export const TONES: Record<string, Tone> = {
           },
         ],
       },
+      {
+        // §6.2. El 32,2 % de los párrafos del corpus abre con conector. Es el
+        // rasgo que la prosa sola no logró transmitir: tres textos seguidos,
+        // escritos con esta skill y sin esta regla, salieron con uno de cada
+        // ocho, y el usuario lo encontró leyendo antes de que ninguna medición
+        // lo mirara.
+        //
+        // El inventario es deliberadamente estrecho. Quedan fuera «según»,
+        // «pese a» y «a pesar de», que enmarcan la oración pero no declaran
+        // ninguna relación con el párrafo anterior, y premiarlos convertiría la
+        // regla en un detector de aperturas formales.
+        //
+        // El piso va en el 16 %, la mitad de lo medido. Con él, los tres
+        // bloques largos del corpus pasan holgados —conceptual 27 %, análisis
+        // 40 %, corpus entero 30 %— y los dieciséis documentos de prueba del
+        // arnés caen todos por debajo, entre 0 % y 13 %.
+        //
+        // Un bloque del corpus no lo alcanza: el metodológico, con 11 %. Queda
+        // dicho en la §17.3 en vez de bajarle el piso a la regla, porque ese
+        // apartado se apoya en el orden de los pasos y no en la relación entre
+        // ellos, y avisarle no es acusarlo en falso.
+        id: 'triangulacion-parrafo-encadenado',
+        kind: 'paragraph-opening-ratio',
+        severity: 'warning',
+        pattern:
+          /^(?:no obstante|sin embargo|empero|por el contrario|en contraste|en cambio|con todo|ahora bien|en consecuencia|por consiguiente|por ende|por tanto|por lo tanto|por ello|de manera que|de modo que|de ah[íi] que|adem[áa]s|asimismo|adicionalmente|en efecto|de hecho|del mismo modo|igualmente|an[áa]logamente|correlativamente|por cierto|en primer lugar|por un lado|por otro lado|por otra parte|por [úu]ltimo|en suma|con todo ello|es decir|en otras palabras|dicho de otro modo|en pocas palabras|en este sentido|con ello|aun as[íi]|en atenci[óo]n a)(?:,|\s)/iu,
+        minShare: 0.16,
+        minParagraphs: 6,
+        message: 'Casi ningún párrafo abre declarando qué relación tiene con el anterior, y es lo que hace a este tono.',
+        fix: 'Poner al frente de algún párrafo el enlace que dice qué hace con el anterior, y que al menos uno lo contradiga: «No obstante», «Por el contrario», «En consecuencia».',
+        source: 'triangulacion-writing §6.2',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿Al menos un párrafo abre contradiciendo al que acaba de terminar, y no todos abren con un enlace?',
+          },
+        ],
+      },
+      {
+        // §5.5. El punto y coma aparece en el 18 % de las oraciones del corpus y
+        // en el 21 % del apartado conceptual, que es de donde sale este tono.
+        //
+        // El piso va en el 8 %, una de cada doce, por dos razones que van
+        // juntas. La primera es que deja sitio de sobra bajo el techo del 20 %
+        // que pone `spanish-writing` §6.7: un tono no puede pedir lo que la
+        // base castiga, así que la banda de trabajo es de una entre doce y una
+        // entre cinco, y el extremo de arriba no es de este tono sino de la
+        // base. La segunda es que discrimina: los cinco bloques del corpus caen
+        // entre 10 % y 21 %, y los dieciséis documentos de prueba del arnés,
+        // entre 0 % y 3 %.
+        //
+        // Es el mismo hallazgo que en la dispersión de párrafo. La prosa decía
+        // que el registro «cabe holgado» bajo el techo de la base, y el texto lo
+        // leyó como permiso en vez de como exigencia: tres corridas seguidas
+        // dieron 5,1 %, 7,7 % y 7,3 %. Lo que no se pide, converge.
+        id: 'triangulacion-punto-y-coma',
+        kind: 'pattern-ratio-floor',
+        severity: 'warning',
+        pattern: /;/u,
+        minShare: 0.08,
+        minSentences: 12,
+        message: 'Casi no hay punto y coma, y en este registro es la junta con que dos afirmaciones se leen juntas.',
+        fix: 'Donde hoy hay punto entre dos afirmaciones que no se pueden leer por separado, poner punto y coma y seguir en minúscula. También va delante del gerundio o de la aposición que renombra lo dicho.',
+        source: 'triangulacion-writing §5.5',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿El punto y coma aparece en al menos una de cada doce oraciones, uniendo lo que no se puede leer por separado?',
+          },
+        ],
+      },
     ],
   },
 };
@@ -2878,9 +2995,23 @@ export function assertRules(rules: Rule[] = allRules()): void {
     }
     // Estas dos se prueban con `.test` contra cada oración. Con el flag `g`,
     // `lastIndex` es estado compartido y el resultado alterna entre llamadas.
-    if (r.kind === 'sentence-start-run' || r.kind === 'paragraph-opening' || r.kind === 'pattern-ratio') {
+    if (
+      r.kind === 'sentence-start-run' ||
+      r.kind === 'paragraph-opening' ||
+      r.kind === 'paragraph-opening-ratio' ||
+      r.kind === 'pattern-ratio' ||
+      r.kind === 'pattern-ratio-floor'
+    ) {
       if (r.pattern.flags.includes('g')) {
         throw new Error(`la regla ${r.id} no puede llevar el flag g`);
+      }
+    }
+    // Un piso fuera de (0, 1] no mide nada: en cero no marca nunca y por encima
+    // de uno marca siempre, y las dos son una regla apagada con aspecto de
+    // regla encendida.
+    if (r.kind === 'paragraph-opening-ratio' || r.kind === 'pattern-ratio-floor') {
+      if (r.minShare <= 0 || r.minShare > 1) {
+        throw new Error(`la regla ${r.id} necesita una proporción entre 0 y 1`);
       }
     }
     if (r.kind === 'paragraph-length' && r.min === undefined && r.max === undefined) {

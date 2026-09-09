@@ -134,6 +134,8 @@ describe('el README dice lo que el código mide', () => {
       13: 'trece',
       14: 'catorce',
       15: 'quince',
+      16: 'dieciséis',
+      17: 'diecisiete',
     };
     const tipos = new Set(reglas.map((r) => r.kind)).size;
     const conProsa = Object.values(DECLARADO).filter((d) => d.prosa !== null);

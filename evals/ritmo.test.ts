@@ -229,6 +229,124 @@ describe('triangulacion: el primer tono que exige periodo largo', () => {
   });
 });
 
+describe('paragraph-opening-ratio: cuántos párrafos declaran su relación con el anterior', () => {
+  const parrafo = conLongitudes([30, 30]);
+  const conEnlace = (enlace: string) => `${enlace}, ${conLongitudes([30, 30])}`;
+
+  test('dispara cuando ningún párrafo abre con conector', () => {
+    // El defecto real. Con la §6.2 escrita solo en prosa, tres textos seguidos
+    // salieron con uno de cada ocho contra el 32,2 % del corpus.
+    const plano = Array.from({ length: 8 }, () => parrafo).join('\n\n');
+    const f = solo(plano, 'triangulacion', 'triangulacion-parrafo-encadenado');
+    assert.equal(f.length, 1);
+    assert.match(f[0]!.message, /0 de 7 p[áa]rrafos, 0 %/u);
+    assert.match(f[0]!.message, /el m[íi]nimo es 16 %/u);
+  });
+
+  test('calla cuando la proporción se cumple', () => {
+    const encadenado = [
+      parrafo,
+      conEnlace('No obstante'),
+      parrafo,
+      parrafo,
+      conEnlace('Por el contrario'),
+      parrafo,
+      parrafo,
+      parrafo,
+    ].join('\n\n');
+    assert.deepEqual(solo(encadenado, 'triangulacion', 'triangulacion-parrafo-encadenado'), []);
+  });
+
+  test('el primer párrafo no entra en la cuenta, porque no tiene anterior', () => {
+    // El canario del denominador. Ocho párrafos con el único enlace en el
+    // primero: ese enlace no declara ninguna relación, ya que no hay nada
+    // antes, y contarlo dejaría pasar un texto que no encadena nada.
+    const soloElPrimero = [conEnlace('No obstante'), ...Array.from({ length: 7 }, () => parrafo)].join('\n\n');
+    const f = solo(soloElPrimero, 'triangulacion', 'triangulacion-parrafo-encadenado');
+    assert.equal(f.length, 1);
+    assert.match(f[0]!.message, /0 de 7 p[áa]rrafos/u);
+  });
+
+  test('«según» y «pese a» no cuentan como enlace, porque enmarcan y no encadenan', () => {
+    // El inventario es estrecho a propósito. Los dos abren oración con aire de
+    // conector y no dicen nada sobre el párrafo anterior; premiarlos volvería la
+    // regla un detector de aperturas formales.
+    const enmarcado = [
+      parrafo,
+      conEnlace('Según el autor citado'),
+      conEnlace('Pese a lo anterior'),
+      parrafo,
+      parrafo,
+      parrafo,
+      parrafo,
+      parrafo,
+    ].join('\n\n');
+    assert.equal(solo(enmarcado, 'triangulacion', 'triangulacion-parrafo-encadenado').length, 1);
+  });
+
+  test('no mide un texto de pocos párrafos', () => {
+    const pocos = Array.from({ length: 6 }, () => parrafo).join('\n\n');
+    assert.deepEqual(solo(pocos, 'triangulacion', 'triangulacion-parrafo-encadenado'), []);
+  });
+
+  test('una línea suelta no cuenta como párrafo sin encadenar', () => {
+    // Mismo canario que en la dispersión: un título en el denominador bajaría
+    // la proporción de un texto que sí encadena.
+    const conTitulo = [
+      'Sobre el asunto',
+      parrafo,
+      conEnlace('No obstante'),
+      parrafo,
+      parrafo,
+      conEnlace('En consecuencia'),
+      parrafo,
+      parrafo,
+    ].join('\n\n');
+    assert.deepEqual(solo(conTitulo, 'triangulacion', 'triangulacion-parrafo-encadenado'), []);
+  });
+});
+
+describe('pattern-ratio-floor: el piso que la base no puede dar', () => {
+  test('dispara cuando el texto no lleva punto y coma', () => {
+    const sinJunta = conLongitudes(Array.from({ length: 12 }, () => 26));
+    const f = solo(sinJunta, 'triangulacion', 'triangulacion-punto-y-coma');
+    assert.equal(f.length, 1);
+    assert.match(f[0]!.message, /0 de 12 oraciones, 0 %/u);
+    assert.match(f[0]!.message, /el m[íi]nimo es 8 %/u);
+  });
+
+  test('calla con uno solo cada doce oraciones', () => {
+    const doce = Array.from({ length: 11 }, () => conLongitudes([26])).join(' ');
+    const conJunta = `${doce} La mente ordena la realidad para interpretarla; apoyandose en lo que el sujeto ya cree saber.`;
+    assert.deepEqual(solo(conJunta, 'triangulacion', 'triangulacion-punto-y-coma'), []);
+  });
+
+  test('no mide un texto de pocas oraciones', () => {
+    const pocas = conLongitudes(Array.from({ length: 11 }, () => 26));
+    assert.deepEqual(solo(pocas, 'triangulacion', 'triangulacion-punto-y-coma'), []);
+  });
+
+  test('el piso del tono deja sitio bajo el techo de la base', () => {
+    // Un tono no puede pedir lo que la base castiga. El piso está en el 8 % y
+    // `spanish-writing` §6.7 pone el techo en el 20 %: un texto que cumpla el
+    // piso justo no puede estar disparando el techo, y este canario lo fija.
+    const doce = Array.from({ length: 11 }, () => conLongitudes([26])).join(' ');
+    const conJunta = `${doce} La mente ordena la realidad para interpretarla; apoyandose en lo que el sujeto ya cree saber.`;
+    assert.deepEqual(
+      check(conJunta, { tone: 'triangulacion' }).filter((f) => f.rule === 'punto-y-coma-abusado'),
+      [],
+    );
+
+    // Y la otra mitad, sin la cual el canario anterior no comprueba nada: el
+    // techo de la base existe y dispara de verdad cuando se lo pasa.
+    const abusado = Array.from({ length: 12 }, () => 'Una afirmacion cualquiera; y su continuacion.').join(' ');
+    assert.equal(
+      check(abusado, { tone: 'triangulacion' }).filter((f) => f.rule === 'punto-y-coma-abusado').length,
+      1,
+    );
+  });
+});
+
 describe('ahora los trece tonos discriminan', () => {
   test('ninguno se queda sin reglas', () => {
     // Es la condición que hacía caducar el motivo del enrutamiento, y por eso
