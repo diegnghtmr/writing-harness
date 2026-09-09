@@ -81,7 +81,11 @@ describe('el frontmatter trae lo que el instalador exige', () => {
 });
 
 describe('ninguna descripción pasa el techo del instalador', () => {
-  test('las catorce caben en 1024 caracteres', () => {
+  // Sin cifra en el nombre a propósito. Decía «las catorce» y al llegar la
+  // decimoquinta skill quedó mintiendo, aunque la aserción de abajo nunca
+  // dependió de ese número: recorre las que hay. Un nombre de test es prosa, y
+  // envejece igual que la del README.
+  test('todas caben en 1024 caracteres', () => {
     const pasadas = skillNames()
       .map((n) => [n, largo(campoDeFrontmatter(readSkill(n), 'description') ?? '')] as const)
       .filter(([, n]) => n > MAXIMO_DESCRIPCION)
