@@ -106,6 +106,30 @@ fragmento citado, la tabla de qué se dice en vez de qué. `evals/muestras.test.
 pide tres fragmentos como piso, y tres no hacen una buena skill: solo impiden la
 que no muestra ninguno. Lo que hace útil a una skill sigue siendo lectura.
 
+**Una skill queda floja cuando la medición quedó floja, y eso se nota
+contando.** El mismo tono del párrafo anterior volvió a quedarse corto después
+de arreglarle los ejemplos, y la causa no era la escritura: se habían medido
+cuatro rasgos, el ritmo de oración, el de párrafo, la persona y la cohesión.
+`han-writing` mide nueve. Cuatro rasgos dan cuatro secciones y una skill que
+describe un registro por fuera.
+
+Antes de escribir, conviene mirar cuántos rasgos distintos mide la skill más
+completa de la casa y no parar hasta acercarse. Los que casi siempre faltan son
+los que no se ven en un promedio: con qué nexos se arma el periodo largo, qué
+par de formas elige el registro y cuál descarta, con qué verbo habla la
+evidencia, dónde va la reserva respecto de lo que matiza, qué signo hace de
+junta, y **qué es lo que el corpus no dice nunca**, que es lo mejor medido de
+todo porque son ceros contados y no proporciones interpretadas.
+
+**Un tono no puede exigir lo que la base castiga.** Un tono se suma a la base y
+no la corrige, así que cuando el corpus trae un rasgo que la base prohíbe, ese
+rasgo se saca del tono y se dice en la prosa que se sacó. Pasó con dos enlaces
+de cierre que el corpus usaba y que la base rechaza con severidad error: la
+regla del tono los pedía y la de la base los castigaba, de modo que la
+instrucción se contradecía a sí misma y el que la leyera no sabía cuál obedecer.
+`evals/colision.test.ts` corre ese cruce sobre todas las listas de tono cada
+vez.
+
 **Un tono es la forma de redactar, y nada más.** Es la confusión que más veces
 se ha colado, siempre por el mismo camino: se mide un corpus, y con la forma se
 arrastra de qué estaba hecho ese corpus. Un tono medido sobre un informe con
