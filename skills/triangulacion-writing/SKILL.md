@@ -278,7 +278,12 @@ Una afirmación del análisis se apoya, en la misma unidad de texto, en tres cos
 nombradas:
 
 1. **Un dato de la serie cuantitativa**, con su referencia para volver a él.
-2. **Un testimonio citado literalmente**, con su código para volver a él.
+2. **Un testimonio citado literalmente**, con su código para volver a él. El
+   código lleva letra y guion, `E2-23` para la unidad 23 de la segunda
+   entrevista, y no punto: escrito `2.23` la base lo lee como un decimal mal
+   puntuado y tiene razón en leerlo así, porque en español el decimal va con
+   coma. Una convención de citación que obliga a incumplir la norma está mal
+   elegida, no exenta.
 3. **Un concepto del apartado teórico**, traído por el nombre con que se estipuló.
 
 El corpus lo hace 21 veces con referencia a dato, 22 con código de testimonio y
@@ -288,7 +293,7 @@ Así se ve completo:
 
 > La mentira aparece como necesaria para el 85,94 % de los encuestados (p. 3), y
 > los entrevistados la describen del mismo modo cuando cuentan cómo salieron de
-> un apuro: «no sabía qué responder y pensé rápido» (2.23). Leídas con la ley de
+> un apuro: «no sabía qué responder y pensé rápido» (E2-23). Leídas con la ley de
 > prägnanz, las dos evidencias dejan de coincidir por casualidad: la mente
 > prefiere la salida simple y disponible cuando la situación no da tiempo, de
 > manera que lo que la cifra registra como necesidad y el testimonio narra como
@@ -300,7 +305,7 @@ repitiéndolos: termina diciendo qué significan juntos.
 Y así se ve **cuando falla**, que es la trampa más común:
 
 > El 85,94 % de los encuestados considera que la mentira es necesaria (p. 3). Los
-> entrevistados también dicen que es necesaria (2.23). La teoría de la Gestalt
+> entrevistados también dicen que es necesaria (E2-23). La teoría de la Gestalt
 > confirma que es necesaria.
 
 Tres evidencias en fila que dicen lo mismo. Nadie contradijo a nadie, así que no

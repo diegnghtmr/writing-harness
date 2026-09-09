@@ -118,8 +118,8 @@ durante las primeras horas del día contribuye significativamente a la
 regulación del ritmo circadiano, por lo cual sería recomendable procurar dicha
 exposición.»
 
-Después: «Salí a la calle apenas te levantes. Diez minutos bastan. La luz de la
-mañana es la que le pone hora a tu reloj interno, y sin ella el cuerpo no sabe
+Después: «Salga a la calle apenas se levante. Diez minutos bastan. La luz de la
+mañana es la que le pone hora a su reloj interno, y sin ella el cuerpo no sabe
 cuándo empieza el día.»
 
 La segunda versión tiene tres oraciones donde la primera tenía una, manda en vez
