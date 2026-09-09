@@ -173,11 +173,11 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Quien escribe no aparece nunca en primera persona, ni del singular ni del plural?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las citas conservan la persona, el vocabulario y el registro de quien habló, sin limpiarlos?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada concepto del apartado teórico se recorre contra otras posiciones y se cierra estipulando con qué alcance se usará, y con qué alcance no?", estado: 'criterio' },
-  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada técnica se define y se justifica antes de contarse cómo se aplicó?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las cantidades muestran de dónde salen, y no solo el resultado?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada afirmación se apoya a la vez en evidencias de procedencia distinta y en un concepto ya estipulado?", estado: 'criterio' },
-  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Los tres apoyos se confrontan entre sí, en vez de repetir lo mismo tres veces?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo mismo?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿La apertura nombra las clases de evidencia que se van a confrontar, en vez de definir o de ponderar la importancia del tema?", estado: 'criterio' },
 ];

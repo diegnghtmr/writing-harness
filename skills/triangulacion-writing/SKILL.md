@@ -224,7 +224,7 @@ término con que leer, y el resto del texto se vuelve opinión con bibliografía
 
 ### 6.2. El método se justifica antes de usarse
 
-Cada técnica se define primero, se dice después por qué corresponde a este caso,
+Cada procedimiento se define primero, se dice después por qué corresponde a este caso,
 y solo entonces se cuenta cómo se aplicó. El orden es el del lector que todavía
 no sabe por qué se eligió eso.
 
@@ -405,13 +405,13 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
     sin limpiarlos?
  6. ¿Cada concepto del apartado teórico se recorre contra otras posiciones y se
     cierra estipulando con qué alcance se usará, y con qué alcance no?
- 7. ¿Cada técnica se define y se justifica antes de contarse cómo se aplicó?
+ 7. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
  8. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
  9. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
 10. ¿Cada afirmación se apoya a la vez en evidencias de procedencia distinta y
     en un concepto ya estipulado?
-11. ¿Los tres apoyos se confrontan entre sí, en vez de repetir lo mismo tres
-    veces?
+11. ¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo
+    mismo?
 12. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
 13. ¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos
     oraciones seguidas?
