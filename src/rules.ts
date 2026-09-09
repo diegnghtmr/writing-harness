@@ -2169,20 +2169,89 @@ export const TONES: Record<string, Tone> = {
         // Las dos reglas empujan juntas y por eso esta no repite aquella: la
         // base impide encadenar dos del mismo molde, y esta exige que el
         // repertorio sea ancho. Un texto que cumpla las dos tiene que variar.
+        //
+        // Del repertorio quedan fuera «en síntesis» y «en definitiva», que el
+        // corpus sí usa. La base los prohíbe como `cierres-anunciados` con
+        // severidad error, así que listarlos aquí era pedir con una regla lo
+        // que otra castiga. Se descubrió generando una frase por alternativa y
+        // corriéndolas contra la base; el censo dio dos, las dos de este tono,
+        // y `evals/colision.test.ts` impide que vuelva a pasar en cualquiera.
         id: 'triangulacion-conectores-variados',
         kind: 'must-contain',
         severity: 'warning',
         pattern:
-          /\b(?:en consecuencia|por consiguiente|por ello|por tanto|por lo tanto|no obstante|sin embargo|además|de hecho|asimismo|en efecto|en otras palabras|en suma|en definitiva|en síntesis|del mismo modo|de manera que|de modo que|por ende|con ello|adicionalmente|en este sentido|por un lado|por otro lado|en primer lugar|por último)\b/giu,
+          /\b(?:en consecuencia|por consiguiente|por ello|por tanto|por lo tanto|no obstante|sin embargo|además|de hecho|asimismo|en efecto|en otras palabras|en suma|del mismo modo|de manera que|de modo que|por ende|con ello|adicionalmente|en este sentido|por un lado|por otro lado|en primer lugar|por último)\b/giu,
         minDistinct: 5,
         minSentences: 12,
         message: 'El repertorio de conectores es demasiado estrecho para este registro.',
         fix: 'Variar la relación que cada paso declara con el anterior. Repetir el mismo enlace no es cohesión, es una muletilla con aspecto de método.',
-        source: 'triangulacion-writing §8',
+        source: 'triangulacion-writing §10',
         checklist: [
           {
             skill: 'triangulacion-writing',
             item: '¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos oraciones seguidas?',
+          },
+        ],
+      },
+      {
+        // §6.3, y es lo mejor medido de esa sección porque son ceros contados
+        // sobre 12.239 palabras. La base ya prohíbe «cabe destacar que», «es
+        // importante destacar que», «en conclusión» y las aperturas de
+        // calendario, así que aquí solo quedan las cuatro que se le escapan y
+        // que este registro tampoco usa jamás.
+        //
+        // Va como regla de tono y no como propuesta a la base porque «se
+        // observa que» es prosa española legítima en registros que este arnés
+        // no mide, y una prohibición general sería más de lo que hay medido.
+        // Sobre los diecisiete documentos de prueba y sobre el corpus, las
+        // cuatro dan cero, de manera que la regla no puede marcar en falso nada
+        // de lo que hay escrito hoy.
+        id: 'triangulacion-andamiaje',
+        kind: 'forbidden-pattern',
+        severity: 'warning',
+        pattern: frases([
+          'se observa que',
+          'se puede observar',
+          'se puede apreciar',
+          'como podemos ver',
+        ]),
+        message: 'Andamiaje escolar: este registro no anuncia que mira, dice qué encontró.',
+        fix: 'Nombrar el sujeto que dice algo y el verbo con que lo dice. «Se observa que el daño fue desigual» es «El registro muestra un daño desigual».',
+        source: 'triangulacion-writing §6.3',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe destacar» y sin «en conclusión»?',
+          },
+        ],
+      },
+      {
+        // §5.2: el corpus dice la causa con «ya que» treinta y cuatro veces y
+        // con «porque» cinco, siete a uno. Medido por oraciones, «porque» cae
+        // en el 0,8 % de las 589 del corpus.
+        //
+        // El techo va en el 12 %, quince veces por encima de lo medido, y no
+        // es un número de adorno: el primer documento que este arnés escribió
+        // en este tono usaba «porque» en el 18 % de sus oraciones y «ya que» en
+        // ninguna, de modo que la regla existe porque el defecto ya ocurrió. Un
+        // texto de doce oraciones aguanta uno sin que la regla diga nada.
+        //
+        // Solo acota «porque». No exige «ya que», porque una regla que obligue
+        // a una palabra concreta produce prosa que la repite, que es el defecto
+        // contrario y peor.
+        id: 'triangulacion-causa-llana',
+        kind: 'pattern-ratio',
+        severity: 'warning',
+        pattern: /(?<!\p{L})porque(?!\p{L})/iu,
+        max: 0.12,
+        minSentences: 12,
+        message: 'La causa se dice casi siempre con «porque»: este registro la dice con «ya que» o «puesto que».',
+        fix: 'Cambiar la mayoría por «ya que», «puesto que» o «dado que», y dejar «porque» para donde la causa sea la respuesta directa a un por qué.',
+        source: 'triangulacion-writing §5.2',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿La causa se dice con «ya que» y la consecuencia con «de manera que», antes que con «porque» y «así que»?',
           },
         ],
       },

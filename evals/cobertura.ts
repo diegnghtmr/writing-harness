@@ -180,4 +180,8 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las evidencias se confrontan entre sí, en vez de alinearse diciendo lo mismo?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿La apertura nombra las clases de evidencia que se van a confrontar, en vez de definir o de ponderar la importancia del tema?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las oraciones largas se sostienen con subordinación, y no encadenando miembros con comas?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Aparece «cuyo» donde la perífrasis con «del cual» partiría el periodo, y «ello» donde hay que retomar lo dicho entero?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a decir, sin que un dato demuestre lo que apenas perfila?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿La reserva va delante de la afirmación que matiza, y no detrás?", estado: 'criterio' },
 ];

@@ -64,7 +64,7 @@ evidencia, no cómo se la referencia.
 
 Las reglas de este documento salen de contar sobre un solo informe de
 investigación mixta: 12.239 palabras, 461 oraciones y 87 párrafos, repartidos en
-cinco bloques. La sección 13 da el detalle.
+cinco bloques. La sección 17 da el detalle.
 
 Tres cautelas condicionan todo lo que sigue.
 
@@ -84,7 +84,7 @@ promediarlos habría descrito un descuido como si fuera una forma.
 **La tercera es que la voz de quien analiza y la de sus fuentes se cuentan
 aparte.** El corpus trae cuatro apariciones de primera persona del singular y
 las cuatro están dentro de una voz citada. Ninguna es de quien escribe.
-Esa separación es el rasgo más limpio del corpus y por eso la sección 5 la
+Esa separación es el rasgo más limpio del corpus y por eso la sección 7 la
 convierte en regla, pero se comprueba leyendo y no contando.
 
 
@@ -151,9 +151,131 @@ sigue rigiendo, y una oración de noventa palabras que no se puede leer en voz
 alta es un defecto aunque el corpus tenga una. El corpus tiene una sola.
 
 
-## 5. Voz y persona
+## 5. El periodo por dentro: con qué se arma la oración larga
 
-### 5.1. Quien escribe no dice yo
+La sección anterior dice cuánto mide una oración de este registro. Esta dice de
+qué está hecha, que es lo que no se deduce de la longitud.
+
+### 5.1. La subordinación es la juntura, no la coma
+
+El corpus trae 188 nexos subordinantes en 12.239 palabras, uno cada 65. Una
+oración de treinta palabras de este registro no es una enumeración larga: es una
+principal con dos o tres subordinadas colgando, y por eso se puede leer entera.
+
+Los que más aparecen, con su cuenta: «ya que» 34, «donde» 31, «puesto que» 16,
+«de manera que» 14, «cuyo» y sus formas 42 en conjunto, «de modo que» 9, «dado
+que» 7.
+
+### 5.2. Los pares donde este registro elige
+
+Las cuentas son del corpus y las proporciones son lo que importa, no los
+absolutos.
+
+| Para decir | Elige | Frente a |
+| --- | --- | --- |
+| causa | «ya que», 34 | «porque», 5 |
+| consecuencia | «de manera que» y «de modo que», 23 | «así que», 1 |
+| relación de pertenencia | «cuyo» y sus formas, 42 | «del cual», 1 |
+| retomar lo dicho entero | «ello», 41 | «esto», 5 |
+
+Siete a uno en la causa y cuarenta y dos a uno en el relativo no son casualidad:
+son la marca del registro. Un texto que escriba «porque» donde este escribiría
+«ya que» sonará a otra cosa aunque las longitudes cuadren.
+
+Conviene decir dónde el corpus **no** elige lo culto, porque un texto de conector
+rebuscado en cada juntura suena a parodia y no a esto. La objeción la hace casi
+siempre con «pero», 29 veces contra 10 de «no obstante», y la causa breve con
+«pues», 30 contra 16 de «puesto que». Lo marcado es el relativo y la retoma, no
+el conector de párrafo.
+
+### 5.3. «Cuyo» es la pieza que sostiene el periodo
+
+Cuarenta y dos apariciones contra una de la perífrasis equivalente. Es el rasgo
+léxico más marcado del corpus y el que más rápido delata una imitación floja,
+porque «cuyo» es raro en la prosa corriente y aquí aparece cada trescientas
+palabras.
+
+Hace un trabajo concreto: pega una cualidad a lo que se acaba de nombrar sin
+abrir oración nueva.
+
+> un depósito de ceniza volcánica, cuya presencia bajo la ciudad no es uniforme,
+> multiplica la onda antes de entregarla a las edificaciones
+
+Escrito con perífrasis, lo mismo se parte y pierde la juntura:
+
+> un depósito de ceniza volcánica multiplica la onda. La presencia de ese
+> depósito bajo la ciudad no es uniforme.
+
+### 5.4. «Ello» retoma la oración entera, no un sustantivo
+
+Cuarenta y una apariciones contra cinco de «esto». La diferencia no es de
+elegancia: «ello» recoge todo lo dicho antes y lo convierte en sujeto de lo que
+sigue, que es justo lo que hace falta cuando una afirmación se apoya en lo
+anterior en bloque.
+
+> La norma obliga a quien pide licencia y no alcanza a quien construye sin ella,
+> y ello desplaza el problema del calendario a la cobertura.
+
+### 5.5. El punto y coma es una junta, no un adorno
+
+El corpus lo usa en el 13,8 % de sus oraciones. Es mucho, y tiene una función:
+separa dos miembros que van juntos porque uno explica o completa al otro, sin
+bajar a punto.
+
+La base pone el techo en una de cada cinco oraciones, así que este registro cabe
+holgado, pero no por eso el punto y coma se reparte a voluntad. Donde va es entre
+dos afirmaciones que no se pueden leer por separado.
+
+
+## 6. Léxico: cómo habla la evidencia
+
+### 6.1. Los verbos con que un dato dice algo
+
+El corpus trae 36 verbos de esta clase, uno cada 339 palabras: «perfila» 8,
+«muestra» 5, «refleja» 3, «manifiesta» 3, «indica» 2, «registra» 2, «resalta» 2,
+«denota» 2, y sueltos «sostiene», «revela», «demuestra», «expone», «subraya».
+
+La elección importa porque gradúa la fuerza. Un dato que «muestra» dice menos que
+uno que «demuestra», y uno que «perfila» dice todavía menos: sugiere un contorno
+sin cerrarlo. Este registro se queda casi siempre en la mitad baja de esa escala,
+y esa prudencia es parte de la forma.
+
+### 6.2. La concesión llega antes que la afirmación
+
+«Aunque» 12, «pese a» 10, «a pesar de» 5. Treinta y cinco marcas de modalización
+en total, una cada 349 palabras.
+
+El movimiento típico pone la reserva delante y la afirmación detrás, no al revés:
+
+> Pese a que la cifra registra una necesidad general, el reparto por edades no
+> la sostiene con la misma fuerza en los extremos.
+
+### 6.3. Lo que este registro no dice nunca
+
+Es lo mejor medido de esta sección, porque son ceros contados sobre 12.239
+palabras:
+
+| Fórmula | Veces |
+| --- | ---: |
+| «se observa que» | 0 |
+| «se puede observar» | 0 |
+| «es importante destacar» | 0 |
+| «cabe destacar» y «cabe resaltar» | 0 |
+| «en conclusión» | 0 |
+| «como podemos ver» | 0 |
+| «en la actualidad» | 0 |
+| «a lo largo de la historia» | 0 |
+
+Todo el andamiaje del artículo escolar está ausente. No es que el corpus lo evite
+con esfuerzo: sencillamente no aparece, y un texto de esta forma que lo use está
+imitando otra cosa. El análisis impersonal entero («se desprende», «se aprecia»,
+«se observa») suma cuatro apariciones, una cada tres mil palabras, así que
+tampoco es la marca que muchos suponen.
+
+
+## 7. Voz y persona
+
+### 7.1. Quien escribe no dice yo
 
 El corpus no trae ni una primera persona del singular de quien lo redactó. Trae
 168 impersonales con «se», y las cuatro apariciones de «yo» son de personas
@@ -173,10 +295,10 @@ Cómo se dice cada movimiento sin aparecer:
 | Nuestro estudio encontró | Los resultados muestran |
 
 Esto no es modestia ni fórmula. Es lo que hace posible el movimiento de la
-sección 7: si la voz que analiza pudiera afirmar por su cuenta, la evidencia
+sección 9: si la voz que analiza pudiera afirmar por su cuenta, la evidencia
 sobraría.
 
-### 5.2. La voz citada sí dice yo, y se la deja decirlo
+### 7.2. La voz citada sí dice yo, y se la deja decirlo
 
 La contrapartida importa igual. Cuando el texto cita a alguien, lo cita como
 habló: con su primera persona, con su vocabulario y con su registro, aunque sea
@@ -187,7 +309,7 @@ no sostiene nada porque ya la escribió quien analiza. Si alguien dijo «eso a m
 no me sirvió para nada», eso es lo que va, y no «se manifestó no haber percibido
 utilidad».
 
-### 5.3. La misma palabra, defecto en una voz y requisito en la otra
+### 7.3. La misma palabra, defecto en una voz y requisito en la otra
 
 Las dos reglas anteriores usan «yo» en sentidos contrarios: dentro de la cita es
 obligado y fuera es un defecto. La diferencia no está en la palabra sino en
@@ -195,9 +317,9 @@ quién la dice, así que se resuelve leyendo, y conviene releer el texto una vez
 solo para eso, mirando dónde abre y dónde cierra cada comilla.
 
 
-## 6. Estructura del texto
+## 8. Estructura del texto
 
-### 6.1. El concepto se recorre y se estipula
+### 8.1. El concepto se recorre y se estipula
 
 Un apartado teórico de esta forma no define y sigue. Recorre a quienes lo
 trataron poniendo a cada uno contra el anterior, señala qué le falta a cada
@@ -222,7 +344,7 @@ Ese cierre no es un resumen. Fija el alcance, y sobre todo fija lo que el térmi
 tapar un hueco. Un concepto recorrido y no estipulado deja al análisis sin
 término con que leer, y el resto del texto se vuelve opinión con bibliografía.
 
-### 6.2. El método se justifica antes de usarse
+### 8.2. El método se justifica antes de usarse
 
 Cada procedimiento se define primero, se dice después por qué corresponde a este caso,
 y solo entonces se cuenta cómo se aplicó. El orden es el del lector que todavía
@@ -240,7 +362,7 @@ Se escribe de dónde sale:
 
 Una cifra sin su derivación pide confianza, y este tono no pide confianza.
 
-### 6.3. El análisis cierra diciendo qué quedó respondido
+### 8.3. El análisis cierra diciendo qué quedó respondido
 
 Cada apartado del análisis termina declarando si respondió lo que se propuso, y
 con qué. No se cierra resumiendo lo dicho: se cierra evaluando si alcanzó.
@@ -255,7 +377,7 @@ Cuando no alcanzó, se dice. Un apartado que declara haber respondido lo que no
 respondió es el único defecto de esta forma que ningún lector puede detectar sin
 volver al principio.
 
-### 6.4. La apertura declara qué se va a confrontar
+### 8.4. La apertura declara qué se va a confrontar
 
 El texto abre nombrando las clases de evidencia que va a poner una contra otra, y
 diciendo que ninguna basta sola. No abre con una definición ni con una
@@ -269,7 +391,7 @@ generalidad sobre la importancia del tema.
 > justamente lo que este texto tiene que explicar.
 
 
-## 7. El recurso característico: la afirmación que se sostiene por discrepancia
+## 9. El recurso característico: la afirmación que se sostiene por discrepancia
 
 Es lo que distingue este tono de cualquier otro y por eso va en su propia
 sección. Si de todo este documento solo se retiene una cosa, que sea esta.
@@ -326,7 +448,7 @@ permitido decidir.
 > una estimación presentada como resultado.
 
 
-## 8. Cohesión
+## 10. Cohesión
 
 El 36,4 % de las oraciones del corpus abre con un conector, y el 32,2 % de los
 párrafos también. La densidad es alta y es propia de la forma: cada paso dice qué
@@ -340,7 +462,12 @@ El repertorio medido, por lo que hace cada enlace:
 | Objeción | «no obstante», «sin embargo», «empero», «en cambio», «a diferencia de» |
 | Refuerzo | «además», «asimismo», «del mismo modo», «adicionalmente», «en efecto», «de hecho» |
 | Reformulación | «en otras palabras», «dicho de otro modo», «es decir» |
-| Cierre parcial | «en suma», «en síntesis», «en definitiva» |
+| Cierre parcial | «en suma» |
+
+El corpus también cierra con «en síntesis» y con «en definitiva», y las dos
+quedaron fuera de esa tabla a propósito: la base las rechaza como cierre
+anunciado, y la base no cede. Es el caso claro de un rasgo que el corpus tiene y
+este tono no hereda, porque un tono se suma a la base y no la corrige.
 
 Los diez más usados se reparten entre trece y seis apariciones cada uno, sin que
 ninguno domine. Esa es la medida práctica: si al releer aparece uno tres veces en
@@ -354,7 +481,48 @@ de alcance» dice lo mismo que «Por consiguiente, el desfase...» y no gasta un
 apertura.
 
 
-## 9. Lo que este tono no es
+## 11. Ejemplo de aplicación
+
+Antes, con los mismos hechos y sin la forma:
+
+> El sismo tuvo magnitud 6,2. Murieron cerca de mil doscientas personas y se
+> cayeron muchas casas. La primera norma sismorresistente del país era de 1984.
+> En conclusión, se puede observar que el sismo fue muy destructivo porque fue
+> muy fuerte.
+
+Después, con los movimientos de las secciones 5, 6 y 9:
+
+> La magnitud registrada, cercana a 6,2, perfila un movimiento moderado y no
+> anticipa por sí sola ningún nivel de daño; el registro de lo ocurrido muestra,
+> en cambio, un saldo que ninguna cifra de esa clase predice. Pese a que las dos
+> mediciones son fiables, no dicen lo mismo, y ello obliga a buscar la condición
+> que falta antes que a elegir entre ellas. Esa condición es el suelo: un
+> depósito de ceniza volcánica, cuya presencia bajo la ciudad no es uniforme,
+> multiplica la onda antes de entregarla a las edificaciones, de manera que la
+> discrepancia entre lo moderado del sismo y lo desproporcionado del daño se
+> disuelve en cuanto se deja de leer la magnitud como si midiera destrucción. La
+> cifra no explicaba nada por sí sola.
+
+Cambios aplicados, uno por sección:
+
+| De dónde sale | Qué cambió |
+| --- | --- |
+| 4.1 | Cuatro oraciones de cinco a quince palabras pasaron a tres periodos de 37, 27 y 56 palabras, más un cierre de ocho |
+| 5.1 | La juntura la hacen «que», «de manera que» y «en cuanto», no las comas |
+| 5.3 | «cuya presencia bajo la ciudad no es uniforme» pega la cualidad al depósito sin abrir oración nueva |
+| 5.4 | «ello» retoma la discrepancia entera y la vuelve sujeto de lo que sigue |
+| 5.5 | El punto y coma une las dos mediciones, que no se pueden leer por separado |
+| 6.1 | «perfila» y «muestra» gradúan lo que cada evidencia alcanza a decir |
+| 6.2 | «Pese a que las dos mediciones son fiables» va delante de la afirmación que matiza |
+| 6.3 | Desaparecieron «en conclusión» y «se puede observar» |
+| 7.1 | Desapareció la voz que evaluaba por su cuenta: nadie dice que fue «muy destructivo» |
+| 9 | Las dos evidencias quedaron una contra otra, y el párrafo termina diciendo qué significan juntas |
+
+El texto de antes tiene los mismos datos. Lo que no tiene es una sola relación
+entre ellos, y por eso cierra repitiendo la magnitud como causa.
+
+
+## 12. Lo que este tono no es
 
 Sirve para ubicarlo, porque comparte vecindad con otros registros formales y se
 confunde con ellos.
@@ -367,7 +535,46 @@ confunde con ellos.
 | Un informe que enumera hallazgos | Aquel lista; este tiene que decir qué significan juntos, que es justo lo que una lista no hace |
 
 
-## 10. Formato de entrega
+## 13. Lo que el corpus hace y aquí no se copia
+
+De un solo documento se toma la forma de escribir, y con ella vienen pegados
+hábitos que son de ese documento y no de la forma. Conviene separarlos con
+todas las letras, porque quien imite lo medido sin este apartado imitará también
+lo que no debía.
+
+### 13.1. Las comillas rectas
+
+El corpus abre 43 citas con «“» y ninguna con ««». Es una costumbre de teclado,
+no un rasgo del registro. Aquí las comillas de cita son angulares, y las
+inglesas quedan para una cita dentro de otra.
+
+### 13.2. El porcentaje pegado al signo
+
+Treinta y cuatro cifras del corpus escriben «85,94%» y ninguna deja el espacio.
+En español el signo va separado, como cualquier símbolo de unidad, así que aquí
+se escribe «85,94 %». La base ya lo exige y este tono no tiene por qué pedir una
+excepción.
+
+### 13.3. La raya
+
+Ocho apariciones. La base las prohíbe y la prohibición se mantiene: donde el
+corpus abre un inciso con raya, aquí va entre comas o entre paréntesis. No se
+pierde nada, porque el inciso es el mismo.
+
+### 13.4. El léxico que se eleva
+
+Siete apariciones en todo el corpus: «loable», «vasto», «sublimidad»,
+«formidable» y «arraiga» tres veces. Son pocas, y por eso mismo se ven: elevan
+el tono sin agregar precisión.
+
+Este registro es preciso, no elevado, y la diferencia se nota en qué pierde una
+frase al quitar la palabra. «El depósito de ceniza amplifica la onda» no pierde
+nada si se le quita «formidable», y en cambio pierde el fenómeno entero si se le
+quita «amplifica». Lo que hace larga a una oración de esta forma es la
+subordinación, nunca el adjetivo.
+
+
+## 14. Formato de entrega
 
 Se entrega el texto solo, sin preámbulo.
 
@@ -375,7 +582,7 @@ Si falta una de las clases de evidencia para sostener una afirmación, se dice
 cuál falta en vez de escribir la afirmación sin ella.
 
 
-## 11. Errores característicos de este tono
+## 15. Errores característicos de este tono
 
 Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
 
@@ -393,7 +600,7 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
    como «podemos concluir».
 
 
-## 12. Lista de verificación de tono
+## 16. Lista de verificación de tono
 
  1. ¿Una de cada tres oraciones supera las treinta palabras, o al menos una de
     cada cinco?
@@ -417,11 +624,22 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
     oraciones seguidas?
 14. ¿La apertura nombra las clases de evidencia que se van a confrontar, en vez
     de definir o de ponderar la importancia del tema?
+15. ¿Las oraciones largas se sostienen con subordinación, y no encadenando
+    miembros con comas?
+16. ¿La causa se dice con «ya que» y la consecuencia con «de manera que», antes
+    que con «porque» y «así que»?
+17. ¿Aparece «cuyo» donde la perífrasis con «del cual» partiría el periodo, y
+    «ello» donde hay que retomar lo dicho entero?
+18. ¿El verbo con que cada evidencia habla dice lo que esa evidencia alcanza a
+    decir, sin que un dato demuestre lo que apenas perfila?
+19. ¿La reserva va delante de la afirmación que matiza, y no detrás?
+20. ¿El texto está libre del andamiaje escolar, sin «se observa que», sin «cabe
+    destacar» y sin «en conclusión»?
 
 
-## 13. Fuentes
+## 17. Fuentes
 
-### 13.1. Corpus medido
+### 17.1. Corpus medido
 
 Un informe de investigación mixta en español, con recolección cuantitativa y
 cualitativa sobre la misma población. Se midieron cinco bloques: dos del apartado
@@ -431,7 +649,7 @@ oraciones y 87 párrafos.
 Dos bloques del documento quedaron fuera de toda medición, por la segunda de las
 cautelas de la sección 3.
 
-### 13.2. Mediciones realizadas
+### 17.2. Mediciones realizadas
 
 | Magnitud | Valor |
 | --- | ---: |
@@ -448,8 +666,18 @@ cautelas de la sección 3.
 | Impersonales con «se» | 168 |
 | Primera persona del singular, toda dentro de cita | 4 |
 | Cifras citadas en el análisis | 33 |
+| Nexos subordinantes | 188, uno cada 65 palabras |
+| «cuyo» y sus formas, contra «del cual» | 42 contra 1 |
+| «ello», contra «esto» | 41 contra 5 |
+| «ya que», contra «porque» | 34 contra 5 |
+| «de manera que» y «de modo que», contra «así que» | 23 contra 1 |
+| Verbos con que la evidencia habla | 36, uno cada 339 palabras |
+| Marcas de modalización | 35, una cada 349 palabras |
+| Oraciones con punto y coma | 13,8 % |
+| Análisis impersonal | 4, uno cada 3.052 palabras |
+| Andamiaje escolar («se observa que», «cabe destacar», «en conclusión») | 0 |
 
-### 13.3. Lo que sigue sin verificarse
+### 17.3. Lo que sigue sin verificarse
 
 **Un solo documento no permite separar al autor de su género.** Todo lo que este
 documento llama «la forma» podría ser, en parte, lo que cualquiera escribe cuando
