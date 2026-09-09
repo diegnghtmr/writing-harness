@@ -183,7 +183,7 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Quien escribe no aparece nunca en primera persona, ni del singular ni del plural?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las citas conservan la persona, el vocabulario y el registro de quien habló, sin limpiarlos?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada posición del recorrido entra por su relación con la anterior, y no puesta en fila?", estado: 'criterio' },
-  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿El recorrido cierra estipulando en futuro con qué alcance se usará el término, y con qué alcance no?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿El recorrido cierra estipulando en futuro con qué alcance se usará el término y con cuál no, y esa estipulación queda antes de lo que el término va a leer, en vez de al final del texto?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las cantidades muestran de dónde salen, y no solo el resultado?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?", estado: 'criterio' },

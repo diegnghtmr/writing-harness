@@ -557,6 +557,30 @@ término se estire para tapar un hueco es justamente la mitad negativa. Un
 concepto recorrido y no estipulado deja al análisis sin término con que leer, y
 el resto del texto se vuelve opinión con autores detrás.
 
+**Dónde va, que es lo que se malinterpreta.** Va donde termina el recorrido de
+posiciones y empieza el uso del término, es decir, **antes** de lo que el término
+va a leer, nunca al final del texto. «En lo que sigue» promete un después, y si
+no queda texto después, la promesa es falsa y el lector no tiene dónde
+cobrarla.
+
+Escrito al final, el mismo párrafo se vuelve un defecto:
+
+> [...] no permite ponderar cuánto aportó cada condición. En lo que sigue,
+> «vulnerabilidad» designará la condición de quien recibe la sacudida y no se
+> extenderá a la percepción del riesgo.
+
+Ahí no sigue nada. Si el término hace falta y el texto ya va por la mitad, la
+estipulación se mueve hacia arriba, al punto donde el término aparece por primera
+vez haciendo trabajo. Si el texto es corto y no hay recorrido de posiciones que
+cerrar, sencillamente no hay estipulación que escribir, y forzarla es peor que
+omitirla.
+
+Conviene además no confundirla con el cierre de la sección 9.5, porque los dos
+caen cerca y hacen cosas contrarias. La estipulación **abre**: fija el término
+con que se va a leer lo que viene. El de 9.5 **cierra**: dice qué quedó
+respondido y qué no. Un texto que los funde en el mismo párrafo final está
+prometiendo y despidiéndose a la vez.
+
 ### 9.3. El procedimiento se define, se justifica y recién después se cuenta
 
 Cada procedimiento se define primero, se dice después por qué corresponde a este
@@ -770,21 +794,25 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
    ninguno toque al anterior, con lo cual no hay de dónde concluir.
 2. **El recorrido sin cierre estipulativo.** Se discuten cuatro definiciones y
    nunca se dice con cuál se sigue, ni con qué alcance.
-3. **La cifra decorativa.** Un porcentaje puesto para dar aire de rigor, que no
+3. **La estipulación puesta al final.** El «en lo que sigue» aparece en el último
+   párrafo, donde ya no sigue nada, casi siempre fundido con el cierre que
+   declara qué quedó respondido. Uno abre y el otro cierra, así que no pueden
+   ocupar el mismo lugar.
+4. **La cifra decorativa.** Un porcentaje puesto para dar aire de rigor, que no
    se confronta con nada y que el párrafo no vuelve a mencionar.
-4. **El concepto de adorno.** Un término traído al análisis para respaldar lo que
+5. **El concepto de adorno.** Un término traído al análisis para respaldar lo que
    ya se había decidido, en vez de para leer lo que se tiene delante.
-5. **La cita limpiada.** La voz ajena reescrita en el registro del texto, que
+6. **La cita limpiada.** La voz ajena reescrita en el registro del texto, que
    deja de serlo.
-6. **El cierre que se felicita.** Un apartado que declara haber respondido todo,
+7. **El cierre que se felicita.** Un apartado que declara haber respondido todo,
    sin nombrar lo que quedó fuera.
-7. **La primera persona que se cuela**, casi siempre en el cierre y casi siempre
+8. **La primera persona que se cuela**, casi siempre en el cierre y casi siempre
    como «podemos concluir».
-8. **La caricatura culta.** «Empero» y «correlativamente» en cada párrafo, o un
+9. **La caricatura culta.** «Empero» y «correlativamente» en cada párrafo, o un
    adjetivo elevado delante de cada sustantivo, que es lo contrario del rasgo:
    la palabra culta de este registro entra por el sustantivo y por el verbo, y
    entra cuando es la exacta.
-9. **La viñeta.** Tres puntos en lista donde el registro pedía tres ordinales
+10. **La viñeta.** Tres puntos en lista donde el registro pedía tres ordinales
    dentro del párrafo, con lo cual se pierde cuál de los tres pesa.
 
 
@@ -824,7 +852,8 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
 18. ¿Cada posición del recorrido entra por su relación con la anterior, y no
     puesta en fila?
 19. ¿El recorrido cierra estipulando en futuro con qué alcance se usará el
-    término, y con qué alcance no?
+    término y con cuál no, y esa estipulación queda antes de lo que el término
+    va a leer, en vez de al final del texto?
 20. ¿Cada procedimiento se define y se justifica antes de contarse cómo se aplicó?
 21. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
 22. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
