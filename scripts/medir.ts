@@ -22,6 +22,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { CORPUS } from '../src/corpus.ts';
+import { redaccionDe } from '../src/mediciones-redaccion.ts';
 import { REPO_ROOT, readSkill, skillNames } from '../src/skills.ts';
 import { countWords } from '../src/text.ts';
 import { conservados, fusionarPorSkill } from './fusion.ts';
@@ -207,48 +208,25 @@ for (const corpus of CORPUS) {
       medido: hoy(),
     });
 
-  const deTranscripcion = fuente === 'cuerpo-de-transcripcion';
-  agregar(
-    'archivos',
-    deTranscripcion ? 'Transcripciones que componen el corpus.' : 'Fichas que componen el corpus.',
-    'Archivos del manifiesto cuyo nombre empieza por dos dígitos.',
-    'archivos',
-    filas.length,
-  );
-  agregar(
-    'palabras',
-    deTranscripcion ? 'Palabras del cuerpo de las transcripciones.' : 'Palabras de las fichas.',
-    deTranscripcion
-      ? 'Texto posterior a «## Transcripción», sin las marcas **[mm:ss]**, partido por espacio en blanco.'
-      : 'Archivo entero partido por espacio en blanco. Estas fichas no tienen transcripción.',
-    'palabras',
-    suma((f) => f.palabras),
-  );
-  agregar(
-    'signos-terminales',
-    'Signos terminales del mismo texto.',
-    'Apariciones de «.», «?», «!» o «…». Mide si la transcripción trae puntuación, no si la trae bien.',
-    'signos',
-    suma((f) => f.signos),
-  );
+  // La redacción no se escribe acá. Vive en `src/mediciones-redaccion.ts`, que
+  // leen este script al generar y el gate al comprobar, y ese módulo explica por
+  // qué: escrita en dos sitios se separó, y una rama acabó describiendo un
+  // informe de investigación como si fueran fichas de libro.
+  const conRedaccion = (medicion: string, unidad: string, valor: number) => {
+    const r = redaccionDe(medicion, fuente);
+    if (!r) throw new Error(`no hay redacción para la medición ${medicion}`);
+    agregar(medicion, r.afirmacion, r.regla, unidad, valor);
+  };
+
+  conRedaccion('archivos', 'archivos', filas.length);
+  conRedaccion('palabras', 'palabras', suma((f) => f.palabras));
+  conRedaccion('signos-terminales', 'signos', suma((f) => f.signos));
   if (suma((f) => f.cues) > 0) {
-    agregar(
-      'marcas-de-tiempo',
-      'Marcas de tiempo de las transcripciones.',
-      'Apariciones de **[mm:ss]**. Una por línea de subtítulo.',
-      'marcas',
-      suma((f) => f.cues),
-    );
+    conRedaccion('marcas-de-tiempo', 'marcas', suma((f) => f.cues));
   }
   const conSegundos = filas.filter((f) => f.segundos !== undefined);
   if (conSegundos.length) {
-    agregar(
-      'segundos',
-      'Duración declarada del material.',
-      'Suma de «- Duration:» de cada cabecera, o del campo «duration» del manifest.json donde la cabecera no lo trae.',
-      'segundos',
-      conSegundos.reduce((n, f) => n + (f.segundos ?? 0), 0),
-    );
+    conRedaccion('segundos', 'segundos', conSegundos.reduce((n, f) => n + (f.segundos ?? 0), 0));
   }
 }
 

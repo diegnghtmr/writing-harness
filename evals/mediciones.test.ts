@@ -17,6 +17,7 @@ import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { CORPUS } from '../src/corpus.ts';
 import { EXPRESIONES, MEDICIONES, POR_ARCHIVO } from '../src/mediciones.ts';
+import { redaccionDe } from '../src/mediciones-redaccion.ts';
 import { REPO_ROOT, readSkill } from '../src/skills.ts';
 import { DECLARADO, MINUTOS } from './registro.ts';
 import { vive } from './retiradas.ts';
@@ -28,13 +29,22 @@ describe('las mediciones no se editaron a mano', () => {
   test('el archivo entero coincide con su huella', () => {
     // Para actualizarla: volver a correr `scripts/medir.ts` con el corpus
     // delante y pegar acá el valor que este test reporte como recibido.
+    //
+    // Esta huella se actualizó una vez sin el corpus delante, y conviene decir
+    // qué certifica desde entonces. Se corrigió la redacción de seis filas, tres
+    // campos de texto que describían su material con las palabras de otro
+    // corpus, sin tocar un solo valor medido. La huella dice «no cambió desde
+    // aquello»; lo que dice que la redacción es la correcta es el test que la
+    // deriva, más abajo, en vez de confiar en que nadie la haya tocado. Las dos
+    // hacen falta y no comprueban lo mismo: una vigila los números, que ya no se
+    // pueden volver a producir, y la otra el texto, que sí.
     const bytes = readFileSync(join(REPO_ROOT, 'src', 'mediciones.ts'), 'utf8').replace(
       /\r\n/gu,
       '\n',
     );
     assert.equal(
       createHash('sha256').update(bytes, 'utf8').digest('hex'),
-      '9da4977a349630c1e25f54556a0d526d7d646dc93d8f398d2461af8cab625b12',
+      'dda30564ec103ce138b91f93593340f9b1f1b92b4e901e42929605f530e1b638',
     );
   });
 });
@@ -146,37 +156,54 @@ describe('la prosa y la medición dicen lo mismo', () => {
     }
   });
 
-  test('dos mediciones describen su material con las palabras de otro corpus', () => {
-    // DEFECTO CONOCIDO, escrito acá porque no se puede arreglar y no conviene
-    // que se olvide.
+  test('la redacción de cada medición es la que se deriva de qué mide y sobre qué texto', () => {
+    // ESTE GATE SUSTITUYE A UN DEFECTO QUE ESTUVO VIVO Y NO SE VEÍA.
     //
-    // `scripts/medir.ts` tiene una rama para los corpus que no son
-    // transcripciones. La escribió el corpus de `han`, que son fichas de libro,
-    // y de ahí salen su `afirmacion` y su `regla`. Cuando se midió el corpus de
-    // `triangulacion`, que es un informe de investigación y tampoco tiene
-    // transcripción, cayó por la misma rama y heredó ese texto palabra por
-    // palabra. La fila dice «Palabras de las fichas» sobre algo que no son
-    // fichas.
+    // `scripts/medir.ts` elegía el texto de `afirmacion` y `regla` con un
+    // condicional escrito dentro del propio script, y la rama de los corpus sin
+    // transcripción la redactó el primero que cayó en ella, que eran fichas de
+    // libro. Un informe de investigación medido después heredó esas palabras y
+    // quedó registrado como fichas. Las cuatro casillas del contrato estaban
+    // llenas, así que ningún gate se quejó, y dos describían otro material.
     //
-    // Por qué importa: el contrato de evidencia pide cuatro casillas por cifra,
-    // qué afirma, con qué regla, sobre qué archivos y en qué unidad. Las cuatro
-    // están llenas, así que ningún gate se queja, y dos de ellas describen otro
-    // material. Quien lea el registro para comprobar la cifra queda mal
-    // informado sobre qué se contó.
-    //
-    // Por qué no se arregla: `src/mediciones.ts` lo genera `scripts/medir.ts` y
-    // lo protege su propia huella. Editarlo a mano es lo que prohíbe la cuarta
-    // regla de CONTRIBUTING.md, y volver a correr el script exige el corpus, que
-    // está borrado. Lo que se puede hacer es dejarlo dicho y que la lista no
-    // crezca en silencio: si aparece una tercera fila con esta redacción, este
-    // test falla y alguien tiene que mirar si es fichas de verdad.
-    const conRedaccionDeFichas = MEDICIONES.filter((m) => m.afirmacion === 'Palabras de las fichas.').map(
-      (m) => m.skill,
-    );
-    assert.deepEqual(conRedaccionDeFichas.sort(), ['han-writing', 'triangulacion-writing']);
+    // Lo que lo cierra no es haber cambiado las palabras: es que ya no se
+    // escriban dos veces. `src/mediciones-redaccion.ts` las deriva de qué mide
+    // la fila y sobre qué texto, el script las pide al generar y este test las
+    // vuelve a pedir al comprobar. Una fila con redacción escrita a mano falla
+    // acá aunque la huella del archivo cuadre, porque la huella dice «no
+    // cambió» y esto dice «es la correcta».
+    for (const m of MEDICIONES) {
+      const medicion = m.id.split('/')[1] as string;
+      const esperada = redaccionDe(medicion, m.fuente);
+      assert.ok(esperada, `${m.id}: no hay redacción derivable para «${medicion}»`);
+      assert.equal(m.afirmacion, esperada.afirmacion, `${m.id}: afirmación escrita a mano`);
+      assert.equal(m.regla, esperada.regla, `${m.id}: regla escrita a mano`);
+    }
+  });
 
-    // Y el que sí es correcto, para que se vea cuál de los dos hay que creer.
-    assert.equal(MEDICIONES.find((m) => m.id === 'han-writing/palabras')?.valor, 2090);
+  test('la redacción distingue de verdad las dos fuentes', () => {
+    // El canario. Si `redaccionDe` devolviera el mismo texto para las dos
+    // fuentes, el test de arriba pasaría en verde con el defecto puesto, que es
+    // exactamente lo que pasaba antes.
+    const conTranscripcion = redaccionDe('palabras', 'cuerpo-de-transcripcion');
+    const completo = redaccionDe('palabras', 'archivo-completo');
+    assert.notEqual(conTranscripcion?.afirmacion, completo?.afirmacion);
+    assert.notEqual(conTranscripcion?.regla, completo?.regla);
+
+    // Y la mitad que importa: ninguna rama nombra un material que el script no
+    // puede conocer. Sabe si el archivo trae cabecera de transcripción; no sabe
+    // si es una ficha, un informe o una carta.
+    for (const medicion of ['archivos', 'palabras', 'signos-terminales']) {
+      const r = redaccionDe(medicion, 'archivo-completo');
+      assert.doesNotMatch(`${r?.afirmacion} ${r?.regla}`, /ficha|transcripci[óo]n trae/iu, medicion);
+    }
+  });
+
+  test('una medición desconocida no pasa sin redacción', () => {
+    // La otra dirección: agregar una clase de medición al script obliga a
+    // redactarla en el módulo. Sin esto, una fila nueva entraría con los dos
+    // campos vacíos y el bucle de arriba no tendría contra qué compararla.
+    assert.equal(redaccionDe('inventada', 'archivo-completo'), undefined);
   });
 
   test('la medición sigue siendo la registrada', () => {
