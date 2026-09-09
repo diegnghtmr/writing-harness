@@ -146,6 +146,39 @@ describe('la prosa y la medición dicen lo mismo', () => {
     }
   });
 
+  test('dos mediciones describen su material con las palabras de otro corpus', () => {
+    // DEFECTO CONOCIDO, escrito acá porque no se puede arreglar y no conviene
+    // que se olvide.
+    //
+    // `scripts/medir.ts` tiene una rama para los corpus que no son
+    // transcripciones. La escribió el corpus de `han`, que son fichas de libro,
+    // y de ahí salen su `afirmacion` y su `regla`. Cuando se midió el corpus de
+    // `triangulacion`, que es un informe de investigación y tampoco tiene
+    // transcripción, cayó por la misma rama y heredó ese texto palabra por
+    // palabra. La fila dice «Palabras de las fichas» sobre algo que no son
+    // fichas.
+    //
+    // Por qué importa: el contrato de evidencia pide cuatro casillas por cifra,
+    // qué afirma, con qué regla, sobre qué archivos y en qué unidad. Las cuatro
+    // están llenas, así que ningún gate se queja, y dos de ellas describen otro
+    // material. Quien lea el registro para comprobar la cifra queda mal
+    // informado sobre qué se contó.
+    //
+    // Por qué no se arregla: `src/mediciones.ts` lo genera `scripts/medir.ts` y
+    // lo protege su propia huella. Editarlo a mano es lo que prohíbe la cuarta
+    // regla de CONTRIBUTING.md, y volver a correr el script exige el corpus, que
+    // está borrado. Lo que se puede hacer es dejarlo dicho y que la lista no
+    // crezca en silencio: si aparece una tercera fila con esta redacción, este
+    // test falla y alguien tiene que mirar si es fichas de verdad.
+    const conRedaccionDeFichas = MEDICIONES.filter((m) => m.afirmacion === 'Palabras de las fichas.').map(
+      (m) => m.skill,
+    );
+    assert.deepEqual(conRedaccionDeFichas.sort(), ['han-writing', 'triangulacion-writing']);
+
+    // Y el que sí es correcto, para que se vea cuál de los dos hay que creer.
+    assert.equal(MEDICIONES.find((m) => m.id === 'han-writing/palabras')?.valor, 2090);
+  });
+
   test('la medición sigue siendo la registrada', () => {
     for (const [skill, esperado] of Object.entries(DECLARADO)) {
       assert.equal(valor(`${skill}/palabras`), esperado.medido, `${skill} cambió su medición`);
