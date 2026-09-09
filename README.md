@@ -229,9 +229,9 @@ resultado y no se parecen en nada más.** El gate distingue las dos cosas.
 |---|---|---|
 | cubierto | **102** | Tiene regla y test |
 | mecanizable | **0** | Se puede medir, falta construirlo |
-| criterio | 167 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
+| criterio | 168 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 
-De las 269 declaraciones, 167 piden juicio: si se conservó toda la información
+De las 270 declaraciones, 168 piden juicio: si se conservó toda la información
 del original, si una analogía está desarrollada o solo mencionada, si una
 expresión es la colocación más previsible del tema. El número creció con los
 once tonos que reconstruyen a un autor, porque describir cómo argumenta una
