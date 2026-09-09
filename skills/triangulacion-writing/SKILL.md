@@ -183,9 +183,9 @@ Ese reparto no es descuido. El párrafo largo desarrolla: trae la posición, la
 discute, la pone contra la anterior y concluye. El breve hace otra cosa, y hace
 solo una: gira, remata o estipula.
 
-> Lo primero se corrige esperando. Lo segundo no.
+> Lo primero se corrige con una definición mejor. Lo segundo no.
 
-> La sacudida que llega a la roca no es la que llega a la superficie.
+> El enunciado que se cree falso no deja de serlo porque acierte.
 
 Un párrafo así no está incompleto. Está haciendo el trabajo que un párrafo de
 doscientas palabras no puede hacer, que es detener la lectura en una sola
@@ -834,7 +834,7 @@ Cómo se dice cada movimiento sin aparecer:
 
 | En vez de | Va |
 | --- | --- |
-| Creo que la norma no alcanzó | La norma no alcanzó a quien construyó sin licencia |
+| Creo que la definición no alcanza | La definición no alcanza al engaño que prescinde de la palabra |
 | En mi opinión el dato es débil | El dato admite una lectura más estrecha de la que suele dársele |
 | Voy a analizar tres factores | El análisis recorre tres factores |
 | Como vimos antes | Según lo estipulado en el apartado anterior |
