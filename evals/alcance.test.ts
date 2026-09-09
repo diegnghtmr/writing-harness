@@ -76,8 +76,8 @@ describe('cada tono declara qué necesita su forma', () => {
     }
   });
 
-  test('son doce, las mismas que enruta la base', () => {
-    assert.equal(TONE_IDS.length, 12);
+  test('son trece, las mismas que enruta la base', () => {
+    assert.equal(TONE_IDS.length, 13);
   });
 });
 

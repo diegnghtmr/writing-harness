@@ -56,6 +56,7 @@ export const RASGOS = [
   'metodoPersonal',
   'actualidad',
   'juridico',
+  'evidenciaCruzada',
 ] as const;
 
 export type Rasgos = {
@@ -87,6 +88,8 @@ export type Rasgos = {
   actualidad?: boolean;
   /** Derecho o política dirigidos a una comunidad. */
   juridico?: boolean;
+  /** Hay evidencia de más de una clase sobre el mismo asunto, y teoría con que leerla. */
+  evidenciaCruzada?: boolean;
 };
 
 export type Ruta = {
@@ -192,6 +195,22 @@ export const RUTAS: readonly Ruta[] = [
     skill: 'fonda-writing',
     cuando: 'Divulgación filosófica, humanística o cultural',
     eligeSi: (r) => Boolean(r.humanistico && r.divulgacion),
+  },
+  {
+    // Va inmediatamente antes de `camus` y no antes, porque no compite con
+    // ninguna de las filas de arriba: ninguna otra lee este rasgo. Lo que sí
+    // hace falta es que gane a `camus`, que se llevaría todo informe de
+    // investigación por la puerta de lo académico y le pondría un techo de
+    // oración de treinta palabras, que es justo lo contrario de lo que esta
+    // forma necesita.
+    //
+    // No pide además el rasgo `academico`. La precondición es sobre la
+    // evidencia y no sobre el género: un texto periodístico con dos series y un
+    // marco con que leerlas cumple esta forma igual que una tesis.
+    tono: 'triangulacion',
+    skill: 'triangulacion-writing',
+    cuando: 'Texto que sostiene cada afirmación con evidencia de más de una clase',
+    eligeSi: (r) => Boolean(r.evidenciaCruzada),
   },
   {
     tono: 'camus',

@@ -2,7 +2,7 @@
 
 Skills de redacción en español y el verificador que mide si un texto las cumple.
 
-Catorce skills en tres capas y 81 reglas mecanizadas, con un gate que ata cada
+Quince skills en tres capas y 85 reglas mecanizadas, con un gate que ata cada
 regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
 entero sin instalar nada, sin build y sin conexión.
 
@@ -70,7 +70,7 @@ contexto la justifica; señalan lo que ninguna regla decide sola.
 | Capa | Qué decide | Cuántas |
 |---|---|---|
 | **Base normativa** | Qué es correcto en español: gramática, anglicismos, puntuación, mayúsculas, números, léxico prohibido, citas, tratamiento, variedad, formato de entrega | 1 |
-| **Tono** | Cómo suena: longitud de oración y párrafo, persona gramatical, conectores favorecidos, arquitectura del argumento | 12 |
+| **Tono** | Cómo suena: longitud de oración y párrafo, persona gramatical, conectores favorecidos, arquitectura del argumento | 13 |
 | **Pasada** | Corre sobre un texto ya redactado, y solo si el usuario la pide con esas palabras | 1 |
 
 ### Regla de precedencia
@@ -115,13 +115,13 @@ el patrón que el catálogo señala como el que más penaliza.
 ### Enrutamiento
 
 `spanish-writing` se aplica siempre y elige exactamente un tono. Once de los
-doce reconstruyen la forma de exponer de un autor concreto, y no se
+trece reconstruyen la forma de exponer de un autor concreto, y no se
 escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su habla.
 Eso es lo que separa a este repositorio de una colección de instrucciones de
 estilo.
 
 **Cuando nadie elige, elige el enrutamiento.** No es un valor por defecto
-escondido: es una lista de doce pasos que va de lo más estrecho a lo más
+escondido: es una lista de trece pasos que va de lo más estrecho a lo más
 amplio y siempre termina en un tono, porque un texto sin tono no es un texto
 neutro, es un texto cuya forma no decidió nadie. Vive dos veces, en §3 de la base
 y en `src/enrutamiento.ts`, y un gate comprueba que digan lo mismo y en el mismo
@@ -141,7 +141,7 @@ node src/cli.ts --enrutar juridico
 ```
 schiavenato-writing
   Divulgación jurídica y política dirigida a una comunidad.
-  Paso 5 de 12 de la lista de spanish-writing §3.
+  Paso 5 de 13 de la lista de spanish-writing §3.
 ```
 
 Siempre responde con el motivo. Una decisión que no se puede rebatir no es una
@@ -168,7 +168,7 @@ producto. En las skills no.
 
 | Archivo | Qué hace |
 |---|---|
-| `src/rules.ts` | Las 81 reglas como objetos planos y tipados, sin comportamiento |
+| `src/rules.ts` | Las 85 reglas como objetos planos y tipados, sin comportamiento |
 | `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
 | `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
 | `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |
@@ -225,11 +225,11 @@ resultado y no se parecen en nada más.** El gate distingue las dos cosas.
 
 | Estado | Declaraciones | Qué significa |
 |---|---|---|
-| cubierto | **98** | Tiene regla y test |
+| cubierto | **102** | Tiene regla y test |
 | mecanizable | **0** | Se puede medir, falta construirlo |
-| criterio | 158 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
+| criterio | 167 | Exige juicio sobre el contenido. Ninguna regla lo va a cubrir |
 
-De las 256 declaraciones, 158 piden juicio: si se conservó toda la información
+De las 269 declaraciones, 167 piden juicio: si se conservó toda la información
 del original, si una analogía está desarrollada o solo mencionada, si una
 expresión es la colocación más previsible del tema. El número creció con los
 once tonos que reconstruyen a un autor, porque describir cómo argumenta una
@@ -273,10 +273,10 @@ se juntaron para construir las skills y se borran.
 
 ```mermaid
 flowchart LR
-    C[("corpus<br/>fuera del repositorio<br/>14 corpus · 326 archivos")]
+    C[("corpus<br/>fuera del repositorio<br/>15 corpus · 328 archivos")]
 
     C -->|"scripts/manifiesto.ts"| M["src/corpus.ts<br/>ruta · bytes · palabras · sha256"]
-    C -->|"scripts/medir.ts"| ME["src/mediciones.ts<br/>68 mediciones · 300 archivos<br/>1.284 expresiones contadas"]
+    C -->|"scripts/medir.ts"| ME["src/mediciones.ts<br/>71 mediciones · 302 archivos<br/>1.291 expresiones contadas"]
 
     M -->|"comprueba el sha256<br/>antes de contar"| ME
 

@@ -1,7 +1,7 @@
 # writing-harness
 
-Catorce skills de redacción en español y un verificador que mide si un texto las
-cumple. Doce de esas skills son tonos. Las skills son prosa que vos leés; el
+Quince skills de redacción en español y un verificador que mide si un texto las
+cumple. Trece de esas skills son tonos. Las skills son prosa que vos leés; el
 verificador es un programa que cuenta. Lo que hace útil al conjunto es que las
 dos mitades declaran las mismas reglas y un gate las obliga a no contradecirse.
 
@@ -44,8 +44,8 @@ node src/cli.ts <archivo> --tono <id>            # 4. medir
 ```
 
 Cinco pasos y ninguno es opcional. El más saltado es el segundo, y es el que
-hace la diferencia: el verificador cubre 98 de las 256 declaraciones que hacen
-las skills. Las otras 158 solo las pone quien leyó la skill.
+hace la diferencia: el verificador cubre 102 de las 269 declaraciones que hacen
+las skills. Las otras 167 solo las pone quien leyó la skill.
 
 ## 2. Elegir el tono
 
@@ -59,7 +59,7 @@ node src/cli.ts --enrutar juridico
 ```
 schiavenato-writing
   Divulgación jurídica y política dirigida a una comunidad.
-  Paso 5 de 12 de la lista de spanish-writing §3.
+  Paso 5 de 13 de la lista de spanish-writing §3.
 ```
 
 Los rasgos son los de `RASGOS` en `src/enrutamiento.ts`, y el mismo comando sin
@@ -161,7 +161,7 @@ cambia. Lo que se pierde es la medición, no la entrega.
 
 ## 6. Lo que el verificador no ve
 
-De las 256 declaraciones que hacen las skills, **158 exigen juicio sobre el
+De las 269 declaraciones que hacen las skills, **167 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.
@@ -293,20 +293,20 @@ Las skills enuncian centenares de cifras medidas sobre un corpus que no vive ac�
 y no va a vivir. Son transcripciones ajenas y un libro; se juntaron para
 construir las skills y se borran.
 
-`src/corpus.ts` es lo que sobrevive: 14 corpus, 326 archivos, cada uno con su
+`src/corpus.ts` es lo que sobrevive: 15 corpus, 328 archivos, cada uno con su
 tamaño, sus palabras y su sha256. Una skill dice «medido sobre 20
 transcripciones» y nunca dice cuáles. Acá está la lista, con el contenido exacto
 fijado, así que una cifra puede nombrar su origen aunque el origen ya no exista.
 
-`src/mediciones.ts` es la otra mitad: 68 mediciones sobre 300 archivos. El
+`src/mediciones.ts` es la otra mitad: 71 mediciones sobre 302 archivos. El
 manifiesto dice qué archivos había; esto dice qué contenían. Cada medición trae
 las cuatro casillas que hacen comprobable una cifra: qué afirma, con qué regla se
 produjo, sobre cuántos archivos y en qué unidad.
 
-Trae además las 1.284 expresiones que las skills entrecomillan, contadas en su
-propio corpus; 899 aparecen en él. Una skill afirma que tal giro sale 191 veces y
+Trae además las 1.291 expresiones que las skills entrecomillan, contadas en su
+propio corpus; 904 aparecen en él. Una skill afirma que tal giro sale 191 veces y
 esa cuenta no se puede rehacer sin el corpus, así que están todas, incluidas las
-385 que dan cero. Un cero es una medición: dice que la expresión no estaba ahí.
+387 que dan cero. Un cero es una medición: dice que la expresión no estaba ahí.
 
 **Esas cuentas se quedan cortas en las expresiones de varias palabras, y no tiene
 arreglo.** Se buscaron como literal, con un solo espacio entre sus palabras, pero
@@ -478,7 +478,7 @@ al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
 | `skills/spanish-writing/` | La base. Rige siempre, y su §3 tiene la tabla de enrutamiento |
 | `skills/<id>-writing/` | Un tono |
 | `skills/humanizar-espanol/` | La pasada. Solo si el usuario la pide |
-| `src/rules.ts` | Las 81 reglas como datos, sin comportamiento y sin build |
+| `src/rules.ts` | Las 85 reglas como datos, sin comportamiento y sin build |
 | `src/check.ts` | Compone las capas y mide |
 | `src/enrutamiento.ts` | La tabla de §3 como dato, y el procedimiento que decide |
 | `src/corpus.ts`, `src/mediciones.ts` | El registro del corpus borrado. No se editan a mano |

@@ -46,6 +46,20 @@ const AGENTS = llano(lee('AGENTS.md'));
 const README_CRUDO = lee('README.md');
 const AGENTS_CRUDO = lee('AGENTS.md');
 
+/**
+ * Los tonos que no reconstruyen la forma de exponer de un autor concreto.
+ *
+ * Vivía como `TONE_IDS.length - 1`, que no era una cuenta sino una suposición:
+ * que el único tono sin autor detrás sería siempre `camus`. Aguantó doce tonos y
+ * se rompió con el decimotercero, porque `triangulacion` tampoco reconstruye a
+ * nadie. Salió de un corpus de un solo documento y lo que describe es una forma
+ * de sostener afirmaciones, no la manera de escribir de una persona.
+ *
+ * Va como lista y no como resta para que agregar un tono sin autor obligue a
+ * declararlo acá, en vez de correr una cifra de la prosa y dejarla mintiendo.
+ */
+const SIN_AUTOR = new Set(['camus', 'triangulacion']);
+
 const reglas = allRules();
 const cubiertas = new Set(
   reglas.flatMap((r) => r.checklist.map((c) => itemKey(c.skill, c.item))),
@@ -89,6 +103,14 @@ describe('el README dice lo que el código mide', () => {
     afirma(README, /\*\*Tono\*\* \|[^|]+\| (\d+) \|/gu, TONE_IDS.length, 'README, tabla de capas');
   });
 
+  test('la lista de tonos sin autor nombra tonos que existen', () => {
+    // La otra dirección. Una entrada que sobrevive a su tono devuelve la cuenta
+    // al terreno de la suposición, que es de donde vino.
+    const vivos = new Set(TONE_IDS);
+    assert.deepEqual([...SIN_AUTOR].filter((t) => !vivos.has(t)), []);
+    assert.ok(SIN_AUTOR.size < TONE_IDS.length, 'no todos los tonos pueden estar sin autor');
+  });
+
   test('las cifras del corpus', () => {
     afirma(README, /(\d+) corpus · \d+ archivos/gu, CORPUS.length, 'README, corpus');
     afirma(README, /\d+ corpus · (\d+) archivos/gu, archivosDeCorpus, 'README, archivos');
@@ -111,6 +133,7 @@ describe('el README dice lo que el código mide', () => {
       12: 'doce',
       13: 'trece',
       14: 'catorce',
+      15: 'quince',
     };
     const tipos = new Set(reglas.map((r) => r.kind)).size;
     const conProsa = Object.values(DECLARADO).filter((d) => d.prosa !== null);
@@ -119,10 +142,10 @@ describe('el README dice lo que el código mide', () => {
     const pares: [number, RegExp, string][] = [
       [skillNames().length, /(\p{L}+) skills en tres capas/u, 'skills'],
       // Las dos salen de la misma oración de §Enrutamiento, que las enuncia
-      // juntas: «Once de los doce reconstruyen la forma de exponer de un
+      // juntas: «Once de los trece reconstruyen la forma de exponer de un
       // autor concreto».
       [TONE_IDS.length, /de los (\p{L}+) reconstruyen/u, 'tonos'],
-      [TONE_IDS.length - 1, /(\p{L}+) de los \p{L}+ reconstruyen/u, 'tonos de autor'],
+      [TONE_IDS.length - SIN_AUTOR.size, /(\p{L}+) de los \p{L}+ reconstruyen/u, 'tonos de autor'],
       [tipos, /se reparten en (\p{L}+) tipos/u, 'tipos de regla'],
       // Las cuatro de abajo se agregaron después de encontrarlas envejecidas.
       // El README decía dos corpus exactos cuando eran tres, tres corpus con

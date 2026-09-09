@@ -170,4 +170,13 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'spanish-writing', origen: 'checklist', item: "¿Se conserva toda la información original (al reescribir)?", estado: 'criterio' },
   { skill: 'spanish-writing', origen: 'checklist', item: "¿No se añadió información nueva (al reescribir)?", estado: 'criterio' },
   { skill: 'spanish-writing', origen: 'checklist', item: "¿Se conservó todo término técnico, glosado en su primera aparición?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Quien escribe no aparece nunca en primera persona, ni del singular ni del plural?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las citas conservan la persona, el vocabulario y el registro de quien habló, sin limpiarlos?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada concepto del apartado teórico se recorre contra otras posiciones y se cierra estipulando con qué alcance se usará?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada técnica se define y se justifica antes de contarse cómo se aplicó?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las cantidades muestran de dónde salen, y no solo el resultado?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada afirmación del análisis se apoya a la vez en un dato, en un testimonio y en un concepto ya estipulado?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Los tres apoyos se confrontan entre sí, en vez de repetir lo mismo tres veces?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada dato y cada testimonio traen la referencia que permite volver a ellos?", estado: 'criterio' },
 ];

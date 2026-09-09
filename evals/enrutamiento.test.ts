@@ -186,6 +186,7 @@ describe('el procedimiento decide, y siempre decide', () => {
       freddy: { mueveAActuar: true, mecanismo: true },
       dotcsv: { mecanismo: true, divulgacion: true },
       fonda: { humanistico: true, divulgacion: true },
+      triangulacion: { evidenciaCruzada: true },
       camus: { academico: true },
     };
     for (const [esperado, rasgos] of Object.entries(CASOS)) {

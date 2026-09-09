@@ -908,6 +908,14 @@ export const BASE_RULES: Rule[] = [
     checklist: [
       { skill: 'spanish-writing', item: '¿Los conectores son variados y no se repiten en párrafos contiguos?' },
       { skill: 'humanizar-espanol', item: 'Conectores de molde al inicio de oración' },
+      // La mitad de este ítem la hace cumplir esta regla y la otra mitad
+      // `triangulacion-conectores-variados`: aquella exige el repertorio ancho
+      // y esta impide encadenar dos del mismo molde. El ítem pide las dos cosas
+      // en una sola frase, así que lo reclaman las dos reglas.
+      {
+        skill: 'triangulacion-writing',
+        item: '¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos oraciones seguidas?',
+      },
     ],
   },
   {
@@ -2066,6 +2074,115 @@ export const TONES: Record<string, Tone> = {
           {
             skill: 'adria-sola-writing',
             item: '¿Queda fuera la promesa de transformación, la que nombra el destino al que el método lleva en lugar de lo que el método produce?',
+          },
+        ],
+      },
+    ],
+  },
+  // El primer tono del repositorio cuyas reglas de ritmo piden longitud en vez
+  // de acotarla. Los otros doce topan la oración por arriba o exigen una mitad
+  // breve; este declara un piso de oraciones largas y un piso de párrafo,
+  // porque su forma no afirma a secas: cada oración lleva el dato, la reserva
+  // sobre el dato y la consecuencia.
+  //
+  // Las cuatro avisan y ninguna bloquea. El motivo está en su §3: el corpus es
+  // un solo documento, y aunque sus cinco bloques concuerdan entre sí, eso
+  // sostiene una banda y no una precisión. La convención de esta casa es que
+  // una cifra que no se puede contrastar entre archivos avisa.
+  triangulacion: {
+    id: 'triangulacion',
+    skill: 'triangulacion-writing',
+    rules: [
+      {
+        // §4.1: «El 34,3 % de las oraciones del corpus supera las treinta
+        // palabras». El piso declarado es del 20 %, bastante por debajo de lo
+        // medido, para que la regla acuse a un texto que abandonó el registro y
+        // no a uno que respiró.
+        id: 'triangulacion-oracion-larga',
+        kind: 'sentence-length-band',
+        gobierna: 'ritmo-de-oracion',
+        severity: 'warning',
+        min: 31,
+        max: Infinity,
+        minShare: 0.2,
+        minSentences: 12,
+        message: 'Faltan oraciones largas: este registro sostiene el dato, la reserva y la consecuencia en un mismo periodo.',
+        fix: 'Unir por subordinación lo que quedó en afirmaciones sueltas. Una oración de este tono suele llevar de qué se afirma, con qué se sostiene y qué se sigue de ello.',
+        source: 'triangulacion-writing §4.1',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿Una de cada tres oraciones supera las treinta palabras, o al menos una de cada cinco?',
+          },
+        ],
+      },
+      {
+        // §4.2: «La media del corpus es de 26,5 palabras por oración, y los tres
+        // apartados largos la sostienen entre 25,6 y 27,6». La banda declarada
+        // va de 21 a 32, más ancha que lo medido y a propósito: con un solo
+        // documento detrás, apretarla sería confundir lo medido con lo sabido.
+        id: 'triangulacion-media-oracion',
+        kind: 'sentence-length-mean',
+        gobierna: 'ritmo-de-oracion',
+        severity: 'warning',
+        min: 21,
+        max: 32,
+        minSentences: 12,
+        message: 'La media de oración se salió de la banda de este registro.',
+        fix: 'Por debajo, el texto se quedó en la afirmación suelta y no está confrontando nada. Por encima, el periodo dejó de tener juntas y hay que partirlo.',
+        source: 'triangulacion-writing §4.2',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿La media de palabras por oración cae entre veintiuna y treinta y dos?',
+          },
+        ],
+      },
+      {
+        // §4.3, y es un piso donde los demás tonos ponen techo. La mediana de
+        // párrafo del corpus es 136 palabras y el piso declarado es 40, que solo
+        // dos de sus 87 párrafos bajan. Un párrafo de esta forma abre con lo que
+        // va a sostener, trae la evidencia, la confronta y recién concluye; en
+        // 40 palabras eso no cabe.
+        id: 'triangulacion-parrafo-desarrolla',
+        kind: 'paragraph-length',
+        gobierna: 'ritmo-de-parrafo',
+        severity: 'warning',
+        min: 40,
+        message: 'Párrafo demasiado corto para desarrollar: este registro no enuncia por párrafo, desarrolla.',
+        fix: 'Traer al párrafo la evidencia que sostiene lo que afirma, o fundirlo con el que lo continúa.',
+        source: 'triangulacion-writing §4.3',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿Los párrafos desarrollan, con ninguno por debajo de cuarenta palabras?',
+          },
+        ],
+      },
+      {
+        // §8: el 36,4 % de las oraciones del corpus abre con conector y ninguno
+        // domina; los diez más usados se reparten entre trece y seis
+        // apariciones. Lo que se comprueba es la variedad y no la densidad,
+        // porque la densidad sin variedad es la muletilla que la base ya
+        // prohíbe con `conectores-de-molde-seguidos`.
+        //
+        // Las dos reglas empujan juntas y por eso esta no repite aquella: la
+        // base impide encadenar dos del mismo molde, y esta exige que el
+        // repertorio sea ancho. Un texto que cumpla las dos tiene que variar.
+        id: 'triangulacion-conectores-variados',
+        kind: 'must-contain',
+        severity: 'warning',
+        pattern:
+          /\b(?:en consecuencia|por consiguiente|por ello|por tanto|por lo tanto|no obstante|sin embargo|además|de hecho|asimismo|en efecto|en otras palabras|en suma|en definitiva|en síntesis|del mismo modo|de manera que|de modo que|por ende|con ello|adicionalmente|en este sentido|por un lado|por otro lado|en primer lugar|por último)\b/giu,
+        minDistinct: 5,
+        minSentences: 12,
+        message: 'El repertorio de conectores es demasiado estrecho para este registro.',
+        fix: 'Variar la relación que cada paso declara con el anterior. Repetir el mismo enlace no es cohesión, es una muletilla con aspecto de método.',
+        source: 'triangulacion-writing §8',
+        checklist: [
+          {
+            skill: 'triangulacion-writing',
+            item: '¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos oraciones seguidas?',
           },
         ],
       },

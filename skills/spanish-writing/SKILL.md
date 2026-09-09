@@ -63,6 +63,7 @@ forma y la manera de presentar la información.
 | `schiavenato-writing` | Divulgación jurídica y política dirigida a una comunidad. | «Ustedes» para lo colectivo y «usted» para el caso individual, definición por negación, imperativo de mirar más cifra |
 | `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, segunda del plural, corrección de la lectura corriente en la apertura |
 | `solitario-writing` | Texto que sostiene una tesis contra quien la niega: ensayo polémico, alegato, réplica, crítica de una disciplina o de una práctica. | Tesis en la primera oración, adversario con turno de palabra, concesión antes de la refutación |
+| `triangulacion-writing` | Texto que sostiene cada afirmación con evidencia de más de una clase: informes de investigación, marcos teóricos, metodologías, análisis de resultados, monografías, tesis, trabajos de grado, estados del arte. | Impersonal sin primera persona, oración larga que sostiene dato y consecuencia, la cita conserva la voz de quien habló |
 
 Si el usuario no indica el tono, se recorre la lista siguiente en orden y se
 toma la primera que corresponda. Va de lo más estrecho a lo más amplio, porque
@@ -83,7 +84,9 @@ revés, nunca se elegiría.
 9. Si explica un mecanismo para mover a alguien a actuar, `freddy-writing`.
 10. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
 11. Si es divulgación filosófica, humanística o cultural, `fonda-writing`.
-12. En cualquier otro caso, `camus-writing`.
+12. Si hay evidencia de más de una clase sobre el mismo asunto y teoría con que
+    leerla, `triangulacion-writing`.
+13. En cualquier otro caso, `camus-writing`.
 
 **La lista siempre termina en un tono.** Antes, un género que no encajaba en
 ninguna fila dejaba correr esta base sola, y eso no es una decisión sino una

@@ -34,7 +34,7 @@ describe('las mediciones no se editaron a mano', () => {
     );
     assert.equal(
       createHash('sha256').update(bytes, 'utf8').digest('hex'),
-      'a33a8f2f84841d6c242cdabae75e8ffbc1d562e07543a5d20d777af0f9ed91f3',
+      '9da4977a349630c1e25f54556a0d526d7d646dc93d8f398d2461af8cab625b12',
     );
   });
 });
@@ -46,9 +46,9 @@ describe('las expresiones contadas están bien formadas', () => {
   // arreglarlo, porque arreglarlo exige volver a medir. La tabla es una prueba
   // de lo que hubo, no una restricción sobre lo que se escriba después.
 
-  test('1284 expresiones, 899 aparecen en su corpus', () => {
-    assert.equal(EXPRESIONES.length, 1284);
-    assert.equal(EXPRESIONES.filter((e) => e.veces > 0).length, 899);
+  test('1291 expresiones, 904 aparecen en su corpus', () => {
+    assert.equal(EXPRESIONES.length, 1291);
+    assert.equal(EXPRESIONES.filter((e) => e.veces > 0).length, 904);
   });
 
   test('cada expresión pertenece a un corpus medido', () => {
@@ -62,11 +62,11 @@ describe('las expresiones contadas están bien formadas', () => {
   });
 
   test('un cero es una medición, no un hueco', () => {
-    // Las 385 que dan cero no son fallos de conteo: son nombres de skill y
+    // Las 387 que dan cero no son fallos de conteo: son nombres de skill y
     // frases de invocación que la prosa entrecomilla y que nunca estuvieron en
     // el corpus. Que consten evita que alguien las cuente después como si
     // fueran giros del autor.
-    assert.equal(EXPRESIONES.filter((e) => e.veces === 0).length, 385);
+    assert.equal(EXPRESIONES.filter((e) => e.veces === 0).length, 387);
     assert.ok(
       EXPRESIONES.some((e) => e.expresion === 'spanish-writing' && e.veces === 0),
       'el nombre de la base tendría que dar cero en todos los corpus',
@@ -75,9 +75,9 @@ describe('las expresiones contadas están bien formadas', () => {
 });
 
 describe('cada agregado sale de su detalle', () => {
-  test('68 mediciones sobre 300 archivos', () => {
-    assert.equal(MEDICIONES.length, 68);
-    assert.equal(POR_ARCHIVO.length, 300);
+  test('71 mediciones sobre 302 archivos', () => {
+    assert.equal(MEDICIONES.length, 71);
+    assert.equal(POR_ARCHIVO.length, 302);
   });
 
   test('las palabras, los signos y las marcas suman lo que dice el agregado', () => {
@@ -116,10 +116,11 @@ describe('cada agregado sale de su detalle', () => {
 
   test('un corpus sin transcripción se mide entero, y lo dice', () => {
     // Las fichas de han no tienen «## Transcripción», así que se cuenta el
-    // archivo completo. Es la única excepción, y tiene que verse en el dato en
-    // lugar de estar escondida en el script.
+    // archivo completo. Lo mismo el corpus de `triangulacion`, que no es habla
+    // transcrita sino un documento escrito. Las dos excepciones tienen que
+    // verse en el dato en lugar de estar escondidas en el script.
     const completos = [...new Set(MEDICIONES.filter((m) => m.fuente === 'archivo-completo').map((m) => m.skill))];
-    assert.deepEqual(completos, ['han-writing']);
+    assert.deepEqual(completos.sort(), ['han-writing', 'triangulacion-writing']);
     assert.equal(
       filasDe('han-writing').reduce((n, f) => n + f.cues, 0),
       0,

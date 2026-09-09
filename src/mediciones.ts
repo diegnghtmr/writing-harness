@@ -821,6 +821,39 @@ export const MEDICIONES: readonly Medicion[] = [
     valor: 15213,
     medido: '2026-08-13',
   },
+  {
+    id: 'triangulacion-writing/archivos',
+    skill: 'triangulacion-writing',
+    afirmacion: "Fichas que componen el corpus.",
+    regla: "Archivos del manifiesto cuyo nombre empieza por dos dígitos.",
+    fuente: 'archivo-completo',
+    archivos: 2,
+    unidad: 'archivos',
+    valor: 2,
+    medido: '2026-09-09',
+  },
+  {
+    id: 'triangulacion-writing/palabras',
+    skill: 'triangulacion-writing',
+    afirmacion: "Palabras de las fichas.",
+    regla: "Archivo entero partido por espacio en blanco. Estas fichas no tienen transcripción.",
+    fuente: 'archivo-completo',
+    archivos: 2,
+    unidad: 'palabras',
+    valor: 36342,
+    medido: '2026-09-09',
+  },
+  {
+    id: 'triangulacion-writing/signos-terminales',
+    skill: 'triangulacion-writing',
+    afirmacion: "Signos terminales del mismo texto.",
+    regla: "Apariciones de «.», «?», «!» o «…». Mide si la transcripción trae puntuación, no si la trae bien.",
+    fuente: 'archivo-completo',
+    archivos: 2,
+    unidad: 'signos',
+    valor: 1758,
+    medido: '2026-09-09',
+  },
 ];
 
 export const POR_ARCHIVO: readonly ArchivoMedido[] = [
@@ -1124,6 +1157,8 @@ export const POR_ARCHIVO: readonly ArchivoMedido[] = [
   { skill: 'solitario-writing', archivo: "28-solitario-la-nueva-enfermedad-mental-letra-go38MsU6q-4.md", palabras: 393, signos: 21, cues: 27, segundos: 546 },
   { skill: 'solitario-writing', archivo: "29-solitario-nueva-era-letra-IzUdw-wfroU.md", palabras: 1071, signos: 5, cues: 117, segundos: 368 },
   { skill: 'solitario-writing', archivo: "30-solitario-exhibicion-y-percepcion-FjBatyc52Vk.md", palabras: 1599, signos: 199, cues: 194, segundos: 762 },
+  { skill: 'triangulacion-writing', archivo: "01-informe-completo.md", palabras: 24133, signos: 1252, cues: 0 },
+  { skill: 'triangulacion-writing', archivo: "02-informe-medido.md", palabras: 12209, signos: 506, cues: 0 },
 ];
 
 export const EXPRESIONES: readonly Expresion[] = [
@@ -2411,4 +2446,11 @@ export const EXPRESIONES: readonly Expresion[] = [
   { skill: 'solitario-writing', expresion: "vuestro", veces: 4 },
   { skill: 'solitario-writing', expresion: "áis", veces: 0 },
   { skill: 'solitario-writing', expresion: "éis", veces: 0 },
+  { skill: 'triangulacion-writing', expresion: "análisis de resultados", veces: 2 },
+  { skill: 'triangulacion-writing', expresion: "la forma", veces: 20 },
+  { skill: 'triangulacion-writing', expresion: "marco teórico", veces: 2 },
+  { skill: 'triangulacion-writing', expresion: "se", veces: 495 },
+  { skill: 'triangulacion-writing', expresion: "spanish-writing", veces: 0 },
+  { skill: 'triangulacion-writing', expresion: "tono de investigación", veces: 0 },
+  { skill: 'triangulacion-writing', expresion: "yo", veces: 31 },
 ];

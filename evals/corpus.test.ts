@@ -42,18 +42,18 @@ describe('el manifiesto no se editó a mano', () => {
     const bytes = readFileSync(join(REPO_ROOT, 'src', 'corpus.ts'), 'utf8').replace(/\r\n/gu, '\n');
     assert.equal(
       createHash('sha256').update(bytes, 'utf8').digest('hex'),
-      'eea7442a2c91b7dda7913ccbc8ad1fe5d14bec2a66b3b0968fb11bd9f371c212',
+      'eb52ae453f2bc0b9206091397d86777f8707f237ba0f04eea193ea2508a31194',
     );
   });
 });
 
 describe('el manifiesto del corpus está bien formado', () => {
-  test('14 corpus, 326 archivos, 1 035 597 palabras', () => {
-    assert.equal(CORPUS.length, 14);
-    assert.equal(archivos.length, 326);
+  test('15 corpus, 328 archivos, 1 071 939 palabras', () => {
+    assert.equal(CORPUS.length, 15);
+    assert.equal(archivos.length, 328);
     assert.equal(
       archivos.reduce((n, a) => n + (a.palabras ?? 0), 0),
-      1035597,
+      1071939,
     );
   });
 
@@ -149,7 +149,7 @@ describe('el manifiesto del corpus está bien formado', () => {
   });
 
   test('el único contenido repetido es apparatus, no una transcripción', () => {
-    // 326 archivos y 323 hashes distintos. La diferencia es `PENDING.md`, el
+    // 328 archivos y 325 hashes distintos. La diferencia es `PENDING.md`, el
     // mismo archivo de 121 bytes en cuatro corpus. Si algún día un hash
     // repetido cae sobre un archivo numerado, es una transcripción contada dos
     // veces y la cifra que salga de ahí está inflada.
@@ -165,6 +165,6 @@ describe('el manifiesto del corpus está bien formado', () => {
       .filter((r) => /\/\d\d-/u.test(r))
       .sort();
     assert.deepEqual(transcripcionesRepetidas, []);
-    assert.equal(porHash.size, 323);
+    assert.equal(porHash.size, 325);
   });
 });

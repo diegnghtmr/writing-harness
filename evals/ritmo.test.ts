@@ -103,7 +103,68 @@ describe('long-sentence-run: la cadena de oraciones largas', () => {
   });
 });
 
-describe('ahora los doce tonos discriminan', () => {
+// El tono nuevo pide longitud donde los otros doce la acotan, asi que sus dos
+// reglas de oracion se prueban al reves que las de arriba: lo que dispara es un
+// texto demasiado corto, no uno demasiado largo.
+describe('triangulacion: el primer tono que exige periodo largo', () => {
+  const LARGA = 34;
+  const CORTA = 12;
+
+  test('dispara cuando el texto se queda en afirmaciones sueltas', () => {
+    // Doce oraciones de doce palabras: ninguna pasa de treinta, y el tono pide
+    // que una de cada cinco lo haga.
+    const f = solo(conLongitudes(Array.from({ length: 12 }, () => CORTA)), 'triangulacion', 'triangulacion-oracion-larga');
+    assert.equal(f.length, 1);
+    assert.match(f[0]!.message, /0 de 12 oraciones \(0 %\)/u);
+  });
+
+  test('calla cuando el periodo largo esta', () => {
+    // Cinco de doce por encima de treinta, holgadamente sobre el piso del 20 %.
+    const mezcla = [LARGA, CORTA, LARGA, CORTA, LARGA, CORTA, LARGA, CORTA, LARGA, CORTA, CORTA, CORTA];
+    assert.deepEqual(solo(conLongitudes(mezcla), 'triangulacion', 'triangulacion-oracion-larga'), []);
+  });
+
+  test('la media dispara por los dos lados, que es lo que hace una banda', () => {
+    const corto = solo(conLongitudes(Array.from({ length: 12 }, () => 14)), 'triangulacion', 'triangulacion-media-oracion');
+    assert.equal(corto.length, 1, 'una media de 14 esta por debajo del piso de 21');
+    const largo = solo(conLongitudes(Array.from({ length: 12 }, () => 40)), 'triangulacion', 'triangulacion-media-oracion');
+    assert.equal(largo.length, 1, 'una media de 40 pasa el techo de 32');
+    assert.deepEqual(
+      solo(conLongitudes(Array.from({ length: 12 }, () => 26)), 'triangulacion', 'triangulacion-media-oracion'),
+      [],
+      'una media de 26 es la del corpus y no puede marcarse',
+    );
+  });
+
+  test('el parrafo lleva piso y no techo, al reves que los demas tonos', () => {
+    // La otra mitad de lo mismo. `camus` marca el parrafo que pasa de 150
+    // palabras; este marca el que no llega a 40.
+    const corto = check('Una afirmacion corta que no sostiene nada de nada.', { tone: 'triangulacion' })
+      .filter((f) => f.rule === 'triangulacion-parrafo-desarrolla');
+    assert.equal(corto.length, 1);
+    const largo = check(conLongitudes([30, 30]), { tone: 'triangulacion' })
+      .filter((f) => f.rule === 'triangulacion-parrafo-desarrolla');
+    assert.deepEqual(largo, [], 'sesenta palabras pasan el piso de cuarenta');
+  });
+
+  test('el repertorio de conectores se mide por variedad y no por cantidad', () => {
+    // Doce oraciones que abren siempre con el mismo enlace. Hay densidad y no
+    // hay repertorio, y es justo la muletilla que la seccion 8 de la skill
+    // llama metodo con aspecto de metodo.
+    const uno = Array.from({ length: 12 }, () => 'Por ende ' + Array.from({ length: 25 }, () => 'palabra').join(' ') + '.').join(' ');
+    const f = solo(uno, 'triangulacion', 'triangulacion-conectores-variados');
+    assert.equal(f.length, 1);
+    assert.match(f[0]!.message, /Se esperaban 5, hay 1/u);
+
+    const varios = ['Por ende', 'No obstante', 'En consecuencia', 'De hecho', 'Del mismo modo', 'En suma']
+      .map((c) => c + ' ' + Array.from({ length: 25 }, () => 'palabra').join(' ') + '.')
+      .concat(Array.from({ length: 6 }, () => conLongitudes([25])))
+      .join(' ');
+    assert.deepEqual(solo(varios, 'triangulacion', 'triangulacion-conectores-variados'), []);
+  });
+});
+
+describe('ahora los trece tonos discriminan', () => {
   test('ninguno se queda sin reglas', () => {
     // Es la condición que hacía caducar el motivo del enrutamiento, y por eso
     // se comprueba también acá: es el hecho que estas reglas vinieron a cambiar.

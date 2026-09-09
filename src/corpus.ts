@@ -449,4 +449,12 @@ export const CORPUS: readonly Corpus[] = [
       { ruta: "manifest.json", bytes: 15346, sha256: '4e8b2d9cd5c4d4b156fb5d77a76e88d87542252b7baf7d7aabc886cacbd00147' },
     ],
   },
+  {
+    skill: 'triangulacion-writing',
+    medido: '2026-09-09',
+    archivos: [
+      { ruta: "01-informe-completo.md", bytes: 150679, palabras: 24133, sha256: '19334946a3cfe90094126e96c92dd8d07100d9b82df28b21b8ffed9ca2749d07' },
+      { ruta: "02-informe-medido.md", bytes: 76876, palabras: 12209, sha256: '1ae891be9ca5abb341b0f84683a92074962e0370a2bdb7c265670557bb9dd9dc' },
+    ],
+  },
 ];
