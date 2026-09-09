@@ -461,5 +461,23 @@ for (const corpus of CORPUS) {
     `${corpus.skill.padEnd(22)} ${String(de('archivos') ?? 0).padStart(8)} ${String(palabras).padStart(9)} ${((1000 * signos) / (palabras || 1)).toFixed(1).padStart(12)} ${(segundos === undefined ? '-' : Math.round(segundos / 60)).toString().padStart(8)}`,
   );
 }
+// Un corpus que está en disco y no aporta ni un archivo es casi siempre un
+// nombre mal puesto: `ES_TRANSCRIPCION` selecciona por el prefijo `01-`, y sin
+// él la selección queda vacía. Callaba, y el manifiesto sí registraba la huella,
+// así que el corpus quedaba con procedencia y sin ninguna medición detrás. Pasó
+// al medir el corpus del decimotercer tono.
+//
+// Se mira `porArchivo`, que es lo que midió esta corrida, y no el resultado
+// fusionado: aquel conserva las filas de la corrida anterior, así que un corpus
+// que hoy no aportó nada seguía pareciendo medido. Escrito de la manera
+// equivocada la primera vez, y lo dijo el propio caso de prueba.
+const mudos = [...enDisco].filter((skill) => !porArchivo.some((f) => f.skill === skill));
+if (mudos.length) {
+  console.log('');
+  console.log(`AVISO: estos corpus están en disco y no aportaron ningún archivo:`);
+  console.log(`  ${mudos.join(', ')}`);
+  console.log('  Los archivos se seleccionan por el prefijo «01-», «02-», y así.');
+}
+
 console.log('');
 console.log(`escrito: src/mediciones.ts`);

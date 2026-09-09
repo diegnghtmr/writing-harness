@@ -38,12 +38,14 @@ flowchart TD
     R -->|"análisis de una obra"| T3["atenas"]
     R -->|"sostener una tesis<br/>contra otra"| T4["catedra · solitario<br/>fonseca · han"]
     R -->|"entregar un método<br/>que el lector ejecuta"| T5["adria-sola"]
+    R -->|"sostener cada afirmación<br/>con evidencia cruzada"| T6["triangulacion"]
 
     T1 --> W["Redactar"]
     T2 --> W
     T3 --> W
     T4 --> W
     T5 --> W
+    T6 --> W
     H --> W
 
     W --> V["node src/cli.ts archivo --tono ID"]
@@ -404,8 +406,10 @@ es del otro repositorio; buscarlo en este da un error que parece del arnés y no
 es. `evals/documentacion.test.ts` comprueba que todo lo demás sí exista.
 
 **El rombo del medio no es adorno.** Corriendo la norma española sobre los mazos
-de ejemplo, que están en inglés, salen 66 errores y 50 son la raya, que en inglés
-es tipografía correcta. Una herramienta que se aplica donde no toca no da un
+de ejemplo, que están en inglés, salen 70 errores y 51 son la raya, que en inglés
+es tipografía correcta. La cifra lleva fecha, 2026-09-09, porque se mide sobre
+contenido del otro repositorio y ningún gate de este puede compararla: el día que
+aquel mazo cambie, esto queda viejo sin que nadie se entere. Una herramienta que se aplica donde no toca no da un
 resultado neutro: da uno equivocado con aspecto de riguroso.
 
 ## Instalación

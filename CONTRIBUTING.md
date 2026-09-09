@@ -161,6 +161,11 @@ node --experimental-strip-types scripts/manifiesto.ts --desde <ruta>
 node --experimental-strip-types scripts/medir.ts --desde <ruta>
 ```
 
+**Los archivos del corpus se numeran: `01-`, `02-`, y así.** No es cosmetica.
+`scripts/medir.ts` selecciona por ese prefijo, y un archivo sin él no se mide.
+Como el manifiesto sí lo registra, un corpus mal nombrado queda con su huella
+puesta y sin ninguna medición detrás, que es la peor de las dos mitades.
+
 Los dos conservan lo que no pueden volver a producir: el corpus que está en disco
 se vuelve a medir y el que no está se copia tal cual, y la corrida imprime cuáles
 heredó. `scripts/fusion.ts` tiene la regla y `evals/fusion.test.ts` la comprueba
