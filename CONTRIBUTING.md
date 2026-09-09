@@ -86,9 +86,32 @@ estructura; los recursos; el formato de entrega; **la lista de verificación
 numerada** con ítems `N. ¿…?`; y las fuentes, con el corpus, las mediciones y lo
 que quedó sin verificar.
 
-Cuatro cosas que un gate va a rechazar: la raya o el guion largo en cualquier
-parte, nombrar al verificador o a Node, no declarar la precondición de forma en
+Seis cosas que un gate va a rechazar: la raya o el guion largo en cualquier
+parte, nombrar al verificador o a Node, nombrar un modelo o un fabricante,
+hablar del desarrollo de este proyecto, no declarar la precondición de forma en
 la sección que la base dice, y una `description` de más de 1024 caracteres.
+
+**Y la que ningún gate mide del todo: la skill tiene que mostrar el registro,
+no solo describirlo.** Es el defecto más caro de los que han pasado, porque el
+verificador no lo ve y la skill parece completa. Un tono llegó con la mitad
+cuantitativa impecable, medias y medianas y proporciones, todas medidas, y sin
+un solo fragmento de prosa escrito en el registro que describía. Quien tenía
+que usarlo no tenía contra qué contrastar lo que estaba escribiendo, y lo
+encontró una persona leyendo, no la suite.
+
+Una cifra dice cuánto y no dice cómo. «La mediana está en 25 palabras» no le
+enseña a nadie a construir un periodo de este registro y no de otro. Al lado de
+cada movimiento va la muestra: el par de versión mala contra versión buena, el
+fragmento citado, la tabla de qué se dice en vez de qué. `evals/muestras.test.ts`
+pide tres fragmentos como piso, y tres no hacen una buena skill: solo impiden la
+que no muestra ninguno. Lo que hace útil a una skill sigue siendo lectura.
+
+**Lo que no va en una skill:** cifras de errores contra las reglas, nombres de
+gates, rutas de este proyecto, la palabra «repositorio» y cualquier cosa que
+solo tenga sentido con el verificador delante. Una skill tiene que servir en una
+máquina donde este programa no existe. Si al escribirla aparece una frase que
+solo se entiende sabiendo cómo está hecho el arnés, esa frase va en
+`CONTRIBUTING.md` o en un comentario del código, nunca en la skill.
 
 **Ese último límite es del instalador de skills, no de este repositorio, y por
 eso conviene saber de dónde sale.** Seis de las catorce skills fueron rechazadas

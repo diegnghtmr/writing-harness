@@ -111,6 +111,21 @@ larga que enumera o que encadena una consecuencia. Las de más de 30 palabras
 son casi todas eso: una lista de condiciones, una lista de consecuencias, o un
 razonamiento llevado hasta su final.
 
+Así suena cuando el texto explica en vez de mandar, que no es este registro:
+
+Antes: «Resulta conveniente considerar que la exposición a la luz natural
+durante las primeras horas del día contribuye significativamente a la
+regulación del ritmo circadiano, por lo cual sería recomendable procurar dicha
+exposición.»
+
+Después: «Salí a la calle apenas te levantes. Diez minutos bastan. La luz de la
+mañana es la que le pone hora a tu reloj interno, y sin ella el cuerpo no sabe
+cuándo empieza el día.»
+
+La segunda versión tiene tres oraciones donde la primera tenía una, manda en vez
+de sugerir, y deja la larga para el final, que es donde encadena la
+consecuencia. Ese reparto es el registro entero en cuatro líneas.
+
 ### 4.2. La media no abandona su banda
 
 Las medias por archivo van de 12,8 a 18,5 palabras. Es una banda estrecha que

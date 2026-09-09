@@ -58,6 +58,50 @@ describe('las skills y el verificador no se nombran', () => {
     assert.deepEqual(hallazgos, []);
   });
 
+  test('ninguna skill habla del desarrollo del arnés', () => {
+    // La doctrina dice que una skill tiene que servir en una máquina donde el
+    // verificador no existe. Los cuatro delatores de arriba cubren que no lo
+    // invoque; este cubre que no hable de él.
+    //
+    // Entró porque pasó. El decimotercer tono llegó con una tabla de los ciento
+    // veintiún errores de norma que su corpus comete contra la capa base, y con
+    // frases sobre «este repositorio» y sobre lo que un gate puede o no separar.
+    // Nada de eso le sirve a quien escribe un texto, y ninguno de los cuatro
+    // delatores anteriores lo vio, porque ninguno busca esas palabras.
+    //
+    // Lo encontró una persona leyendo la skill. Este test existe para que la
+    // próxima vez no dependa de eso.
+    const delatores = [
+      /este repositorio/iu,
+      /(?<!\p{L})un gate(?!\p{L})/iu,
+      /(?<!\p{L})los gates(?!\p{L})/iu,
+      /el verificador/iu,
+      /(?<!\p{L})evals\//u,
+      /(?<!\p{L})src\//u,
+      /la capa base/iu,
+    ];
+    const hallazgos = archivos(SKILLS_DIR, '.md').flatMap((f) => {
+      const src = readFileSync(f, 'utf8');
+      return delatores.filter((d) => d.test(src)).map((d) => `${relativo(f)} :: ${d.source}`);
+    });
+    assert.deepEqual(hallazgos, []);
+  });
+
+  test('el guardián del desarrollo no marca prosa legítima', () => {
+    // El canario, y hace falta: «base» sola aparece en las catorce skills
+    // hablando de la base normativa, que es una skill y no una capa de un
+    // programa. Lo que se caza es «la capa base», que solo tiene sentido dentro
+    // del verificador.
+    const d = [/este repositorio/iu, /(?<!\p{L})un gate(?!\p{L})/iu, /la capa base/iu];
+    const dispara = (t: string) => d.some((r) => r.test(t));
+    assert.ok(dispara('la tabla de este repositorio'));
+    assert.ok(dispara('un gate lo comprueba'));
+    assert.ok(dispara('incumple la capa base'));
+    assert.ok(!dispara('hereda de la base normativa «spanish-writing»'));
+    assert.ok(!dispara('la base decide qué es correcto en español'));
+    assert.ok(!dispara('un gato entra por la ventana'));
+  });
+
   test('ninguna skill nombra un modelo concreto', () => {
     // La otra mitad de la misma doctrina, y estuvo sin gate hasta que algo
     // caminó por el hueco. Se escribió una skill que nombraba cinco modelos,
