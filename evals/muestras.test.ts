@@ -17,7 +17,7 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { TONE_IDS, TONES } from '../src/rules.ts';
-import { readSkill, skillNames } from '../src/skills.ts';
+import { checklistItems, readSkill, skillNames } from '../src/skills.ts';
 
 /** Cuántos fragmentos de muestra tiene que traer una skill de tono. */
 const PISO = 3;
@@ -113,5 +113,60 @@ describe('cada skill de tono muestra el registro que describe', () => {
       muestrasDe('---\nname: x\ndescription: Úsese con «que le diga al lector qué hacer y cómo».\n---\nCuerpo.'),
       0,
     );
+  });
+});
+
+/**
+ * Materiales e instrumentos, que son de dónde sale un texto y no cómo suena.
+ *
+ * `APA` va aparte y sin ignorar mayúsculas. Escrito con el resto y sin
+ * distinguir, cazaba el «apa» de «aparece» y de «apartado», que están en media
+ * docena de listas de verificación. Es el tercer delator de este repositorio que
+ * marca prosa española legítima antes de afinarse, después de «cursor» dentro de
+ * «precursor» y de «llama» como verbo y como animal.
+ */
+const MATERIAL =
+  /(?<!\p{L})(testimonios?|entrevistad[oa]s?|entrevistas?|encuestad[oa]s?|encuestas?|cuestionarios?|informantes?|muestreo|bibliograf\w*)(?!\p{L})/iu;
+const NORMA_DE_CITA = /(?<!\p{L})(APA|Vancouver|IEEE)(?!\p{L})/u;
+
+describe('una lista de verificación pregunta por la prosa, no por el material', () => {
+  // Un tono decide cómo suena un texto. De qué material sale y con qué norma se
+  // anota una fuente lo decide el trabajo, y cambia de uno a otro sin que la
+  // manera de escribir cambie en nada.
+  //
+  // Se vigila la lista de verificación y no el documento entero, y la
+  // diferencia importa: una skill nombra su corpus con todo derecho al decir de
+  // dónde salieron sus cifras, y varias lo hacen. Lo que no puede es pedirle al
+  // que escribe que consiga una entrevista. La lista es justo donde un tono
+  // dice qué hay que comprobar, así que es donde se nota si prescribe material.
+  //
+  // Entró porque pasó dos veces en el mismo tono. Primero pidiendo que cada dato
+  // trajera su referencia para volver a él, que es aparato bibliográfico.
+  // Después pidiendo un testimonio citado, que es el instrumento del estudio del
+  // que salió su corpus. Las dos las encontró el usuario leyendo.
+
+  test('ningún ítem de tono nombra un instrumento ni una norma de cita', () => {
+    const marcados = TONE_IDS.flatMap((t) => {
+      const skill = TONES[t]?.skill as string;
+      return checklistItems(skill)
+        .filter((i) => MATERIAL.test(i.item) || NORMA_DE_CITA.test(i.item))
+        .map((i) => `${skill}: ${i.item}`);
+    });
+    assert.deepEqual(
+      marcados,
+      [],
+      'estos ítems piden un material o una norma de cita, que no son el tono',
+    );
+  });
+
+  test('el guardián no marca la prosa que sí es de tono', () => {
+    // El canario. «aparece» y «apartado» viven en media docena de listas.
+    const marca = (t: string) => MATERIAL.test(t) || NORMA_DE_CITA.test(t);
+    assert.ok(marca('¿Cada testimonio trae su código?'));
+    assert.ok(marca('¿Las referencias siguen APA?'));
+    assert.ok(marca('¿La encuesta se describe antes de usarse?'));
+    assert.ok(!marca('¿Ese concepto aparece en la apertura y vuelve en el cierre?'));
+    assert.ok(!marca('¿Cada concepto del apartado teórico se estipula antes?'));
+    assert.ok(!marca('¿Cada cifra dice de qué es fracción?'));
   });
 });

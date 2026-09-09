@@ -106,6 +106,28 @@ fragmento citado, la tabla de qué se dice en vez de qué. `evals/muestras.test.
 pide tres fragmentos como piso, y tres no hacen una buena skill: solo impiden la
 que no muestra ninguno. Lo que hace útil a una skill sigue siendo lectura.
 
+**Un tono es la forma de redactar, y nada más.** Es la confusión que más veces
+se ha colado, siempre por el mismo camino: se mide un corpus, y con la forma se
+arrastra de qué estaba hecho ese corpus. Un tono medido sobre un informe con
+encuestas y entrevistas terminó pidiendo un testimonio citado y una referencia
+para volver a cada dato. Ninguna de las dos cosas es la manera de escribir.
+
+La prueba para saber de qué lado cae algo es corta. **Si cambiándolo la prosa
+suena igual, no era tono.** Que la norma de cita pase de una a otra no cambia
+ninguna oración; que el material sea una entrevista o una segunda serie de
+medición tampoco. En cambio, que la cifra vaya sola o venga con de qué es
+fracción sí cambia la oración, y por eso eso sí es tono.
+
+De ahí salen dos maneras de decir lo mismo, y solo una sirve:
+
+Incorrecto: ¿Cada testimonio trae su código para volver a él?
+Correcto: ¿Cada cita dice de quién es la voz?
+
+`evals/muestras.test.ts` lo vigila sobre las listas de verificación, que es
+donde un tono dice qué hay que comprobar. Nombrar el corpus al decir de dónde
+salieron las cifras es legítimo y varias skills lo hacen; pedirle al que escribe
+que consiga ese material, no.
+
 **Lo que no va en una skill:** cifras de errores contra las reglas, nombres de
 gates, rutas de este proyecto, la palabra «repositorio» y cualquier cosa que
 solo tenga sentido con el verificador delante. Una skill tiene que servir en una

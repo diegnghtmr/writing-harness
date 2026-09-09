@@ -6,8 +6,8 @@ description: >
   investigación mixta de 12.239 palabras: oración larga, con una de cada tres
   por encima de treinta palabras; párrafo que desarrolla en vez de enunciar; voz
   impersonal, sin primera persona de quien escribe; y cada juicio apoyado a la
-  vez en un dato cuantitativo, en un testimonio citado y en un concepto teórico
-  traído por su nombre. Úsese cuando el usuario pida redactar, reescribir o
+  vez en evidencias de procedencia distinta, puestas a discrepar y leídas con un
+  concepto estipulado de antemano. Úsese cuando el usuario pida redactar, reescribir o
   revisar informes de investigación, marcos teóricos, apartados de metodología,
   análisis de resultados, monografías, tesis, trabajos de grado y estados del
   arte. También aplica cuando pida «tono de investigación», «informe de
@@ -83,7 +83,7 @@ promediarlos habría descrito un descuido como si fuera una forma.
 
 **La tercera es que la voz de quien analiza y la de sus fuentes se cuentan
 aparte.** El corpus trae cuatro apariciones de primera persona del singular y
-las cuatro están dentro de un testimonio citado. Ninguna es de quien escribe.
+las cuatro están dentro de una voz citada. Ninguna es de quien escribe.
 Esa separación es el rasgo más limpio del corpus y por eso la sección 5 la
 convierte en regla, pero se comprueba leyendo y no contando.
 
@@ -176,16 +176,16 @@ Esto no es modestia ni fórmula. Es lo que hace posible el movimiento de la
 sección 7: si la voz que analiza pudiera afirmar por su cuenta, la evidencia
 sobraría.
 
-### 5.2. Las fuentes sí dicen yo, y se las deja decirlo
+### 5.2. La voz citada sí dice yo, y se la deja decirlo
 
 La contrapartida importa igual. Cuando el texto cita a alguien, lo cita como
 habló: con su primera persona, con su vocabulario y con su registro, aunque sea
 más bajo que el del texto que lo rodea. No se corrige la cita para que combine.
 
-Un testimonio limpiado deja de ser evidencia y pasa a ser paráfrasis, y una
-paráfrasis no sostiene nada porque ya la escribió quien analiza. Si el
-informante dijo «eso a mí no me sirvió para nada», eso es lo que va, y no «el
-participante manifestó no haber percibido utilidad».
+Una voz limpiada deja de ser evidencia y pasa a ser paráfrasis, y una paráfrasis
+no sostiene nada porque ya la escribió quien analiza. Si alguien dijo «eso a mí
+no me sirvió para nada», eso es lo que va, y no «se manifestó no haber percibido
+utilidad».
 
 ### 5.3. La misma palabra, defecto en una voz y requisito en la otra
 
@@ -269,55 +269,55 @@ generalidad sobre la importancia del tema.
 > justamente lo que este texto tiene que explicar.
 
 
-## 7. El recurso característico: la afirmación de tres apoyos
+## 7. El recurso característico: la afirmación que se sostiene por discrepancia
 
 Es lo que distingue este tono de cualquier otro y por eso va en su propia
 sección. Si de todo este documento solo se retiene una cosa, que sea esta.
 
-Una afirmación del análisis se apoya, en la misma unidad de texto, en tres cosas
-nombradas:
+Una afirmación se apoya, en la misma unidad de texto, en evidencias que vienen de
+sitios distintos y en el concepto con que se leen. De dónde vengan es asunto del
+trabajo y no de esta forma: dos series de medición, un conteo y una observación,
+un archivo y una voz. Lo que la forma exige es que sean de procedencia distinta,
+porque lo que se busca es que no coincidan del todo.
 
-1. **Un dato de la serie cuantitativa**, con la magnitud dicha.
-2. **Un testimonio citado literalmente**, en las palabras de quien habló.
-3. **Un concepto del apartado teórico**, traído por el nombre con que se estipuló.
-
-El corpus lo hace 33 veces con una cifra puesta al lado de una voz.
+**La confrontación es el trabajo; las evidencias solo son el material.** Ese es
+el punto entero, y es donde casi todos los textos que intentan esta forma se
+quedan cortos.
 
 Así se ve completo:
 
-> La mentira aparece como necesaria para el 85,94 % de los encuestados, y los
-> entrevistados la describen del mismo modo cuando cuentan cómo salieron de un
-> apuro: «no sabía qué responder y pensé rápido». Leídas con la ley de
-> prägnanz, las dos evidencias dejan de coincidir por casualidad: la mente
-> prefiere la salida simple y disponible cuando la situación no da tiempo, de
-> manera que lo que la cifra registra como necesidad y el testimonio narra como
-> reflejo son el mismo fenómeno visto desde dos lados.
+> La necesidad aparece en el 85,94 % de las respuestas, y quienes hablaron la
+> describen del mismo modo cuando cuentan cómo salieron de un apuro: «no sabía
+> qué responder y pensé rápido». Leídas con la ley de prägnanz, las dos dejan de
+> coincidir por casualidad: la mente prefiere la salida simple y disponible
+> cuando la situación no da tiempo, de manera que lo que la cifra registra como
+> necesidad y la voz narra como reflejo son el mismo fenómeno visto desde dos
+> lados.
 
-Los tres apoyos están, y el párrafo no termina repitiéndolos: termina diciendo
-qué significan juntos.
+Las dos evidencias están, el concepto las lee, y el párrafo no termina
+repitiéndolas: termina diciendo qué significan juntas.
 
 Y así se ve **cuando falla**, que es la trampa más común:
 
-> El 85,94 % de los encuestados considera que la mentira es necesaria. Los
-> entrevistados también dicen que es necesaria. La teoría de la Gestalt
-> confirma que es necesaria.
+> La necesidad aparece en el 85,94 % de las respuestas. Quienes hablaron también
+> dicen que es necesaria. La teoría de la Gestalt confirma que es necesaria.
 
 Tres evidencias en fila que dicen lo mismo. Nadie contradijo a nadie, así que no
 hubo nada que explicar, y la teoría entró a firmar en vez de a leer.
 
 Tres cosas que lo arruinan:
 
-- **Poner los tres apoyos y no confrontarlos.** Es el caso de arriba. La
-  confrontación es el trabajo; los tres apoyos solo son el material.
-- **Traer el concepto teórico sin haberlo estipulado antes.** Un término que
-  aparece por primera vez en el análisis no fue el instrumento de lectura: fue la
+- **Poner las evidencias en fila y no confrontarlas.** Es el caso de arriba.
+  Alinear no es confrontar, y una coincidencia sin fricción no da qué pensar.
+- **Traer el concepto sin haberlo estipulado antes.** Un término que aparece por
+  primera vez donde se lo necesita no fue el instrumento de lectura: fue la
   justificación buscada después.
 - **Dar la cifra pelada, sin decir de qué es fracción.** Un 85,94 % que no dice
-  de cuántos ni sobre qué pregunta no es un dato: es un adorno numérico, y la
-  prosa que lo usa está afirmando por su cuenta con aire de estar midiendo.
+  de cuántos ni sobre qué es un adorno numérico, y la prosa que lo usa está
+  afirmando por su cuenta con aire de estar midiendo.
 
-Cuando falta una de las tres clases, no se rellena: se dice cuál falta y qué
-habría permitido decidir.
+Cuando falta una de las clases, no se rellena: se dice cuál falta y qué habría
+permitido decidir.
 
 > El registro sostiene que el reparto del daño fue desigual, y el concepto de
 > amplificación explica por qué. Falta, en cambio, el inventario de edificaciones
@@ -383,8 +383,8 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
    se confronta con nada y que el párrafo no vuelve a mencionar.
 2. **El concepto de adorno.** Un término técnico traído al análisis para
    respaldar lo que ya se había decidido, en vez de para leer la evidencia.
-3. **La cita limpiada.** El testimonio reescrito en el registro del texto, que
-   deja de ser voz ajena.
+3. **La cita limpiada.** La voz ajena reescrita en el registro del texto, que
+   deja de serlo.
 4. **La enumeración disfrazada.** Tres párrafos que presentan tres evidencias y
    ninguno las pone en relación.
 5. **El cierre que se felicita.** Un apartado que declara haber respondido todo,
@@ -408,11 +408,11 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
  7. ¿Cada técnica se define y se justifica antes de contarse cómo se aplicó?
  8. ¿Las cantidades muestran de dónde salen, y no solo el resultado?
  9. ¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?
-10. ¿Cada afirmación del análisis se apoya a la vez en un dato, en un testimonio
-    y en un concepto ya estipulado?
+10. ¿Cada afirmación se apoya a la vez en evidencias de procedencia distinta y
+    en un concepto ya estipulado?
 11. ¿Los tres apoyos se confrontan entre sí, en vez de repetir lo mismo tres
     veces?
-12. ¿Cada cifra dice de qué es fracción, y cada testimonio de quién es la voz?
+12. ¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?
 13. ¿Los conectores son muchos y variados, sin que ninguno se repita al abrir dos
     oraciones seguidas?
 14. ¿La apertura nombra las clases de evidencia que se van a confrontar, en vez
@@ -447,9 +447,7 @@ cautelas de la sección 3.
 | Párrafos que abren con conector | 32,2 % |
 | Impersonales con «se» | 168 |
 | Primera persona del singular, toda dentro de cita | 4 |
-| Referencias a dato cuantitativo | 21 |
-| Códigos de testimonio | 22 |
-| Porcentajes citados | 33 |
+| Cifras citadas en el análisis | 33 |
 
 ### 13.3. Lo que sigue sin verificarse
 
@@ -465,8 +463,8 @@ escribieron enteras. Empuja la cifra hacia arriba en una cantidad que no se
 midió.
 
 **La regla de la persona no se comprobó contra un texto sin citas.** El corpus
-siempre trae testimonio, así que no hay evidencia de cómo suena esta forma cuando
-la evidencia cualitativa no es una voz.
+siempre trae una voz citada, así que no hay evidencia de cómo suena esta forma
+cuando ninguna de las evidencias es alguien hablando.
 
 **Los ejemplos de este documento no son del corpus.** Se escribieron para mostrar
 cada movimiento, sobre asuntos ajenos al texto medido, y cumplen las cifras de la

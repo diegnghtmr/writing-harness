@@ -176,8 +176,8 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada técnica se define y se justifica antes de contarse cómo se aplicó?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Las cantidades muestran de dónde salen, y no solo el resultado?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada apartado del análisis cierra diciendo si respondió lo que se propuso?", estado: 'criterio' },
-  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada afirmación del análisis se apoya a la vez en un dato, en un testimonio y en un concepto ya estipulado?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada afirmación se apoya a la vez en evidencias de procedencia distinta y en un concepto ya estipulado?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Los tres apoyos se confrontan entre sí, en vez de repetir lo mismo tres veces?", estado: 'criterio' },
-  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada cifra dice de qué es fracción, y cada testimonio de quién es la voz?", estado: 'criterio' },
+  { skill: 'triangulacion-writing', origen: 'checklist', item: "¿Cada cifra dice de qué es fracción, y cada cita de quién es la voz?", estado: 'criterio' },
   { skill: 'triangulacion-writing', origen: 'checklist', item: "¿La apertura nombra las clases de evidencia que se van a confrontar, en vez de definir o de ponderar la importancia del tema?", estado: 'criterio' },
 ];
