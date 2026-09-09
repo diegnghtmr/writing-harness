@@ -140,7 +140,7 @@ export function citasRotas(reglas: readonly { id: string; source: string }[]): s
 }
 
 describe('cada regla cita una sección que existe', () => {
-  test('las setenta y nueve resuelven, y ninguna se salta', () => {
+  test('todas resuelven, y ninguna se salta', () => {
     assert.deepEqual(citasRotas(allRules()), [], 'estas reglas mandan a leer algo que no está');
   });
 
@@ -176,10 +176,15 @@ describe('cada regla cita una sección que existe', () => {
 
 describe('el techo de cobertura está declarado', () => {
   // Estos números son el registro, no una meta. Si cambian, el cambio tiene que
-  // ser deliberado. No queda nada mecanizable sin regla. Las 158 de criterio
-  // exigen juicio sobre el contenido: casi todas vienen de los once tonos que
-  // reconstruyen a un autor, y describir cómo argumenta una persona no lo mide
-  // ninguna clase de regla que exista hoy.
+  // ser deliberado. No queda nada mecanizable sin regla. Las de criterio exigen
+  // juicio sobre el contenido: casi todas vienen de los tonos que reconstruyen a
+  // un autor, y describir cómo argumenta una persona no lo mide ninguna clase de
+  // regla que exista hoy.
+  //
+  // La cifra no se escribe en este comentario a propósito. Vivía aquí y en la
+  // aserción de más abajo, y la de aquí envejeció dos veces mientras la otra
+  // seguía siendo cierta. Un número que nadie comprueba miente antes que uno
+  // que sí.
   //
   // Se regeneran con `node --experimental-strip-types evals/gen.ts`. Nunca a
   // mano: el archivo se escribió a mano una vez y quedó mintiendo en cuanto una
@@ -226,8 +231,8 @@ describe('el techo de cobertura está declarado', () => {
 
   test('todas las skills aportan al recuento', () => {
     assert.equal(skillNames().length, 15);
-    // La base y la pasada no son tonos. Los otros doce sí, y el verificador
-    // tiene que aceptarlos todos o la tabla de enrutamiento miente.
+    // La base y la pasada no son tonos. Los demás sí, y el verificador tiene que
+    // aceptarlos todos o la tabla de enrutamiento miente.
     assert.deepEqual(
       skillNames().filter((n) => n !== 'spanish-writing' && n !== 'humanizar-espanol').sort(),
       TONE_IDS.map((t) => TONES[t]!.skill).sort(),

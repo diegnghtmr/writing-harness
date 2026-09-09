@@ -1230,6 +1230,29 @@ function variaLongitud(id: string, skill: string, item: string, seccion: string)
   };
 }
 
+/**
+ * El enlace que puede abrir una unidad declarando su relación con la anterior.
+ *
+ * Vive una sola vez porque lo usan dos reglas, una sobre párrafos y otra sobre
+ * oraciones, y dos copias de una lista de cincuenta alternativas se separan a la
+ * primera corrección. Ya se separaron: una versión anterior tenía la de oración
+ * con «según», «pese a» y «a pesar de» dentro y la de párrafo sin ellos, de modo
+ * que el mismo texto encadenaba o no según qué regla lo mirase.
+ *
+ * Quedan fuera a propósito «según», «pese a» y «a pesar de»: enmarcan la oración
+ * y no dicen nada sobre la anterior, así que premiarlos convertiría las dos
+ * reglas en detectores de aperturas formales.
+ *
+ * Y queda fuera «en definitiva», que el corpus sí usa. La base la rechaza como
+ * cierre anunciado con severidad error, y un tono no puede pedir lo que la base
+ * castiga: un texto que cumpliera el piso con esa fórmula se ganaría un error
+ * por cada vez que lo hiciera. `evals/colision.test.ts` corre ese cruce sobre
+ * todas las clases de regla que premian, y esta entró por el hueco de que solo
+ * miraba las de clase `must-contain`.
+ */
+const ENLACE_AL_FRENTE =
+  /^(?:no obstante|sin embargo|empero|por el contrario|en contraste|en cambio|con todo|ahora bien|en consecuencia|por consiguiente|por ende|por tanto|por lo tanto|por ello|de manera que|de modo que|de tal manera que|de ah[íi] que|adem[áa]s|asimismo|adicionalmente|en efecto|de hecho|del mismo modo|igualmente|an[áa]logamente|correlativamente|por cierto|en primer lugar|por un lado|por otro lado|por otra parte|por [úu]ltimo|en suma|con todo ello|es decir|en otras palabras|dicho de otro modo|en pocas palabras|en este sentido|con ello|aun as[íi]|en atenci[óo]n a|de esta manera|de lo contrario)(?:,|\s)/iu;
+
 export const TONES: Record<string, Tone> = {
   camus: {
     id: 'camus',
@@ -2437,8 +2460,7 @@ export const TONES: Record<string, Tone> = {
         id: 'triangulacion-parrafo-encadenado',
         kind: 'paragraph-opening-ratio',
         severity: 'warning',
-        pattern:
-          /^(?:no obstante|sin embargo|empero|por el contrario|en contraste|en cambio|con todo|ahora bien|en consecuencia|por consiguiente|por ende|por tanto|por lo tanto|por ello|de manera que|de modo que|de ah[íi] que|adem[áa]s|asimismo|adicionalmente|en efecto|de hecho|del mismo modo|igualmente|an[áa]logamente|correlativamente|por cierto|en primer lugar|por un lado|por otro lado|por otra parte|por [úu]ltimo|en suma|con todo ello|es decir|en otras palabras|dicho de otro modo|en pocas palabras|en este sentido|con ello|aun as[íi]|en atenci[óo]n a)(?:,|\s)/iu,
+        pattern: ENLACE_AL_FRENTE,
         minShare: 0.16,
         minParagraphs: 6,
         message: 'Casi ningún párrafo abre declarando qué relación tiene con el anterior, y es lo que hace a este tono.',
@@ -2508,8 +2530,7 @@ export const TONES: Record<string, Tone> = {
         id: 'triangulacion-oracion-encadenada',
         kind: 'pattern-ratio-floor',
         severity: 'warning',
-        pattern:
-          /^(?:no obstante|sin embargo|empero|por el contrario|en contraste|en cambio|con todo|ahora bien|en consecuencia|por consiguiente|por ende|por tanto|por lo tanto|por ello|de manera que|de modo que|de tal manera que|de ah[íi] que|adem[áa]s|asimismo|adicionalmente|en efecto|de hecho|del mismo modo|igualmente|an[áa]logamente|correlativamente|por cierto|en primer lugar|por un lado|por otro lado|por otra parte|por [úu]ltimo|en suma|en definitiva|con todo ello|es decir|en otras palabras|dicho de otro modo|en pocas palabras|en este sentido|con ello|aun as[íi]|as[íi]|en atenci[óo]n a|de esta manera|de ah[íi]|a pesar de|pese a|de lo contrario|por su parte|seg[úu]n)(?:,|\s)/iu,
+        pattern: ENLACE_AL_FRENTE,
         minShare: 0.25,
         minSentences: 12,
         message: 'Las oraciones van una detrás de otra sin decir qué relación tienen, y este registro lo declara casi en una de cada dos.',

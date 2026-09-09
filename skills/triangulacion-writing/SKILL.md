@@ -123,14 +123,15 @@ qué lo sostiene y qué se sigue de ello. Partir eso en tres oraciones cortas no
 lo aclara, lo desarma, ya que la relación entre las tres partes es justamente lo
 que el texto tiene que decir.
 
-> La medición instrumental sostiene una afirmación modesta y conviene no pedirle
-> más de lo que da, dado que un valor de magnitud perfila la energía liberada en
-> la fuente y no anticipa por sí solo ningún nivel de daño.
+> La exigencia de saber que lo dicho es falso sostiene una definición estrecha y
+> conviene no pedirle más de lo que da, dado que un enunciado se vuelve mentira
+> por la intención con que se emite y no por el estado en que la verdad se
+> encuentre en ese momento.
 
 Lo mismo, desarmado, deja de decir lo que decía:
 
-> La medición sostiene una afirmación modesta. No hay que pedirle más. La
-> magnitud perfila la energía liberada. No anticipa el daño.
+> La exigencia de saber sostiene una definición estrecha. No hay que pedirle
+> más. La mentira depende de la intención. La verdad cambia con el tiempo.
 
 El piso práctico es una de cada cinco, bastante por debajo de lo medido, para
 que la exigencia acuse a un texto que abandonó el registro y no a uno que
@@ -174,8 +175,8 @@ correctos y todos iguales. Conviene por eso decir cómo se reparten.
 
 Los 87 párrafos del corpus van **de 26 a 301 palabras**. El más largo mide once
 veces y media lo que el más corto, y la variación en torno a la media es del
-48 %. Repartidos por tamaño: **el 21 % baja de ochenta palabras y el 20 % pasa de
-doscientas**, es decir, uno de cada cinco es breve y uno de cada cinco es
+48 %. Repartidos por tamaño: **el 21 % baja de ochenta palabras y el 19,5 % pasa
+de doscientas**, es decir, uno de cada cinco es breve y uno de cada cinco es
 extenso.
 
 Ese reparto no es descuido. El párrafo largo desarrolla: trae la posición, la
@@ -250,13 +251,13 @@ palabras.
 Hace un trabajo concreto: pega una cualidad a lo que se acaba de nombrar sin
 abrir oración nueva.
 
-> un depósito de ceniza volcánica, cuya presencia bajo la ciudad no es uniforme,
-> multiplica la onda antes de entregarla a las edificaciones
+> el engaño, cuya extensión abarca conductas que no necesitan palabra alguna,
+> desborda a la mentira antes de que el lenguaje intervenga
 
 Escrito con perífrasis, lo mismo se parte y pierde la juntura:
 
-> un depósito de ceniza volcánica multiplica la onda. La presencia de ese
-> depósito bajo la ciudad no es uniforme.
+> el engaño desborda a la mentira. La extensión del engaño abarca conductas que
+> no necesitan palabra alguna.
 
 ### 5.4. «Ello» retoma la oración entera, no un sustantivo
 
@@ -265,8 +266,9 @@ elegancia: «ello» recoge todo lo dicho antes y lo convierte en sujeto de lo qu
 sigue, que es justo lo que hace falta cuando una afirmación se apoya en lo
 anterior en bloque.
 
-> La norma obliga a quien pide licencia y no alcanza a quien construye sin ella,
-> y ello desplaza el problema del calendario a la cobertura.
+> La verdad se construye entre disciplinas y cambia con el momento histórico que
+> la sostiene, y ello vuelve inviable exigir que quien miente sepa que lo dicho
+> es falso.
 
 ### 5.5. El punto y coma cuelga una cola, y hay que poner unos cuantos
 
@@ -275,17 +277,22 @@ lo lleva en el 18 % de sus oraciones y el apartado conceptual en el 21 %, es
 decir, una de cada cinco.
 
 Lo primero es la cantidad, porque el defecto observado no fue usarlo mal sino no
-usarlo. **La banda va de una oración de cada doce a una de cada cinco**, y el
-extremo de arriba no es de este tono: es el techo que pone la base, que este
-registro roza y no puede pasar. Por debajo de una de cada doce, el texto está
-poniendo puntos donde este registro pone junta, y se le nota en que cada
-afirmación queda sola.
+usarlo. **La banda va de una oración de cada doce a una de cada cinco.** Por
+debajo de una de cada doce, el texto está poniendo puntos donde este registro
+pone junta, y se le nota en que cada afirmación queda sola.
+
+El extremo de arriba no es de este tono y conviene decir por qué: es el techo que
+pone la base, y **el corpus lo pasa**. Su apartado conceptual va en el 21 % y el
+techo está en el 20 %, de modo que ese bloque, medido contra la base, escribiría
+un aviso. Es el mismo caso que los dos cierres de la sección 6.1: un rasgo que el
+corpus tiene y este tono no hereda, porque un tono se suma a la base y no la
+corrige. La banda de trabajo llega hasta una de cada cinco y ahí se detiene.
 
 Lo segundo es qué se cuelga del signo, que es lo que lo distingue de un punto
 disfrazado. **Casi nunca separa dos oraciones que podrían vivir sueltas.** De
-las cuarenta apariciones del apartado conceptual, apenas cuatro unen dos
-principales completas. Treinta y una se reparten en tres formas, y las nueve
-restantes traen detrás un conector o un relativo:
+las cuarenta apariciones del apartado conceptual, treinta y una se reparten en
+tres formas y las nueve restantes traen detrás un conector o un relativo. De esas
+nueve, apenas cuatro unen dos principales que podrían vivir sueltas:
 
 | Qué cuelga | Veces | Cómo se ve |
 | --- | ---: | --- |
@@ -325,8 +332,8 @@ El gerundio es el más frecuente y el más delicado. Va bien cuando lo que
 introduce es simultáneo o consecuencia de lo anterior, y va mal cuando cuenta un
 hecho posterior, que es el gerundio de posterioridad que la base rechaza.
 
-> El material no responde a la tracción, quedando el muro sin nada que lo
-> amarre.
+> El hablante emite el enunciado, quedando el oyente sin manera de distinguir la
+> intención de la creencia.
 
 Aparte va el arcaísmo de juntura, que no es una pieza más de la tabla sino un
 condimento, y conviene decir cuánto: **«cual» sin artículo en función
@@ -350,16 +357,21 @@ Un texto de esta forma casi nunca pone dos ideas una detrás de otra sin decir
 qué las une, y conviene empezar por la cifra porque es más alta de lo que nadie
 supone al leerla.
 
-**Cuarenta y tres de cada cien oraciones del corpus abren declarando su
-relación con la anterior.** En el apartado conceptual son cuarenta y nueve, es
-decir, prácticamente una de cada dos. La cuenta incluye tanto el enlace de la
-tabla de la sección 6.1 como el que sitúa sin encadenar («así», «pese a»,
-«según», «de lo contrario»); contando solo los primeros la cifra baja al 36,4 %,
-y las dos maneras de contar dicen lo mismo, que es que el rasgo es constante.
+**Treinta y seis de cada cien oraciones del corpus abren declarando su relación
+con la anterior.** En el apartado conceptual son treinta y nueve, y en el
+analítico, treinta y siete: una de cada tres largas, sostenida en los tres
+bloques.
+
+La cuenta admite dos inventarios y conviene decir cuál se usa. El estrecho, que
+es el de la tabla de la sección 6.1, recoge solo el enlace que dice qué relación
+hay: da las cifras de arriba. El ancho añade el que sitúa sin encadenar («así»,
+«pese a», «según») y sube el corpus al 43 %. **Aquí gobierna el estrecho**,
+porque lo que se está midiendo es el encadenamiento, y «según» abre la oración
+sin decir nada sobre la anterior.
 
 **Esto es un redoble, no un adorno, y es lo que más cuesta creer.** Leído de
 corrido, el corpus dice «por ello», «por consiguiente», «por tanto», «por ende»,
-«en consecuencia», «de hecho», «así», «además» cada dos oraciones. Un texto que
+«en consecuencia», «de hecho», «además» cada dos o tres oraciones. Un texto que
 acierte todo lo demás y ponga el enlace cada cinco oraciones no suena a este
 registro: suena a una exposición ordenada cualquiera, y es el defecto que más
 veces sobrevivió a todas las otras correcciones.
@@ -548,8 +560,8 @@ dar entrada a la cita larga, y de eso se ocupa la sección 9.6.
 
 Queda el uso corriente, que este registro también hace, aunque no sea el suyo:
 
-> El desfase no es solo temporal sino de alcance: una norma obliga a quien pide
-> licencia y no alcanza a quien construye sin ella.
+> El desacuerdo no es de grado sino de naturaleza: mentir exige lenguaje y
+> engañar se conforma con una conducta.
 
 ### 6.7. La serie define a cada miembro en el acto, dentro de una sola oración
 
@@ -722,7 +734,13 @@ La etimología, cuando aparece, suele venir en serie:
 
 Y una distinción que hay que sostener: **el paréntesis de glosa no es el
 paréntesis de referencia**. El corpus trae 67 paréntesis que remiten a una
-fuente y 35 que glosan, y son dos recursos distintos con el mismo signo. Este
+fuente, y son dos recursos distintos con el mismo signo. Conviene decir por qué
+las glosas se cuentan dos veces en este documento y con dos cifras: leyendo y
+marcando a mano salen 63, y un patrón estricto, escrito para no confundir la
+glosa con la referencia, se queda con 35. La diferencia son las glosas de una
+sola palabra y las que empiezan en mayúscula, que el patrón descarta para no
+tragarse un apellido. La cifra que gobierna la densidad de arriba es la de
+lectura; la del patrón es un piso seguro. Este
 documento decide sobre el segundo; del primero no dice nada, porque cómo se
 remite a una fuente lo fija el trabajo y no la forma.
 
@@ -730,8 +748,9 @@ remite a una fuente lo fija el trabajo y no la forma.
 
 **Noventa y siete adverbios en -mente, uno cada 126 palabras**, que es el rasgo
 de mayor densidad de todo el corpus. Y el dato que lo vuelve difícil de imitar:
-**63 formas distintas para esas 97 apariciones.** El más repetido,
-«respectivamente», sale seis veces; treinta y ocho de ellos salen una sola vez.
+**63 formas distintas para esas 97 apariciones.** Los más repetidos,
+«respectivamente» y «ciertamente», salen seis veces cada uno; treinta y ocho de
+ellos salen una sola vez.
 
 Dónde se paran, contados: **ninguno abre la oración.** Treinta y tres caen entre
 el verbo y su complemento, once después del sujeto, y el resto dentro de un
@@ -763,7 +782,7 @@ Y una cosa más, que se ve al mirar cuáles faltan: **el adverbio de este regist
 es siempre el poco corriente.** «Claramente», «evidentemente», «obviamente»,
 «generalmente», «básicamente», «simplemente», «completamente» y «especialmente»
 suman cero en todo el corpus. Los que están son «inexorablemente»,
-«forzosamente», «netamente», «indistintamente», «puntualmente», «sobremanera».
+«forzosamente», «netamente», «indistintamente», «puntualmente».
 
 Tiene sentido con lo que el adverbio hace acá. Los corrientes casi siempre
 enfatizan, y enfatizar es lo que este registro no hace: los suyos gradúan,
@@ -792,8 +811,8 @@ concede a regañadientes, «discrepa» que se aparta de quien venía antes. El v
 hace en una palabra el trabajo de encadenamiento que la sección 9.1 pide para el
 párrafo entero.
 
-Incorrecto: Beck señala que el riesgo ya no llega de fuera.
-Correcto: Beck discrepa de esa lectura y considera que el riesgo ya no llega de fuera.
+Incorrecto: Searle señala que todo enunciado es realizativo.
+Correcto: Searle niega esa distinción y considera que todo enunciado es realizativo.
 
 La contracara está en la sección 7.2 y conviene no cruzarlas: «indica»,
 «muestra» o «refleja» son de los datos, no de las personas. Un autor que
@@ -845,15 +864,16 @@ apuntar, desenrollar, devenir. Lo que un imitador escribe en su lugar es
 «implica», «supone» y «consiste en», y con eso la prosa pierde exactamente lo
 que la hacía reconocible.
 
-> El peso de la decisión estriba en el suelo que recibe la sacudida, no en la
-> fuerza que sale de la falla.
+> El peso de la definición estriba en la intención de quien habla, no en el
+> estado en que la verdad se encuentre.
 
-> En el reparto previo del territorio subyace el daño que después se cuenta.
+> En el consenso entre disciplinas subyace la verdad que después se invoca como
+> absoluta.
 
 Escrito con el verbo neutro, la misma frase se apaga:
 
-> El daño que después se cuenta está relacionado con el reparto previo del
-> territorio.
+> La verdad que después se invoca como absoluta está relacionada con el consenso
+> entre disciplinas.
 
 El riesgo del recurso es el abuso, ya que un texto entero de conceptos actuando
 se vuelve irrespirable. La contrapartida es la sección 8.3: cuando hay una voz
@@ -910,8 +930,8 @@ La tercera es la que hace el encadenamiento de esta sección: **el verbo que
 sitúa al autor va en la primera oración en que aparece, antes de exponer lo
 suyo.** No entra, se explica y después se lo compara: entra ya comparado.
 
-Incorrecto: Ulrich Beck estudió el riesgo en las sociedades industriales. A diferencia de White, sostiene que lo producen las decisiones mismas.
-Correcto: El sociólogo Ulrich Beck lleva ese desplazamiento más lejos y sostiene que el riesgo de las sociedades industriales lo producen las decisiones que pretenden controlarlo.
+Incorrecto: John Rogers Searle estudió los actos de habla. A diferencia de Austin, sostiene que todo enunciado ejecuta una acción.
+Correcto: El filósofo John Rogers Searle continúa esa línea y niega la distinción anterior, ya que sostiene que toda emisión lingüística ejecuta una acción.
 
 Hay una excepción medida y conviene tenerla: los nombres que cualquiera reconoce
 entran sin oficio y sin nombre de pila. En el corpus, «Kant», «Spinoza» y
@@ -920,25 +940,25 @@ suena a ficha, no a exposición.
 
 Así se ve el recorrido armado:
 
-> La noción corriente de riesgo lo identifica con la probabilidad de que ocurra
-> un fenómeno peligroso, y esa identificación basta para el uso administrativo;
-> empero, deja fuera lo que decide el resultado, ya que un mismo temblor no
-> produce el mismo daño en dos laderas distintas. En atención a ello, el
-> geógrafo Gilbert White desplazó el problema del fenómeno hacia el ajuste
-> humano: lo que convierte una crecida en desastre no es su caudal, sino la
-> decisión previa de ocupar la llanura inundable. El sociólogo Ulrich Beck lleva
-> ese desplazamiento más lejos y sostiene que el riesgo de las sociedades
-> industriales ya no llega de fuera, sino que lo producen las mismas decisiones
-> que pretenden controlarlo, de tal manera que su reparto deja de ser natural y
-> pasa a ser social. Ahora bien, esa generalización, cuya fuerza está en
-> describir el riesgo tecnológico, se estira mal sobre el riesgo sísmico, dado
-> que una falla geológica no es decisión de nadie.
+> La definición corriente de mentira la identifica con la expresión contraria a
+> lo que se sabe, y esa identificación basta para el uso ordinario; empero, deja
+> fuera lo que decide el acto, ya que un mismo enunciado falso puede emitirse
+> por descuido o por cálculo. En atención a ello, el filósofo Alejandro Tomasini
+> desplazó el asunto del contenido hacia las condiciones del hablante: lo que
+> convierte una frase falsa en mentira no es su falsedad, sino que quien la
+> emite sepa que lo es y la use para engañar. El autor Immanuel Wallerstein
+> vuelve inviable esa segunda condición y sostiene que la verdad de las ciencias
+> sociales se construye entre disciplinas y muta con el momento histórico, de
+> tal manera que el saber deja de ser un estado firme y pasa a ser un consenso.
+> Ahora bien, esa objeción, cuya fuerza está en desarmar la pretensión de
+> universalidad, no toca la intención de quien habla, dado que una creencia
+> equivocada sigue siendo una creencia.
 
 Y así se ve **cuando falla**, que es la trampa más común:
 
-> Para White el riesgo depende del ajuste humano. Para Beck el riesgo es
-> producido socialmente. Otros autores sostienen que depende de la
-> vulnerabilidad.
+> Para Tomasini la mentira exige saber que lo dicho es falso. Para Wallerstein la
+> verdad se construye socialmente. Otros autores sostienen que basta con la
+> intención de engañar.
 
 Tres posiciones en fila, ninguna tocando a la anterior. Es un fichero, no un
 recorrido, y no se puede concluir nada de él porque nadie discrepó de nadie.
@@ -948,9 +968,9 @@ recorrido, y no se puede concluir nada de él porque nadie discrepó de nadie.
 Es la parte obligatoria y la que más se olvida. Después del recorrido, el texto
 fija con qué se queda, **y sobre todo fija con qué no**, en futuro:
 
-> En lo que sigue, «riesgo» designará el producto de una amenaza natural por la
-> condición de quien la recibe, y no se extenderá a la percepción que una
-> población tenga de él, que es asunto distinto y exige otros términos.
+> En lo que sigue, «mentira» designará el acto de emitir un enunciado que se
+> cree falso con el propósito de engañar, y no se extenderá al engaño sin
+> palabras, que es asunto distinto y exige otros términos.
 
 Ese cierre no es un resumen. Fija el alcance, y lo que impide que más adelante el
 término se estire para tapar un hueco es justamente la mitad negativa. Un
@@ -965,9 +985,9 @@ cobrarla.
 
 Escrito al final, el mismo párrafo se vuelve un defecto:
 
-> [...] no permite ponderar cuánto aportó cada condición. En lo que sigue,
-> «vulnerabilidad» designará la condición de quien recibe la sacudida y no se
-> extenderá a la percepción del riesgo.
+> [...] no permite ponderar cuánto pesó cada condición. En lo que sigue,
+> «mentira» designará el acto intencionado de quien cree falso lo que emite y no
+> se extenderá al engaño sin palabras.
 
 Ahí no sigue nada. Si el término hace falta y el texto ya va por la mitad, la
 estipulación se mueve hacia arriba, al punto donde el término aparece por primera
@@ -1005,11 +1025,11 @@ En el apartado analítico el orden es fijo: el dato, qué significa, el concepto
 que lo lee y qué resulta. El concepto nunca aparece por primera vez acá; si lo
 hace, no fue el instrumento de lectura sino la justificación buscada después.
 
-> La desigualdad del daño dentro de una misma ciudad es lo que predice la
-> amplificación, ya que la ceniza no está repartida de forma uniforme bajo ella;
-> y ello convierte una anomalía del registro en una consecuencia esperable del
-> concepto, de manera que lo que parecía contradicción entre lo moderado del
-> sismo y lo desproporcionado del daño deja de serlo.
+> Que la salida más simple aparezca en el 85,94 % de las respuestas es lo que la
+> ley de la pregnancia predice, ya que la mente ordena el campo hacia la
+> configuración más económica cuando la situación no da tiempo; y ello convierte
+> una coincidencia del conteo en una consecuencia esperable del concepto, de
+> manera que lo que parecía cálculo deliberado deja de serlo.
 
 ### 9.5. El apartado cierra diciendo qué quedó respondido
 
@@ -1017,10 +1037,11 @@ Cada apartado del análisis termina declarando si respondió lo que se propuso, 
 con qué. No se cierra resumiendo lo dicho: se cierra evaluando si alcanzó.
 
 > Lo que este apartado se propuso quedó respondido solo en parte, y conviene
-> decir en qué parte no. La confrontación sostiene por qué el daño fue
-> desproporcionado respecto de la magnitud, y también por qué se repartió como se
-> repartió. No permite, en cambio, decir cuánto pesó cada condición, dado que eso
-> exigiría un dato que aquí no está.
+> decir en qué parte no. La confrontación sostiene por qué quienes responden
+> describen la mentira como recurso y no como falta, y también por qué la
+> describen del mismo modo al narrarla. No permite, en cambio, decir cuánto pesa
+> el entorno frente a la disposición del sujeto, dado que eso exigiría un dato
+> que aquí no está.
 
 Cuando no alcanzó, se dice. Un apartado que declara haber respondido lo que no
 respondió es el único defecto de esta forma que ningún lector puede detectar sin
@@ -1037,7 +1058,7 @@ termina en un verbo o un sustantivo de enunciación y en dos puntos, con la cita
 colgando de la sintaxis de esa oración. Ninguna de las cinco va precedida de
 «Como afirma X:».
 
-> Ese desfase, que no es solo de calendario sino también de alcance, queda
+> Ese desacuerdo, que no es solo de definición sino también de método, queda
 > reconocido al advertir que:
 
 **La cita.** Entre cincuenta y sesenta palabras las cinco veces, ninguna más
@@ -1050,11 +1071,11 @@ cita: la convierte.** Toma lo que la cita dijo, lo vuelve un sustantivo abstract
 y lo pone de sujeto de su primera oración, o lo engancha con un relativo que
 continúa la sintaxis de la cita. Cuatro de las cinco aterrizan así.
 
-> La cobertura desigual de la norma configura que su fecha de entrada en vigor
-> no diga casi nada sobre lo que quedó en pie.
+> La mutabilidad de la verdad configura que no pueda exigirse un saber firme a
+> quien habla.
 
-> Lo que ello denota es que la exigencia recayó sobre quien pidió licencia y no
-> sobre quien construyó al margen de ella.
+> Lo que ello denota es que la condición decisiva recayó sobre la creencia de
+> quien emite y no sobre el estado del enunciado.
 
 Escrito del modo corriente, la cita queda huérfana y el párrafo siguiente
 empieza otra cosa:
@@ -1123,23 +1144,23 @@ permitido decidir.
 
 Antes, con los mismos hechos y sin la forma:
 
-> El sismo tuvo magnitud 6,2. Murieron cerca de mil doscientas personas y se
-> cayeron muchas casas. La primera norma sismorresistente del país era de 1984.
-> En conclusión, se puede observar que el sismo fue muy destructivo porque fue
-> muy fuerte.
+> La mentira es decir algo que no es verdad. Un autor dice que hay que saberlo
+> y otro dice que basta con creerlo. En conclusión, se puede observar que mentir
+> es malo porque engaña a la gente.
 
 Después:
 
-> La magnitud registrada, cercana a 6,2, perfila un movimiento moderado y no
-> anticipa por sí sola ningún nivel de daño; el registro de lo ocurrido muestra,
-> en cambio, un saldo que ninguna cifra de esa clase predice. Pese a que las dos
-> mediciones son fiables, no dicen lo mismo, y ello obliga a buscar la condición
-> que falta antes que a elegir entre ellas. Esa condición no es la fuerza del
-> sismo, sino el suelo que lo recibe: un depósito de ceniza volcánica, cuya
-> presencia bajo la ciudad no es uniforme, multiplica la onda antes de
-> entregarla a las edificaciones, de manera que la discrepancia se disuelve en
-> cuanto se deja de leer la magnitud como si midiera destrucción. Dicho de otro
-> modo, la cifra nunca describió el daño: describió lo que salió de la fuente.
+> La definición corriente perfila el acto por su contenido y no anticipa por sí
+> sola ninguna intención; el examen de las condiciones del hablante muestra, en
+> cambio, un requisito que ninguna definición de esa clase recoge. Pese a que
+> las dos lecturas son atendibles, no dicen lo mismo, y ello obliga a buscar la
+> condición que falta antes que a elegir entre ellas. Esa condición no es el
+> saber, sino la creencia de quien habla: una verdad que se construye entre
+> disciplinas, cuya firmeza depende del momento histórico, se desmonta antes de
+> entregarle al hablante nada que saber, de manera que la discrepancia se
+> disuelve en cuanto se deja de leer la mentira como si midiera la falsedad de
+> lo dicho. Dicho de otro modo, el enunciado nunca describió el acto: describió
+> lo que el acto usó.
 
 Cambios aplicados, uno por sección:
 
@@ -1147,20 +1168,20 @@ Cambios aplicados, uno por sección:
 | --- | --- |
 | 4.1 | Cuatro oraciones de cinco a quince palabras pasaron a periodos largos y un cierre corto |
 | 5.1 | La juntura la hacen «que», «de manera que» y «en cuanto», no las comas |
-| 5.3 | «cuya presencia bajo la ciudad no es uniforme» pega la cualidad al depósito sin abrir oración nueva |
+| 5.3 | «cuya firmeza depende del momento histórico» pega la cualidad a la verdad sin abrir oración nueva |
 | 5.4 | «ello» retoma la discrepancia entera y la vuelve sujeto de lo que sigue |
-| 5.5 | El punto y coma une las dos mediciones, que no se pueden leer por separado |
+| 5.5 | El punto y coma une las dos lecturas, que no se pueden leer por separado |
 | 6.3 | «Dicho de otro modo» traduce el periodo denso a una frase llana |
-| 6.4 | «no es la fuerza del sismo, sino el suelo» corrige reemplazando dentro de la misma oración |
-| 6.6 | Los dos puntos abren la explicación de lo que se acaba de afirmar |
-| 7.2 | «perfila» y «muestra» gradúan lo que cada evidencia alcanza a decir |
-| 7.3 | «Pese a que las dos mediciones son fiables» va delante de la afirmación que matiza |
+| 6.4 | «no es el saber, sino la creencia» corrige reemplazando dentro de la misma oración |
+| 6.6 | Los dos puntos entregan el nombre de la condición que se venía rodeando |
+| 7.2 | «perfila» y «muestra» gradúan lo que cada lectura alcanza a decir |
+| 7.3 | «Pese a que las dos lecturas son atendibles» va delante de la afirmación que matiza |
 | 7.4 | Desaparecieron «en conclusión» y «se puede observar» |
-| 8.1 | Desapareció la voz que evaluaba por su cuenta: nadie dice que fue «muy destructivo» |
-| 10 | Las dos evidencias quedaron una contra otra, y el pasaje termina diciendo qué significan juntas |
+| 8.1 | Desapareció la voz que evaluaba por su cuenta: nadie dice que mentir sea «malo» |
+| 10 | Las dos posiciones quedaron una contra otra, y el pasaje termina diciendo qué resulta de juntarlas |
 
-El texto de antes tiene los mismos datos. Lo que no tiene es una sola relación
-entre ellos, y por eso cierra repitiendo la magnitud como causa.
+El texto de antes tiene el mismo material. Lo que no tiene es una sola relación
+entre sus partes, y por eso cierra con un juicio moral que nadie le pidió.
 
 
 ## 12. Lo que este tono no es
@@ -1438,9 +1459,10 @@ cautelas de la sección 3.
 | Variación del tamaño de párrafo | 48 % |
 | Párrafos por debajo de ochenta palabras | 21 % |
 | Párrafos que abren con objeción | 6 de 87 |
-| Oraciones que abren con conector, con el inventario de la sección 6.1 | 36,4 % |
+| Oraciones que abren con conector, con el inventario de la sección 6.1 | 36 % |
+| Oraciones que abren con conector, en el apartado conceptual | 39 % |
+| Oraciones que abren con conector, en el apartado analítico | 37 % |
 | Oraciones que abren con conector, contando también el enlace que sitúa | 43 % |
-| Oraciones que abren con conector, en el apartado conceptual | 49 % |
 | Oraciones de quince palabras o menos | 15 % |
 | Párrafos que abren con conector | 32,2 % |
 | Nexos subordinantes | 188, uno cada 65 palabras |
@@ -1513,15 +1535,28 @@ midió.
 siempre trae una voz citada, así que no hay evidencia de cómo suena esta forma
 cuando ninguna de las evidencias es alguien hablando.
 
-**Los ejemplos de este documento no son del corpus.** Se escribieron para mostrar
-cada movimiento, sobre asuntos ajenos al texto medido, y cumplen las cifras de la
-sección 4. Ilustran la forma; no son evidencia de ella.
+**Los ejemplos de este documento se escribieron, no se copiaron.** Tratan del
+mismo asunto que el corpus medido, que es lo que corresponde, y ninguno es una
+transcripción literal suya. Cumplen las cifras de la sección 4. Ilustran la
+forma; no son evidencia de ella, porque quien los escribió ya sabía qué tenían
+que mostrar.
+
+Una versión anterior de esta sección afirmaba lo contrario, que los ejemplos
+trataban de un asunto ajeno al corpus, y lo presentaba como una virtud. Era un
+error y conviene dejarlo dicho, porque la razón por la que es un error no es
+evidente. Un ejemplo sobre un asunto ajeno hace dos daños: enseña el registro
+fuera de su hábitat, donde nadie puede comprobar que ahí suene así, y le entrega
+párrafos ya escritos a cualquiera que después tenga que redactar sobre ese mismo
+asunto ajeno, que entonces los reusa en vez de aplicar la forma. El segundo daño
+ocurrió y se midió: con los ejemplos puestos sobre otro tema, tres textos
+escritos con esta skill reprodujeron sus frases casi palabra por palabra.
 
 **El bloque metodológico del corpus no alcanza el piso de la sección 6.2.** Sus
 párrafos abren con conector el 11 % de las veces, contra el 27 % del bloque
-conceptual y el 40 % del analítico, y sus oraciones el 22 %, contra el 49 % y el
-41 %. Es el único bloque que queda por debajo de los dos pisos de la sección 6, y
-lo hace por el mismo motivo en los dos. Se deja dicho en vez de bajar el piso, por
+conceptual y el 40 % del analítico, y sus oraciones el 24 %, contra el 39 % y el
+37 %. Es el único bloque que queda por debajo de los dos pisos de la sección 6, y
+lo hace por el mismo motivo en los dos, aunque por márgenes muy distintos: en las
+oraciones se queda a un punto del piso, y en los párrafos, a cinco. Se deja dicho en vez de bajar el piso, por
 dos razones. La primera es que ese apartado se apoya en el orden de los pasos y
 no en la relación entre ellos, así que el rasgo le falta de verdad y no por
 medirlo mal. La segunda es que un texto que sea solo metodología recibirá el

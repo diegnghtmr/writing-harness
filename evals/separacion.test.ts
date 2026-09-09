@@ -88,7 +88,7 @@ describe('las skills y el verificador no se nombran', () => {
   });
 
   test('el guardián del desarrollo no marca prosa legítima', () => {
-    // El canario, y hace falta: «base» sola aparece en las catorce skills
+    // El canario, y hace falta: «base» sola aparece en todas las catorce skills
     // hablando de la base normativa, que es una skill y no una capa de un
     // programa. Lo que se caza es «la capa base», que solo tiene sentido dentro
     // del verificador.

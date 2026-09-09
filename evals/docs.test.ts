@@ -277,9 +277,9 @@ describe('AGENTS.md dice lo que el código mide', () => {
     assert.equal((AGENTS_CRUDO.match(/```mermaid/gu) ?? []).length, 1);
   });
 
-  test('CLAUDE.md sigue siendo un puntero y no una copia', () => {
-    const claude = lee('CLAUDE.md');
-    assert.ok(claude.length < 500, 'CLAUDE.md creció: una copia se desincroniza, un puntero no');
-    assert.match(claude, /AGENTS\.md/u);
-  });
+  // El techo de `CLAUDE.md` no se comprueba acá. Vivía en este archivo y en
+  // `evals/documentacion.test.ts` con el mismo umbral y el mismo mensaje, que es
+  // justo lo que la primera regla de CONTRIBUTING.md prohíbe: un hecho vive una
+  // sola vez, porque dos copias se separan a la primera corrección. Se quedó la
+  // de documentación, que además comprueba que apunte a los dos documentos.
 });

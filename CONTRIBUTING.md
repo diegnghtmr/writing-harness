@@ -144,6 +144,30 @@ el adjetivo que no cambia lo que la oración dice, porque la base ya lo rechaza.
 La línea está en la clase de palabra: el registro alto de una prosa entra por el
 sustantivo y por el verbo, casi nunca por el adjetivo.
 
+**Los ejemplos son sobre el asunto del corpus.** Es la regla que faltaba y su
+ausencia costó cinco rondas. Una skill se ilustró entera con ejemplos sobre un
+terremoto, cuando su corpus era un informe sobre la mentira, y el daño fue doble.
+El primero es de enseñanza: un ejemplo fuera del hábitat del registro no se puede
+contrastar contra nada, porque nadie escribió nunca así sobre ese tema, y quien
+lo lea aprende una imitación de segunda mano. El segundo es peor y se midió: el
+asunto elegido coincidía con el de la batería de pruebas del proyecto, de modo
+que quien tenía que escribir la prueba encontraba en la skill párrafos
+terminados sobre ese mismo tema y los reusaba. Tres textos seguidos repitieron
+sus frases casi palabra por palabra, y durante tres rondas eso se leyó como que
+la skill transmitía bien.
+
+La regla es corta: **los ejemplos tratan del mundo del corpus, y no son
+transcripciones suyas.** Prosa nueva sobre el mismo asunto. Ni citas, ni
+referencias, ni el documento nombrado, que eso es otra cosa y sigue prohibido.
+
+`evals/asunto.test.ts` la comprueba, y conviene saber qué puede y qué no.
+Comprueba que el asunto esté declarado en `evals/asuntos.ts` y que las muestras
+lo toquen. No puede deducirlo: se intentó por el manifiesto del corpus y por una
+lista escrita a ojo, y las dos fallaron sobre la medición, con el detalle
+anotado en ese archivo. Por eso **el asunto lo declara quien construye el tono**,
+que es el único que tiene el corpus delante. Un tono nuevo sin declaración no
+pasa el gate, y la lista de los que quedaron sin declarar solo puede encoger.
+
 **Un techo sin piso se lee como permiso.** Es el defecto que más veces se
 repitió, y siempre con la misma forma: la prosa declara una media, o dice que un
 rasgo «cabe holgado» bajo el límite de la base, y no pide un mínimo de nada. Lo

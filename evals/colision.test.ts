@@ -12,7 +12,7 @@
 // que se contradice a sí misma, que es peor: el que la lee no sabe cuál obedecer.
 //
 // El censo que lo encontró es el que corre acá, y encontró exactamente esos dos
-// casos en las once listas de tono. Ahora corre siempre.
+// casos en las listas de tono de entonces. Ahora corre siempre.
 //
 // **Por qué la base gana y no el tono.** Un tono se suma a la base y no la
 // corrige; está escrito en la sección 2 de cada skill de tono. De modo que
@@ -46,13 +46,28 @@ function erroresDeLaBase(frase: string): string[] {
 /** La frase mínima en que probar una alternativa: el enlace y algo detrás. */
 const enFrase = (a: string) => `${a[0]?.toUpperCase()}${a.slice(1)}, el asunto quedó dicho.`;
 
+/**
+ * Las clases de regla que premian, que son las que pueden chocar con la base.
+ *
+ * Una regla que prohíbe no choca nunca: sumar una prohibición a otra no
+ * contradice a nadie. La que choca es la que EXIGE, porque puede exigir algo que
+ * la base castiga, y entonces el que lea las dos capas no sabe cuál obedecer.
+ *
+ * **Este conjunto empezó teniendo solo `must-contain` y el hueco se usó.** Al
+ * agregarse dos clases nuevas que también premian, una de ellas entró con «en
+ * definitiva» en su inventario, que la base rechaza con severidad error, y este
+ * gate pasó en verde porque no la miraba. La lección va en el nombre: lo que
+ * decide si una regla entra acá no es su clase, es si premia.
+ */
+const CLASES_QUE_PREMIAN = new Set(['must-contain', 'pattern-ratio-floor', 'paragraph-opening-ratio']);
+
 describe('ningún tono premia lo que la base prohíbe', () => {
-  test('cada alternativa de un must-contain pasa la capa base', () => {
+  test('cada alternativa de una regla que premia pasa la capa base', () => {
     const colisiones = TONE_IDS.flatMap((id) => {
       const tono = TONES[id];
       if (!tono) return [];
       return tono.rules.flatMap((r) =>
-        r.kind !== 'must-contain'
+        !CLASES_QUE_PREMIAN.has(r.kind)
           ? []
           : alternativasLiterales(r.pattern).flatMap((a) => {
               const errores = erroresDeLaBase(enFrase(a));
@@ -64,6 +79,26 @@ describe('ningún tono premia lo que la base prohíbe', () => {
       colisiones,
       [],
       'estas reglas de tono exigen usar algo que la base rechaza con severidad error',
+    );
+  });
+
+  test('ninguna clase que premia se queda fuera del censo', () => {
+    // El canario del conjunto, que es lo que faltaba la primera vez. Sin él,
+    // agregar una clase nueva que premie deja este gate mirando a otro lado y
+    // pasando en verde, que es exactamente lo que ocurrió.
+    //
+    // La prueba de si una clase premia es corta: ¿puede un texto pasar de
+    // incumplirla a cumplirla AGREGANDO algo? Si sí, premia.
+    const premian = new Set(
+      TONE_IDS.flatMap((id) => TONES[id]?.rules ?? [])
+        .filter((r) => r.kind === 'must-contain' || r.kind.endsWith('-floor') || r.kind.endsWith('-ratio'))
+        .map((r) => r.kind),
+    );
+    const fuera = [...premian].filter((k) => !CLASES_QUE_PREMIAN.has(k) && k !== 'pattern-ratio');
+    assert.deepEqual(
+      fuera,
+      [],
+      'estas clases premian y el censo no las mira: agregalas a CLASES_QUE_PREMIAN',
     );
   });
 

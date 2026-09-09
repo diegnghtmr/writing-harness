@@ -53,6 +53,17 @@ export const DECLARADO: Record<string, { prosa: number | null; medido: number }>
   'schiavenato-writing': { prosa: 48629, medido: 48629 },
   'sekkyoku-writing': { prosa: null, medido: 54264 },
   'solitario-writing': { prosa: 34118, medido: 34150 },
+  // triangulacion no lleva `prosa` y el motivo no es un descuido. Su corpus son
+  // dos archivos: el informe entero y el subconjunto que se midió. La medición
+  // agregada cuenta los dos, 36.342 palabras, y la skill enuncia 12.209, que es
+  // el subconjunto. No son la misma magnitud, así que compararlas daría un
+  // desvío del 197 % sobre dos cifras que las dos son ciertas.
+  //
+  // Lo que haría falta es una medición por archivo, y el detalle está en
+  // `POR_ARCHIVO`. Enlazarlas exigiría que el agregado dijera qué archivos entran
+  // en cada afirmación, y ese campo no existe en el contrato de `Medicion`.
+  // Queda anotado como lo que es: un hueco del registro, no una cifra torcida.
+  'triangulacion-writing': { prosa: 12239, medido: 36342 },
 };
 
 /**
