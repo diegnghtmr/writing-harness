@@ -12,3 +12,19 @@
 # de nadie, porque una configuración local no viaja con el repositorio.
 detector/escenarios/** -text
 detector/eval/** -text
+
+# Las skills se guardan con LF, que es la norma del repositorio.
+#
+# Dos la rompieron sin que nadie lo decidiera. spanish-writing pasó a CRLF,
+# estuvo un tiempo con las dos terminaciones mezcladas en el mismo archivo y
+# volvió a LF sin querer, dentro de un commit que trataba de otra cosa y cuyo
+# diff quedó inservible para un git blame. fonseca-writing quedó con CRLF
+# desde que se rehízo sobre el corpus medido. Con `core.autocrlf=false`, git
+# guarda los bytes que el editor escribió, y en Windows muchos editores
+# escriben CRLF.
+#
+# `text eol=lf` normaliza al guardar, sin depender de la configuración de
+# nadie. Cubre solo las skills y no el repositorio entero: una regla general
+# alcanzaría también al corpus del detector, y su protección pasaría a
+# depender de que las dos líneas de arriba sigan escritas después de ella.
+skills/**/*.md text eol=lf
