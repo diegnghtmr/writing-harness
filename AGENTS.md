@@ -87,8 +87,10 @@ Se leen además dos siempre:
 
 ## 4. Verificar
 
-Todo texto en español que se produzca trabajando en este repositorio pasa por
-el verificador antes de entregarse.
+Todo texto en español que se escriba con estas skills pasa por el verificador
+antes de entregarse, se escriba donde se escriba. Que el texto no vaya a quedar
+en este repositorio no es una excepción, es el caso más común, y es justo el
+que un agente se saltó razonando que fuera de acá el verificador no hacía falta.
 
 ```bash
 node src/cli.ts <archivo> --tono <id> [--pasada humanizar]
@@ -185,6 +187,8 @@ skill es la forma de hacerla.
   el modo mejorar, va con su motivo escrito y lleva su gate.
 - **No se entrega con errores.** El código de salida es la decisión, no una
   sugerencia.
+- **No se salta la verificación porque el texto no viva acá.** Un texto que se
+  va a pegar en otro lado se mide igual, desde donde esté.
 - **No se silencian las advertencias sin decir por qué.** Una advertencia
   justificada se justifica en voz alta, en la entrega.
 - **No se corre `--pasada humanizar` por rutina.** Marca como defecto giros que
