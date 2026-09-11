@@ -11,31 +11,32 @@
 //
 // `core.hooksPath` no se toca: si el usuario lo configuró, mandar sobre eso
 // sería secuestrarle la configuración.
+//
+// La ruta del directorio de hooks se le pregunta a git
+// (`directorio-de-hooks.ts`), no se arma a mano: `.git` no siempre es una
+// carpeta (un worktree enlazado lo deja como un archivo), y un
+// `core.hooksPath` absoluto rompe un `join` ingenuo contra la raíz.
 
 import { chmodSync, copyFileSync, existsSync, readFileSync, rmSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { REPO_ROOT } from '../src/skills.ts';
+import { directorioDeHooks } from './directorio-de-hooks.ts';
 
 const desinstalar = process.argv.includes('--desinstalar');
 
-function directorioDeHooks(): string {
-  const configurado = (() => {
-    try {
-      return execFileSync('git', ['config', '--get', 'core.hooksPath'], {
-        cwd: REPO_ROOT,
-        encoding: 'utf8',
-      }).trim();
-    } catch {
-      return '';
-    }
-  })();
-  if (configurado) return join(REPO_ROOT, configurado);
-  return join(REPO_ROOT, '.git', 'hooks');
+let hooksDir: string;
+try {
+  hooksDir = directorioDeHooks(REPO_ROOT);
+} catch (error) {
+  // Un hook instalado en la carpeta equivocada es peor que ninguno: da la
+  // sensación de estar cubierto sin correr nunca. Por eso esto no sigue en
+  // silencio con un valor por defecto adivinado.
+  console.error(`no se pudo resolver el directorio de hooks: ${error instanceof Error ? error.message : String(error)}`);
+  process.exit(1);
 }
 
 const origen = join(REPO_ROOT, 'scripts', 'pre-commit');
-const destino = join(directorioDeHooks(), 'pre-commit');
+const destino = join(hooksDir, 'pre-commit');
 
 if (desinstalar) {
   if (existsSync(destino)) {
