@@ -79,17 +79,27 @@ antes de correr los generadores.
 `skills/<id>-writing/SKILL.md`. El identificador del tono más `-writing`, y sin
 acentos: varios gates lo buscan con `[a-z-]+`.
 
-Lleva, en este orden: frontmatter con `name` y `description`; la sección 1 con
-qué decide ese tono y **la precondición de forma al final**; la relación con la
-base; qué se midió y qué no vale de esa medición; el ritmo en cifras; la voz; la
-estructura; los recursos; el formato de entrega; **la lista de verificación
-numerada** con ítems `N. ¿…?`; y las fuentes, con el corpus, las mediciones y lo
-que quedó sin verificar.
+Lleva, en este orden: frontmatter con `name` y `description`; **el bloque
+«Antes de seguir»** entre el título y la sección 1, tal cual está en
+`evals/puerta.test.ts`; la sección 1 con qué decide ese tono y **la
+precondición de forma al final**; la relación con la base; qué se midió y qué no
+vale de esa medición; el ritmo en cifras; la voz; la estructura; los recursos;
+el formato de entrega; **la lista de verificación numerada** con ítems
+`N. ¿…?`; y las fuentes, con el corpus, las mediciones y lo que quedó sin
+verificar.
 
-Seis cosas que un gate va a rechazar: la raya o el guion largo en cualquier
+Siete cosas que un gate va a rechazar: la raya o el guion largo en cualquier
 parte, nombrar al verificador o a Node, nombrar un modelo o un fabricante,
 hablar del desarrollo de este proyecto, no declarar la precondición de forma en
-la sección que la base dice, y una `description` de más de 1024 caracteres.
+la sección que la base dice, una `description` de más de 1024 caracteres, y no
+abrir con el bloque que manda a cargar la base.
+
+**El bloque existe porque un anfitrión elige la skill por su descripción.** Uno
+cargó un tono suelto, sin la base, y aplicó la forma sin la normativa ni el
+enrutamiento que la eligen: el tono dice que hereda las reglas de la base y no
+las repite, y heredar de algo que nadie cargó es no tener nada. La descripción
+no podía arreglarlo, porque a los tonos más largos no les queda margen. El
+primer párrafo del cuerpo sí, porque llega entero en cuanto la skill se carga.
 
 **Y la que ningún gate mide del todo: la skill tiene que mostrar el registro,
 no solo describirlo.** Es el defecto más caro de los que han pasado, porque el

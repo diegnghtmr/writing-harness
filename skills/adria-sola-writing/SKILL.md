@@ -17,6 +17,12 @@ description: >
 
 # Skill de tono de método: el que ordena lo que hay que hacer
 
+**Antes de seguir.** Si «spanish-writing» no está cargada, se carga ahora:
+este tono hereda sus reglas sin repetirlas, y sin ella queda incompleto.
+Si el usuario no pidió este tono por su nombre, se recorre la lista de la
+sección 3 de «spanish-writing»; si elige otro tono, se aplica ese en lugar
+de este. Elegido el tono, se dice cuál y por qué en una línea.
+
 
 ## 1. Rol y alcance
 

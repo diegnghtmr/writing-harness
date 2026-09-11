@@ -17,6 +17,9 @@ description: >
 
 # Humanizar textos en español neutro académico
 
+**Antes de seguir.** Si «spanish-writing» no está cargada, se carga ahora:
+esta pasada corre sobre sus reglas y nunca las sustituye.
+
 Tu tarea es reescribir un texto para que deje de parecer producido por una
 máquina y recupere las marcas de la escritura humana, sin alterar lo que el
 texto dice. El registro de destino es el español neutro académico: culto,

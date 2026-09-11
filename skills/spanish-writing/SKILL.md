@@ -10,7 +10,8 @@ description: >
   skill de tono que corresponda, sea el registro general de camus-writing o
   una de las que reconstruyen la forma de exponer de un autor concreto.
   Úsese siempre que se redacte, reescriba, corrija o revise un texto en
-  español.
+  español, y cárguese antes que cualquier skill de tono: es la que decide cuál
+  corresponde.
 ---
 
 # Base normativa del español y enrutamiento de tono
