@@ -478,7 +478,7 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
     }
 
     if (rule.kind === 'quote-level') {
-      for (const offset of comillasDePrimerNivel(text)) {
+      for (const offset of comillasDePrimerNivel(text, protegido)) {
         findings.push({
           rule: rule.id,
           severity: rule.severity,
@@ -504,10 +504,18 @@ export function check(text: string, options: CheckOptions = {}): Finding[] {
  *
  * Lo encontró un agente al escribir una sección de fuentes: todas sus URLs de
  * video quedaban marcadas por el `?v=`.
+ *
+ * El bloque de código cercado entró después, por el mismo motivo: un comando
+ * citado en un bloque disparaba las comillas y las convenciones de número, y la
+ * expresión de una sola línea no lo alcanzaba porque el contenido del bloque no
+ * lleva acentos graves propios. El bloque termina en la primera cerca de cierre
+ * y no en la última, para no tragarse la prosa que queda entre dos bloques, y
+ * una cerca sin cerrar no protege nada: tomarla hasta el final del texto dejaría
+ * sin medir el resto del documento por un descuido de quien lo escribió.
  */
 function zonasProtegidas(text: string): [number, number][] {
   const out: [number, number][] = [];
-  const re = /(?:https?:\/\/|www\.)\S+|`[^`\n]+`/gu;
+  const re = /^ {0,3}(`{3,}|~{3,})[^`\n]*\n[\s\S]*?^ {0,3}\1[ \t]*$|(?:https?:\/\/|www\.)\S+|`[^`\n]+`/gmu;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text)) !== null) {
     out.push([m.index, m.index + m[0].length]);
@@ -521,14 +529,25 @@ function zonasProtegidas(text: string): [number, number][] {
  * Recorre el texto llevando la cuenta de las angulares abiertas. Dentro de unas
  * angulares, las inglesas son el segundo nivel y son correctas. Fuera, no. Esa
  * diferencia no la expresa ninguna regex, y por eso este escaneo existe.
+ *
+ * Las zonas protegidas se saltan enteras, angulares incluidas, igual que en las
+ * reglas de patrón. Este escaneo no las consultaba, y un documento que citaba
+ * un comando entre acentos graves salía con error por las comillas del comando.
+ * Se saltan durante el recorrido y no al filtrar el resultado, porque una
+ * comilla suelta dentro del código se emparejaría con la primera de la prosa y
+ * dejaría sin marcar el par que viene detrás.
  */
-function comillasDePrimerNivel(text: string): number[] {
+function comillasDePrimerNivel(text: string, protegido: (i: number) => boolean): number[] {
   const out: number[] = [];
   let dentro = 0;
   let abierta = -1;
 
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
+    // La zona se consulta solo para los signos que cuentan. Consultarla por cada
+    // carácter recorrería la lista de zonas una vez por letra del texto.
+    const esSigno = c === '«' || c === '»' || c === '"' || c === '“' || c === '”';
+    if (!esSigno || protegido(i)) continue;
     if (c === '«') dentro++;
     else if (c === '»') dentro = Math.max(0, dentro - 1);
     else if (c === '"' || c === '“' || c === '”') {

@@ -456,6 +456,50 @@ describe('zonas que no se lintean como prosa', () => {
     assert.equal(check('Cómo estás?').length, 1);
     assert.equal(check('El valor es 3.14 exacto.').length, 1);
   });
+
+  test('las comillas inglesas dentro de código entre acentos graves no se marcan', () => {
+    // Un documento que citaba un comando salía con error por las comillas del
+    // comando. Las reglas de patrón ya respetaban el código; la de comillas
+    // escaneaba el texto entero sin consultar las mismas zonas.
+    assert.deepEqual(check('La suite corre con `node --test "evals/*.test.ts"` desde la raíz.'), []);
+  });
+
+  test('pero las comillas de la prosa de al lado siguen marcándose', () => {
+    // El canario de la prueba anterior. Una protección que se tragara el texto
+    // entero, o que callara la regla en cuanto hubiera código, pasaría aquella
+    // en verde. La comilla suelta del segundo caso fija además que las zonas se
+    // saltan durante el recorrido: si solo se filtrara el resultado, esa comilla
+    // se emparejaría con la primera de la prosa y el par de la prosa quedaría
+    // sin marcar.
+    const columnas = (t: string) =>
+      check(t).filter((x) => x.rule === 'comillas-de-primer-nivel').map((x) => x.column);
+    const junto = 'Corre `node --test "evals/*.test.ts"` y el informe dice "todo verde".';
+    assert.deepEqual(columnas(junto), [junto.indexOf('"todo') + 1]);
+    const suelta = 'La regla busca el carácter `"` y el informe dice "todo verde".';
+    assert.deepEqual(columnas(suelta), [suelta.indexOf('"todo') + 1]);
+  });
+
+  test('ni lo que cae dentro de un bloque de código cercado', () => {
+    // El mismo comando, citado en un bloque en vez de en la línea, seguía
+    // disparando la regla de comillas y también las de patrón: la zona solo
+    // reconocía el código de una sola línea, y el contenido de un bloque no
+    // lleva acentos graves propios.
+    const t =
+      'Para correr la suite:\n\n```bash\nnode --test "evals/*.test.ts"\nprintf "%.2f" 3.14\n```\n\nSale en verde.';
+    assert.deepEqual(check(t), []);
+  });
+
+  test('pero la prosa entre dos bloques, o tras una cerca sin cerrar, sigue midiéndose', () => {
+    // El canario del bloque cercado. Un patrón codicioso iría del primer bloque
+    // al último y se tragaría la prosa de en medio; uno que aceptara la cerca
+    // sin cierre dejaría sin medir el resto del documento.
+    const comillas = (t: string) =>
+      check(t).filter((x) => x.rule === 'comillas-de-primer-nivel').length;
+    const entre = '```\nuno\n```\n\nSegún el informe, "el dato es claro".\n\n```\ndos\n```';
+    assert.equal(comillas(entre), 1);
+    const sinCierre = '```\nuno\n\nSegún el informe, "el dato es claro".';
+    assert.equal(comillas(sinCierre), 1);
+  });
 });
 
 describe('falsos positivos que costaron caro', () => {
