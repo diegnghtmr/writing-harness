@@ -104,17 +104,26 @@ lista no se recorre.
 1. Se lee entera la skill del tono elegido, no su resumen; al corregir rige
    solo la base. Se escribe solo con los hechos que el usuario dio o que su
    pedido implica, sin inventar ninguno y sin atenuar los que dio.
-2. Se mide el texto con el verificador: con el tono elegido, sin tono al
+2. Se relee el texto oración por oración contra el pedido. Se quita toda
+   afirmación que el usuario no hizo y que su pedido no implica: el adjetivo
+   que califica lo que el usuario no calificó, la consecuencia que no contó, el
+   detalle que no dio. Cada hecho que dio conserva su fuerza: si escribió
+   «me engañó», el texto no dice «me sentí engañado».
+3. Se mide el texto con el verificador: con el tono elegido, sin tono al
    corregir, y con la pasada de humanizar solo si se pidió.
-3. Se corrige y se vuelve a medir hasta que no quede ningún error. Un texto con
+4. Se corrige y se vuelve a medir hasta que no quede ningún error. Un texto con
    errores no se entrega.
-4. Se entrega el texto medido tal cual, en prosa llana y con el formato de
+5. Se entrega el texto medido tal cual, en prosa llana y con el formato de
    entrega de la base.
-5. Elegido el tono, se dice cuál y por qué en una línea. Una decisión que no se
+6. Elegido el tono, se dice cuál y por qué en una línea. Si el usuario lo
+   nombró, el porqué es su pedido. Si no, es el paso de la lista que lo eligió.
+   Si fue el último, la línea dice por qué llegó ahí: porque ningún paso
+   anterior correspondía o porque el texto es el relato del propio usuario. La
+   línea nunca describe el texto como algo que no es. Una decisión que no se
    puede rebatir no es una decisión. Esa línea va aparte, fuera del texto. Al
    corregir, dice que no se aplicó ningún tono y por qué: la forma es de su
    autor.
-6. Cada advertencia que quede se nombra aparte, con el motivo por el que el
+7. Cada advertencia que quede se nombra aparte, con el motivo por el que el
    contexto la justifica.
 
 Que el verificador no aparezca en la primera búsqueda no quiere decir que

@@ -5,7 +5,8 @@ description: >
   de economía expresiva derivado de la prosa de Albert Camus: oraciones cortas
   y declarativas, vocabulario preciso y concreto, contención emocional y
   variación rítmica. Registro impersonal en tercera persona o primera del
-  plural. Cubre la documentación técnica, las comunicaciones institucionales,
+  plural, salvo el relato del propio usuario, en primera del singular. Cubre
+  la documentación técnica, las comunicaciones institucionales,
   las propuestas y los memorandos. Hereda toda la normativa de
   «spanish-writing». Úsese cuando el usuario pida redactar o reescribir un
   texto académico, técnico o formal, o cuando pida «tono académico»,
@@ -32,10 +33,18 @@ memorandos.
 Es el tono por defecto. Cuando el usuario no indica otro y el género es
 académico, técnico o formal, se usa este.
 
+Como último paso de la lista de «redactar-espanol», recoge también el texto en
+que el usuario cuenta lo que le pasó. Ahí la voz es la primera persona del
+singular, y la economía se mantiene. El hecho va antes que el juicio. La
+emoción se deja inferir de los hechos, y el texto no nombra ninguna que el
+usuario no haya nombrado. Ningún adjetivo califica lo que el usuario no
+calificó.
 
-**Precondición de forma:** el asunto admite voz impersonal y no necesita que el
-texto interpele a nadie. Es además el tono por defecto, así que recoge todo lo
-que ninguna otra fila reclamó.
+
+**Precondición de forma:** el asunto admite voz impersonal, o el texto es el
+relato que el usuario hace de lo que le pasó, en primera persona. En los dos
+casos, el texto no interpela a nadie. Es además el tono por defecto, así que
+recoge todo lo que ninguna otra fila reclamó.
 
 ## 2. Relación con la base normativa
 
@@ -85,7 +94,9 @@ Tercera persona (preferida) o primera persona del plural (nosotros inclusivo,
 aceptable).
 El estudio analiza los factores... / Consideramos que los datos...
 
-Evitar primera persona del singular salvo para posiciones autorales explícitas.
+Evitar primera persona del singular salvo en dos casos: las posiciones autorales
+explícitas y el relato que el usuario hace de lo que le pasó, que va entero en
+esa persona.
 
 No se tutea al lector.
 
@@ -138,7 +149,7 @@ Se ejecuta después de la lista normativa de la base.
 2. ¿Los párrafos tienen entre 50 y 150 palabras?
 3. ¿Se varía la longitud de las oraciones en lugar de igualarlas?
 4. ¿No hay dos oraciones consecutivas con la misma estructura?
-5. ¿Se usa tercera persona o primera del plural, sin tutear al lector?
+5. ¿Se usa tercera persona o primera del plural, o primera del singular si es el relato del propio usuario, sin tutear al lector?
 6. ¿El vocabulario es concreto y sin adjetivación decorativa?
 7. ¿La información nueva queda al final de la oración?
 
