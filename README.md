@@ -173,7 +173,7 @@ producto. En las skills no.
 | `src/rules.ts` | Las 93 reglas como objetos planos y tipados, sin comportamiento |
 | `src/text.ts` | Segmentador de texto plano. Sin AST, porque el entregable no lleva markdown |
 | `src/check.ts` | Aplica las reglas y devuelve hallazgos con línea, columna y arreglo propuesto |
-| `src/cli.ts` | Sale con 1 si hay errores, para encadenarlo en un hook o en CI |
+| `src/cli.ts` | Sale con 1 si hay errores y con 2 si no pudo usar la entrada, para encadenarlo en un hook o en CI |
 | `src/corpus.ts` | La huella del corpus con el que se construyeron las skills |
 | `src/mediciones.ts` | Qué contenía ese corpus, con las cuatro casillas del contrato |
 | `evals/cobertura.ts` | El registro de qué declara la prosa y todavía no tiene regla |
