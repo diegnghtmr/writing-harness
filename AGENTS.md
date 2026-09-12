@@ -108,6 +108,15 @@ son la palabra exacta.
 Sale con 1 si hay errores. Un texto con errores no se entrega. Las advertencias
 no frenan la entrega: señalan lo que solo el contexto decide.
 
+El verificador solo lee UTF-8, con marca de orden de bytes o sin ella. Ante
+otra codificación no mide nada: sale con 2 y dice qué entrada rechazó y por
+qué, en vez de responder «sin hallazgos» sobre un texto que no pudo leer. Por
+eso el texto le llega como archivo guardado en UTF-8, y no a través de Windows
+PowerShell, la versión que trae el sistema. Su `>` escribe UTF-16, que se
+rechaza. Su tubería es peor: cambia cada acento por `?` antes de que el
+verificador reciba el texto, y un `?` es UTF-8 válido, así que ese daño no se
+detecta.
+
 Cada hallazgo trae la línea, la columna, la sección de la skill que lo enuncia y
 qué hacer en su lugar. Señalar sin arreglar no sirve.
 

@@ -4,7 +4,9 @@
 //   cat texto.txt | node src/cli.ts --tono camus
 //   node src/cli.ts --enrutar juridico
 //
-// Sale con 1 si hay errores, para poder encadenarlo en un hook o en CI.
+// Sale con 1 si hay errores, para poder encadenarlo en un hook o en CI. Sale
+// con 2 si no pudo usar la entrada: una opción mal escrita, un archivo que no
+// existe o uno que no está en UTF-8. En los tres casos no mide nada.
 //
 // `--enrutar` es la excepción: no mide nada y no lee ningún archivo. Responde
 // qué tono corresponde a una petición y por qué. Está acá porque el
@@ -94,20 +96,80 @@ function parse(argv: string[]): { files: string[]; tone?: string; pasadas: strin
   return { files, tone, pasadas };
 }
 
-function readStdin(): string {
+function readStdin(): Uint8Array {
   try {
-    return readFileSync(0, 'utf8');
+    return readFileSync(0);
   } catch {
-    return '';
+    return new Uint8Array(0);
+  }
+}
+
+// Qué hacer con una entrada rechazada. Es lo mismo para todas las causas, así
+// que se dice una vez aunque se rechacen varias.
+const REMEDIO =
+  'El verificador solo lee UTF-8, y medir otra codificación puede dar por limpio un texto roto. ' +
+  'Hay que guardar el texto como archivo UTF-8 y volver a pasarlo.';
+
+// `TextDecoder` se salta la marca de orden de bytes de UTF-8 si el texto abre
+// con ella, y `readFileSync(path, 'utf8')` no: la dejaba como primer carácter,
+// la regla de caracteres invisibles la marcaba en 1:1 y cada hallazgo de la
+// primera línea caía una columna más allá. `fatal` hace que un byte que no es
+// UTF-8 lance, en vez de volverse U+FFFD en silencio.
+const UTF8 = new TextDecoder('utf-8', { fatal: true });
+
+/**
+ * El texto, o por qué no se puede medir.
+ *
+ * Existe porque el verificador medía cualquier cosa. El UTF-16 que escribe `>`
+ * en Windows PowerShell 5.1, leído como UTF-8, salía «sin hallazgos» con
+ * salida 0, y un archivo en Windows-1252 también, con cada acento vuelto
+ * U+FFFD. Un veredicto sobre lo que no se pudo leer se ve desde fuera igual que
+ * uno sobre un texto que pasó.
+ *
+ * Lo que no ve: la tubería de PowerShell 5.1 cambia cada acento por `?` antes
+ * de que node reciba nada, y eso es UTF-8 válido. Por eso AGENTS.md pide el
+ * texto como archivo.
+ */
+function decodificar(bytes: Uint8Array): { texto: string } | { motivo: string } {
+  if (bytes[0] === 0xff && bytes[1] === 0xfe) {
+    return { motivo: 'parece UTF-16: empieza con los bytes FF FE, la marca de orden de bytes de esa codificación' };
+  }
+  if (bytes[0] === 0xfe && bytes[1] === 0xff) {
+    return { motivo: 'parece UTF-16: empieza con los bytes FE FF, la marca de orden de bytes de esa codificación' };
+  }
+  if (bytes.includes(0)) {
+    return { motivo: 'parece UTF-16 sin marca de orden de bytes: tiene bytes nulos, que un texto en UTF-8 no lleva' };
+  }
+  try {
+    return { texto: UTF8.decode(bytes) };
+  } catch {
+    return { motivo: 'tiene bytes que no son UTF-8, como los de un archivo guardado en Windows-1252' };
   }
 }
 
 function main(): void {
   const { files, tone, pasadas } = parse(process.argv.slice(2));
-  const inputs: { path: string; text: string }[] =
+  const crudas: { path: string; bytes: Uint8Array }[] =
     files.length > 0
-      ? files.map((path) => ({ path, text: readFileSync(path, 'utf8') }))
-      : [{ path: '(entrada estándar)', text: readStdin() }];
+      ? files.map((path) => ({ path, bytes: readFileSync(path) }))
+      : [{ path: '(entrada estándar)', bytes: readStdin() }];
+
+  // Se revisan todas antes de medir ninguna, igual que un archivo que no existe
+  // corta la corrida entera. Medir las legibles dejaría un «sin hallazgos» al
+  // lado de un texto que nadie leyó.
+  const inputs: { path: string; text: string }[] = [];
+  const rechazos: string[] = [];
+  for (const { path, bytes } of crudas) {
+    const r = decodificar(bytes);
+    if ('motivo' in r) rechazos.push(`error: ${path} ${r.motivo}. No se mide.`);
+    else inputs.push({ path, text: r.texto });
+  }
+  // Con 2 y no con 1: el 1 dice que el texto tiene errores, y este no llegó a
+  // leerse. Sin el uso, porque no es una opción mal escrita.
+  if (rechazos.length > 0) {
+    console.error([...rechazos, REMEDIO].join('\n'));
+    process.exit(2);
+  }
 
   // Una regla que se retira sin avisar deja un texto que pasó por permiso y no
   // por mérito, y desde fuera las dos cosas se ven igual.
