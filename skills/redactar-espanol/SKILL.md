@@ -128,11 +128,14 @@ lista no se recorre.
 6. Elegido el tono, se dice cuál y por qué en una línea. Si el usuario lo
    nombró, el porqué es su pedido. Si no, es el paso de la lista que lo eligió.
    Si fue el último, la línea dice por qué llegó ahí: porque ningún paso
-   anterior correspondía o porque el texto es el relato del propio usuario. La
-   línea nunca describe el texto como algo que no es. Una decisión que no se
-   puede rebatir no es una decisión. Esa línea va aparte, fuera del texto. Al
-   corregir, dice que no se aplicó ningún tono y por qué: la forma es de su
-   autor.
+   anterior correspondía o porque el texto es el relato del propio usuario. Si
+   además el texto no cabe en ninguna de las voces de ese tono, la línea lo
+   dice, para que el usuario pueda pedir otro. Esas voces son la impersonal, la
+   que se dirige a alguien sin tuteo ni complicidad y la primera persona del
+   relato propio. La línea nunca describe el texto como algo que no es. Una
+   decisión que no se puede rebatir no es una decisión. Esa línea va aparte,
+   fuera del texto. Al corregir, dice que no se aplicó ningún tono y por qué: la
+   forma es de su autor.
 7. Cada advertencia que quede se nombra aparte, con el motivo por el que el
    contexto la justifica.
 

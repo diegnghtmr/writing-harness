@@ -32,7 +32,9 @@ memorandos.
 
 Es el último paso de la lista de «redactar-espanol». Se usa cuando el usuario
 no pidió un tono y ningún paso anterior corresponde, y lo que lo decide es la
-voz que el texto admite, no el ámbito del pedido.
+voz que el texto admite, no el ámbito del pedido. Si el texto no admite ninguna
+de las tres voces de la precondición, como un discurso que pide calidez, esta
+forma se aplica igual y la línea que anuncia el tono lo dice.
 
 La carta, el correo y la comunicación que se dirigen a alguien caben en esta
 forma. El trato es el de la sección 4: sin tuteo y sin buscar complicidad con
