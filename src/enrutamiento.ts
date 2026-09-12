@@ -42,7 +42,6 @@ import { TONES } from './rules.ts';
  * haya, incluso con nada.
  */
 export const RASGOS = [
-  'academico',
   'relatoPropio',
   'divulgacion',
   'obraDeFiccion',
@@ -61,8 +60,6 @@ export const RASGOS = [
 ] as const;
 
 export type Rasgos = {
-  /** Tesis, artículo, informe, documentación, comunicación institucional. */
-  academico?: boolean;
   /**
    * El usuario cuenta algo que le pasó a él: una experiencia, una anécdota, un
    * testimonio, una queja. No es `metodoPersonal`, que le entrega al lector un
@@ -127,15 +124,16 @@ export type Ruta = {
    * reclama `eligeSi` con el `cuando` de la ruta.
    *
    * Solo lo necesita `camus`, que cierra la lista aceptando cualquier cosa. Sin
-   * esto, `reclamado` se calculaba mirando si el tono era `camus`, y entonces
-   * pedir el tono académico con el rasgo `academico` respondía «ningún rasgo
-   * reclamó el texto», que es falso: el usuario declaró uno, y justamente el que
-   * nombra el dominio de esa skill.
+   * esto, `reclamado` se calculaba mirando si el tono era `camus`, y un rasgo
+   * declarado de frente recibía como respuesta «ningún rasgo reclamó el texto»,
+   * que es falso.
    *
-   * Es una lista, y no un rasgo solo, porque el último paso lo reclaman dos y
-   * cada uno con su motivo. Con un motivo único, un relato del propio usuario
-   * salía justificado como texto académico, y un agente repitió esa
-   * justificación falsa en la línea con que anunció el tono.
+   * Es una lista, y no un rasgo solo, porque el último paso llegó a tenerlo
+   * reclamado por dos, cada uno con su motivo. Con un motivo único, un relato
+   * del propio usuario salía justificado como texto académico, y un agente
+   * repitió esa justificación falsa en la línea con que anunció el tono. Hoy
+   * queda uno: `academico` se retiró porque nombraba el ámbito del pedido y no
+   * lo que el texto hace por su lector.
    */
   reclamos?: readonly Reclamo[];
 };
@@ -224,13 +222,12 @@ export const RUTAS: readonly Ruta[] = [
     // Va inmediatamente antes de `camus` y no antes, porque no compite con
     // ninguna de las filas de arriba: ninguna otra lee este rasgo. Lo que sí
     // hace falta es que gane a `camus`, que se llevaría todo informe de
-    // investigación por la puerta de lo académico y le pondría un techo de
-    // oración de treinta palabras, que es justo lo contrario de lo que esta
-    // forma necesita.
+    // investigación y le pondría un techo de oración de treinta palabras, que
+    // es justo lo contrario de lo que esta forma necesita.
     //
-    // No pide además el rasgo `academico`. La precondición es sobre la
-    // evidencia y no sobre el género: un texto periodístico con dos series y un
-    // marco con que leerlas cumple esta forma igual que una tesis.
+    // La precondición es sobre la evidencia y no sobre el género: un texto
+    // periodístico con dos series y un marco con que leerlas cumple esta forma
+    // igual que una tesis.
     tono: 'triangulacion',
     skill: 'triangulacion-writing',
     cuando: 'Texto que sostiene cada afirmación con evidencia de más de una clase',
@@ -240,20 +237,18 @@ export const RUTAS: readonly Ruta[] = [
     tono: 'camus',
     skill: 'camus-writing',
     cuando: 'Textos académicos, técnicos y formales',
-    // Recoge lo que nadie reclamó, y además dos cosas dichas de frente. Los
-    // reclamos son lo que distingue lo segundo de lo primero.
+    // Recoge lo que nadie reclamó, y además el relato propio, dicho de frente.
+    // El reclamo es lo que distingue lo segundo de lo primero.
     eligeSi: () => true,
     reclamos: [
       // El relato del propio usuario vive acá y no en un tono nuevo. `camus`
       // no salió de medir el corpus de ningún autor, así que no hay un registro
       // medido que la primera persona contradiga, y su prosa modelo es un
-      // relato en primera persona. Va antes que lo académico porque cambia la
-      // persona, y el motivo tiene que decirlo.
+      // relato en primera persona.
       {
         si: (r) => Boolean(r.relatoPropio),
         cuando: 'Relato de lo que le pasó al propio usuario, en primera persona del singular',
       },
-      { si: (r) => Boolean(r.academico) },
     ],
   },
 ];
@@ -337,13 +332,14 @@ export function rasgosQueCompletan(rasgos: Rasgos = {}): Complemento[] {
 /**
  * Rasgos que la lista acepta y que ninguna ruta consulta.
  *
- * `academico` estuvo así desde el principio: el CLI lo validaba, el usuario lo
- * escribía y ninguna condición lo leía. El resultado salía bien de casualidad,
- * porque `camus` cierra la lista, y el motivo salía mal siempre.
+ * `academico`, que después se retiró, estuvo así desde el principio: el CLI lo
+ * validaba, el usuario lo escribía y ninguna condición lo leía. El resultado
+ * salía bien de casualidad, porque `camus` cierra la lista, y el motivo salía
+ * mal siempre.
  *
  * Se lee el código de las condiciones, que es la única fuente que no se puede
  * desincronizar con el código. Tiene un límite y conviene que conste: si alguien
- * leyera un rasgo con notación de corchetes, `r['academico']`, esto no lo vería.
+ * leyera un rasgo con notación de corchetes, `r['personaje']`, esto no lo vería.
  * Ninguna condición se escribe así, y el gate lo comprueba también.
  */
 export function rasgosSinRuta(): string[] {

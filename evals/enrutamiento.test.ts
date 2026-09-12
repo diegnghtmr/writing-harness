@@ -230,7 +230,9 @@ const UN_CASO_POR_TONO: Record<string, Rasgos> = {
   dotcsv: { mecanismo: true, divulgacion: true },
   fonda: { humanistico: true, divulgacion: true },
   triangulacion: { evidenciaCruzada: true },
-  camus: { academico: true },
+  // El último paso no pide ningún rasgo: recoge lo que ningún paso anterior
+  // reclamó.
+  camus: {},
 };
 
 describe('el procedimiento decide, y siempre decide', () => {
@@ -274,19 +276,14 @@ describe('el procedimiento decide, y siempre decide', () => {
     assert.deepEqual(a, b);
   });
 
-  test('declarar el rasgo académico cuenta como reclamar, y se nota en el motivo', () => {
-    // `camus` cierra la lista aceptando cualquier cosa, y por eso `reclamado` se
-    // calculaba mirando si el tono era `camus`. Con eso, pedir el tono académico
-    // por su nombre recibía como respuesta que nadie había reclamado el texto.
-    const conRasgo = sugerirTono({ academico: true });
-    assert.equal(conRasgo.tono, 'camus');
-    assert.equal(conRasgo.reclamado, true);
-    assert.doesNotMatch(conRasgo.porque, /por defecto/u);
-
-    const sinNada = sugerirTono();
-    assert.equal(sinNada.tono, 'camus');
-    assert.equal(sinNada.reclamado, false);
-    assert.match(sinNada.porque, /por defecto/u);
+  test('academico ya no es un rasgo: nombraba el ámbito del pedido y no la forma', () => {
+    // Reclamaba el último paso sin ningún aviso, y era el primer rasgo que la
+    // ayuda imprimía. Para quien escribe desde una universidad, «académico»
+    // describe dónde estudia, no qué hace el texto por su lector, así que casi
+    // cualquier pedido lo declaraba y todos salían con la misma forma.
+    assert.ok(!(RASGOS as readonly string[]).includes('academico'), 'academico sigue siendo un rasgo');
+    const fuente = readFileSync(join(REPO_ROOT, 'src', 'enrutamiento.ts'), 'utf8');
+    assert.doesNotMatch(fuente, /r\.academico/u, 'una condición sigue leyendo academico');
   });
 
   test('el motivo se puede leer y discutir', () => {
@@ -320,8 +317,8 @@ describe('cuando los rasgos no completan ninguna ruta, se dice qué rasgo la com
 
   test('un rasgo que ya eligió una ruta concreta no recibe sugerencias', () => {
     // `juridico` elige `schiavenato` solo. Sin esta condición, sumarle
-    // `academico` u `obraDeFiccion` también daba `schiavenato`, y se listaban
-    // como si hicieran falta: un aviso sobre una decisión que ya estaba tomada.
+    // `obraDeFiccion` también daba `schiavenato`, y se listaba como si hiciera
+    // falta: un aviso sobre una decisión que ya estaba tomada.
     assert.deepEqual(rasgosQueCompletan({ juridico: true }), []);
   });
 
@@ -333,18 +330,9 @@ describe('cuando los rasgos no completan ninguna ruta, se dice qué rasgo la com
       { rasgo: 'contraOtraTesis', tono: 'solitario', paso: paso('solitario') },
     ]);
   });
-
-  test('academico no recibe sugerencias: ninguna ruta de dos rasgos lo lee', () => {
-    // Cae en el último paso, pero porque lo reclama y no por falta de un rasgo.
-    // Solo `camus` lo consulta, para saber que alguien lo pidió, y ninguna ruta
-    // lo combina con otro. Los rasgos que a su lado cambian la respuesta, como
-    // `juridico`, la cambian igual solos, así que no hay nada que le falte.
-    assert.equal(sugerirTono({ academico: true }).reclamado, true);
-    assert.deepEqual(rasgosQueCompletan({ academico: true }), []);
-  });
 });
 
-describe('el relato propio reclama el último paso, igual que lo académico', () => {
+describe('el relato propio reclama el último paso', () => {
   // Un texto en que el usuario cuenta lo que le pasó no encajaba en ningún
   // paso y caía en el último por descarte. El motivo que salía era el de lo
   // académico, y un agente justificó el tono de un relato diciendo que
@@ -363,8 +351,6 @@ describe('el relato propio reclama el último paso, igual que lo académico', ()
     const { porque } = sugerirTono({ relatoPropio: true });
     assert.match(porque, /primera persona del singular/u);
     assert.doesNotMatch(porque, /acad[ée]mic/iu);
-    // Lo académico conserva su motivo: el reclamo nuevo no se lo quita.
-    assert.match(sugerirTono({ academico: true }).porque, /^Textos académicos/u);
   });
 
   test('no le quita el texto a ningún paso más estrecho', () => {
@@ -422,9 +408,17 @@ describe('el CLI avisa cuando los rasgos no completan ninguna ruta', () => {
     assert.deepEqual(enrutar('juridico'), [s.skill, `  ${s.porque}`, lineaDePaso('schiavenato')]);
   });
 
+  test('--enrutar academico falla como rasgo desconocido', () => {
+    // Se retiró, y un rasgo retirado no puede seguir aceptándose en silencio:
+    // quien lo escriba tiene que enterarse de que ya no decide nada.
+    const r = spawnSync(process.execPath, [cli, '--enrutar', 'academico'], { encoding: 'utf8', shell: false });
+    assert.equal(r.status, 2, r.stdout);
+    assert.match(r.stderr, /rasgo desconocido: academico/u);
+  });
+
   test('--enrutar relatoPropio responde camus-writing en el último paso, y sin aviso', () => {
-    // Reclama el último paso, igual que `academico`: la respuesta es una
-    // decisión, así que no hay nada que avisar ni ningún rasgo que sugerir.
+    // Reclama el último paso: la respuesta es una decisión, así que no hay
+    // nada que avisar ni ningún rasgo que sugerir.
     const lineas = enrutar('relatoPropio');
     const s = sugerirTono({ relatoPropio: true });
     assert.equal(RUTA_IDS.indexOf('camus') + 1, RUTAS.length, 'camus dejó de ser el último paso');
