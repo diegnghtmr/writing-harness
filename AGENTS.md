@@ -67,7 +67,7 @@ argumentos válidos los lista. Siempre devuelve un tono: un texto sin tono no es
 un texto neutro, es un texto cuya forma no decidió nadie.
 
 **Si el usuario pide un tono por su nombre, ese tono se aplica y la lista no se
-recorre.** La tabla de §3 enruta, no cerca. Cada fila nombra el caso donde ese
+recorre.** La tabla de `redactar-espanol` enruta, no cerca. Cada fila nombra el caso donde ese
 tono se encuentra casi siempre, que es además el caso que midió su corpus, y no
 dice de qué se puede escribir con esa forma. Lo único que un tono puede exigir
 es la precondición de forma que declara al final de su sección 1.
@@ -98,7 +98,7 @@ node src/cli.ts <archivo> --tono <id> [--pasada humanizar]
 
 Sin `--tono` corre solo la capa normativa, que rige siempre. Con `--tono` añade
 las longitudes y el ritmo de ese registro. El tono se elige según la tabla de
-enrutamiento de `skills/spanish-writing/SKILL.md` §3. Por defecto, `camus`.
+enrutamiento de `redactar-espanol`. Por defecto, `camus`.
 
 `--pasada humanizar` añade el catálogo de señales de IA. No corre solo, igual
 que la skill: `humanizar-espanol` se activa únicamente cuando se pide con esas
@@ -260,8 +260,9 @@ por el objeto. Dos siguen en el repositorio: `atenas` exigía una obra de ficci�
 y `bettatech` un mecanismo de cómputo. Las otras tres, `sekkyoku`, `medicendai`
 y `kenway`, se retiraron después y por otro motivo. Escrito así, quien pidiera
 `atenas` para un asunto real se topaba con una skill que se negaba a existir
-para él, y eso contradice a la base: §3 recorre la lista solo «si el usuario no
-indica el tono», y §3.1 dice que ninguna skill de tono puede contradecirla.
+para él, y eso contradice a la base: la lista de `redactar-espanol` se recorre
+solo «si el usuario no indica el tono», y `spanish-writing` §3.1 dice que
+ninguna skill de tono puede contradecirla.
 
 Ahora todas cierran su sección 1 con una precondición de forma, que es lo
 que la forma necesita para funcionar. Una figura que corregir. Unidades que
@@ -491,12 +492,12 @@ al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
 
 | Ruta | Qué es |
 |---|---|
-| `skills/spanish-writing/` | La base. Rige siempre, y su §3 tiene la tabla de enrutamiento |
+| `skills/spanish-writing/` | La base. Rige siempre |
 | `skills/<id>-writing/` | Un tono |
 | `skills/humanizar-espanol/` | La pasada. Solo si el usuario la pide |
 | `src/rules.ts` | Las 93 reglas como datos, sin comportamiento y sin build |
 | `src/check.ts` | Compone las capas y mide |
-| `src/enrutamiento.ts` | La tabla de §3 como dato, y el procedimiento que decide |
+| `src/enrutamiento.ts` | La tabla de `redactar-espanol` como dato, y el procedimiento que decide |
 | `src/corpus.ts`, `src/mediciones.ts` | El registro del corpus borrado. No se editan a mano |
 | `evals/` | Los gates. Cada uno falla en las dos direcciones |
 | `scripts/` | Manifiesto, medición, instalación y hook |

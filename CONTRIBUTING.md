@@ -290,9 +290,9 @@ caza. Las condiciones se escriben con punto (`r.metodoPersonal`), nunca con
 corchetes: ese análisis no vería la notación de corchetes y prefiere romperse a
 mentir.
 
-### 5. La tabla de la base
+### 5. La tabla de la entrada
 
-`skills/spanish-writing/SKILL.md` §3: la fila de la tabla y el paso de la lista
+`skills/redactar-espanol/SKILL.md`: la fila de la tabla y el paso de la lista
 numerada. El campo `cuando` de la ruta cita literalmente un fragmento de la celda
 «Cuándo se usa», y el gate lo comprueba en las dos direcciones.
 
@@ -379,7 +379,7 @@ la historia de su medición.
 1. Borrá `skills/<id>-writing/`.
 2. Agregá el nombre a `evals/retiradas.ts`.
 3. Quitá su entrada de `TONES` y su ruta.
-4. Quitá su fila de la tabla §3 y su paso de la lista.
+4. Quitá su fila de la tabla de `redactar-espanol` y su paso de la lista.
 5. Regenerá `cobertura.ts` y actualizá los recuentos.
 
 `evals/corpus.test.ts` comprueba la lista de retiradas en tres direcciones: que

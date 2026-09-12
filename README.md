@@ -127,7 +127,7 @@ estilo.
 **Cuando nadie elige, elige el enrutamiento.** No es un valor por defecto
 escondido: es una lista de trece pasos que va de lo más estrecho a lo más
 amplio y siempre termina en un tono, porque un texto sin tono no es un texto
-neutro, es un texto cuya forma no decidió nadie. Vive dos veces, en §3 de la base
+neutro, es un texto cuya forma no decidió nadie. Vive dos veces, en `redactar-espanol`
 y en `src/enrutamiento.ts`, y un gate comprueba que digan lo mismo y en el mismo
 orden.
 

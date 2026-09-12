@@ -160,6 +160,37 @@ describe('los dos modos están declarados donde un agente los va a leer', () => 
   });
 });
 
+describe('la tabla y la lista de tonos no viven en §3 de la base', () => {
+  // Desde «entry-router-skill», la tabla de tonos y la lista numerada viven
+  // solo en `redactar-espanol` (spec «entry-routing»). El canario prueba que
+  // esto no caza la referencia legítima de la base a su propio §3.1: esa
+  // sección sigue existiendo y sigue mandando que ningún tono la contradiga.
+  const YA_NO_VIVE_EN_BASE = [
+    /tabla\s+de\s+§3\b|§3\s+tiene\s+la\s+tabla\s+de\s+enrutamiento/iu,
+    /enrutamiento\s+de\s+`skills\/spanish-writing\/SKILL\.md`\s+§3\b/iu,
+    /en\s+§3\s+de\s+la\s+base/iu,
+    /§3\s+recorre\s+la\s+lista/iu,
+    /`skills\/spanish-writing\/SKILL\.md`\s+§3:\s+la\s+fila\s+de\s+la\s+tabla|fila\s+de\s+la\s+tabla\s+§3\s+y\s+su\s+paso\s+de\s+la\s+lista/iu,
+  ];
+
+  const plegado = (t: string) => t.replace(/\s+/gu, ' ');
+
+  test('ningún documento dice que la tabla o la lista de tonos viven en §3 de la base', () => {
+    const hallazgos = DOCUMENTOS.flatMap((doc) => {
+      const texto = plegado(lee(doc));
+      return YA_NO_VIVE_EN_BASE.filter((r) => r.test(texto)).map((r) => `${doc} :: ${r.source}`);
+    });
+    assert.deepEqual(hallazgos, []);
+  });
+
+  test('el canario: la base sigue pudiendo citar su propio §3.1', () => {
+    const texto = plegado(
+      'La base nunca cede nada: `spanish-writing` §3.1 dice que ninguna skill de tono puede contradecirla.',
+    );
+    assert.deepEqual(YA_NO_VIVE_EN_BASE.filter((r) => r.test(texto)), []);
+  });
+});
+
 describe('CONTRIBUTING.md cubre lo que dice cubrir', () => {
   const CONTRIBUTING = lee('CONTRIBUTING.md');
 
