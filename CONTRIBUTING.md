@@ -304,6 +304,10 @@ caza. Las condiciones se escriben con punto (`r.metodoPersonal`), nunca con
 corchetes: ese análisis no vería la notación de corchetes y prefiere romperse a
 mentir.
 
+La ayuda del comando sale de ese mismo análisis: imprime cada rasgo con los
+pasos que lo leen y el `cuando` de cada uno. Ese campo es entonces lo que lee
+quien enruta, y por eso describe la forma y no la materia.
+
 ### 5. La tabla de la entrada
 
 `skills/redactar-espanol/SKILL.md`: la fila de la tabla y el paso de la lista

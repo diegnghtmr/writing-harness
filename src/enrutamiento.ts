@@ -40,22 +40,26 @@ import { TONES } from './rules.ts';
  *
  * Todos opcionales: el procedimiento tiene que dar una respuesta con lo que
  * haya, incluso con nada.
+ *
+ * Van en el orden de la lista, por el primer paso que lee cada uno, porque la
+ * ayuda los imprime así. El primero que mostraba era `academico`, que
+ * reclamaba el último paso sin aviso, y quien enrutaba empezaba por ahí.
  */
 export const RASGOS = [
-  'relatoPropio',
-  'divulgacion',
   'obraDeFiccion',
   'personaje',
   'contraOtraTesis',
   'adversarioConNombre',
   'epocal',
-  'mecanismo',
   'fundamentos',
-  'mueveAActuar',
   'metodoPersonal',
+  'mueveAActuar',
+  'mecanismo',
+  'divulgacion',
+  'evidenciaCruzada',
   'actualidad',
   'comunidadAfectada',
-  'evidenciaCruzada',
+  'relatoPropio',
 ] as const;
 
 export type Rasgos = {
@@ -399,11 +403,65 @@ export function rasgosQueAbren(rasgos: Rasgos = {}): Complemento[] {
  * Ninguna condición se escribe así, y el gate lo comprueba también.
  */
 export function rasgosSinRuta(): string[] {
-  const fuente = RUTAS.map((r) => [r.eligeSi, ...(r.reclamos ?? []).map((c) => c.si)].join(';')).join(' ');
-  if (fuente.includes('[')) {
+  const todas = condiciones();
+  return RASGOS.filter((rasgo) => !todas.some((c) => lee(c.si, rasgo)));
+}
+
+/**
+ * Cada condición de la lista, con su paso y el motivo que da.
+ *
+ * Una ruta tiene su `eligeSi` y, si los tiene, sus reclamos: cada uno es una
+ * condición que lee rasgos, y cada uno da su propio motivo. Lanza si alguna usa
+ * notación de corchetes, porque `lee` busca el rasgo escrito con punto y esa
+ * notación no la vería.
+ */
+function condiciones(): { ruta: Ruta; paso: number; si: (r: Rasgos) => boolean; cuando: string }[] {
+  const todas = RUTAS.flatMap((ruta, i) => [
+    { ruta, paso: i + 1, si: ruta.eligeSi, cuando: ruta.cuando },
+    ...(ruta.reclamos ?? []).map((c) => ({ ruta, paso: i + 1, si: c.si, cuando: c.cuando ?? ruta.cuando })),
+  ]);
+  if (todas.some((c) => String(c.si).includes('['))) {
     throw new Error('una condición usa notación de corchetes y este análisis no la ve');
   }
-  return RASGOS.filter((rasgo) => !new RegExp(`\\.${rasgo}(?![A-Za-z])`, 'u').test(fuente));
+  return todas;
+}
+
+/** Si el código de una condición lee ese rasgo. */
+const lee = (si: (r: Rasgos) => boolean, rasgo: string): boolean =>
+  new RegExp(`\\.${rasgo}(?![A-Za-z])`, 'u').test(String(si));
+
+/** Un paso que lee un rasgo, con el motivo que ese paso da. */
+export type Lectura = {
+  tono: string;
+  skill: string;
+  paso: number;
+  /** El `cuando` de la ruta, o el de su reclamo cuando es el reclamo el que lee el rasgo. */
+  cuando: string;
+  /** Los rasgos que, sumados a este, abren el paso. Vacío si lo abre solo. */
+  con: string[];
+};
+
+/**
+ * Los pasos que leen un rasgo, en el orden de la lista.
+ *
+ * Existe para la ayuda del comando, que listaba los rasgos por su nombre y
+ * nada más. Quien enrutaba adivinaba por el nombre qué quería decir cada uno, y
+ * así un pedido para la universidad declaraba `academico`. Todo lo que devuelve
+ * sale de `RUTAS`: el paso, la skill, el `cuando` y los rasgos que faltan, así
+ * que la ayuda no tiene prosa propia que pueda desincronizarse de la lista.
+ */
+export function rutasQueLeen(rasgo: string): Lectura[] {
+  return condiciones()
+    .filter((c) => lee(c.si, rasgo))
+    .map((c) => ({
+      tono: c.ruta.tono,
+      skill: c.ruta.skill,
+      paso: c.paso,
+      cuando: c.cuando,
+      con: c.si({ [rasgo]: true } as Rasgos)
+        ? []
+        : RASGOS.filter((otro) => otro !== rasgo && c.si({ [rasgo]: true, [otro]: true } as Rasgos)),
+    }));
 }
 
 /** Toda ruta tiene que apuntar a un tono que exista de verdad. */

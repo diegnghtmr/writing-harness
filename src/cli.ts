@@ -16,12 +16,36 @@
 
 import { readFileSync } from 'node:fs';
 import { check, format, relevadas, type Finding } from './check.ts';
-import { RASGOS, type Rasgos, RUTAS, rasgosQueAbren, rasgosQueCompletan, sugerirTono } from './enrutamiento.ts';
+import {
+  RASGOS,
+  type Rasgos,
+  RUTAS,
+  rasgosQueAbren,
+  rasgosQueCompletan,
+  rutasQueLeen,
+  sugerirTono,
+} from './enrutamiento.ts';
 import { PASADA_IDS, TONE_IDS } from './rules.ts';
 // El nombre de la skill es identidad de la skill, no una ruta: importar esta
 // constante no lee ninguna skill, porque `skills.ts` no tiene efectos
 // secundarios al importarse.
 import { ENTRADA } from './skills.ts';
+
+/**
+ * Cada rasgo con los pasos que lo leen y el motivo que da cada uno.
+ *
+ * Sale entero de `RUTAS`. Quien enrutaba elegía los rasgos por el nombre, y un
+ * nombre como `academico` describía el ámbito del pedido y no la forma del
+ * texto. Con el motivo delante, el rasgo se elige por lo que el paso pide.
+ */
+const SIGNIFICADOS = RASGOS.map((rasgo) =>
+  [
+    `  ${rasgo}`,
+    ...rutasQueLeen(rasgo).map(
+      (l) => `    paso ${l.paso}, ${l.skill}${l.con.length > 0 ? `, con ${l.con.join(' o ')}` : ''}: ${l.cuando}.`,
+    ),
+  ].join('\n'),
+).join('\n');
 
 const USAGE = `uso: node src/cli.ts <archivo...> [--tono <${TONE_IDS.join('|')}>]
                               [--pasada <${PASADA_IDS.join('|')}>]
@@ -39,7 +63,8 @@ Cuando eso ocurre, se dice cuáles se retiraron y por qué.
 
 --enrutar no mide ningún texto: responde qué tono corresponde a una petición y
 por qué, recorriendo la lista de ${ENTRADA} en orden. Siempre devuelve
-uno. Rasgos: ${RASGOS.join(', ')}.
+uno. Cada rasgo, con los pasos que lo leen y el motivo que da cada paso:
+${SIGNIFICADOS}
 
 Lee de la entrada estándar si no se pasa ningún archivo.`;
 

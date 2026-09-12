@@ -64,9 +64,12 @@ schiavenato-writing
   Paso 11 de 13 de la lista de redactar-espanol.
 ```
 
-Los rasgos son los de `RASGOS` en `src/enrutamiento.ts`, y el mismo comando sin
-argumentos válidos los lista. Siempre devuelve un tono: un texto sin tono no es
-un texto neutro, es un texto cuya forma no decidió nadie.
+Los rasgos son los de `RASGOS` en `src/enrutamiento.ts`. La ayuda del comando
+los imprime en el orden de la lista, cada uno con los pasos que lo leen y el
+motivo que da cada paso, así que un rasgo se elige por lo que el paso pide y no
+por su nombre. Con un rasgo que no existe, el comando los lista. Siempre
+devuelve un tono: un texto sin tono no es un texto neutro, es un texto cuya
+forma no decidió nadie.
 
 Cuando los rasgos dados no abren ni completan ninguna ruta, la respuesta es el
 último paso y el comando lo avisa. Nombra debajo, con su tono y su paso, cada

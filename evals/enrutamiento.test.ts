@@ -19,6 +19,7 @@ import {
   rasgosQueAbren,
   rasgosQueCompletan,
   rasgosSinRuta,
+  rutasQueLeen,
   sugerirTono,
 } from '../src/enrutamiento.ts';
 import { TONES, TONE_IDS } from '../src/rules.ts';
@@ -127,6 +128,80 @@ describe('el CLI nombra la skill donde vive la lista', () => {
     assert.equal(r.status, 0, r.stderr);
     assert.match(r.stdout, /relatoPropio/u);
     for (const rasgo of RASGOS) assert.ok(r.stdout.includes(rasgo), `la ayuda no nombra ${rasgo}`);
+  });
+});
+
+describe('la ayuda dice qué paso lee cada rasgo y con qué motivo', () => {
+  // La ayuda listaba los rasgos por su nombre y nada más, y quien enrutaba
+  // adivinaba por el nombre qué quería decir cada uno. Así un pedido para la
+  // universidad declaraba `academico` y caía en el último paso sin aviso. Cada
+  // rasgo sale ahora con los pasos que lo leen y el motivo que da cada paso,
+  // sacados de `RUTAS`: la ayuda no tiene prosa propia que pueda
+  // desincronizarse de la lista.
+  const cli = join(REPO_ROOT, 'src', 'cli.ts');
+  const ayuda = () => {
+    const r = spawnSync(process.execPath, [cli, '--help'], { encoding: 'utf8', shell: false });
+    assert.equal(r.status, 0, r.stderr);
+    return r.stdout.split(/\r?\n/u);
+  };
+  const paso = (tono: string) => RUTA_IDS.indexOf(tono) + 1;
+  const cuando = (tono: string) => RUTAS.find((r) => r.tono === tono)?.cuando;
+
+  test('divulgacion la leen tres pasos, y dos de ellos piden otro rasgo', () => {
+    assert.deepEqual(rutasQueLeen('divulgacion'), [
+      { tono: 'freddy', skill: 'freddy-writing', paso: paso('freddy'), cuando: cuando('freddy'), con: ['mueveAActuar'] },
+      { tono: 'dotcsv', skill: 'dotcsv-writing', paso: paso('dotcsv'), cuando: cuando('dotcsv'), con: ['mecanismo'] },
+      { tono: 'fonda', skill: 'fonda-writing', paso: paso('fonda'), cuando: cuando('fonda'), con: [] },
+    ]);
+  });
+
+  test('relatoPropio lo lee el último paso, con el motivo de su reclamo', () => {
+    const ultima = RUTAS[RUTAS.length - 1];
+    assert.deepEqual(rutasQueLeen('relatoPropio'), [
+      { tono: 'camus', skill: 'camus-writing', paso: RUTAS.length, cuando: ultima?.reclamos?.[0]?.cuando, con: [] },
+    ]);
+  });
+
+  test('obraDeFiccion sola no abre nada, y la ayuda dice que pide personaje', () => {
+    assert.deepEqual(rutasQueLeen('obraDeFiccion'), [
+      { tono: 'atenas', skill: 'atenas-writing', paso: paso('atenas'), cuando: cuando('atenas'), con: ['personaje'] },
+    ]);
+  });
+
+  test('todo motivo que la ayuda da es un cuando de RUTAS, literal', () => {
+    const citas = new Set(RUTAS.flatMap((r) => [r.cuando, ...(r.reclamos ?? []).flatMap((c) => c.cuando ?? [])]));
+    for (const rasgo of RASGOS) {
+      const lecturas = rutasQueLeen(rasgo);
+      assert.ok(lecturas.length > 0, `${rasgo} no lo lee ningún paso`);
+      for (const l of lecturas) assert.ok(citas.has(l.cuando), `${rasgo}: «${l.cuando}» no está en RUTAS`);
+    }
+  });
+
+  test('los rasgos van en el orden de la lista, y el último es el del último paso', () => {
+    // La ayuda los imprime en este orden. El primero que mostraba era
+    // `academico`, que reclamaba el último paso: el orden también dice algo, y
+    // un rasgo agregado al final saldría fuera de su sitio.
+    const primero = (rasgo: string) => Math.min(...rutasQueLeen(rasgo).map((l) => l.paso));
+    const pasos = RASGOS.map(primero);
+    assert.deepEqual(pasos, [...pasos].sort((a, b) => a - b), 'RASGOS no va en el orden de la lista');
+    assert.equal(RASGOS[RASGOS.length - 1], 'relatoPropio');
+  });
+
+  test('--help imprime cada rasgo con sus pasos y sus motivos', () => {
+    const lineas = ayuda();
+    for (const rasgo of RASGOS) {
+      const titulo = lineas.indexOf(`  ${rasgo}`);
+      assert.notEqual(titulo, -1, `la ayuda no tiene la línea de ${rasgo}`);
+      const esperadas = rutasQueLeen(rasgo).map(
+        (l) => `    paso ${l.paso}, ${l.skill}${l.con.length > 0 ? `, con ${l.con.join(' o ')}` : ''}: ${l.cuando}.`,
+      );
+      assert.ok(esperadas.length > 0, `${rasgo} no lo lee ningún paso`);
+      assert.deepEqual(
+        lineas.slice(titulo + 1, titulo + 1 + esperadas.length),
+        esperadas,
+        `${rasgo}: la ayuda dice otra cosa que RUTAS`,
+      );
+    }
   });
 });
 
