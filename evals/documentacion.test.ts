@@ -127,6 +127,16 @@ describe('los enlaces entre documentos no apuntan a la nada', () => {
       'README.md',
     ]);
   });
+
+  test('AGENTS.md enlaza la skill de entrada, no solo la nombra', () => {
+    // El procedimiento de la parte I delega en «redactar-espanol»: un agente
+    // que llega a la parte I tiene que poder abrir esa skill con un clic, no
+    // solo leer su nombre entre backticks.
+    assert.ok(
+      enlacesDe(lee('AGENTS.md')).includes('skills/redactar-espanol/SKILL.md'),
+      'AGENTS.md dejó de enlazar skills/redactar-espanol/SKILL.md',
+    );
+  });
 });
 
 describe('los dos modos están declarados donde un agente los va a leer', () => {

@@ -33,21 +33,22 @@ salieron así.
 
 # Parte I. Usar el arnés
 
-## 1. El procedimiento entero, en una pantalla
+## 1. El procedimiento vive en `redactar-espanol`
+
+Leé esa skill entera antes de escribir nada: decide si el pedido es redactar o
+corregir, si corresponde un tono y cuál, y cómo se entrega el texto. Está en
+[`skills/redactar-espanol/SKILL.md`](skills/redactar-espanol/SKILL.md).
 
 ```bash
-node src/cli.ts --enrutar <rasgo,rasgo>          # 1. qué tono corresponde
-                                                  # 2. leer ese SKILL.md entero
-                                                  # 3. escribir
-node src/cli.ts <archivo> --tono <id>            # 4. medir
-                                                  # 5. corregir y repetir
+node src/cli.ts --enrutar <rasgo,rasgo>          # solo al redactar sin tono pedido
+node src/cli.ts <archivo> [--tono <id>]          # medir; sin --tono al corregir
 ```
 
-Cinco pasos y ninguno es opcional. El más saltado es el segundo, y es el que
-hace la diferencia: el verificador cubre 110 de las 299 declaraciones que hacen
-las skills. Las otras 189 solo las pone quien leyó la skill.
+El paso que más se salta es leer la skill entera, y es el que hace la
+diferencia: el verificador cubre 110 de las 299 declaraciones que hacen las
+skills. Las otras 189 solo las pone quien leyó la skill.
 
-## 2. Elegir el tono
+## 2. Elegir el tono, si corresponde
 
 No lo elijas a ojo. El enrutamiento es un procedimiento determinista y responde
 con el motivo, para que se pueda discutir:
@@ -66,11 +67,9 @@ Los rasgos son los de `RASGOS` en `src/enrutamiento.ts`, y el mismo comando sin
 argumentos válidos los lista. Siempre devuelve un tono: un texto sin tono no es
 un texto neutro, es un texto cuya forma no decidió nadie.
 
-**Si el usuario pide un tono por su nombre, ese tono se aplica y la lista no se
-recorre.** La tabla de `redactar-espanol` enruta, no cerca. Cada fila nombra el caso donde ese
-tono se encuentra casi siempre, que es además el caso que midió su corpus, y no
-dice de qué se puede escribir con esa forma. Lo único que un tono puede exigir
-es la precondición de forma que declara al final de su sección 1.
+**Al corregir no se enruta; se mide sin `--tono`.** La forma ya es de quien
+escribió el texto. Si se pide un tono por su nombre al redactar, ese tono se
+aplica directamente y la lista no se recorre.
 
 ## 3. Escribir con la skill delante
 
@@ -79,10 +78,12 @@ Leé el `SKILL.md` completo del tono elegido, no su resumen. Están en
 se midió y qué no vale de esa medición, el ritmo en cifras, la voz, la
 estructura, los recursos, y una lista de verificación numerada al final.
 
-Se leen además dos siempre:
+Se leen además siempre, en este orden:
 
-- `skills/spanish-writing/SKILL.md` es la base y rige en todos los casos.
-- `skills/humanizar-espanol/SKILL.md` solo si el usuario pidió humanizar con
+- `skills/redactar-espanol/SKILL.md`, que ya decidió el modo, el tono y la
+  entrega en el paso 1.
+- `skills/spanish-writing/SKILL.md`, la base, que rige en todos los casos.
+- `skills/humanizar-espanol/SKILL.md`, solo si el usuario pidió humanizar con
   esas palabras.
 
 ## 4. Verificar
@@ -218,8 +219,11 @@ partes de arriba tengan sentido, y lo que hay que respetar en el modo mejorar.
 | Capa | Qué decide | Cuándo corre |
 |---|---|---|
 | Base | Qué es correcto en español | Siempre |
-| Tono | Cómo suena | Se elige exactamente una |
+| Tono | Cómo suena | Una al redactar, ninguna al corregir |
 | Pasada | Qué se le hace a un texto ya escrito | Solo si el usuario la pide |
+
+`redactar-espanol` no es una capa: no declara ninguna regla propia, decide cuál
+de las tres corre y en qué orden.
 
 Se componen en `rulesFor`. La base nunca cede nada: `spanish-writing` §3.1 dice
 que ninguna capa de encima puede contradecirla, y eso incluye a las pasadas.
@@ -492,6 +496,7 @@ al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
 
 | Ruta | Qué es |
 |---|---|
+| `skills/redactar-espanol/` | La skill de entrada. Decide el modo, el tono y la entrega; no es una capa |
 | `skills/spanish-writing/` | La base. Rige siempre |
 | `skills/<id>-writing/` | Un tono |
 | `skills/humanizar-espanol/` | La pasada. Solo si el usuario la pide |
