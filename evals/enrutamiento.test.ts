@@ -50,10 +50,18 @@ describe('el enrutamiento está bien formado', () => {
 });
 
 describe('cada ruta cita la tabla que dice seguir', () => {
-  test('el «cuándo» de cada ruta está literal en su fila', () => {
-    const huerfanas = RUTAS.filter((r) => !(FILAS.get(r.skill) ?? '').includes(r.cuando)).map(
-      (r) => `${r.skill}: «${r.cuando}»`,
+  test('el «cuándo» de cada ruta, y el de cada reclamo, está literal en su fila', () => {
+    // Un reclamo con motivo propio también cita la tabla. Sin esto, el motivo
+    // que imprime el enrutamiento podría afirmar algo que la fila no dice.
+    const citas = RUTAS.flatMap((r) =>
+      [r.cuando, ...(r.reclamos ?? []).flatMap((c) => c.cuando ?? [])].map((cuando) => ({
+        skill: r.skill,
+        cuando,
+      })),
     );
+    const huerfanas = citas
+      .filter(({ skill, cuando }) => !(FILAS.get(skill) ?? '').includes(cuando))
+      .map(({ skill, cuando }) => `${skill}: «${cuando}»`);
     assert.deepEqual(
       huerfanas,
       [],
@@ -105,6 +113,16 @@ describe('el CLI nombra la skill donde vive la lista', () => {
     assert.equal(r.status, 0, r.stderr);
     assert.match(r.stdout, new RegExp(ENTRADA, 'u'));
     assert.doesNotMatch(r.stdout, /spanish-writing §3/u);
+  });
+
+  test('--help nombra cada rasgo que --enrutar acepta, incluido relatoPropio', () => {
+    // La ayuda es donde quien enruta descubre los rasgos. Un rasgo que no
+    // aparece ahí no lo declara nadie, y la petición cae en el último paso
+    // por descarte, que es como un relato propio terminó llamado académico.
+    const r = spawnSync(process.execPath, [cli, '--help'], { encoding: 'utf8', shell: false });
+    assert.equal(r.status, 0, r.stderr);
+    assert.match(r.stdout, /relatoPropio/u);
+    for (const rasgo of RASGOS) assert.ok(r.stdout.includes(rasgo), `la ayuda no nombra ${rasgo}`);
   });
 });
 
@@ -192,6 +210,29 @@ describe('la lista de rasgos y el tipo que los documenta coinciden', () => {
   });
 });
 
+/**
+ * Un conjunto de rasgos que alcanza cada tono.
+ *
+ * Vive fuera de los tests porque lo usan dos: el que comprueba que cada tono se
+ * alcanza, y el que comprueba que el relato propio no le quita el texto a
+ * ninguno.
+ */
+const UN_CASO_POR_TONO: Record<string, Rasgos> = {
+  atenas: { obraDeFiccion: true, personaje: true },
+  solitario: { contraOtraTesis: true, adversarioConNombre: true },
+  catedra: { contraOtraTesis: true },
+  han: { epocal: true },
+  schiavenato: { juridico: true },
+  fonseca: { actualidad: true },
+  bettatech: { fundamentos: true },
+  'adria-sola': { metodoPersonal: true },
+  freddy: { mueveAActuar: true, mecanismo: true },
+  dotcsv: { mecanismo: true, divulgacion: true },
+  fonda: { humanistico: true, divulgacion: true },
+  triangulacion: { evidenciaCruzada: true },
+  camus: { academico: true },
+};
+
 describe('el procedimiento decide, y siempre decide', () => {
   test('sin ningún rasgo elige el de por defecto y lo dice', () => {
     // Lo que antes pasaba acá era que no se elegía nada y la base corría sola.
@@ -205,25 +246,10 @@ describe('el procedimiento decide, y siempre decide', () => {
   test('cada tono es alcanzable con algún conjunto de rasgos', () => {
     // Sin esto, una ruta puede quedar tapada por otra que va antes y nadie se
     // entera: seguiría en la lista, con su fila en la tabla, y jamás saldría.
-    const CASOS: Record<string, Rasgos> = {
-      atenas: { obraDeFiccion: true, personaje: true },
-      solitario: { contraOtraTesis: true, adversarioConNombre: true },
-      catedra: { contraOtraTesis: true },
-      han: { epocal: true },
-      schiavenato: { juridico: true },
-      fonseca: { actualidad: true },
-      bettatech: { fundamentos: true },
-      'adria-sola': { metodoPersonal: true },
-      freddy: { mueveAActuar: true, mecanismo: true },
-      dotcsv: { mecanismo: true, divulgacion: true },
-      fonda: { humanistico: true, divulgacion: true },
-      triangulacion: { evidenciaCruzada: true },
-      camus: { academico: true },
-    };
-    for (const [esperado, rasgos] of Object.entries(CASOS)) {
+    for (const [esperado, rasgos] of Object.entries(UN_CASO_POR_TONO)) {
       assert.equal(sugerirTono(rasgos).tono, esperado, `no se alcanza ${esperado}`);
     }
-    assert.equal(Object.keys(CASOS).length, TONE_IDS.length);
+    assert.equal(Object.keys(UN_CASO_POR_TONO).length, TONE_IDS.length);
   });
 
   test('lo específico gana a lo general', () => {
@@ -318,6 +344,45 @@ describe('cuando los rasgos no completan ninguna ruta, se dice qué rasgo la com
   });
 });
 
+describe('el relato propio reclama el último paso, igual que lo académico', () => {
+  // Un texto en que el usuario cuenta lo que le pasó no encajaba en ningún
+  // paso y caía en el último por descarte. El motivo que salía era el de lo
+  // académico, y un agente justificó el tono de un relato diciendo que
+  // correspondía a una redacción académica, que era falso.
+
+  test('relatoPropio cae en el último paso porque lo reclama, y no recibe sugerencias', () => {
+    assert.ok((RASGOS as readonly string[]).includes('relatoPropio'), 'relatoPropio no es un rasgo');
+    const s = sugerirTono({ relatoPropio: true });
+    assert.equal(s.tono, 'camus');
+    assert.equal(s.reclamado, true);
+    assert.doesNotMatch(s.porque, /por defecto/u);
+    assert.deepEqual(rasgosQueCompletan({ relatoPropio: true }), []);
+  });
+
+  test('su motivo dice que el relato va en primera persona del singular, y no lo llama académico', () => {
+    const { porque } = sugerirTono({ relatoPropio: true });
+    assert.match(porque, /primera persona del singular/u);
+    assert.doesNotMatch(porque, /acad[ée]mic/iu);
+    // Lo académico conserva su motivo: el reclamo nuevo no se lo quita.
+    assert.match(sugerirTono({ academico: true }).porque, /^Textos académicos/u);
+  });
+
+  test('no le quita el texto a ningún paso más estrecho', () => {
+    // Reclama el último paso, así que no adelanta a nadie: un relato sobre un
+    // hecho reciente sigue siendo de `fonseca`. Si alguien lo leyera en la ruta
+    // de `metodoPersonal`, que va antes, `freddy` perdería lo suyo y esto
+    // fallaría.
+    assert.equal(sugerirTono({ relatoPropio: true, actualidad: true }).tono, 'fonseca');
+    for (const [tono, rasgos] of Object.entries(UN_CASO_POR_TONO)) {
+      assert.equal(
+        sugerirTono({ ...rasgos, relatoPropio: true }).tono,
+        tono,
+        `relatoPropio le quitó el texto a ${tono}`,
+      );
+    }
+  });
+});
+
 describe('el CLI avisa cuando los rasgos no completan ninguna ruta', () => {
   const cli = join(REPO_ROOT, 'src', 'cli.ts');
   const enrutar = (rasgo: string): string[] => {
@@ -355,5 +420,15 @@ describe('el CLI avisa cuando los rasgos no completan ninguna ruta', () => {
   test('--enrutar juridico responde lo mismo que antes y sin aviso', () => {
     const s = sugerirTono({ juridico: true });
     assert.deepEqual(enrutar('juridico'), [s.skill, `  ${s.porque}`, lineaDePaso('schiavenato')]);
+  });
+
+  test('--enrutar relatoPropio responde camus-writing en el último paso, y sin aviso', () => {
+    // Reclama el último paso, igual que `academico`: la respuesta es una
+    // decisión, así que no hay nada que avisar ni ningún rasgo que sugerir.
+    const lineas = enrutar('relatoPropio');
+    const s = sugerirTono({ relatoPropio: true });
+    assert.equal(RUTA_IDS.indexOf('camus') + 1, RUTAS.length, 'camus dejó de ser el último paso');
+    assert.deepEqual(lineas, ['camus-writing', `  ${s.porque}`, lineaDePaso('camus')]);
+    assert.ok(!lineas.some((l) => /Aviso/u.test(l)), 'el último paso, reclamado, no lleva aviso');
   });
 });

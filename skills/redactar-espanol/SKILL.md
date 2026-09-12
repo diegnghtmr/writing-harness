@@ -48,7 +48,7 @@ decide la forma y la manera de presentar la información.
 
 | Skill de tono | Cuándo se usa | Voz |
 |---|---|---|
-| `camus-writing` | Textos académicos, técnicos y formales: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos. Es el tono por defecto. | Impersonal, económica, oraciones breves |
+| `camus-writing` | Textos académicos, técnicos y formales: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos. Relato de lo que le pasó al propio usuario, en primera persona del singular. Es el tono por defecto. | Impersonal, económica, oraciones breves. En el relato propio, primera persona del singular |
 | `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, interpelación de usted, entrada por algo concreto y glosa constante |
 | `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin interpelación al lector |
 | `han-writing` | Diagnóstico epocal y ensayo filosófico breve, construido por oposición de conceptos. | Aforística, sin dato empírico, capítulo corto |
@@ -83,7 +83,8 @@ revés, nunca se elegiría.
 11. Si es divulgación filosófica, humanística o cultural, `fonda-writing`.
 12. Si hay evidencia de más de una clase sobre el mismo asunto y teoría con que
     leerla, `triangulacion-writing`.
-13. En cualquier otro caso, `camus-writing`.
+13. Si es el relato de lo que le pasó al propio usuario, que se escribe en
+    primera persona del singular, o en cualquier otro caso, `camus-writing`.
 
 **La lista siempre termina en un tono.** Antes, un género que no encajaba en
 ninguna fila dejaba correr la base sola, y eso no es una decisión sino una

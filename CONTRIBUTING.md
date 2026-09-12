@@ -285,6 +285,10 @@ El orden de `RUTAS` es la mitad del procedimiento. Va de lo más estrecho a lo m
 amplio, y una ruta puesta después de otra más ancha no sale nunca. `camus` cierra
 la lista aceptando cualquier cosa.
 
+Un rasgo que reclama el último paso sin abrir una ruta nueva, como `academico` o
+`relatoPropio`, va en los `reclamos` de `camus`, y su motivo cita literalmente
+un fragmento de la misma fila.
+
 Un rasgo que ninguna condición lee es un rasgo decorativo, y `rasgosSinRuta` lo
 caza. Las condiciones se escriben con punto (`r.metodoPersonal`), nunca con
 corchetes: ese análisis no vería la notación de corchetes y prefiere romperse a

@@ -43,6 +43,7 @@ import { TONES } from './rules.ts';
  */
 export const RASGOS = [
   'academico',
+  'relatoPropio',
   'divulgacion',
   'obraDeFiccion',
   'personaje',
@@ -62,6 +63,12 @@ export const RASGOS = [
 export type Rasgos = {
   /** Tesis, artículo, informe, documentación, comunicación institucional. */
   academico?: boolean;
+  /**
+   * El usuario cuenta algo que le pasó a él: una experiencia, una anécdota, un
+   * testimonio, una queja. No es `metodoPersonal`, que le entrega al lector un
+   * procedimiento: acá nadie recibe instrucciones, alguien cuenta lo que vivió.
+   */
+  relatoPropio?: boolean;
   /** El texto explica algo a un público que no es del oficio. */
   divulgacion?: boolean;
   /** El asunto es una obra de ficción. */
@@ -92,6 +99,16 @@ export type Rasgos = {
   evidenciaCruzada?: boolean;
 };
 
+/** Un rasgo que reclama una ruta, y el motivo que se da cuando la reclama. */
+export type Reclamo = {
+  si: (r: Rasgos) => boolean;
+  /**
+   * Fragmento literal de la misma celda «Cuándo se usa». Sin él, el motivo es
+   * el `cuando` de la ruta. El gate lo busca en la fila igual que a ese.
+   */
+  cuando?: string;
+};
+
 export type Ruta = {
   tono: string;
   skill: string;
@@ -105,15 +122,22 @@ export type Ruta = {
   /** Qué rasgo lo elige. El primero que da verdadero gana. */
   eligeSi: (r: Rasgos) => boolean;
   /**
-   * Cuándo la elección viene de un rasgo y no de quedarse sin filas.
+   * Cuándo la elección viene de un rasgo y no de quedarse sin filas, y con qué
+   * motivo. El primer reclamo que da verdadero da el motivo. Sin reclamos,
+   * reclama `eligeSi` con el `cuando` de la ruta.
    *
    * Solo lo necesita `camus`, que cierra la lista aceptando cualquier cosa. Sin
    * esto, `reclamado` se calculaba mirando si el tono era `camus`, y entonces
    * pedir el tono académico con el rasgo `academico` respondía «ningún rasgo
    * reclamó el texto», que es falso: el usuario declaró uno, y justamente el que
    * nombra el dominio de esa skill.
+   *
+   * Es una lista, y no un rasgo solo, porque el último paso lo reclaman dos y
+   * cada uno con su motivo. Con un motivo único, un relato del propio usuario
+   * salía justificado como texto académico, y un agente repitió esa
+   * justificación falsa en la línea con que anunció el tono.
    */
-  reclamaSi?: (r: Rasgos) => boolean;
+  reclamos?: readonly Reclamo[];
 };
 
 /**
@@ -216,10 +240,21 @@ export const RUTAS: readonly Ruta[] = [
     tono: 'camus',
     skill: 'camus-writing',
     cuando: 'Textos académicos, técnicos y formales',
-    // Recoge lo que nadie reclamó, y también lo académico dicho de frente.
+    // Recoge lo que nadie reclamó, y además dos cosas dichas de frente. Los
+    // reclamos son lo que distingue lo segundo de lo primero.
     eligeSi: () => true,
-    // Lo segundo es lo que `reclamaSi` distingue de lo primero.
-    reclamaSi: (r) => Boolean(r.academico),
+    reclamos: [
+      // El relato del propio usuario vive acá y no en un tono nuevo. `camus`
+      // no salió de medir el corpus de ningún autor, así que no hay un registro
+      // medido que la primera persona contradiga, y su prosa modelo es un
+      // relato en primera persona. Va antes que lo académico porque cambia la
+      // persona, y el motivo tiene que decirlo.
+      {
+        si: (r) => Boolean(r.relatoPropio),
+        cuando: 'Relato de lo que le pasó al propio usuario, en primera persona del singular',
+      },
+      { si: (r) => Boolean(r.academico) },
+    ],
   },
 ];
 
@@ -245,14 +280,14 @@ export function sugerirTono(rasgos: Rasgos = {}): Sugerencia {
     if (!ruta.eligeSi(rasgos)) continue;
     // Reclamar es que un rasgo la haya elegido. Quedarse con el texto por ser
     // la última de la lista no es lo mismo, y el mensaje tiene que distinguirlo.
-    const reclamado = (ruta.reclamaSi ?? ruta.eligeSi)(rasgos);
+    const reclamo = (ruta.reclamos ?? [{ si: ruta.eligeSi }]).find((c) => c.si(rasgos));
     return {
       tono: ruta.tono,
       skill: ruta.skill,
-      porque: reclamado
-        ? `${ruta.cuando}.`
+      porque: reclamo
+        ? `${reclamo.cuando ?? ruta.cuando}.`
         : 'Ningún rasgo reclamó el texto; se aplica el tono por defecto.',
-      reclamado,
+      reclamado: reclamo !== undefined,
     };
   }
   // Inalcanzable: la última ruta acepta cualquier cosa. Queda por si alguien
@@ -312,7 +347,7 @@ export function rasgosQueCompletan(rasgos: Rasgos = {}): Complemento[] {
  * Ninguna condición se escribe así, y el gate lo comprueba también.
  */
 export function rasgosSinRuta(): string[] {
-  const fuente = RUTAS.map((r) => `${r.eligeSi};${r.reclamaSi ?? ''}`).join(' ');
+  const fuente = RUTAS.map((r) => [r.eligeSi, ...(r.reclamos ?? []).map((c) => c.si)].join(';')).join(' ');
   if (fuente.includes('[')) {
     throw new Error('una condición usa notación de corchetes y este análisis no la ve');
   }

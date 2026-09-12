@@ -74,6 +74,10 @@ elegiría otra ruta, con su tono y su paso. Si la petición tiene alguno de esos
 rasgos, se vuelve a enrutar declarándolo; si no tiene ninguno, el último paso
 es la respuesta.
 
+Dos rasgos reclaman ese último paso por sí solos: `academico` y
+`relatoPropio`, que es el texto en que el usuario cuenta lo que le pasó. Con
+cualquiera de los dos, la respuesta es una decisión y no trae aviso.
+
 **Al corregir no se enruta; se mide sin `--tono`.** La forma ya es de quien
 escribió el texto. Si se pide un tono por su nombre al redactar, ese tono se
 aplica directamente y la lista no se recorre.
