@@ -90,9 +90,11 @@ export type Rasgos = {
   /** El lector recibe un procedimiento para ejecutarlo sobre sí mismo. */
   metodoPersonal?: boolean;
   /**
-   * Un acontecimiento concreto y reciente motiva el texto y le pone fecha de
-   * caducidad, sea cual sea su materia. Un asunto atemporal, conceptual o
-   * académico no lo cumple.
+   * El texto parte de un acontecimiento concreto y reciente, que le pone fecha
+   * de caducidad, sea cual sea su materia. Un asunto atemporal, conceptual o
+   * académico no lo cumple. Tampoco el texto que parte de lo que una comunidad
+   * necesita saber sobre algo que la afecta: ahí el hecho es contexto y no se
+   * marca, porque en el cruce con `comunidadAfectada` gana este rasgo.
    */
   actualidad?: boolean;
   /**
@@ -235,20 +237,24 @@ export const RUTAS: readonly Ruta[] = [
   {
     // Las tres rutas que siguen acotan por forma, con la frase de su propia
     // skill, y por eso cierran la lista antes de `camus`: son las más amplias.
-    // Esta pide un acontecimiento concreto y reciente, sea cual sea su materia.
+    // Esta pide que el texto parta de un acontecimiento concreto y reciente, sea
+    // cual sea su materia.
     // Va detrás del método y de la evidencia porque un hecho reciente puede
     // motivar una guía o un informe, y entonces decide la forma de la guía o
     // del informe, no la entrada por el hecho.
     tono: 'fonseca',
     skill: 'fonseca-writing',
-    cuando: 'Texto motivado por un acontecimiento concreto y reciente, que le pone fecha de caducidad',
+    cuando: 'Texto que parte de un acontecimiento concreto y reciente, que le pone fecha de caducidad',
     eligeSi: (r) => Boolean(r.actualidad),
   },
   {
-    // Pide una comunidad a la que el asunto afecta y un autor que firma. Va
-    // detrás de `fonseca` porque es más amplia: la inflación después de una
-    // subida de tasas afecta a una comunidad, y puesta antes, esta ruta le
-    // quitaba al hecho reciente la forma que entra por él.
+    // Pide una comunidad a la que el asunto afecta y un autor que firma. Se
+    // cruza con `fonseca` sin que ninguna contenga a la otra, y el orden le da
+    // el cruce al hecho: la inflación después de una subida de tasas afecta a
+    // una comunidad y entra por el hecho. Por eso `actualidad` se marca solo
+    // cuando el texto parte del acontecimiento. Una queja por una decisión de
+    // la semana pasada que parte de lo que la comunidad necesita saber no lo
+    // marca, y cae acá.
     tono: 'schiavenato',
     skill: 'schiavenato-writing',
     cuando: 'Texto que le explica a una comunidad algo que la afecta, con un autor que firma lo que afirma',

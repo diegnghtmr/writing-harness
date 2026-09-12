@@ -446,6 +446,16 @@ describe('tres rutas acotan por forma, y por eso bajan en la lista', () => {
     }
   });
 
+  test('fonseca corresponde cuando el texto parte del hecho, y en el cruce con schiavenato gana el hecho', () => {
+    // Los pasos 10 y 11 se cruzan sin que ninguno contenga al otro, y el orden
+    // le da el cruce al hecho. Por eso el motivo tiene que decir cuándo se marca
+    // `actualidad`: solo cuando el texto parte del acontecimiento. Si parte de
+    // lo que una comunidad necesita saber, el hecho es contexto y no se marca.
+    assert.match(RUTAS.find((r) => r.tono === 'fonseca')?.cuando ?? '', /^Texto que parte de un acontecimiento/u);
+    assert.equal(sugerirTono({ actualidad: true, comunidadAfectada: true }).tono, 'fonseca');
+    assert.equal(sugerirTono({ comunidadAfectada: true }).tono, 'schiavenato');
+  });
+
   test('los rasgos de materia se retiraron o cambiaron de nombre', () => {
     // `juridico` nombraba una materia, y la ruta pide ahora una comunidad a la
     // que el asunto afecta. `humanistico` solo lo leía `fonda`, que ya no lo

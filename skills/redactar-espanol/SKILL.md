@@ -55,7 +55,7 @@ decide la forma y la manera de presentar la información.
 | `freddy-writing` | Divulgación tecnológica y educativa que busca mover a alguien a actuar. | El mecanismo antes del juicio, cifra repartida, imperativo frecuente |
 | `dotcsv-writing` | Divulgación técnica de un mecanismo difícil para público general. | Reducción del problema a su versión mínima, entusiasmo repartido |
 | `bettatech-writing` | Fundamentos de informática y computación antes que la receta práctica. | El nombre después del fenómeno, caso de ingeniería en vez de analogía |
-| `fonseca-writing` | Texto motivado por un acontecimiento concreto y reciente, que le pone fecha de caducidad: explicadores de noticias, análisis de coyuntura, boletines, hilos informativos. Que el hecho sea internacional o económico es de dónde se midió, no lo que la forma exige. Si el asunto es atemporal, conceptual o académico, corresponde otro tono. | Entrada por el hecho, alternancia brusca de longitud, apodo burlón sostenido |
+| `fonseca-writing` | Texto que parte de un acontecimiento concreto y reciente, que le pone fecha de caducidad: explicadores de noticias, análisis de coyuntura, boletines, hilos informativos. Que el hecho sea internacional o económico es de dónde se midió, no lo que la forma exige. Si el asunto es atemporal, conceptual o académico, corresponde otro tono. | Entrada por el hecho, alternancia brusca de longitud, apodo burlón sostenido |
 | `schiavenato-writing` | Texto que le explica a una comunidad algo que la afecta, con un autor que firma lo que afirma: control político, rendiciones de cuentas, denuncias documentadas, derecho explicado a quien no es jurista. El derecho y la gestión pública son el dominio del corpus, y la forma se sostiene con cualquier materia que alguien tenga que explicarle a la gente a la que le toca. | «Ustedes» para lo colectivo y «usted» para el caso individual, definición por negación, imperativo de mirar más cifra |
 | `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, segunda del plural, corrección de la lectura corriente en la apertura |
 | `solitario-writing` | Texto que sostiene una tesis contra quien la niega: ensayo polémico, alegato, réplica, crítica de una disciplina o de una práctica. | Tesis en la primera oración, adversario con turno de palabra, concesión antes de la refutación |
@@ -79,8 +79,8 @@ revés, nunca se elegiría.
 8. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
 9. Si hay evidencia de más de una clase sobre el mismo asunto y teoría con que
    leerla, `triangulacion-writing`.
-10. Si un acontecimiento concreto y reciente motiva el texto y le pone fecha de
-    caducidad, `fonseca-writing`.
+10. Si el texto parte de un acontecimiento concreto y reciente, que le pone
+    fecha de caducidad, `fonseca-writing`.
 11. Si el texto le explica a una comunidad algo que la afecta y el autor firma
     lo que afirma, `schiavenato-writing`.
 12. Si el texto le explica algo a un lector que no es del oficio, entrando por
@@ -88,6 +88,12 @@ revés, nunca se elegiría.
 13. Si el asunto admite voz impersonal, si el texto se dirige a alguien sin
     tuteo ni complicidad, si es el relato de lo que le pasó al propio usuario,
     en primera persona del singular, o en cualquier otro caso, `camus-writing`.
+
+Los pasos 10 y 11 se cruzan sin que ninguno contenga al otro, y los separa por
+dónde entra el texto: la forma de `fonseca-writing` entra por el hecho, así que
+el paso 10 corresponde solo cuando el texto parte del acontecimiento, y cuando
+parte de lo que una comunidad necesita saber sobre algo que la afecta, el hecho
+es contexto y corresponde el paso 11.
 
 **La lista siempre termina en un tono.** Antes, un género que no encajaba en
 ninguna fila dejaba correr la base sola, y eso no es una decisión sino una
