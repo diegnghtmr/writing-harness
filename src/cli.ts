@@ -16,7 +16,7 @@
 
 import { readFileSync } from 'node:fs';
 import { check, format, relevadas, type Finding } from './check.ts';
-import { RASGOS, type Rasgos, RUTAS, rasgosQueCompletan, sugerirTono } from './enrutamiento.ts';
+import { RASGOS, type Rasgos, RUTAS, rasgosQueAbren, rasgosQueCompletan, sugerirTono } from './enrutamiento.ts';
 import { PASADA_IDS, TONE_IDS } from './rules.ts';
 // El nombre de la skill es identidad de la skill, no una ruta: importar esta
 // constante no lee ninguna skill, porque `skills.ts` no tiene efectos
@@ -59,14 +59,26 @@ function enrutar(lista: string): void {
   const posicion = RUTAS.findIndex((r) => r.tono === s.tono) + 1;
   console.log(`  Paso ${posicion} de ${RUTAS.length} de la lista de ${ENTRADA}.`);
   // Varias rutas piden dos rasgos. Quien pasaba uno solo recibía el último paso
-  // sin aviso, y lo tomaba por una decisión cuando le faltaba declarar algo.
+  // sin aviso, y lo tomaba por una decisión cuando le faltaba declarar algo. Y
+  // quien no pasaba ninguno, o uno que no completaba nada, tampoco se enteraba
+  // de las rutas que un rasgo abre por sí solo.
   const completan = rasgosQueCompletan(rasgos);
+  const abren = rasgosQueAbren(rasgos);
+  const linea = (c: { rasgo: string; paso: number }) => `    + ${c.rasgo}: ${RUTAS[c.paso - 1]?.skill}, paso ${c.paso}`;
+  if (completan.length > 0 || abren.length > 0) {
+    console.log(
+      pedidos.length === 0
+        ? '  Aviso: no se dio ningún rasgo, así que la respuesta es el último paso.'
+        : '  Aviso: los rasgos dados no completan ninguna ruta de la lista, así que la respuesta es el último paso.',
+    );
+  }
   if (completan.length > 0) {
-    console.log('  Aviso: los rasgos dados no completan ninguna ruta de la lista, así que la respuesta es el último paso.');
     console.log('  Con uno de estos rasgos más, la ruta sería otra:');
-    for (const c of completan) {
-      console.log(`    + ${c.rasgo}: ${RUTAS[c.paso - 1]?.skill}, paso ${c.paso}`);
-    }
+    for (const c of completan) console.log(linea(c));
+  }
+  if (abren.length > 0) {
+    console.log('  Estos rasgos abren una ruta por sí solos:');
+    for (const c of abren) console.log(linea(c));
   }
 }
 

@@ -358,6 +358,34 @@ export function rasgosQueCompletan(rasgos: Rasgos = {}): Complemento[] {
 }
 
 /**
+ * Los rasgos que, sumados a los dados, abren por sí solos una ruta concreta.
+ *
+ * Existe porque el aviso del último paso solo nombraba los rasgos que
+ * completan una ruta de dos. Sin ningún rasgo, o con uno que no completa nada,
+ * no nombraba ninguno, y quien consultaba recibía el último paso sin enterarse
+ * de que un hecho reciente o una comunidad afectada abren un paso por sí solos.
+ *
+ * Solo responde cuando el último paso no fue reclamado: un relato propio ya es
+ * una decisión, y sugerirle otra ruta sería contradecirla. Un rasgo que con los
+ * dados completa una ruta de dos no se repite acá: ya lo nombra
+ * `rasgosQueCompletan`, con el tono que de verdad saldría.
+ */
+export function rasgosQueAbren(rasgos: Rasgos = {}): Complemento[] {
+  const s = sugerirTono(rasgos);
+  if (s.reclamado || RUTA_IDS.indexOf(s.tono) + 1 !== RUTAS.length) return [];
+  const abren: Complemento[] = [];
+  for (const rasgo of RASGOS) {
+    if (rasgos[rasgo]) continue;
+    const tono = sugerirTono({ ...rasgos, [rasgo]: true }).tono;
+    const paso = RUTA_IDS.indexOf(tono) + 1;
+    if (paso === RUTAS.length) continue;
+    if (!(RUTAS[paso - 1] as Ruta).eligeSi({ [rasgo]: true })) continue;
+    abren.push({ rasgo, tono, paso });
+  }
+  return abren.sort((a, b) => a.paso - b.paso);
+}
+
+/**
  * Rasgos que la lista acepta y que ninguna ruta consulta.
  *
  * `academico`, que después se retiró, estuvo así desde el principio: el CLI lo

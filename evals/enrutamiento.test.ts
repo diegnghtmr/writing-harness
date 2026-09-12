@@ -16,6 +16,7 @@ import {
   RUTA_IDS,
   type Rasgos,
   assertRutas,
+  rasgosQueAbren,
   rasgosQueCompletan,
   rasgosSinRuta,
   sugerirTono,
@@ -415,6 +416,56 @@ describe('cuando los rasgos no completan ninguna ruta, se dice qué rasgo la com
   });
 });
 
+describe('cuando la respuesta es el último paso sin reclamo, se nombran también las rutas de un rasgo', () => {
+  // El aviso solo nombraba los rasgos que completan una ruta de dos. Sin ningún
+  // rasgo, o con uno que no completa nada, no nombraba ninguno, y el último
+  // paso volvía a parecer una decisión: quien consultaba no se enteraba de que
+  // una comunidad afectada o un hecho reciente abren un paso por sí solos.
+  const paso = (tono: string) => RUTA_IDS.indexOf(tono) + 1;
+
+  test('sin rasgos, nombra cada rasgo que abre una ruta por sí solo, en el orden de la lista', () => {
+    assert.deepEqual(rasgosQueAbren({}), [
+      { rasgo: 'contraOtraTesis', tono: 'catedra', paso: paso('catedra') },
+      { rasgo: 'epocal', tono: 'han', paso: paso('han') },
+      { rasgo: 'fundamentos', tono: 'bettatech', paso: paso('bettatech') },
+      { rasgo: 'metodoPersonal', tono: 'adria-sola', paso: paso('adria-sola') },
+      { rasgo: 'evidenciaCruzada', tono: 'triangulacion', paso: paso('triangulacion') },
+      { rasgo: 'actualidad', tono: 'fonseca', paso: paso('fonseca') },
+      { rasgo: 'comunidadAfectada', tono: 'schiavenato', paso: paso('schiavenato') },
+      { rasgo: 'divulgacion', tono: 'fonda', paso: paso('fonda') },
+    ]);
+  });
+
+  test('un rasgo que completa una ruta de dos no se repite como ruta de un rasgo', () => {
+    // Con `adversarioConNombre`, sumar `contraOtraTesis` da `solitario` y no
+    // `catedra`: ese rasgo ya sale entre los que completan, y nombrarlo dos
+    // veces con dos tonos distintos sería contradecirse.
+    const abren = rasgosQueAbren({ adversarioConNombre: true });
+    assert.ok(!abren.some((c) => c.rasgo === 'contraOtraTesis'), 'contraOtraTesis sale dos veces');
+    assert.ok(rasgosQueCompletan({ adversarioConNombre: true }).some((c) => c.rasgo === 'contraOtraTesis'));
+    assert.ok(abren.some((c) => c.rasgo === 'comunidadAfectada'));
+  });
+
+  test('una ruta elegida, o el último paso reclamado, no reciben la lista', () => {
+    assert.deepEqual(rasgosQueAbren({ comunidadAfectada: true }), []);
+    assert.deepEqual(rasgosQueAbren({ relatoPropio: true }), []);
+  });
+
+  test('cada rasgo nombrado abre de verdad su ruta, y la abre solo', () => {
+    // La otra dirección: la lista no puede prometer una ruta que el
+    // procedimiento no elige.
+    for (const rasgos of [{}, { mueveAActuar: true }, { obraDeFiccion: true }] as Rasgos[]) {
+      for (const c of rasgosQueAbren(rasgos)) {
+        assert.equal(sugerirTono({ ...rasgos, [c.rasgo]: true }).tono, c.tono, `${c.rasgo} no abre ${c.tono}`);
+        assert.ok(
+          (RUTAS[c.paso - 1] as { eligeSi: (r: Rasgos) => boolean }).eligeSi({ [c.rasgo]: true }),
+          `${c.rasgo} no abre ${c.tono} por sí solo`,
+        );
+      }
+    }
+  });
+});
+
 describe('el relato propio reclama el último paso', () => {
   // Un texto en que el usuario cuenta lo que le pasó no encajaba en ningún
   // paso y caía en el último por descarte. El motivo que salía era el de lo
@@ -484,6 +535,41 @@ describe('el CLI avisa cuando los rasgos no completan ninguna ruta', () => {
       );
     }
     assert.ok(despues.some((l) => l.includes('dotcsv-writing')));
+  });
+
+  test('--enrutar sin rasgos avisa y nombra cada ruta que un rasgo abre por sí solo', () => {
+    const lineas = enrutar('');
+    const s = sugerirTono({});
+    assert.deepEqual(lineas.slice(0, 4), [
+      s.skill,
+      `  ${s.porque}`,
+      '  Ningún rasgo de los dados es más estrecho que el caso general.',
+      lineaDePaso('camus'),
+    ]);
+    assert.ok(
+      lineas.some((l) => /Aviso: no se dio ningún rasgo, así que la respuesta es el último paso/u.test(l)),
+      'sin rasgos no hay aviso',
+    );
+    const titulo = lineas.indexOf('  Estos rasgos abren una ruta por sí solos:');
+    assert.notEqual(titulo, -1, 'no se nombran las rutas de un rasgo');
+    const despues = lineas.slice(titulo + 1);
+    for (const c of rasgosQueAbren({})) {
+      assert.ok(despues.includes(`    + ${c.rasgo}: ${RUTAS[c.paso - 1]?.skill}, paso ${c.paso}`), `falta ${c.rasgo}`);
+    }
+  });
+
+  test('--enrutar mueveAActuar nombra lo que lo completa y, aparte, las rutas de un rasgo', () => {
+    const lineas = enrutar('mueveAActuar');
+    const completan = lineas.indexOf('  Con uno de estos rasgos más, la ruta sería otra:');
+    const abren = lineas.indexOf('  Estos rasgos abren una ruta por sí solos:');
+    assert.ok(completan !== -1 && abren > completan, 'faltan los dos bloques del aviso, o van al revés');
+    const linea = (c: { rasgo: string; paso: number }) => `    + ${c.rasgo}: ${RUTAS[c.paso - 1]?.skill}, paso ${c.paso}`;
+    const bloqueCompletan = lineas.slice(completan + 1, abren);
+    const bloqueAbren = lineas.slice(abren + 1);
+    assert.deepEqual(bloqueCompletan, rasgosQueCompletan({ mueveAActuar: true }).map(linea));
+    assert.deepEqual(bloqueAbren, rasgosQueAbren({ mueveAActuar: true }).map(linea));
+    assert.ok(bloqueCompletan.some((l) => l.includes('mecanismo: freddy-writing')));
+    assert.ok(bloqueAbren.some((l) => l.includes('comunidadAfectada: schiavenato-writing')));
   });
 
   test('--enrutar comunidadAfectada responde schiavenato-writing y sin aviso', () => {

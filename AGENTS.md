@@ -68,11 +68,11 @@ Los rasgos son los de `RASGOS` en `src/enrutamiento.ts`, y el mismo comando sin
 argumentos válidos los lista. Siempre devuelve un tono: un texto sin tono no es
 un texto neutro, es un texto cuya forma no decidió nadie.
 
-Cuando los rasgos dados no completan ninguna ruta, la respuesta es el último
-paso y el comando lo avisa: nombra debajo cada rasgo que, sumado a los dados,
-elegiría otra ruta, con su tono y su paso. Si la petición tiene alguno de esos
-rasgos, se vuelve a enrutar declarándolo; si no tiene ninguno, el último paso
-es la respuesta.
+Cuando los rasgos dados no abren ni completan ninguna ruta, la respuesta es el
+último paso y el comando lo avisa. Nombra debajo, con su tono y su paso, cada
+rasgo que completaría una ruta sumado a los dados, y aparte cada rasgo que abre
+una ruta por sí solo. Si la petición tiene alguno de esos rasgos, se vuelve a
+enrutar declarándolo. Si no tiene ninguno, el último paso es la respuesta.
 
 Un rasgo reclama ese último paso por sí solo: `relatoPropio`, que es el texto
 en que el usuario cuenta lo que le pasó. Con él, la respuesta es una decisión y
