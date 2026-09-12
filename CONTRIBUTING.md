@@ -285,6 +285,13 @@ El orden de `RUTAS` es la mitad del procedimiento. Va de lo más estrecho a lo m
 amplio, y una ruta puesta después de otra más ancha no sale nunca. `camus` cierra
 la lista aceptando cualquier cosa.
 
+Ensanchar una condición la vuelve más amplia, y entonces la ruta baja.
+`schiavenato`, `fonseca` y `fonda` acotaban por materia y ocupaban los pasos 5,
+6 y 11. Al pasar a acotar por forma, con la frase de su propia skill, se
+llevaban desde ahí lo que el método, las rutas de dos rasgos y la evidencia
+cruzada resuelven mejor: una guía de estudio escrita a raíz de un hecho
+reciente perdía sus pasos. Por eso cierran la lista, justo antes de `camus`.
+
 Un rasgo que reclama el último paso sin abrir una ruta nueva, como
 `relatoPropio`, va en los `reclamos` de `camus`, y su motivo cita literalmente
 un fragmento de la misma fila. Un rasgo dice qué hace el texto por su lector,

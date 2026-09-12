@@ -55,13 +55,13 @@ No lo elijas a ojo. El enrutamiento es un procedimiento determinista y responde
 con el motivo, para que se pueda discutir:
 
 ```bash
-node src/cli.ts --enrutar juridico
+node src/cli.ts --enrutar comunidadAfectada
 ```
 
 ```
 schiavenato-writing
-  Divulgación jurídica y política dirigida a una comunidad.
-  Paso 5 de 13 de la lista de redactar-espanol.
+  Texto que le explica a una comunidad algo que la afecta, con un autor que firma lo que afirma.
+  Paso 11 de 13 de la lista de redactar-espanol.
 ```
 
 Los rasgos son los de `RASGOS` en `src/enrutamiento.ts`, y el mismo comando sin

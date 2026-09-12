@@ -49,15 +49,15 @@ decide la forma y la manera de presentar la información.
 | Skill de tono | Cuándo se usa | Voz |
 |---|---|---|
 | `camus-writing` | Textos académicos, técnicos y formales: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos. Relato de lo que le pasó al propio usuario, en primera persona del singular. Es el tono por defecto. | Impersonal, económica, oraciones breves. En el relato propio, primera persona del singular |
-| `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, interpelación de usted, entrada por algo concreto y glosa constante |
+| `fonda-writing` | Texto que le explica algo a un lector que no es del oficio, entrando por algo concreto: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. La filosofía y la cultura son de donde salió el corpus, y la misma forma sirve para cualquier asunto que se le pueda contar a alguien sentado enfrente. | Conversacional, interpelación de usted, entrada por algo concreto y glosa constante |
 | `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin interpelación al lector |
 | `han-writing` | Diagnóstico epocal y ensayo filosófico breve, construido por oposición de conceptos. | Aforística, sin dato empírico, capítulo corto |
 | `adria-sola-writing` | Texto que le entrega al lector un método para que lo ejecute: guías, manuales de procedimiento, protocolos de estudio y de trabajo, rutinas, cursos. | Oración corta, imperativo sostenido, pasos numerados que terminan en una instrucción |
 | `freddy-writing` | Divulgación tecnológica y educativa que busca mover a alguien a actuar. | El mecanismo antes del juicio, cifra repartida, imperativo frecuente |
 | `dotcsv-writing` | Divulgación técnica de un mecanismo difícil para público general. | Reducción del problema a su versión mínima, entusiasmo repartido |
 | `bettatech-writing` | Fundamentos de informática y computación antes que la receta práctica. | El nombre después del fenómeno, caso de ingeniería en vez de analogía |
-| `fonseca-writing` | Actualidad internacional, geopolítica y economía a partir de un hecho reciente. | Entrada por el hecho, alternancia brusca de longitud, apodo burlón sostenido |
-| `schiavenato-writing` | Divulgación jurídica y política dirigida a una comunidad. | «Ustedes» para lo colectivo y «usted» para el caso individual, definición por negación, imperativo de mirar más cifra |
+| `fonseca-writing` | Texto motivado por un acontecimiento concreto y reciente, que le pone fecha de caducidad: explicadores de noticias, análisis de coyuntura, boletines, hilos informativos. Que el hecho sea internacional o económico es de dónde se midió, no lo que la forma exige. Si el asunto es atemporal, conceptual o académico, corresponde otro tono. | Entrada por el hecho, alternancia brusca de longitud, apodo burlón sostenido |
+| `schiavenato-writing` | Texto que le explica a una comunidad algo que la afecta, con un autor que firma lo que afirma: control político, rendiciones de cuentas, denuncias documentadas, derecho explicado a quien no es jurista. El derecho y la gestión pública son el dominio del corpus, y la forma se sostiene con cualquier materia que alguien tenga que explicarle a la gente a la que le toca. | «Ustedes» para lo colectivo y «usted» para el caso individual, definición por negación, imperativo de mirar más cifra |
 | `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, segunda del plural, corrección de la lectura corriente en la apertura |
 | `solitario-writing` | Texto que sostiene una tesis contra quien la niega: ensayo polémico, alegato, réplica, crítica de una disciplina o de una práctica. | Tesis en la primera oración, adversario con turno de palabra, concesión antes de la refutación |
 | `triangulacion-writing` | Texto que sostiene cada afirmación con evidencia de más de una clase: informes de investigación, marcos teóricos, metodologías, análisis de resultados, monografías, tesis, trabajos de grado, estados del arte. | Impersonal sin primera persona, oración larga que sostiene dato y consecuencia, la cita conserva la voz de quien habló |
@@ -72,17 +72,19 @@ revés, nunca se elegiría.
    nombre, `solitario-writing`.
 3. Si la tesis se sostiene contra otra doctrina, `catedra-writing`.
 4. Si es un diagnóstico de la época por oposición de conceptos, `han-writing`.
-5. Si es derecho o política dirigidos a una comunidad, `schiavenato-writing`.
-6. Si parte de un hecho reciente de actualidad, geopolítica o economía,
-   `fonseca-writing`.
-7. Si son fundamentos de computación antes que la receta, `bettatech-writing`.
-8. Si el lector recibe un método para ejecutarlo sobre sí mismo,
+5. Si son fundamentos de computación antes que la receta, `bettatech-writing`.
+6. Si el lector recibe un método para ejecutarlo sobre sí mismo,
    `adria-sola-writing`.
-9. Si explica un mecanismo para mover a alguien a actuar, `freddy-writing`.
-10. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
-11. Si es divulgación filosófica, humanística o cultural, `fonda-writing`.
-12. Si hay evidencia de más de una clase sobre el mismo asunto y teoría con que
-    leerla, `triangulacion-writing`.
+7. Si explica un mecanismo para mover a alguien a actuar, `freddy-writing`.
+8. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
+9. Si hay evidencia de más de una clase sobre el mismo asunto y teoría con que
+   leerla, `triangulacion-writing`.
+10. Si un acontecimiento concreto y reciente motiva el texto y le pone fecha de
+    caducidad, `fonseca-writing`.
+11. Si el texto le explica a una comunidad algo que la afecta y el autor firma
+    lo que afirma, `schiavenato-writing`.
+12. Si el texto le explica algo a un lector que no es del oficio, entrando por
+    algo concreto, `fonda-writing`.
 13. Si es el relato de lo que le pasó al propio usuario, que se escribe en
     primera persona del singular, o en cualquier otro caso, `camus-writing`.
 
@@ -91,9 +93,10 @@ ninguna fila dejaba correr la base sola, y eso no es una decisión sino una
 ausencia: un texto sin tono no es un texto neutro, es un texto cuya forma no
 decidió nadie.
 
-**La lista enruta, no cerca.** Cada fila nombra el caso donde ese tono se
-encuentra casi siempre, que es además el caso que midió su corpus. No dice
-qué se puede escribir con esa forma. Un tono es una forma, y una forma se pide
+**La lista enruta, no cerca.** Algunas filas nombran el caso donde ese tono se
+encuentra casi siempre, que es además el caso que midió su corpus, y otras
+piden ya lo que su forma necesita. Ninguna dice qué se puede escribir con esa
+forma. Un tono es una forma, y una forma se pide
 para cualquier asunto que cumpla su precondición, que cada skill de tono declara
 al final de su sección 1. Si el usuario pide un tono, ese tono se aplica y esta
 lista no se recorre.

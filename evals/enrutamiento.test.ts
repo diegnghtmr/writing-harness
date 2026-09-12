@@ -101,8 +101,11 @@ describe('la tabla y la lista viven solo en la entrada', () => {
 describe('el CLI nombra la skill donde vive la lista', () => {
   const cli = join(REPO_ROOT, 'src', 'cli.ts');
 
-  test('--enrutar juridico nombra a la entrada y nunca a spanish-writing §3', () => {
-    const r = spawnSync(process.execPath, [cli, '--enrutar', 'juridico'], { encoding: 'utf8', shell: false });
+  test('--enrutar comunidadAfectada nombra a la entrada y nunca a spanish-writing §3', () => {
+    const r = spawnSync(process.execPath, [cli, '--enrutar', 'comunidadAfectada'], {
+      encoding: 'utf8',
+      shell: false,
+    });
     assert.equal(r.status, 0, r.stderr);
     assert.match(r.stdout, new RegExp(ENTRADA, 'u'));
     assert.doesNotMatch(r.stdout, /spanish-writing §3/u);
@@ -222,13 +225,13 @@ const UN_CASO_POR_TONO: Record<string, Rasgos> = {
   solitario: { contraOtraTesis: true, adversarioConNombre: true },
   catedra: { contraOtraTesis: true },
   han: { epocal: true },
-  schiavenato: { juridico: true },
+  schiavenato: { comunidadAfectada: true },
   fonseca: { actualidad: true },
   bettatech: { fundamentos: true },
   'adria-sola': { metodoPersonal: true },
   freddy: { mueveAActuar: true, mecanismo: true },
   dotcsv: { mecanismo: true, divulgacion: true },
-  fonda: { humanistico: true, divulgacion: true },
+  fonda: { divulgacion: true },
   triangulacion: { evidenciaCruzada: true },
   // El último paso no pide ningún rasgo: recoge lo que ningún paso anterior
   // reclamó.
@@ -263,14 +266,14 @@ describe('el procedimiento decide, y siempre decide', () => {
       'atenas',
     );
     assert.equal(
-      sugerirTono({ contraOtraTesis: true, adversarioConNombre: true, humanistico: true }).tono,
+      sugerirTono({ contraOtraTesis: true, adversarioConNombre: true, divulgacion: true }).tono,
       'solitario',
     );
     assert.equal(sugerirTono({ mecanismo: true, divulgacion: true, mueveAActuar: true }).tono, 'freddy');
   });
 
   test('la misma petición da siempre la misma respuesta', () => {
-    const rasgos: Rasgos = { divulgacion: true, humanistico: true };
+    const rasgos: Rasgos = { divulgacion: true, comunidadAfectada: true };
     const a = sugerirTono(rasgos);
     const b = sugerirTono(rasgos);
     assert.deepEqual(a, b);
@@ -289,11 +292,91 @@ describe('el procedimiento decide, y siempre decide', () => {
   test('el motivo se puede leer y discutir', () => {
     // Una decisión sin motivo no se puede rebatir, y entonces no es una
     // decisión: es una imposición con aspecto de cálculo.
-    for (const rasgos of [{ juridico: true }, { epocal: true }, { actualidad: true }]) {
+    for (const rasgos of [{ comunidadAfectada: true }, { epocal: true }, { actualidad: true }]) {
       const s = sugerirTono(rasgos);
       assert.ok(s.porque.length > 20, `${s.tono} decide sin explicar`);
       assert.equal(s.reclamado, true);
     }
+  });
+});
+
+describe('tres rutas acotan por forma, y por eso bajan en la lista', () => {
+  // `schiavenato`, `fonseca` y `fonda` acotaban por materia: derecho,
+  // actualidad internacional, filosofía. Sus propias skills dicen que eso es de
+  // dónde se midió y no lo que la forma exige, y la lista era más estrecha que
+  // ellas: un correo, un discurso o un resumen de clase no nombran ninguna de
+  // esas materias y caían en el último paso.
+
+  test('la lista va en este orden, de lo más estrecho a lo más amplio', () => {
+    assert.deepEqual(RUTA_IDS, [
+      'atenas',
+      'solitario',
+      'catedra',
+      'han',
+      'bettatech',
+      'adria-sola',
+      'freddy',
+      'dotcsv',
+      'triangulacion',
+      'fonseca',
+      'schiavenato',
+      'fonda',
+      'camus',
+    ]);
+  });
+
+  test('cada una se abre con un solo rasgo de forma, y lo reclama', () => {
+    for (const [rasgo, tono] of [
+      ['actualidad', 'fonseca'],
+      ['comunidadAfectada', 'schiavenato'],
+      ['divulgacion', 'fonda'],
+    ] as const) {
+      const s = sugerirTono({ [rasgo]: true });
+      assert.equal(s.tono, tono, `${rasgo} no abre ${tono}`);
+      assert.equal(s.reclamado, true, `${rasgo} abre ${tono} sin reclamarlo`);
+    }
+  });
+
+  test('su motivo describe la forma y no nombra la materia de donde se midió', () => {
+    const cuando = (tono: string) => RUTAS.find((r) => r.tono === tono)?.cuando ?? '';
+    assert.doesNotMatch(cuando('schiavenato'), /jur[íi]dic|pol[íi]tic|derecho/iu);
+    assert.doesNotMatch(cuando('fonseca'), /internacional|geopol[íi]tic|econom/iu);
+    assert.doesNotMatch(cuando('fonda'), /filos[óo]f|human[íi]stic|cultural/iu);
+  });
+
+  test('lo estrecho sigue ganándoles a las tres rutas ensanchadas', () => {
+    // Ensanchadas y puestas donde estaban, se llevaban lo que otras formas
+    // resuelven mejor. Cada caso es un pedido que cumple las dos condiciones, y
+    // la forma que tiene que decidir.
+    const casos: [Rasgos, string][] = [
+      // Una guía de estudio escrita a raíz de un hecho reciente sigue siendo un
+      // procedimiento en pasos.
+      [{ metodoPersonal: true, actualidad: true }, 'adria-sola'],
+      [{ metodoPersonal: true, comunidadAfectada: true }, 'adria-sola'],
+      [{ evidenciaCruzada: true, actualidad: true }, 'triangulacion'],
+      [{ evidenciaCruzada: true, comunidadAfectada: true }, 'triangulacion'],
+      [{ mecanismo: true, divulgacion: true, actualidad: true }, 'dotcsv'],
+      // La inflación después de una subida de tasas afecta a una comunidad, y
+      // sigue entrando por el hecho.
+      [{ actualidad: true, comunidadAfectada: true }, 'fonseca'],
+      [{ actualidad: true, divulgacion: true }, 'fonseca'],
+      // Una comunidad afectada es un caso particular de lector que no es del
+      // oficio.
+      [{ comunidadAfectada: true, divulgacion: true }, 'schiavenato'],
+    ];
+    for (const [rasgos, esperado] of casos) {
+      assert.equal(sugerirTono(rasgos).tono, esperado, `${JSON.stringify(rasgos)} no dio ${esperado}`);
+    }
+  });
+
+  test('los rasgos de materia se retiraron o cambiaron de nombre', () => {
+    // `juridico` nombraba una materia, y la ruta pide ahora una comunidad a la
+    // que el asunto afecta. `humanistico` solo lo leía `fonda`, que ya no lo
+    // pide.
+    const rasgos = RASGOS as readonly string[];
+    assert.ok(!rasgos.includes('juridico'), 'juridico sigue siendo un rasgo');
+    assert.ok(!rasgos.includes('humanistico'), 'humanistico sigue siendo un rasgo');
+    assert.ok(rasgos.includes('comunidadAfectada'), 'comunidadAfectada no es un rasgo');
   });
 });
 
@@ -303,23 +386,23 @@ describe('cuando los rasgos no completan ninguna ruta, se dice qué rasgo la com
   // decisión: ocho de los quince rasgos, pasados solos, respondían lo mismo.
   const paso = (tono: string) => RUTA_IDS.indexOf(tono) + 1;
 
-  test('divulgacion sola se completa con mueveAActuar, mecanismo o humanistico, en ese orden', () => {
-    const completan = rasgosQueCompletan({ divulgacion: true });
+  test('mecanismo solo se completa con mueveAActuar o divulgacion, en ese orden', () => {
+    const completan = rasgosQueCompletan({ mecanismo: true });
     assert.deepEqual(completan, [
       { rasgo: 'mueveAActuar', tono: 'freddy', paso: paso('freddy') },
-      { rasgo: 'mecanismo', tono: 'dotcsv', paso: paso('dotcsv') },
-      { rasgo: 'humanistico', tono: 'fonda', paso: paso('fonda') },
+      { rasgo: 'divulgacion', tono: 'dotcsv', paso: paso('dotcsv') },
     ]);
-    // `actualidad` cambiaría la respuesta, pero no por `divulgacion`: elige
+    // `actualidad` cambiaría la respuesta, pero no por `mecanismo`: elige
     // `fonseca` también sola. Nombrarla sería sugerir lo que ya se sabía.
     assert.ok(!completan.some((c) => c.rasgo === 'actualidad'), 'se coló un rasgo que enruta solo');
   });
 
   test('un rasgo que ya eligió una ruta concreta no recibe sugerencias', () => {
-    // `juridico` elige `schiavenato` solo. Sin esta condición, sumarle
-    // `obraDeFiccion` también daba `schiavenato`, y se listaba como si hiciera
-    // falta: un aviso sobre una decisión que ya estaba tomada.
-    assert.deepEqual(rasgosQueCompletan({ juridico: true }), []);
+    // `comunidadAfectada` elige `schiavenato` solo. Sin esta condición,
+    // sumarle `obraDeFiccion` también daba `schiavenato`, y se listaba como si
+    // hiciera falta: un aviso sobre una decisión que ya estaba tomada.
+    assert.deepEqual(rasgosQueCompletan({ comunidadAfectada: true }), []);
+    assert.deepEqual(rasgosQueCompletan({ divulgacion: true }), []);
   });
 
   test('obraDeFiccion sola se completa con personaje, y adversarioConNombre con contraOtraTesis', () => {
@@ -380,12 +463,12 @@ describe('el CLI avisa cuando los rasgos no completan ninguna ruta', () => {
     `  Paso ${RUTA_IDS.indexOf(tono) + 1} de ${RUTAS.length} de la lista de ${ENTRADA}.`;
   const AVISO = /no completan ninguna ruta de la lista, así que la respuesta es el último paso/u;
 
-  test('--enrutar divulgacion conserva su respuesta y agrega el aviso con cada rasgo que la completa', () => {
-    const lineas = enrutar('divulgacion');
+  test('--enrutar mecanismo conserva su respuesta y agrega el aviso con cada rasgo que la completa', () => {
+    const lineas = enrutar('mecanismo');
     const aviso = lineas.findIndex((l) => AVISO.test(l));
     assert.notEqual(aviso, -1, 'no hay aviso: el último paso vuelve a parecer una decisión');
     // Lo que ya se imprimía no cambia, y el aviso va después.
-    const s = sugerirTono({ divulgacion: true });
+    const s = sugerirTono({ mecanismo: true });
     assert.deepEqual(lineas.slice(0, aviso), [
       s.skill,
       `  ${s.porque}`,
@@ -393,19 +476,25 @@ describe('el CLI avisa cuando los rasgos no completan ninguna ruta', () => {
       lineaDePaso('camus'),
     ]);
     const despues = lineas.slice(aviso + 1);
-    for (const c of rasgosQueCompletan({ divulgacion: true })) {
+    for (const c of rasgosQueCompletan({ mecanismo: true })) {
       const skill = RUTAS[c.paso - 1]?.skill;
       assert.ok(
         despues.some((l) => l.includes(`${c.rasgo}: ${skill}, paso ${c.paso}`)),
         `el aviso no nombra ${c.rasgo}`,
       );
     }
-    assert.ok(despues.some((l) => l.includes('fonda-writing')));
+    assert.ok(despues.some((l) => l.includes('dotcsv-writing')));
   });
 
-  test('--enrutar juridico responde lo mismo que antes y sin aviso', () => {
-    const s = sugerirTono({ juridico: true });
-    assert.deepEqual(enrutar('juridico'), [s.skill, `  ${s.porque}`, lineaDePaso('schiavenato')]);
+  test('--enrutar comunidadAfectada responde schiavenato-writing y sin aviso', () => {
+    const s = sugerirTono({ comunidadAfectada: true });
+    assert.deepEqual(enrutar('comunidadAfectada'), [s.skill, `  ${s.porque}`, lineaDePaso('schiavenato')]);
+  });
+
+  test('--enrutar juridico falla: la ruta de schiavenato se pide ahora con comunidadAfectada', () => {
+    const r = spawnSync(process.execPath, [cli, '--enrutar', 'juridico'], { encoding: 'utf8', shell: false });
+    assert.equal(r.status, 2, r.stdout);
+    assert.match(r.stderr, /rasgo desconocido: juridico/u);
   });
 
   test('--enrutar academico falla como rasgo desconocido', () => {

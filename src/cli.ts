@@ -2,7 +2,7 @@
 //
 //   node src/cli.ts <archivo...> [--tono <id>] [--pasada humanizar]
 //   cat texto.txt | node src/cli.ts --tono camus
-//   node src/cli.ts --enrutar juridico
+//   node src/cli.ts --enrutar comunidadAfectada
 //
 // Sale con 1 si hay errores, para poder encadenarlo en un hook o en CI. Sale
 // con 2 si no pudo usar la entrada: una opción mal escrita, un archivo que no
@@ -58,7 +58,7 @@ function enrutar(lista: string): void {
   }
   const posicion = RUTAS.findIndex((r) => r.tono === s.tono) + 1;
   console.log(`  Paso ${posicion} de ${RUTAS.length} de la lista de ${ENTRADA}.`);
-  // Cinco rutas piden dos rasgos. Quien pasaba uno solo recibía el último paso
+  // Varias rutas piden dos rasgos. Quien pasaba uno solo recibía el último paso
   // sin aviso, y lo tomaba por una decisión cuando le faltaba declarar algo.
   const completan = rasgosQueCompletan(rasgos);
   if (completan.length > 0) {

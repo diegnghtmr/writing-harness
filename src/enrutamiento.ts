@@ -48,14 +48,13 @@ export const RASGOS = [
   'personaje',
   'contraOtraTesis',
   'adversarioConNombre',
-  'humanistico',
   'epocal',
   'mecanismo',
   'fundamentos',
   'mueveAActuar',
   'metodoPersonal',
   'actualidad',
-  'juridico',
+  'comunidadAfectada',
   'evidenciaCruzada',
 ] as const;
 
@@ -66,7 +65,7 @@ export type Rasgos = {
    * procedimiento: acá nadie recibe instrucciones, alguien cuenta lo que vivió.
    */
   relatoPropio?: boolean;
-  /** El texto explica algo a un público que no es del oficio. */
+  /** El texto le explica algo a un lector que no es del oficio. */
   divulgacion?: boolean;
   /** El asunto es una obra de ficción. */
   obraDeFiccion?: boolean;
@@ -76,8 +75,6 @@ export type Rasgos = {
   contraOtraTesis?: boolean;
   /** El adversario es una persona o un gremio, no una doctrina. */
   adversarioConNombre?: boolean;
-  /** Filosofía, humanidades, cultura. */
-  humanistico?: boolean;
   /** Diagnóstico de la época por oposición de conceptos. */
   epocal?: boolean;
   /** El asunto es un mecanismo técnico. */
@@ -88,10 +85,18 @@ export type Rasgos = {
   mueveAActuar?: boolean;
   /** El lector recibe un procedimiento para ejecutarlo sobre sí mismo. */
   metodoPersonal?: boolean;
-  /** Parte de un hecho reciente: actualidad, geopolítica, economía. */
+  /**
+   * Un acontecimiento concreto y reciente motiva el texto y le pone fecha de
+   * caducidad, sea cual sea su materia. Un asunto atemporal, conceptual o
+   * académico no lo cumple.
+   */
   actualidad?: boolean;
-  /** Derecho o política dirigidos a una comunidad. */
-  juridico?: boolean;
+  /**
+   * El texto le explica a una comunidad algo que la afecta, y el autor firma lo
+   * que afirma. Se llamaba `juridico`, que nombraba la materia de donde se
+   * midió y no lo que la forma necesita.
+   */
+  comunidadAfectada?: boolean;
   /** Hay evidencia de más de una clase sobre el mismo asunto, y teoría con que leerla. */
   evidenciaCruzada?: boolean;
 };
@@ -145,6 +150,11 @@ export type Ruta = {
  * personaje concreto pide algo más estrecho que quien pide divulgación, y si
  * `atenas` no fuese antes que `fonda` nunca se elegiría. `camus` cierra la lista
  * porque es el que recoge lo que ninguna fila reclamó.
+ *
+ * Una ruta que se ensancha baja. `schiavenato`, `fonseca` y `fonda` acotaban
+ * por materia y ocupaban los pasos 5, 6 y 11. Al pasar a acotar por forma
+ * quedaron más amplias que el método, las rutas de dos rasgos y la evidencia
+ * cruzada, y en su sitio viejo se llevaban lo que esas formas resuelven mejor.
  */
 export const RUTAS: readonly Ruta[] = [
   {
@@ -170,18 +180,6 @@ export const RUTAS: readonly Ruta[] = [
     skill: 'han-writing',
     cuando: 'Diagnóstico epocal y ensayo filosófico breve',
     eligeSi: (r) => Boolean(r.epocal),
-  },
-  {
-    tono: 'schiavenato',
-    skill: 'schiavenato-writing',
-    cuando: 'Divulgación jurídica y política dirigida a una comunidad',
-    eligeSi: (r) => Boolean(r.juridico),
-  },
-  {
-    tono: 'fonseca',
-    skill: 'fonseca-writing',
-    cuando: 'Actualidad internacional, geopolítica y economía',
-    eligeSi: (r) => Boolean(r.actualidad),
   },
   {
     tono: 'bettatech',
@@ -213,17 +211,14 @@ export const RUTAS: readonly Ruta[] = [
     eligeSi: (r) => Boolean(r.mecanismo && r.divulgacion),
   },
   {
-    tono: 'fonda',
-    skill: 'fonda-writing',
-    cuando: 'Divulgación filosófica, humanística o cultural',
-    eligeSi: (r) => Boolean(r.humanistico && r.divulgacion),
-  },
-  {
-    // Va inmediatamente antes de `camus` y no antes, porque no compite con
-    // ninguna de las filas de arriba: ninguna otra lee este rasgo. Lo que sí
-    // hace falta es que gane a `camus`, que se llevaría todo informe de
-    // investigación y le pondría un techo de oración de treinta palabras, que
-    // es justo lo contrario de lo que esta forma necesita.
+    // Va antes que las tres rutas que siguen porque es más estrecha que
+    // cualquiera de ellas: pide evidencia de más de una clase y teoría con que
+    // leerla, y un informe así puede además partir de un hecho reciente,
+    // hablarle a una comunidad afectada o dirigirse a un lector que no es del
+    // oficio. En esos casos decide la evidencia. Tiene que ganarle también a
+    // `camus`, que se llevaría todo informe de investigación y le pondría un
+    // techo de oración de treinta palabras, que es justo lo contrario de lo que
+    // esta forma necesita.
     //
     // La precondición es sobre la evidencia y no sobre el género: un texto
     // periodístico con dos series y un marco con que leerlas cumple esta forma
@@ -232,6 +227,39 @@ export const RUTAS: readonly Ruta[] = [
     skill: 'triangulacion-writing',
     cuando: 'Texto que sostiene cada afirmación con evidencia de más de una clase',
     eligeSi: (r) => Boolean(r.evidenciaCruzada),
+  },
+  {
+    // Las tres rutas que siguen acotan por forma, con la frase de su propia
+    // skill, y por eso cierran la lista antes de `camus`: son las más amplias.
+    // Esta pide un acontecimiento concreto y reciente, sea cual sea su materia.
+    // Va detrás del método y de la evidencia porque un hecho reciente puede
+    // motivar una guía o un informe, y entonces decide la forma de la guía o
+    // del informe, no la entrada por el hecho.
+    tono: 'fonseca',
+    skill: 'fonseca-writing',
+    cuando: 'Texto motivado por un acontecimiento concreto y reciente, que le pone fecha de caducidad',
+    eligeSi: (r) => Boolean(r.actualidad),
+  },
+  {
+    // Pide una comunidad a la que el asunto afecta y un autor que firma. Va
+    // detrás de `fonseca` porque es más amplia: la inflación después de una
+    // subida de tasas afecta a una comunidad, y puesta antes, esta ruta le
+    // quitaba al hecho reciente la forma que entra por él.
+    tono: 'schiavenato',
+    skill: 'schiavenato-writing',
+    cuando: 'Texto que le explica a una comunidad algo que la afecta, con un autor que firma lo que afirma',
+    eligeSi: (r) => Boolean(r.comunidadAfectada),
+  },
+  {
+    // La más amplia de las rutas de un rasgo: cualquier cosa que se le explique
+    // a un lector que no es del oficio. Una comunidad afectada es un caso
+    // particular de ese lector, y por eso `schiavenato` va antes. Las dos rutas
+    // de dos rasgos que también leen `divulgacion` son más estrechas y van
+    // arriba.
+    tono: 'fonda',
+    skill: 'fonda-writing',
+    cuando: 'Texto que le explica algo a un lector que no es del oficio, entrando por algo concreto',
+    eligeSi: (r) => Boolean(r.divulgacion),
   },
   {
     tono: 'camus',
@@ -304,13 +332,13 @@ export type Complemento = {
 /**
  * Los rasgos sueltos que completarían una ruta gracias a los que ya se dieron.
  *
- * Existe porque cinco rutas piden dos rasgos, y quien pasaba uno solo recibía
- * el último paso sin ningún aviso, como si fuese una decisión. Ocho de los
- * quince rasgos, pasados solos, caían ahí.
+ * Existe porque varias rutas piden dos rasgos, y quien pasaba uno solo recibía
+ * el último paso sin ningún aviso, como si fuese una decisión. Cuando se
+ * escribió, ocho de los quince rasgos, pasados solos, caían ahí.
  *
  * Un rasgo cuenta solo si la ruta que elige no la elegía él solo: sugerir
- * `actualidad` a quien dio `divulgacion` sería sugerir lo que ya se sabía, no
- * lo que le falta a la petición.
+ * `actualidad` a quien dio `mecanismo` sería sugerir lo que ya se sabía, no lo
+ * que le falta a la petición.
  */
 export function rasgosQueCompletan(rasgos: Rasgos = {}): Complemento[] {
   // Solo hay algo que avisar si la petición cayó en el último paso. Si eligió
