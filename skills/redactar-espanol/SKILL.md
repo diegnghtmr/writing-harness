@@ -103,8 +103,8 @@ lista no se recorre.
 1. Se lee entera la skill del tono elegido, no su resumen; al corregir rige
    solo la base. Se escribe solo con los hechos que el usuario dio o que su
    pedido implica, sin inventar ninguno y sin atenuar los que dio.
-2. Se mide el texto con el verificador, si el entorno lo tiene: con el tono
-   elegido, sin tono al corregir, y con la pasada de humanizar solo si se pidió.
+2. Se mide el texto con el verificador: con el tono elegido, sin tono al
+   corregir, y con la pasada de humanizar solo si se pidió.
 3. Se corrige y se vuelve a medir hasta que no quede ningún error. Un texto con
    errores no se entrega.
 4. Se entrega el texto medido tal cual, en prosa llana y con el formato de
@@ -116,5 +116,8 @@ lista no se recorre.
 6. Cada advertencia que quede se nombra aparte, con el motivo por el que el
    contexto la justifica.
 
-Si el entorno no tiene el verificador, el texto no se mide y la entrega lo dice
-en una línea aparte. Nunca se afirma una medición que no corrió.
+Que el verificador no aparezca en la primera búsqueda no quiere decir que
+falte. Si las instrucciones del proyecto dicen cómo dejarlo disponible, se
+siguen y después se vuelve a buscar. Si aun así no está, el texto no se mide y
+la entrega lo dice en una línea aparte, junto con lo que se intentó. Nunca se
+afirma una medición que no corrió.
