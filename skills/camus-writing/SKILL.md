@@ -1,16 +1,14 @@
 ---
 name: camus-writing
 description: >
-  Skill de tono para español académico, técnico y formal. Aplica el principio
-  de economía expresiva derivado de la prosa de Albert Camus: oraciones cortas
-  y declarativas, vocabulario preciso y concreto, contención emocional y
-  variación rítmica. Registro impersonal en tercera persona o primera del
-  plural, salvo el relato del propio usuario, en primera del singular. Cubre
-  la documentación técnica, las comunicaciones institucionales,
-  las propuestas y los memorandos. Hereda toda la normativa de
-  «spanish-writing». Úsese cuando el usuario pida redactar o reescribir un
-  texto académico, técnico o formal, o cuando pida «tono académico»,
-  «tono formal» o «estilo sobrio».
+  Skill de tono para español sobrio y formal. Aplica el principio de economía
+  expresiva derivado de la prosa de Albert Camus: oraciones cortas y
+  declarativas, vocabulario preciso y concreto, contención emocional y
+  variación rítmica. Hereda toda la normativa de «spanish-writing». Úsese
+  cuando el texto admita voz impersonal, cuando se dirija a alguien sin tuteo
+  ni complicidad, como una carta, un correo o una comunicación institucional,
+  o cuando sea el relato del propio usuario en primera persona. También cuando
+  el usuario pida «tono académico», «tono formal» o «estilo sobrio».
 ---
 
 # Skill de tono académico-formal: economía expresiva
