@@ -37,9 +37,12 @@ flowchart TD
     B -->|"nombra el tono"| TN["ese tono<br/>sin pasar por la lista"]
     B -->|"no lo nombra"| R{"Enrutamiento<br/>por género y voz"}
     R -->|"voz impersonal o formal,<br/>o el relato propio"| T1["camus-writing<br/>el último paso de la lista"]
-    R -->|"divulgación"| T2["fonda · dotcsv · bettatech<br/>freddy · schiavenato"]
+    R -->|"divulgación"| T2["fonda · dotcsv<br/>bettatech · freddy"]
+    R -->|"explicarle a una comunidad<br/>algo que la afecta"| T7["schiavenato"]
+    R -->|"partir de un hecho reciente"| T8["fonseca"]
     R -->|"análisis de una obra"| T3["atenas"]
-    R -->|"sostener una tesis<br/>contra otra"| T4["catedra · solitario<br/>fonseca · han"]
+    R -->|"sostener una tesis<br/>contra otra"| T4["catedra · solitario"]
+    R -->|"diagnosticar la época"| T9["han"]
     R -->|"entregar un método<br/>que el lector ejecuta"| T5["adria-sola"]
     R -->|"sostener cada afirmación<br/>con evidencia cruzada"| T6["triangulacion"]
 
@@ -49,6 +52,9 @@ flowchart TD
     T4 --> W
     T5 --> W
     T6 --> W
+    T7 --> W
+    T8 --> W
+    T9 --> W
     TN --> W
 
     W --> V["node src/cli.ts archivo [--tono ID]"]

@@ -54,12 +54,13 @@ corresponde un tono, y cuál, lo decide «redactar-espanol».
 
 En la tabla de «redactar-espanol», todos los tonos salvo `camus-writing` y
 `triangulacion-writing` reconstruyen la forma de exponer de un autor concreto,
-medida sobre un corpus de transcripciones, y cada uno declara en su sección de
-fuentes qué se midió, con qué números y qué no pudo verificarse. Ninguno toma la
-variedad dialectal ni el tratamiento de su modelo: las reglas de variedad y de
-tratamiento de la sección 9 ganan siempre, aunque el corpus medido diga otra
-cosa, y cada skill dice qué descarta y por qué. Varios de estos autores tutean a
-su público y algunos son peninsulares. Eso se mide y se documenta, no se imita.
+medida sobre un corpus de su prosa o de su habla, y cada uno declara en su
+sección de fuentes qué se midió, con qué números y qué no pudo verificarse.
+Ninguno toma la variedad dialectal ni el tratamiento de su modelo: las reglas de
+variedad y de tratamiento de la sección 9 ganan siempre, aunque el corpus medido
+diga otra cosa, y cada skill dice qué descarta y por qué. Varios de estos
+autores tutean a su público y algunos son peninsulares. Eso se mide y se
+documenta, no se imita.
 
 `humanizar-espanol` no es una skill de tono. Es una pasada que se ejecuta
 después, sobre un texto ya redactado, y solo cuando el usuario la pide de forma

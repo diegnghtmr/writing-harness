@@ -43,7 +43,7 @@ skill de tono.
 
 **Precondición de forma:** un acontecimiento concreto motiva el texto y le pone
 fecha de caducidad, porque esta forma entra por el hecho y sin hecho no tiene de
-dónde arrancar. Que el hecho sea internacional o económico es de dónde se midió,
+dónde arrancar. Que el hecho sea internacional o económico es de donde se midió,
 no lo que la forma exige.
 
 ## 2. Relación con la base normativa

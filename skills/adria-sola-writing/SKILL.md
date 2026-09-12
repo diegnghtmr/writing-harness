@@ -45,7 +45,7 @@ hacer nada después de leerlo, corresponde otra skill de tono.
 **Precondición de forma:** existe un procedimiento que el lector puede ejecutar
 sobre sí mismo, con pasos que admiten un orden y con alguien que ya lo recorrió,
 porque esta forma manda hacer y sin nada que hacer no tiene qué ordenar. Que el
-procedimiento sea de estudio, de comunicación o de hábitos es de dónde se midió,
+procedimiento sea de estudio, de comunicación o de hábitos es de donde se midió,
 no lo que la forma exige.
 
 ## 2. Relación con la base normativa
