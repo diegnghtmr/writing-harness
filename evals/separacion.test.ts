@@ -11,12 +11,17 @@
 // deje de leerse. Es la misma disciplina que el repositorio aplica a las
 // reglas, y la segunda vez que una comprobación del CI se corrige moviéndola a
 // la suite; la primera fue la de la raya.
+//
+// Hay una sola excepción: la skill de entrada puede nombrar al verificador,
+// porque es la única que describe cuándo se usa y cómo entrega el texto. La
+// excepción es del archivo exacto, no de la carpeta: un catálogo dentro de esa
+// skill, o una carpeta con un nombre parecido, no la heredan.
 
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
-import { REPO_ROOT, SKILLS_DIR } from '../src/skills.ts';
+import { ENTRADA, REPO_ROOT, SKILLS_DIR } from '../src/skills.ts';
 
 function archivos(dir: string, extension: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
@@ -27,6 +32,27 @@ function archivos(dir: string, extension: string): string[] {
 }
 
 const relativo = (p: string) => p.slice(REPO_ROOT.length).replace(/\\/gu, '/');
+
+/**
+ * Los delatores del desarrollo del arnés, para el archivo dado.
+ *
+ * `/el verificador/iu` se excluye solo para el archivo exacto de la skill de
+ * entrada: es la única autorizada a nombrarlo. `relativo` ya normaliza a
+ * barras, así que la comparación es exacta también en Windows, y no cubre un
+ * catálogo dentro de esa carpeta ni una carpeta con un nombre parecido.
+ */
+function delatoresDeDesarrollo(archivo: string): RegExp[] {
+  const comunes = [
+    /este repositorio/iu,
+    /(?<!\p{L})un gate(?!\p{L})/iu,
+    /(?<!\p{L})los gates(?!\p{L})/iu,
+    /(?<!\p{L})evals\//u,
+    /(?<!\p{L})src\//u,
+    /la capa base/iu,
+  ];
+  if (relativo(archivo) === `skills/${ENTRADA}/SKILL.md`) return comunes;
+  return [...comunes, /el verificador/iu];
+}
 
 /**
  * Un identificador de modelo del catálogo de Hugging Face: `organizacion/modelo`.
@@ -71,18 +97,11 @@ describe('las skills y el verificador no se nombran', () => {
     //
     // Lo encontró una persona leyendo la skill. Este test existe para que la
     // próxima vez no dependa de eso.
-    const delatores = [
-      /este repositorio/iu,
-      /(?<!\p{L})un gate(?!\p{L})/iu,
-      /(?<!\p{L})los gates(?!\p{L})/iu,
-      /el verificador/iu,
-      /(?<!\p{L})evals\//u,
-      /(?<!\p{L})src\//u,
-      /la capa base/iu,
-    ];
     const hallazgos = archivos(SKILLS_DIR, '.md').flatMap((f) => {
       const src = readFileSync(f, 'utf8');
-      return delatores.filter((d) => d.test(src)).map((d) => `${relativo(f)} :: ${d.source}`);
+      return delatoresDeDesarrollo(f)
+        .filter((d) => d.test(src))
+        .map((d) => `${relativo(f)} :: ${d.source}`);
     });
     assert.deepEqual(hallazgos, []);
   });
@@ -161,6 +180,18 @@ describe('las skills y el verificador no se nombran', () => {
       return delatores.filter((d) => d.test(src)).map((d) => `${relativo(f)} :: ${d.source}`);
     });
     assert.deepEqual(hallazgos, []);
+  });
+
+  test('la excepción de «el verificador» es exacta a la ruta de la skill de entrada', () => {
+    // La excepción no es una carpeta, es un archivo. Un catálogo dentro de la
+    // entrada, o una carpeta con un nombre parecido, no la heredan.
+    const disparaVerificador = (archivo: string) =>
+      delatoresDeDesarrollo(archivo).some((d) => d.test('el verificador'));
+
+    assert.ok(disparaVerificador(join(SKILLS_DIR, 'camus-writing', 'SKILL.md')));
+    assert.ok(disparaVerificador(join(SKILLS_DIR, ENTRADA, 'references', 'x.md')));
+    assert.ok(disparaVerificador(join(SKILLS_DIR, `${ENTRADA}-bis`, 'SKILL.md')));
+    assert.ok(!disparaVerificador(join(SKILLS_DIR, ENTRADA, 'SKILL.md')));
   });
 
   test('el guardián sigue disparando sobre lo que tiene que disparar', () => {

@@ -20,6 +20,9 @@ import { fileURLToPath } from 'node:url';
 export const REPO_ROOT = fileURLToPath(new URL('..', import.meta.url));
 export const SKILLS_DIR = join(REPO_ROOT, 'skills');
 
+/** La skill de entrada: decide el modo, el tono y la entrega de un texto en español. */
+export const ENTRADA = 'redactar-espanol';
+
 /** Cómo declara la prosa una regla. */
 export type Origen = 'checklist' | 'patron';
 
