@@ -22,7 +22,7 @@ import {
 import { TONES, TONE_IDS } from '../src/rules.ts';
 import { ENTRADA, REPO_ROOT, readSkill, skillNames } from '../src/skills.ts';
 
-const BASE = readSkill(ENTRADA);
+const TEXTO_ENTRADA = readSkill(ENTRADA);
 
 /** Una fila de la tabla del tono: solo la entrada tiene celdas con backtick. */
 const FILA = /^\|\s*`([a-z-]+)`\s*\|([^|]+)\|([^|]+)\|\s*$/gmu;
@@ -32,7 +32,7 @@ const PASO = /^\d+\.\s+(?:Si|En cualquier)[^`]*`([a-z-]+)`\.?$/gmu;
 
 /** Las filas de la tabla, por la skill que nombran. */
 const FILAS = new Map(
-  [...BASE.matchAll(FILA)].map((m) => [(m[1] as string).trim(), (m[2] as string).trim()]),
+  [...TEXTO_ENTRADA.matchAll(FILA)].map((m) => [(m[1] as string).trim(), (m[2] as string).trim()]),
 );
 
 describe('el enrutamiento está bien formado', () => {
@@ -74,7 +74,7 @@ describe('cada ruta cita la tabla que dice seguir', () => {
     // Se leen los pasos como «N. Si … `skill-writing`», que es como están
     // escritos. A propósito no son preguntas con «¿»: el extractor de
     // declaraciones toma esas por reglas de checklist, y estos pasos no lo son.
-    const pasos = [...BASE.matchAll(PASO)].map((m) => m[1] as string);
+    const pasos = [...TEXTO_ENTRADA.matchAll(PASO)].map((m) => m[1] as string);
     assert.deepEqual(pasos, RUTAS.map((r) => r.skill));
   });
 });

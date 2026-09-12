@@ -18,8 +18,9 @@ import { readFileSync } from 'node:fs';
 import { check, format, relevadas, type Finding } from './check.ts';
 import { RASGOS, type Rasgos, RUTAS, sugerirTono } from './enrutamiento.ts';
 import { PASADA_IDS, TONE_IDS } from './rules.ts';
-// El nombre de la skill es identidad de la skill, no una ruta: `skills.ts`
-// solo calcula rutas de archivo, así que esta importación es aparte.
+// El nombre de la skill es identidad de la skill, no una ruta: importar esta
+// constante no lee ninguna skill, porque `skills.ts` no tiene efectos
+// secundarios al importarse.
 import { ENTRADA } from './skills.ts';
 
 const USAGE = `uso: node src/cli.ts <archivo...> [--tono <${TONE_IDS.join('|')}>]

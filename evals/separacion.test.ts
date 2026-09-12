@@ -192,6 +192,12 @@ describe('las skills y el verificador no se nombran', () => {
     assert.ok(disparaVerificador(join(SKILLS_DIR, ENTRADA, 'references', 'x.md')));
     assert.ok(disparaVerificador(join(SKILLS_DIR, `${ENTRADA}-bis`, 'SKILL.md')));
     assert.ok(!disparaVerificador(join(SKILLS_DIR, ENTRADA, 'SKILL.md')));
+
+    // La excepción es solo de «el verificador»: los demás delatores del
+    // desarrollo del arnés siguen vigilando la skill de entrada.
+    assert.ok(
+      delatoresDeDesarrollo(join(SKILLS_DIR, ENTRADA, 'SKILL.md')).some((d) => d.test('lo dice un gate')),
+    );
   });
 
   test('el guardián sigue disparando sobre lo que tiene que disparar', () => {

@@ -29,7 +29,7 @@ import { ENTRADA, readSkill } from '../src/skills.ts';
 
 const MARCA = '**Precondición de forma:**';
 /** Plegado a espacios simples: el texto de la entrada se envuelve a ochenta columnas. */
-const BASE = readSkill(ENTRADA).replace(/\s+/gu, ' ');
+const TEXTO_ENTRADA = readSkill(ENTRADA).replace(/\s+/gu, ' ');
 
 /**
  * En qué sección de cada tono dice la entrada que vive la precondición.
@@ -38,7 +38,7 @@ const BASE = readSkill(ENTRADA).replace(/\s+/gu, ' ');
  * entrada afirma dónde está y el test comprueba que esté ahí. Si alguien mueve
  * la afirmación sin mover el bloque, o al revés, esto falla.
  */
-function seccionQueApuntaLaBase(texto: string): number {
+function seccionQueApuntaLaEntrada(texto: string): number {
   const m = /precondición, que cada skill de tono declara\s+al final de su sección (\d+)/u.exec(texto);
   assert.ok(m, 'la base dejó de decir dónde declara cada tono su precondición');
   return Number(m[1]);
@@ -57,7 +57,7 @@ function marcasEnSeccion(texto: string, n: number): number {
   return texto.slice(desde, hasta).split(MARCA).length - 1;
 }
 
-const SECCION = seccionQueApuntaLaBase(BASE);
+const SECCION = seccionQueApuntaLaEntrada(TEXTO_ENTRADA);
 
 describe('cada tono declara qué necesita su forma', () => {
   test('todas lo declaran, y una sola vez', () => {
@@ -86,8 +86,8 @@ describe('la entrada dice que la tabla enruta y no cerca', () => {
   test('lo dice, y no solo lo da por sabido', () => {
     // Sin esta frase, la tabla se lee como una lista de temas permitidos, que
     // es exactamente como se leyó hasta ahora.
-    assert.match(BASE, /\*\*La lista enruta, no cerca\.\*\*/u);
-    assert.match(BASE, /Si el usuario pide un tono, ese tono se aplica/u);
+    assert.match(TEXTO_ENTRADA, /\*\*La lista enruta, no cerca\.\*\*/u);
+    assert.match(TEXTO_ENTRADA, /Si el usuario pide un tono, ese tono se aplica/u);
   });
 
   test('la precondición vive donde la entrada dice, y no en el número que a este test le convenga', () => {
@@ -119,8 +119,8 @@ describe('el gate falla cuando tiene que fallar', () => {
   });
 
   test('si la entrada apunta a otra sección, se busca ahí', () => {
-    const otra = BASE.replace('al final de su sección 1', 'al final de su sección 7');
-    assert.equal(seccionQueApuntaLaBase(otra), 7);
+    const otra = TEXTO_ENTRADA.replace('al final de su sección 1', 'al final de su sección 7');
+    assert.equal(seccionQueApuntaLaEntrada(otra), 7);
     assert.equal(marcasEnSeccion(conMarca, 7), -1);
   });
 });
