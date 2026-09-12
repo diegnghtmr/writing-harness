@@ -13,7 +13,7 @@ archivo, hacé lo mismo: un puntero de una línea, nunca una copia.
 
 | Lo que te pidieron | Modo | Dónde está el procedimiento |
 |---|---|---|
-| Escribir, reescribir o revisar un texto en español | **usar** | La parte I de este archivo |
+| Escribir, reescribir o revisar un texto en español | **usar** | [`skills/redactar-espanol/SKILL.md`](skills/redactar-espanol/SKILL.md) |
 | Agregar un tono, una regla o un corpus; tocar el verificador, un gate o una cifra | **mejorar** | [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 La diferencia no es de tamaño, es de qué se toca. **Usar el arnés no modifica
@@ -35,8 +35,9 @@ salieron así.
 
 ## 1. El procedimiento vive en `redactar-espanol`
 
-Leé esa skill entera antes de escribir nada: decide si el pedido es redactar o
-corregir, si corresponde un tono y cuál, y cómo se entrega el texto. Está en
+Esa skill se lee entera antes de escribir nada: decide si el pedido es
+redactar o corregir, si corresponde un tono y cuál, y cómo se entrega el
+texto. Está en
 [`skills/redactar-espanol/SKILL.md`](skills/redactar-espanol/SKILL.md).
 
 ```bash
@@ -44,9 +45,9 @@ node src/cli.ts --enrutar <rasgo,rasgo>          # solo al redactar sin tono ped
 node src/cli.ts <archivo> [--tono <id>]          # medir; sin --tono al corregir
 ```
 
-El paso que más se salta es leer la skill entera, y es el que hace la
-diferencia: el verificador cubre 110 de las 299 declaraciones que hacen las
-skills. Las otras 189 solo las pone quien leyó la skill.
+El paso que más se salta es leer entera la skill del tono elegido, y es el
+que hace la diferencia: el verificador cubre 110 de las 299 declaraciones que
+hacen las skills. Las otras 189 solo las pone quien leyó la skill.
 
 ## 2. Elegir el tono, si corresponde
 
@@ -199,8 +200,6 @@ skill es la forma de hacerla.
   sugerencia.
 - **No se salta la verificación porque el texto no viva acá.** Un texto que se
   va a pegar en otro lado se mide igual, desde donde esté.
-- **No se silencian las advertencias sin decir por qué.** Una advertencia
-  justificada se justifica en voz alta, en la entrega.
 - **No se corre `--pasada humanizar` por rutina.** Marca como defecto giros que
   en un texto concreto son la palabra exacta.
 - **No se copia el `SKILL.md` al texto.** La skill decide la forma; no aparece
@@ -222,8 +221,8 @@ partes de arriba tengan sentido, y lo que hay que respetar en el modo mejorar.
 | Tono | Cómo suena | Una al redactar, ninguna al corregir |
 | Pasada | Qué se le hace a un texto ya escrito | Solo si el usuario la pide |
 
-`redactar-espanol` no es una capa: no declara ninguna regla propia, decide cuál
-de las tres corre y en qué orden.
+`redactar-espanol` no es una capa: no declara ninguna regla propia; decide si
+corre un tono y cuál.
 
 Se componen en `rulesFor`. La base nunca cede nada: `spanish-writing` §3.1 dice
 que ninguna capa de encima puede contradecirla, y eso incluye a las pasadas.
@@ -275,9 +274,9 @@ que el lector usa a ciegas. Un procedimiento que el lector ejecuta. Nada de eso
 es un tema, y cada una dice además de qué dominio salió su corpus, que es
 distinto de dónde se puede usar.
 
-`evals/alcance.test.ts` lo vigila en las dos direcciones. La base declara en qué
-sección vive la precondición y el test la busca ahí, así que mover el bloque sin
-mover la afirmación rompe, y al revés también.
+`evals/alcance.test.ts` lo vigila en las dos direcciones. La entrada declara en
+qué sección vive la precondición y el test la busca ahí, así que mover el
+bloque sin mover la afirmación rompe, y al revés también.
 
 Lo que ese gate no hace es leer la precondición y juzgarla. Distinguir una
 condición de forma de una condición de tema es lectura, no expresión regular, y

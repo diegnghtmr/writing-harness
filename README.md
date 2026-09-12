@@ -30,12 +30,12 @@ flowchart TD
     U(["Petición del usuario"]) --> EN["redactar-espanol<br/>decide el modo y el tono"]
     EN --> Q0{"¿Sobre un texto<br/>que ya existe?"}
 
-    Q0 -->|"«humanizá esto»"| H["humanizar-espanol<br/>la pasada, 38 patrones de IA"]
     Q0 -->|"corregir, revisar<br/>o traducir, sin tono"| B["spanish-writing<br/>la base, siempre"]
     Q0 -->|"escribir algo nuevo<br/>o pedir un tono"| B
 
-    B -->|"corregir"| W["Redactar"]
-    B --> R{"Enrutamiento<br/>por género y voz"}
+    B -->|"corregir"| W["Redactar o corregir"]
+    B -->|"nombra el tono"| TN["ese tono<br/>sin pasar por la lista"]
+    B -->|"no lo nombra"| R{"Enrutamiento<br/>por género y voz"}
     R -->|"académico, técnico, formal"| T1["camus-writing<br/>el que corre por defecto"]
     R -->|"divulgación"| T2["fonda · dotcsv · bettatech<br/>freddy · schiavenato"]
     R -->|"análisis de una obra"| T3["atenas"]
@@ -49,12 +49,12 @@ flowchart TD
     T4 --> W
     T5 --> W
     T6 --> W
-    H --> W
+    TN --> W
 
     W --> V["node src/cli.ts archivo [--tono ID]"]
     V --> C1["capa base<br/>siempre"]
     V --> C2["capa de tono<br/>con --tono"]
-    V --> C3["pasada<br/>solo con --pasada"]
+    V --> C3["humanizar-espanol<br/>pasada sobre el texto ya redactado,<br/>solo con --pasada"]
 
     C1 --> Q1{"¿Hallazgos?"}
     C2 --> Q1
@@ -120,7 +120,8 @@ el patrón que el catálogo señala como el que más penaliza.
 
 ### Enrutamiento
 
-`redactar-espanol` decide el tono: uno al redactar, ninguno al corregir.
+`redactar-espanol` decide el tono: uno al redactar, ninguno al corregir. Al
+corregir no hay tono: la forma ya la decidió quien escribió el texto.
 `spanish-writing` se aplica siempre, con tono o sin él. Once de los
 trece reconstruyen la forma de exponer de un autor concreto, y no se
 escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su habla.

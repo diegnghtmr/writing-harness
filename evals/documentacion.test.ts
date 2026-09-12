@@ -170,7 +170,7 @@ describe('los dos modos están declarados donde un agente los va a leer', () => 
   });
 });
 
-describe('la tabla y la lista de tonos no viven en §3 de la base', () => {
+describe('la tabla y la lista de tonos no viven en la base ni en su §3, ni en otras palabras', () => {
   // Desde «entry-router-skill», la tabla de tonos y la lista numerada viven
   // solo en `redactar-espanol` (spec «entry-routing»). El canario prueba que
   // esto no caza la referencia legítima de la base a su propio §3.1: esa
@@ -181,11 +181,17 @@ describe('la tabla y la lista de tonos no viven en §3 de la base', () => {
     /en\s+§3\s+de\s+la\s+base/iu,
     /§3\s+recorre\s+la\s+lista/iu,
     /`skills\/spanish-writing\/SKILL\.md`\s+§3:\s+la\s+fila\s+de\s+la\s+tabla|fila\s+de\s+la\s+tabla\s+§3\s+y\s+su\s+paso\s+de\s+la\s+lista/iu,
+    // Los cinco de arriba pinchan frases exactas y una paráfrasis se les escapa.
+    // Este último no busca una frase: caza cualquier §3 desnudo (sin subsección,
+    // de ahí la mirada adelante que excluye `§3.1`) y cualquier «sección 3 de la
+    // base/`spanish-writing`» o «tabla de la base», diga quien diga que ahí vive
+    // algo que ya se movió.
+    /§\s?3(?![.\d])|secci[oó]n\s+3\s+de\s+(?:la\s+base|`?spanish-writing)|tabla\s+de\s+la\s+base/iu,
   ];
 
   const plegado = (t: string) => t.replace(/\s+/gu, ' ');
 
-  test('ningún documento dice que la tabla o la lista de tonos viven en §3 de la base', () => {
+  test('ningún documento dice, ni parafrasea, que la tabla o la lista de tonos viven en §3 de la base', () => {
     const hallazgos = DOCUMENTOS.flatMap((doc) => {
       const texto = plegado(lee(doc));
       return YA_NO_VIVE_EN_BASE.filter((r) => r.test(texto)).map((r) => `${doc} :: ${r.source}`);
@@ -198,6 +204,15 @@ describe('la tabla y la lista de tonos no viven en §3 de la base', () => {
       'La base nunca cede nada: `spanish-writing` §3.1 dice que ninguna skill de tono puede contradecirla.',
     );
     assert.deepEqual(YA_NO_VIVE_EN_BASE.filter((r) => r.test(texto)), []);
+  });
+
+  test('una paráfrasis de la misma afirmación también cae', () => {
+    // Los primeros cinco patrones pinchan frases exactas. Alguien puede decir
+    // lo mismo con otras palabras y quedar fuera de todas: este mutante prueba
+    // justo eso, con una paráfrasis que ninguno de esos cinco cubre.
+    const parafrasis = plegado('En la sección 3 de `spanish-writing` está la tabla que enruta los tonos.');
+    const cazada = YA_NO_VIVE_EN_BASE.some((r) => r.test(parafrasis));
+    assert.ok(cazada, 'una paráfrasis con «sección 3 de `spanish-writing`» no cayó en ningún patrón');
   });
 });
 

@@ -3,10 +3,11 @@
 // Cinco skills de tono acotaban su alcance por el objeto del texto. Dos siguen
 // en el repositorio: `atenas` exigía una obra de ficción y `bettatech` un
 // mecanismo de cómputo. Las otras tres se retiraron después, por otro motivo.
-// Eso contradecía a la base, que en §3 recorre la lista solo «si el usuario no
-// indica el tono» y en §3.1 dice que una skill de tono nunca puede
-// contradecirla. Con la redacción vieja, un usuario que pidiera `atenas` para
-// un asunto real se topaba con una skill que se negaba a existir para él.
+// Eso contradecía a la base: la lista de `redactar-espanol` se recorre solo
+// «si el usuario no indica el tono», y `spanish-writing` §3.1 dice que
+// ninguna skill de tono puede contradecirla. Con la redacción vieja, un
+// usuario que pidiera `atenas` para un asunto real se topaba con una skill
+// que se negaba a existir para él.
 //
 // Un tono es una forma. Lo que puede exigir es lo que su forma necesita para
 // funcionar: una figura que corregir, unidades que citar, un orden que
@@ -40,7 +41,7 @@ const TEXTO_ENTRADA = readSkill(ENTRADA).replace(/\s+/gu, ' ');
  */
 function seccionQueApuntaLaEntrada(texto: string): number {
   const m = /precondición, que cada skill de tono declara\s+al final de su sección (\d+)/u.exec(texto);
-  assert.ok(m, 'la base dejó de decir dónde declara cada tono su precondición');
+  assert.ok(m, 'la entrada dejó de decir dónde declara cada tono su precondición');
   return Number(m[1]);
 }
 
@@ -77,7 +78,7 @@ describe('cada tono declara qué necesita su forma', () => {
     }
   });
 
-  test('son trece, las mismas que enruta la base', () => {
+  test('son trece, las mismas que enruta la entrada', () => {
     assert.equal(TONE_IDS.length, 13);
   });
 });

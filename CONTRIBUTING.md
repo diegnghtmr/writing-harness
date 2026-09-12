@@ -91,7 +91,7 @@ verificar.
 Siete cosas que un gate va a rechazar: la raya o el guion largo en cualquier
 parte, nombrar al verificador o a Node, nombrar un modelo o un fabricante,
 hablar del desarrollo de este proyecto, no declarar la precondición de forma en
-la sección que la base dice, una `description` de más de 1024 caracteres, y no
+la sección que la entrada dice, una `description` de más de 1024 caracteres, y no
 abrir con el bloque que manda a cargar la base.
 
 **El bloque existe porque un anfitrión elige la skill por su descripción.** Uno
@@ -396,19 +396,21 @@ regla propia: pedirle sus declaraciones da una lista vacía, y
 `evals/correspondencia.test.ts` lo comprueba.
 
 Un gate la rechaza si trae un ítem de checklist `N. ¿…?`, un catálogo en
-`references/`, la raya o el guion largo, o cualquier forma de invocación: un
-comando, una opción, una ruta del repositorio o la extensión de un script.
-Puede nombrar «el verificador» sin que ningún gate falle: es la única skill con
-ese permiso, y `evals/separacion.test.ts` lo acota a su archivo exacto.
+`references/`, la raya o el guion largo, una opción con `--`, `node` o
+`python` seguidos de un espacio, las extensiones `.ts`, `.js` y `.py`, o las
+rutas `src/` y `evals/`. Puede nombrar «el verificador» sin que ningún gate
+falle: es la única skill con ese permiso, y `evals/separacion.test.ts` lo
+acota a su archivo exacto.
 
-La atan seis gates y el CLI: `evals/puerta.test.ts`, `evals/enrutamiento.test.ts`,
+La leen `evals/puerta.test.ts`, `evals/enrutamiento.test.ts`,
 `evals/alcance.test.ts`, `evals/correspondencia.test.ts`,
-`evals/frontmatter.test.ts` y `evals/separacion.test.ts` la leen; `src/cli.ts`
-la nombra a través de `ENTRADA`, declarada en `src/skills.ts`.
+`evals/frontmatter.test.ts` y `evals/separacion.test.ts`; `src/cli.ts` la
+nombra a través de `ENTRADA`, declarada en `src/skills.ts`.
 
 Renombrarla no es mover un directorio. Hay que cambiar `ENTRADA`, los catorce
 bloques «Antes de seguir» de los tonos y de `humanizar-espanol` que la cargan
-por nombre, y el párrafo de `spanish-writing` que redirige a ella.
+por nombre, y el párrafo de `spanish-writing` que redirige a ella. Lo que
+quede después de esos cambios lo encuentra `rg -n redactar-espanol`.
 
 
 ## Tocar la documentación
