@@ -345,10 +345,13 @@ export type Complemento = {
  * que le falta a la petición.
  */
 export function rasgosQueCompletan(rasgos: Rasgos = {}): Complemento[] {
-  // Solo hay algo que avisar si la petición cayó en el último paso. Si eligió
-  // una ruta concreta, esa es la decisión: sumarle un rasgo que no la cambia no
-  // es algo que le falte.
-  if (RUTA_IDS.indexOf(sugerirTono(rasgos).tono) + 1 !== RUTAS.length) return [];
+  // Solo hay algo que avisar si la petición cayó en el último paso sin que nadie
+  // lo reclamara. Si eligió una ruta concreta, esa es la decisión: sumarle un
+  // rasgo que no la cambia no es algo que le falte. Un último paso reclamado
+  // también es una decisión: con `relatoPropio` y `obraDeFiccion`, el aviso
+  // sugería `personaje` justo debajo de un relato que ya había decidido.
+  const s = sugerirTono(rasgos);
+  if (s.reclamado || RUTA_IDS.indexOf(s.tono) + 1 !== RUTAS.length) return [];
   const completan: Complemento[] = [];
   for (const rasgo of RASGOS) {
     if (rasgos[rasgo]) continue;

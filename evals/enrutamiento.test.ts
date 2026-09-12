@@ -537,6 +537,14 @@ describe('cuando los rasgos no completan ninguna ruta, se dice qué rasgo la com
       { rasgo: 'contraOtraTesis', tono: 'solitario', paso: paso('solitario') },
     ]);
   });
+
+  test('un último paso reclamado no recibe sugerencias, aunque otro rasgo complete una ruta', () => {
+    // El relato propio ya es una decisión. Con `obraDeFiccion` al lado, el aviso
+    // decía que los rasgos no completaban ninguna ruta y sugería `personaje`,
+    // justo debajo de la decisión que eso contradecía.
+    assert.equal(sugerirTono({ relatoPropio: true, obraDeFiccion: true }).reclamado, true);
+    assert.deepEqual(rasgosQueCompletan({ relatoPropio: true, obraDeFiccion: true }), []);
+  });
 });
 
 describe('cuando la respuesta es el último paso sin reclamo, se nombran también las rutas de un rasgo', () => {
@@ -719,6 +727,12 @@ describe('el CLI avisa cuando los rasgos no completan ninguna ruta', () => {
     const r = spawnSync(process.execPath, [cli, '--enrutar', 'juridico'], { encoding: 'utf8', shell: false });
     assert.equal(r.status, 2, r.stdout);
     assert.match(r.stderr, /rasgo desconocido: juridico/u);
+  });
+
+  test('--enrutar relatoPropio,obraDeFiccion responde la decisión sin aviso ni sugerencias', () => {
+    const lineas = enrutar('relatoPropio,obraDeFiccion');
+    const s = sugerirTono({ relatoPropio: true, obraDeFiccion: true });
+    assert.deepEqual(lineas, ['camus-writing', `  ${s.porque}`, lineaDePaso('camus')]);
   });
 
   test('--enrutar academico falla como rasgo desconocido', () => {
