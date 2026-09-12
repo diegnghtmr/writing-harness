@@ -376,16 +376,39 @@ que se midió el día que se midió, y ese registro no se corrige borrando filas
 porque entonces deja de decir lo que pasó. Retirar una skill retira la skill, no
 la historia de su medición.
 
-1. Borrá `skills/<id>-writing/`.
-2. Agregá el nombre a `evals/retiradas.ts`.
-3. Quitá su entrada de `TONES` y su ruta.
-4. Quitá su fila de la tabla de `redactar-espanol` y su paso de la lista.
-5. Regenerá `cobertura.ts` y actualizá los recuentos.
+1. Se borra `skills/<id>-writing/`.
+2. Se agrega el nombre a `evals/retiradas.ts`.
+3. Se quita su entrada de `TONES` y su ruta.
+4. Se quita su fila de la tabla de `redactar-espanol` y su paso de la lista.
+5. Se regenera `cobertura.ts` y se actualizan los recuentos.
 
 `evals/corpus.test.ts` comprueba la lista de retiradas en tres direcciones: que
 ningún corpus quede huérfano sin declararse, que ninguna declarada siga viva, y
 que toda declarada tenga corpus que justificar. Sin la tercera, la lista crece
 con nombres sin respaldo y el permiso se vuelve un agujero.
+
+
+## La skill de entrada
+
+`skills/redactar-espanol/SKILL.md` decide el modo (redactar o corregir), si
+corresponde un tono y cuál, y cómo se entrega el texto. No declara ninguna
+regla propia: pedirle sus declaraciones da una lista vacía, y
+`evals/correspondencia.test.ts` lo comprueba.
+
+Un gate la rechaza si trae un ítem de checklist `N. ¿…?`, un catálogo en
+`references/`, la raya o el guion largo, o cualquier forma de invocación: un
+comando, una opción, una ruta del repositorio o la extensión de un script.
+Puede nombrar «el verificador» sin que ningún gate falle: es la única skill con
+ese permiso, y `evals/separacion.test.ts` lo acota a su archivo exacto.
+
+La atan seis gates y el CLI: `evals/puerta.test.ts`, `evals/enrutamiento.test.ts`,
+`evals/alcance.test.ts`, `evals/correspondencia.test.ts`,
+`evals/frontmatter.test.ts` y `evals/separacion.test.ts` la leen; `src/cli.ts`
+la nombra a través de `ENTRADA`, declarada en `src/skills.ts`.
+
+Renombrarla no es mover un directorio. Hay que cambiar `ENTRADA`, los catorce
+bloques «Antes de seguir» de los tonos y de `humanizar-espanol` que la cargan
+por nombre, y el párrafo de `spanish-writing` que redirige a ella.
 
 
 ## Tocar la documentación

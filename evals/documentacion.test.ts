@@ -212,6 +212,7 @@ describe('CONTRIBUTING.md cubre lo que dice cubrir', () => {
       '## Agregar un tono',
       '## Agregar una regla',
       '## Retirar una skill',
+      '## La skill de entrada',
       '## Tocar la documentación',
     ]) {
       assert.ok(CONTRIBUTING.includes(seccion), `CONTRIBUTING.md perdió «${seccion}»`);
@@ -233,6 +234,17 @@ describe('CONTRIBUTING.md cubre lo que dice cubrir', () => {
     const pasos = [...seccion('## Agregar un tono').matchAll(/^### \d+\. /gmu)].length;
     assert.equal(pasos, 8);
     assert.match(CONTRIBUTING, /Son ocho pasos y siete tienen gate/u);
+  });
+
+  test('«La skill de entrada» cubre lo que un gate exige y lo que rechaza', () => {
+    // Sin esto, la sección puede quedarse en un título vacío: la lista de
+    // arriba solo comprueba que el encabezado exista, no que diga algo. Se
+    // plegan los espacios porque la prosa está justificada a ochenta columnas
+    // y una frase puede caer partida entre dos líneas.
+    const cuerpo = seccion('## La skill de entrada').replace(/\s+/gu, ' ');
+    for (const frase of ['declara ninguna regla', 'references/', 'el verificador', 'ENTRADA']) {
+      assert.ok(cuerpo.includes(frase), `«La skill de entrada» perdió «${frase}»`);
+    }
   });
 
   test('nombra las cuatro reglas que no se negocian, y son cuatro', () => {

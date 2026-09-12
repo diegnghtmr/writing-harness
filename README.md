@@ -27,11 +27,14 @@ pide el usuario hasta lo que se entrega:
 
 ```mermaid
 flowchart TD
-    U(["Petición del usuario"]) --> Q0{"¿Sobre un texto<br/>que ya existe?"}
+    U(["Petición del usuario"]) --> EN["redactar-espanol<br/>decide el modo y el tono"]
+    EN --> Q0{"¿Sobre un texto<br/>que ya existe?"}
 
     Q0 -->|"«humanizá esto»"| H["humanizar-espanol<br/>la pasada, 38 patrones de IA"]
-    Q0 -->|"escribir algo nuevo"| B["spanish-writing<br/>la base, siempre"]
+    Q0 -->|"corregir, revisar<br/>o traducir, sin tono"| B["spanish-writing<br/>la base, siempre"]
+    Q0 -->|"escribir algo nuevo<br/>o pedir un tono"| B
 
+    B -->|"corregir"| W["Redactar"]
     B --> R{"Enrutamiento<br/>por género y voz"}
     R -->|"académico, técnico, formal"| T1["camus-writing<br/>el que corre por defecto"]
     R -->|"divulgación"| T2["fonda · dotcsv · bettatech<br/>freddy · schiavenato"]
@@ -40,7 +43,7 @@ flowchart TD
     R -->|"entregar un método<br/>que el lector ejecuta"| T5["adria-sola"]
     R -->|"sostener cada afirmación<br/>con evidencia cruzada"| T6["triangulacion"]
 
-    T1 --> W["Redactar"]
+    T1 --> W
     T2 --> W
     T3 --> W
     T4 --> W
@@ -48,7 +51,7 @@ flowchart TD
     T6 --> W
     H --> W
 
-    W --> V["node src/cli.ts archivo --tono ID"]
+    W --> V["node src/cli.ts archivo [--tono ID]"]
     V --> C1["capa base<br/>siempre"]
     V --> C2["capa de tono<br/>con --tono"]
     V --> C3["pasada<br/>solo con --pasada"]
@@ -117,8 +120,8 @@ el patrón que el catálogo señala como el que más penaliza.
 
 ### Enrutamiento
 
-`spanish-writing` se aplica siempre. Qué tono corresponde, y si corresponde
-alguno, lo decide `redactar-espanol`. Once de los
+`redactar-espanol` decide el tono: uno al redactar, ninguno al corregir.
+`spanish-writing` se aplica siempre, con tono o sin él. Once de los
 trece reconstruyen la forma de exponer de un autor concreto, y no se
 escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su habla.
 Eso es lo que separa a este repositorio de una colección de instrucciones de
@@ -154,10 +157,12 @@ decisión.
 ## El verificador
 
 Las skills son prosa que lee un modelo. El verificador mide si un texto entregado
-las cumple. **No se nombran entre sí**: una skill tiene que servir en una máquina
-donde este verificador no existe, y el verificador tiene que servir sobre un texto
-escrito sin ninguna skill cargada. Lo único que comparten es el conjunto de
-reglas, y vive una sola vez, en `src/rules.ts`.
+las cumple. **No se nombran entre sí**, salvo una única excepción: la skill de
+entrada, `redactar-espanol`, sí nombra al verificador, porque es la única que
+describe cuándo se usa y cómo se entrega el texto. Una skill tiene que servir en
+una máquina donde este verificador no existe, y el verificador tiene que servir
+sobre un texto escrito sin ninguna skill cargada. Lo único que comparten es el
+conjunto de reglas, y vive una sola vez, en `src/rules.ts`.
 
 ```bash
 node src/cli.ts documento.txt --tono camus
