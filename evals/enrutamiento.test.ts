@@ -1,7 +1,7 @@
-// El enrutamiento decide siempre, y decide lo que la tabla §3 dice.
+// El enrutamiento decide siempre, y decide lo que la tabla de la entrada dice.
 //
-// Mismo gate que el de las reglas, aplicado al otro dato que la base declara en
-// prosa: cada ruta cita literalmente su celda de la tabla, y cada fila de la
+// Mismo gate que el de las reglas, aplicado al otro dato que la entrada declara
+// en prosa: cada ruta cita literalmente su celda de la tabla, y cada fila de la
 // tabla tiene su ruta. Falla en las dos direcciones, así que reescribir la tabla
 // sin tocar el dato rompe, y al revés también.
 
@@ -19,16 +19,19 @@ import {
   sugerirTono,
 } from '../src/enrutamiento.ts';
 import { TONES, TONE_IDS } from '../src/rules.ts';
-import { REPO_ROOT, readSkill } from '../src/skills.ts';
+import { ENTRADA, REPO_ROOT, readSkill, skillNames } from '../src/skills.ts';
 
-const BASE = readSkill('spanish-writing');
+const BASE = readSkill(ENTRADA);
 
-/** Las filas de la tabla de §3, por la skill que nombran. */
+/** Una fila de la tabla del tono: solo la entrada tiene celdas con backtick. */
+const FILA = /^\|\s*`([a-z-]+)`\s*\|([^|]+)\|([^|]+)\|\s*$/gmu;
+
+/** Un paso de la lista numerada: solo la entrada los tiene. */
+const PASO = /^\d+\.\s+(?:Si|En cualquier)[^`]*`([a-z-]+)`\.?$/gmu;
+
+/** Las filas de la tabla, por la skill que nombran. */
 const FILAS = new Map(
-  [...BASE.matchAll(/^\|\s*`([a-z-]+)`\s*\|([^|]+)\|([^|]+)\|\s*$/gmu)].map((m) => [
-    (m[1] as string).trim(),
-    (m[2] as string).trim(),
-  ]),
+  [...BASE.matchAll(FILA)].map((m) => [(m[1] as string).trim(), (m[2] as string).trim()]),
 );
 
 describe('el enrutamiento está bien formado', () => {
@@ -37,7 +40,7 @@ describe('el enrutamiento está bien formado', () => {
     assert.deepEqual([...RUTA_IDS].sort(), [...TONE_IDS].sort());
   });
 
-  test('la tabla §3 tiene una fila por tono', () => {
+  test('la tabla de la entrada tiene una fila por tono', () => {
     // Si la tabla pierde una fila, el tono deja de poder elegirse aunque su
     // skill siga en el repositorio.
     assert.equal(FILAS.size, TONE_IDS.length);
@@ -52,7 +55,7 @@ describe('cada ruta cita la tabla que dice seguir', () => {
     assert.deepEqual(
       huerfanas,
       [],
-      'una ruta cita un texto que la tabla de §3 ya no dice. O se reescribió la tabla, o el dato quedó viejo.',
+      'una ruta cita un texto que la tabla de la entrada ya no dice. O se reescribió la tabla, o el dato quedó viejo.',
     );
   });
 
@@ -61,7 +64,7 @@ describe('cada ruta cita la tabla que dice seguir', () => {
     assert.deepEqual([...FILAS.keys()].filter((s) => !conRuta.has(s)), []);
   });
 
-  test('la lista numerada de §3 va en el mismo orden que el dato', () => {
+  test('la lista numerada de la entrada va en el mismo orden que el dato', () => {
     // El orden ES la mitad del procedimiento, así que tiene que coincidir en las
     // dos representaciones. La prosa la lee el modelo que escribe; el dato lo
     // lee el verificador. Si divergen, uno de los dos elige mal y nadie se
@@ -70,10 +73,18 @@ describe('cada ruta cita la tabla que dice seguir', () => {
     // Se leen los pasos como «N. Si … `skill-writing`», que es como están
     // escritos. A propósito no son preguntas con «¿»: el extractor de
     // declaraciones toma esas por reglas de checklist, y estos pasos no lo son.
-    const pasos = [...BASE.matchAll(/^\d+\.\s+(?:Si|En cualquier)[^`]*`([a-z-]+)`\.?$/gmu)].map(
-      (m) => m[1] as string,
-    );
+    const pasos = [...BASE.matchAll(PASO)].map((m) => m[1] as string);
     assert.deepEqual(pasos, RUTAS.map((r) => r.skill));
+  });
+});
+
+describe('la tabla y la lista viven solo en la entrada', () => {
+  test('ninguna otra skill tiene una fila de la tabla ni un paso de la lista', () => {
+    const otras = skillNames().filter((n) => n !== ENTRADA);
+    const conFila = otras.filter((n) => [...readSkill(n).matchAll(FILA)].length > 0);
+    const conPaso = otras.filter((n) => [...readSkill(n).matchAll(PASO)].length > 0);
+    assert.deepEqual(conFila, [], 'estas skills tienen una fila con la forma de la tabla');
+    assert.deepEqual(conPaso, [], 'estas skills tienen un paso con la forma de la lista');
   });
 });
 

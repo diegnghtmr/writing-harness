@@ -203,4 +203,31 @@ describe('las skills y el verificador no se nombran', () => {
     assert.ok(dispara('el plugin de Copilot'));
     assert.ok(!dispara('Tengo un precursor.'));
   });
+
+  /**
+   * Lo que la entrada no puede decir aunque nombre al verificador.
+   *
+   * La excepción de arriba le permite decir «el verificador», pero no cómo se
+   * invoca. Un flag de línea de comandos, el ejecutable que corre un script o
+   * la extensión del script siguen siendo desarrollo del arnés, aunque vayan
+   * pegados a la palabra permitida.
+   */
+  const INVOCACION = [/--(?=[A-Za-z])/u, /(?<!\p{L})(?:node|python)\s/iu, /\.(?:ts|js|py)\b/iu];
+
+  test('la entrada no invoca al verificador aunque lo nombre', () => {
+    const src = readFileSync(join(SKILLS_DIR, ENTRADA, 'SKILL.md'), 'utf8');
+    const hallazgos = INVOCACION.filter((d) => d.test(src)).map((d) => d.source);
+    assert.deepEqual(hallazgos, []);
+  });
+
+  test('el guardián de la invocación caza lo que tiene que cazar', () => {
+    const dispara = (t: string) => INVOCACION.some((d) => d.test(t));
+    assert.ok(dispara('--tono camus'));
+    assert.ok(dispara('node src/cli.ts'));
+    assert.ok(dispara('python detector/score_es.py'));
+    assert.ok(dispara('el verificador de `cli.ts`'));
+    assert.ok(!dispara('el doble guion ( -- )'));
+    assert.ok(!dispara('un nodo del grafo'));
+    assert.ok(!dispara('el verificador mide el texto'));
+  });
 });

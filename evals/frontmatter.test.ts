@@ -19,7 +19,7 @@
 
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
-import { readSkill, skillNames } from '../src/skills.ts';
+import { ENTRADA, readSkill, skillNames } from '../src/skills.ts';
 
 /** Lo que el instalador acepta. Copiado de su mensaje de error, no deducido. */
 const MAXIMO_DESCRIPCION = 1024;
@@ -205,6 +205,23 @@ describe('cada skill sigue siendo alcanzable por su nombre', () => {
     const d = 'Trato de «ustedes». Hereda de «spanish-writing». Úsese con «tono X».';
     const citas = [...d.slice(d.search(/Úsese|Disparar|También con/u)).matchAll(/«([^»]+)»/gu)];
     assert.deepEqual(citas.map((m) => m[1]), ['tono X']);
+  });
+});
+
+describe('la entrada se pide con frases que ninguna otra skill reclama', () => {
+  // «redacta un texto» y «corrige este texto» abren el modo redactar y el modo
+  // corregir; la de traducir es la que agrega este cambio. Ninguna de las tres
+  // sirve si otra skill también la dispara: un anfitrión que la lea ahí no
+  // sabría cuál cargar primero.
+  const FRASES_DE_LA_ENTRADA = ['redacta un texto', 'corrige este texto', 'traduce este texto al español'];
+
+  test('cada frase vive en la entrada y en ninguna otra skill', () => {
+    for (const frase of FRASES_DE_LA_ENTRADA) {
+      const conFrase = skillNames().filter((n) =>
+        (campoDeFrontmatter(readSkill(n), 'description') ?? '').toLowerCase().includes(frase),
+      );
+      assert.deepEqual(conFrase, [ENTRADA], `«${frase}» tendría que vivir solo en la entrada`);
+    }
   });
 });
 

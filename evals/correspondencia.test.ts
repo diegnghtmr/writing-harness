@@ -19,6 +19,7 @@ import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { TONES, TONE_IDS, allRules, assertRules } from '../src/rules.ts';
 import {
+  ENTRADA,
   SKILLS_DIR,
   allDeclarations,
   cataloguePatterns,
@@ -230,13 +231,21 @@ describe('el techo de cobertura está declarado', () => {
   });
 
   test('todas las skills aportan al recuento', () => {
-    assert.equal(skillNames().length, 15);
-    // La base y la pasada no son tonos. Los demás sí, y el verificador tiene que
-    // aceptarlos todos o la tabla de enrutamiento miente.
+    assert.equal(skillNames().length, 16);
+    // La base, la pasada y la entrada no son tonos. Los demás sí, y el
+    // verificador tiene que aceptarlos todos o la tabla de enrutamiento miente.
     assert.deepEqual(
-      skillNames().filter((n) => n !== 'spanish-writing' && n !== 'humanizar-espanol').sort(),
+      skillNames()
+        .filter((n) => n !== 'spanish-writing' && n !== 'humanizar-espanol' && n !== ENTRADA)
+        .sort(),
       TONE_IDS.map((t) => TONES[t]!.skill).sort(),
     );
+  });
+
+  test('la entrada no declara ninguna regla', () => {
+    // La entrada decide modo, tono y entrega; no agrega normativa propia. Sus
+    // reglas viven en la base y en cada tono.
+    assert.deepEqual(declarations(ENTRADA), []);
   });
 
   test('humanizar-espanol ya no queda fuera del gate', () => {

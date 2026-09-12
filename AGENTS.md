@@ -1,6 +1,6 @@
 # writing-harness
 
-Quince skills de redacción en español y un verificador que mide si un texto las
+Dieciséis skills de redacción en español y un verificador que mide si un texto las
 cumple. Trece de esas skills son tonos. Las skills son prosa que vos leés; el
 verificador es un programa que cuenta. Lo que hace útil al conjunto es que las
 dos mitades declaran las mismas reglas y un gate las obliga a no contradecirse.
@@ -284,7 +284,9 @@ responder la pregunta; que la respuesta sea buena se revisa leyendo.
 Las skills declaran reglas. El verificador las mide. **No se mencionan entre
 sí.**
 
-Ninguna skill nombra al verificador, ni a Node, ni a este repositorio. Una
+Ninguna skill nombra al verificador, ni a Node, ni a este repositorio, salvo
+una única excepción: la skill de entrada, `redactar-espanol`, sí lo nombra,
+porque es la única que describe cuándo se usa y cómo se entrega el texto. Una
 skill tiene que servir en una máquina donde este verificador no existe, y el
 verificador tiene que servir sobre un texto escrito sin ninguna skill cargada.
 Lo único que comparten es el conjunto de reglas, y viven una sola vez, en

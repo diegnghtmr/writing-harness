@@ -1,6 +1,6 @@
 // El enrutamiento como dato, y el procedimiento que decide cuando nadie eligió.
 //
-// La tabla de `spanish-writing` §3 dice qué tono sirve para qué. Leerla es
+// La tabla de la skill de entrada dice qué tono sirve para qué. Leerla es
 // suficiente para una persona y no lo es para un procedimiento: hasta ahora, si
 // el usuario no indicaba tono y el género no era académico, la base corría sola
 // y el texto salía sin forma. Eso no es una decisión, es una ausencia.
@@ -96,7 +96,7 @@ export type Ruta = {
   tono: string;
   skill: string;
   /**
-   * Fragmento literal de la celda «Cuándo se usa» de la tabla §3.
+   * Fragmento literal de la celda «Cuándo se usa» de la tabla de la entrada.
    *
    * Es lo que ata este dato a la prosa. El gate comprueba que siga estando ahí,
    * así que reescribir la tabla sin tocar esto rompe, y al revés también.

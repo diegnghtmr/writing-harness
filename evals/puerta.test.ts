@@ -23,7 +23,7 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { TONE_IDS } from '../src/rules.ts';
-import { readSkill, skillNames } from '../src/skills.ts';
+import { ENTRADA, readSkill, skillNames } from '../src/skills.ts';
 
 const BASE = 'spanish-writing';
 
@@ -98,9 +98,11 @@ describe('lo que el bloque cita de la base sigue siendo cierto', () => {
     );
   });
 
-  test('anuncia el tono con la misma frase que pide la base', () => {
+  test('la entrada anuncia el tono con la frase que los tonos repiten, y la base ya no', () => {
     const frase = 'Elegido el tono, se dice cuál y por qué en una línea.';
-    assert.ok(base.includes(frase), 'la base dejó de pedir que se anuncie el tono elegido');
+    const entrada = readSkill(ENTRADA);
+    assert.ok(entrada.includes(frase), 'la entrada dejó de pedir que se anuncie el tono elegido');
+    assert.ok(!base.includes(frase), 'la base no anuncia el tono: eso lo dice la entrada');
     assert.ok(BLOQUE_DE_TONO.endsWith(frase));
   });
 
@@ -108,6 +110,20 @@ describe('lo que el bloque cita de la base sigue siendo cierto', () => {
     // Es la mitad que sí cabe en una descripción: la de la base tenía margen.
     const fm = (/^---\r?\n([\s\S]*?)\r?\n---/u.exec(base)?.[1] ?? '').replace(/\s+/gu, ' ');
     assert.match(fm, /cárguese antes que cualquier skill de tono/u);
+  });
+
+  test('la descripción de la base ya no invoca, y cita a la entrada', () => {
+    const fm = (/^---\r?\n([\s\S]*?)\r?\n---/u.exec(base)?.[1] ?? '').replace(/\s+/gu, ' ');
+    assert.doesNotMatch(fm, /Úsese|Disparar|También con/u);
+    assert.match(fm, new RegExp(`«${ENTRADA}»`, 'u'));
+  });
+
+  test('la descripción de la entrada se carga antes que cualquier otra skill de redacción', () => {
+    const fmEntrada = (/^---\r?\n([\s\S]*?)\r?\n---/u.exec(readSkill(ENTRADA))?.[1] ?? '').replace(
+      /\s+/gu,
+      ' ',
+    );
+    assert.match(fmEntrada, /cárguese antes que cualquier otra skill de redacción/u);
   });
 });
 

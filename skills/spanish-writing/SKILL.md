@@ -1,20 +1,22 @@
 ---
 name: spanish-writing
 description: >
-  Base normativa y orquestador de las skills de redacción en español.
-  Contiene las reglas que rigen todo texto en español, sin importar el tono:
-  normas de la RAE, la Nueva gramática de la lengua española (2009), la
-  Ortografía de la lengua española (2010) y el Diccionario panhispánico de
-  dudas. Cubre corrección gramatical, puntuación, mayúsculas, números,
-  anglicismos, léxico prohibido, citas y formato de entrega. Enruta hacia la
-  skill de tono que corresponda, sea el registro general de camus-writing o
-  una de las que reconstruyen la forma de exponer de un autor concreto.
-  Úsese siempre que se redacte, reescriba, corrija o revise un texto en
-  español, y cárguese antes que cualquier skill de tono: es la que decide cuál
-  corresponde.
+  Base normativa de las skills de redacción en español. Contiene las reglas
+  que rigen todo texto en español, sin importar el tono: normas de la RAE, la
+  Nueva gramática de la lengua española (2009), la Ortografía de la lengua
+  española (2010) y el Diccionario panhispánico de dudas. Cubre corrección
+  gramatical, puntuación, mayúsculas, números, anglicismos, léxico prohibido,
+  citas y formato de entrega. No es la entrada ni elige el tono: todo pedido
+  de redactar, reescribir, corregir o revisar un texto en español empieza por
+  «redactar-espanol», que decide si corresponde una skill de tono y cuál. Rige
+  siempre, con tono o sin él: cárguese antes que cualquier skill de tono.
 ---
 
 # Base normativa del español y enrutamiento de tono
+
+**Antes de seguir.** Si «redactar-espanol» no está cargada, se carga ahora:
+todo pedido de redactar o de corregir un texto en español entra por ella, y
+esta base no la sustituye.
 
 
 ## 1. Rol y alcance
@@ -46,71 +48,18 @@ libertad creativa que el contexto permita.
 
 ## 3. Enrutamiento de tono
 
-Este skill es el orquestador. Las reglas de las secciones 4 a 13 se aplican
-siempre. Encima de ellas se elige exactamente una skill de tono, que decide la
-forma y la manera de presentar la información.
+Las reglas de las secciones 4 a 13 se aplican siempre, haya tono o no. Encima
+de ellas va como mucho una skill de tono. Esta base no la elige: si
+corresponde un tono, y cuál, lo decide «redactar-espanol».
 
-| Skill de tono | Cuándo se usa | Voz |
-|---|---|---|
-| `camus-writing` | Textos académicos, técnicos y formales: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos. Es el tono por defecto. | Impersonal, económica, oraciones breves |
-| `fonda-writing` | Divulgación filosófica, humanística o cultural: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. | Conversacional, interpelación de usted, entrada por algo concreto y glosa constante |
-| `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin interpelación al lector |
-| `han-writing` | Diagnóstico epocal y ensayo filosófico breve, construido por oposición de conceptos. | Aforística, sin dato empírico, capítulo corto |
-| `adria-sola-writing` | Texto que le entrega al lector un método para que lo ejecute: guías, manuales de procedimiento, protocolos de estudio y de trabajo, rutinas, cursos. | Oración corta, imperativo sostenido, pasos numerados que terminan en una instrucción |
-| `freddy-writing` | Divulgación tecnológica y educativa que busca mover a alguien a actuar. | El mecanismo antes del juicio, cifra repartida, imperativo frecuente |
-| `dotcsv-writing` | Divulgación técnica de un mecanismo difícil para público general. | Reducción del problema a su versión mínima, entusiasmo repartido |
-| `bettatech-writing` | Fundamentos de informática y computación antes que la receta práctica. | El nombre después del fenómeno, caso de ingeniería en vez de analogía |
-| `fonseca-writing` | Actualidad internacional, geopolítica y economía a partir de un hecho reciente. | Entrada por el hecho, alternancia brusca de longitud, apodo burlón sostenido |
-| `schiavenato-writing` | Divulgación jurídica y política dirigida a una comunidad. | «Ustedes» para lo colectivo y «usted» para el caso individual, definición por negación, imperativo de mirar más cifra |
-| `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, segunda del plural, corrección de la lectura corriente en la apertura |
-| `solitario-writing` | Texto que sostiene una tesis contra quien la niega: ensayo polémico, alegato, réplica, crítica de una disciplina o de una práctica. | Tesis en la primera oración, adversario con turno de palabra, concesión antes de la refutación |
-| `triangulacion-writing` | Texto que sostiene cada afirmación con evidencia de más de una clase: informes de investigación, marcos teóricos, metodologías, análisis de resultados, monografías, tesis, trabajos de grado, estados del arte. | Impersonal sin primera persona, oración larga que sostiene dato y consecuencia, la cita conserva la voz de quien habló |
-
-Si el usuario no indica el tono, se recorre la lista siguiente en orden y se
-toma la primera que corresponda. Va de lo más estrecho a lo más amplio, porque
-un análisis de un personaje es algo más concreto que una divulgación y, al
-revés, nunca se elegiría.
-
-1. Si el asunto es un personaje de una obra de ficción, `atenas-writing`.
-2. Si la tesis se sostiene contra alguien que la niega y ese alguien tiene
-   nombre, `solitario-writing`.
-3. Si la tesis se sostiene contra otra doctrina, `catedra-writing`.
-4. Si es un diagnóstico de la época por oposición de conceptos, `han-writing`.
-5. Si es derecho o política dirigidos a una comunidad, `schiavenato-writing`.
-6. Si parte de un hecho reciente de actualidad, geopolítica o economía,
-   `fonseca-writing`.
-7. Si son fundamentos de computación antes que la receta, `bettatech-writing`.
-8. Si el lector recibe un método para ejecutarlo sobre sí mismo,
-   `adria-sola-writing`.
-9. Si explica un mecanismo para mover a alguien a actuar, `freddy-writing`.
-10. Si explica un mecanismo técnico a público general, `dotcsv-writing`.
-11. Si es divulgación filosófica, humanística o cultural, `fonda-writing`.
-12. Si hay evidencia de más de una clase sobre el mismo asunto y teoría con que
-    leerla, `triangulacion-writing`.
-13. En cualquier otro caso, `camus-writing`.
-
-**La lista siempre termina en un tono.** Antes, un género que no encajaba en
-ninguna fila dejaba correr esta base sola, y eso no es una decisión sino una
-ausencia: un texto sin tono no es un texto neutro, es un texto cuya forma no
-decidió nadie.
-
-**La lista enruta, no cerca.** Cada fila nombra el caso donde ese tono se
-encuentra casi siempre, que es además el caso que midió su corpus. No dice de
-qué se puede escribir con esa forma. Un tono es una forma, y una forma se pide
-para cualquier asunto que cumpla su precondición, que cada skill de tono declara
-al final de su sección 1. Si el usuario pide un tono, ese tono se aplica y esta
-lista no se recorre.
-
-Elegido el tono, se dice cuál y por qué en una línea. Una decisión que no se
-puede rebatir no es una decisión.
-
-Los once tonos que siguen a `camus-writing` reconstruyen la forma de exponer de
-un autor concreto, medida sobre un corpus de transcripciones, y cada uno declara
-en su sección de fuentes qué se midió, con qué números y qué no pudo
-verificarse. Ninguno toma la variedad dialectal ni el tratamiento de su modelo:
-la sección 9.1 y la sección 9.2 ganan siempre, aunque el corpus medido diga otra
-cosa, y cada skill dice qué descarta y por qué. Varios de estos autores tutean a
-su público y algunos son peninsulares. Eso se mide y se documenta, no se imita.
+Los once tonos que siguen a `camus-writing` en la tabla de «redactar-espanol»
+reconstruyen la forma de exponer de un autor concreto, medida sobre un corpus
+de transcripciones, y cada uno declara en su sección de fuentes qué se midió,
+con qué números y qué no pudo verificarse. Ninguno toma la variedad dialectal
+ni el tratamiento de su modelo: la sección 9.1 y la sección 9.2 ganan siempre,
+aunque el corpus medido diga otra cosa, y cada skill dice qué descarta y por
+qué. Varios de estos autores tutean a su público y algunos son peninsulares.
+Eso se mide y se documenta, no se imita.
 
 `humanizar-espanol` no es una skill de tono. Es una pasada que se ejecuta
 después, sobre un texto ya redactado, y solo cuando el usuario la pide de forma
@@ -787,6 +736,10 @@ EVITAR símbolos especiales innecesarios.
 
 Entregar únicamente el texto reescrito. Sin preámbulos, sin explicaciones,
 sin notas finales. El texto reescrito es la respuesta completa.
+
+Fuera del texto solo van las líneas aparte que pide «redactar-espanol»: qué
+tono se usó y por qué, o por qué no se usó ninguno; las advertencias que
+quedan, con su motivo; y, si no hubo verificador, que el texto no se midió.
 
 ### 12.3. Formato de respuesta al redactar
 

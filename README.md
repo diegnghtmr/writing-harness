@@ -2,7 +2,7 @@
 
 Skills de redacción en español y el verificador que mide si un texto las cumple.
 
-Quince skills en tres capas y 93 reglas mecanizadas, con un gate que ata cada
+Dieciséis skills en tres capas y 93 reglas mecanizadas, con un gate que ata cada
 regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
 entero sin instalar nada, sin build y sin conexión.
 
@@ -71,6 +71,7 @@ contexto la justifica; señalan lo que ninguna regla decide sola.
 
 | Capa | Qué decide | Cuántas |
 |---|---|---|
+| **Entrada** | Qué modo, qué tono y cómo se entrega el texto. No es una capa: no declara ninguna regla propia | 1 |
 | **Base normativa** | Qué es correcto en español: gramática, anglicismos, puntuación, mayúsculas, números, léxico prohibido, citas, tratamiento, variedad, formato de entrega | 1 |
 | **Tono** | Cómo suena: longitud de oración y párrafo, persona gramatical, conectores favorecidos, arquitectura del argumento | 13 |
 | **Pasada** | Corre sobre un texto ya redactado, y solo si el usuario la pide con esas palabras | 1 |
@@ -116,7 +117,8 @@ el patrón que el catálogo señala como el que más penaliza.
 
 ### Enrutamiento
 
-`spanish-writing` se aplica siempre y elige exactamente un tono. Once de los
+`spanish-writing` se aplica siempre. Qué tono corresponde, y si corresponde
+alguno, lo decide `redactar-espanol`. Once de los
 trece reconstruyen la forma de exponer de un autor concreto, y no se
 escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su habla.
 Eso es lo que separa a este repositorio de una colección de instrucciones de
