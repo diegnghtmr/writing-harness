@@ -167,8 +167,8 @@ describe('cada skill sigue siendo alcanzable por su nombre', () => {
    * divulgación técnica», que además comparte con otra skill. Una lista dice
    * exactamente qué se perdería.
    *
-   * `camus` y `solitario` no están, y no es un olvido. `camus` es el tono por
-   * defecto y se pide por el género, no por el nombre. `solitario` nunca declaró
+   * `camus` y `solitario` no están, y no es un olvido. `camus` es el último paso
+   * de la lista y se pide por la voz, no por el nombre. `solitario` nunca declaró
    * uno. Que falten está escrito acá para que sea una decisión visible y no un
    * hueco: el día que alguien les escriba el suyo, entra en esta lista.
    */

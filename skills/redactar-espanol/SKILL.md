@@ -48,7 +48,6 @@ decide la forma y la manera de presentar la información.
 
 | Skill de tono | Cuándo se usa | Voz |
 |---|---|---|
-| `camus-writing` | Texto de voz impersonal, o que se dirige a alguien sin tuteo ni complicidad: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos, cartas y correos formales. Relato de lo que le pasó al propio usuario, en primera persona del singular. Es el último paso de la lista. | Impersonal, económica, oraciones breves. Sin tuteo ni complicidad con quien lee. En el relato propio, primera persona del singular |
 | `fonda-writing` | Texto que le explica algo a un lector que no es del oficio, entrando por algo concreto: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. La filosofía y la cultura son de donde salió el corpus, y la misma forma sirve para cualquier asunto que se le pueda contar a alguien sentado enfrente. | Conversacional, interpelación de usted, entrada por algo concreto y glosa constante |
 | `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin interpelación al lector |
 | `han-writing` | Diagnóstico epocal y ensayo filosófico breve, construido por oposición de conceptos. | Aforística, sin dato empírico, capítulo corto |
@@ -61,6 +60,7 @@ decide la forma y la manera de presentar la información.
 | `atenas-writing` | Análisis de un personaje de ficción a partir de un concepto que lo nombra. | Conceptual, segunda del plural, corrección de la lectura corriente en la apertura |
 | `solitario-writing` | Texto que sostiene una tesis contra quien la niega: ensayo polémico, alegato, réplica, crítica de una disciplina o de una práctica. | Tesis en la primera oración, adversario con turno de palabra, concesión antes de la refutación |
 | `triangulacion-writing` | Texto que sostiene cada afirmación con evidencia de más de una clase: informes de investigación, marcos teóricos, metodologías, análisis de resultados, monografías, tesis, trabajos de grado, estados del arte. | Impersonal sin primera persona, oración larga que sostiene dato y consecuencia, la cita conserva la voz de quien habló |
+| `camus-writing` | Texto de voz impersonal, o que se dirige a alguien sin tuteo ni complicidad: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos, cartas y correos formales. Relato de lo que le pasó al propio usuario, en primera persona del singular. Es el último paso de la lista. | Impersonal, económica, oraciones breves. Sin tuteo ni complicidad con quien lee. En el relato propio, primera persona del singular |
 
 Si el usuario no indica el tono, se recorre la lista siguiente en orden y se
 toma la primera que corresponda. Va de lo más estrecho a lo más amplio, porque

@@ -290,7 +290,7 @@ export type Sugerencia = {
   skill: string;
   /** Por qué salió ese, en una línea que se pueda discutir. */
   porque: string;
-  /** `false` cuando ningún rasgo reclamó el texto y ganó el de por defecto. */
+  /** `false` cuando ningún rasgo reclamó el texto y lo recogió el último paso. */
   reclamado: boolean;
 };
 
@@ -313,7 +313,7 @@ export function sugerirTono(rasgos: Rasgos = {}): Sugerencia {
       skill: ruta.skill,
       porque: reclamo
         ? `${reclamo.cuando ?? ruta.cuando}.`
-        : 'Ningún rasgo reclamó el texto; se aplica el tono por defecto.',
+        : 'Ningún rasgo reclamó el texto; se aplica el último paso de la lista.',
       reclamado: reclamo !== undefined,
     };
   }
@@ -471,6 +471,8 @@ export function assertRutas(): void {
   const faltan = Object.keys(TONES).filter((t) => !RUTA_IDS.includes(t));
   if (faltan.length) throw new Error(`tonos sin ruta: ${faltan.join(', ')}`);
   if (RUTAS[RUTAS.length - 1]?.tono !== 'camus') {
-    throw new Error('la última ruta tiene que ser la de por defecto');
+    throw new Error(
+      'la última ruta tiene que ser camus: es el último paso de la lista y recoge lo que ningún paso anterior reclamó',
+    );
   }
 }

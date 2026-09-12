@@ -315,13 +315,14 @@ const UN_CASO_POR_TONO: Record<string, Rasgos> = {
 };
 
 describe('el procedimiento decide, y siempre decide', () => {
-  test('sin ningún rasgo elige el de por defecto y lo dice', () => {
+  test('sin ningún rasgo elige el último paso y lo dice', () => {
     // Lo que antes pasaba acá era que no se elegía nada y la base corría sola.
     // Un texto sin tono no es neutro: es un texto cuya forma no decidió nadie.
     const s = sugerirTono();
     assert.equal(s.tono, 'camus');
     assert.equal(s.reclamado, false);
-    assert.match(s.porque, /por defecto/u);
+    assert.match(s.porque, /último paso/u);
+    assert.doesNotMatch(s.porque, /por defecto/u);
   });
 
   test('cada tono es alcanzable con algún conjunto de rasgos', () => {
@@ -453,6 +454,53 @@ describe('tres rutas acotan por forma, y por eso bajan en la lista', () => {
     assert.ok(!rasgos.includes('juridico'), 'juridico sigue siendo un rasgo');
     assert.ok(!rasgos.includes('humanistico'), 'humanistico sigue siendo un rasgo');
     assert.ok(rasgos.includes('comunidadAfectada'), 'comunidadAfectada no es un rasgo');
+  });
+});
+
+describe('ningún mensaje del enrutamiento habla de un tono por defecto', () => {
+  // Todo empujaba a `camus` como el tono de siempre: el motivo que daba el
+  // enrutador, el mensaje de su invariante y su fila al tope de la tabla. No
+  // hay tono por defecto: hay una lista, y su último paso recoge lo que ningún
+  // paso anterior reclamó.
+  const cli = join(REPO_ROOT, 'src', 'cli.ts');
+  const salida = (args: string[]) => {
+    const r = spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8', shell: false });
+    assert.equal(r.status, 0, r.stderr);
+    return r.stdout;
+  };
+
+  test('el motivo de ninguna respuesta lo dice', () => {
+    for (const rasgos of [{}, ...RASGOS.map((r) => ({ [r]: true }))] as Rasgos[]) {
+      assert.doesNotMatch(sugerirTono(rasgos).porque, /por defecto/u, JSON.stringify(rasgos));
+    }
+  });
+
+  test('ni la salida del CLI ni su ayuda lo dicen', () => {
+    for (const args of [['--enrutar', ''], ['--enrutar', 'mueveAActuar'], ['--enrutar', 'relatoPropio'], ['--help']]) {
+      assert.doesNotMatch(salida(args), /por defecto/u, args.join(' '));
+    }
+  });
+
+  test('el invariante dice que la última ruta es el último paso', () => {
+    // Se invierten las dos últimas rutas para que salte, y se restauran.
+    const rutas = RUTAS as unknown as unknown[];
+    const n = rutas.length;
+    [rutas[n - 2], rutas[n - 1]] = [rutas[n - 1], rutas[n - 2]];
+    try {
+      assert.throws(
+        () => assertRutas(),
+        (e: Error) => /último paso/u.test(e.message) && !/por defecto/u.test(e.message),
+      );
+    } finally {
+      [rutas[n - 2], rutas[n - 1]] = [rutas[n - 1], rutas[n - 2]];
+    }
+    assert.doesNotThrow(() => assertRutas());
+  });
+
+  test('la tabla no abre con camus: su fila es la última', () => {
+    const filas = [...FILAS.keys()];
+    assert.notEqual(filas[0], 'camus-writing', 'la tabla vuelve a abrir con camus');
+    assert.equal(filas[filas.length - 1], 'camus-writing');
   });
 });
 

@@ -36,7 +36,7 @@ flowchart TD
     B -->|"corregir"| W["Redactar o corregir"]
     B -->|"nombra el tono"| TN["ese tono<br/>sin pasar por la lista"]
     B -->|"no lo nombra"| R{"Enrutamiento<br/>por género y voz"}
-    R -->|"académico, técnico, formal"| T1["camus-writing<br/>el que corre por defecto"]
+    R -->|"voz impersonal o formal,<br/>o el relato propio"| T1["camus-writing<br/>el último paso de la lista"]
     R -->|"divulgación"| T2["fonda · dotcsv · bettatech<br/>freddy · schiavenato"]
     R -->|"análisis de una obra"| T3["atenas"]
     R -->|"sostener una tesis<br/>contra otra"| T4["catedra · solitario<br/>fonseca · han"]
@@ -128,11 +128,11 @@ escribieron a ojo: cada uno salió de medir un corpus de su prosa o de su habla.
 Eso es lo que separa a este repositorio de una colección de instrucciones de
 estilo.
 
-**Cuando nadie elige, elige el enrutamiento.** No es un valor por defecto
-escondido: es una lista de trece pasos que va de lo más estrecho a lo más
-amplio y siempre termina en un tono, porque un texto sin tono no es un texto
-neutro, es un texto cuya forma no decidió nadie. Vive dos veces, en `redactar-espanol`
-y en `src/enrutamiento.ts`, y un gate comprueba que digan lo mismo y en el mismo
+**Cuando nadie elige, elige el enrutamiento.** No es una elección escondida: es
+una lista de trece pasos que va de lo más estrecho a lo más amplio y siempre
+termina en un tono, porque un texto sin tono no es un texto neutro, es un texto
+cuya forma no decidió nadie. Vive dos veces, en `redactar-espanol` y en
+`src/enrutamiento.ts`, y un gate comprueba que digan lo mismo y en el mismo
 orden.
 
 **La lista enruta, no cerca.** Algunos pasos nombran el caso donde ese tono se

@@ -46,10 +46,9 @@ tiene que caber esa relación dentro; el léxico es alto porque el registro lo e
 y el texto reformula sin cansarse porque prefiere repetirse a que lo
 malentiendan.
 
-No es el tono por defecto. Si el texto sostiene una tesis contra otra posición
-nombrada, corresponde otra skill; si explica un mecanismo para que el lector lo
-entienda, corresponde otra; si le entrega al lector algo que ejecutar,
-corresponde otra.
+Si el texto sostiene una tesis contra otra posición nombrada, corresponde otra
+skill; si explica un mecanismo para que el lector lo entienda, corresponde
+otra; si le entrega al lector algo que ejecutar, corresponde otra.
 
 **Precondición de forma:** hay más de una posición o más de un dato sobre un
 mismo asunto, y no dicen lo mismo, porque esta forma avanza por la relación

@@ -33,10 +33,10 @@ tesis discutible frente a quien la niega. Se aplica a ensayos polémicos,
 columnas de opinión razonada, alegatos, réplicas, críticas de una disciplina o
 de una práctica establecida, manifiestos argumentados y cartas abiertas.
 
-No es el tono por defecto. Se elige cuando el texto no solo tiene que explicar
-algo sino atacarlo, y cuando quien lo lee puede estar del otro lado. Un texto
-que expone sin adversario no entra acá, porque su propósito es informar y no
-sostener una posición contra otra.
+Se elige cuando el texto no solo tiene que explicar algo sino atacarlo, y
+cuando quien lo lee puede estar del otro lado. Un texto que expone sin
+adversario no entra acá, porque su propósito es informar y no sostener una
+posición contra otra.
 
 Se distingue de la exposición de cátedra en tres cosas medibles. Acá la tesis va
 delante y no después de la definición. Acá el adversario tiene cuerpo, nombre y

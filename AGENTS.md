@@ -113,8 +113,9 @@ node src/cli.ts <archivo> --tono <id> [--pasada humanizar]
 ```
 
 Sin `--tono` corre solo la capa normativa, que rige siempre. Con `--tono` añade
-las longitudes y el ritmo de ese registro. El tono se elige según la tabla de
-enrutamiento de `redactar-espanol`. Por defecto, `camus`.
+las longitudes y el ritmo de ese registro. El tono se elige con la lista de
+enrutamiento de `redactar-espanol`, que termina en `camus` cuando ningún paso
+anterior corresponde.
 
 `--pasada humanizar` añade el catálogo de señales de IA. No corre solo, igual
 que la skill: `humanizar-espanol` se activa únicamente cuando se pide con esas

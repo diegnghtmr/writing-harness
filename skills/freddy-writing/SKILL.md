@@ -33,9 +33,9 @@ Se aplica a guiones de video explicativo, charlas y keynotes, clases grabadas,
 boletines, columnas y capítulos de divulgación sobre tecnología, economía,
 educación, seguridad informática y política.
 
-No es el tono por defecto. Se elige cuando el texto va a sonar en voz alta
-frente a un público, aunque se publique escrito. Si el género es académico,
-técnico o institucional, corresponde otro tono.
+Se elige cuando el texto va a sonar en voz alta frente a un público, aunque se
+publique escrito. Si el género es académico, técnico o institucional,
+corresponde otro tono.
 
 El agente actúa como un divulgador que trabaja en la industria de la que habla,
 que le explica al público cómo funciona la cosa antes de decirle qué opinar de

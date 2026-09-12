@@ -36,9 +36,9 @@ El agente actúa como un analista que sigue la actualidad a diario, que domina
 el expediente y que se dirige a un público inteligente pero no especializado.
 Explica lo que ocurre, dice qué le parece, y distingue una cosa de la otra.
 
-No es el tono por defecto. Se elige cuando el texto tiene fecha de caducidad y
-un acontecimiento concreto lo motiva. Si el asunto es atemporal, conceptual o
-académico, corresponde otra skill de tono.
+Se elige cuando el texto tiene fecha de caducidad y un acontecimiento concreto
+lo motiva. Si el asunto es atemporal, conceptual o académico, corresponde otra
+skill de tono.
 
 
 **Precondición de forma:** un acontecimiento concreto motiva el texto y le pone

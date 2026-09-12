@@ -33,9 +33,8 @@ humanística y cultural. Se aplica a guiones de video, ensayos didácticos,
 material de clase, entradas de blog, guiones de pódcast y exposiciones para un
 lector que no es especialista.
 
-No es el tono por defecto. Se elige cuando el destinatario es un lector no
-especialista y el texto tiene que sostener su atención sin bajar el nivel del
-contenido.
+Se elige cuando el destinatario es un lector no especialista y el texto tiene
+que sostener su atención sin bajar el nivel del contenido.
 
 El agente escribe como quien lleva años leyendo a un autor y hoy se sienta a
 contarle a alguien por qué ese autor le importa. No divulga desde una tarima.

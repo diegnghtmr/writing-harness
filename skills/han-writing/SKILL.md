@@ -33,12 +33,12 @@ aplica al ensayo breve de crítica cultural, a la columna de opinión
 conceptual, al prólogo, al texto de catálogo o de programa, a la entrada de
 bitácora filosófica y a la apertura de una charla.
 
-No es el tono por defecto. No se usa en informes, documentación, manuales,
-comunicaciones institucionales, textos legales ni trabajos empíricos. La
-prueba es simple: si la afirmación central del texto necesita un dato para
-sostenerse, este tono no sirve y hay que cambiar de tono, no bajar la
-exigencia de prueba. La sección 9 mide hasta dónde llega esa ausencia de dato
-en el modelo y por qué el skill la restringe todavía más.
+No se usa en informes, documentación, manuales, comunicaciones institucionales,
+textos legales ni trabajos empíricos. La prueba es simple: si la afirmación
+central del texto necesita un dato para sostenerse, este tono no sirve y hay
+que cambiar de tono, no bajar la exigencia de prueba. La sección 9 mide hasta
+dónde llega esa ausencia de dato en el modelo y por qué el skill la restringe
+todavía más.
 
 Tampoco se usa para textos largos. El molde está hecho de piezas cortas y no
 escala: un texto de doce mil palabras escrito así no es un ensayo, es una

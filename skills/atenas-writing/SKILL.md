@@ -32,8 +32,7 @@ ficción narrativa. Se aplica a análisis de personajes, reseñas de manga y de
 anime, crítica de cine y de series, guiones de video ensayo, comentarios de
 capítulo, comparaciones entre personajes y listas razonadas.
 
-No es el tono por defecto. Se elige cuando el propósito es interpretar una
-figura y no resumirla.
+Se elige cuando el propósito es interpretar una figura y no resumirla.
 
 **Precondición de forma:** hay una figura que el texto puede tratar como
 personaje y hay una lectura corriente de ella que el texto va a corregir. La

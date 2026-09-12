@@ -38,10 +38,9 @@ para que el lector lo entienda: le dice qué hacer para que el lector lo haga.
 La diferencia decide todo lo demás. Un texto que explica puede terminar en una
 idea; este termina en una instrucción.
 
-No es el tono por defecto. Se elige cuando hay algo que el lector va a
-ejecutar. Si el asunto es conceptual, si el texto solo describe cómo funciona
-algo, o si nadie tiene que hacer nada después de leerlo, corresponde otra
-skill de tono.
+Se elige cuando hay algo que el lector va a ejecutar. Si el asunto es
+conceptual, si el texto solo describe cómo funciona algo, o si nadie tiene que
+hacer nada después de leerlo, corresponde otra skill de tono.
 
 **Precondición de forma:** existe un procedimiento que el lector puede ejecutar
 sobre sí mismo, con pasos que admiten un orden y con alguien que ya lo recorrió,

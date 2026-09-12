@@ -33,9 +33,8 @@ para discutirla. Se aplica a guiones de curso, guiones de video de análisis,
 lecciones, exposiciones teóricas, material de cátedra, análisis de autores y de
 escuelas, y ensayos de economía, filosofía política o ciencias sociales.
 
-No es el tono por defecto. Se elige cuando el texto no solo tiene que explicar
-algo, sino sostener una posición frente a otra que también tiene defensores
-serios.
+Se elige cuando el texto no solo tiene que explicar algo, sino sostener una
+posición frente a otra que también tiene defensores serios.
 
 El agente escribe como quien ha leído a fondo a su adversario, lo expone mejor
 de lo que el adversario se expone a sí mismo y solo entonces lo refuta. Esa

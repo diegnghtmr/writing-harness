@@ -26,7 +26,7 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { TONE_IDS } from '../src/rules.ts';
-import { ENTRADA, readSkill } from '../src/skills.ts';
+import { ENTRADA, readSkill, skillNames } from '../src/skills.ts';
 
 const MARCA = '**Precondición de forma:**';
 /** Plegado a espacios simples: el texto de la entrada se envuelve a ochenta columnas. */
@@ -93,6 +93,26 @@ describe('la entrada dice que la tabla enruta y no cerca', () => {
 
   test('la precondición vive donde la entrada dice, y no en el número que a este test le convenga', () => {
     assert.equal(SECCION, 1);
+  });
+});
+
+describe('ninguna skill se presenta como el tono por defecto', () => {
+  // Nueve tonos abrían su alcance diciendo que no eran el tono por defecto, y
+  // `camus` decía serlo. Cada una de esas frases daba por hecho que hay un tono
+  // que gana cuando nadie elige, y no lo hay: hay una lista, y su último paso
+  // recoge lo que ningún paso anterior reclamó.
+  const POR_DEFECTO = /(?:tono|skill)\s+por\s+defecto/iu;
+
+  test('ninguna lo dice', () => {
+    const conFrase = skillNames().filter((n) => POR_DEFECTO.test(readSkill(n)));
+    assert.deepEqual(conFrase, [], 'estas skills hablan de un tono por defecto');
+  });
+
+  test('el patrón caza la frase, partida o no, y deja pasar otros «por defecto»', () => {
+    assert.ok(POR_DEFECTO.test('No es el tono por defecto.'));
+    assert.ok(POR_DEFECTO.test('Es el tono\npor defecto.'));
+    assert.ok(!POR_DEFECTO.test('El orden por defecto tiene cinco movimientos.'));
+    assert.ok(!POR_DEFECTO.test('El plural es el tratamiento por defecto.'));
   });
 });
 
