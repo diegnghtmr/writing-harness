@@ -13,12 +13,13 @@
 // los disparadores. El arreglo vive donde el anfitrión no puede dejar de leer:
 // el primer párrafo del cuerpo, que llega entero en cuanto la skill se carga.
 //
-// Por eso este gate exige tres cosas. Que toda skill que no sea la base abra
-// mandando a la base. Que en los tonos ese bloque sea idéntico en los trece,
+// Por eso este gate exige cuatro cosas. Que toda skill que no sea la base abra
+// mandando a la base, y que toda skill que no sea la entrada mande además a
+// cargar la entrada. Que en los tonos ese bloque sea idéntico en los trece,
 // porque son trece copias de una sola decisión, y una copia que se corrige sola
-// deja a las otras doce diciendo otra cosa. Y que lo que el bloque cita de la
-// base siga siendo cierto: el número de la sección y la frase con que se
-// anuncia el tono elegido.
+// deja a las otras doce diciendo otra cosa. Y que lo que el bloque cita siga
+// siendo cierto: que la entrada exista de verdad y la frase con que se anuncia
+// el tono elegido.
 
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
@@ -34,10 +35,14 @@ const CARGA = '**Antes de seguir.** Si «spanish-writing» no está cargada, se 
 const BLOQUE_DE_TONO = [
   '**Antes de seguir.** Si «spanish-writing» no está cargada, se carga ahora:',
   'este tono hereda sus reglas sin repetirlas, y sin ella queda incompleto.',
-  'Si el usuario no pidió este tono por su nombre, se recorre la lista de la',
-  'sección 3 de «spanish-writing»; si elige otro tono, se aplica ese en lugar',
-  'de este. Elegido el tono, se dice cuál y por qué en una línea.',
+  'Si «redactar-espanol» no está cargada, se carga también: ella dice cómo se',
+  'entrega el texto y, si el usuario no pidió este tono por su nombre, decide',
+  'si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el',
+  'tono, se dice cuál y por qué en una línea.',
 ].join(' ');
+
+/** Cómo, en el primer párrafo de toda skill que no sea la entrada, se manda a cargarla. */
+const A_LA_ENTRADA = `Si «${ENTRADA}» no está cargada, se carga`;
 
 /**
  * El primer párrafo después del título, con sus líneas unidas por un espacio.
@@ -86,16 +91,31 @@ describe('toda skill entra por la base', () => {
   });
 });
 
-describe('lo que el bloque cita de la base sigue siendo cierto', () => {
+describe('toda skill que no es la entrada manda además a cargarla', () => {
+  test('A_LA_ENTRADA aparece en el primer párrafo, en toda skill salvo la entrada', () => {
+    const faltan = skillNames()
+      .filter((n) => n !== ENTRADA)
+      .filter((n) => !(primerParrafo(readSkill(n)) ?? '').includes(A_LA_ENTRADA));
+    assert.deepEqual(faltan, []);
+  });
+
+  test('nunca aparece dos veces, y la entrada no se manda a cargar a sí misma', () => {
+    for (const n of skillNames().filter((s) => s !== ENTRADA)) {
+      assert.equal(veces(readSkill(n), A_LA_ENTRADA), 1, `${n}: A_LA_ENTRADA está repetida o no está`);
+    }
+    assert.equal(veces(readSkill(ENTRADA), A_LA_ENTRADA), 0, 'la entrada no puede mandar a cargarse a sí misma');
+  });
+});
+
+describe('lo que el bloque cita sigue siendo cierto', () => {
   const base = readSkill(BASE);
 
-  test('la sección que nombra es la del enrutamiento', () => {
-    const m = /\n## (\d+)\. Enrutamiento de tono/u.exec(base);
-    assert.ok(m, 'la base dejó de tener una sección de enrutamiento');
+  test('la entrada que el bloque manda a cargar existe de verdad', () => {
     assert.ok(
-      BLOQUE_DE_TONO.includes(`sección ${m[1]} de «spanish-writing»`),
-      `el bloque manda a una sección que no es la ${m[1]}`,
+      BLOQUE_DE_TONO.includes(`Si «${ENTRADA}» no está cargada`),
+      'el bloque de tono no manda a cargar la entrada',
     );
+    assert.doesNotThrow(() => readSkill(ENTRADA), 'la entrada que el bloque nombra no existe');
   });
 
   test('la entrada anuncia el tono con la frase que los tonos repiten, y la base ya no', () => {
@@ -133,8 +153,8 @@ describe('el gate falla cuando tiene que fallar', () => {
 
   test('encuentra el bloque aunque esté envuelto en otro sitio', () => {
     const envuelto = BLOQUE_DE_TONO.replace('ahora: este', 'ahora:\neste').replace(
-      'la lista de la sección',
-      'la lista\nde la sección',
+      'se carga también:',
+      'se carga\ntambién:',
     );
     assert.equal(primerParrafo(doc(`${envuelto}\n\n## 1. Rol\n`)), BLOQUE_DE_TONO);
   });
@@ -158,5 +178,10 @@ describe('el gate falla cuando tiene que fallar', () => {
   test('no toma una línea del frontmatter por el título', () => {
     const md = `---\nname: x\ndescription: >\n  algo\n# no es el título\n---\n\n# Título\n\n${BLOQUE_DE_TONO}\n`;
     assert.equal(primerParrafo(md), BLOQUE_DE_TONO);
+  });
+
+  test('caza a la que manda a cargar la entrada recién en el segundo párrafo', () => {
+    const soloEnElSegundo = doc(`${CARGA}: prosa que no menciona a la entrada.\n\n${A_LA_ENTRADA} también.\n`);
+    assert.ok(!(primerParrafo(soloEnElSegundo) ?? '').includes(A_LA_ENTRADA));
   });
 });

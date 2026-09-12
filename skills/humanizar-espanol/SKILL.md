@@ -10,15 +10,16 @@ description: >
   humano», «dale un estilo humano», «que suene a persona», «quita el tono
   robótico», «que no parezca escrito por IA» o «que no parezca de ChatGPT». NO
   disparar en peticiones generales de redacción, corrección, traducción o mejora
-  de estilo sin mención explícita de lo humano: para esas tareas se usan
-  «camus-writing» (formal), «catedra-writing» (expositivo) o «fonda-writing»
-  (divulgativo), siempre sobre la base normativa «spanish-writing».
+  de estilo sin mención explícita de lo humano: para esas tareas se usa
+  «redactar-espanol».
 ---
 
 # Humanizar textos en español neutro académico
 
 **Antes de seguir.** Si «spanish-writing» no está cargada, se carga ahora:
 esta pasada corre sobre sus reglas y nunca las sustituye.
+Si «redactar-espanol» no está cargada, se carga también: ella decide si hay
+tono y cómo se entrega el texto.
 
 Tu tarea es reescribir un texto para que deje de parecer producido por una
 máquina y recupere las marcas de la escritura humana, sin alterar lo que el
@@ -40,8 +41,8 @@ darle un estilo humano. Las formulaciones típicas son «humaniza esto», «hazl
 más humano», «que suene a persona», «que no parezca de IA» o «quita el tono
 robótico». Si la petición es de redacción general, corrección ortográfica,
 traducción o mejora de estilo sin mención de lo «humano», esta skill no
-interviene: cede el paso a la skill de tono que corresponda, «camus-writing»,
-«catedra-writing» o «fonda-writing», sobre la base «spanish-writing».
+interviene: cede el paso a «redactar-espanol», que decide si corresponde un
+tono.
 
 
 ## 2. Integridad y expectativas realistas
