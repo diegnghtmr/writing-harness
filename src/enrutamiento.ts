@@ -263,6 +263,42 @@ export function sugerirTono(rasgos: Rasgos = {}): Sugerencia {
 /** Los tonos que este enrutamiento conoce, en el orden en que decide. */
 export const RUTA_IDS = RUTAS.map((r) => r.tono);
 
+/** Un rasgo que, sumado a los dados, haría elegir una ruta concreta. */
+export type Complemento = {
+  rasgo: (typeof RASGOS)[number];
+  tono: string;
+  /** La posición de esa ruta en la lista, contando desde 1 como la entrada. */
+  paso: number;
+};
+
+/**
+ * Los rasgos sueltos que completarían una ruta gracias a los que ya se dieron.
+ *
+ * Existe porque cinco rutas piden dos rasgos, y quien pasaba uno solo recibía
+ * el último paso sin ningún aviso, como si fuese una decisión. Ocho de los
+ * quince rasgos, pasados solos, caían ahí.
+ *
+ * Un rasgo cuenta solo si la ruta que elige no la elegía él solo: sugerir
+ * `actualidad` a quien dio `divulgacion` sería sugerir lo que ya se sabía, no
+ * lo que le falta a la petición.
+ */
+export function rasgosQueCompletan(rasgos: Rasgos = {}): Complemento[] {
+  // Solo hay algo que avisar si la petición cayó en el último paso. Si eligió
+  // una ruta concreta, esa es la decisión: sumarle un rasgo que no la cambia no
+  // es algo que le falte.
+  if (RUTA_IDS.indexOf(sugerirTono(rasgos).tono) + 1 !== RUTAS.length) return [];
+  const completan: Complemento[] = [];
+  for (const rasgo of RASGOS) {
+    if (rasgos[rasgo]) continue;
+    const tono = sugerirTono({ ...rasgos, [rasgo]: true }).tono;
+    const paso = RUTA_IDS.indexOf(tono) + 1;
+    if (paso === RUTAS.length) continue;
+    if ((RUTAS[paso - 1] as Ruta).eligeSi({ [rasgo]: true })) continue;
+    completan.push({ rasgo, tono, paso });
+  }
+  return completan.sort((a, b) => a.paso - b.paso);
+}
+
 /**
  * Rasgos que la lista acepta y que ninguna ruta consulta.
  *

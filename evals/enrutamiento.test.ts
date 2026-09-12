@@ -16,6 +16,7 @@ import {
   RUTA_IDS,
   type Rasgos,
   assertRutas,
+  rasgosQueCompletan,
   rasgosSinRuta,
   sugerirTono,
 } from '../src/enrutamiento.ts';
@@ -270,5 +271,89 @@ describe('el procedimiento decide, y siempre decide', () => {
       assert.ok(s.porque.length > 20, `${s.tono} decide sin explicar`);
       assert.equal(s.reclamado, true);
     }
+  });
+});
+
+describe('cuando los rasgos no completan ninguna ruta, se dice qué rasgo la completaría', () => {
+  // Cinco rutas piden dos rasgos. Pasar uno solo caía en el último paso sin
+  // decir nada, y quien consultaba recibía el caso general como si fuese una
+  // decisión: ocho de los quince rasgos, pasados solos, respondían lo mismo.
+  const paso = (tono: string) => RUTA_IDS.indexOf(tono) + 1;
+
+  test('divulgacion sola se completa con mueveAActuar, mecanismo o humanistico, en ese orden', () => {
+    const completan = rasgosQueCompletan({ divulgacion: true });
+    assert.deepEqual(completan, [
+      { rasgo: 'mueveAActuar', tono: 'freddy', paso: paso('freddy') },
+      { rasgo: 'mecanismo', tono: 'dotcsv', paso: paso('dotcsv') },
+      { rasgo: 'humanistico', tono: 'fonda', paso: paso('fonda') },
+    ]);
+    // `actualidad` cambiaría la respuesta, pero no por `divulgacion`: elige
+    // `fonseca` también sola. Nombrarla sería sugerir lo que ya se sabía.
+    assert.ok(!completan.some((c) => c.rasgo === 'actualidad'), 'se coló un rasgo que enruta solo');
+  });
+
+  test('un rasgo que ya eligió una ruta concreta no recibe sugerencias', () => {
+    // `juridico` elige `schiavenato` solo. Sin esta condición, sumarle
+    // `academico` u `obraDeFiccion` también daba `schiavenato`, y se listaban
+    // como si hicieran falta: un aviso sobre una decisión que ya estaba tomada.
+    assert.deepEqual(rasgosQueCompletan({ juridico: true }), []);
+  });
+
+  test('obraDeFiccion sola se completa con personaje, y adversarioConNombre con contraOtraTesis', () => {
+    assert.deepEqual(rasgosQueCompletan({ obraDeFiccion: true }), [
+      { rasgo: 'personaje', tono: 'atenas', paso: paso('atenas') },
+    ]);
+    assert.deepEqual(rasgosQueCompletan({ adversarioConNombre: true }), [
+      { rasgo: 'contraOtraTesis', tono: 'solitario', paso: paso('solitario') },
+    ]);
+  });
+
+  test('academico no recibe sugerencias: ninguna ruta de dos rasgos lo lee', () => {
+    // Cae en el último paso, pero porque lo reclama y no por falta de un rasgo.
+    // Solo `camus` lo consulta, para saber que alguien lo pidió, y ninguna ruta
+    // lo combina con otro. Los rasgos que a su lado cambian la respuesta, como
+    // `juridico`, la cambian igual solos, así que no hay nada que le falte.
+    assert.equal(sugerirTono({ academico: true }).reclamado, true);
+    assert.deepEqual(rasgosQueCompletan({ academico: true }), []);
+  });
+});
+
+describe('el CLI avisa cuando los rasgos no completan ninguna ruta', () => {
+  const cli = join(REPO_ROOT, 'src', 'cli.ts');
+  const enrutar = (rasgo: string): string[] => {
+    const r = spawnSync(process.execPath, [cli, '--enrutar', rasgo], { encoding: 'utf8', shell: false });
+    assert.equal(r.status, 0, r.stderr);
+    return r.stdout.split(/\r?\n/u).filter((l) => l !== '');
+  };
+  const lineaDePaso = (tono: string) =>
+    `  Paso ${RUTA_IDS.indexOf(tono) + 1} de ${RUTAS.length} de la lista de ${ENTRADA}.`;
+  const AVISO = /no completan ninguna ruta de la lista, así que la respuesta es el último paso/u;
+
+  test('--enrutar divulgacion conserva su respuesta y agrega el aviso con cada rasgo que la completa', () => {
+    const lineas = enrutar('divulgacion');
+    const aviso = lineas.findIndex((l) => AVISO.test(l));
+    assert.notEqual(aviso, -1, 'no hay aviso: el último paso vuelve a parecer una decisión');
+    // Lo que ya se imprimía no cambia, y el aviso va después.
+    const s = sugerirTono({ divulgacion: true });
+    assert.deepEqual(lineas.slice(0, aviso), [
+      s.skill,
+      `  ${s.porque}`,
+      '  Ningún rasgo de los dados es más estrecho que el caso general.',
+      lineaDePaso('camus'),
+    ]);
+    const despues = lineas.slice(aviso + 1);
+    for (const c of rasgosQueCompletan({ divulgacion: true })) {
+      const skill = RUTAS[c.paso - 1]?.skill;
+      assert.ok(
+        despues.some((l) => l.includes(`${c.rasgo}: ${skill}, paso ${c.paso}`)),
+        `el aviso no nombra ${c.rasgo}`,
+      );
+    }
+    assert.ok(despues.some((l) => l.includes('fonda-writing')));
+  });
+
+  test('--enrutar juridico responde lo mismo que antes y sin aviso', () => {
+    const s = sugerirTono({ juridico: true });
+    assert.deepEqual(enrutar('juridico'), [s.skill, `  ${s.porque}`, lineaDePaso('schiavenato')]);
   });
 });

@@ -16,7 +16,7 @@
 
 import { readFileSync } from 'node:fs';
 import { check, format, relevadas, type Finding } from './check.ts';
-import { RASGOS, type Rasgos, RUTAS, sugerirTono } from './enrutamiento.ts';
+import { RASGOS, type Rasgos, RUTAS, rasgosQueCompletan, sugerirTono } from './enrutamiento.ts';
 import { PASADA_IDS, TONE_IDS } from './rules.ts';
 // El nombre de la skill es identidad de la skill, no una ruta: importar esta
 // constante no lee ninguna skill, porque `skills.ts` no tiene efectos
@@ -58,6 +58,16 @@ function enrutar(lista: string): void {
   }
   const posicion = RUTAS.findIndex((r) => r.tono === s.tono) + 1;
   console.log(`  Paso ${posicion} de ${RUTAS.length} de la lista de ${ENTRADA}.`);
+  // Cinco rutas piden dos rasgos. Quien pasaba uno solo recibía el último paso
+  // sin aviso, y lo tomaba por una decisión cuando le faltaba declarar algo.
+  const completan = rasgosQueCompletan(rasgos);
+  if (completan.length > 0) {
+    console.log('  Aviso: los rasgos dados no completan ninguna ruta de la lista, así que la respuesta es el último paso.');
+    console.log('  Con uno de estos rasgos más, la ruta sería otra:');
+    for (const c of completan) {
+      console.log(`    + ${c.rasgo}: ${RUTAS[c.paso - 1]?.skill}, paso ${c.paso}`);
+    }
+  }
 }
 
 function parse(argv: string[]): { files: string[]; tone?: string; pasadas: string[] } {
