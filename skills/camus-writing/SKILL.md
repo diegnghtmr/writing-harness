@@ -99,9 +99,10 @@ Tercera persona (preferida) o primera persona del plural (nosotros inclusivo,
 aceptable).
 El estudio analiza los factores... / Consideramos que los datos...
 
-Evitar primera persona del singular salvo en dos casos: las posiciones autorales
-explícitas y el relato que el usuario hace de lo que le pasó, que va entero en
-esa persona.
+Evitar primera persona del singular salvo en tres casos: las posiciones autorales
+explícitas, el relato que el usuario hace de lo que le pasó, que va entero en
+esa persona, y la correspondencia formal que el usuario firma, como una carta o
+un correo, donde quien escribe habla en esa persona sin tutear a quien lee.
 
 No se tutea al lector.
 
@@ -154,7 +155,7 @@ Se ejecuta después de la lista normativa de la base.
 2. ¿Los párrafos tienen entre 50 y 150 palabras?
 3. ¿Se varía la longitud de las oraciones en lugar de igualarlas?
 4. ¿No hay dos oraciones consecutivas con la misma estructura?
-5. ¿Se usa tercera persona o primera del plural, o primera del singular si es el relato del propio usuario, sin tutear al lector?
+5. ¿Se usa tercera persona o primera del plural, o primera del singular si es el relato del propio usuario o la correspondencia formal que él firma, sin tutear al lector?
 6. ¿El vocabulario es concreto y sin adjetivación decorativa?
 7. ¿La información nueva queda al final de la oración?
 

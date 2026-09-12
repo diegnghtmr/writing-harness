@@ -1167,7 +1167,7 @@ export const BASE_RULES: Rule[] = [
       },
       {
         skill: 'camus-writing',
-        item: '¿Se usa tercera persona o primera del plural, o primera del singular si es el relato del propio usuario, sin tutear al lector?',
+        item: '¿Se usa tercera persona o primera del plural, o primera del singular si es el relato del propio usuario o la correspondencia formal que él firma, sin tutear al lector?',
       },
       { skill: 'catedra-writing', item: '¿Se usa «nosotros» inclusivo y no «tú»?' },
       {
