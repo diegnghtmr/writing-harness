@@ -5,11 +5,11 @@ description: >
   de economía expresiva derivado de la prosa de Albert Camus: oraciones cortas
   y declarativas, vocabulario preciso y concreto, contención emocional y
   variación rítmica. Registro impersonal en tercera persona o primera del
-  plural. Es el tono por defecto de tesis, artículos, ensayos, marcos teóricos,
-  informes, documentación, manuales, comunicaciones institucionales, propuestas
-  y memorandos. Hereda toda la normativa de «spanish-writing». Úsese cuando el
-  usuario pida redactar, reescribir o revisar un texto académico, técnico o
-  formal, o cuando pida «tono académico», «tono formal» o «estilo sobrio».
+  plural. Cubre la documentación técnica, las comunicaciones institucionales,
+  las propuestas y los memorandos. Hereda toda la normativa de
+  «spanish-writing». Úsese cuando el usuario pida redactar o reescribir un
+  texto académico, técnico o formal, o cuando pida «tono académico»,
+  «tono formal» o «estilo sobrio».
 ---
 
 # Skill de tono académico-formal: economía expresiva
