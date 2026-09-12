@@ -30,21 +30,26 @@ formales. Se aplica a tesis, artículos, ensayos, marcos teóricos, informes,
 documentación, manuales, comunicaciones institucionales, propuestas y
 memorandos.
 
-Es el tono por defecto. Cuando el usuario no indica otro y el género es
-académico, técnico o formal, se usa este.
+Es el último paso de la lista de «redactar-espanol». Se usa cuando el usuario
+no pidió un tono y ningún paso anterior corresponde, y lo que lo decide es la
+voz que el texto admite, no el ámbito del pedido.
 
-Como último paso de la lista de «redactar-espanol», recoge también el texto en
-que el usuario cuenta lo que le pasó. Ahí la voz es la primera persona del
-singular, y la economía se mantiene. El hecho va antes que el juicio. La
-emoción se deja inferir de los hechos, y el texto no nombra ninguna que el
-usuario no haya nombrado. Ningún adjetivo califica lo que el usuario no
-calificó.
+La carta, el correo y la comunicación que se dirigen a alguien caben en esta
+forma. El trato es el de la sección 4: sin tuteo y sin buscar complicidad con
+quien lee.
+
+Recoge también el texto en que el usuario cuenta lo que le pasó. Ahí la voz es
+la primera persona del singular, y la economía se mantiene. El hecho va antes
+que el juicio. La emoción se deja inferir de los hechos, y el texto no nombra
+ninguna que el usuario no haya nombrado. Ningún adjetivo califica lo que el
+usuario no calificó.
 
 
-**Precondición de forma:** el asunto admite voz impersonal, o el texto es el
-relato que el usuario hace de lo que le pasó, en primera persona. En los dos
-casos, el texto no interpela a nadie. Es además el tono por defecto, así que
-recoge todo lo que ninguna otra fila reclamó.
+**Precondición de forma:** el texto admite una de tres voces. La impersonal, en
+tercera persona o en primera del plural. La que se dirige a alguien sin
+tutearlo y sin buscar complicidad con él, como la de una carta, un correo o una
+comunicación institucional. O la primera persona del singular del relato que el
+usuario hace de lo que le pasó.
 
 ## 2. Relación con la base normativa
 

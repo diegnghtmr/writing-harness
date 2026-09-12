@@ -541,6 +541,21 @@ describe('cuando la respuesta es el último paso sin reclamo, se nombran tambié
   });
 });
 
+describe('el último paso dice qué forma recoge', () => {
+  // La fila de `camus` abría con «Textos académicos, técnicos y formales», que
+  // para quien escribe desde una universidad nombra el ámbito del pedido y no
+  // la forma. Su precondición decía además que el texto no interpela a nadie,
+  // y la correspondencia formal, que se dirige a alguien, caía ahí igual.
+  test('su motivo nombra las voces que admite y no el ámbito', () => {
+    const ultima = RUTAS[RUTAS.length - 1];
+    assert.equal(ultima?.tono, 'camus');
+    const cuando = ultima?.cuando ?? '';
+    assert.match(cuando, /impersonal/u);
+    assert.match(cuando, /sin tuteo ni complicidad/u);
+    assert.doesNotMatch(cuando, /acad[ée]mic/iu);
+  });
+});
+
 describe('el relato propio reclama el último paso', () => {
   // Un texto en que el usuario cuenta lo que le pasó no encajaba en ningún
   // paso y caía en el último por descarte. El motivo que salía era el de lo

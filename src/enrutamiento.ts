@@ -268,7 +268,7 @@ export const RUTAS: readonly Ruta[] = [
   {
     tono: 'camus',
     skill: 'camus-writing',
-    cuando: 'Textos académicos, técnicos y formales',
+    cuando: 'Texto de voz impersonal, o que se dirige a alguien sin tuteo ni complicidad',
     // Recoge lo que nadie reclamó, y además el relato propio, dicho de frente.
     // El reclamo es lo que distingue lo segundo de lo primero.
     eligeSi: () => true,

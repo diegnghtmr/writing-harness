@@ -48,7 +48,7 @@ decide la forma y la manera de presentar la información.
 
 | Skill de tono | Cuándo se usa | Voz |
 |---|---|---|
-| `camus-writing` | Textos académicos, técnicos y formales: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos. Relato de lo que le pasó al propio usuario, en primera persona del singular. Es el tono por defecto. | Impersonal, económica, oraciones breves. En el relato propio, primera persona del singular |
+| `camus-writing` | Texto de voz impersonal, o que se dirige a alguien sin tuteo ni complicidad: tesis, artículos, ensayos, marcos teóricos, informes, documentación, manuales, comunicaciones institucionales, propuestas, memorandos, cartas y correos formales. Relato de lo que le pasó al propio usuario, en primera persona del singular. Es el último paso de la lista. | Impersonal, económica, oraciones breves. Sin tuteo ni complicidad con quien lee. En el relato propio, primera persona del singular |
 | `fonda-writing` | Texto que le explica algo a un lector que no es del oficio, entrando por algo concreto: guiones de video, ensayos didácticos, material de clase, blogs, pódcast. La filosofía y la cultura son de donde salió el corpus, y la misma forma sirve para cualquier asunto que se le pueda contar a alguien sentado enfrente. | Conversacional, interpelación de usted, entrada por algo concreto y glosa constante |
 | `catedra-writing` | Exposición que sostiene una tesis contra otra: lecciones magistrales, cursos, análisis sistemáticos de un autor o una doctrina, economía y filosofía política. | Analítica y adversarial, «nosotros» de autor, sin interpelación al lector |
 | `han-writing` | Diagnóstico epocal y ensayo filosófico breve, construido por oposición de conceptos. | Aforística, sin dato empírico, capítulo corto |
@@ -85,8 +85,9 @@ revés, nunca se elegiría.
     lo que afirma, `schiavenato-writing`.
 12. Si el texto le explica algo a un lector que no es del oficio, entrando por
     algo concreto, `fonda-writing`.
-13. Si es el relato de lo que le pasó al propio usuario, que se escribe en
-    primera persona del singular, o en cualquier otro caso, `camus-writing`.
+13. Si el asunto admite voz impersonal, si el texto se dirige a alguien sin
+    tuteo ni complicidad, si es el relato de lo que le pasó al propio usuario,
+    en primera persona del singular, o en cualquier otro caso, `camus-writing`.
 
 **La lista siempre termina en un tono.** Antes, un género que no encajaba en
 ninguna fila dejaba correr la base sola, y eso no es una decisión sino una
