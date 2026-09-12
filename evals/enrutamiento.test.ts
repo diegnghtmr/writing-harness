@@ -6,6 +6,7 @@
 // sin tocar el dato rompe, y al revés también.
 
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
@@ -85,6 +86,24 @@ describe('la tabla y la lista viven solo en la entrada', () => {
     const conPaso = otras.filter((n) => [...readSkill(n).matchAll(PASO)].length > 0);
     assert.deepEqual(conFila, [], 'estas skills tienen una fila con la forma de la tabla');
     assert.deepEqual(conPaso, [], 'estas skills tienen un paso con la forma de la lista');
+  });
+});
+
+describe('el CLI nombra la skill donde vive la lista', () => {
+  const cli = join(REPO_ROOT, 'src', 'cli.ts');
+
+  test('--enrutar juridico nombra a la entrada y nunca a spanish-writing §3', () => {
+    const r = spawnSync(process.execPath, [cli, '--enrutar', 'juridico'], { encoding: 'utf8', shell: false });
+    assert.equal(r.status, 0, r.stderr);
+    assert.match(r.stdout, new RegExp(ENTRADA, 'u'));
+    assert.doesNotMatch(r.stdout, /spanish-writing §3/u);
+  });
+
+  test('--help nombra a la entrada y nunca a spanish-writing §3', () => {
+    const r = spawnSync(process.execPath, [cli, '--help'], { encoding: 'utf8', shell: false });
+    assert.equal(r.status, 0, r.stderr);
+    assert.match(r.stdout, new RegExp(ENTRADA, 'u'));
+    assert.doesNotMatch(r.stdout, /spanish-writing §3/u);
   });
 });
 

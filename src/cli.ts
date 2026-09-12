@@ -18,6 +18,9 @@ import { readFileSync } from 'node:fs';
 import { check, format, relevadas, type Finding } from './check.ts';
 import { RASGOS, type Rasgos, RUTAS, sugerirTono } from './enrutamiento.ts';
 import { PASADA_IDS, TONE_IDS } from './rules.ts';
+// El nombre de la skill es identidad de la skill, no una ruta: `skills.ts`
+// solo calcula rutas de archivo, así que esta importación es aparte.
+import { ENTRADA } from './skills.ts';
 
 const USAGE = `uso: node src/cli.ts <archivo...> [--tono <${TONE_IDS.join('|')}>]
                               [--pasada <${PASADA_IDS.join('|')}>]
@@ -34,7 +37,7 @@ tono se retiran y mandan las de la pasada. La capa base no cede nunca nada.
 Cuando eso ocurre, se dice cuáles se retiraron y por qué.
 
 --enrutar no mide ningún texto: responde qué tono corresponde a una petición y
-por qué, recorriendo la lista de spanish-writing §3 en orden. Siempre devuelve
+por qué, recorriendo la lista de ${ENTRADA} en orden. Siempre devuelve
 uno. Rasgos: ${RASGOS.join(', ')}.
 
 Lee de la entrada estándar si no se pasa ningún archivo.`;
@@ -53,7 +56,7 @@ function enrutar(lista: string): void {
     console.log('  Ningún rasgo de los dados es más estrecho que el caso general.');
   }
   const posicion = RUTAS.findIndex((r) => r.tono === s.tono) + 1;
-  console.log(`  Paso ${posicion} de ${RUTAS.length} de la lista de spanish-writing §3.`);
+  console.log(`  Paso ${posicion} de ${RUTAS.length} de la lista de ${ENTRADA}.`);
 }
 
 function parse(argv: string[]): { files: string[]; tone?: string; pasadas: string[] } {

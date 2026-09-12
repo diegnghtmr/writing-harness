@@ -145,7 +145,7 @@ node src/cli.ts --enrutar juridico
 ```
 schiavenato-writing
   Divulgación jurídica y política dirigida a una comunidad.
-  Paso 5 de 13 de la lista de spanish-writing §3.
+  Paso 5 de 13 de la lista de redactar-espanol.
 ```
 
 Siempre responde con el motivo. Una decisión que no se puede rebatir no es una

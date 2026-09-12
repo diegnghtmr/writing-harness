@@ -59,7 +59,7 @@ node src/cli.ts --enrutar juridico
 ```
 schiavenato-writing
   Divulgación jurídica y política dirigida a una comunidad.
-  Paso 5 de 13 de la lista de spanish-writing §3.
+  Paso 5 de 13 de la lista de redactar-espanol.
 ```
 
 Los rasgos son los de `RASGOS` en `src/enrutamiento.ts`, y el mismo comando sin
