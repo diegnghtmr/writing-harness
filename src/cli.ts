@@ -25,7 +25,7 @@ import {
   rutasQueLeen,
   sugerirTono,
 } from './enrutamiento.ts';
-import { PASADA_IDS, TONE_IDS } from './rules.ts';
+import { PASADAS, PASADA_IDS, TONES, TONE_IDS } from './rules.ts';
 // El nombre de la skill es identidad de la skill, no una ruta: importar esta
 // constante no lee ninguna skill, porque `skills.ts` no tiene efectos
 // secundarios al importarse.
@@ -47,6 +47,42 @@ const SIGNIFICADOS = RASGOS.map((rasgo) =>
   ].join('\n'),
 ).join('\n');
 
+/** Una capa que se pide por su identificador o por el nombre de su skill. */
+type Capa = { skill: string };
+
+/**
+ * El identificador que corresponde a un valor de `--tono` o `--pasada`, o
+ * `undefined` si no corresponde a ninguno.
+ *
+ * Vale también el nombre de la skill: `camus-writing` por `camus`,
+ * `humanizar-espanol` por `humanizar`. Un agente que acababa de cargar
+ * `camus-writing` pasó ese nombre y recibió «tono desconocido», y una persona
+ * cometió el mismo error: el nombre que se acaba de leer es el que se escribe.
+ * Sale del campo `skill` de cada capa, así que un tono nuevo lo trae sin tocar
+ * nada acá.
+ */
+function identificador(valor: string, capas: Record<string, Capa>): string | undefined {
+  if (Object.hasOwn(capas, valor)) return valor;
+  return Object.entries(capas).find(([, capa]) => capa.skill === valor)?.[0];
+}
+
+/** La primera capa de la lista, para que el ejemplo salga del dato y no quede escrito a mano. */
+function ejemplo(capas: Record<string, Capa>): { id: string; skill: string } {
+  const [id, capa] = Object.entries(capas)[0] ?? ['', { skill: '' }];
+  return { id, skill: capa.skill };
+}
+
+/** El error de un valor que no es ni un identificador ni el nombre de una skill. */
+function desconocido(que: string, valor: string, capas: Record<string, Capa>): Error {
+  return new Error(
+    `${que}: ${valor}. Disponibles: ${Object.keys(capas).join(', ')}. ` +
+      `También vale el nombre de su skill, como ${ejemplo(capas).skill}.`,
+  );
+}
+
+const TONO = ejemplo(TONES);
+const PASADA = ejemplo(PASADAS);
+
 const USAGE = `uso: node src/cli.ts <archivo...> [--tono <${TONE_IDS.join('|')}>]
                               [--pasada <${PASADA_IDS.join('|')}>]
      node src/cli.ts --enrutar <rasgo,rasgo,...>
@@ -55,6 +91,8 @@ Sin --tono corre solo la capa base, que es la normativa y rige siempre.
 Con --tono añade las reglas de ese tono: longitudes, persona, ritmo.
 Con --pasada añade el catálogo de esa pasada, que no corre solo. Igual que la
 skill, humanizar se pide de forma explícita o no interviene.
+--tono y --pasada aceptan también el nombre de su skill:
+${TONO.skill} vale por ${TONO.id}, y ${PASADA.skill} vale por ${PASADA.id}.
 
 Pedir una pasada puede relevar al tono en lo que esa pasada gobierna. humanizar
 gobierna el ritmo, así que con --pasada humanizar las reglas de longitud del
@@ -120,21 +158,22 @@ function parse(argv: string[]): { files: string[]; tone?: string; pasadas: strin
       enrutar(valor);
       process.exit(0);
     } else if (arg === '--tono' || arg === '-t') {
-      tone = argv[++i];
-      if (tone === undefined) throw new Error('--tono necesita un valor');
-      if (!TONE_IDS.includes(tone)) {
-        throw new Error(`tono desconocido: ${tone}. Disponibles: ${TONE_IDS.join(', ')}`);
-      }
+      const valor = argv[++i];
+      if (valor === undefined) throw new Error('--tono necesita un valor');
+      // Desde acá corre el identificador: el aviso de lo relevado y la medición
+      // dicen `camus` aunque se haya pedido `camus-writing`.
+      tone = identificador(valor, TONES);
+      if (tone === undefined) throw desconocido('tono desconocido', valor, TONES);
     } else if (arg === '--pasada' || arg === '-p') {
       const valor = argv[++i];
       if (valor === undefined) throw new Error('--pasada necesita un valor');
-      if (!PASADA_IDS.includes(valor)) {
-        throw new Error(`pasada desconocida: ${valor}. Disponibles: ${PASADA_IDS.join(', ')}`);
-      }
-      // Repetirla no la aplica dos veces. Sin esto, sus reglas entraban dos
-      // veces en la lista y `assertRules` abortaba con «regla duplicada», que es
-      // un mensaje interno sobre un error del usuario.
-      if (!pasadas.includes(valor)) pasadas.push(valor);
+      const id = identificador(valor, PASADAS);
+      if (id === undefined) throw desconocido('pasada desconocida', valor, PASADAS);
+      // Repetirla no la aplica dos veces, tampoco pedida una vez por cada
+      // nombre. Sin esto, sus reglas entraban dos veces en la lista y
+      // `assertRules` abortaba con «regla duplicada», que es un mensaje interno
+      // sobre un error del usuario.
+      if (!pasadas.includes(id)) pasadas.push(id);
     } else if (arg === '--help' || arg === '-h') {
       console.log(USAGE);
       process.exit(0);
