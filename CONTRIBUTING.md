@@ -309,6 +309,21 @@ La ayuda del comando sale de ese mismo análisis: imprime cada rasgo con los
 pasos que lo leen y el `cuando` de cada uno. Ese campo es entonces lo que lee
 quien enruta, y por eso describe la forma y no la materia.
 
+**La batería de pedidos mide a dónde manda la lista lo que se suele pedir.**
+`evals/pedidos.ts` trae pedidos típicos, cada uno con los rasgos que un agente
+razonable declararía y el tono que el enrutador le da hoy, y
+`evals/sesgo.test.ts` los pasa por `sugerirTono`: cada pedido tiene que salir
+con su tono, `camus` no puede pasar de su techo ni otro tono del suyo, y la
+lista tiene que llegar a casi todos los tonos. Los techos y sus motivos están
+en el test, y `npm run sesgo` imprime el reparto en una tabla. Mide la lista y
+el enrutador con esos rasgos. No mide cómo elige un agente los rasgos ni el
+paso, que es la otra mitad de enrutar.
+
+Al agregar un tono o mover una ruta, el test dice qué pedidos cambiaron de
+tono. Si el cambio es a propósito, se anota el tono nuevo. Si el tono nuevo no
+recibe ningún pedido, se suman pedidos de su forma, con los rasgos que el
+pedido dice y nunca con los que arreglan la cifra.
+
 ### 5. La tabla de la entrada
 
 `skills/redactar-espanol/SKILL.md`: la fila de la tabla y el paso de la lista

@@ -520,7 +520,7 @@ al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
 | `src/enrutamiento.ts` | La tabla de `redactar-espanol` como dato, y el procedimiento que decide |
 | `src/corpus.ts`, `src/mediciones.ts` | El registro del corpus borrado. No se editan a mano |
 | `evals/` | Los gates. Cada uno falla en las dos direcciones |
-| `scripts/` | Manifiesto, medición, instalación y hook |
+| `scripts/` | Manifiesto, medición, instalación, hook y el reparto de la batería de pedidos |
 | `detector/` | La herramienta opcional que mide la señal de IA. Corre por fuera |
 
 ## Qué archivo lee cada anfitrión
