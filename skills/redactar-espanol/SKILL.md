@@ -123,8 +123,14 @@ lista no se recorre.
    corregir, y con la pasada de humanizar solo si se pidió.
 4. Se corrige y se vuelve a medir hasta que no quede ningún error. Un texto con
    errores no se entrega.
-5. Se entrega el texto medido tal cual, en prosa llana y con el formato de
-   entrega de la base.
+5. Si el usuario no pidió ponerlo en otro sitio, el texto medido va completo y
+   tal cual en la respuesta al usuario, en prosa llana y con el formato de
+   entrega de la base. En ese caso, guardarlo en un archivo, aunque sea para
+   medirlo, no es entregarlo, y medirlo tampoco: la tarea no termina hasta que
+   el texto está en la respuesta. Si el usuario pidió guardarlo en un archivo,
+   o dio un documento para que fuera en él, el texto va ahí tal cual y la
+   respuesta dice dónde quedó, sin repetirlo. En los dos casos, la respuesta
+   lleva la línea del tono y las advertencias que queden.
 6. Elegido el tono, se dice cuál y por qué en una línea. Si el usuario lo
    nombró, el porqué es su pedido. Si no, es el paso de la lista que lo eligió.
    Si fue el último, la línea dice por qué llegó ahí: porque ningún paso

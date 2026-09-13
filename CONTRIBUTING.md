@@ -424,8 +424,9 @@ acota a su archivo exacto.
 
 La leen `evals/puerta.test.ts`, `evals/enrutamiento.test.ts`,
 `evals/alcance.test.ts`, `evals/correspondencia.test.ts`,
-`evals/frontmatter.test.ts` y `evals/separacion.test.ts`; `src/cli.ts` la
-nombra a través de `ENTRADA`, declarada en `src/skills.ts`.
+`evals/frontmatter.test.ts`, `evals/separacion.test.ts` y
+`evals/entrega.test.ts`, que exige que el paso 5 diga dónde va el texto;
+`src/cli.ts` la nombra a través de `ENTRADA`, declarada en `src/skills.ts`.
 
 Renombrarla no es mover un directorio. Hay que cambiar `ENTRADA`, los catorce
 bloques «Antes de seguir» de los tonos y de `humanizar-espanol` que la cargan
