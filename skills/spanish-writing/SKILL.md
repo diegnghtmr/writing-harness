@@ -742,10 +742,15 @@ Fuera del texto solo van las líneas aparte que pide «redactar-espanol»: qué
 tono se usó y por qué, o por qué no se usó ninguno; las advertencias que
 quedan, con su motivo; y, si no hubo verificador, que el texto no se midió.
 
+Si el usuario pidió el texto en un archivo, o dio un documento para que fuera
+en él, el texto va ahí y no se repite en la respuesta. En su lugar va una línea
+que dice dónde quedó, junto con las demás líneas aparte.
+
 ### 12.3. Formato de respuesta al redactar
 
 Entregar el texto solicitado. Si el usuario pide explicaciones o comentarios,
-estos van separados del texto producido.
+estos van separados del texto producido. Si pidió el texto en un archivo o dio
+un documento para él, rige lo mismo que al reescribir.
 
 
 ## 13. Citas y referencias en textos académicos
