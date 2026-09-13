@@ -4,9 +4,9 @@ Este archivo es el modo **mejorar**. El modo **usar**, que es escribir un texto
 con las skills puestas, está en [AGENTS.md](AGENTS.md) y no toca ningún archivo
 de acá.
 
-Si llegaste buscando cómo escribir un texto, volvé a AGENTS.md. Si llegaste
-porque hay que agregar un tono, mover una regla, incorporar un corpus o corregir
-una cifra, es acá.
+Quien llegó buscando cómo escribir un texto tiene que volver a AGENTS.md. Si
+hay que agregar un tono, mover una regla, incorporar un corpus o corregir una
+cifra, es acá.
 
 
 ## Lo único que no se negocia
@@ -34,8 +34,8 @@ dos direcciones, siempre.
 ### 3. Un gate se prueba rompiéndolo
 
 Escribir el test y verlo pasar no prueba nada: puede estar pasando porque no
-mira. **Antes de dar por bueno un gate, rompé a propósito lo que dice vigilar y
-comprobá que falle.** Después restaurá.
+mira. **Antes de dar por bueno un gate, se rompe a propósito lo que dice vigilar
+y se comprueba que falle.** Después se restaura.
 
 Este repositorio tiene la costumbre de dejar el canario escrito como test, para
 que el día que alguien afine el patrón se entere de si lo afinó de más. Ver
@@ -62,7 +62,8 @@ hexadecimales con buena pinta.
 node --test "evals/*.test.ts"
 ```
 
-Verde antes de empezar. Si ya estaba rojo, eso es lo primero, y no es tu cambio.
+Verde antes de empezar. Si ya estaba rojo, eso es lo primero, y ese rojo no
+viene del cambio nuevo.
 
 
 ## Agregar un tono
@@ -266,7 +267,7 @@ tono mudo reparte texto entre skills que dan todas el mismo veredicto.
 
 ### 3. Los ítems que la base ya mide
 
-Si tu skill declara «sin tuteo» o «sin artefactos de canal», eso ya lo miden
+Si la skill declara «sin tuteo» o «sin artefactos de canal», eso ya lo miden
 reglas de la base. El ítem se agrega al `checklist` de esa regla, no se duplica
 en una regla nueva.
 
@@ -360,7 +361,7 @@ Los recuentos grabados de `correspondencia`, `alcance`, `ritmo`, `mediciones` y
 
 **Y la regla que hace que esto no se repita: una cifra que aparece en la
 documentación se lee del sitio donde se mide, no se copia.** Si no hay gate para
-la cifra que estás escribiendo, el trabajo incluye ponerlo. Cinco afirmaciones
+la cifra que se escribe, el trabajo incluye ponerlo. Cinco afirmaciones
 envejecieron por no tenerlo.
 
 
@@ -370,21 +371,22 @@ Una regla nueva sale de una declaración que ya está en la prosa y nadie mide. 
 camino inverso, inventar la regla y después escribir el ítem, produce reglas que
 no gobiernan nada.
 
-1. Buscá el ítem en `evals/cobertura.ts`. Si está como `criterio` y se puede
+1. Se busca el ítem en `evals/cobertura.ts`. Si está como `criterio` y se puede
    medir, ese es el candidato.
-2. Escribí la regla en `src/rules.ts` con su `source` y su `checklist`.
-3. Regenerá `cobertura.ts`: el ítem tiene que desaparecer de ahí solo.
-4. Escribí el test en las dos direcciones y **rompé la regla para verlo fallar**.
-5. Actualizá los recuentos.
+2. Se escribe la regla en `src/rules.ts` con su `source` y su `checklist`.
+3. Se regenera `cobertura.ts`: el ítem tiene que desaparecer de ahí solo.
+4. Se escribe el test en las dos direcciones y **se rompe la regla para verlo
+   fallar**.
+5. Se actualizan los recuentos.
 
 Si ninguna clase de regla existente sirve, se agrega una clase. Están en
 `src/rules.ts` como variantes de la unión `Rule`, y `assertRules` comprueba la
 forma de cada una antes de usarla.
 
-**Elegí bien la severidad.** Un error no se entrega. Una advertencia sí, si quien
-escribe puede decir por qué el contexto la justifica. La convención de este
-repositorio es que una cifra prestada o una que admite lectura literal avisa, y
-solo bloquea lo que la prosa declara con su propio número.
+**La severidad se elige con cuidado.** Un error no se entrega. Una advertencia
+sí, si quien escribe puede decir por qué el contexto la justifica. La convención
+de este repositorio es que una cifra prestada o una que admite lectura literal
+avisa, y solo bloquea lo que la prosa declara con su propio número.
 
 
 ## Retirar una skill

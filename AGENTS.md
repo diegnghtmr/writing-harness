@@ -1,32 +1,32 @@
 # writing-harness
 
 Dieciséis skills de redacción en español y un verificador que mide si un texto las
-cumple. Trece de esas skills son tonos. Las skills son prosa que vos leés; el
+cumple. Trece de esas skills son tonos. Las skills son prosa que se lee; el
 verificador es un programa que cuenta. Lo que hace útil al conjunto es que las
 dos mitades declaran las mismas reglas y un gate las obliga a no contradecirse.
 
 Este es el archivo canónico de instrucciones para cualquier agente que trabaje
-acá. `CLAUDE.md` solo apunta a este. Si tu herramienta lee otro nombre de
-archivo, hacé lo mismo: un puntero de una línea, nunca una copia.
+acá. `CLAUDE.md` solo apunta a este. Si una herramienta lee otro nombre de
+archivo, vale lo mismo: un puntero de una línea, nunca una copia.
 
-## Empezá por acá: hay dos modos y no se mezclan
+## Por dónde se empieza: hay dos modos y no se mezclan
 
-| Lo que te pidieron | Modo | Dónde está el procedimiento |
+| Lo que se pidió | Modo | Dónde está el procedimiento |
 |---|---|---|
 | Escribir, reescribir o revisar un texto en español | **usar** | [`skills/redactar-espanol/SKILL.md`](skills/redactar-espanol/SKILL.md) |
 | Agregar un tono, una regla o un corpus; tocar el verificador, un gate o una cifra | **mejorar** | [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 La diferencia no es de tamaño, es de qué se toca. **Usar el arnés no modifica
-ningún archivo del arnés.** Si al escribir un texto te dan ganas de ablandar una
-regla que te molesta, estás cruzando de modo sin darte cuenta, y eso es
-exactamente el movimiento que este repositorio existe para hacer visible: la
+ningún archivo del arnés.** Si al escribir un texto dan ganas de ablandar una
+regla que molesta, eso es cruzar de modo sin darse cuenta, y ese es exactamente
+el movimiento que este repositorio existe para hacer visible: la
 regla se arregla o se retira con su motivo escrito, nunca se esquiva para que
 pase un texto concreto.
 
 Un mismo pedido puede necesitar los dos, y entonces son dos trabajos seguidos y
-en este orden: primero entregás el texto, después proponés el cambio al arnés
-con lo que aprendiste escribiéndolo. Los mejores arreglos de este repositorio
-salieron así.
+en este orden: primero se entrega el texto, después se propone el cambio al
+arnés con lo que se aprendió escribiéndolo. Los mejores arreglos de este
+repositorio salieron así.
 
 
 ---
@@ -51,8 +51,8 @@ hacen las skills. Las otras 189 solo las pone quien leyó la skill.
 
 ## 2. Elegir el tono, si corresponde
 
-No lo elijas a ojo. El enrutamiento es un procedimiento determinista y responde
-con el motivo, para que se pueda discutir:
+El tono no se elige a ojo. El enrutamiento es un procedimiento determinista y
+responde con el motivo, para que se pueda discutir:
 
 ```bash
 node src/cli.ts --enrutar comunidadAfectada
@@ -88,7 +88,7 @@ aplica directamente y la lista no se recorre.
 
 ## 3. Escribir con la skill delante
 
-Leé el `SKILL.md` completo del tono elegido, no su resumen. Están en
+Se lee el `SKILL.md` completo del tono elegido, no su resumen. Están en
 `skills/<id>-writing/SKILL.md` y traen, en este orden: qué decide ese tono, qué
 se midió y qué no vale de esa medición, el ritmo en cifras, la voz, la
 estructura, los recursos, y una lista de verificación numerada al final.
@@ -486,8 +486,8 @@ se detiene y sale con 1. Con `--reemplazar` lo renombra a
 `<nombre>.reemplazado` y enlaza al lado, así que siempre se puede volver atrás.
 
 El formato `SKILL.md`, markdown con frontmatter YAML, lo lee cualquier
-herramienta. Si la tuya no tiene un directorio de skills, las skills siguen
-sirviendo como documentos: se leen y se aplican igual.
+herramienta. Si una herramienta no tiene un directorio de skills, las skills
+siguen sirviendo como documentos: se leen y se aplican igual.
 
 **Cuidado con las copias sueltas.** Una skill enlazada y una copia vieja del
 mismo nombre en otro directorio de anfitrión son dos reglas distintas con el
@@ -528,6 +528,6 @@ al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
 |---|---|
 | Cualquiera que siga la convención AGENTS.md | `AGENTS.md` |
 | Claude Code | `CLAUDE.md`, que apunta a `AGENTS.md` |
-| Otro | Agregá un puntero de una línea, no una copia |
+| Otro | Se agrega un puntero de una línea, no una copia |
 
 Un puntero no se desincroniza. Una copia sí.

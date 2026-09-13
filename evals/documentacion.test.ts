@@ -166,7 +166,7 @@ describe('los dos modos están declarados donde un agente los va a leer', () => 
   test('el README manda a los agentes a otro lado', () => {
     // El README explica por qué existe esto y no sirve para trabajar. Sin la
     // advertencia, un agente lo lee entero y no encuentra el procedimiento.
-    assert.match(lee('README.md'), /Si sos un agente, no leas este archivo/u);
+    assert.match(lee('README.md'), /Si usted es un agente, no lea este archivo/u);
   });
 });
 

@@ -6,11 +6,12 @@ Dieciséis skills en tres capas y 93 reglas mecanizadas, con un gate que ata cad
 regla a la prosa que la enuncia. Cero dependencias: Node 22.6 o superior lo corre
 entero sin instalar nada, sin build y sin conexión.
 
-> **Si sos un agente, no leas este archivo.** Está escrito para una persona que
-> llega y quiere entender qué es esto y por qué está hecho así. El procedimiento
-> operativo está en [AGENTS.md](AGENTS.md), separado en dos modos: usar el arnés
-> para escribir un texto, y mejorarlo, que es [CONTRIBUTING.md](CONTRIBUTING.md).
-> Los dos modos tocan cosas distintas y conviene no confundirlos.
+> **Si usted es un agente, no lea este archivo.** Está escrito para una persona
+> que llega y quiere entender qué es esto y por qué está hecho así.
+> El procedimiento operativo está en [AGENTS.md](AGENTS.md), separado en dos
+> modos: usar el arnés para escribir un texto, y mejorarlo, que es
+> [CONTRIBUTING.md](CONTRIBUTING.md). Los dos modos tocan cosas distintas y
+> conviene no confundirlos.
 
 ## La idea
 
