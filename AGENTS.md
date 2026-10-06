@@ -467,6 +467,8 @@ forma automática el flujo de cada corrida.
 node scripts/prueba-final.ts --dir <carpeta>                          # la serie entera
 node scripts/prueba-final.ts --dir <carpeta> --simular                # el plan, sin correr nada
 node scripts/prueba-final.ts --dir <carpeta> --agentes agy --agregar  # suma un agente a lo publicado
+node scripts/prueba-final.ts --dir <carpeta> --fallidas               # vuelve a correr lo que falló
+node scripts/prueba-final.ts --dir <carpeta> --afectadas              # corre lo que alcanza un cambio
 node scripts/prueba-final.ts --dir <carpeta> --reevaluar              # vuelve a juzgar lo publicado
 ```
 

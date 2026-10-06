@@ -44,6 +44,7 @@ import {
 import { CARPETA_DE_LA_COPIA } from './copia.ts';
 import { ErrorDeUso } from './errores.ts';
 import { celda, codigoDeSalida, type Suite, type Veredicto } from './resumen.ts';
+import { huellasDeMix, vigenciaDe, type EstadoDelArnes } from './traza.ts';
 import { lecturasDeSkills, type Transcripcion } from './transcripcion.ts';
 import { variantes } from './variantes.ts';
 
@@ -57,6 +58,8 @@ export type DependenciasDeReevaluacion = {
   parsear(agente: string, variante: string, archivos: ArchivosDeLaCorrida, staging: string): Transcripcion | null;
   ahora(): Date;
   avisar(linea: string): void;
+  /** Las rutas del arnés que cambiaron desde un estado anotado, o null si git no lo sabe. Rehace la marca de vigencia del resumen. */
+  cambiosDesde(arnes: EstadoDelArnes): string[] | null;
 };
 
 /** Cómo estaba una corrida y cómo queda: el estado con las comprobaciones que lo causan. */
@@ -180,7 +183,10 @@ export function reevaluar(
     docx: previo?.docx ?? { antes: '', despues: '' },
   };
   const conocidos = o.conocidos ?? [...(previo?.agentes ?? []), ...(previo?.omitidos ?? [])];
-  const suite = suiteDeLaCarpeta(o.carpeta, base, conocidos, serieAnterior);
+  const reunida = suiteDeLaCarpeta(o.carpeta, base, conocidos, serieAnterior);
+  const docx = join(o.carpeta, 'base.docx');
+  const actual = { mix: huellasDeMix(o.mix), docx: existsSync(docx) ? sha256(readFileSync(docx)) : '' };
+  const suite: Suite = { ...reunida, vigencia: vigenciaDe(reunida.veredictos, actual, deps.cambiosDesde) };
   escribirResumen(o.carpeta, suite);
   const cambios = nuevos.map((x) => ({ agente: x.agente, variante: x.variante, antes: celda(x.viejo), despues: celda(x.nuevo) }));
   return { suite, codigo: codigoDeSalida(suite.veredictos), cambios };

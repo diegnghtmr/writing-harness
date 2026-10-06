@@ -517,6 +517,53 @@ no se puede volver a medir, que es la huella del documento y el estado de los
 repositorios y de la copia, se conserva marcado. El resumen y cada veredicto
 anterior quedan en `historial/`, bajo la fecha de la reevaluación.
 
+Una serie completa son quince variantes por agente, y cada corrida tarda minutos
+y gasta cuota: una de Grok tarda unos diez minutos y cuesta medio dólar. Por eso
+un arreglo no se prueba repitiendo la serie entera. `--fallidas` vuelve a correr
+solo los pares de la serie publicada que dieron falla o error y, con
+`--con-avisos`, también los que pasaron con aviso. Los suma como `--agregar`: el
+par viejo pasa al historial, el resto de la raíz queda donde está y el resumen
+se rehace con todo.
+
+`--afectadas` corre lo que un cambio alcanza. Compara el arnés desde
+`--desde <ref>`, o desde el commit que registró la serie, hasta el árbol de
+trabajo, y compara las instrucciones de mix y `base.docx` con las huellas de la
+serie. Cada cambio pasa por la tabla `IMPACTO` de
+`scripts/prueba-final/impacto.ts`, que es la única copia de la tabla y le da a
+cada fila su motivo. El plan imprime cada ruta con su efecto y su motivo, las
+variantes que corren y los agentes, y corre esos pares como `--agregar`. Con
+`--simular` solo imprime el plan.
+
+La tabla tiene cuatro efectos. La base, la entrada, el verificador, las
+instrucciones que lee el agente, `base.docx` y lo del ejecutor que decide qué
+recibe el agente o cómo corre alcanzan a todas las variantes. La skill de un
+tono alcanza solo a su variante, y la de la pasada, solo a `humanizar`. Lo que
+solo juzga una corrida ya hecha no corre ningún agente: el plan manda a
+`--reevaluar`. Las pruebas, el README y este archivo no dan forma al uso y no
+corren nada, pero el plan los lista igual, para que una persona decida correr
+una variante con `--variantes`. Lo que la tabla no clasifica alcanza a todas:
+equivocarse por exceso gasta corridas, y por defecto deja como vigente una
+variante que nadie probó. Un archivo nuevo del ejecutor necesita su fila.
+
+Cada veredicto anota con qué se probó: el commit del arnés y si había cambios
+sin commit, la huella de las instrucciones de mix que entraron a la copia, la de
+`base.docx` y la de las skills instaladas que leyó el agente. `resumen.json`
+anota la de la serie. Con esas huellas, el resumen marca `[desactualizada]` la
+celda que un cambio posterior alcanza según la misma tabla y que no se volvió a
+correr, con el motivo en su sección. Un veredicto de un ejecutor anterior no
+anota nada de esto, así que su celda queda marcada `[sin traza]`: no se sabe con
+qué se probó, y no se da por vigente.
+
+Cada agente lee su propia copia de las skills, no la del repositorio: Copilot la
+de `~/.agents/skills`, Grok la de `~/.grok/skills` y Antigravity la de
+`~/.gemini/config/skills`, declaradas junto a cada agente en
+`scripts/prueba-final/agentes.ts`. Antes de correr, cada archivo de cada skill
+del arnés se compara byte a byte con la copia de cada agente elegido. Si algo
+falta, difiere o sobra, la serie no corre y el comando lista los archivos. La
+prueba no sincroniza esas copias, porque son del usuario; con `--simular`,
+informa la comparación sin fallar. Sin esta comprobación, una serie podía probar
+en silencio las skills de antes.
+
 Cada corrida guarda sus memorias en un proyecto de Engram propio, cuyo nombre
 empieza con `prueba-final` y queda anotado en el veredicto. Con un proyecto
 común, una corrida leyó lo que había guardado otra. Esos proyectos no se borran

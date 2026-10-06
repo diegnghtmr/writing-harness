@@ -65,6 +65,12 @@ export type DefinicionDeAgente = {
   estadoPropio(home: string, ctx: Contexto, sesion: string | null): string[];
   /** Los argumentos que imprimen la versión, para el agente que no la deja escrita. */
   version: string[] | null;
+  /**
+   * El directorio de skills instaladas que lee el agente. Es una copia que
+   * mantiene el usuario, no el repositorio: antes de correr se comprueba que
+   * coincida con el arnés (ver `instaladas.ts`).
+   */
+  skills(home: string): string;
 };
 
 type Objeto = Record<string, unknown>;
@@ -313,6 +319,7 @@ export const AGENTES: Record<string, DefinicionDeAgente> = {
     estadoPropio: (home, ctx) => [join(home, '.copilot', 'session-state', ctx.sesion)],
     parsear: (stdout, transcripcion) => parsearCopilot(stdout, transcripcion),
     version: null,
+    skills: (home) => join(home, '.agents', 'skills'),
   },
   grok: {
     id: 'grok',
@@ -339,6 +346,7 @@ export const AGENTES: Record<string, DefinicionDeAgente> = {
     estadoPropio: (home) => [join(home, '.grok', 'sessions')],
     parsear: (stdout) => parsearGrok(stdout),
     version: ['--version'],
+    skills: (home) => join(home, '.grok', 'skills'),
   },
   agy: {
     id: 'agy',
@@ -368,5 +376,6 @@ export const AGENTES: Record<string, DefinicionDeAgente> = {
       sesion === null ? [] : [join(home, '.gemini', 'antigravity-cli', 'brain', sesion)],
     parsear: (stdout, transcripcion, log, stderr) => parsearAgy(stdout, transcripcion, log, stderr),
     version: null,
+    skills: (home) => join(home, '.gemini', 'config', 'skills'),
   },
 };

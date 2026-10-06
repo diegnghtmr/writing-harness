@@ -11,6 +11,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { resumenJson, resumenMarkdown, type Suite, type Veredicto } from './resumen.ts';
+import { trazaDeLaSerie } from './traza.ts';
 import { variantes } from './variantes.ts';
 
 /** La carpeta del historial dentro de la de la prueba. No es un agente. */
@@ -122,6 +123,7 @@ export function suiteDeLaCarpeta(
     series,
     variantes: variantesDeLaCarpeta,
     veredictos,
+    traza: trazaDeLaSerie(veredictos),
   };
 }
 

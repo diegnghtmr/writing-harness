@@ -83,6 +83,7 @@ function deps(medidos: [string, readonly string[]][] = [], avisos: string[] = []
     },
     ahora: () => new Date('2026-10-07T10:00:00.000Z'),
     avisar: (l) => avisos.push(l),
+    cambiosDesde: () => [],
   };
 }
 
@@ -135,6 +136,28 @@ describe('volver a juzgar una serie publicada', () => {
     assert.match(md, /^- Corridas: 2\. Pasan 1, con aviso 0, con falla 1, con error del agente 0\.$/mu);
     assert.equal(nuevo('base').serie, SERIE, 'la serie es la de la corrida, no la de la reevaluación');
     assert.equal(r.codigo, 1);
+  });
+
+  test('el resumen rehecho marca las corridas que no registran con qué se probaron', () => {
+    const md = readFileSync(join(p.carpeta, 'resumen.md'), 'utf8');
+    assert.match(md, /^\| base \| pasa \[sin traza\] \|$/mu);
+    assert.equal(r.suite.vigencia?.['falso/camus']?.estado, 'desconocida');
+  });
+});
+
+describe('la vigencia al volver a juzgar', () => {
+  test('una corrida con traza que un cambio posterior alcanza queda desactualizada', () => {
+    const p = publicada();
+    const archivo = join(p.carpeta, 'falso', 'camus', 'veredicto.json');
+    const v = JSON.parse(readFileSync(archivo, 'utf8'));
+    v.metadatos.traza = { arnes: { commit: 'a'.repeat(40), sucio: false, sucios: {} }, mix: {}, docx: '', instaladas: null };
+    writeFileSync(archivo, JSON.stringify(v));
+    const r = reevaluar(
+      { carpeta: p.carpeta, mix: p.mix, reales: [p.mix] },
+      { ...deps(), cambiosDesde: () => ['skills/camus-writing/SKILL.md'] },
+    );
+    assert.equal(r.suite.vigencia?.['falso/camus']?.estado, 'desactualizada');
+    assert.match(readFileSync(join(p.carpeta, 'resumen.md'), 'utf8'), /^\| camus \| falla: 9 \[desactualizada\] \|$/mu);
   });
 });
 

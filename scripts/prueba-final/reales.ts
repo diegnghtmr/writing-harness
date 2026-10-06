@@ -3,6 +3,7 @@
 // se llama al comando.
 
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { REPO_ROOT } from '../../src/skills.ts';
@@ -10,6 +11,7 @@ import type { DefinicionDeAgente } from './agentes.ts';
 import type { Agente } from './ejecutor.ts';
 import { correrProceso } from './proceso.ts';
 import type { Ejecutable } from './resolver.ts';
+import { rutasCambiadas, type EstadoDelArnes } from './traza.ts';
 
 /**
  * El entorno de una corrida: el del usuario, con su propio proyecto de Engram.
@@ -67,13 +69,108 @@ export function verificarConElArnes(archivo: string, banderas: readonly string[]
   return { codigo: r.status, salida: `${r.stdout ?? ''}${r.stderr ?? ''}` };
 }
 
+/**
+ * Las variables con que git elige el repositorio por encima de `-C`. Es el
+ * piso: se suman las que git declara con `git rev-parse --local-env-vars`,
+ * como hace `evals/directorio-de-hooks.test.ts` con el mismo peligro.
+ */
+const VARIABLES_DE_REPOSITORIO = [
+  'GIT_DIR',
+  'GIT_WORK_TREE',
+  'GIT_INDEX_FILE',
+  'GIT_COMMON_DIR',
+  'GIT_OBJECT_DIRECTORY',
+  'GIT_ALTERNATE_OBJECT_DIRECTORIES',
+  'GIT_PREFIX',
+  'GIT_NAMESPACE',
+];
+
+/**
+ * El entorno con que se llama a git: el del proceso, sin las variables que
+ * eligen el repositorio.
+ *
+ * Dentro de un hook, git exporta `GIT_DIR` y `GIT_INDEX_FILE`, y con ellas
+ * `-C <raíz>` deja de decidir a qué repositorio se habla. Ya pasó: la suite,
+ * corrida desde el gate de pre-commit de un worktree, armó un repositorio
+ * temporal con `git init` y reinicializó como desnudo el repositorio del hook,
+ * y su `git add` agregó archivos al índice del worktree. Sin esas variables,
+ * cada llamada habla con la raíz que nombra.
+ */
+export function entornoDeGit(env: NodeJS.ProcessEnv = process.env): NodeJS.ProcessEnv {
+  const locales = variablesLocales();
+  return Object.fromEntries(Object.entries(env).filter(([k]) => !locales.includes(k.toUpperCase())));
+}
+
+let locales: string[] | undefined;
+/** Las variables locales al repositorio: las del piso y las que git declara, leídas una vez. */
+function variablesLocales(): string[] {
+  if (locales === undefined) {
+    const r = spawnSync('git', ['rev-parse', '--local-env-vars'], { encoding: 'utf8', windowsHide: true });
+    const deGit = r.status === 0 ? r.stdout.split(/\r?\n/u).filter(Boolean) : [];
+    locales = [...new Set([...VARIABLES_DE_REPOSITORIO, ...deGit])];
+  }
+  return locales;
+}
+
+/** git en una raíz dada, con la salida como texto. */
+const git = (raiz: string, args: readonly string[]) =>
+  spawnSync('git', ['-C', raiz, ...args], { encoding: 'utf8', windowsHide: true, env: entornoDeGit() });
+
 export function estadoGit(raiz: string): string | null {
-  const r = spawnSync('git', ['-C', raiz, 'status', '--porcelain'], { encoding: 'utf8', windowsHide: true });
+  const r = git(raiz, ['status', '--porcelain']);
   return r.status === 0 ? r.stdout : null;
 }
 
 /** Lo que git rastrea en un repositorio, relativo a su raíz, o null si git no respondió. */
 export function archivosRastreados(raiz: string): string[] | null {
-  const r = spawnSync('git', ['-C', raiz, 'ls-files', '-z'], { encoding: 'utf8', windowsHide: true });
+  const r = git(raiz, ['ls-files', '-z']);
   return r.status === 0 ? r.stdout.split('\0').filter(Boolean) : null;
+}
+
+/** Una salida de git separada por NUL, o null si git no respondió. Con NUL, una ruta con eñe o tilde sale tal cual. */
+function listaDeGit(raiz: string, args: readonly string[]): string[] | null {
+  const r = git(raiz, args);
+  return r.status === 0 ? r.stdout.split('\0').filter(Boolean) : null;
+}
+
+/**
+ * Las rutas que hoy difieren de un commit: lo que cambió en commits
+ * posteriores, lo que cambió sin commit y los archivos nuevos que git no
+ * ignora. Sin detectar renombres, para que salgan la ruta vieja y la nueva.
+ */
+function rutasDistintas(raiz: string, commit: string): string[] | null {
+  const cambiadas = listaDeGit(raiz, ['diff', '--name-only', '--no-renames', '-z', commit, '--']);
+  const nuevas = listaDeGit(raiz, ['ls-files', '--others', '--exclude-standard', '-z']);
+  return cambiadas === null || nuevas === null ? null : [...new Set([...cambiadas, ...nuevas])].sort();
+}
+
+/** El commit completo de una referencia, o null si git no la reconoce. */
+export function commitDe(raiz: string, ref: string): string | null {
+  const r = git(raiz, ['rev-parse', '--verify', '--quiet', `${ref}^{commit}`]);
+  return r.status === 0 ? r.stdout.trim() : null;
+}
+
+/** La huella de un archivo del repositorio, o null si ya no está. */
+const huellaEn = (raiz: string, ruta: string): string | null => {
+  try {
+    return createHash('sha256').update(readFileSync(join(raiz, ...ruta.split('/')))).digest('hex');
+  } catch {
+    return null;
+  }
+};
+
+/** El arnés al empezar una serie: HEAD y la huella de lo que difiere de él. */
+export function estadoDelArnes(raiz: string): EstadoDelArnes {
+  const commit = commitDe(raiz, 'HEAD');
+  const distintas = commit === null ? null : rutasDistintas(raiz, commit);
+  const sucios: Record<string, string | null> = {};
+  for (const r of distintas ?? []) sucios[r] = huellaEn(raiz, r);
+  return { commit, sucio: (distintas ?? []).length > 0, sucios };
+}
+
+/** Las rutas del arnés que cambiaron desde un estado anotado, o null si git no reconoce su commit. */
+export function cambiosDesde(raiz: string, arnes: EstadoDelArnes): string[] | null {
+  if (arnes.commit === null || commitDe(raiz, arnes.commit) === null) return null;
+  const distintas = rutasDistintas(raiz, arnes.commit);
+  return distintas === null ? null : rutasCambiadas(distintas, arnes.sucios, (r) => huellaEn(raiz, r));
 }

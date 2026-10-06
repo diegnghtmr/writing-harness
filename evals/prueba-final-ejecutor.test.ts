@@ -29,6 +29,7 @@ import { correrSuite, type Agente, type Dependencias, type Plan } from '../scrip
 import { fragmento } from '../scripts/prueba-final/fragmento.ts';
 import { parrafosDelDocx } from '../scripts/prueba-final/docx.ts';
 import { correrProceso } from '../scripts/prueba-final/proceso.ts';
+import type { EstadoDelArnes } from '../scripts/prueba-final/traza.ts';
 import { llamada, vacia, type Llamada } from '../scripts/prueba-final/transcripcion.ts';
 import { variantes, type Variante } from '../scripts/prueba-final/variantes.ts';
 import type { Contexto } from '../scripts/prueba-final/agentes.ts';
@@ -200,9 +201,13 @@ const depsFalsas = (tmp: string, extra: Partial<Dependencias> = {}): Dependencia
     verificar: () => ({ codigo: 0, salida: 'salida.md: sin hallazgos' }),
     ahora: () => new Date('2026-10-06T00:00:00.000Z'),
     avisar: () => {},
+    cambiosDesde: () => [],
     ...extra,
   };
 };
+
+/** El estado del arnés que anota una serie: un commit inventado, sin cambios sin commit. */
+const arnesEn = (commit: string): EstadoDelArnes => ({ commit: commit.repeat(40).slice(0, 40), sucio: false, sucios: {} });
 
 const plan = (
   e: ReturnType<typeof escenario>,
@@ -224,6 +229,7 @@ const plan = (
   paralelo,
   limiteMin: 1,
   agregar: false,
+  traza: { arnes: arnesEn('a'), instaladas: {} },
   ...extra,
 });
 
@@ -595,6 +601,111 @@ describe('qué queda en la carpeta de la prueba', () => {
   });
 });
 
+describe('con qué se probó cada corrida', () => {
+  test('el veredicto anota el commit del arnés, las instrucciones de mix, base.docx y las skills instaladas', async () => {
+    const e = escenario();
+    const instaladas = { directorio: join('home', '.grok', 'skills'), huella: 'c'.repeat(64) };
+    const sucio: EstadoDelArnes = { commit: 'b'.repeat(40), sucio: true, sucios: { 'src/check.ts': 'd'.repeat(64) } };
+    await correrSuite(
+      plan(e, [agenteFalso('falso', e.carpeta, [])], algunas().slice(0, 1), 1, [], { traza: { arnes: sucio, instaladas: { falso: instaladas } } }),
+      depsFalsas(e.tmp),
+    );
+    const t = JSON.parse(readFileSync(join(e.carpeta, 'falso', 'base', 'veredicto.json'), 'utf8')).metadatos.traza;
+    assert.deepEqual(t, {
+      arnes: sucio,
+      mix: { 'AGENTS.md': sha(Buffer.from('# mix\n')), 'CLAUDE.md': sha(Buffer.from('Ver AGENTS.md.\n')) },
+      docx: sha(DOCX),
+      instaladas,
+    });
+  });
+
+  test('resumen.json anota la traza de la serie', async () => {
+    const e = escenario();
+    await correrSuite(plan(e, [agenteFalso('falso', e.carpeta, [])], algunas().slice(0, 1)), depsFalsas(e.tmp));
+    const resumen = JSON.parse(readFileSync(join(e.carpeta, 'resumen.json'), 'utf8'));
+    assert.equal(resumen.traza.arnes.commit, 'a'.repeat(40));
+    assert.equal(resumen.traza.docx, sha(DOCX));
+    assert.match(readFileSync(join(e.carpeta, 'resumen.md'), 'utf8'), /^- Arnés: commit aaaaaaa\.$/mu);
+  });
+});
+
+describe('volver a correr solo algunos pares', () => {
+  const un = (v: string) => variantes().filter((x) => x.id === v);
+
+  test('corren solo los pares pedidos, el viejo pasa al historial y el resto queda', async () => {
+    const e = escenario();
+    const vs = variantes().filter((v) => ['base', 'camus'].includes(v.id));
+    await correrSuite(
+      plan(e, [agenteFalso('uno', e.carpeta, []), agenteFalso('dos', e.carpeta, [])], vs),
+      depsFalsas(e.tmp, { ahora: () => new Date('2026-10-06T00:00:00.000Z') }),
+    );
+    writeFileSync(join(e.carpeta, 'uno', 'base', 'marca.txt'), 'de la primera serie');
+    writeFileSync(join(e.carpeta, 'dos', 'camus', 'marca.txt'), 'de la primera serie');
+    const registro: Registro[] = [];
+    const r = await correrSuite(
+      plan(e, [agenteFalso('dos', e.carpeta, registro)], un('camus'), 1, [], { agregar: true, pares: new Set(['dos/camus']) }),
+      depsFalsas(e.tmp, { ahora: () => new Date('2026-10-08T00:00:00.000Z') }),
+    );
+    assert.deepEqual(registro.map((x) => `${x.agente}/${x.variante}`), ['dos/camus']);
+    assert.ok(existsSync(join(e.carpeta, 'uno', 'base', 'marca.txt')), 'lo que no corrió quedó donde estaba');
+    assert.ok(!existsSync(join(e.carpeta, 'dos', 'camus', 'marca.txt')), 'el par que corrió se reemplazó');
+    assert.ok(existsSync(join(e.carpeta, 'historial', '2026-10-06T00-00-00-000Z', 'dos', 'camus', 'marca.txt')));
+    assert.equal(r.suite.veredictos.length, 4, 'el resumen junta los cuatro pares');
+  });
+
+  test('con varios agentes y variantes, solo el cruce pedido', async () => {
+    const e = escenario();
+    const registro: Registro[] = [];
+    const vs = variantes().filter((v) => ['base', 'camus'].includes(v.id));
+    await correrSuite(
+      plan(e, [agenteFalso('uno', e.carpeta, registro), agenteFalso('dos', e.carpeta, registro)], vs, 1, [], {
+        agregar: true,
+        pares: new Set(['uno/camus', 'dos/base']),
+      }),
+      depsFalsas(e.tmp),
+    );
+    assert.deepEqual(registro.map((x) => `${x.agente}/${x.variante}`).sort(), ['dos/base', 'uno/camus']);
+  });
+});
+
+describe('las celdas que un cambio posterior dejó desactualizadas', () => {
+  test('una corrida vieja que un cambio alcanza queda marcada; la recién corrida, no', async () => {
+    const e = escenario();
+    const vs = variantes().filter((v) => ['base', 'camus'].includes(v.id));
+    // Después de la primera serie, en el commit a, cambió el tono camus. La
+    // segunda serie, en el commit b, vuelve a correr solo base.
+    const cambiosDesde = (a: EstadoDelArnes) => (a.commit === 'a'.repeat(40) ? ['skills/camus-writing/SKILL.md'] : []);
+    await correrSuite(plan(e, [agenteFalso('uno', e.carpeta, [])], vs), depsFalsas(e.tmp, { cambiosDesde }));
+    const r = await correrSuite(
+      plan(e, [agenteFalso('uno', e.carpeta, [])], vs.slice(0, 1), 1, [], { agregar: true, traza: { arnes: arnesEn('b'), instaladas: {} } }),
+      depsFalsas(e.tmp, { cambiosDesde, ahora: () => new Date('2026-10-08T00:00:00.000Z') }),
+    );
+    const md = readFileSync(join(e.carpeta, 'resumen.md'), 'utf8');
+    assert.match(md, /^\| base \| pasa \|$/mu);
+    assert.match(md, /^\| camus \| pasa \[desactualizada\] \|$/mu);
+    assert.match(md, /^- uno, camus: desactualizada: .*skills\/camus-writing\/SKILL\.md/mu);
+    assert.equal(r.suite.vigencia?.['uno/camus']?.estado, 'desactualizada');
+    assert.equal(JSON.parse(readFileSync(join(e.carpeta, 'resumen.json'), 'utf8')).vigencia['uno/base'].estado, 'vigente');
+  });
+
+  test('un veredicto de un ejecutor anterior, sin traza, no se da por vigente', async () => {
+    const e = escenario();
+    await correrSuite(plan(e, [agenteFalso('uno', e.carpeta, [])], algunas().slice(0, 1)), depsFalsas(e.tmp));
+    const viejo = join(e.carpeta, 'otro', 'base');
+    mkdirSync(viejo, { recursive: true });
+    const v = JSON.parse(readFileSync(join(e.carpeta, 'uno', 'base', 'veredicto.json'), 'utf8'));
+    delete v.metadatos.traza;
+    writeFileSync(join(viejo, 'veredicto.json'), JSON.stringify({ ...v, agente: 'otro' }));
+    await correrSuite(
+      plan(e, [agenteFalso('uno', e.carpeta, [])], algunas().slice(0, 1), 1, [], { agregar: true }),
+      depsFalsas(e.tmp, { ahora: () => new Date('2026-10-08T00:00:00.000Z') }),
+    );
+    const md = readFileSync(join(e.carpeta, 'resumen.md'), 'utf8');
+    assert.match(md, /^\| base \| pasa \| pasa \[sin traza\] \|$/mu);
+    assert.match(md, /^- Arnés: sin traza/mu);
+  });
+});
+
 describe('correr solo algunos agentes', () => {
   test('el resumen dice qué agentes quedaron fuera', async () => {
     const e = escenario();
@@ -666,7 +777,21 @@ describe('el comando', () => {
   test('--help sale con 0 y muestra las opciones', () => {
     const r = correr('--help');
     assert.equal(r.status, 0);
-    for (const o of ['--dir', '--agentes', '--variantes', '--completo', '--paralelo', '--limite', '--simular', '--agregar', '--reevaluar']) {
+    for (const o of [
+      '--dir',
+      '--agentes',
+      '--variantes',
+      '--completo',
+      '--paralelo',
+      '--limite',
+      '--simular',
+      '--agregar',
+      '--reevaluar',
+      '--fallidas',
+      '--con-avisos',
+      '--afectadas',
+      '--desde',
+    ]) {
       assert.ok(r.stdout.includes(o), o);
     }
   });

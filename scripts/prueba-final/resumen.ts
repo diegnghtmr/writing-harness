@@ -13,6 +13,7 @@
 // sección y su cuenta. La serie sigue saliendo con 1, porque no fue limpia.
 
 import { NOMBRES, type Comprobacion, type Juicio } from './comprobaciones.ts';
+import type { Traza, TrazaDeLaSerie, Vigencia } from './traza.ts';
 import type { Costo } from './transcripcion.ts';
 
 /** El estado de una corrida: el de sus comprobaciones, o `error` si el agente no la terminó. */
@@ -37,6 +38,8 @@ export type Metadatos = {
   copia: { archivos: number; huella: string };
   /** El proyecto de Engram de la corrida, para encontrar y borrar lo que guardó. */
   engram: string;
+  /** Con qué se probó: el arnés, las instrucciones de mix, base.docx y las skills instaladas. Falta en las corridas de un ejecutor anterior. */
+  traza?: Traza;
 };
 
 export type Veredicto = {
@@ -65,6 +68,10 @@ export type Suite = {
   series: Record<string, string>;
   variantes: string[];
   veredictos: Veredicto[];
+  /** Con qué se probó la serie; null si alguna corrida no lo registra. */
+  traza?: TrazaDeLaSerie | null;
+  /** Si cada celda, por `agente/variante`, sigue describiendo el arnés de hoy. */
+  vigencia?: Record<string, Vigencia>;
 };
 
 /** Una fecha de serie corta, para la cabecera de una columna. */
@@ -125,6 +132,38 @@ function errores(veredictos: readonly Veredicto[]): string[] {
   return filas.length > 0 ? filas : ['Ninguno.'];
 }
 
+/** La marca de una celda que no se da por vigente. */
+const MARCA: Record<Vigencia['estado'], string> = { vigente: '', desactualizada: ' [desactualizada]', desconocida: ' [sin traza]' };
+
+/** La línea del commit de la serie, si el resumen trae su traza. */
+function lineaDelArnes(s: Suite): string[] {
+  if (s.traza === undefined) return [];
+  if (s.traza === null) return ['- Arnés: sin traza, porque alguna corrida no registra con qué commit se probó.'];
+  const { commit, sucio, sucios } = s.traza.arnes;
+  const n = Object.keys(sucios).length;
+  const cambios = sucio ? `, con cambios sin commit en ${n} ${n === 1 ? 'ruta' : 'rutas'}` : '';
+  return [`- Arnés: commit ${commit?.slice(0, 7) ?? 'desconocido'}${cambios}.`];
+}
+
+/**
+ * La sección de la vigencia: cada celda desactualizada con su motivo, y las
+ * que no tienen traza agrupadas por motivo, que suele ser uno solo.
+ */
+function vigencias(s: Suite): string[] {
+  if (s.vigencia === undefined) return [];
+  const de = (v: Veredicto) => s.vigencia?.[`${v.agente}/${v.variante}`];
+  const filas = s.veredictos
+    .filter((v) => de(v)?.estado === 'desactualizada')
+    .map((v) => `- ${v.agente}, ${v.variante}: desactualizada: ${de(v)?.motivo}.`);
+  const sinTraza = new Map<string, string[]>();
+  for (const v of s.veredictos) {
+    const x = de(v);
+    if (x?.estado === 'desconocida') sinTraza.set(x.motivo, [...(sinTraza.get(x.motivo) ?? []), `${v.agente}/${v.variante}`]);
+  }
+  for (const [motivo, pares] of sinTraza) filas.push(`- Sin traza (${motivo}): ${pares.join(', ')}.`);
+  return ['## Vigencia', '', ...(filas.length > 0 ? filas : ['Todas las celdas están vigentes.']), ''];
+}
+
 export function resumenMarkdown(s: Suite): string {
   const t = totales(s.veredictos);
   const secciones = s.texto.secciones.map((x) => `${x.titulo} ${x.palabras}`).join(', ');
@@ -138,6 +177,14 @@ export function resumenMarkdown(s: Suite): string {
   const varias = new Set(s.agentes.map((a) => s.series[a])).size > 1;
   const columna = (a: string) => (varias && s.series[a] ? `${a} (serie ${corta(s.series[a] as string)})` : a);
   const lineaDeSeries = varias ? [`- Series: ${s.agentes.map((a) => `${a} del ${s.series[a] ?? 'sin fecha'}`).join(', ')}.`] : [];
+  const marca = (a: string, variante: string) => MARCA[s.vigencia?.[`${a}/${variante}`]?.estado ?? 'vigente'];
+  const marcadas = Object.values(s.vigencia ?? {}).some((v) => v.estado !== 'vigente');
+  const leyendaDeMarcas = marcadas
+    ? [
+        '',
+        '`[desactualizada]`: un cambio posterior a la corrida la alcanza, y no se volvió a correr. `[sin traza]`: la corrida no registra con qué se probó, y no se da por vigente.',
+      ]
+    : [];
   return [
     '# Prueba final con agentes',
     '',
@@ -147,15 +194,23 @@ export function resumenMarkdown(s: Suite): string {
     `- base.docx: ${docx}`,
     `- Agentes: ${s.agentes.join(', ')}.${s.omitidos.length > 0 ? ` Quedaron fuera: ${s.omitidos.join(', ')}.` : ''}`,
     ...lineaDeSeries,
+    ...lineaDelArnes(s),
     `- Corridas: ${s.veredictos.length}. Pasan ${t.pasa}, con aviso ${t.aviso}, con falla ${t.falla}, con error del agente ${t.error}.`,
     '',
     `| Variante | ${s.agentes.map(columna).join(' | ')} |`,
     `|---|${s.agentes.map(() => '---').join('|')}|`,
-    ...s.variantes.map((variante) => `| ${variante} | ${s.agentes.map((a) => celda(buscar(a, variante))).join(' | ')} |`),
+    ...s.variantes.map((variante) => {
+      const celdas = s.agentes.map((a) => {
+        const v = buscar(a, variante);
+        return v === undefined ? celda(v) : `${celda(v)}${marca(a, variante)}`;
+      });
+      return `| ${variante} | ${celdas.join(' | ')} |`;
+    }),
     '',
     'Los números de cada celda son las comprobaciones que causaron su estado:',
     '',
     ...Object.entries(NOMBRES).map(([n, nombre]) => `${n}. ${nombre}`),
+    ...leyendaDeMarcas,
     '',
     '## Fallas',
     '',
@@ -169,6 +224,7 @@ export function resumenMarkdown(s: Suite): string {
     '',
     ...errores(s.veredictos),
     '',
+    ...vigencias(s),
   ].join('\n');
 }
 

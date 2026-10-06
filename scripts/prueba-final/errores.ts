@@ -7,8 +7,16 @@
 // y salió mal, y en estos casos no se midió nada.
 
 export class ErrorDeUso extends Error {
-  constructor(mensaje: string) {
+  /**
+   * En falso, el comando no imprime su ayuda debajo del mensaje: cuando el
+   * mensaje es una lista larga, como la de las skills instaladas que no
+   * coinciden, la ayuda la empuja fuera de la pantalla.
+   */
+  readonly conAyuda: boolean;
+
+  constructor(mensaje: string, conAyuda = true) {
     super(mensaje);
     this.name = 'ErrorDeUso';
+    this.conAyuda = conAyuda;
   }
 }

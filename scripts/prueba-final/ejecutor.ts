@@ -52,10 +52,19 @@ import {
   verificadorLimpio,
   type Comprobacion,
 } from './comprobaciones.ts';
-import { CARPETA_DE_LA_COPIA, cambiosDeLaCopia, construirCopia, huellaDeLaCopia, huellasDe, type PlanDeLaCopia } from './copia.ts';
+import {
+  CARPETA_DE_LA_COPIA,
+  cambiosDeLaCopia,
+  construirCopia,
+  DE_MIX,
+  huellaDeLaCopia,
+  huellasDe,
+  type PlanDeLaCopia,
+} from './copia.ts';
 import type { Texto } from './fragmento.ts';
 import type { Lanzamiento } from './proceso.ts';
 import { codigoDeSalida, type Metadatos, type Suite, type Veredicto } from './resumen.ts';
+import { huellasDeMix, trazaDeLaSerie, vigenciaDe, type EstadoDelArnes, type Traza } from './traza.ts';
 import { escrituras, lecturasDeSkills, vacia, type Transcripcion } from './transcripcion.ts';
 import { promptDe } from './prompts.ts';
 import type { Variante } from './variantes.ts';
@@ -81,6 +90,12 @@ export type Dependencias = {
   ahora(): Date;
   /** Una línea de progreso para quien mira la consola. */
   avisar(linea: string): void;
+  /**
+   * Las rutas del arnés que cambiaron desde un estado anotado, o null si git
+   * no reconoce su commit. Con esto se marcan, al publicar, las celdas que un
+   * cambio posterior dejó desactualizadas.
+   */
+  cambiosDesde(arnes: EstadoDelArnes): string[] | null;
 };
 
 export type Plan = {
@@ -101,6 +116,16 @@ export type Plan = {
   omitidos: string[];
   /** Sumar esta serie a lo que ya hay en la raíz en vez de reemplazarlo. Ver `publicar`. */
   agregar: boolean;
+  /**
+   * Si está, corren solo estos pares, escritos `agente/variante`, y no el
+   * cruce entero de agentes y variantes. Es lo que corre `--fallidas`.
+   */
+  pares?: ReadonlySet<string>;
+  /**
+   * Con qué se prueba: el arnés al empezar la serie y, por agente, las skills
+   * instaladas que lee. Cada veredicto lo anota.
+   */
+  traza: { arnes: EstadoDelArnes; instaladas: Record<string, NonNullable<Traza['instaladas']>> };
 };
 
 /** El principio del nombre del proyecto de Engram de cada corrida. */
@@ -258,6 +283,13 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
       fin: fin.toISOString(),
       copia: { archivos: Object.keys(huellasDeLaCopia).length, huella: huellaDeLaCopia(huellasDeLaCopia) },
       engram,
+      traza: {
+        arnes: plan.traza.arnes,
+        // Las de la copia que recibió el agente, no las de mix: son lo que leyó.
+        mix: Object.fromEntries(DE_MIX.flatMap((m) => (huellasDeLaCopia[m] === undefined ? [] : [[m, huellasDeLaCopia[m]]]))),
+        docx: huellaInicial,
+        instaladas: plan.traza.instaladas[agente.id] ?? null,
+      },
     };
     const fallas = comprobaciones.filter((c) => c.estado === 'falla').map((c) => c.numero);
     const juicio = fallas.length > 0 ? `falla ${fallas.join(', ')}` : estadoDe(comprobaciones);
@@ -273,11 +305,19 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     };
   }
 
+  const corre = (a: Agente, v: Variante) => plan.pares === undefined || plan.pares.has(`${a.id}/${v.id}`);
   const porAgente = await Promise.all(
-    plan.agentes.map((a) => enParalelo(plan.variantes, plan.paralelo, (v) => correrUna(a, v))),
+    plan.agentes.map((a) => enParalelo(plan.variantes.filter((v) => corre(a, v)), plan.paralelo, (v) => correrUna(a, v))),
   );
   // En el orden de las variantes y, dentro de cada una, en el de los agentes.
-  const resultados = plan.variantes.flatMap((_, i) => porAgente.map((r) => r[i] as Resultado));
+  const posicion = <T>(xs: readonly T[], f: (x: T) => boolean) => xs.findIndex(f);
+  const resultados = porAgente
+    .flat()
+    .sort(
+      (x, y) =>
+        posicion(plan.variantes, (v) => v.id === x.variante) - posicion(plan.variantes, (v) => v.id === y.variante) ||
+        posicion(plan.agentes, (a) => a.id === x.agente) - posicion(plan.agentes, (a) => a.id === y.agente),
+    );
 
   const clave = (r: Resultado) => `${r.agente}/${r.variante}`;
   const iguales = salidasIdenticas(resultados.map((r) => ({ clave: clave(r), huella: r.huellaSalida })));
@@ -308,8 +348,9 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     series: Object.fromEntries(plan.agentes.map((a) => [a.id, inicioSerie.toISOString()])),
     variantes: plan.variantes.map((v) => v.id),
     veredictos,
+    traza: trazaDeLaSerie(veredictos),
   };
-  const publicada = publicar(plan, resultados, veredictos, suite, inicioSerie);
+  const publicada = publicar(plan, resultados, veredictos, suite, inicioSerie, deps);
   return { suite: publicada, codigo: codigoDeSalida(publicada.veredictos) };
 }
 
@@ -333,8 +374,19 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
  * La copia no se publica: es la misma en cada corrida, su huella queda en el
  * veredicto, y lo que el agente cambió en ella ya está en el motivo de los
  * repositorios. Se borra con el resto de la carpeta de la corrida.
+ *
+ * El resumen marca cada celda que un cambio posterior a su corrida alcanza.
+ * Con `--agregar` la raíz junta corridas de commits distintos, y sin la marca
+ * una celda vieja se lee igual que una recién corrida.
  */
-function publicar(plan: Plan, resultados: readonly Resultado[], veredictos: readonly Veredicto[], suite: Suite, inicio: Date): Suite {
+function publicar(
+  plan: Plan,
+  resultados: readonly Resultado[],
+  veredictos: readonly Veredicto[],
+  suite: Suite,
+  inicio: Date,
+  deps: Dependencias,
+): Suite {
   const carpeta = plan.carpeta;
   const previa = fechaPrevia(carpeta);
   const historial = join(carpeta, HISTORIAL, marca(previa ?? inicio.toISOString()));
@@ -352,9 +404,9 @@ function publicar(plan: Plan, resultados: readonly Resultado[], veredictos: read
     cpSync(r.staging, destino, { recursive: true, filter: (desde) => !dentroDe(desde, copia) });
     writeFileSync(join(destino, 'veredicto.json'), `${JSON.stringify(veredictos[i], null, 2)}\n`);
   });
-  const publicada = plan.agregar
-    ? suiteDeLaCarpeta(carpeta, suite, [...suite.agentes, ...plan.omitidos], previa)
-    : suite;
+  const reunida = plan.agregar ? suiteDeLaCarpeta(carpeta, suite, [...suite.agentes, ...plan.omitidos], previa) : suite;
+  const actual = { mix: huellasDeMix(plan.mix), docx: sha256(readFileSync(plan.docx)) };
+  const publicada: Suite = { ...reunida, vigencia: vigenciaDe(reunida.veredictos, actual, deps.cambiosDesde) };
   escribirResumen(carpeta, publicada);
   for (const r of resultados) rmSync(r.staging, { recursive: true, force: true });
   return publicada;
