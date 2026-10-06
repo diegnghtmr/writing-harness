@@ -390,6 +390,17 @@ describe('lo que el ejecutor tiene que cazar', () => {
     assert.equal(r.codigo, 1);
   });
 
+  test('una búsqueda sobre un repositorio real del plan avisa en el aislamiento, con la ruta', async () => {
+    const e = escenario();
+    const agente = agenteFalso('falso', e.carpeta, [], {
+      extra: () => [llamada('grep', { pattern: 'conserv', path: e.cwd })],
+    });
+    const r = await correrSuite(plan(e, [agente], algunas().slice(0, 1)), depsFalsas(e.tmp));
+    const c10 = comprobacion(r, 10);
+    assert.equal(c10?.estado, 'aviso', c10?.motivo);
+    assert.ok(c10?.motivo.includes(e.cwd.replace(/\\/gu, '/')), c10?.motivo);
+  });
+
   test('la comprobación 3 mide con el verificador del ejecutor la salida de la corrida', async () => {
     const e = escenario();
     const medidos: string[] = [];

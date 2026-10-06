@@ -207,7 +207,7 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
         copia: cambiosEnLaCopia,
         propias,
       }),
-      aislamiento(t, { staging, carpeta: plan.carpeta, mix: plan.mix }),
+      aislamiento(t, { staging, carpeta: plan.carpeta, mix: plan.mix, reales: plan.raicesGit }),
     ];
     const metadatos: Metadatos = {
       version: t.version,

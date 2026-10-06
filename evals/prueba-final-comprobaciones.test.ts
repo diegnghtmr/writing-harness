@@ -352,7 +352,12 @@ describe('9. los repositorios', () => {
 describe('10. el aislamiento', () => {
   const PROPIA = 'C:\\temp\\pf-00000000-0000-4000-8000-000000000001';
   const OTRA = 'C:\\temp\\pf-00000000-0000-4000-8000-000000000002';
-  const ctx = { staging: PROPIA, carpeta: 'C:\\r\\mix\\test-final', mix: 'C:\\r\\mix' };
+  const ctx = {
+    staging: PROPIA,
+    carpeta: 'C:\\r\\mix\\test-final',
+    mix: 'C:\\r\\mix',
+    reales: ['C:\\r\\mix', 'C:\\r\\mix\\writing-harness'],
+  };
   const leyendo = (...rutas: string[]): Transcripcion => ({
     ...vacia(),
     llamadas: rutas.map((r) => llamada('read_file', { target_file: r })),
@@ -362,14 +367,53 @@ describe('10. el aislamiento', () => {
     llamadas: cs.map((c) => llamada('run_terminal_command', { command: c })),
   });
 
-  test('leer lo propio, la copia y el arnés pasa', () => {
+  test('leer lo propio y la copia pasa, con rutas absolutas o relativas', () => {
     const t = leyendo(
       `${PROPIA}\\entrada.md`,
       `${PROPIA}\\mix\\writing-harness\\AGENTS.md`,
-      'C:\\r\\mix\\writing-harness\\AGENTS.md',
       'writing-harness/src/cli.ts',
     );
     assert.equal(aislamiento(t, ctx).estado, 'pasa');
+  });
+
+  test('una ruta absoluta a un repositorio real avisa, con la ruta, en cualquier forma', () => {
+    // Una búsqueda sobre el arnés real entero recorre el código de la prueba sin
+    // nombrar ninguno de sus archivos.
+    for (const [t, enElMotivo] of [
+      [{ ...vacia(), llamadas: [llamada('grep', { pattern: 'inventar', path: 'C:\\r\\mix\\writing-harness' })] }, 'C:/r/mix/writing-harness'],
+      [leyendo('c:/R/MIX/writing-harness/AGENTS.md'), 'c:/R/MIX/writing-harness/AGENTS.md'],
+      [leyendo('C:\\r\\mix\\AGENTS.md'), 'C:/r/mix/AGENTS.md'],
+      [corriendo('node -e "readFileSync(\'C:\\\\r\\\\mix\\\\writing-harness\\\\src\\\\cli.ts\')"'), 'C:/r/mix/writing-harness/src/cli.ts'],
+    ] as const) {
+      const c = aislamiento(t, ctx);
+      assert.equal(c.estado, 'aviso', enElMotivo);
+      assert.ok(c.motivo.includes(enElMotivo), `${enElMotivo}: ${c.motivo}`);
+    }
+  });
+
+  test('lo que cae en la copia propia no avisa, aunque la carpeta temporal esté dentro de una raíz real', () => {
+    const conTemporalAdentro = { ...ctx, reales: [...ctx.reales, 'C:\\temp'] };
+    assert.equal(aislamiento(leyendo(`${PROPIA}\\mix\\writing-harness\\src\\cli.ts`), conTemporalAdentro).estado, 'pasa');
+  });
+
+  test('las raíces reales salen del contexto: sin raíces, una ruta absoluta no avisa', () => {
+    assert.equal(aislamiento(leyendo('C:\\r\\mix\\writing-harness\\AGENTS.md'), { ...ctx, reales: [] }).estado, 'pasa');
+  });
+
+  test('el código de la prueba sigue fallando y no se repite como aviso', () => {
+    const anclas = 'C:\\r\\mix\\writing-harness\\scripts\\prueba-final\\anclas.ts';
+    const c = aislamiento(leyendo(anclas, 'C:\\r\\mix\\test-final\\resumen.md', 'C:\\r\\mix\\writing-harness\\README.md'), ctx);
+    assert.equal(c.estado, 'falla');
+    assert.equal(c.motivo.match(/anclas\.ts/gu)?.length, 1, c.motivo);
+    assert.equal(c.motivo.match(/resumen\.md/gu)?.length, 1, c.motivo);
+    assert.match(c.motivo, /README\.md/u, 'el resto de la referencia al repositorio real se informa igual');
+  });
+
+  test('las rutas reales salen una vez y una lista larga se corta con la cuenta', () => {
+    const repetida = leyendo('C:\\r\\mix\\writing-harness\\README.md', 'c:/r/mix/writing-harness/readme.md');
+    assert.equal(aislamiento(repetida, ctx).motivo.match(/readme\.md/giu)?.length, 1);
+    const muchas = leyendo(...Array.from({ length: 13 }, (_, i) => `C:\\r\\mix\\writing-harness\\src\\m${i}.ts`));
+    assert.match(aislamiento(muchas, ctx).motivo, /y 3 más/u);
   });
 
   test('otra corrida, la carpeta de la prueba o el código de la prueba: falla, con la ruta', () => {

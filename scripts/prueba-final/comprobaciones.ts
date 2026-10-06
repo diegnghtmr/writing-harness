@@ -468,7 +468,12 @@ export type ContextoDeAislamiento = {
   carpeta: string;
   /** La carpeta que contiene la de la prueba. La copia la replica, así que una ruta relativa se lee contra ella. */
   mix: string;
+  /** Las raíces de los repositorios reales, las del plan del ejecutor. */
+  reales: readonly string[];
 };
+
+/** Una ruta absoluta, ya con barras normales: con letra de unidad o desde la raíz. */
+const esAbsolutaNormal = (r: string) => /^[a-z]:\//iu.test(r) || r.startsWith('/');
 
 const UNA_CORRIDA = /pf-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/giu;
 
@@ -498,6 +503,13 @@ export function rutasEn(s: string): string[] {
  *
  * Se miran las entradas de todas las herramientas, en cualquier forma de ruta.
  * Una copia que no se leyó la caza `salidasIdenticas`, al final de la serie.
+ *
+ * Queda un camino que no nombra ningún archivo de la prueba: una búsqueda sobre
+ * el arnés real entero recorre su código igual. Por eso una ruta absoluta a un
+ * repositorio real avisa, con la ruta. Es un aviso y no una falla porque leer el
+ * arnés real no es usar el oráculo; la falla queda para lo que sí lo nombra. Lo
+ * que cae en la copia propia no cuenta, aunque la carpeta temporal estuviera
+ * dentro de una raíz real.
  */
 export function aislamiento(t: Transcripcion, ctx: ContextoDeAislamiento): Comprobacion {
   const propia = normalizarRuta(ctx.staging).split('/').at(-1) ?? '';
@@ -507,16 +519,25 @@ export function aislamiento(t: Transcripcion, ctx: ContextoDeAislamiento): Compr
   const codigo: string[] = [];
   const deLaCarpeta: string[] = [];
   const otras: string[] = [];
+  const reales: string[] = [];
   for (const l of t.llamadas) {
     for (const s of cadenasDe(l.entrada)) {
       for (const ruta of rutasEn(s)) {
         const n = normalizarRuta(ruta);
-        if (esCodigoDeLaPrueba(ruta)) codigo.push(ruta);
-        if (n === carpeta || n.startsWith(`${carpeta}/`) || porNombre?.test(n)) deLaCarpeta.push(ruta);
-        if ([...n.matchAll(UNA_CORRIDA)].some((m) => m[0] !== propia)) otras.push(ruta);
+        const deCodigo = esCodigoDeLaPrueba(ruta);
+        const enCarpeta = n === carpeta || n.startsWith(`${carpeta}/`) || (porNombre?.test(n) ?? false);
+        const enOtra = [...n.matchAll(UNA_CORRIDA)].some((m) => m[0] !== propia);
+        if (deCodigo) codigo.push(ruta);
+        if (enCarpeta) deLaCarpeta.push(ruta);
+        if (enOtra) otras.push(ruta);
+        // Lo que ya falla no se repite como aviso.
+        if (deCodigo || enCarpeta || enOtra || !esAbsolutaNormal(ruta) || dentroDe(ruta, ctx.staging)) continue;
+        if (ctx.reales.some((r) => dentroDe(ruta, r))) reales.push(ruta);
       }
-      // Una carpeta de prueba con espacios en su ruta no sale entera de `rutasEn`.
-      if (carpeta.includes(' ') && normalizarRuta(s).includes(carpeta)) deLaCarpeta.push(ctx.carpeta);
+      // Una ruta con espacios no sale entera de `rutasEn`.
+      const entera = normalizarRuta(s);
+      if (carpeta.includes(' ') && entera.includes(carpeta)) deLaCarpeta.push(ctx.carpeta);
+      for (const r of ctx.reales) if (r.includes(' ') && entera.includes(normalizarRuta(r))) reales.push(r);
     }
   }
   const grupos = [
@@ -524,9 +545,18 @@ export function aislamiento(t: Transcripcion, ctx: ContextoDeAislamiento): Compr
     { nombre: 'la carpeta de la prueba', rutas: sinRepetir(deLaCarpeta) },
     { nombre: 'otra corrida', rutas: sinRepetir(otras) },
   ].filter((g) => g.rutas.length > 0);
-  if (grupos.length === 0) return comprobacion(10, 'pasa', 'no tocó nada de otras corridas ni de la prueba');
-  const motivo = `usó ${grupos.map((g) => `${g.nombre} (${lista(g.rutas)})`).join('; ')}`;
-  return comprobacion(10, 'falla', motivo, Object.fromEntries(grupos.map((g) => [g.nombre, g.rutas])));
+  const delRepositorio = sinRepetir(reales);
+  const aviso = delRepositorio.length > 0 ? `miró los repositorios reales fuera de su copia (${lista(delRepositorio)})` : null;
+  const detalle = {
+    ...Object.fromEntries(grupos.map((g) => [g.nombre, g.rutas])),
+    ...(aviso === null ? {} : { 'los repositorios reales': delRepositorio }),
+  };
+  if (grupos.length > 0) {
+    const motivo = `usó ${grupos.map((g) => `${g.nombre} (${lista(g.rutas)})`).join('; ')}`;
+    return comprobacion(10, 'falla', aviso === null ? motivo : `${motivo}; además ${aviso}`, detalle);
+  }
+  if (aviso !== null) return comprobacion(10, 'aviso', aviso, detalle);
+  return comprobacion(10, 'pasa', 'no tocó nada de otras corridas ni de la prueba');
 }
 
 /** Para cada corrida, las otras cuya salida.md es idéntica byte a byte. */
