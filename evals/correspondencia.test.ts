@@ -210,12 +210,12 @@ describe('el techo de cobertura está declarado', () => {
     // la agregó `solitario-writing` §19: su §7.4 medía la longitud de oración y
     // la checklist no la pedía, así que la regla no tenía qué reclamar.
     //
-    // Las seis siguientes las agregó `triangulacion-writing` al medir lo que la
-    // primera versión no había medido: la subordinación, los pares donde el
-    // registro elige, los verbos con que la evidencia habla y el andamiaje que
-    // nunca usa. Dos de las seis salieron cubiertas el mismo día, y las otras
-    // cuatro entraron a `criterio` después de comprobar que no se separan de
-    // otros registros por medición.
+    // Seis, entre la 271 y la 276, las agregó `triangulacion-writing` al medir
+    // lo que la primera versión no había medido: la subordinación, los pares
+    // donde el registro elige, los verbos con que la evidencia habla y el
+    // andamiaje que nunca usa. Dos de las seis salieron cubiertas el mismo día,
+    // y las otras cuatro entraron a `criterio` después de comprobar que no se
+    // separan de otros registros por medición.
     //
     // La 300 la agregó el catálogo de `humanizar-espanol` con un patrón de
     // discurso: el texto que glosa su propio sentido en vez de dejar que el

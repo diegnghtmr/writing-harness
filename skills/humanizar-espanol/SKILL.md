@@ -349,17 +349,17 @@ arrancan en serie, con una frase corta de etiqueta, sobre todo con el verbo
 colocación más previsible del tema, sino las de un autor con voz (perplejidad
 léxica); que los nombres y datos van anclados en algo verificable (año, obra,
 término, país, caso) y no sueltos; que los contrastes no son perfectamente
-simétricos ni todos los párrafos abren con la afirmación principal; que el texto
-no explica su propio sentido, con una oración que glosa lo que el material ya
-mostraba; que se eliminaron las aperturas de molde y los cierres anunciados; que
-se quitó el andamiaje vacío y la inflación de significancia; que hay concreción
-donde el original tenía vaguedad; que los conectores son variados y no se
-repiten en párrafos contiguos; que no queda ninguna raya al modo inglés ni
-estructura de tres elementos repetida; que se respetan todas las reglas
-gramaticales heredadas de «spanish-writing»; que el registro sigue siendo neutro
-académico, sin caer ni en lo robótico ni en lo coloquial; que el texto suena
-natural leído en voz alta; y que no introdujiste errores ni sobrecorregiste
-prosa humana legítima (consulta `references/que-preservar.md`).
+simétricos ni todos los párrafos abren con la afirmación principal; que ninguna
+oración glosa lo que el material ya mostraba; que se eliminaron las aperturas de
+molde y los cierres anunciados; que se quitó el andamiaje vacío y la inflación
+de significancia; que hay concreción donde el original tenía vaguedad; que los
+conectores son variados y no se repiten en párrafos contiguos; que no queda
+ninguna raya al modo inglés ni estructura de tres elementos repetida; que se
+respetan todas las reglas gramaticales heredadas de «spanish-writing»; que el
+registro sigue siendo neutro académico, sin caer ni en lo robótico ni en lo
+coloquial; que el texto suena natural leído en voz alta; y que no introdujiste
+errores ni sobrecorregiste prosa humana legítima (consulta
+`references/que-preservar.md`).
 
 
 ## 9. Formato de entrega
