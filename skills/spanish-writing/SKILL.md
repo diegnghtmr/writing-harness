@@ -535,8 +535,9 @@ alternativa reabre la puerta que esta base cierra.
 Cuando el texto se dirige al lector, el tratamiento es «usted» en singular y
 «ustedes» en plural, con el verbo en tercera persona. Quedan prohibidos el tuteo
 y el voseo: «tú», «ti», «contigo», «tuyo», «tienes», «puedes», «sabes»,
-«fíjate», y también «vos», «sos», «tenés», «podés», «sabés», «fijate»,
-«acordate».
+«pediste», «dijiste», «fíjate», y también «vos», «sos», «tenés», «podés»,
+«sabés», «fijate», «acordate». La prohibición vale en todos los tiempos del
+verbo: el pretérito tutea tanto como el presente.
 
 Un texto que no interpela al lector cumple esta regla por omisión. La regla no
 obliga a dirigirse a nadie: obliga a que, si el texto se dirige a alguien, lo

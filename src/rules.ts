@@ -427,8 +427,57 @@ const MARCAS_DE_SEGUNDA_PERSONA = [
   'debes',
   'haces',
   'piensas',
+  // El presente con que se le contesta a quien hizo un pedido. «mandas» queda
+  // fuera porque también es sustantivo («las mandas del testamento»).
+  'pides',
+  'dices',
+  'necesitas',
+  'prefieres',
+  'escribes',
+  'usas',
   'fíjate',
   'acuérdate',
+  // Pretérito. La lista no tenía ninguno, y un agente respondió «lo pediste» y
+  // «lo solicitaste» sin que nada lo marcara. Van las formas con que se le
+  // contesta a un usuario, una por una: ningún sufijo. «-iste» y «-aste»
+  // habrían marcado «triste», «existe», «insiste», «consiste», «chiste»,
+  // «contraste» y «desgaste».
+  //
+  // Quedan fuera dos formas que también son otra palabra. «viste» es además
+  // «vestir» en tercera persona («se viste») y un sustantivo («de mucho
+  // viste»). «diste» es además el subjuntivo de «distar» en primera y tercera
+  // persona («aunque el resultado diste de lo previsto»).
+  //
+  // El voseo no necesita su propia tanda: su pretérito es el mismo del tuteo,
+  // «vos pediste», así que estas formas lo cubren. La variante popular
+  // «pedistes» no es norma de ninguno de los dos y no se lista.
+  'pediste',
+  'solicitaste',
+  'dijiste',
+  'quisiste',
+  'hiciste',
+  'escribiste',
+  'mencionaste',
+  'indicaste',
+  'enviaste',
+  'preguntaste',
+  'elegiste',
+  'nombraste',
+  'fuiste',
+  'estuviste',
+  'tuviste',
+  'pudiste',
+  'supiste',
+  'viniste',
+  'pusiste',
+  'trajiste',
+  'leíste',
+  'dejaste',
+  'usaste',
+  'compartiste',
+  'pasaste',
+  'adjuntaste',
+  'señalaste',
   // Voseo
   'vos',
   'sos',

@@ -326,6 +326,78 @@ describe('capa base', () => {
     }
   });
 
+  test('el tuteo en pretérito y en el presente del trato se marca', () => {
+    // La lista no tenía ningún pretérito. Un agente respondió «lo pediste» y
+    // «lo solicitaste», y el verificador no marcó nada, aunque el §9.2 prohíbe
+    // el tuteo en cualquier tiempo. Cada forma va en una oración que la usa como
+    // la usaría quien le contesta a un usuario.
+    const oraciones: Record<string, string> = {
+      pediste: 'Como lo pediste, el texto quedó listo.',
+      solicitaste: 'Como lo solicitaste, el informe va adjunto.',
+      dijiste: 'Como dijiste, el plazo vence el lunes.',
+      quisiste: 'Si quisiste decir otra cosa, se corrige.',
+      hiciste: 'El cambio que hiciste se conservó.',
+      escribiste: 'El párrafo que escribiste quedó intacto.',
+      mencionaste: 'El dato que mencionaste aparece en el anexo.',
+      indicaste: 'Se aplicó el formato que indicaste.',
+      enviaste: 'El archivo que enviaste llegó completo.',
+      preguntaste: 'Lo que preguntaste tiene dos respuestas.',
+      elegiste: 'El tono que elegiste se mantuvo.',
+      nombraste: 'La sección que nombraste ya no existe.',
+      fuiste: 'Ya fuiste claro en la instrucción.',
+      estuviste: 'Como estuviste ausente, va el resumen.',
+      tuviste: 'Si tuviste problemas con el enlace, va de nuevo.',
+      pudiste: 'Si no pudiste abrirlo, va en otro formato.',
+      supiste: 'Ya supiste del cambio de plazo.',
+      viniste: 'Cuando viniste a la oficina, el borrador no estaba.',
+      pusiste: 'El título que pusiste se conservó.',
+      trajiste: 'Los datos que trajiste coinciden.',
+      leíste: 'Si leíste el anexo, el resto es breve.',
+      dejaste: 'El comentario que dejaste quedó resuelto.',
+      usaste: 'La plantilla que usaste sirve.',
+      compartiste: 'El enlace que compartiste no abre.',
+      pasaste: 'El borrador que pasaste tenía dos erratas.',
+      adjuntaste: 'El archivo que adjuntaste está vacío.',
+      señalaste: 'El error que señalaste quedó corregido.',
+      pides: 'Si pides otra versión, se prepara.',
+      dices: 'Lo que dices coincide con el registro.',
+      necesitas: 'Si necesitas el original, está en el anexo.',
+      prefieres: 'Si prefieres otro formato, se cambia.',
+      escribes: 'Lo que escribes queda guardado.',
+      usas: 'La herramienta que usas no admite tablas.',
+    };
+    for (const [forma, t] of Object.entries(oraciones)) {
+      // Sin esto, una errata en la oración la dejaría probando otra palabra.
+      assert.ok(t.includes(forma), `«${t}» no contiene «${forma}»`);
+      assert.equal(
+        check(t).filter((x) => x.rule === 'tratamiento-de-usted').length,
+        1,
+        `«${forma}» no se marcó en «${t}»`,
+      );
+    }
+  });
+
+  test('lo que comparte terminación con el pretérito no se marca', () => {
+    // La otra dirección. Un sufijo «-iste» o «-aste» habría cazado el pretérito
+    // entero y también todo esto, que no interpela a nadie. Y las tres formas
+    // de verbo que se dejaron fuera de la lista tienen aquí su otro uso.
+    for (const t of [
+      'El informe es triste, pero existe una salida.',
+      'El comité insiste en que el método consiste en tres pasos.',
+      'El chiste no funcionó por contraste con el tono del acto.',
+      'El desgaste del material se nota en la foto.',
+      'El actor se viste de negro para la escena.',
+      'El testamento dejó dos mandas a la parroquia.',
+      'Aunque el resultado diste de lo previsto, el método sirve.',
+    ]) {
+      assert.deepEqual(
+        check(t).filter((x) => x.rule === 'tratamiento-de-usted'),
+        [],
+        t,
+      );
+    }
+  });
+
   test('«usted» no dispara la regla que lo impone', () => {
     const t = 'Si usted tiene dudas sobre el método, puede revisar el anexo del informe.';
     assert.deepEqual(
