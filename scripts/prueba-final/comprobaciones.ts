@@ -12,10 +12,16 @@
 import { countWords } from '../../src/text.ts';
 import { anclasDe, faltantes, normalizar, type Cita } from './anclas.ts';
 import { esCodigoDeLaPrueba, type CambiosDeLaCopia } from './copia.ts';
+import type { Lanzamiento } from './proceso.ts';
 import { cadenasDe, comandos, type Transcripcion } from './transcripcion.ts';
 import { SKILL_BASE, skillsRequeridas, type Variante } from './variantes.ts';
 
-export type Estado = 'pasa' | 'aviso' | 'falla';
+/**
+ * El estado de una comprobación. «sin evaluar» es el de una que depende de que
+ * la corrida termine, en una corrida que el agente no terminó: no pasa ni
+ * falla, porque lo que mediría no llegó a existir.
+ */
+export type Estado = 'pasa' | 'aviso' | 'falla' | 'sin evaluar';
 
 export type Comprobacion = {
   numero: number;
@@ -38,7 +44,7 @@ export const NOMBRES: Record<number, string> = {
   10: 'aislamiento',
 };
 
-const comprobacion = (numero: number, estado: Estado, motivo: string, detalle?: unknown): Comprobacion => ({
+const comprobacion = (numero: number, estado: Juicio, motivo: string, detalle?: unknown): Comprobacion => ({
   numero,
   nombre: NOMBRES[numero] ?? '',
   estado,
@@ -46,11 +52,15 @@ const comprobacion = (numero: number, estado: Estado, motivo: string, detalle?: 
   ...(detalle === undefined ? {} : { detalle }),
 });
 
-const ORDEN: Record<Estado, number> = { pasa: 0, aviso: 1, falla: 2 };
-const peor = (estados: Estado[]): Estado => estados.reduce<Estado>((a, b) => (ORDEN[b] > ORDEN[a] ? b : a), 'pasa');
+/** Lo que una comprobación dice de la corrida. Una sin evaluar no dice nada. */
+export type Juicio = 'pasa' | 'aviso' | 'falla';
+
+const ORDEN: Record<Estado, number> = { 'sin evaluar': 0, pasa: 0, aviso: 1, falla: 2 };
+const peor = (estados: Estado[]): Juicio =>
+  estados.reduce<Juicio>((a, b) => (b !== 'sin evaluar' && ORDEN[b] > ORDEN[a] ? b : a), 'pasa');
 
 /** El estado de una corrida: el peor de sus comprobaciones. */
-export const estadoDe = (cs: readonly Comprobacion[]): Estado => peor(cs.map((c) => c.estado));
+export const estadoDe = (cs: readonly Comprobacion[]): Juicio => peor(cs.map((c) => c.estado));
 
 const plural = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno : varios}`;
 
@@ -418,7 +428,7 @@ export function repositoriosIntactos(
   escritas: readonly string[],
   ctx: ContextoDeRepositorios,
 ): Comprobacion {
-  const hallazgos: { estado: Estado; texto: string }[] = [];
+  const hallazgos: { estado: Juicio; texto: string }[] = [];
   for (const raiz of new Set([...Object.keys(antes), ...Object.keys(despues)])) {
     const a = antes[raiz];
     const d = despues[raiz];
@@ -575,4 +585,49 @@ export function conIdenticas(c: Comprobacion, otras: readonly string[]): Comprob
   if (otras.length === 0) return c;
   const previo = c.estado === 'pasa' ? '' : `; además ${c.motivo}`;
   return { ...c, estado: 'falla', motivo: `salida.md idéntica byte a byte a la de ${otras.join(', ')}${previo}` };
+}
+
+// Errores del propio agente ---------------------------------------------------
+
+/**
+ * Por qué la corrida no terminó por el lado del agente, o null si terminó.
+ *
+ * En la segunda corrida de humo, agy agotó su cuota al dar la respuesta final y
+ * la comprobación de la respuesta lo contó como una falla de las skills. Una
+ * corrida que el agente no terminó no dice nada de las skills. Va primero el
+ * error que el agente informa, que es el más preciso; después el límite de
+ * tiempo del ejecutor; y después un proceso que salió con un código distinto
+ * de cero sin dar respuesta. Uno que salió con cero sin responder sí terminó:
+ * eso lo juzga la comprobación de la respuesta.
+ */
+export function errorDelAgente(t: Transcripcion, l: Pick<Lanzamiento, 'codigo' | 'vencido'>): string | null {
+  if (t.error !== null) return t.error;
+  if (l.vencido) return 'tiempo agotado';
+  const respondio = t.respuesta !== null && t.respuesta.trim() !== '';
+  if (respondio || l.codigo === 0) return null;
+  return l.codigo === null ? 'el proceso no se pudo lanzar' : `el proceso terminó con código ${l.codigo}`;
+}
+
+/**
+ * Las comprobaciones que dependen de que la corrida termine.
+ *
+ * La salida, el verificador sobre ella, las skills cargadas, la medición, la
+ * respuesta, los datos y la extensión miden el trabajo terminado: en una
+ * corrida cortada a mitad de camino, que falten no dice nada de las skills.
+ * Las otras tres se pueden afirmar con lo que haya: si base.docx cambió, si se
+ * tocó algo fuera de la corrida y si se usó lo de la prueba.
+ */
+export const DEPENDEN_DE_TERMINAR = [2, 3, 4, 5, 6, 7, 8];
+
+/**
+ * Las comprobaciones de una corrida que el agente no terminó: las que dependen
+ * de que termine quedan sin evaluar, con lo que daban en el motivo para quien
+ * quiera mirarlo.
+ */
+export function sinTerminar(cs: readonly Comprobacion[], error: string): Comprobacion[] {
+  return cs.map((c) =>
+    DEPENDEN_DE_TERMINAR.includes(c.numero)
+      ? { ...c, estado: 'sin evaluar', motivo: `la corrida no terminó (${error}); con lo que quedó daba ${c.estado}: ${c.motivo}` }
+      : c,
+  );
 }

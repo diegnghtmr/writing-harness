@@ -1,0 +1,4 @@
+{"type":"system","subtype":"init","session_id":"sesion-grok-error","model":"grok-de-prueba","cwd":"C:\\Users\\prueba\\tmp\\pf-1\\mix"}
+{"type":"assistant","message":{"model":"grok-de-prueba","content":[{"type":"tool_use","id":"t1","name":"read_file","input":{"target_file":"C:\\Users\\prueba\\tmp\\pf-1\\entrada.md"}}]}}
+{"type":"user","message":{"content":[{"type":"tool_result","tool_use_id":"t1","content":"Resumen"}]}}
+{"type":"result","subtype":"error_during_execution","is_error":true,"duration_ms":4100,"num_turns":1,"result":"Authentication failed: your session has expired. Run grok login to sign in again.","session_id":"sesion-grok-error","total_cost_usd":0.01}

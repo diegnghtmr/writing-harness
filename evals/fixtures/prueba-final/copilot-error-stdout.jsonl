@@ -1,0 +1,5 @@
+{"type":"session.auto_mode_resolved","data":{"chosenModel":"modelo-de-prueba"}}
+{"type":"user.message","data":{"content":"Corrige el texto."}}
+{"type":"assistant.turn_start","data":{}}
+{"type":"session.error","data":{"errorType":"quota","message":"You have reached your premium request limit (429 Too Many Requests). Resets in 3h20m."}}
+{"type":"result","timestamp":"2026-10-06T00:00:00.000Z","sessionId":"sesion-copilot-error","exitCode":1,"usage":{"premiumRequests":0,"totalApiDurationMs":900,"sessionDurationMs":1500}}

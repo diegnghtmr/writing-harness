@@ -37,6 +37,7 @@ import {
   datosConservados,
   dentroDe,
   docxIntacto,
+  errorDelAgente,
   estadoDe,
   extensionRazonable,
   leerTexto,
@@ -44,6 +45,7 @@ import {
   respuestaCorrecta,
   salidaLegible,
   salidasIdenticas,
+  sinTerminar,
   skillsDeLaVariante,
   verificadorLimpio,
   type Comprobacion,
@@ -93,6 +95,8 @@ export type Plan = {
   /** Corridas a la vez dentro de un mismo agente. Agentes distintos siempre corren a la vez. */
   paralelo: number;
   limiteMin: number;
+  /** Los agentes conocidos que no corren esta vez, para que el resumen lo diga. */
+  omitidos: string[];
 };
 
 type Resultado = {
@@ -101,6 +105,8 @@ type Resultado = {
   staging: string;
   huellaSalida: string | null;
   comprobaciones: Comprobacion[];
+  /** Por qué el agente no terminó la corrida, o null. */
+  error: string | null;
   metadatos: Metadatos;
 };
 
@@ -190,7 +196,8 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     const verificacion = texto === null ? null : deps.verificar(salida, variante.banderas);
     writeFileSync(join(staging, 'verificador.txt'), verificacion?.salida ?? 'No se midió: no hay una salida legible.\n');
 
-    const comprobaciones = [
+    const error = errorDelAgente(t, l);
+    const medidas = [
       docxIntacto(huellaAntes, huellaDespues),
       salidaLegible(bytes),
       verificadorLimpio(verificacion),
@@ -209,6 +216,8 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
       }),
       aislamiento(t, { staging, carpeta: plan.carpeta, mix: plan.mix, reales: plan.raicesGit }),
     ];
+    // Una corrida que el agente no terminó no se juzga por lo que no llegó a hacer.
+    const comprobaciones = error === null ? medidas : sinTerminar(medidas, error);
     const metadatos: Metadatos = {
       version: t.version,
       modelo: t.modelo,
@@ -223,14 +232,15 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
       copia: { archivos: Object.keys(huellasDeLaCopia).length, huella: huellaDeLaCopia(huellasDeLaCopia) },
     };
     const fallas = comprobaciones.filter((c) => c.estado === 'falla').map((c) => c.numero);
-    const vencida = l.vencido ? ', tiempo agotado' : '';
-    deps.avisar(`${agente.id}/${variante.id}: ${fallas.length > 0 ? `falla ${fallas.join(', ')}` : estadoDe(comprobaciones)}${vencida}`);
+    const juicio = fallas.length > 0 ? `falla ${fallas.join(', ')}` : estadoDe(comprobaciones);
+    deps.avisar(`${agente.id}/${variante.id}: ${error === null ? juicio : `error: ${error}`}`);
     return {
       agente: agente.id,
       variante: variante.id,
       staging,
       huellaSalida: bytes === null ? null : sha256(bytes),
       comprobaciones,
+      error,
       metadatos,
     };
   }
@@ -245,7 +255,14 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
   const iguales = salidasIdenticas(resultados.map((r) => ({ clave: clave(r), huella: r.huellaSalida })));
   const veredictos: Veredicto[] = resultados.map((r) => {
     const comprobaciones = r.comprobaciones.map((c) => (c.numero === 10 ? conIdenticas(c, iguales.get(clave(r)) ?? []) : c));
-    return { agente: r.agente, variante: r.variante, estado: estadoDe(comprobaciones), comprobaciones, metadatos: r.metadatos };
+    return {
+      agente: r.agente,
+      variante: r.variante,
+      estado: r.error === null ? estadoDe(comprobaciones) : 'error',
+      error: r.error,
+      comprobaciones,
+      metadatos: r.metadatos,
+    };
   });
 
   const suite: Suite = {
@@ -258,6 +275,7 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     },
     docx: { antes: huellaInicial, despues: sha256(readFileSync(plan.docx)) },
     agentes: plan.agentes.map((a) => a.id),
+    omitidos: plan.omitidos,
     variantes: plan.variantes.map((v) => v.id),
     veredictos,
   };

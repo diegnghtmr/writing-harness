@@ -1,0 +1,6 @@
+{"event":"init","conversation_id":"conv-agy-error","init":{"cwd":"C:\\Users\\prueba\\tmp\\pf-1\\mix","tools":["view_file","write_to_file"],"permission_mode":"always-proceed"}}
+{"event":"step_update","step_update":{"conversation_id":"conv-agy-error","step_index":0,"state":"DONE","step_type":"user_input"}}
+{"event":"step_update","step_update":{"conversation_id":"conv-agy-error","step_index":4,"state":"ACTIVE","step_type":"tool","tool_name":"write_to_file","tool_info":{"name":"write_to_file","parameters":{"TargetFile":"C:\\Users\\prueba\\tmp\\pf-1\\salida.md"}}}}
+{"event":"step_update","step_update":{"conversation_id":"conv-agy-error","step_index":4,"state":"DONE","step_type":"tool","tool_name":"write_to_file","duration_seconds":0.02,"tool_info":{"name":"write_to_file","parameters":{"TargetFile":"C:\\Users\\prueba\\tmp\\pf-1\\salida.md"}}}}
+{"event":"step_update","step_update":{"conversation_id":"conv-agy-error","step_index":5,"state":"DONE","step_type":"error_message"}}
+{"event":"result","result":{"conversation_id":"conv-agy-error","status":"ERROR","response":"","error":"Individual quota reached. Please upgrade your subscription to increase your limits. Resets in 156h37m10s.","duration_seconds":628.7,"num_turns":1}}

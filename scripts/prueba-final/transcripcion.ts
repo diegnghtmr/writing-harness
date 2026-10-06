@@ -33,6 +33,11 @@ export type Transcripcion = {
   duracionMs: number | null;
   sesion: string | null;
   version: string | null;
+  /**
+   * El error que el propio agente informa, en una frase corta, o null. Es del
+   * agente y no de las skills: una cuota agotada, una sesión vencida.
+   */
+  error: string | null;
 };
 
 export function vacia(): Transcripcion {
@@ -45,7 +50,36 @@ export function vacia(): Transcripcion {
     duracionMs: null,
     sesion: null,
     version: null,
+    error: null,
   };
+}
+
+/** Lo más largo que puede ser un motivo: entra en una celda del resumen. */
+const LARGO_DE_UN_MOTIVO = 160;
+
+/**
+ * Un error de un agente en una frase corta, para la celda del resumen.
+ *
+ * Los dos que más importan se reconocen por su texto y se dicen igual para los
+ * tres agentes: la cuota agotada, con su estado, su código y cuándo vuelve si
+ * el agente lo dice, y la sesión vencida, que se arregla iniciándola de nuevo.
+ * Cualquier otro queda en su primera línea.
+ */
+export function motivoDeError(texto: string): string {
+  const t = texto.trim();
+  if (/quota|RESOURCE_EXHAUSTED|rate.?limit|\b429\b|too many requests/iu.test(t)) {
+    const estado = /\b([A-Z]+(?:_[A-Z]+)+)\b/u.exec(t)?.[1];
+    const codigo = /\b([45]\d\d)\b/u.exec(t)?.[1];
+    const entre = [estado, codigo].filter(Boolean).join(' ');
+    const r = /resets?\s+in\s+(\d+h)?\s*(\d+m)?\s*(\d+s)?/iu.exec(t);
+    const cuando = r ? (r[1] || r[2] ? `${r[1] ?? ''}${r[2] ?? ''}` : (r[3] ?? '')) : '';
+    return `cuota agotada${entre ? ` (${entre})` : ''}${cuando ? `, vuelve en ${cuando}` : ''}`;
+  }
+  if (/not (?:logged|signed) in|unauthori[sz]ed|\b401\b|authenticat|(?:session|token) (?:has )?expired/iu.test(t)) {
+    return 'sesión vencida';
+  }
+  const linea = t.split(/\r?\n/u)[0]?.trim() ?? '';
+  return linea.length <= LARGO_DE_UN_MOTIVO ? linea : `${linea.slice(0, LARGO_DE_UN_MOTIVO - 1)}…`;
 }
 
 const CAMPOS_DE_COMANDO = ['command', 'CommandLine', 'cmd'];

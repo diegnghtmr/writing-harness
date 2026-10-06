@@ -18,13 +18,16 @@ import {
   RAZON_FALLA_MAX,
   RAZON_FALLA_MIN,
   SHINGLE_DE_REPETICION,
+  DEPENDEN_DE_TERMINAR,
   agenteMidio,
   aislamiento,
   cambiosDeGit,
   conIdenticas,
   datosConservados,
   docxIntacto,
+  errorDelAgente,
   estadoDe,
+  sinTerminar,
   extensionRazonable,
   repeticionMasLarga,
   repositoriosIntactos,
@@ -484,5 +487,67 @@ describe('el estado de una corrida', () => {
     assert.equal(estadoDe([c('pasa'), c('pasa')]), 'pasa');
     assert.equal(estadoDe([c('pasa'), c('aviso')]), 'aviso');
     assert.equal(estadoDe([c('aviso'), c('falla'), c('pasa')]), 'falla');
+  });
+
+  test('una comprobación sin evaluar no empeora ni mejora la corrida', () => {
+    const c = (estado: 'pasa' | 'aviso' | 'sin evaluar') => ({ numero: 0, nombre: '', estado, motivo: '' });
+    assert.equal(estadoDe([c('pasa'), c('sin evaluar')]), 'pasa');
+    assert.equal(estadoDe([c('aviso'), c('sin evaluar')]), 'aviso');
+  });
+});
+
+describe('los errores del propio agente', () => {
+  const lanzamiento = (codigo: number | null, vencido = false) => ({ codigo, vencido });
+  const con = (respuesta: string | null, error: string | null = null): Transcripcion => ({ ...vacia(), respuesta, error });
+
+  test('el error que informa el agente va primero', () => {
+    assert.equal(errorDelAgente(con('', 'cuota agotada (429)'), lanzamiento(3)), 'cuota agotada (429)');
+    assert.equal(errorDelAgente(con('Listo.', 'sesión vencida'), lanzamiento(0)), 'sesión vencida');
+  });
+
+  test('el límite del ejecutor es un tiempo agotado, haya respondido o no', () => {
+    assert.equal(errorDelAgente(con(null), lanzamiento(null, true)), 'tiempo agotado');
+  });
+
+  test('un código distinto de cero sin respuesta es un error del proceso; con respuesta, no', () => {
+    assert.equal(errorDelAgente(con(null), lanzamiento(3)), 'el proceso terminó con código 3');
+    assert.equal(errorDelAgente(con('  '), lanzamiento(1)), 'el proceso terminó con código 1');
+    assert.equal(errorDelAgente(con('Quedó en salida.md.'), lanzamiento(1)), null);
+    assert.equal(errorDelAgente(con(null), lanzamiento(null)), 'el proceso no se pudo lanzar');
+  });
+
+  test('un proceso que terminó bien sin responder no es un error del agente: eso lo juzga la respuesta', () => {
+    assert.equal(errorDelAgente(con(null), lanzamiento(0)), null);
+  });
+
+  test('en una corrida sin terminar, lo que depende de que termine queda sin evaluar', () => {
+    const cs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => ({
+      numero: n,
+      nombre: `nombre ${n}`,
+      estado: n === 6 ? ('falla' as const) : ('pasa' as const),
+      motivo: n === 6 ? 'el agente no dio respuesta' : 'bien',
+    }));
+    const r = sinTerminar(cs, 'cuota agotada');
+    assert.deepEqual(
+      r.map((c) => [c.numero, c.estado]),
+      [
+        [1, 'pasa'],
+        [2, 'sin evaluar'],
+        [3, 'sin evaluar'],
+        [4, 'sin evaluar'],
+        [5, 'sin evaluar'],
+        [6, 'sin evaluar'],
+        [7, 'sin evaluar'],
+        [8, 'sin evaluar'],
+        [9, 'pasa'],
+        [10, 'pasa'],
+      ],
+    );
+    assert.deepEqual(DEPENDEN_DE_TERMINAR, [2, 3, 4, 5, 6, 7, 8]);
+    // Lo que se midió igual queda dicho, para quien quiera mirarlo.
+    const seis = r.find((c) => c.numero === 6);
+    assert.match(seis?.motivo ?? '', /no terminó/u);
+    assert.match(seis?.motivo ?? '', /el agente no dio respuesta/u);
+    assert.equal(estadoDe(r), 'pasa');
   });
 });

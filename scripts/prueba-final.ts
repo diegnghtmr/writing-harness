@@ -36,6 +36,7 @@ import {
 } from './prueba-final/copia.ts';
 import { parrafosDelDocx } from './prueba-final/docx.ts';
 import { correrSuite } from './prueba-final/ejecutor.ts';
+import { lineaDeTotales } from './prueba-final/resumen.ts';
 import { ErrorDeUso } from './prueba-final/errores.ts';
 import { completo, fragmento, type Texto } from './prueba-final/fragmento.ts';
 import { promptDe } from './prueba-final/prompts.ts';
@@ -108,10 +109,13 @@ contiene a <carpeta> y lo que git rastrea del arnés, sin el código de esta
 prueba. Los agentes corren con ENGRAM_PROJECT=${PROYECTO_DE_ENGRAM}, y los
 resultados se publican al terminar la serie.
 
+Una corrida que el agente no terminó, por una cuota agotada, una sesión vencida
+o el límite de tiempo, queda como error del agente y no como falla.
+
 Sale con 0 si todas las corridas pasaron todas las comprobaciones, con 1 si
-alguna falló y con 2 si no pudo correr: una opción mal escrita, una carpeta sin
-base.docx, un documento sin los títulos del fragmento o un agente que no está
-instalado.`;
+alguna falló o el agente no la terminó, y con 2 si no pudo correr: una opción
+mal escrita, una carpeta sin base.docx, un documento sin los títulos del
+fragmento o un agente que no está instalado.`;
 
 type Opciones = {
   dir?: string;
@@ -170,6 +174,10 @@ function elegirAgentes(lista: string | undefined): DefinicionDeAgente[] {
   }
   return [...new Set(pedidos)].map((p) => AGENTES[p] as DefinicionDeAgente);
 }
+
+/** Los agentes conocidos que `--agentes` dejó fuera, en el orden de `AGENTES`. */
+const omitidos = (elegidos: readonly DefinicionDeAgente[]): string[] =>
+  Object.keys(AGENTES).filter((id) => !elegidos.some((d) => d.id === id));
 
 function leerTexto(carpeta: string, entero: boolean): { texto: Texto; docx: string; huella: string } {
   if (!existsSync(carpeta) || !statSync(carpeta).isDirectory()) throw new ErrorDeUso(`la carpeta no existe: ${carpeta}`);
@@ -235,6 +243,7 @@ function imprimirPlan(
 ): void {
   const staging = join(tmpdir(), 'pf-<uuid>');
   const cwd = join(staging, CARPETA_DE_LA_COPIA);
+  const fuera = omitidos(agentes.map((a) => a.def));
   const ctx: Contexto = {
     prompt: '<prompt>',
     archivoPrompt: join(staging, 'prompt.txt'),
@@ -253,6 +262,7 @@ function imprimirPlan(
     '',
     `Corridas: ${agentes.length} agentes por ${vs.length} variantes, ${agentes.length * vs.length} en total.`,
     `Hasta ${o.paralelo} a la vez por agente; los agentes corren a la vez. Límite: ${o.limite} minutos por corrida.`,
+    ...(fuera.length > 0 ? [`No corren esta vez: ${fuera.join(', ')}.`] : []),
     '',
     ...lineasDeLaCopia(copia, mix, cwd),
     '',
@@ -308,6 +318,7 @@ async function main(argv: readonly string[]): Promise<number> {
       }),
       variantes: vs,
       paralelo: o.paralelo,
+      omitidos: omitidos(agentes),
       limiteMin: o.limite,
     },
     {
@@ -319,8 +330,7 @@ async function main(argv: readonly string[]): Promise<number> {
       avisar: (l) => console.log(l),
     },
   );
-  const fallidas = suite.veredictos.filter((v) => v.estado === 'falla').length;
-  console.log(`\n${suite.veredictos.length} corridas, ${fallidas} con alguna falla. Resumen en ${join(carpeta, 'resumen.md')}`);
+  console.log(`\n${lineaDeTotales(suite.veredictos)}. Resumen en ${join(carpeta, 'resumen.md')}`);
   return codigo;
 }
 

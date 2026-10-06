@@ -9,14 +9,24 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import type { Comprobacion, Estado } from '../scripts/prueba-final/comprobaciones.ts';
-import { celda, codigoDeSalida, resumenJson, resumenMarkdown, type Suite, type Veredicto } from '../scripts/prueba-final/resumen.ts';
+import {
+  celda,
+  codigoDeSalida,
+  lineaDeTotales,
+  resumenJson,
+  resumenMarkdown,
+  type Suite,
+  type Veredicto,
+} from '../scripts/prueba-final/resumen.ts';
 
 const c = (numero: number, estado: Estado, motivo = 'motivo'): Comprobacion => ({ numero, nombre: `nombre ${numero}`, estado, motivo });
 
-const veredicto = (agente: string, variante: string, cs: Comprobacion[], vencido = false): Veredicto => ({
+const veredicto = (agente: string, variante: string, cs: Comprobacion[], vencido = false, error: string | null = null): Veredicto => ({
   agente,
   variante,
-  estado: cs.some((x) => x.estado === 'falla') ? 'falla' : cs.some((x) => x.estado === 'aviso') ? 'aviso' : 'pasa',
+  estado:
+    error !== null ? 'error' : cs.some((x) => x.estado === 'falla') ? 'falla' : cs.some((x) => x.estado === 'aviso') ? 'aviso' : 'pasa',
+  error,
   comprobaciones: cs,
   metadatos: {
     version: '1.0',
@@ -39,9 +49,12 @@ const suite = (veredictos: Veredicto[], despues = 'abc'): Suite => ({
   texto: { modo: 'fragmento', palabras: 785, secciones: [{ titulo: 'Resumen', palabras: 162 }, { titulo: '1. Introducción', palabras: 623 }] },
   docx: { antes: 'abc', despues },
   agentes: ['copilot', 'grok'],
+  omitidos: [],
   variantes: ['base', 'camus'],
   veredictos,
 });
+
+const CUOTA = 'cuota agotada (RESOURCE_EXHAUSTED 429), vuelve en 156h37m';
 
 describe('una celda de la matriz', () => {
   test('el estado y los números que lo causan', () => {
@@ -53,6 +66,31 @@ describe('una celda de la matriz', () => {
   test('un tiempo agotado se dice en la celda, y una corrida que no está también', () => {
     assert.equal(celda(veredicto('a', 'b', [c(2, 'falla')], true)), 'falla: 2, tiempo agotado');
     assert.equal(celda(undefined), 'sin correr');
+  });
+
+  test('un error del agente se dice con su motivo, no como una falla', () => {
+    assert.equal(celda(veredicto('agy', 'fonda', [c(1, 'pasa'), c(6, 'sin evaluar')], false, CUOTA)), `error: ${CUOTA}`);
+    assert.equal(celda(veredicto('a', 'b', [c(1, 'pasa')], true, 'tiempo agotado')), 'error: tiempo agotado', 'sin repetir el tiempo');
+  });
+
+  test('una falla en lo que sí se evalúa queda a la vista junto al error', () => {
+    assert.equal(celda(veredicto('a', 'b', [c(9, 'falla'), c(6, 'sin evaluar')], false, CUOTA)), `error: ${CUOTA}; falla: 9`);
+  });
+
+  test('una barra vertical en el motivo no rompe la tabla', () => {
+    assert.equal(celda(veredicto('a', 'b', [], false, 'a | b')), 'error: a \\| b');
+  });
+});
+
+describe('las cuentas', () => {
+  test('pasan, avisos, fallas y errores del agente, por separado', () => {
+    const vs = [
+      veredicto('copilot', 'fonda', [c(7, 'falla')]),
+      veredicto('grok', 'fonda', [c(10, 'aviso')]),
+      veredicto('agy', 'fonda', [c(6, 'sin evaluar')], false, CUOTA),
+    ];
+    assert.equal(lineaDeTotales(vs), '3 corridas: 0 pasan, 1 aviso, 1 falla, 1 error del agente');
+    assert.equal(lineaDeTotales([veredicto('a', 'b', [c(1, 'pasa')])]), '1 corrida: 1 pasa, 0 avisos, 0 fallas, 0 errores del agente');
   });
 });
 
@@ -89,6 +127,24 @@ describe('el resumen en Markdown', () => {
   test('sin fallas, lo dice en vez de dejar la sección vacía', () => {
     const limpio = resumenMarkdown(suite([veredicto('copilot', 'base', [c(1, 'pasa')])]));
     assert.match(limpio, /## Fallas\n\nNinguna\./u);
+    assert.match(limpio, /## Errores del agente\n\nNinguno\./u);
+  });
+
+  test('los errores del agente van en su propia sección y en su propia cuenta', () => {
+    const conError = resumenMarkdown(
+      suite([...vs, veredicto('grok', 'camus', [c(1, 'pasa'), c(6, 'sin evaluar', 'no terminó')], false, CUOTA)]),
+    );
+    assert.match(conError, /^\| camus \| pasa \| error: cuota agotada/mu);
+    assert.match(conError, new RegExp(`## Errores del agente\\n\\n- grok, camus: ${CUOTA.replace(/[()]/gu, '\\$&')}`, 'u'));
+    assert.match(conError, /^- Corridas: 4\. Pasan 1, con aviso 1, con falla 1, con error del agente 1\.$/mu);
+    // Una comprobación sin evaluar no es una falla ni un aviso.
+    assert.doesNotMatch(conError, /grok, camus, 6/u);
+  });
+
+  test('dice qué agentes corrieron y cuáles quedaron fuera', () => {
+    assert.match(md, /^- Agentes: copilot, grok\.$/mu);
+    const parcial = resumenMarkdown({ ...suite(vs), omitidos: ['agy'] });
+    assert.match(parcial, /^- Agentes: copilot, grok\. Quedaron fuera: agy\.$/mu);
   });
 });
 
@@ -98,11 +154,21 @@ describe('el resumen en JSON y el código de salida', () => {
     assert.equal(codigoDeSalida([veredicto('a', 'b', [c(8, 'aviso')]), veredicto('a', 'c', [c(3, 'falla')])]), 1);
   });
 
+  test('un error del agente no es una corrida limpia: sale con 1', () => {
+    assert.equal(codigoDeSalida([veredicto('a', 'b', [c(1, 'pasa')], false, CUOTA)]), 1);
+  });
+
   test('el JSON lleva los totales, el código y cada veredicto entero', () => {
-    const vs = [veredicto('copilot', 'base', [c(4, 'falla')]), veredicto('grok', 'base', [c(1, 'pasa')])];
-    const j = resumenJson(suite(vs));
-    assert.deepEqual(j.totales, { pasa: 1, aviso: 0, falla: 1 });
+    const vs = [
+      veredicto('copilot', 'base', [c(4, 'falla')]),
+      veredicto('grok', 'base', [c(1, 'pasa')]),
+      veredicto('agy', 'base', [c(6, 'sin evaluar')], false, CUOTA),
+    ];
+    const j = resumenJson({ ...suite(vs), omitidos: ['otro'] });
+    assert.deepEqual(j.totales, { pasa: 1, aviso: 0, falla: 1, error: 1 });
     assert.equal(j.codigo, 1);
     assert.deepEqual(j.veredictos, vs);
+    assert.equal(j.veredictos[2]?.error, CUOTA);
+    assert.deepEqual(j.omitidos, ['otro']);
   });
 });

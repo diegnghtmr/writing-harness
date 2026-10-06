@@ -53,7 +53,7 @@ export function agenteReal(def: DefinicionDeAgente, e: Ejecutable, o: { home: st
         copyFileSync(origen, join(ctx.staging, 'transcripcion.jsonl'));
         transcripcion = readFileSync(origen, 'utf8');
       }
-      const t = def.parsear(l.stdout, transcripcion, leerSiHay(def.log(ctx)));
+      const t = def.parsear(l.stdout, transcripcion, leerSiHay(def.log(ctx)), l.stderr);
       t.version ??= o.version;
       return t;
     },

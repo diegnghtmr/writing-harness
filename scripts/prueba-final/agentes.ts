@@ -19,9 +19,18 @@
 //
 // Las tres lecturas toleran líneas que no son JSON. Una CLI que mezcla un aviso
 // suelto en su salida no puede tirar abajo la lectura de la corrida entera.
+//
+// Cada lectura saca además el error que informa el propio agente, si lo hay.
+// En la segunda corrida de humo, agy agotó su cuota al dar la respuesta final:
+// `result` llegó con `status: "ERROR"` y la respuesta vacía, y la salida de
+// errores trajo una línea `AGY_ERROR` con el estado y el código. Grok cierra
+// con una línea `result` que dice `is_error` y su `subtype`, y Copilot con una
+// línea `result` que trae `exitCode`. Ninguna corrida mostró todavía un error
+// de Grok o de Copilot, así que esas dos formas salen de sus líneas de
+// resultado reales y no de un error visto.
 
 import { join } from 'node:path';
-import { llamada, vacia, type Llamada, type Transcripcion } from './transcripcion.ts';
+import { llamada, motivoDeError, vacia, type Llamada, type Transcripcion } from './transcripcion.ts';
 
 export type Contexto = {
   prompt: string;
@@ -44,13 +53,14 @@ export type DefinicionDeAgente = {
   transcripcion(home: string, ctx: Contexto, stdout: string): string | null;
   /** El archivo donde el agente escribe su propio registro, si se le pide uno. */
   log(ctx: Contexto): string | null;
+  /** Lee la sesión. `stderr` es la salida de errores del proceso, donde algún agente deja su error. */
+  parsear(stdout: string, transcripcion: string | null, log: string | null, stderr: string | null): Transcripcion;
   /**
    * Las carpetas donde el agente guarda su propio estado mientras trabaja.
    * Escribir ahí no es escribir fuera de la corrida. `sesion` es la que leyó la
    * transcripción, o null.
    */
   estadoPropio(home: string, ctx: Contexto, sesion: string | null): string[];
-  parsear(stdout: string, transcripcion: string | null, log: string | null): Transcripcion;
   /** Los argumentos que imprimen la versión, para el agente que no la deja escrita. */
   version: string[] | null;
 };
@@ -75,13 +85,27 @@ function lineas(texto: string): Objeto[] {
   });
 }
 
+/**
+ * La sesión de Copilot.
+ *
+ * Su error es el del evento de error, o el `exitCode` de la línea `result` si
+ * no lo hay. Un evento de error cuenta solo si la corrida no terminó bien, con
+ * un código distinto de cero o sin respuesta: uno del que Copilot se repuso no
+ * es un error de la corrida.
+ */
 export function parsearCopilot(stdout: string, eventos: string | null): Transcripcion {
   const t = vacia();
   const porId = new Map<string, Llamada>();
   let final: string | null = null;
   let ultimo: string | null = null;
+  let informado: string | null = null;
+  let codigoInformado: number | null = null;
   for (const j of lineas(stdout)) {
     const d = obj(j.data);
+    if (typeof j.type === 'string' && /(?:^|\.)error$/u.test(j.type)) {
+      const mensaje = str(d.message) ?? str(d.error) ?? str(d.errorType);
+      if (mensaje !== null) informado ??= motivoDeError(mensaje);
+    }
     if (j.type === 'session.auto_mode_resolved') t.modelo ??= str(d.chosenModel);
     if (j.type === 'tool.execution_start') {
       const l = llamada(str(d.toolName) ?? '?', d.arguments);
@@ -108,9 +132,13 @@ export function parsearCopilot(stdout: string, eventos: string | null): Transcri
       if (premium !== null) t.costo = { valor: premium, unidad: 'solicitudes premium' };
       t.duracionMs = num(uso.sessionDurationMs);
       t.sesion = str(j.sessionId);
+      const salida = num(j.exitCode);
+      if (salida !== null && salida !== 0) codigoInformado = salida;
     }
   }
   t.respuesta = final ?? ultimo;
+  if (codigoInformado !== null) t.error = informado ?? `el agente terminó con código ${codigoInformado}`;
+  else if (t.respuesta === null) t.error = informado;
   for (const j of lineas(eventos ?? '')) {
     const d = obj(j.data);
     if (j.type === 'session.start') t.version = str(d.copilotVersion);
@@ -158,7 +186,15 @@ export function parsearGrok(stdout: string): Transcripcion {
     }
     if (j.type === 'assistant') t.modelo ??= str(mensaje.model);
     if (j.type === 'result') {
-      t.respuesta = str(j.result);
+      // Con `is_error` o un subtipo que no es `success`, el texto del resultado
+      // es el error, no la respuesta.
+      const subtipo = str(j.subtype);
+      if (j.is_error === true || (subtipo !== null && subtipo !== 'success')) {
+        const mensaje = [str(j.result), str(j.error), subtipo].find((x) => x !== null && x.trim() !== '');
+        t.error = motivoDeError(mensaje ?? 'error');
+      } else {
+        t.respuesta = str(j.result);
+      }
       const usd = num(j.total_cost_usd);
       if (usd !== null) t.costo = { valor: usd, unidad: 'USD' };
       t.duracionMs = num(j.duration_ms);
@@ -205,9 +241,25 @@ function llamadasDeAgy(transcripcion: string): { llamadas: Llamada[]; respuesta:
   return { llamadas, respuesta };
 }
 
-export function parsearAgy(stdout: string, transcripcion: string | null, log: string | null): Transcripcion {
+/** El `short_error` de la línea `AGY_ERROR` de la salida de errores, que trae el estado y el código. */
+function errorDeAgy(stderr: string | null): string | null {
+  for (const l of (stderr ?? '').split(/\r?\n/u)) {
+    const m = /^AGY_ERROR:\s*(\{.*\})\s*$/u.exec(l.trim());
+    if (m === null) continue;
+    try {
+      const j = obj(JSON.parse(m[1] as string));
+      return str(j.short_error) ?? str(j.status);
+    } catch {
+      // Una línea rota no tapa el error del resultado.
+    }
+  }
+  return null;
+}
+
+export function parsearAgy(stdout: string, transcripcion: string | null, log: string | null, stderr: string | null = null): Transcripcion {
   const t = vacia();
   const pasos = new Set<number>();
+  let delResultado: string | null = null;
   for (const j of lineas(stdout)) {
     if (j.event === 'init') t.sesion = str(j.conversation_id);
     if (j.event === 'step_update') {
@@ -222,6 +274,7 @@ export function parsearAgy(stdout: string, transcripcion: string | null, log: st
     if (j.event === 'result') {
       const r = obj(j.result);
       t.respuesta = str(r.response);
+      if (r.status === 'ERROR') delResultado = str(r.error) ?? 'ERROR';
       const segundos = num(r.duration_seconds);
       if (segundos !== null) t.duracionMs = Math.round(segundos * 1000);
       t.sesion ??= str(r.conversation_id);
@@ -233,6 +286,8 @@ export function parsearAgy(stdout: string, transcripcion: string | null, log: st
     t.respuesta ??= completa.respuesta;
   }
   t.version = /Language server version:\s*(\S+)/u.exec(log ?? '')?.[1] ?? null;
+  const error = errorDeAgy(stderr) ?? delResultado;
+  t.error = error === null ? null : motivoDeError(error);
   return t;
 }
 
@@ -309,7 +364,7 @@ export const AGENTES: Record<string, DefinicionDeAgente> = {
     // La carpeta de la conversación: ahí guarda sus borradores y su transcripción.
     estadoPropio: (home, _ctx, sesion) =>
       sesion === null ? [] : [join(home, '.gemini', 'antigravity-cli', 'brain', sesion)],
-    parsear: (stdout, transcripcion, log) => parsearAgy(stdout, transcripcion, log),
+    parsear: (stdout, transcripcion, log, stderr) => parsearAgy(stdout, transcripcion, log, stderr),
     version: null,
   },
 };

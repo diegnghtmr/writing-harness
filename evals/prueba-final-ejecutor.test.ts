@@ -118,6 +118,8 @@ type OpcionesDelFalso = {
   extra?: (ctx: Contexto) => Llamada[];
   /** Las carpetas de su propio estado. */
   propias?: (ctx: Contexto) => string[];
+  /** Cómo termina el proceso y qué error informa el agente, para simular una corrida que no terminó. */
+  fallo?: { codigo: number | null; vencido?: boolean; error?: string; sinRespuesta?: boolean };
 };
 
 /**
@@ -159,7 +161,8 @@ function agenteFalso(id: string, carpeta: string, registro: Registro[], opciones
       writeFileSync(join(ctx.staging, 'salida.md'), entrada + marca);
       writeFileSync(join(ctx.staging, 'transcripcion.jsonl'), '{"falso":true}\n');
       if (c) c.activas--;
-      return { stdout: '{"tipo":"falso"}\n', stderr: '', codigo: 0, vencido: false, duracionMs: 15 };
+      const f = opciones.fallo;
+      return { stdout: '{"tipo":"falso"}\n', stderr: '', codigo: f ? f.codigo : 0, vencido: f?.vencido ?? false, duracionMs: 15 };
     },
     recoger(ctx) {
       const v = porStaging.get(ctx.staging) as Variante;
@@ -168,7 +171,8 @@ function agenteFalso(id: string, carpeta: string, registro: Registro[], opciones
       const linea = v.clase === 'base' ? 'No se aplicó ningún tono.' : `Capa: \`${v.skill}\`.`;
       return {
         ...vacia(),
-        respuesta: `Quedó en \`${salida}\`. ${linea}`,
+        respuesta: opciones.fallo?.sinRespuesta ? '' : `Quedó en \`${salida}\`. ${linea}`,
+        error: opciones.fallo?.error ?? null,
         llamadas: [
           ...skills.map((s) => llamada('skill', { skill: s })),
           llamada('powershell', { command: `node writing-harness/src/cli.ts ${salida} ${v.banderas.join(' ')}` }, 0),
@@ -192,7 +196,7 @@ const depsFalsas = (tmp: string, extra: Partial<Dependencias> = {}): Dependencia
   };
 };
 
-const plan = (e: ReturnType<typeof escenario>, agentes: Agente[], vs: Variante[], paralelo = 1): Plan => ({
+const plan = (e: ReturnType<typeof escenario>, agentes: Agente[], vs: Variante[], paralelo = 1, omitidos: string[] = []): Plan => ({
   carpeta: e.carpeta,
   docx: e.docx,
   mix: e.cwd,
@@ -200,6 +204,7 @@ const plan = (e: ReturnType<typeof escenario>, agentes: Agente[], vs: Variante[]
   raicesGit: [e.cwd],
   texto: TEXTO,
   agentes,
+  omitidos,
   variantes: vs,
   paralelo,
   limiteMin: 1,
@@ -431,6 +436,80 @@ describe('lo que el ejecutor tiene que cazar', () => {
   });
 });
 
+describe('los errores del propio agente', () => {
+  // En la segunda corrida de humo, agy agotó su cuota al dar la respuesta final.
+  // La salida estaba escrita y medida; la respuesta, vacía. Contarlo como una
+  // falla de las skills decía algo falso sobre las skills.
+  const CUOTA = 'cuota agotada (RESOURCE_EXHAUSTED 429), vuelve en 156h37m';
+  const estados = (v: { comprobaciones: { numero: number; estado: string }[] } | undefined) =>
+    Object.fromEntries((v?.comprobaciones ?? []).map((c) => [c.numero, c.estado]));
+
+  test('una cuota agotada es un error del agente, con su motivo, y no una falla', async () => {
+    const e = escenario();
+    const avisos: string[] = [];
+    const agente = agenteFalso('agy', e.carpeta, [], { fallo: { codigo: 3, error: CUOTA, sinRespuesta: true } });
+    const r = await correrSuite(plan(e, [agente], algunas().slice(1, 2)), depsFalsas(e.tmp, { avisar: (l) => avisos.push(l) }));
+    const v = r.suite.veredictos[0];
+    assert.equal(v?.estado, 'error');
+    assert.equal(v?.error, CUOTA);
+    assert.deepEqual(estados(v), {
+      1: 'pasa',
+      2: 'sin evaluar',
+      3: 'sin evaluar',
+      4: 'sin evaluar',
+      5: 'sin evaluar',
+      6: 'sin evaluar',
+      7: 'sin evaluar',
+      8: 'sin evaluar',
+      9: 'pasa',
+      10: 'pasa',
+    });
+    assert.equal(r.codigo, 1, 'una corrida que no terminó no es una serie limpia');
+    const md = readFileSync(join(e.carpeta, 'resumen.md'), 'utf8');
+    assert.match(md, /## Errores del agente\n\n- agy, camus: cuota agotada \(RESOURCE_EXHAUSTED 429\)/u);
+    assert.match(md, /## Fallas\n\nNinguna\./u);
+    assert.ok(avisos.includes(`agy/camus: error: ${CUOTA}`), avisos.join('\n'));
+    const publicado = JSON.parse(readFileSync(join(e.carpeta, 'agy', 'camus', 'veredicto.json'), 'utf8'));
+    assert.equal(publicado.estado, 'error');
+    assert.equal(publicado.error, CUOTA);
+  });
+
+  test('el límite de tiempo del ejecutor es un error del agente: tiempo agotado', async () => {
+    const e = escenario();
+    const agente = agenteFalso('falso', e.carpeta, [], { fallo: { codigo: null, vencido: true, sinRespuesta: true } });
+    const r = await correrSuite(plan(e, [agente], algunas().slice(0, 1)), depsFalsas(e.tmp));
+    assert.equal(r.suite.veredictos[0]?.estado, 'error');
+    assert.equal(r.suite.veredictos[0]?.error, 'tiempo agotado');
+  });
+
+  test('un proceso que sale con código distinto de cero sin responder es un error del agente', async () => {
+    const e = escenario();
+    const agente = agenteFalso('falso', e.carpeta, [], { fallo: { codigo: 2, sinRespuesta: true } });
+    const r = await correrSuite(plan(e, [agente], algunas().slice(0, 1)), depsFalsas(e.tmp));
+    assert.equal(r.suite.veredictos[0]?.error, 'el proceso terminó con código 2');
+  });
+
+  test('una falla en lo que sí se evalúa sigue a la vista en una corrida con error', async () => {
+    const e = escenario();
+    const tocar = (ctx: Contexto) => rmSync(join(ctx.cwd, 'CLAUDE.md'));
+    const agente = agenteFalso('falso', e.carpeta, [], { antes: tocar, fallo: { codigo: 3, error: CUOTA, sinRespuesta: true } });
+    const r = await correrSuite(plan(e, [agente], algunas().slice(0, 1)), depsFalsas(e.tmp));
+    assert.equal(r.suite.veredictos[0]?.estado, 'error');
+    assert.equal(estados(r.suite.veredictos[0])[9], 'falla');
+    assert.match(readFileSync(join(e.carpeta, 'resumen.md'), 'utf8'), /## Fallas\n\n- falso, base, 9/u);
+  });
+});
+
+describe('correr solo algunos agentes', () => {
+  test('el resumen dice qué agentes quedaron fuera', async () => {
+    const e = escenario();
+    const r = await correrSuite(plan(e, [agenteFalso('copilot', e.carpeta, [])], algunas().slice(0, 1), 1, ['grok', 'agy']), depsFalsas(e.tmp));
+    assert.deepEqual(r.suite.omitidos, ['grok', 'agy']);
+    assert.match(readFileSync(join(e.carpeta, 'resumen.md'), 'utf8'), /^- Agentes: copilot\. Quedaron fuera: grok, agy\.$/mu);
+    assert.deepEqual(JSON.parse(readFileSync(join(e.carpeta, 'resumen.json'), 'utf8')).omitidos, ['grok', 'agy']);
+  });
+});
+
 describe('el paralelismo', () => {
   test('agentes distintos corren a la vez; dentro de uno, hasta --paralelo', async () => {
     const e = escenario();
@@ -530,6 +609,14 @@ describe('el comando', () => {
     for (const a of ['copilot', 'grok', 'agy']) assert.ok(r.stdout.includes(a), a);
     assert.deepEqual(readdirSync(e.carpeta), antes);
     assert.equal(sha(readFileSync(e.docx)), sha(DOCX));
+  });
+
+  test('--agentes con una parte simula solo esa parte y dice cuáles no corren', () => {
+    const e = escenario();
+    const r = correr('--dir', e.carpeta, '--agentes', 'copilot', '--simular');
+    assert.equal(r.status, 0, r.stderr);
+    assert.match(r.stdout, /Corridas: 1 agentes por \d+ variantes/u);
+    assert.match(r.stdout, /^No corren esta vez: grok, agy\.$/mu);
   });
 
   test('--simular imprime el plan de la copia: qué entra, cuántos archivos y qué queda fuera', () => {

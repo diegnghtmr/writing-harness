@@ -19,7 +19,7 @@ import { describe, test } from 'node:test';
 import { REPO_ROOT } from '../src/skills.ts';
 import { AGENTES, parsearAgy, parsearCopilot, parsearGrok } from '../scripts/prueba-final/agentes.ts';
 import { resolverEjecutable } from '../scripts/prueba-final/resolver.ts';
-import { cadenasDe, comandos, escrituras, llamada, skillsCargadas } from '../scripts/prueba-final/transcripcion.ts';
+import { cadenasDe, comandos, escrituras, llamada, motivoDeError, skillsCargadas } from '../scripts/prueba-final/transcripcion.ts';
 
 const fixture = (nombre: string) => readFileSync(join(REPO_ROOT, 'evals', 'fixtures', 'prueba-final', nombre), 'utf8');
 const SALIDA = 'C:\\temp\\pf-00000000-0000-4000-8000-000000000001\\salida.md';
@@ -220,6 +220,63 @@ describe('las líneas de comando', () => {
       join(home, '.gemini', 'antigravity-cli', 'brain', 'conv-agy'),
     ]);
     assert.deepEqual(AGENTES.agy?.estadoPropio(home, ctx, null), [], 'sin conversación no hay carpeta propia que reconocer');
+  });
+});
+
+describe('los errores del propio agente', () => {
+  // En la segunda corrida de humo, agy agotó su cuota al dar la respuesta final:
+  // la salida quedó escrita, la respuesta vacía, y la comprobación de la
+  // respuesta lo contó como una falla de las skills. Cada lectura saca ahora el
+  // error que el agente informa, en una frase corta. Las transcripciones de
+  // error de grok y de copilot tienen la forma de sus líneas de resultado
+  // reales; el texto del error es inventado, porque ninguna corrida lo mostró.
+
+  test('agy: el error de la salida de errores, que trae el estado y el código', () => {
+    const t = parsearAgy(fixture('agy-error-stdout.jsonl'), null, null, fixture('agy-error-stderr.txt'));
+    assert.equal(t.error, 'cuota agotada (RESOURCE_EXHAUSTED 429), vuelve en 156h37m');
+    assert.equal(t.respuesta, '');
+    assert.deepEqual(escrituras(t), ['C:\\Users\\prueba\\tmp\\pf-1\\salida.md'], 'lo que hizo antes del error se sigue leyendo');
+  });
+
+  test('agy: sin salida de errores, el del resultado', () => {
+    assert.equal(parsearAgy(fixture('agy-error-stdout.jsonl'), null, null).error, 'cuota agotada, vuelve en 156h37m');
+  });
+
+  test('grok: un resultado con is_error da el error, y no es la respuesta', () => {
+    const t = parsearGrok(fixture('grok-error-stdout.jsonl'));
+    assert.equal(t.error, 'sesión vencida');
+    assert.equal(t.respuesta, null);
+    assert.equal(t.sesion, 'sesion-grok-error');
+  });
+
+  test('grok: un subtipo que no es success también es un error, aunque no traiga texto', () => {
+    const t = parsearGrok('{"type":"result","subtype":"error_max_turns","is_error":false,"num_turns":50}\n');
+    assert.equal(t.error, 'error_max_turns');
+  });
+
+  test('copilot: el evento de error, y si no hay, el código del resultado', () => {
+    assert.equal(parsearCopilot(fixture('copilot-error-stdout.jsonl'), null).error, 'cuota agotada (429), vuelve en 3h20m');
+    assert.equal(parsearCopilot('{"type":"result","sessionId":"s","exitCode":2}\n', null).error, 'el agente terminó con código 2');
+  });
+
+  test('las sesiones que terminaron bien no traen error', () => {
+    assert.equal(parsearCopilot(fixture('copilot-stdout.jsonl'), fixture('copilot-eventos.jsonl')).error, null);
+    assert.equal(parsearGrok(fixture('grok-stdout.jsonl')).error, null);
+    assert.equal(parsearAgy(fixture('agy-stdout.jsonl'), fixture('agy-transcripcion.jsonl'), fixture('agy-log.txt'), '').error, null);
+  });
+
+  test('la definición de agy le pasa la salida de errores a su lectura', () => {
+    const t = AGENTES.agy?.parsear(fixture('agy-error-stdout.jsonl'), null, null, fixture('agy-error-stderr.txt'));
+    assert.match(t?.error ?? '', /RESOURCE_EXHAUSTED 429/u);
+  });
+
+  test('el motivo corto: cuota, sesión vencida o la primera línea, sin desbordar', () => {
+    assert.equal(motivoDeError('Rate limit exceeded, try later'), 'cuota agotada');
+    assert.equal(motivoDeError('Error: 401 Unauthorized'), 'sesión vencida');
+    assert.equal(motivoDeError('  algo se rompió\n    at main (x.js:1)'), 'algo se rompió');
+    const largo = motivoDeError('x'.repeat(500));
+    assert.ok(largo.length <= 160, String(largo.length));
+    assert.match(largo, /…$/u);
   });
 });
 
