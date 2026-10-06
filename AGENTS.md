@@ -46,8 +46,8 @@ node src/cli.ts <archivo> [--tono <id>]          # medir; sin --tono al corregir
 ```
 
 El paso que más se salta es leer entera la skill del tono elegido, y es el
-que hace la diferencia: el verificador cubre 110 de las 300 declaraciones que
-hacen las skills. Las otras 190 solo las pone quien leyó la skill.
+que hace la diferencia: el verificador cubre 110 de las 302 declaraciones que
+hacen las skills. Las otras 192 solo las pone quien leyó la skill.
 
 ## 2. Elegir el tono, si corresponde
 
@@ -190,7 +190,7 @@ cambia. Lo que se pierde es la medición, no la entrega.
 
 ## 6. Lo que el verificador no ve
 
-De las 300 declaraciones que hacen las skills, **190 exigen juicio sobre el
+De las 302 declaraciones que hacen las skills, **192 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.

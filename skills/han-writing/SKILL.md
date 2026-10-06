@@ -318,6 +318,11 @@ La falta de aparato no autoriza a inventar la fuente. Si no se puede señalar
 dónde dijo eso el autor, no se lo cita. La economía del molde afecta a la
 presentación, nunca a la veracidad de la atribución.
 
+La falta de aparato tampoco autoriza a borrar la fuente que ya está. El cero de
+referencias en el cuerpo describe la prosa que el autor escribe, no el texto
+que se recibe. Al reescribir un texto ajeno, cada cita suya conserva su autor y
+su año donde la puso el original.
+
 Sobre el volumen de cita hay un dato que conviene mirar de frente. En el
 material extraído, 43 unidades entrecomilladas de terceros suman 2.217
 palabras, frente a 1.654 palabras de prosa propia. La proporción está

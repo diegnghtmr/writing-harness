@@ -33,9 +33,9 @@ pidió otra forma para el texto. Si no la pidió, se corrige.
 
 Al corregir no se aplica ningún tono, y no es la ausencia de la que habla la
 sección 2: la forma del texto ya la decidió su autor, y la base corrige lo que
-está mal sin decidir cómo suena. Traducir un texto al español, sin pedir un
-registro para la traducción, es corregir: la forma es de quien lo escribió en
-el idioma original.
+está mal escrito sin decidir cómo suena y sin tocar sus datos. Traducir un
+texto al español, sin pedir un registro para la traducción, es corregir: la
+forma es de quien lo escribió en el idioma original.
 
 `humanizar-espanol` es una pasada, no un modo. Se carga además solo cuando el
 usuario pide humanizar con esas palabras, y el resto del pedido decide el modo.
@@ -135,18 +135,25 @@ lista no se recorre.
    nombró, el porqué es su pedido. Si no, es el paso de la lista que lo eligió.
    Si fue el último, la línea dice por qué llegó ahí: porque ningún paso
    anterior correspondía o porque el texto es el relato del propio usuario. Si
-   además el texto no cabe en ninguna de las voces de ese tono, la línea lo
-   dice, para que el usuario pueda pedir otro. Esas voces son la impersonal, la
-   que se dirige a alguien sin tuteo ni complicidad y la primera persona del
-   relato propio. La línea nunca describe el texto como algo que no es. Una
-   decisión que no se puede rebatir no es una decisión. Esa línea va aparte,
-   fuera del texto. Al corregir, dice que no se aplicó ningún tono y por qué: la
-   forma es de su autor.
+   el texto no cumple la precondición de forma del tono, la línea lo dice y
+   nombra la condición que falla, para que el usuario pueda pedir otro. Pasa
+   sobre todo cuando el usuario nombró el tono, porque entonces la lista no se
+   recorrió, y cuando se llegó al último paso, cuya precondición son tres
+   voces: la impersonal, la que se dirige a alguien sin tuteo ni complicidad y
+   la primera persona del relato propio. La línea nunca describe el texto como
+   algo que no es. Una decisión que no se puede rebatir no es una decisión. Esa
+   línea va aparte, fuera del texto. Al corregir, dice que no se aplicó ningún
+   tono y por qué: la forma es de su autor.
 7. Cada advertencia que quede se nombra aparte, con el motivo por el que el
-   contexto la justifica.
+   contexto la justifica. También va en una línea aparte cada contradicción
+   que traiga el original, con las dos versiones que se conservaron. Y lo mismo
+   cada agregado que la forma del tono pidió y el original no decía, y cada
+   pieza de esa forma que no se escribió porque el original no daba con qué.
 
 Que el verificador no aparezca en la primera búsqueda no quiere decir que
-falte. Si las instrucciones del proyecto dicen cómo dejarlo disponible, se
-siguen y después se vuelve a buscar. Si aun así no está, el texto no se mide y
-la entrega lo dice en una línea aparte, junto con lo que se intentó. Nunca se
-afirma una medición que no corrió.
+falte. Buscarlo solo entre las skills no alcanza: antes de darlo por ausente,
+se buscan las instrucciones del proyecto en la carpeta donde se trabaja, y se
+siguen. Si dicen dónde está o cómo dejarlo disponible, se hace eso y después se
+vuelve a buscar. Si aun así no está, el texto no se mide y la entrega lo dice
+en una línea aparte, junto con lo que se intentó. Nunca se afirma una medición
+que no corrió.

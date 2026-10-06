@@ -42,14 +42,31 @@ El objetivo al reescribir es mejorar la gramática, la cohesión y el estilo SIN
 añadir, inventar ni eliminar información. El contenido original se preserva
 intacto. Solo se modifica la forma, nunca el fondo.
 
+Corregir es gramática y estilo, nunca dato. Si el original se contradice, con
+dos cifras para un mismo hecho o dos nombres para una misma cosa, las dos
+versiones se conservan como vienen, cada una en su sitio, y la contradicción se
+avisa aparte, fuera del texto. Unificarlas sería decidir por el autor cuál de
+sus datos vale, y esa decisión no le toca a quien reescribe.
+
+Ningún tono levanta este principio. Si al reescribir un texto ajeno la forma
+del tono pide algo que el original no trae, como un caso, un ejemplo, un paso,
+el turno de un adversario o una glosa, eso se arma solo con material del
+original: sus datos, sus nombres y sus afirmaciones. Cada agregado que no sea
+una reformulación se declara aparte en la respuesta. Si el material no alcanza,
+esa pieza de la forma no se escribe, y la respuesta lo dice.
+
+Y al revés. Si la forma del tono pide quitar algo que el original tiene, como
+una cita, una cifra o una referencia, eso se conserva. Lo que un tono prohíbe
+rige lo que el agente escribe desde cero, no lo que recibe.
+
 Al redactar texto nuevo, se aplican las mismas normas gramaticales, con la
 libertad creativa que el contexto permita.
 
 
 ## 3. Enrutamiento de tono
 
-Las reglas de las secciones 4 a 13 se aplican siempre, haya tono o no. Encima
-de ellas va como mucho una skill de tono. Esta base no la elige: si
+Las reglas de las secciones 2 y 4 a 13 se aplican siempre, haya tono o no.
+Encima de ellas va como mucho una skill de tono. Esta base no la elige: si
 corresponde un tono, y cuál, lo decide «redactar-espanol».
 
 En la tabla de «redactar-espanol», todos los tonos salvo `camus-writing` y
@@ -73,9 +90,9 @@ en cada caso.
 Una skill de tono puede ampliar o restringir lo que esta base deja abierto.
 Nunca puede contradecirla.
 
-Si una skill de tono parece autorizar algo que las secciones 4 a 13 prohíben,
-gana la prohibición, y esa skill de tono tiene un defecto que hay que corregir.
-No se resuelve el conflicto en el momento de escribir.
+Si una skill de tono parece autorizar algo que las secciones 2 y 4 a 13
+prohíben, gana la prohibición, y esa skill de tono tiene un defecto que hay que
+corregir. No se resuelve el conflicto en el momento de escribir.
 
 **Una pasada pedida de forma explícita releva al tono en lo que ella gobierna.**
 Son tres casos y conviene tenerlos separados. Si no se pide ninguna pasada, el
@@ -740,7 +757,9 @@ sin notas finales. El texto reescrito es la respuesta completa.
 
 Fuera del texto solo van las líneas aparte que pide «redactar-espanol»: qué
 tono se usó y por qué, o por qué no se usó ninguno; las advertencias que
-quedan, con su motivo; y, si no hubo verificador, que el texto no se midió.
+quedan, con su motivo; las contradicciones del original y lo que la forma del
+tono obligó a agregar o dejó sin escribir, como dice la sección 2; y, si no
+hubo verificador, que el texto no se midió.
 
 Si el usuario pidió el texto en un archivo, o dio un documento para que fuera
 en él, el texto va ahí y no se repite en la respuesta. En su lugar va una línea
@@ -814,6 +833,10 @@ añade las suyas.
     de apoyo, patrocinio, deixis de pantalla y promesa de revelación?
 27. ¿No queda ningún carácter invisible: ancho cero, marca bidireccional,
     etiqueta, no carácter o espacio exótico sin uso normativo?
+28. ¿Las contradicciones del original quedaron como estaban y se avisaron
+    fuera del texto (al reescribir)?
+29. ¿Lo que la forma del tono pidió y el original no traía se armó con material
+    del original y quedó declarado (al reescribir)?
 
 
 ## 15. Fuentes normativas de referencia
