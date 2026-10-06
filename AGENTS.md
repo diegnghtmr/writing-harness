@@ -46,8 +46,8 @@ node src/cli.ts <archivo> [--tono <id>]          # medir; sin --tono al corregir
 ```
 
 El paso que más se salta es leer entera la skill del tono elegido, y es el
-que hace la diferencia: el verificador cubre 110 de las 299 declaraciones que
-hacen las skills. Las otras 189 solo las pone quien leyó la skill.
+que hace la diferencia: el verificador cubre 110 de las 300 declaraciones que
+hacen las skills. Las otras 190 solo las pone quien leyó la skill.
 
 ## 2. Elegir el tono, si corresponde
 
@@ -190,7 +190,7 @@ cambia. Lo que se pierde es la medición, no la entrega.
 
 ## 6. Lo que el verificador no ve
 
-De las 299 declaraciones que hacen las skills, **189 exigen juicio sobre el
+De las 300 declaraciones que hacen las skills, **190 exigen juicio sobre el
 contenido** y ninguna regla las va a cubrir. Cosas como si se conservó toda la
 información del original, si una analogía está desarrollada o solo mencionada,
 o si una expresión es la colocación más previsible del tema.
@@ -201,7 +201,7 @@ argumenta una persona no lo mide ninguna clase de regla que exista hoy.
 Las skills declaran de dos maneras y las dos cuentan: ítems numerados `N. ¿…?`
 en las listas del `SKILL.md`, y patrones `### N. Título` en los catálogos de
 `references/`. `humanizar-espanol` declara solo de la segunda manera, con sus
-38 patrones.
+39 patrones.
 
 `evals/cobertura.ts` los tiene listados uno por uno. Salir con 0 significa que
 el texto pasó las reglas mecanizables, no que esté bien escrito. Esa segunda

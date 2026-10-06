@@ -29,7 +29,8 @@ especulativo, 26) tono servil, 27) frases de relleno, 28) exceso de atenuación,
 32) efectismo y aforismos, 33) aperturas retóricas conversacionales.
 Segundo nivel (perplejidad semántica, cuando lo anterior no basta): 34)
 colocación más previsible, 35) antítesis simétrica y arquitectura repetida, 36)
-nombre suelto o media concreción, 37) apertura corta de etiqueta.
+nombre suelto o media concreción, 37) apertura corta de etiqueta, 39) el texto
+que explica su propio sentido, con el último número por haber llegado después.
 Portadores fuera del texto visible: 38) caracteres invisibles. Va al final por
 haber llegado después, no por ser menos grave: es el único que no se puede leer.
 
@@ -604,3 +605,30 @@ cualquiera que copiara el ejemplo se llevaría el defecto dentro.
 Antes: «la investigación[U+200B] muestra que el dato».
 
 Después: «la investigación muestra que el dato».
+
+### 39. El texto explica su propio sentido
+
+Problema: el texto no se limita a exponer su material, sino que además enuncia
+lo que ese material significa. Cada apartado se cierra diciendo qué hay que
+concluir de él, y la conclusión repite en abstracto lo que los datos ya
+mostraban. Es un patrón de discurso y no de frase: ninguna oración está mal, y
+sin embargo el texto desconfía de quien lo lee.
+
+Señal: oraciones que glosan lo recién dicho, «esto demuestra que», «lo anterior
+evidencia», «en definitiva, lo que está en juego es»; un párrafo final que
+declara la importancia del asunto en vez de cerrar el último argumento; el
+comentario que explica el ejemplo inmediatamente después de haberlo dado.
+
+Fix: deja que el material sostenga la afirmación y quita la oración que lo
+interpreta. Si la conclusión no se sigue de lo expuesto, lo que falta es
+evidencia y no glosa. Donde el texto iba a explicar su sentido, pon el matiz, la
+excepción o el dato siguiente: un hecho bien elegido no necesita que se diga que
+es revelador.
+
+Antes: «El programa amplió la cobertura rural y redujo la deserción. Esto
+demuestra que la inversión pública en educación tiene efectos reales y plantea la
+urgencia de sostenerla en el tiempo.»
+
+Después: «El programa amplió la cobertura rural y redujo la deserción, aunque el
+efecto se concentró en los municipios que ya tenían sede propia y no en los que
+dependen de un convenio.»

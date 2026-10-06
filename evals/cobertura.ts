@@ -137,6 +137,7 @@ export const SIN_REGLA: { skill: string; origen: Origen; item: string; estado: E
   { skill: 'humanizar-espanol', origen: 'patron', item: "Colocación más previsible (perplejidad léxica baja)", estado: 'criterio' },
   { skill: 'humanizar-espanol', origen: 'patron', item: "Antítesis simétrica y arquitectura repetida", estado: 'criterio' },
   { skill: 'humanizar-espanol', origen: 'patron', item: "Nombre suelto (media concreción)", estado: 'criterio' },
+  { skill: 'humanizar-espanol', origen: 'patron', item: "El texto explica su propio sentido", estado: 'criterio' },
   { skill: 'schiavenato-writing', origen: 'checklist', item: "¿La mediana de la oración queda entre 14 y 18 palabras, con un cuarto del texto por debajo de 10 y a lo sumo una de cada diez por encima de 40?", estado: 'criterio' },
   { skill: 'schiavenato-writing', origen: 'checklist', item: "¿Las oraciones independientes se unen con nexos o se separan con punto, en lugar de encadenarse con comas?", estado: 'criterio' },
   { skill: 'schiavenato-writing', origen: 'checklist', item: "¿El texto reparte el trato, con «ustedes» para lo que le toca al grupo y «usted» para el caso individual, sin mezclar los dos dentro de una misma unidad?", estado: 'criterio' },

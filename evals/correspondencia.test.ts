@@ -204,29 +204,34 @@ describe('el techo de cobertura está declarado', () => {
   // que ir a buscarlos leyendo la prosa.
   const cuenta = (estado: string) => SIN_REGLA.filter((e) => e.estado === estado).length;
 
-  test('299 declaraciones, repartidas como está registrado', () => {
+  test('300 declaraciones, repartidas como está registrado', () => {
     // Eran 282 con las catorce skills de tono. Retirar kenway, medicendai y
     // sekkyoku se llevó 48 declaraciones, y este gate es el que lo dijo. La 235
     // la agregó `solitario-writing` §19: su §7.4 medía la longitud de oración y
     // la checklist no la pedía, así que la regla no tenía qué reclamar.
     //
-    // Las últimas seis las agregó `triangulacion-writing` al medir lo que la
+    // Las seis siguientes las agregó `triangulacion-writing` al medir lo que la
     // primera versión no había medido: la subordinación, los pares donde el
     // registro elige, los verbos con que la evidencia habla y el andamiaje que
     // nunca usa. Dos de las seis salieron cubiertas el mismo día, y las otras
     // cuatro entraron a `criterio` después de comprobar que no se separan de
     // otros registros por medición.
-    assert.equal(items.length, 299, 'cambió la cantidad de declaraciones en la prosa');
+    //
+    // La 300 la agregó el catálogo de `humanizar-espanol` con un patrón de
+    // discurso: el texto que glosa su propio sentido en vez de dejar que el
+    // material lo lleve. Entró a `criterio` porque ninguna clase de regla mide
+    // eso.
+    assert.equal(items.length, 300, 'cambió la cantidad de declaraciones en la prosa');
     assert.equal(claimed.size, 110, 'cambió la cantidad de declaraciones cubiertas por reglas');
     assert.equal(cuenta('mecanizable'), 0);
-    assert.equal(cuenta('criterio'), 189);
+    assert.equal(cuenta('criterio'), 190);
     assert.equal(cuenta('delegado'), 0);
   });
 
-  test('humanizar tiene 32 de sus 38 patrones cubiertos', () => {
+  test('humanizar tiene 32 de sus 39 patrones cubiertos', () => {
     const suyos = declarations('humanizar-espanol');
     const cubiertos = suyos.filter((d) => claimed.has(itemKey(d.skill, d.item)));
-    assert.equal(suyos.length, 38);
+    assert.equal(suyos.length, 39);
     assert.equal(cubiertos.length, 32);
   });
 
@@ -254,7 +259,7 @@ describe('el techo de cobertura está declarado', () => {
     // skill con más reglas y aportaba cero al recuento.
     const decl = declarations('humanizar-espanol');
     assert.equal(decl.filter((d) => d.origen === 'checklist').length, 0);
-    assert.equal(decl.filter((d) => d.origen === 'patron').length, 38);
+    assert.equal(decl.filter((d) => d.origen === 'patron').length, 39);
   });
 
   test('ninguna skill trae raya ni guion largo, salvo las dos que la enuncian', () => {

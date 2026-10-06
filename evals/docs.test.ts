@@ -24,7 +24,7 @@ import { describe, test } from 'node:test';
 import { CORPUS } from '../src/corpus.ts';
 import { EXPRESIONES, MEDICIONES, POR_ARCHIVO } from '../src/mediciones.ts';
 import { TONE_IDS, allRules } from '../src/rules.ts';
-import { REPO_ROOT, allDeclarations, itemKey, skillNames } from '../src/skills.ts';
+import { REPO_ROOT, allDeclarations, declarations, itemKey, skillNames } from '../src/skills.ts';
 import { SIN_REGLA } from './cobertura.ts';
 import { DECLARADO, MINUTOS, PROPORCIONES } from './registro.ts';
 import { vive } from './retiradas.ts';
@@ -233,6 +233,15 @@ describe('AGENTS.md dice lo que el código mide', () => {
     // rama que no coincidió.
     afirma(AGENTS, /(\d+)(?: exigen juicio| solo las pone)/gu, criterio, 'AGENTS, criterio');
     afirma(AGENTS, /cubre (\d+) de las/gu, cubiertas, 'AGENTS, cubiertas');
+    // La cifra de patrones de `humanizar-espanol` se mueve cada vez que crece su
+    // catálogo de `references/`, y era la única de este párrafo que no leía
+    // ningún gate: se escribió a mano y envejeció con el primer patrón nuevo.
+    afirma(
+      AGENTS,
+      /sus (\d+) patrones/gu,
+      declarations('humanizar-espanol').filter((d) => d.origen === 'patron').length,
+      'AGENTS, patrones de humanizar',
+    );
     afirma(AGENTS, /Las (\d+) reglas como datos/gu, reglas.length, 'AGENTS, reglas');
     afirma(AGENTS, /(\d+) corpus, \d+ archivos/gu, CORPUS.length, 'AGENTS, corpus');
     afirma(AGENTS, /\d+ corpus, (\d+) archivos/gu, archivosDeCorpus, 'AGENTS, archivos');
