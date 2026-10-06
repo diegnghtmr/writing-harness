@@ -454,6 +454,52 @@ Un juicio encontró diez defectos en este repositorio, y los encontró porque lo
 buscamos a mano. Estas dos redes existen para que la próxima vez no dependa de
 eso.
 
+## La prueba final con agentes reales
+
+La suite valida las skills y el verificador por dentro, pero no lo que hace con
+ellas un agente real, y las pruebas a mano mostraron fallas que ningún gate
+encuentra: no medir, no entregar el texto, elegir mal el tono, inventar hechos.
+La prueba final es la última capa. Corre agentes reales en modo no interactivo
+sobre un mismo texto, una vez por cada variante de uso del arnés, y comprueba de
+forma automática el flujo de cada corrida.
+
+```bash
+node scripts/prueba-final.ts --dir <carpeta>              # la serie entera
+node scripts/prueba-final.ts --dir <carpeta> --simular    # el plan, sin correr nada
+```
+
+La carpeta tiene que contener `base.docx`, que la prueba no modifica nunca y
+cuya huella comprueba antes de la serie y después de cada corrida. Del documento
+se toman el resumen y la introducción, elegidos por su título y no por su
+posición; con `--completo` va entero. Las variantes son corregir sin tono, cada
+tono del registro y cada pasada. Salen de `src/rules.ts`, así que un tono nuevo
+entra a la prueba el mismo día que entra al registro. La ayuda del comando lista
+las demás opciones.
+
+Valida el comportamiento de cada agente con estas skills y este texto. No valida
+la calidad de un modelo en general: un veredicto dice si el agente siguió el
+flujo que las skills piden, no si escribe bien. Las comprobaciones y sus umbrales
+viven en el código del ejecutor, cada una con su porqué.
+
+No forma parte de `npm test`, y no puede formar parte: llama a servicios
+externos, gasta la cuota de cada uno y una serie completa tarda horas. Cada
+corrida tiene un límite de tiempo, y al vencer se corta el árbol entero de
+procesos del agente. Necesita los CLI de los agentes instalados y con la sesión
+iniciada; si falta alguno, sale sin correr nada.
+
+Cada corrida trabaja en una carpeta propia del directorio temporal, y los
+resultados se publican en la carpeta de la prueba recién al terminar la serie,
+uno por agente y variante. El motivo es concreto: con una carpeta compartida, un
+agente leyó lo que habían dejado los otros y entregó una salida ajena byte a
+byte. Los agentes reciben además `ENGRAM_PROJECT=prueba-final`, porque cargan las
+instrucciones globales del usuario y, sin esa variable, guardaban memorias en su
+proyecto real.
+
+Volver a correr no mezcla resultados. Lo que había de una serie anterior se
+mueve a `historial/`, bajo la fecha de esa serie, y no se borra. La matriz de
+agente por variante, con cada falla y su motivo, se escribe en la carpeta como
+`resumen.md`, para leerla, y como `resumen.json`, para procesarla.
+
 ## Requisitos
 
 Node 22.6 o superior, nada más. El repositorio no tiene dependencias, ni build,
@@ -463,6 +509,9 @@ ni `package-lock`. Corre offline.
 modelos descargados, y nada de `src/` lo importa ni la suite lo invoca. Quien no
 lo instale pierde el paso 5 y ningún otro: el arnés sigue siendo Node y sigue
 corriendo offline. Meterlo dentro habría convertido esa frase en mentira.
+
+La prueba final con agentes también queda fuera de la suite. Necesita los CLI de
+los agentes, red y cuota, y ninguna parte de `src/` la importa.
 
 ## Las skills instaladas son enlaces
 
@@ -520,7 +569,7 @@ al lado. Ese destino es lo que hay que leer, no el nombre. Se arregla con
 | `src/enrutamiento.ts` | La tabla de `redactar-espanol` como dato, y el procedimiento que decide |
 | `src/corpus.ts`, `src/mediciones.ts` | El registro del corpus borrado. No se editan a mano |
 | `evals/` | Los gates. Cada uno falla en las dos direcciones |
-| `scripts/` | Manifiesto, medición, instalación, hook y el reparto de la batería de pedidos |
+| `scripts/` | Manifiesto, medición, instalación, hook, el reparto de la batería de pedidos y la prueba final con agentes reales |
 | `detector/` | La herramienta opcional que mide la señal de IA. Corre por fuera |
 
 ## Qué archivo lee cada anfitrión

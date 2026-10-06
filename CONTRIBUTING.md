@@ -486,3 +486,10 @@ Y las tres preguntas que no las hace ningún gate:
 3. ¿El comentario dice **por qué**, y no qué? El código ya dice qué hace. Lo que
    no se puede recuperar leyéndolo es qué defecto concreto vino a cerrar, y este
    repositorio nombra ese defecto en casi todos sus comentarios a propósito.
+
+Cuando el cambio toca una skill, el enrutamiento o la entrega, falta una capa que
+la suite no cubre: la prueba final con agentes reales, descrita en
+[AGENTS.md](AGENTS.md#la-prueba-final-con-agentes-reales). Sus comprobaciones y
+sus umbrales viven en `scripts/prueba-final/comprobaciones.ts`, cada uno con su
+motivo al lado. Un umbral se cambia ahí, con el motivo nuevo escrito, y nunca
+para que pase una corrida concreta.
