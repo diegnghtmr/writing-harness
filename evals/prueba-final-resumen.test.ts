@@ -27,6 +27,7 @@ const veredicto = (agente: string, variante: string, cs: Comprobacion[], vencido
   estado:
     error !== null ? 'error' : cs.some((x) => x.estado === 'falla') ? 'falla' : cs.some((x) => x.estado === 'aviso') ? 'aviso' : 'pasa',
   error,
+  serie: '2026-10-06T00:00:00.000Z',
   comprobaciones: cs,
   metadatos: {
     version: '1.0',
@@ -40,6 +41,7 @@ const veredicto = (agente: string, variante: string, cs: Comprobacion[], vencido
     inicio: '2026-10-06T00:00:00.000Z',
     fin: '2026-10-06T00:00:01.000Z',
     copia: { archivos: 2, huella: 'f'.repeat(64) },
+    engram: `prueba-final-20261006-000000-${agente}-${variante}`,
   },
 });
 
@@ -50,6 +52,7 @@ const suite = (veredictos: Veredicto[], despues = 'abc'): Suite => ({
   docx: { antes: 'abc', despues },
   agentes: ['copilot', 'grok'],
   omitidos: [],
+  series: { copilot: '2026-10-06T00:00:00.000Z', grok: '2026-10-06T00:00:00.000Z' },
   variantes: ['base', 'camus'],
   veredictos,
 });
@@ -140,6 +143,17 @@ describe('el resumen en Markdown', () => {
     assert.match(conError, /^- Corridas: 4\. Pasan 1, con aviso 1, con falla 1, con error del agente 1\.$/mu);
     // Una comprobación sin evaluar no es una falla ni un aviso.
     assert.doesNotMatch(conError, /grok, camus, 6/u);
+  });
+
+  test('una matriz que junta series distintas dice la fecha de la serie de cada agente', () => {
+    const juntas = resumenMarkdown({
+      ...suite(vs),
+      series: { copilot: '2026-10-06T16:24:37.965Z', grok: '2026-10-08T09:05:00.000Z' },
+    });
+    assert.match(juntas, /^\| Variante \| copilot \(serie 2026-10-06 16:24\) \| grok \(serie 2026-10-08 09:05\) \|$/mu);
+    assert.match(juntas, /^- Series: copilot del 2026-10-06T16:24:37\.965Z, grok del 2026-10-08T09:05:00\.000Z\.$/mu);
+    // Una sola serie no repite su fecha en cada columna.
+    assert.match(md, /^\| Variante \| copilot \| grok \|$/mu);
   });
 
   test('dice qué agentes corrieron y cuáles quedaron fuera', () => {

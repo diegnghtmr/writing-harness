@@ -18,6 +18,7 @@ import { join, posix, win32 } from 'node:path';
 import { describe, test } from 'node:test';
 import { REPO_ROOT } from '../src/skills.ts';
 import { AGENTES, parsearAgy, parsearCopilot, parsearGrok } from '../scripts/prueba-final/agentes.ts';
+import { entornoDeLaCorrida } from '../scripts/prueba-final/reales.ts';
 import { resolverEjecutable } from '../scripts/prueba-final/resolver.ts';
 import { cadenasDe, comandos, escrituras, llamada, motivoDeError, skillsCargadas } from '../scripts/prueba-final/transcripcion.ts';
 
@@ -156,7 +157,14 @@ describe('las líneas de comando', () => {
     cwd: join('repos', 'mix'),
     limiteMin: 40,
     staging: 'staging',
+    engram: 'prueba-final-20261006-000000-copilot-base',
   };
+
+  test('cada corrida lleva su proyecto de Engram en el entorno', () => {
+    const env = entornoDeLaCorrida(ctx.engram);
+    assert.equal(env.ENGRAM_PROJECT, ctx.engram);
+    assert.equal(env.PATH, process.env.PATH, 'el resto del entorno sigue igual');
+  });
 
   test('copilot recibe el prompt como argumento y la sesión que se le fija', () => {
     assert.deepEqual(AGENTES.copilot?.argumentos(ctx), [

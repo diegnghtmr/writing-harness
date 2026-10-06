@@ -42,6 +42,8 @@ export type Contexto = {
   cwd: string;
   limiteMin: number;
   staging: string;
+  /** El proyecto de Engram de esta corrida, distinto en cada una. */
+  engram: string;
 };
 
 export type DefinicionDeAgente = {

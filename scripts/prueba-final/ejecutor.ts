@@ -26,9 +26,10 @@
 // parámetros.
 
 import { createHash } from 'node:crypto';
-import { cpSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import type { Contexto } from './agentes.ts';
+import { carpetasDeAgentes, escribirResumen, fechaPrevia, HISTORIAL, marca, mover, suiteDeLaCarpeta } from './carpeta.ts';
 import {
   agenteMidio,
   aislamiento,
@@ -54,7 +55,7 @@ import {
 import { CARPETA_DE_LA_COPIA, cambiosDeLaCopia, construirCopia, huellaDeLaCopia, huellasDe, type PlanDeLaCopia } from './copia.ts';
 import type { Texto } from './fragmento.ts';
 import type { Lanzamiento } from './proceso.ts';
-import { codigoDeSalida, resumenJson, resumenMarkdown, type Metadatos, type Suite, type Veredicto } from './resumen.ts';
+import { codigoDeSalida, type Metadatos, type Suite, type Veredicto } from './resumen.ts';
 import { escrituras, lecturasDeSkills, vacia, type Transcripcion } from './transcripcion.ts';
 import { promptDe } from './prompts.ts';
 import type { Variante } from './variantes.ts';
@@ -98,7 +99,26 @@ export type Plan = {
   limiteMin: number;
   /** Los agentes conocidos que no corren esta vez, para que el resumen lo diga. */
   omitidos: string[];
+  /** Sumar esta serie a lo que ya hay en la raíz en vez de reemplazarlo. Ver `publicar`. */
+  agregar: boolean;
 };
+
+/** El principio del nombre del proyecto de Engram de cada corrida. */
+export const PREFIJO_DE_ENGRAM = 'prueba-final';
+
+/**
+ * El proyecto de Engram de una corrida: uno por serie, agente y variante.
+ *
+ * Grok y Antigravity cargan las instrucciones globales del usuario, que mandan
+ * a guardar y a buscar memorias. Con un proyecto común para toda la prueba, en
+ * la corrida completa Grok leyó lo que había guardado otra corrida, y las
+ * corridas dejaron de ser independientes. Antes, sin proyecto propio,
+ * escribían en el proyecto real del usuario.
+ */
+export function proyectoDeEngram(serie: Date, agente: string, variante: string): string {
+  const fecha = serie.toISOString().slice(0, 19).replace(/-|:/gu, '').replace('T', '-');
+  return `${PREFIJO_DE_ENGRAM}-${fecha}-${agente}-${variante}`;
+}
 
 type Resultado = {
   agente: string;
@@ -158,7 +178,8 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     writeFileSync(archivoPrompt, prompt);
     const copia = join(staging, CARPETA_DE_LA_COPIA);
     const huellasDeLaCopia = construirCopia(plan.copia, copia);
-    const ctx: Contexto = { prompt, archivoPrompt, sesion: id, cwd: copia, limiteMin: plan.limiteMin, staging };
+    const engram = proyectoDeEngram(inicioSerie, agente.id, variante.id);
+    const ctx: Contexto = { prompt, archivoPrompt, sesion: id, cwd: copia, limiteMin: plan.limiteMin, staging, engram };
 
     const huellaAntes = sha256(readFileSync(plan.docx));
     const gitAntes = estadoRepos();
@@ -236,6 +257,7 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
       inicio: inicio.toISOString(),
       fin: fin.toISOString(),
       copia: { archivos: Object.keys(huellasDeLaCopia).length, huella: huellaDeLaCopia(huellasDeLaCopia) },
+      engram,
     };
     const fallas = comprobaciones.filter((c) => c.estado === 'falla').map((c) => c.numero);
     const juicio = fallas.length > 0 ? `falla ${fallas.join(', ')}` : estadoDe(comprobaciones);
@@ -266,6 +288,7 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
       variante: r.variante,
       estado: r.error === null ? estadoDe(comprobaciones) : 'error',
       error: r.error,
+      serie: inicioSerie.toISOString(),
       comprobaciones,
       metadatos: r.metadatos,
     };
@@ -282,49 +305,45 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     docx: { antes: huellaInicial, despues: sha256(readFileSync(plan.docx)) },
     agentes: plan.agentes.map((a) => a.id),
     omitidos: plan.omitidos,
+    series: Object.fromEntries(plan.agentes.map((a) => [a.id, inicioSerie.toISOString()])),
     variantes: plan.variantes.map((v) => v.id),
     veredictos,
   };
-  publicar(plan.carpeta, resultados, veredictos, suite, inicioSerie);
-  return { suite, codigo: codigoDeSalida(veredictos) };
-}
-
-/** La fecha de la serie anterior, para nombrar su carpeta en el historial. */
-function fechaPrevia(carpeta: string): string | null {
-  try {
-    const previo = JSON.parse(readFileSync(join(carpeta, 'resumen.json'), 'utf8')) as { fecha?: unknown };
-    return typeof previo.fecha === 'string' ? previo.fecha : null;
-  } catch {
-    return null;
-  }
+  const publicada = publicar(plan, resultados, veredictos, suite, inicioSerie);
+  return { suite: publicada, codigo: codigoDeSalida(publicada.veredictos) };
 }
 
 /**
  * Lleva cada corrida a `<carpeta>/<agente>/<variante>/` y escribe el resumen.
  *
- * Lo que ya estaba de una serie anterior no se borra ni se mezcla: se mueve a
- * `historial/<fecha de esa serie>/`. Mezclar dejaba en una misma carpeta la
- * salida de una corrida y el veredicto de otra.
+ * Lo que ya estaba no se borra ni se mezcla: se mueve a `historial/<fecha de
+ * esa serie>/`. Mezclar dejaba en una misma carpeta la salida de una corrida y
+ * el veredicto de otra.
+ *
+ * Por defecto la raíz guarda una sola serie: todas las carpetas de agentes y el
+ * resumen anterior pasan al historial, también las de agentes que esta vez no
+ * corrieron. Mover solo los pares que corrían dejó en la raíz un agy/fonda de
+ * otra serie, y en el historial un resumen que contaba una corrida que no
+ * estaba con él. Con `--agregar`, en cambio, la raíz junta series: quedan los
+ * agentes que no corren, se reemplazan solo los pares que corren y el resumen
+ * se rehace con todos los veredictos de la raíz, cada agente con la fecha de
+ * su serie. Así se suma un agente a una serie publicada sin volver a correr
+ * los demás.
  *
  * La copia no se publica: es la misma en cada corrida, su huella queda en el
  * veredicto, y lo que el agente cambió en ella ya está en el motivo de los
  * repositorios. Se borra con el resto de la carpeta de la corrida.
  */
-function publicar(
-  carpeta: string,
-  resultados: readonly Resultado[],
-  veredictos: readonly Veredicto[],
-  suite: Suite,
-  inicio: Date,
-): void {
-  const marca = (fechaPrevia(carpeta) ?? inicio.toISOString()).replace(/[:.]/gu, '-');
-  const historial = join(carpeta, 'historial', marca);
-  const mover = (desde: string, hasta: string) => {
-    if (!existsSync(desde)) return;
-    mkdirSync(dirname(hasta), { recursive: true });
-    renameSync(desde, hasta);
-  };
+function publicar(plan: Plan, resultados: readonly Resultado[], veredictos: readonly Veredicto[], suite: Suite, inicio: Date): Suite {
+  const carpeta = plan.carpeta;
+  const previa = fechaPrevia(carpeta);
+  const historial = join(carpeta, HISTORIAL, marca(previa ?? inicio.toISOString()));
   for (const nombre of ['resumen.md', 'resumen.json']) mover(join(carpeta, nombre), join(historial, nombre));
+  if (!plan.agregar) {
+    for (const agente of new Set([...carpetasDeAgentes(carpeta), ...resultados.map((r) => r.agente)])) {
+      mover(join(carpeta, agente), join(historial, agente));
+    }
+  }
   resultados.forEach((r, i) => {
     const destino = join(carpeta, r.agente, r.variante);
     mover(destino, join(historial, r.agente, r.variante));
@@ -333,7 +352,10 @@ function publicar(
     cpSync(r.staging, destino, { recursive: true, filter: (desde) => !dentroDe(desde, copia) });
     writeFileSync(join(destino, 'veredicto.json'), `${JSON.stringify(veredictos[i], null, 2)}\n`);
   });
-  writeFileSync(join(carpeta, 'resumen.md'), resumenMarkdown(suite));
-  writeFileSync(join(carpeta, 'resumen.json'), `${JSON.stringify(resumenJson(suite), null, 2)}\n`);
+  const publicada = plan.agregar
+    ? suiteDeLaCarpeta(carpeta, suite, [...suite.agentes, ...plan.omitidos], previa)
+    : suite;
+  escribirResumen(carpeta, publicada);
   for (const r of resultados) rmSync(r.staging, { recursive: true, force: true });
+  return publicada;
 }

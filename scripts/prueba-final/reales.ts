@@ -12,15 +12,13 @@ import { correrProceso } from './proceso.ts';
 import type { Ejecutable } from './resolver.ts';
 
 /**
- * El proyecto de Engram de las corridas.
+ * El entorno de una corrida: el del usuario, con su propio proyecto de Engram.
  *
  * Grok y Antigravity cargan las instrucciones globales del usuario, y esas
- * instrucciones mandan a guardar memorias. Sin esto, cada corrida escribía en el
- * proyecto real del usuario.
+ * instrucciones mandan a guardar y a buscar memorias. El proyecto sale de
+ * `proyectoDeEngram`, uno por corrida: ver el porqué ahí.
  */
-export const PROYECTO_DE_ENGRAM = 'prueba-final';
-
-export const entornoDeLasCorridas = (): NodeJS.ProcessEnv => ({ ...process.env, ENGRAM_PROJECT: PROYECTO_DE_ENGRAM });
+export const entornoDeLaCorrida = (proyecto: string): NodeJS.ProcessEnv => ({ ...process.env, ENGRAM_PROJECT: proyecto });
 
 /** La primera línea que imprime un CLI con sus argumentos de versión, o null. */
 export function versionPorArgumentos(e: Ejecutable, args: readonly string[]): string | null {
@@ -37,13 +35,12 @@ const leerSiHay = (ruta: string | null): string | null => (ruta !== null && exis
 
 /** Un agente instalado: lanza su CLI, copia su transcripción y la lee. */
 export function agenteReal(def: DefinicionDeAgente, e: Ejecutable, o: { home: string; version: string | null }): Agente {
-  const env = entornoDeLasCorridas();
   return {
     id: def.id,
     lanzar: (ctx) =>
       correrProceso(e.comando, [...e.prefijo, ...def.argumentos(ctx)], {
         cwd: ctx.cwd,
-        env,
+        env: entornoDeLaCorrida(ctx.engram),
         limiteMs: ctx.limiteMin * 60_000,
       }),
     recoger: (ctx, l) => {

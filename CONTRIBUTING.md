@@ -509,3 +509,16 @@ falla. Un archivo nuevo de la prueba tiene que caer dentro de esos patrones, o
 entra a la copia y queda al alcance de los agentes. La copia se arma con lo que
 git rastrea, así que un archivo nuevo del arnés que todavía no se agregó a git no
 llega a las corridas.
+
+Una comprobación nueva o un umbral corregido se prueban primero con
+`--reevaluar` sobre la carpeta publicada, antes de gastar otra corrida.
+Recalcula cada veredicto con el código de hoy sin correr ningún agente. Lo que
+no se puede volver a medir, que es la huella del documento y el estado de los
+repositorios y de la copia, se conserva marcado. El resumen y cada veredicto
+anterior quedan en `historial/`, bajo la fecha de la reevaluación.
+
+Cada corrida guarda sus memorias en un proyecto de Engram propio, cuyo nombre
+empieza con `prueba-final` y queda anotado en el veredicto. Con un proyecto
+común, una corrida leyó lo que había guardado otra. Esos proyectos no se borran
+solos: `engram projects list` los muestra, y `engram delete project <nombre>`
+borra cada uno; con `--hard`, también sus sesiones.

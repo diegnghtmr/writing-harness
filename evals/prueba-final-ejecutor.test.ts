@@ -108,6 +108,8 @@ type Registro = {
   /** Los archivos que había en ella al lanzarlo. */
   archivos: string[];
   prompt: string;
+  /** El proyecto de Engram que recibió la corrida. */
+  engram: string;
 };
 
 type OpcionesDelFalso = {
@@ -153,6 +155,7 @@ function agenteFalso(id: string, carpeta: string, registro: Registro[], opciones
         cwd: ctx.cwd,
         archivos: existsSync(ctx.cwd) ? archivosDe(ctx.cwd) : [],
         prompt: ctx.prompt,
+        engram: ctx.engram,
       });
       opciones.antes?.(ctx);
       await new Promise((r) => setTimeout(r, 15));
@@ -201,7 +204,14 @@ const depsFalsas = (tmp: string, extra: Partial<Dependencias> = {}): Dependencia
   };
 };
 
-const plan = (e: ReturnType<typeof escenario>, agentes: Agente[], vs: Variante[], paralelo = 1, omitidos: string[] = []): Plan => ({
+const plan = (
+  e: ReturnType<typeof escenario>,
+  agentes: Agente[],
+  vs: Variante[],
+  paralelo = 1,
+  omitidos: string[] = [],
+  extra: Partial<Plan> = {},
+): Plan => ({
   carpeta: e.carpeta,
   docx: e.docx,
   mix: e.cwd,
@@ -213,6 +223,8 @@ const plan = (e: ReturnType<typeof escenario>, agentes: Agente[], vs: Variante[]
   variantes: vs,
   paralelo,
   limiteMin: 1,
+  agregar: false,
+  ...extra,
 });
 
 const algunas = () => variantes().filter((v) => ['base', 'camus', 'humanizar'].includes(v.id));
@@ -523,6 +535,66 @@ describe('los errores del propio agente', () => {
   });
 });
 
+describe('la memoria de cada corrida', () => {
+  test('cada corrida tiene su propio proyecto de Engram, y el veredicto lo anota', async () => {
+    // En la corrida completa, Grok leyó en el proyecto compartido lo que había
+    // guardado otra corrida: dejaron de ser independientes.
+    const e = escenario();
+    const registro: Registro[] = [];
+    const r = await correrSuite(plan(e, [agenteFalso('falso', e.carpeta, registro)], algunas()), depsFalsas(e.tmp));
+    const proyectos = registro.map((x) => x.engram);
+    assert.equal(new Set(proyectos).size, 3);
+    for (const x of registro) assert.equal(x.engram, `prueba-final-20261006-000000-falso-${x.variante}`);
+    for (const v of r.suite.veredictos) {
+      const publicado = JSON.parse(readFileSync(join(e.carpeta, 'falso', v.variante, 'veredicto.json'), 'utf8'));
+      assert.equal(publicado.metadatos.engram, `prueba-final-20261006-000000-falso-${v.variante}`);
+    }
+  });
+});
+
+describe('qué queda en la carpeta de la prueba', () => {
+  const un = (v: string) => variantes().filter((x) => x.id === v);
+  const fecha = (dia: number) => () => new Date(`2026-10-0${dia}T00:00:00.000Z`);
+  const carpetas = (dir: string) => readdirSync(dir, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name).sort();
+
+  test('por defecto, una sola serie: todo lo anterior pasa al historial, también lo de agentes que no corrieron', async () => {
+    // En la corrida completa, un agy/fonda de una serie anterior quedó en la
+    // raíz, y el resumen del historial contaba una corrida que no estaba ahí.
+    const e = escenario();
+    await correrSuite(plan(e, [agenteFalso('uno', e.carpeta, []), agenteFalso('dos', e.carpeta, [])], un('base')), depsFalsas(e.tmp, { ahora: fecha(6) }));
+    await correrSuite(plan(e, [agenteFalso('uno', e.carpeta, [])], un('camus')), depsFalsas(e.tmp, { ahora: fecha(7) }));
+    assert.deepEqual(carpetas(e.carpeta), ['historial', 'uno']);
+    assert.deepEqual(readdirSync(join(e.carpeta, 'uno')), ['camus']);
+    const viejo = join(e.carpeta, 'historial', '2026-10-06T00-00-00-000Z');
+    assert.deepEqual(carpetas(viejo), ['dos', 'uno']);
+    const previo = JSON.parse(readFileSync(join(viejo, 'resumen.json'), 'utf8'));
+    assert.equal(previo.veredictos.length, 2);
+    for (const v of previo.veredictos) assert.ok(existsSync(join(viejo, v.agente, v.variante, 'veredicto.json')), `${v.agente}/${v.variante}`);
+  });
+
+  test('con --agregar, quedan los agentes que no corrieron y se reemplazan solo los pares que corrieron', async () => {
+    const e = escenario();
+    await correrSuite(
+      plan(e, [agenteFalso('uno', e.carpeta, []), agenteFalso('dos', e.carpeta, [])], un('base')),
+      depsFalsas(e.tmp, { ahora: fecha(6) }),
+    );
+    writeFileSync(join(e.carpeta, 'uno', 'base', 'marca.txt'), 'de la primera serie');
+    const r = await correrSuite(
+      plan(e, [agenteFalso('uno', e.carpeta, []), agenteFalso('tres', e.carpeta, [])], un('base'), 1, [], { agregar: true }),
+      depsFalsas(e.tmp, { ahora: fecha(8) }),
+    );
+    assert.deepEqual(carpetas(e.carpeta), ['dos', 'historial', 'tres', 'uno']);
+    assert.ok(!existsSync(join(e.carpeta, 'uno', 'base', 'marca.txt')), 'el par que corrió se reemplazó');
+    assert.ok(existsSync(join(e.carpeta, 'historial', '2026-10-06T00-00-00-000Z', 'uno', 'base', 'marca.txt')), 'y el viejo pasó al historial');
+    const resumen = JSON.parse(readFileSync(join(e.carpeta, 'resumen.json'), 'utf8'));
+    assert.deepEqual(resumen.veredictos.map((v: { agente: string }) => v.agente).sort(), ['dos', 'tres', 'uno']);
+    assert.deepEqual(resumen.series, { uno: '2026-10-08T00:00:00.000Z', dos: '2026-10-06T00:00:00.000Z', tres: '2026-10-08T00:00:00.000Z' });
+    assert.equal(r.suite.veredictos.length, 3, 'el resumen junta todo lo que hay en la raíz');
+    const md = readFileSync(join(e.carpeta, 'resumen.md'), 'utf8');
+    assert.match(md, /\| dos \(serie 2026-10-06 00:00\) \|/u);
+  });
+});
+
 describe('correr solo algunos agentes', () => {
   test('el resumen dice qué agentes quedaron fuera', async () => {
     const e = escenario();
@@ -594,9 +666,18 @@ describe('el comando', () => {
   test('--help sale con 0 y muestra las opciones', () => {
     const r = correr('--help');
     assert.equal(r.status, 0);
-    for (const o of ['--dir', '--agentes', '--variantes', '--completo', '--paralelo', '--limite', '--simular']) {
+    for (const o of ['--dir', '--agentes', '--variantes', '--completo', '--paralelo', '--limite', '--simular', '--agregar', '--reevaluar']) {
       assert.ok(r.stdout.includes(o), o);
     }
+  });
+
+  test('--reevaluar sin corridas publicadas, o junto con --simular o --agregar, sale con 2', () => {
+    const e = escenario();
+    const vacia = correr('--dir', e.carpeta, '--reevaluar');
+    assert.equal(vacia.status, 2);
+    assert.match(vacia.stderr, /veredicto\.json/u);
+    assert.equal(correr('--dir', e.carpeta, '--reevaluar', '--simular').status, 2);
+    assert.equal(correr('--dir', e.carpeta, '--reevaluar', '--agregar').status, 2);
   });
 
   test('sin carpeta, sin base.docx o con una opción mal escrita, sale con 2', () => {

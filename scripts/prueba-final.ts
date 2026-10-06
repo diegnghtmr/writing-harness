@@ -35,7 +35,8 @@ import {
   type PlanDeLaCopia,
 } from './prueba-final/copia.ts';
 import { parrafosDelDocx } from './prueba-final/docx.ts';
-import { correrSuite } from './prueba-final/ejecutor.ts';
+import { correrSuite, PREFIJO_DE_ENGRAM } from './prueba-final/ejecutor.ts';
+import { reevaluar } from './prueba-final/reevaluar.ts';
 import { lineaDeTotales } from './prueba-final/resumen.ts';
 import { ErrorDeUso } from './prueba-final/errores.ts';
 import { completo, fragmento, type Texto } from './prueba-final/fragmento.ts';
@@ -44,7 +45,6 @@ import {
   agenteReal,
   archivosRastreados,
   estadoGit,
-  PROYECTO_DE_ENGRAM,
   verificarConElArnes,
   versionPorArgumentos,
 } from './prueba-final/reales.ts';
@@ -90,7 +90,14 @@ de uso del arnés, y comprueba cada corrida. No forma parte de npm test: llama a
 servicios externos, tarda y gasta cuota.
 
   --dir <carpeta>      La carpeta con base.docx. Los resultados quedan ahí, y lo
-                       que había de una serie anterior pasa a historial/.
+                       que había de una serie anterior pasa entero a historial/:
+                       la carpeta guarda una sola serie.
+  --agregar            Suma esta serie a lo que ya hay: quedan los agentes que no
+                       corren, se reemplazan solo los pares que corren y el
+                       resumen junta todo, con la fecha de la serie de cada agente.
+  --reevaluar          No corre ningún agente: vuelve a juzgar las corridas ya
+                       publicadas en <carpeta> con las comprobaciones de hoy, e
+                       imprime qué cambió en cada una.
   --agentes <lista>    Separados por coma. Por defecto: ${Object.keys(AGENTES).join(',')}.
   --variantes <lista>  Por identificador o por nombre de skill. Por defecto, todas:
 ${envolver(`${TODAS.map((v) => v.id).join(', ')}.`, 23)}
@@ -106,7 +113,8 @@ ${envolver(`${TODAS.map((v) => v.id).join(', ')}.`, 23)}
 Cada corrida usa una carpeta propia en el directorio temporal, y el agente
 trabaja en una copia dentro de ella: las instrucciones de la carpeta que
 contiene a <carpeta> y lo que git rastrea del arnés, sin el código de esta
-prueba. Los agentes corren con ENGRAM_PROJECT=${PROYECTO_DE_ENGRAM}, y los
+prueba. Cada corrida tiene su propio proyecto de Engram,
+${PREFIJO_DE_ENGRAM}-<serie>-<agente>-<variante>, anotado en su veredicto, y los
 resultados se publican al terminar la serie.
 
 Una corrida que el agente no terminó, por una cuota agotada, una sesión vencida
@@ -125,6 +133,8 @@ type Opciones = {
   paralelo: number;
   limite: number;
   simular: boolean;
+  agregar: boolean;
+  reevaluar: boolean;
   ayuda: boolean;
 };
 
@@ -139,6 +149,8 @@ function leerOpciones(argv: readonly string[]): Opciones {
     paralelo: PARALELO_POR_DEFECTO,
     limite: LIMITE_POR_DEFECTO,
     simular: false,
+    agregar: false,
+    reevaluar: false,
     ayuda: false,
   };
   for (let i = 0; i < argv.length; i++) {
@@ -155,9 +167,12 @@ function leerOpciones(argv: readonly string[]): Opciones {
     else if (arg === '--paralelo') o.paralelo = enteroPositivo(arg, valor());
     else if (arg === '--limite') o.limite = enteroPositivo(arg, valor());
     else if (arg === '--simular') o.simular = true;
+    else if (arg === '--agregar') o.agregar = true;
+    else if (arg === '--reevaluar') o.reevaluar = true;
     else if (arg === '--help' || arg === '-h') o.ayuda = true;
     else throw new ErrorDeUso(`opción desconocida: ${arg}`);
   }
+  if (o.reevaluar && (o.simular || o.agregar)) throw new ErrorDeUso('--reevaluar no corre nada: no se combina con --simular ni con --agregar');
   return o;
 }
 
@@ -251,6 +266,7 @@ function imprimirPlan(
     cwd,
     limiteMin: o.limite,
     staging,
+    engram: `${PREFIJO_DE_ENGRAM}-<serie>-<agente>-<variante>`,
   };
   const lineas = [
     o.simular ? 'Prueba final: simulación. No corre ningún agente ni escribe nada.' : 'Prueba final.',
@@ -266,7 +282,7 @@ function imprimirPlan(
     '',
     ...lineasDeLaCopia(copia, mix, cwd),
     '',
-    `Agentes, trabajando en la copia con ENGRAM_PROJECT=${PROYECTO_DE_ENGRAM}:`,
+    `Agentes, trabajando en la copia con ENGRAM_PROJECT=${PREFIJO_DE_ENGRAM}-<serie>-<agente>-<variante>:`,
     ...agentes.flatMap(({ def, ejecutable }) =>
       ejecutable === null
         ? [`  ${def.id}: no se encontró en el PATH`]
@@ -279,6 +295,32 @@ function imprimirPlan(
   console.log(lineas.join('\n'));
 }
 
+/**
+ * `--reevaluar`: vuelve a juzgar lo publicado en la carpeta, sin correr ningún
+ * agente, e imprime cómo estaba y cómo queda cada corrida.
+ */
+function reevaluarCarpeta(carpeta: string): 0 | 1 {
+  if (!existsSync(carpeta) || !statSync(carpeta).isDirectory()) throw new ErrorDeUso(`la carpeta no existe: ${carpeta}`);
+  const mix = dirname(carpeta);
+  const { suite, codigo, cambios } = reevaluar(
+    { carpeta, mix, reales: [...new Set([mix, REPO_ROOT.replace(/[\\/]$/u, '')])], conocidos: Object.keys(AGENTES) },
+    {
+      verificar: verificarConElArnes,
+      parsear: (agente, _variante, a) => AGENTES[agente]?.parsear(a.stdout, a.transcripcion, a.log, a.stderr) ?? null,
+      ahora: () => new Date(),
+      avisar: (l) => console.log(l),
+    },
+  );
+  const ancho = Math.max(...cambios.map((c) => `${c.agente}/${c.variante}`.length));
+  console.log(`Reevaluación de ${carpeta}, sin correr ningún agente.\n`);
+  for (const c of cambios) {
+    const igual = c.antes === c.despues ? '  (igual)' : '';
+    console.log(`${`${c.agente}/${c.variante}`.padEnd(ancho)}  ${c.antes}  ->  ${c.despues}${igual}`);
+  }
+  console.log(`\n${lineaDeTotales(suite.veredictos)}. Resumen en ${join(carpeta, 'resumen.md')}`);
+  return codigo;
+}
+
 async function main(argv: readonly string[]): Promise<number> {
   const o = leerOpciones(argv);
   if (o.ayuda) {
@@ -286,6 +328,7 @@ async function main(argv: readonly string[]): Promise<number> {
     return 0;
   }
   if (o.dir === undefined) throw new ErrorDeUso('falta --dir <carpeta>');
+  if (o.reevaluar) return reevaluarCarpeta(resolve(o.dir));
   const agentes = elegirAgentes(o.agentes);
   const vs = elegirVariantes(o.variantes, TODAS);
   const carpeta = resolve(o.dir);
@@ -319,6 +362,7 @@ async function main(argv: readonly string[]): Promise<number> {
       variantes: vs,
       paralelo: o.paralelo,
       omitidos: omitidos(agentes),
+      agregar: o.agregar,
       limiteMin: o.limite,
     },
     {

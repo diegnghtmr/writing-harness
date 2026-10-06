@@ -30,6 +30,8 @@ export type Comprobacion = {
   estado: Estado;
   motivo: string;
   detalle?: unknown;
+  /** Al volver a juzgar, la que no se pudo recalcular y quedó como la dejó la corrida. */
+  conservada?: boolean;
 };
 
 export const NOMBRES: Record<number, string> = {

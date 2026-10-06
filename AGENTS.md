@@ -464,8 +464,10 @@ sobre un mismo texto, una vez por cada variante de uso del arnés, y comprueba d
 forma automática el flujo de cada corrida.
 
 ```bash
-node scripts/prueba-final.ts --dir <carpeta>              # la serie entera
-node scripts/prueba-final.ts --dir <carpeta> --simular    # el plan, sin correr nada
+node scripts/prueba-final.ts --dir <carpeta>                          # la serie entera
+node scripts/prueba-final.ts --dir <carpeta> --simular                # el plan, sin correr nada
+node scripts/prueba-final.ts --dir <carpeta> --agentes agy --agregar  # suma un agente a lo publicado
+node scripts/prueba-final.ts --dir <carpeta> --reevaluar              # vuelve a juzgar lo publicado
 ```
 
 La carpeta tiene que contener `base.docx`, que la prueba no modifica nunca y
@@ -491,9 +493,11 @@ Cada corrida trabaja en una carpeta propia del directorio temporal, y los
 resultados se publican en la carpeta de la prueba recién al terminar la serie,
 uno por agente y variante. El motivo es concreto: con una carpeta compartida, un
 agente leyó lo que habían dejado los otros y entregó una salida ajena byte a
-byte. Los agentes reciben además `ENGRAM_PROJECT=prueba-final`, porque cargan las
-instrucciones globales del usuario y, sin esa variable, guardaban memorias en su
-proyecto real.
+byte. Cada corrida recibe además su propio proyecto de Engram,
+`prueba-final-<serie>-<agente>-<variante>`, anotado en su veredicto. Los agentes
+cargan las instrucciones globales del usuario: sin proyecto propio guardaban
+memorias en su proyecto real, y con uno común a toda la prueba una corrida leyó
+lo que había guardado otra.
 
 El agente tampoco trabaja en mix. Trabaja en una copia que se arma dentro de la
 carpeta de su corrida, con las instrucciones de mix y lo que git rastrea del
@@ -502,10 +506,18 @@ quedan fuera de esa copia. La razón también es concreta: trabajando en mix, un
 agente encontró el código que juzga las corridas, lo usó para revisar su propia
 salida antes de entregarla, y su veredicto dejó de medir las skills.
 
-Volver a correr no mezcla resultados. Lo que había de una serie anterior se
-mueve a `historial/`, bajo la fecha de esa serie, y no se borra. La matriz de
-agente por variante, con cada falla y su motivo, se escribe en la carpeta como
-`resumen.md`, para leerla, y como `resumen.json`, para procesarla.
+Volver a correr no mezcla resultados. La carpeta guarda una sola serie: lo que
+había, de todos los agentes y con su resumen, se mueve a `historial/`, bajo la
+fecha de esa serie, y no se borra. Con `--agregar`, en cambio, la serie se suma a
+la que hay: quedan los agentes que no corren, se reemplazan solo los pares que
+corren y el resumen junta todo, con la fecha de la serie de cada agente. La
+matriz de agente por variante, con cada falla y su motivo, se escribe en la
+carpeta como `resumen.md`, para leerla, y como `resumen.json`, para procesarla.
+
+Con `--reevaluar` no corre ningún agente. Vuelve a juzgar las corridas
+publicadas en la carpeta con las comprobaciones de hoy, imprime cómo estaba y
+cómo queda cada una, y deja lo anterior en el historial. Lo que no se puede
+mirar después de una corrida se conserva como quedó.
 
 ## Requisitos
 

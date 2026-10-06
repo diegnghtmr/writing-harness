@@ -35,6 +35,8 @@ export type Metadatos = {
   fin: string;
   /** Cuántos archivos tenía la copia en que trabajó el agente, y su huella: dice qué arnés vio. */
   copia: { archivos: number; huella: string };
+  /** El proyecto de Engram de la corrida, para encontrar y borrar lo que guardó. */
+  engram: string;
 };
 
 export type Veredicto = {
@@ -43,6 +45,10 @@ export type Veredicto = {
   estado: EstadoDeCorrida;
   /** Por qué el agente no terminó la corrida, en una frase corta, o null si la terminó. */
   error: string | null;
+  /** La fecha de la serie a la que pertenece la corrida. Con `--agregar`, una raíz junta series distintas. */
+  serie: string;
+  /** Cuándo se volvió a juzgar con `--reevaluar`, si se volvió a juzgar. */
+  reevaluado?: string;
   comprobaciones: Comprobacion[];
   metadatos: Metadatos;
 };
@@ -55,9 +61,14 @@ export type Suite = {
   agentes: string[];
   /** Los agentes conocidos que no corrieron esta vez, porque `--agentes` no los pidió. */
   omitidos: string[];
+  /** La fecha de la serie de cada agente. */
+  series: Record<string, string>;
   variantes: string[];
   veredictos: Veredicto[];
 };
+
+/** Una fecha de serie corta, para la cabecera de una columna. */
+const corta = (fecha: string) => fecha.slice(0, 16).replace('T', ' ');
 
 const numerosCon = (v: Veredicto, estado: Juicio) =>
   v.comprobaciones
@@ -123,6 +134,10 @@ export function resumenMarkdown(s: Suite): string {
       : `cambió: sha256 ${s.docx.antes} antes y ${s.docx.despues} después`;
   const buscar = (agente: string, variante: string) =>
     s.veredictos.find((v) => v.agente === agente && v.variante === variante);
+  // Con una sola serie, su fecha ya está arriba. Con varias, cada columna dice la suya.
+  const varias = new Set(s.agentes.map((a) => s.series[a])).size > 1;
+  const columna = (a: string) => (varias && s.series[a] ? `${a} (serie ${corta(s.series[a] as string)})` : a);
+  const lineaDeSeries = varias ? [`- Series: ${s.agentes.map((a) => `${a} del ${s.series[a] ?? 'sin fecha'}`).join(', ')}.`] : [];
   return [
     '# Prueba final con agentes',
     '',
@@ -131,9 +146,10 @@ export function resumenMarkdown(s: Suite): string {
     `- Texto: ${s.texto.modo}, ${s.texto.palabras} palabras (${secciones})`,
     `- base.docx: ${docx}`,
     `- Agentes: ${s.agentes.join(', ')}.${s.omitidos.length > 0 ? ` Quedaron fuera: ${s.omitidos.join(', ')}.` : ''}`,
+    ...lineaDeSeries,
     `- Corridas: ${s.veredictos.length}. Pasan ${t.pasa}, con aviso ${t.aviso}, con falla ${t.falla}, con error del agente ${t.error}.`,
     '',
-    `| Variante | ${s.agentes.join(' | ')} |`,
+    `| Variante | ${s.agentes.map(columna).join(' | ')} |`,
     `|---|${s.agentes.map(() => '---').join('|')}|`,
     ...s.variantes.map((variante) => `| ${variante} | ${s.agentes.map((a) => celda(buscar(a, variante))).join(' | ')} |`),
     '',
