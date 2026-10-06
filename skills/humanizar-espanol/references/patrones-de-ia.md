@@ -370,13 +370,13 @@ suprime el apartado.)
 Antes: «¡Excelente pregunta! Tienes toda la razón en que es un tema complejo. Es
 un punto magnífico sobre los factores económicos.»
 
-Después: «Los factores económicos que mencionas son pertinentes aquí.»
+Después: «Los factores económicos mencionados son pertinentes aquí.»
 
 ### 27. Frases de relleno
 
 Sustituciones: «con el fin de lograr esto» → «para esto»; «debido al hecho de
 que llovía» → «porque llovía»; «en este momento» → «ahora»; «en el caso de que
-necesites ayuda» → «si necesitas ayuda»; «tiene la capacidad de procesar» →
+necesite ayuda» → «si necesita ayuda»; «tiene la capacidad de procesar» →
 «puede procesar»; «es importante señalar que los datos muestran» → «los datos
 muestran».
 
