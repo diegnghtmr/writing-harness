@@ -120,8 +120,9 @@ describe('el resumen en Markdown', () => {
     assert.match(resumenMarkdown(suite(vs, 'xyz')), /base\.docx.*cambió/u);
   });
 
-  test('la leyenda nombra las diez comprobaciones', () => {
-    for (let n = 1; n <= 10; n++) assert.match(md, new RegExp(`^${n}\\. `, 'mu'), `falta la ${n}`);
+  test('la leyenda nombra las once comprobaciones, con los datos nuevos al final', () => {
+    for (let n = 1; n <= 11; n++) assert.match(md, new RegExp(`^${n}\\. `, 'mu'), `falta la ${n}`);
+    assert.match(md, /^11\. datos nuevos$/mu);
   });
 
   test('sin fallas, lo dice en vez de dejar la sección vacía', () => {

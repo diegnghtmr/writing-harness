@@ -133,14 +133,55 @@ const RUTA_DE_SKILL = /skills[\\/]+([^\\/\s"'`]+)[\\/]+SKILL\.md/giu;
  * leyó, y el contenido de una skill cargada nombra a otras.
  */
 export function skillsCargadas(t: Transcripcion): string[] {
-  const nombres = new Set<string>(t.skillsInvocadas);
+  const { completas, parciales } = lecturasDeSkills(t);
+  return [...completas, ...parciales].sort();
+}
+
+/** Un nombre de skill de verdad: un comodín como `*` en una búsqueda no es ninguna. */
+const NOMBRE_DE_SKILL = /^[a-z0-9][a-z0-9-]*$/u;
+
+/** Los campos con que una herramienta lee un tramo y no el archivo entero. */
+const CAMPOS_DE_TRAMO = ['offset', 'limit', 'view_range', 'StartLine', 'EndLine', 'start_line', 'end_line', 'startLine', 'endLine'];
+
+/** Los campos con que una herramienta busca dentro de un archivo en vez de leerlo. */
+const CAMPOS_DE_BUSQUEDA = ['pattern', 'query', 'regex'];
+
+/** Un comando que busca o recorta en vez de leer entero. */
+const COMANDO_PARCIAL = /select-string|\bgrep\b|\brg\b|findstr|select-object\s+-(?:first|last|skip)|-totalcount\b|-tail\b|\bhead\b|\btail\b|\bsed\s+-n\b/iu;
+
+function esParcial(l: Llamada): boolean {
+  const e = l.entrada !== null && typeof l.entrada === 'object' ? (l.entrada as Record<string, unknown>) : {};
+  if (CAMPOS_DE_TRAMO.some((c) => e[c] !== undefined && e[c] !== null)) return true;
+  if (CAMPOS_DE_BUSQUEDA.some((c) => typeof e[c] === 'string')) return true;
+  return l.comando !== null && COMANDO_PARCIAL.test(l.comando);
+}
+
+/**
+ * Qué skills se leyeron enteras y cuáles solo en parte.
+ *
+ * Una lectura con desplazamiento, límite, rango o líneas de inicio y fin es
+ * parcial, y una búsqueda dentro de la skill es una consulta. En la corrida
+ * completa, Grok leyó spanish-writing con un límite de doscientas o
+ * cuatrocientas líneas, y en otra corrida leyó cincuenta líneas de atenas para
+ * consultar algo: las dos cosas salían como skills cargadas. La herramienta de
+ * skills y el registro del propio agente cargan la skill entera. Una skill
+ * leída entera alguna vez no figura entre las parciales.
+ */
+export function lecturasDeSkills(t: Transcripcion): { completas: string[]; parciales: string[] } {
+  const completas = new Set<string>(t.skillsInvocadas);
+  const parciales = new Set<string>();
   for (const l of t.llamadas) {
-    if (l.skill !== null) nombres.add(l.skill);
+    if (l.skill !== null) completas.add(l.skill);
+    const parcial = esParcial(l);
     for (const s of cadenasDe(l.entrada)) {
-      for (const m of s.matchAll(RUTA_DE_SKILL)) nombres.add((m[1] as string).toLowerCase());
+      for (const m of s.matchAll(RUTA_DE_SKILL)) {
+        const nombre = (m[1] as string).toLowerCase();
+        if (!NOMBRE_DE_SKILL.test(nombre)) continue;
+        (parcial ? parciales : completas).add(nombre);
+      }
     }
   }
-  return [...nombres].sort();
+  return { completas: [...completas].sort(), parciales: [...parciales].filter((n) => !completas.has(n)).sort() };
 }
 
 export const comandos = (t: Transcripcion): Llamada[] => t.llamadas.filter((l) => l.clase === 'shell');

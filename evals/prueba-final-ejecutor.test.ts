@@ -168,7 +168,12 @@ function agenteFalso(id: string, carpeta: string, registro: Registro[], opciones
       const v = porStaging.get(ctx.staging) as Variante;
       const salida = join(ctx.staging, 'salida.md');
       const skills = ['redactar-espanol', 'spanish-writing', ...(v.skill ? [v.skill] : [])];
-      const linea = v.clase === 'base' ? 'No se aplicó ningún tono.' : `Capa: \`${v.skill}\`.`;
+      const linea =
+        v.clase === 'base'
+          ? 'No se aplicó ningún tono, porque el pedido es corregir.'
+          : v.clase === 'tono'
+            ? `Tono \`${v.skill}\`, porque se pidió.`
+            : `Pasada \`${v.skill}\`; no se aplicó ningún tono, porque la forma es del autor.`;
       return {
         ...vacia(),
         respuesta: opciones.fallo?.sinRespuesta ? '' : `Quedó en \`${salida}\`. ${linea}`,
@@ -259,7 +264,7 @@ describe('una serie con un agente falso', () => {
       'verificador.txt',
     ]);
     const v = JSON.parse(readFileSync(join(e.carpeta, 'falso', 'camus', 'veredicto.json'), 'utf8'));
-    assert.equal(v.comprobaciones.length, 10);
+    assert.equal(v.comprobaciones.length, 11);
     assert.equal(v.metadatos.vencido, false);
     assert.match(readFileSync(join(e.carpeta, 'falso', 'camus', 'prompt.txt'), 'utf8'), /^Reescribe el texto de `/u);
   });
@@ -406,16 +411,33 @@ describe('lo que el ejecutor tiene que cazar', () => {
     assert.ok(c10?.motivo.includes(e.cwd.replace(/\\/gu, '/')), c10?.motivo);
   });
 
-  test('la comprobación 3 mide con el verificador del ejecutor la salida de la corrida', async () => {
+  test('el verificador del ejecutor mide la salida con las opciones de la variante, y la respuesta con la base', async () => {
     const e = escenario();
-    const medidos: string[] = [];
+    const medidos: [string, readonly string[]][] = [];
     const registro: Registro[] = [];
-    const verificar = (archivo: string) => {
-      medidos.push(archivo);
-      return { codigo: 0, salida: 'salida.md: sin hallazgos' };
+    const verificar = (archivo: string, banderas: readonly string[]) => {
+      medidos.push([archivo, banderas]);
+      return { codigo: 0, salida: 'sin hallazgos' };
     };
-    await correrSuite(plan(e, [agenteFalso('falso', e.carpeta, registro)], algunas().slice(0, 1)), depsFalsas(e.tmp, { verificar }));
-    assert.deepEqual(medidos, [join(registro[0]?.staging ?? '', 'salida.md')]);
+    const camus = variantes().filter((x) => x.id === 'camus');
+    await correrSuite(plan(e, [agenteFalso('falso', e.carpeta, registro)], camus), depsFalsas(e.tmp, { verificar }));
+    const staging = registro[0]?.staging ?? '';
+    assert.deepEqual(medidos, [
+      [join(staging, 'salida.md'), camus[0]?.banderas],
+      [join(staging, 'respuesta.txt'), []],
+    ]);
+  });
+
+  test('un error de la base en la respuesta avisa en la respuesta, con la regla', async () => {
+    const e = escenario();
+    const verificar = (archivo: string) =>
+      archivo.endsWith('respuesta.txt')
+        ? { codigo: 1, salida: 'respuesta.txt:1:1  error  tuteo  [spanish-writing §9.2]\n\n1 error(es), 0 advertencia(s)' }
+        : { codigo: 0, salida: 'sin hallazgos' };
+    const r = await correrSuite(plan(e, [agenteFalso('falso', e.carpeta, [])], algunas().slice(0, 1)), depsFalsas(e.tmp, { verificar }));
+    const c6 = comprobacion(r, 6);
+    assert.equal(c6?.estado, 'aviso');
+    assert.match(c6?.motivo ?? '', /tuteo/u);
   });
 
   test('volver a correr mueve lo anterior a historial/ en vez de mezclarlo o borrarlo', async () => {
@@ -463,6 +485,7 @@ describe('los errores del propio agente', () => {
       8: 'sin evaluar',
       9: 'pasa',
       10: 'pasa',
+      11: 'sin evaluar',
     });
     assert.equal(r.codigo, 1, 'una corrida que no terminó no es una serie limpia');
     const md = readFileSync(join(e.carpeta, 'resumen.md'), 'utf8');

@@ -35,6 +35,7 @@ import {
   cambiosDeGit,
   conIdenticas,
   datosConservados,
+  datosNuevos,
   dentroDe,
   docxIntacto,
   errorDelAgente,
@@ -54,7 +55,7 @@ import { CARPETA_DE_LA_COPIA, cambiosDeLaCopia, construirCopia, huellaDeLaCopia,
 import type { Texto } from './fragmento.ts';
 import type { Lanzamiento } from './proceso.ts';
 import { codigoDeSalida, resumenJson, resumenMarkdown, type Metadatos, type Suite, type Veredicto } from './resumen.ts';
-import { escrituras, skillsCargadas, vacia, type Transcripcion } from './transcripcion.ts';
+import { escrituras, lecturasDeSkills, vacia, type Transcripcion } from './transcripcion.ts';
 import { promptDe } from './prompts.ts';
 import type { Variante } from './variantes.ts';
 
@@ -197,15 +198,19 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     writeFileSync(join(staging, 'verificador.txt'), verificacion?.salida ?? 'No se midió: no hay una salida legible.\n');
 
     const error = errorDelAgente(t, l);
+    const lecturas = lecturasDeSkills(t);
+    // La respuesta también es un texto en español: se mide con la base sola.
+    const respondio = t.respuesta !== null && t.respuesta.trim() !== '';
+    const medicionDeLaRespuesta = respondio ? deps.verificar(join(staging, 'respuesta.txt'), []) : null;
     const medidas = [
       docxIntacto(huellaAntes, huellaDespues),
       salidaLegible(bytes),
       verificadorLimpio(verificacion),
-      skillsDeLaVariante(variante, skillsCargadas(t)),
-      agenteMidio(variante, t),
-      respuestaCorrecta(variante, t.respuesta, texto, salida),
+      skillsDeLaVariante(variante, lecturas.completas, lecturas.parciales),
+      agenteMidio(variante, t, { staging, copia }),
+      respuestaCorrecta(variante, t.respuesta, texto, salida, medicionDeLaRespuesta),
       datosConservados(plan.texto.texto, texto),
-      extensionRazonable(plan.texto.texto, texto),
+      extensionRazonable(plan.texto.texto, texto, variante.id),
       repositoriosIntactos(gitAntes, gitDespues, escrituras(t), {
         staging,
         raices: plan.raicesGit,
@@ -215,6 +220,7 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
         propias,
       }),
       aislamiento(t, { staging, carpeta: plan.carpeta, mix: plan.mix, reales: plan.raicesGit }),
+      datosNuevos(plan.texto.texto, texto),
     ];
     // Una corrida que el agente no terminó no se juzga por lo que no llegó a hacer.
     const comprobaciones = error === null ? medidas : sinTerminar(medidas, error);

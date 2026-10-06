@@ -11,11 +11,12 @@
 
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
-import { anclasDe, faltantes, numerosDe, numerosEnLetras } from '../scripts/prueba-final/anclas.ts';
+import { anclasDe, decadasDe, faltantes, numerosDe, numerosEnLetras } from '../scripts/prueba-final/anclas.ts';
 import {
   RAZON_AVISO_MAX,
   RAZON_AVISO_MIN,
   RAZON_FALLA_MAX,
+  RAZON_FALLA_MAX_POR_VARIANTE,
   RAZON_FALLA_MIN,
   SHINGLE_DE_REPETICION,
   DEPENDEN_DE_TERMINAR,
@@ -24,6 +25,7 @@ import {
   cambiosDeGit,
   conIdenticas,
   datosConservados,
+  datosNuevos,
   docxIntacto,
   errorDelAgente,
   estadoDe,
@@ -37,7 +39,7 @@ import {
   skillsDeLaVariante,
   verificadorLimpio,
 } from '../scripts/prueba-final/comprobaciones.ts';
-import { llamada, vacia, type Transcripcion } from '../scripts/prueba-final/transcripcion.ts';
+import { lecturasDeSkills, llamada, vacia, type Transcripcion } from '../scripts/prueba-final/transcripcion.ts';
 import { variantes } from '../scripts/prueba-final/variantes.ts';
 
 const v = (id: string) => variantes().find((x) => x.id === id) ?? assert.fail(id);
@@ -115,6 +117,63 @@ describe('4. las skills de la variante', () => {
     assert.equal(skillsDeLaVariante(v('humanizar'), [...base, 'humanizar-espanol']).estado, 'pasa');
     assert.equal(skillsDeLaVariante(v('humanizar'), [...base, 'humanizar-espanol', 'han-writing']).estado, 'aviso');
   });
+
+  test('una skill pedida leída solo en parte avisa: lectura parcial', () => {
+    // Grok leyó spanish-writing con un límite de doscientas o cuatrocientas
+    // líneas en seis corridas, y nunca entera.
+    const c = skillsDeLaVariante(v('camus'), ['redactar-espanol', 'camus-writing'], ['spanish-writing']);
+    assert.equal(c.estado, 'aviso');
+    assert.match(c.motivo, /lectura parcial de spanish-writing/u);
+  });
+
+  test('una skill que no se pidió, leída en parte, es una consulta y no una carga', () => {
+    // Grok leyó cincuenta líneas de atenas en la corrida de dotcsv, y salía
+    // como si hubiera cargado otro tono.
+    const c = skillsDeLaVariante(v('dotcsv'), [...base, 'dotcsv-writing'], ['atenas-writing']);
+    assert.equal(c.estado, 'pasa', c.motivo);
+    assert.equal(skillsDeLaVariante(v('base'), base, ['camus-writing']).estado, 'pasa');
+  });
+});
+
+describe('las lecturas de una skill, enteras o en parte', () => {
+  const ruta = (s: string) => `C:\\Users\\p\\.agents\\skills\\${s}\\SKILL.md`;
+  const con = (...ls: ReturnType<typeof llamada>[]): Transcripcion => ({ ...vacia(), llamadas: ls });
+
+  test('con desplazamiento, límite, rango o líneas de inicio y fin, es parcial', () => {
+    const t = con(
+      llamada('read_file', { target_file: ruta('spanish-writing'), limit: 200 }),
+      llamada('read_file', { target_file: ruta('atenas-writing'), offset: 170, limit: 50 }),
+      llamada('view', { path: ruta('han-writing'), view_range: [1, 80] }),
+      llamada('view_file', { AbsolutePath: ruta('fonda-writing'), StartLine: 801 }),
+      llamada('view_file', { AbsolutePath: ruta('camus-writing'), StartLine: 1, EndLine: 40 }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), {
+      completas: [],
+      parciales: ['atenas-writing', 'camus-writing', 'fonda-writing', 'han-writing', 'spanish-writing'],
+    });
+  });
+
+  test('una búsqueda dentro de una skill es una consulta', () => {
+    const t = con(llamada('grep', { pattern: 'verificador', path: ruta('detectar-ia-espanol') }));
+    assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: ['detectar-ia-espanol'] });
+  });
+
+  test('entera, por la herramienta de skills o por el registro del agente', () => {
+    const t = {
+      ...con(llamada('read_file', { target_file: ruta('redactar-espanol') }), llamada('skill', { skill: 'camus-writing' })),
+      skillsInvocadas: ['spanish-writing'],
+    };
+    assert.deepEqual(lecturasDeSkills(t).completas, ['camus-writing', 'redactar-espanol', 'spanish-writing']);
+  });
+
+  test('leída entera alguna vez no es parcial, y un comodín no es una skill', () => {
+    const t = con(
+      llamada('read_file', { target_file: ruta('spanish-writing'), limit: 200 }),
+      llamada('read_file', { target_file: ruta('spanish-writing') }),
+      llamada('run_terminal_command', { command: 'Select-String -Path "$env:USERPROFILE\\.grok\\skills\\*\\SKILL.md" -Pattern x' }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: ['spanish-writing'], parciales: [] });
+  });
 });
 
 describe('5. el agente midió', () => {
@@ -151,6 +210,74 @@ describe('5. el agente midió', () => {
       'aviso',
     );
   });
+
+  describe('con qué verificador midió', () => {
+    const STAGING = 'C:\\temp\\pf-1';
+    const ctx = { staging: STAGING, copia: `${STAGING}\\mix` };
+    const REAL = 'C:\\r\\mix\\writing-harness';
+    const midio = (...cs: string[]) => agenteMidio(v('base'), conComandos(...cs), ctx);
+
+    test('con el de su copia, por ruta relativa, absoluta o cambiando de carpeta, pasa', () => {
+      for (const c of [
+        'node writing-harness/src/cli.ts C:\\temp\\pf-1\\salida.md',
+        'node .\\writing-harness\\src\\cli.ts "C:\\temp\\pf-1\\salida.md"',
+        `node 'C:\\temp\\pf-1\\mix\\writing-harness\\src\\cli.ts' 'C:\\temp\\pf-1\\salida.md'`,
+        'cmd /c "node writing-harness\\src\\cli.ts C:\\temp\\pf-1\\salida.md"',
+        'Set-Location "C:\\temp\\pf-1\\mix\\writing-harness"; node src/cli.ts "C:\\temp\\pf-1\\salida.md"',
+      ]) {
+        assert.equal(midio(c).estado, 'pasa', c);
+      }
+    });
+
+    test('si todas las mediciones usaron el verificador real, fuera de su copia, avisa', () => {
+      // Cinco corridas de Grok entraron al arnés real con Set-Location y midieron desde ahí.
+      const c = midio(`Set-Location "${REAL}"; node src/cli.ts "C:\\temp\\pf-1\\salida.md"`);
+      assert.equal(c.estado, 'aviso');
+      assert.match(c.motivo, /midió con el verificador real, fuera de su copia/u);
+      assert.equal(midio(`node ${REAL}\\src\\cli.ts s.md`).estado, 'aviso');
+    });
+
+    test('un intento que no podía andar no cuenta como medición', () => {
+      // `node src/cli.ts` desde la raíz de la copia no encuentra nada: el verificador está en writing-harness/.
+      assert.equal(midio('node src/cli.ts s.md', `Set-Location "${REAL}"; node src/cli.ts s.md`).estado, 'aviso');
+      assert.equal(midio('node src/cli.ts s.md', 'Set-Location "C:\\temp\\pf-1\\mix\\writing-harness"; node src/cli.ts s.md').estado, 'pasa');
+      assert.equal(midio('node src/cli.ts s.md').estado, 'falla');
+    });
+
+    test('la carpeta de trabajo que trae la herramienta cuenta', () => {
+      const conCwd = (cwd: string, comando: string): Transcripcion => ({
+        ...vacia(),
+        llamadas: [llamada('run_command', { CommandLine: comando, Cwd: cwd }, 0)],
+      });
+      assert.equal(agenteMidio(v('base'), conCwd(`${STAGING}\\mix`, 'node writing-harness/src/cli.ts s.md'), ctx).estado, 'pasa');
+      assert.equal(agenteMidio(v('base'), conCwd(REAL, 'node src/cli.ts s.md'), ctx).estado, 'aviso');
+    });
+  });
+
+  describe('sin ninguna medición', () => {
+    const sinMedir = (respuesta: string): Transcripcion => ({ ...vacia(), respuesta });
+
+    test('si la respuesta lo admite, falla diciendo que no midió y lo dijo', () => {
+      for (const r of ['No pude medir el texto con el verificador.', 'El texto no pasó por el verificador de las skills.']) {
+        const c = agenteMidio(v('base'), sinMedir(r));
+        assert.equal(c.estado, 'falla', r);
+        assert.match(c.motivo, /no midió y lo dijo/u, r);
+      }
+    });
+
+    test('si la respuesta afirma una medición que no corrió, falla y es grave', () => {
+      for (const r of ['El verificador cerró sin hallazgos.', 'Verificación completada: 0 errores.', 'El texto quedó medido.']) {
+        const c = agenteMidio(v('base'), sinMedir(r));
+        assert.equal(c.estado, 'falla', r);
+        assert.match(c.motivo, /^grave: afirma una medición que no corrió/u, r);
+        assert.equal((c.detalle as { grave: boolean }).grave, true);
+      }
+    });
+
+    test('si no dice nada de medir, falla como siempre', () => {
+      assert.match(agenteMidio(v('base'), sinMedir('Listo.')).motivo, /no corrió el verificador sobre ningún texto/u);
+    });
+  });
 });
 
 describe('6. la respuesta', () => {
@@ -164,13 +291,45 @@ describe('6. la respuesta', () => {
   });
 
   test('un tono se nombra por su identificador o por su skill', () => {
-    assert.equal(respuestaCorrecta(v('camus'), 'En salida.md, con camus-writing.', texto, SALIDA).estado, 'pasa');
-    assert.equal(respuestaCorrecta(v('adria-sola'), 'En salida.md, tono Adrià Solà.', texto, SALIDA).estado, 'pasa');
+    assert.equal(respuestaCorrecta(v('camus'), 'En salida.md, con camus-writing, porque se pidió.', texto, SALIDA).estado, 'pasa');
+    assert.equal(respuestaCorrecta(v('adria-sola'), 'En salida.md, tono Adrià Solà, a pedido suyo.', texto, SALIDA).estado, 'pasa');
     assert.equal(respuestaCorrecta(v('camus'), 'En salida.md, con fonda.', texto, SALIDA).estado, 'falla');
   });
 
   test('humanizar se nombra', () => {
-    assert.equal(respuestaCorrecta(v('humanizar'), 'Lo humanicé; está en salida.md.', texto, SALIDA).estado, 'pasa');
+    const r = 'Lo humanicé, sin tono porque la forma es del autor; está en salida.md.';
+    assert.equal(respuestaCorrecta(v('humanizar'), r, texto, SALIDA).estado, 'pasa');
+  });
+
+  test('la línea del tono sin su porqué avisa', () => {
+    // La skill pide decir el tono y por qué. Ocho de quince respuestas de
+    // Copilot dijeron solo cuál.
+    const sinPorque = respuestaCorrecta(v('camus'), 'Texto reescrito con el tono `camus-writing` y guardado en:\nC:\\temp\\pf-1\\salida.md', texto, SALIDA);
+    assert.equal(sinPorque.estado, 'aviso');
+    assert.match(sinPorque.motivo, /no dice por qué/u);
+    for (const r of [
+      'Tono: `camus-writing`, porque usted lo pidió. En salida.md.',
+      'Tono usado: `camus-writing`, por solicitud expresa. En salida.md.',
+      'Tono `camus-writing`, ya que se pidió por su nombre. En salida.md.',
+    ]) {
+      assert.equal(respuestaCorrecta(v('camus'), r, texto, SALIDA).estado, 'pasa', r);
+    }
+    // Al corregir, el porqué puede venir después de dos puntos.
+    assert.equal(respuestaCorrecta(v('base'), 'No se aplicó ningún tono: el pedido es corregir. En salida.md.', texto, SALIDA).estado, 'pasa');
+    assert.equal(respuestaCorrecta(v('base'), 'No se aplicó ningún tono. En salida.md.', texto, SALIDA).estado, 'aviso');
+    assert.equal(respuestaCorrecta(v('humanizar'), 'Texto humanizado y guardado en: salida.md', texto, SALIDA).estado, 'aviso');
+  });
+
+  test('la respuesta se mide con la base, y sus errores avisan con el identificador de la regla', () => {
+    const r = 'Tono: `camus-writing`, porque usted lo pidió. En salida.md.';
+    const medicion = {
+      codigo: 1,
+      salida: 'respuesta.txt:9:52  error  markdown-en-entrega  [spanish-writing §12.1]\n    Markdown.\n\n1 error(es), 0 advertencia(s)',
+    };
+    const c = respuestaCorrecta(v('camus'), r, texto, SALIDA, medicion);
+    assert.equal(c.estado, 'aviso');
+    assert.match(c.motivo, /markdown-en-entrega/u);
+    assert.equal(respuestaCorrecta(v('camus'), r, texto, SALIDA, { codigo: 0, salida: 'respuesta.txt: sin hallazgos' }).estado, 'pasa');
   });
 
   test('sin decir dónde quedó, o sin respuesta, falla', () => {
@@ -183,7 +342,7 @@ describe('6. la respuesta', () => {
     const c = respuestaCorrecta(v('camus'), pegado, texto, SALIDA);
     assert.equal(c.estado, 'falla');
     assert.match(c.motivo, /repite/u);
-    const cita = `En salida.md, tono camus. Queda una advertencia en «${palabras(8)}».`;
+    const cita = `En salida.md, tono camus, porque se pidió. Queda una advertencia en «${palabras(8)}».`;
     assert.equal(respuestaCorrecta(v('camus'), cita, texto, SALIDA).estado, 'pasa');
   });
 
@@ -200,15 +359,31 @@ describe('7. los datos del original', () => {
     'Desde los años noventa circula una idea. Dos decisiones se apartan.',
   ].join('\n\n');
 
-  test('las anclas: cifras, citas y nombres propios que no abren oración', () => {
+  test('las anclas: cifras, citas, décadas y nombres propios que no abren oración', () => {
     assert.deepEqual(anclasDe(ORIGINAL), {
       numeros: ['2024', '120', '60', '43', '1996', '2016'],
       citas: [
         { autor: 'Ricoeur', anio: '1996' },
         { autor: 'Moraes', anio: '2016' },
       ],
+      decadas: ['1990'],
       nombres: ['universidad', 'quindio', 'moraes', 'galiazzi'],
     });
+  });
+
+  test('una década se escribe de muchas maneras y es el mismo dato', () => {
+    for (const t of ['Desde los años noventa.', 'Desde la década de 1990.', 'Desde los años 90.', 'Desde la década de los noventa.', 'Desde los 1990s.']) {
+      assert.deepEqual(decadasDe(t), ['1990'], t);
+    }
+    assert.deepEqual(decadasDe('En los años ochenta y en la década de 2010.'), ['1980', '2010']);
+    assert.deepEqual(decadasDe('En 1990 hubo una reforma.'), [], 'un año no es una década');
+  });
+
+  test('«años noventa» en la entrada y «década de 1990» en la salida conservan el dato, y 1990 no es una cifra suelta', () => {
+    const a = anclasDe('Desde los años noventa circula una idea.');
+    assert.deepEqual(faltantes(a, 'Desde la década de 1990 circula una idea.').decadas, []);
+    assert.deepEqual(faltantes(a, 'Circula una idea.').decadas, ['1990']);
+    assert.deepEqual(anclasDe('Desde la década de 1990 circula.').numeros, []);
   });
 
   test('los números con letra se leen como cifras, en las dos direcciones', () => {
@@ -250,6 +425,42 @@ describe('7. los datos del original', () => {
     assert.equal(datosConservados(ORIGINAL, ORIGINAL.replace('Galiazzi', 'otro')).estado, 'aviso');
     assert.equal(datosConservados(ORIGINAL, null).estado, 'falla');
   });
+
+  test('perder la década es perder un dato', () => {
+    const c = datosConservados(ORIGINAL, ORIGINAL.replace('Desde los años noventa circula', 'Circula'));
+    assert.equal(c.estado, 'falla');
+    assert.match(c.motivo, /década de 1990/u);
+  });
+});
+
+describe('11. los datos nuevos', () => {
+  const ENTRADA = 'En 2024 se encuestó a cincuenta y ocho docentes de la Universidad del Quindío (Moraes, 2016). Desde los años noventa circula una idea.\n\n1. Introducción';
+
+  test('la misma información, con otra forma, pasa', () => {
+    const salida = 'Desde la década de 1990 circula una idea. En 2024 se encuestó a 58 docentes de la universidad del Quindío (Moraes, 2016).\n\n2. Introducción';
+    const c = datosNuevos(ENTRADA, salida);
+    assert.equal(c.estado, 'pasa', c.motivo);
+    assert.equal(c.numero, 11);
+  });
+
+  test('una cita de autor y año que no estaba, o una cifra nueva desde diez, falla', () => {
+    const cita = datosNuevos(ENTRADA, `${ENTRADA} Lo confirmó Pérez (2019).`);
+    assert.equal(cita.estado, 'falla');
+    assert.match(cita.motivo, /Pérez \(2019\)/u);
+    assert.equal(datosNuevos(ENTRADA, `${ENTRADA} Respondieron 45.`).estado, 'falla');
+    assert.equal(datosNuevos(ENTRADA, `${ENTRADA} Respondieron veinte.`).estado, 'falla');
+  });
+
+  test('un nombre propio nuevo o una cifra chica nueva avisa', () => {
+    const nombre = datosNuevos(ENTRADA, `${ENTRADA} Pasó también en Bogotá.`);
+    assert.equal(nombre.estado, 'aviso');
+    assert.match(nombre.motivo, /bogota/u);
+    assert.equal(datosNuevos(ENTRADA, `${ENTRADA} Hubo 3 rondas.`).estado, 'aviso');
+  });
+
+  test('sin salida no hay con qué comparar', () => {
+    assert.equal(datosNuevos(ENTRADA, null).estado, 'falla');
+  });
 });
 
 describe('8. la extensión', () => {
@@ -272,6 +483,19 @@ describe('8. la extensión', () => {
 
   test('sin salida, falla', () => {
     assert.equal(extensionRazonable(entrada, null).estado, 'falla');
+  });
+
+  test('solitario y catedra fallan recién por encima de su propio borde; los demás, en el general', () => {
+    // El turno del adversario y la tesis rival son forma legítima de esos dos
+    // tonos: Grok llevó solitario a 1,85 sin agregar nada que no correspondiera.
+    for (const id of ['solitario', 'catedra']) {
+      const borde = RAZON_FALLA_MAX_POR_VARIANTE[id] as number;
+      assert.ok(borde > RAZON_FALLA_MAX, id);
+      const mucho = (r: number) => extensionRazonable(entrada, palabras(Math.round(100 * r)), id);
+      assert.equal(mucho(RAZON_FALLA_MAX + 0.05).estado, 'aviso', id);
+      assert.equal(mucho(borde + 0.05).estado, 'falla', id);
+    }
+    assert.equal(extensionRazonable(entrada, palabras(Math.round(100 * (RAZON_FALLA_MAX + 0.05))), 'camus').estado, 'falla');
   });
 });
 
@@ -543,7 +767,7 @@ describe('los errores del propio agente', () => {
         [10, 'pasa'],
       ],
     );
-    assert.deepEqual(DEPENDEN_DE_TERMINAR, [2, 3, 4, 5, 6, 7, 8]);
+    assert.deepEqual(DEPENDEN_DE_TERMINAR, [2, 3, 4, 5, 6, 7, 8, 11]);
     // Lo que se midió igual queda dicho, para quien quiera mirarlo.
     const seis = r.find((c) => c.numero === 6);
     assert.match(seis?.motivo ?? '', /no terminó/u);

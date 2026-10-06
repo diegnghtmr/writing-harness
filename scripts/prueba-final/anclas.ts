@@ -152,7 +152,57 @@ export function numerosDe(texto: string): Set<string> {
 
 export type Cita = { autor: string; anio: string };
 
-export type Anclas = { numeros: string[]; citas: Cita[]; nombres: string[] };
+/** Las décadas van aparte de las cifras: «años noventa» y «década de 1990» son el mismo dato, y ninguno es la cantidad 90 ni el año 1990. */
+export type Anclas = { numeros: string[]; citas: Cita[]; decadas: string[]; nombres: string[] };
+
+const DECADA_EN_LETRAS: Record<string, number> = {
+  veinte: 20,
+  treinta: 30,
+  cuarenta: 40,
+  cincuenta: 50,
+  sesenta: 60,
+  setenta: 70,
+  ochenta: 80,
+  noventa: 90,
+};
+
+/**
+ * Las formas de nombrar una década, sobre el texto normalizado. El grupo 1 es
+ * la década con letra; el 2, con cifras, de dos o de cuatro.
+ *
+ * En la corrida completa, Copilot pasó «los años noventa» a «la década de
+ * 1990». Sin esto, la salida perdía una década y ganaba un año.
+ */
+const DECADA = new RegExp(
+  [
+    `\\b(?:anos|decada\\s+de(?:\\s+los)?)\\s+(?:(${Object.keys(DECADA_EN_LETRAS).join('|')})|((?:19|20)?\\d0))\\b`,
+    `\\b((?:19|20)\\d0)s\\b`,
+  ].join('|'),
+  'gu',
+);
+
+/** Una década de un texto: su año canónico y dónde está, para no contarla también como cifra. */
+type Decada = { decada: string; inicio: number; fin: number };
+
+function decadasConPosicion(texto: string): Decada[] {
+  const norma = normalizar(texto);
+  const out: Decada[] = [];
+  for (const m of norma.matchAll(DECADA)) {
+    const letra = m[1];
+    const cifra = m[2] ?? m[3];
+    let anio: number;
+    if (letra !== undefined) anio = 1900 + (DECADA_EN_LETRAS[letra] as number);
+    else if ((cifra as string).length === 2) anio = 1900 + Number(cifra);
+    else anio = Number(cifra);
+    out.push({ decada: String(anio), inicio: m.index, fin: m.index + m[0].length });
+  }
+  return out;
+}
+
+/** Las décadas de un texto, cada una una vez, como el año con que empiezan: «1990». */
+export function decadasDe(texto: string): string[] {
+  return [...new Set(decadasConPosicion(texto).map((d) => d.decada))];
+}
 
 const AUTOR = String.raw`(\p{Lu}[\p{L}'’-]+)(?:\s+(?:y|e|&)\s+\p{Lu}[\p{L}'’-]+|\s+et\s+al\.)?`;
 const NARRATIVA = new RegExp(String.raw`${AUTOR}\s*\((\d{4})[a-z]?\)`, 'gu');
@@ -168,6 +218,9 @@ function abreOracion(texto: string, indice: number): boolean {
 
 export function anclasDe(original: string): Anclas {
   const texto = original.normalize('NFC');
+  const decadas = decadasConPosicion(texto);
+  // Lo que es parte de una década no es una cifra: «1990» en «la década de 1990».
+  const enDecada = (i: number) => decadas.some((d) => i >= d.inicio && i < d.fin);
   const numeros: { valor: string; en: number }[] = [];
   for (const m of texto.matchAll(CIFRA)) {
     // La numeración de un título o de una lista, «1. » o «2.1. » al principio
@@ -175,13 +228,11 @@ export function anclasDe(original: string): Anclas {
     const numeracion =
       /(?:^|\n)[ \t]*(?:\d+\.)*$/u.test(texto.slice(0, m.index)) &&
       /^(?:\.\d+)*[.)]\s/u.test(texto.slice(m.index + m[0].length));
-    if (!numeracion) numeros.push({ valor: canonica(m[0]), en: m.index });
+    if (!numeracion && !enDecada(m.index)) numeros.push({ valor: canonica(m[0]), en: m.index });
   }
-  const norma = normalizar(texto);
   for (const n of numerosEnLetras(texto)) {
     // «los años noventa» es una década, no una cantidad.
-    const decada = /\banos\s+$/u.test(norma.slice(0, n.inicio));
-    if (n.valor >= UMBRAL_NUMERO_EN_LETRAS && !decada) numeros.push({ valor: String(n.valor), en: n.inicio });
+    if (n.valor >= UMBRAL_NUMERO_EN_LETRAS && !enDecada(n.inicio)) numeros.push({ valor: String(n.valor), en: n.inicio });
   }
 
   const citas: { cita: Cita; en: number }[] = [];
@@ -201,6 +252,7 @@ export function anclasDe(original: string): Anclas {
   return {
     numeros: unicos(numeros.sort((a, b) => a.en - b.en), (x) => x.valor).map((x) => x.valor),
     citas: unicos(citas.sort((a, b) => a.en - b.en), (x) => `${x.cita.autor} ${x.cita.anio}`).map((x) => x.cita),
+    decadas: [...new Set(decadas.map((d) => d.decada))],
     nombres,
   };
 }
@@ -220,9 +272,11 @@ export function faltantes(anclas: Anclas, salida: string): Anclas {
     }
     return false;
   };
+  const decadas = decadasDe(salida);
   return {
     numeros: anclas.numeros.filter((n) => !numeros.has(n)),
     citas: anclas.citas.filter((c) => !citaPresente(c)),
+    decadas: anclas.decadas.filter((d) => !decadas.includes(d)),
     nombres: anclas.nombres.filter((n) => !palabras.has(n)),
   };
 }

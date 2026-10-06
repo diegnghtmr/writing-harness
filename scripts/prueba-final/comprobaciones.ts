@@ -1,4 +1,4 @@
-// Las diez comprobaciones de cada corrida de la prueba final.
+// Las once comprobaciones de cada corrida de la prueba final.
 //
 // Cada una es una función pura que recibe lo que dejó la corrida y devuelve
 // pasa, aviso o falla, con el motivo escrito para quien lea el resumen. Una
@@ -9,11 +9,12 @@
 // dice qué hacer con el texto y dónde dejarlo; que el agente cargue las skills,
 // mida, anuncie el tono y no repita el texto tiene que salir de ellas.
 
+import { posix } from 'node:path';
 import { countWords } from '../../src/text.ts';
-import { anclasDe, faltantes, normalizar, type Cita } from './anclas.ts';
-import { esCodigoDeLaPrueba, type CambiosDeLaCopia } from './copia.ts';
+import { anclasDe, faltantes, normalizar, type Anclas, type Cita } from './anclas.ts';
+import { ARNES_EN_LA_COPIA, esCodigoDeLaPrueba, type CambiosDeLaCopia } from './copia.ts';
 import type { Lanzamiento } from './proceso.ts';
-import { cadenasDe, comandos, type Transcripcion } from './transcripcion.ts';
+import { cadenasDe, comandos, type Llamada, type Transcripcion } from './transcripcion.ts';
 import { SKILL_BASE, skillsRequeridas, type Variante } from './variantes.ts';
 
 /**
@@ -42,6 +43,7 @@ export const NOMBRES: Record<number, string> = {
   8: 'extensión',
   9: 'repositorios intactos',
   10: 'aislamiento',
+  11: 'datos nuevos',
 };
 
 const comprobacion = (numero: number, estado: Juicio, motivo: string, detalle?: unknown): Comprobacion => ({
@@ -153,17 +155,28 @@ export function verificadorLimpio(r: { codigo: number | null; salida: string } |
  * Un tono es cualquier skill `*-writing` que no sea la base: la cuenta incluye
  * las que no son de este arnés, porque en la base cargar cualquier skill de
  * estilo ya es aplicar una forma que no se pidió.
+ *
+ * `cargadas` son las que se leyeron enteras; `parciales`, las que solo se
+ * leyeron en parte o se consultaron. Una skill pedida leída solo en parte avisa:
+ * en la corrida completa, Grok leyó spanish-writing hasta la línea doscientas o
+ * cuatrocientas, de más de ochocientas. Una que no se pidió, leída en parte, es
+ * una consulta y no cuenta como cargada.
  */
-export function skillsDeLaVariante(v: Variante, cargadas: readonly string[]): Comprobacion {
+export function skillsDeLaVariante(v: Variante, cargadas: readonly string[], parciales: readonly string[] = []): Comprobacion {
   const requeridas = skillsRequeridas(v);
-  const faltan = requeridas.filter((s) => !cargadas.includes(s));
+  const faltan = requeridas.filter((s) => !cargadas.includes(s) && !parciales.includes(s));
+  const enParte = requeridas.filter((s) => !cargadas.includes(s) && parciales.includes(s));
   const tonos = cargadas.filter((s) => /-writing$/u.test(s) && s !== SKILL_BASE && s !== v.skill);
-  const detalle = { cargadas, faltan, tonos };
+  const detalle = { cargadas, parciales, faltan, tonos };
   const motivos: string[] = [];
   if (faltan.length > 0) motivos.push(`no cargó ${faltan.join(', ')}`);
   if (v.clase === 'base' && tonos.length > 0) motivos.push(`al corregir cargó un tono: ${tonos.join(', ')}`);
   if (motivos.length > 0) return comprobacion(4, 'falla', motivos.join('; '), detalle);
-  if (tonos.length > 0) return comprobacion(4, 'aviso', `cargó además otro tono: ${tonos.join(', ')}`, detalle);
+  const avisos = [
+    ...enParte.map((s) => `lectura parcial de ${s}`),
+    ...(tonos.length > 0 ? [`cargó además otro tono: ${tonos.join(', ')}`] : []),
+  ];
+  if (avisos.length > 0) return comprobacion(4, 'aviso', avisos.join('; '), detalle);
   return comprobacion(4, 'pasa', `cargó ${requeridas.join(', ')}`, detalle);
 }
 
@@ -192,16 +205,81 @@ const describirBanderas = (b: { tono: string | null; pasada: string | null }) =>
   [b.tono ? `--tono ${b.tono}` : null, b.pasada ? `--pasada ${b.pasada}` : null].filter(Boolean).join(' ') ||
   'sin opciones';
 
-export function agenteMidio(v: Variante, t: Transcripcion): Comprobacion {
-  const mediciones = comandos(t).filter((l) => {
+/** Dónde está la corrida: su carpeta y la copia en que trabajó el agente. */
+export type ContextoDeMedicion = { staging: string; copia: string };
+
+const esRutaAbsoluta = (p: string) => /^[a-z]:[\\/]/iu.test(p) || p.startsWith('/') || p.startsWith('\\');
+
+/** Una ruta absoluta con barras normales y sin `.` ni `..`. */
+const resolver = (base: string, ruta: string) =>
+  posix.normalize((esRutaAbsoluta(ruta) ? ruta : `${base}/${ruta}`).replace(/\\+/gu, '/'));
+
+/** El último cambio de carpeta de un comando antes de una posición: `Set-Location`, `cd`, `pushd` y sus alias. */
+const CAMBIO_DE_CARPETA =
+  /(?:^|[;&|\n(]\s*|\s)(?:set-location|cd|chdir|push-location|pushd|sl)\s+(?:-(?:literal)?path\s+)?(?:"([^"]+)"|'([^']+)'|([^\s;&|)]+))/giu;
+
+/**
+ * Con qué verificador midió una invocación: el de la copia, uno fuera de ella,
+ * o uno que no existe.
+ *
+ * La ruta del `cli.ts` se lee del comando y se resuelve contra la carpeta en que
+ * corrió: la del último cambio de carpeta del mismo comando, la que trae la
+ * herramienta en su campo de carpeta, o la copia. En la corrida completa, cinco
+ * corridas de Grok hicieron `Set-Location` al arnés real y midieron desde ahí.
+ * Antes de eso probaban `node src/cli.ts` desde la raíz de la copia, donde no
+ * hay ningún verificador: un intento así no midió nada.
+ */
+function dondeMidio(l: Llamada, ctx: ContextoDeMedicion): 'copia' | 'fuera' | 'nula' {
+  const comando = l.comando ?? '';
+  const i = comando.search(VERIFICADOR);
+  let inicio = i;
+  while (inicio > 0 && !/[\s"'`]/u.test(comando[inicio - 1] as string)) inicio--;
+  const token = comando.slice(inicio, i + 'src/cli.ts'.length);
+  const e = l.entrada !== null && typeof l.entrada === 'object' ? (l.entrada as Record<string, unknown>) : {};
+  let base = ctx.copia;
+  const campoCwd = ['Cwd', 'cwd', 'working_directory', 'workdir'].map((c) => e[c]).find((x) => typeof x === 'string');
+  if (typeof campoCwd === 'string') base = resolver(base, campoCwd);
+  const cambio = [...comando.slice(0, inicio).matchAll(CAMBIO_DE_CARPETA)].at(-1);
+  const destino = cambio ? (cambio[1] ?? cambio[2] ?? cambio[3]) : undefined;
+  if (destino !== undefined) base = resolver(base, destino);
+  const ruta = resolver(base, token);
+  if (normalizarRuta(ruta) === normalizarRuta(`${ctx.copia}/${ARNES_EN_LA_COPIA}/src/cli.ts`)) return 'copia';
+  return dentroDe(ruta, ctx.staging) ? 'nula' : 'fuera';
+}
+
+/** La respuesta admite que no midió. */
+const NIEGA_MEDIR =
+  /\bno\s+(?:(?:lo|la)\s+)?(?:pude|pudo|se\s+pudo|logre|logro|consegui|fue\s+posible|he\s+podido)\s+(?:medir|verificar|correr|ejecutar|usar|pasar)|\bsin\s+(?:poder\s+)?medir\b|\bno\s+(?:lo\s+)?medi\b|\bno\s+paso\s+por\s+el\s+verificador|\bno\s+(?:se\s+)?(?:corrio|ejecuto|uso)\s+el\s+verificador|\bverificador\s+no\s+(?:esta|existe|aparece|se\s+encontro)/u;
+
+/** La respuesta afirma una medición. */
+const AFIRMA_MEDIR =
+  /\bsin\s+hallazgos\b|\b0\s+errores\b|\bcero\s+errores\b|\bsin\s+errores\b|\bverificad[oa]s?\b|\bverificacion\b|\bmedid[oa]s?\b|\bel\s+verificador\s+(?:cerro|termino|dio|marco|devolvio|reporto|no\s+marco)/u;
+
+/**
+ * Por qué falla una corrida que no corrió el verificador. No es lo mismo decir
+ * que no se pudo medir, como hicieron dos corridas de Grok, que afirmar una
+ * medición que no ocurrió: lo segundo es grave, porque engaña a quien lee.
+ */
+function sinMedicion(respuesta: string | null): Comprobacion {
+  const r = llano(respuesta ?? '');
+  const base = 'no corrió el verificador sobre ningún texto';
+  if (NIEGA_MEDIR.test(r)) return comprobacion(5, 'falla', `no midió y lo dijo: ${base}`, { grave: false });
+  if (AFIRMA_MEDIR.test(r)) return comprobacion(5, 'falla', `grave: afirma una medición que no corrió; ${base}`, { grave: true });
+  return comprobacion(5, 'falla', base, { grave: false });
+}
+
+export function agenteMidio(v: Variante, t: Transcripcion, ctx?: ContextoDeMedicion): Comprobacion {
+  const invocaciones = comandos(t).filter((l) => {
     if (l.comando === null || !VERIFICADOR.test(l.comando)) return false;
     // Enrutar o pedir la ayuda no mide ningún texto.
     return !/--enrutar|(?:^|\s)(?:-h|--help)(?:\s|$)/u.test(tramo(l.comando));
   });
+  const donde = invocaciones.map((l) => (ctx === undefined ? 'copia' : dondeMidio(l, ctx)));
+  const mediciones = invocaciones.filter((_, i) => donde[i] !== 'nula');
   const ultima = mediciones.at(-1);
-  if (ultima === undefined || ultima.comando === null) {
-    return comprobacion(5, 'falla', 'no corrió el verificador sobre ningún texto');
-  }
+  if (ultima === undefined || ultima.comando === null) return sinMedicion(t.respuesta);
+  const fuera = donde.filter((d) => d !== 'nula').every((d) => d === 'fuera');
+  const conLaReal = fuera ? '; midió con el verificador real, fuera de su copia' : '';
   const b = banderasDe(ultima.comando);
   const nombres = v.skill === null ? [v.id] : [v.id, v.skill];
   const esperado =
@@ -213,18 +291,20 @@ export function agenteMidio(v: Variante, t: Transcripcion): Comprobacion {
   const coincide = (dado: string | null, pedido: string | null) =>
     pedido === null ? dado === null : dado !== null && nombres.includes(dado);
   const conBanderas = coincide(b.tono, esperado.tono) && coincide(b.pasada, esperado.pasada);
-  const detalle = { veces: mediciones.length, ultimoCodigo: ultima.codigo, ultimo: ultima.comando, conBanderas };
+  const detalle = { veces: mediciones.length, ultimoCodigo: ultima.codigo, ultimo: ultima.comando, conBanderas, fuera };
   const veces = plural(mediciones.length, 'vez', 'veces');
   const codigo = ultima.codigo === null ? 'sin código registrado' : `código ${ultima.codigo}`;
   if (!conBanderas) {
     return comprobacion(
       5,
       'aviso',
-      `lo corrió ${veces}; la última, ${describirBanderas(b)}, y la variante pide ${describirBanderas(esperado)} (${codigo})`,
+      `lo corrió ${veces}; la última, ${describirBanderas(b)}, y la variante pide ${describirBanderas(esperado)} (${codigo})${conLaReal}`,
       detalle,
     );
   }
-  return comprobacion(5, 'pasa', `lo corrió ${veces}; la última, con las opciones de la variante (${codigo})`, detalle);
+  const dicho = `lo corrió ${veces}; la última, con las opciones de la variante (${codigo})`;
+  if (fuera) return comprobacion(5, 'aviso', `${dicho}${conLaReal}`, detalle);
+  return comprobacion(5, 'pasa', dicho, detalle);
 }
 
 // 6 -------------------------------------------------------------------------
@@ -293,11 +373,53 @@ function nombraLaPasada(respuesta: string, v: Variante): boolean {
 
 const normalizarRutaLibre = (s: string) => s.replace(/\\/gu, '/').toLowerCase();
 
+/** Lo que da el porqué en la línea del tono. */
+const DA_EL_PORQUE = /\b(?:porque|por|ya\s+que|dado\s+que|a\s+pedido|se\s+pidio|peticion)\b/u;
+
+/**
+ * Si la línea del tono dice por qué.
+ *
+ * La skill de entrada pide decir el tono y por qué, y al corregir, que no hubo
+ * tono y por qué. Ocho de quince respuestas de Copilot dijeron solo cuál. La
+ * línea es la primera que nombra el tono o dice que no lo hubo, y el porqué se
+ * busca después de eso: con «porque» y sus parientes, o después de dos puntos.
+ */
+function daElPorque(respuesta: string, v: Variante): boolean {
+  for (const linea of respuesta.split(/\r?\n/u)) {
+    const r = llano(linea);
+    let fin = -1;
+    if (v.clase === 'tono') {
+      for (const nombre of [v.skill, v.id]) {
+        if (nombre === null) continue;
+        for (const m of r.matchAll(new RegExp(`\\b${escapar(llano(nombre))}\\b`, 'gu'))) fin = Math.max(fin, m.index + m[0].length);
+      }
+    } else {
+      const m = NIEGA_TONO.exec(r);
+      if (m !== null) fin = m.index + m[0].length;
+    }
+    if (fin < 0) continue;
+    const resto = r.slice(fin);
+    return DA_EL_PORQUE.test(resto) || /^[^\p{L}\d]*:\s*\S+\s+\S+/u.test(resto);
+  }
+  return false;
+}
+
+/** Los identificadores de las reglas con severidad error en la salida del verificador. */
+const reglasConError = (salida: string): string[] => [...new Set([...salida.matchAll(/\berror\s+([a-z0-9][a-z0-9-]*)\s/gu)].map((m) => m[1] as string))];
+
+/**
+ * La respuesta del agente.
+ *
+ * `medicion` es la de la respuesta misma con el verificador, solo la base: la
+ * respuesta también es un texto en español. En la corrida completa, cuatro
+ * respuestas de Grok tutearon y una entregó Markdown.
+ */
 export function respuestaCorrecta(
   v: Variante,
   respuesta: string | null,
   salida: string | null,
   rutaSalida: string,
+  medicion: { codigo: number | null; salida: string } | null = null,
 ): Comprobacion {
   if (respuesta === null || respuesta.trim() === '') return comprobacion(6, 'falla', 'el agente no dio respuesta');
   const problemas: string[] = [];
@@ -310,9 +432,16 @@ export function respuestaCorrecta(
   }
   const repetidas = salida === null ? 0 : repeticionMasLarga(respuesta, salida);
   if (repetidas >= SHINGLE_DE_REPETICION) problemas.push(`repite el texto: ${repetidas} palabras seguidas de salida.md`);
-  const detalle = { repetidas };
-  if (problemas.length > 0) return comprobacion(6, 'falla', problemas.join('; '), detalle);
-  return comprobacion(6, 'pasa', 'nombra la capa, dice dónde quedó el texto y no lo repite', detalle);
+  const avisos: string[] = [];
+  if (!daElPorque(respuesta, v)) avisos.push('la línea del tono no dice por qué');
+  const reglas = medicion !== null && medicion.codigo === 1 ? reglasConError(medicion.salida) : [];
+  if (medicion !== null && medicion.codigo === 1) {
+    avisos.push(`la respuesta tiene errores de la base${reglas.length > 0 ? `: ${reglas.join(', ')}` : ''}`);
+  }
+  const detalle = { repetidas, reglas };
+  if (problemas.length > 0) return comprobacion(6, 'falla', [...problemas, ...avisos].join('; '), detalle);
+  if (avisos.length > 0) return comprobacion(6, 'aviso', avisos.join('; '), detalle);
+  return comprobacion(6, 'pasa', 'nombra la capa y su porqué, dice dónde quedó el texto y no lo repite', detalle);
 }
 
 // 7 -------------------------------------------------------------------------
@@ -324,16 +453,25 @@ export function datosConservados(entrada: string, salida: string | null): Compro
   const anclas = anclasDe(entrada);
   const f = faltantes(anclas, salida);
   const detalle = { anclas, faltantes: f };
-  const partes: string[] = [];
-  if (f.numeros.length > 0) partes.push(`cifras ${lista(f.numeros)}`);
-  if (f.citas.length > 0) partes.push(`citas ${lista(f.citas.map(citaComoTexto))}`);
-  if (f.nombres.length > 0) partes.push(`nombres ${lista(f.nombres)}`);
-  // Una cifra o una cita perdida es un hecho perdido. Un nombre propio se
-  // reconoce por la mayúscula, que es una señal más floja: avisa.
-  if (f.numeros.length > 0 || f.citas.length > 0) return comprobacion(7, 'falla', `faltan ${partes.join('; ')}`, detalle);
+  const partes = describirAnclas(f);
+  // Una cifra, una cita o una década perdida es un hecho perdido. Un nombre
+  // propio se reconoce por la mayúscula, que es una señal más floja: avisa.
+  if (f.numeros.length > 0 || f.citas.length > 0 || f.decadas.length > 0) {
+    return comprobacion(7, 'falla', `faltan ${partes.join('; ')}`, detalle);
+  }
   if (f.nombres.length > 0) return comprobacion(7, 'aviso', `faltan ${partes.join('; ')}`, detalle);
-  const total = anclas.numeros.length + anclas.citas.length + anclas.nombres.length;
+  const total = anclas.numeros.length + anclas.citas.length + anclas.decadas.length + anclas.nombres.length;
   return comprobacion(7, 'pasa', `están las ${total} anclas del original`, detalle);
+}
+
+/** Unas anclas dichas para el motivo, por clase. */
+function describirAnclas(a: Anclas, numeros: readonly string[] = a.numeros): string[] {
+  const partes: string[] = [];
+  if (numeros.length > 0) partes.push(`cifras ${lista(numeros)}`);
+  if (a.citas.length > 0) partes.push(`citas ${lista(a.citas.map(citaComoTexto))}`);
+  if (a.decadas.length > 0) partes.push(`décadas ${lista(a.decadas.map((d) => `década de ${d}`))}`);
+  if (a.nombres.length > 0) partes.push(`nombres ${lista(a.nombres)}`);
+  return partes;
 }
 
 // 8 -------------------------------------------------------------------------
@@ -352,17 +490,64 @@ export const RAZON_AVISO_MIN = 0.8;
 export const RAZON_AVISO_MAX = 1.35;
 export const RAZON_FALLA_MAX = 1.8;
 
-export function extensionRazonable(entrada: string, salida: string | null): Comprobacion {
+/**
+ * El borde de falla por arriba de las variantes cuya forma alarga de verdad.
+ *
+ * `solitario` le da su turno al adversario y `catedra` expone la tesis rival
+ * antes de refutarla: las dos cosas son forma del tono y no relleno. En la
+ * corrida completa, Grok llevó solitario a 1,85 sin agregar nada que el tono no
+ * pidiera. Dos veces el original sigue marcando lo que ninguna forma explica.
+ */
+export const RAZON_FALLA_MAX_POR_VARIANTE: Readonly<Record<string, number>> = { solitario: 2.0, catedra: 2.0 };
+
+export function extensionRazonable(entrada: string, salida: string | null, variante?: string): Comprobacion {
   if (salida === null) return comprobacion(8, 'falla', 'no hay salida que medir');
   const de = countWords(entrada);
   const a = countWords(salida);
   const razon = de === 0 ? Number.POSITIVE_INFINITY : a / de;
-  const detalle = { entrada: de, salida: a, razon };
+  const maximo = (variante === undefined ? undefined : RAZON_FALLA_MAX_POR_VARIANTE[variante]) ?? RAZON_FALLA_MAX;
+  const detalle = { entrada: de, salida: a, razon, maximo };
   const dicho = `${a} palabras de ${de} (${razon.toFixed(2).replace('.', ',')})`;
   if (razon < RAZON_FALLA_MIN) return comprobacion(8, 'falla', `${dicho}: parece un recorte o un resumen`, detalle);
-  if (razon > RAZON_FALLA_MAX) return comprobacion(8, 'falla', `${dicho}: agrega mucho más de lo que había`, detalle);
+  if (razon > maximo) return comprobacion(8, 'falla', `${dicho}: agrega mucho más de lo que había`, detalle);
   if (razon < RAZON_AVISO_MIN || razon > RAZON_AVISO_MAX) return comprobacion(8, 'aviso', dicho, detalle);
   return comprobacion(8, 'pasa', dicho, detalle);
+}
+
+// 11 ------------------------------------------------------------------------
+
+/**
+ * Desde qué valor una cifra nueva es un hecho inventado.
+ *
+ * Es el mismo borde de las anclas: por debajo de diez, un número es léxico
+ * corriente que un tono puede traer al ordenar el texto, como «tres pasos».
+ */
+export const UMBRAL_DE_CIFRA_NUEVA = 10;
+
+/**
+ * Lo que la salida afirma y la entrada no tenía.
+ *
+ * Es la otra mitad de los datos conservados: un tono puede cambiar la forma,
+ * no agregar hechos. Las anclas de la salida se buscan en la entrada, con las
+ * mismas lecturas: los números con letra, las décadas y la numeración de los
+ * títulos. Una cita de autor y año o una cifra desde diez que no estaban son
+ * hechos inventados. Un nombre propio, una cifra chica o una década nuevos
+ * avisan: pueden ser parte de un ejemplo que la forma del tono pidió.
+ */
+export function datosNuevos(entrada: string, salida: string | null): Comprobacion {
+  if (salida === null) return comprobacion(11, 'falla', 'no hay salida con que comparar');
+  const nuevos = faltantes(anclasDe(salida), entrada);
+  const valor = (n: string) => Number(n.replace(',', '.'));
+  const grandes = nuevos.numeros.filter((n) => valor(n) >= UMBRAL_DE_CIFRA_NUEVA);
+  const chicos = nuevos.numeros.filter((n) => valor(n) < UMBRAL_DE_CIFRA_NUEVA);
+  const detalle = { nuevos };
+  if (grandes.length > 0 || nuevos.citas.length > 0) {
+    return comprobacion(11, 'falla', `agrega ${describirAnclas(nuevos).join('; ')}`, detalle);
+  }
+  if (chicos.length > 0 || nuevos.decadas.length > 0 || nuevos.nombres.length > 0) {
+    return comprobacion(11, 'aviso', `agrega ${describirAnclas(nuevos).join('; ')}`, detalle);
+  }
+  return comprobacion(11, 'pasa', 'no agrega cifras, citas, décadas ni nombres que el original no tenga', detalle);
 }
 
 // 9 -------------------------------------------------------------------------
@@ -612,12 +797,12 @@ export function errorDelAgente(t: Transcripcion, l: Pick<Lanzamiento, 'codigo' |
  * Las comprobaciones que dependen de que la corrida termine.
  *
  * La salida, el verificador sobre ella, las skills cargadas, la medición, la
- * respuesta, los datos y la extensión miden el trabajo terminado: en una
+ * respuesta, los datos, la extensión y los datos nuevos miden el trabajo terminado: en una
  * corrida cortada a mitad de camino, que falten no dice nada de las skills.
  * Las otras tres se pueden afirmar con lo que haya: si base.docx cambió, si se
  * tocó algo fuera de la corrida y si se usó lo de la prueba.
  */
-export const DEPENDEN_DE_TERMINAR = [2, 3, 4, 5, 6, 7, 8];
+export const DEPENDEN_DE_TERMINAR = [2, 3, 4, 5, 6, 7, 8, 11];
 
 /**
  * Las comprobaciones de una corrida que el agente no terminó: las que dependen
