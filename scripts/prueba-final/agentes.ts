@@ -29,7 +29,7 @@ export type Contexto = {
   archivoPrompt: string;
   /** El id de sesión que se le fija al agente que lo acepta. */
   sesion: string;
-  /** Donde trabaja el agente: la carpeta que contiene la de la prueba. */
+  /** Donde trabaja el agente: la copia de mix sin el código de la prueba, dentro de `staging`. */
   cwd: string;
   limiteMin: number;
   staging: string;
@@ -44,6 +44,12 @@ export type DefinicionDeAgente = {
   transcripcion(home: string, ctx: Contexto, stdout: string): string | null;
   /** El archivo donde el agente escribe su propio registro, si se le pide uno. */
   log(ctx: Contexto): string | null;
+  /**
+   * Las carpetas donde el agente guarda su propio estado mientras trabaja.
+   * Escribir ahí no es escribir fuera de la corrida. `sesion` es la que leyó la
+   * transcripción, o null.
+   */
+  estadoPropio(home: string, ctx: Contexto, sesion: string | null): string[];
   parsear(stdout: string, transcripcion: string | null, log: string | null): Transcripcion;
   /** Los argumentos que imprimen la versión, para el agente que no la deja escrita. */
   version: string[] | null;
@@ -247,6 +253,7 @@ export const AGENTES: Record<string, DefinicionDeAgente> = {
     ],
     transcripcion: (home, ctx) => join(home, '.copilot', 'session-state', ctx.sesion, 'events.jsonl'),
     log: () => null,
+    estadoPropio: (home, ctx) => [join(home, '.copilot', 'session-state', ctx.sesion)],
     parsear: (stdout, transcripcion) => parsearCopilot(stdout, transcripcion),
     version: null,
   },
@@ -270,6 +277,9 @@ export const AGENTES: Record<string, DefinicionDeAgente> = {
     // grok, que se guarda como respaldo.
     transcripcion: (home, ctx) => join(home, '.grok', 'sessions', encodeURIComponent(ctx.cwd), ctx.sesion, 'events.jsonl'),
     log: () => null,
+    // Grok ordena sus sesiones por la carpeta de trabajo, y esa carpeta cambia en
+    // cada corrida: se reconoce la raíz entera.
+    estadoPropio: (home) => [join(home, '.grok', 'sessions')],
     parsear: (stdout) => parsearGrok(stdout),
     version: ['--version'],
   },
@@ -296,6 +306,9 @@ export const AGENTES: Record<string, DefinicionDeAgente> = {
       return join(home, '.gemini', 'antigravity-cli', 'brain', id, '.system_generated', 'logs', 'transcript_full.jsonl');
     },
     log: (ctx) => join(ctx.staging, 'agy.log'),
+    // La carpeta de la conversación: ahí guarda sus borradores y su transcripción.
+    estadoPropio: (home, _ctx, sesion) =>
+      sesion === null ? [] : [join(home, '.gemini', 'antigravity-cli', 'brain', sesion)],
     parsear: (stdout, transcripcion, log) => parsearAgy(stdout, transcripcion, log),
     version: null,
   },

@@ -279,7 +279,16 @@ describe('9. los repositorios', () => {
     assert.equal(cambiosDeGit(null, []), null);
   });
 
-  const ctx = { staging: 'C:\\temp\\pf-1', raices: ['C:\\r\\mix', 'C:\\r\\mix\\writing-harness'], cwd: 'C:\\r\\mix', paralelas: false };
+  const SIN_CAMBIOS = { modificados: [], borrados: [], nuevos: [] };
+  const ctx = {
+    staging: 'C:\\temp\\pf-1',
+    raices: ['C:\\r\\mix', 'C:\\r\\mix\\writing-harness'],
+    // El agente trabaja en la copia, dentro de la carpeta de la corrida.
+    cwd: 'C:\\temp\\pf-1\\mix',
+    paralelas: false,
+    copia: SIN_CAMBIOS,
+    propias: [] as string[],
+  };
 
   test('sin cambios y sin escrituras afuera, pasa', () => {
     const c = repositoriosIntactos({ 'C:\\r\\mix': [] }, { 'C:\\r\\mix': [] }, ['C:\\temp\\pf-1\\salida.md'], ctx);
@@ -293,9 +302,46 @@ describe('9. los repositorios', () => {
     assert.match(c.motivo, /paralelo/u);
   });
 
-  test('una escritura dentro de un repositorio falla; en otro sitio, avisa', () => {
-    assert.equal(repositoriosIntactos({}, {}, ['writing-harness/src/rules.ts'], ctx).estado, 'falla');
+  test('una escritura dentro de un repositorio real falla; en otro sitio, avisa', () => {
+    assert.equal(repositoriosIntactos({}, {}, ['C:\\r\\mix\\writing-harness\\src\\rules.ts'], ctx).estado, 'falla');
     assert.equal(repositoriosIntactos({}, {}, ['C:\\Users\\p\\scratch\\a.txt'], ctx).estado, 'aviso');
+  });
+
+  test('una escritura relativa cae en la copia, y ahí decide la huella de cada archivo', () => {
+    assert.equal(repositoriosIntactos({}, {}, ['writing-harness/src/rules.ts'], ctx).estado, 'pasa');
+  });
+
+  test('un archivo de la copia modificado o borrado falla, con su ruta', () => {
+    const c = repositoriosIntactos({}, {}, [], {
+      ...ctx,
+      copia: { modificados: ['writing-harness/src/rules.ts'], borrados: ['CLAUDE.md'], nuevos: [] },
+    });
+    assert.equal(c.estado, 'falla');
+    assert.match(c.motivo, /writing-harness\/src\/rules\.ts/u);
+    assert.match(c.motivo, /CLAUDE\.md/u);
+  });
+
+  test('un archivo nuevo en la copia avisa, con su ruta', () => {
+    const c = repositoriosIntactos({}, {}, [], { ...ctx, copia: { ...SIN_CAMBIOS, nuevos: ['notas/borrador.md'] } });
+    assert.equal(c.estado, 'aviso');
+    assert.match(c.motivo, /notas\/borrador\.md/u);
+  });
+
+  test('lo que el agente escribe en su propio estado no es escribir fuera', () => {
+    // Antigravity guarda borradores en la carpeta de su conversación. En la
+    // primera corrida de humo eso salió como escritura fuera de la corrida.
+    const brain = 'C:\\Users\\p\\.gemini\\antigravity-cli\\brain\\conv-1';
+    const propio = { ...ctx, propias: [brain] };
+    assert.equal(repositoriosIntactos({}, {}, [`${brain}\\scratch\\borrador.md`], propio).estado, 'pasa');
+    const ajena = repositoriosIntactos({}, {}, ['C:\\Users\\p\\.gemini\\antigravity-cli\\brain\\conv-2\\x.md'], propio);
+    assert.equal(ajena.estado, 'aviso');
+  });
+
+  test('cada ruta sale una sola vez en el motivo, la escriba como la escriba', () => {
+    const ruta = 'C:\\Users\\p\\scratch\\borrador.md';
+    const c = repositoriosIntactos({}, {}, [ruta, ruta, 'c:/users/p/scratch/borrador.md'], ctx);
+    assert.equal(c.estado, 'aviso');
+    assert.equal(c.motivo.match(/borrador\.md/giu)?.length, 1, c.motivo);
   });
 
   test('sin git, no se puede afirmar nada y se avisa', () => {
@@ -306,27 +352,70 @@ describe('9. los repositorios', () => {
 describe('10. el aislamiento', () => {
   const PROPIA = 'C:\\temp\\pf-00000000-0000-4000-8000-000000000001';
   const OTRA = 'C:\\temp\\pf-00000000-0000-4000-8000-000000000002';
-  const ctx = { staging: PROPIA, carpeta: 'C:\\r\\mix\\test-final', cwd: 'C:\\r\\mix' };
+  const ctx = { staging: PROPIA, carpeta: 'C:\\r\\mix\\test-final', mix: 'C:\\r\\mix' };
   const leyendo = (...rutas: string[]): Transcripcion => ({
     ...vacia(),
     llamadas: rutas.map((r) => llamada('read_file', { target_file: r })),
   });
+  const corriendo = (...cs: string[]): Transcripcion => ({
+    ...vacia(),
+    llamadas: cs.map((c) => llamada('run_terminal_command', { command: c })),
+  });
 
-  test('leer lo propio y el arnés pasa', () => {
-    const t = leyendo(`${PROPIA}\\entrada.md`, 'C:\\r\\mix\\writing-harness\\AGENTS.md');
+  test('leer lo propio, la copia y el arnés pasa', () => {
+    const t = leyendo(
+      `${PROPIA}\\entrada.md`,
+      `${PROPIA}\\mix\\writing-harness\\AGENTS.md`,
+      'C:\\r\\mix\\writing-harness\\AGENTS.md',
+      'writing-harness/src/cli.ts',
+    );
     assert.equal(aislamiento(t, ctx).estado, 'pasa');
   });
 
-  test('otra corrida, la carpeta de la prueba, odd/ o el ejecutor: aviso', () => {
-    for (const r of [
-      `${OTRA}\\salida.md`,
-      'C:\\r\\mix\\test-final\\grok\\base\\salida.md',
-      'test-final/resumen.md',
-      'writing-harness/odd/tasks/x.md',
-      'C:\\r\\mix\\writing-harness\\scripts\\prueba-final\\comprobaciones.ts',
-    ]) {
-      assert.equal(aislamiento(leyendo(r), ctx).estado, 'aviso', r);
+  test('otra corrida, la carpeta de la prueba o el código de la prueba: falla, con la ruta', () => {
+    for (const [r, enElMotivo] of [
+      [`${OTRA}\\salida.md`, 'pf-00000000-0000-4000-8000-000000000002/salida.md'],
+      ['C:\\r\\mix\\test-final\\grok\\base\\salida.md', 'test-final/grok/base/salida.md'],
+      ['test-final/resumen.md', 'test-final/resumen.md'],
+      ['../test-final/base.docx', 'test-final/base.docx'],
+      ['writing-harness/odd/tasks/x.md', 'writing-harness/odd/tasks/x.md'],
+      ['C:\\r\\mix\\writing-harness\\scripts\\prueba-final\\comprobaciones.ts', 'scripts/prueba-final/comprobaciones.ts'],
+      ['C:\\r\\mix\\writing-harness\\evals\\prueba-final-ejecutor.test.ts', 'evals/prueba-final-ejecutor.test.ts'],
+    ] as const) {
+      const c = aislamiento(leyendo(r), ctx);
+      assert.equal(c.estado, 'falla', r);
+      assert.ok(c.motivo.includes(enElMotivo), `${r}: ${c.motivo}`);
     }
+  });
+
+  test('lo que hizo Grok en la corrida de humo: buscar, leer e importar el ejecutor', () => {
+    const grep = { ...vacia(), llamadas: [llamada('grep', { pattern: 'inventar|hecho|conserv', path: 'C:\\r\\mix\\writing-harness\\scripts\\prueba-final' })] };
+    assert.equal(aislamiento(grep, ctx).estado, 'falla');
+    const importar = corriendo(
+      'node --input-type=module -e "\nimport { anclasDe, faltantes } from \'./writing-harness/scripts/prueba-final/anclas.ts\';\nconsole.log(1)"',
+    );
+    const c = aislamiento(importar, ctx);
+    assert.equal(c.estado, 'falla');
+    assert.match(c.motivo, /writing-harness\/scripts\/prueba-final\/anclas\.ts/u);
+  });
+
+  test('con barras dobles, como quedan dentro de una cadena escapada', () => {
+    const c = aislamiento(corriendo('node -e "readFileSync(\'C:\\\\r\\\\mix\\\\writing-harness\\\\scripts\\\\prueba-final.ts\')"'), ctx);
+    assert.equal(c.estado, 'falla');
+    assert.match(c.motivo, /scripts\/prueba-final\.ts/u);
+  });
+
+  test('cada ruta una vez, y una lista larga se corta con la cuenta de lo que falta', () => {
+    const repetida = leyendo(
+      'C:\\r\\mix\\writing-harness\\scripts\\prueba-final\\anclas.ts',
+      'c:/r/mix/writing-harness/scripts/prueba-final/anclas.ts',
+      'C:\\r\\mix\\writing-harness\\scripts\\prueba-final\\anclas.ts',
+    );
+    assert.equal(aislamiento(repetida, ctx).motivo.match(/anclas\.ts/gu)?.length, 1);
+    const muchas = leyendo(...Array.from({ length: 13 }, (_, i) => `writing-harness/scripts/prueba-final/m${i}.ts`));
+    const c = aislamiento(muchas, ctx);
+    assert.match(c.motivo, /y 3 más/u);
+    assert.equal(c.motivo.match(/\.ts/gu)?.length, 10);
   });
 
   test('dos salidas idénticas fallan, y cada una nombra a la otra', () => {

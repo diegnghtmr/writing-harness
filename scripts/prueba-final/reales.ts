@@ -57,10 +57,14 @@ export function agenteReal(def: DefinicionDeAgente, e: Ejecutable, o: { home: st
       t.version ??= o.version;
       return t;
     },
+    estadoPropio: (ctx, t) => def.estadoPropio(o.home, ctx, t.sesion),
   };
 }
 
-/** El verificador del arnés, como lo correría una persona: node con el archivo y las opciones. */
+/**
+ * El verificador del arnés real, como lo correría una persona: node con el
+ * archivo y las opciones. No el de la copia, que el agente pudo tocar.
+ */
 export function verificarConElArnes(archivo: string, banderas: readonly string[]): { codigo: number | null; salida: string } {
   const r = spawnSync(process.execPath, [join(REPO_ROOT, 'src', 'cli.ts'), archivo, ...banderas], { encoding: 'utf8' });
   return { codigo: r.status, salida: `${r.stdout ?? ''}${r.stderr ?? ''}` };
@@ -69,4 +73,10 @@ export function verificarConElArnes(archivo: string, banderas: readonly string[]
 export function estadoGit(raiz: string): string | null {
   const r = spawnSync('git', ['-C', raiz, 'status', '--porcelain'], { encoding: 'utf8', windowsHide: true });
   return r.status === 0 ? r.stdout : null;
+}
+
+/** Lo que git rastrea en un repositorio, relativo a su raíz, o null si git no respondió. */
+export function archivosRastreados(raiz: string): string[] | null {
+  const r = spawnSync('git', ['-C', raiz, 'ls-files', '-z'], { encoding: 'utf8', windowsHide: true });
+  return r.status === 0 ? r.stdout.split('\0').filter(Boolean) : null;
 }

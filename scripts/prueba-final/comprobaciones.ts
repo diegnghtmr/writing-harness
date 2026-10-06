@@ -11,6 +11,7 @@
 
 import { countWords } from '../../src/text.ts';
 import { anclasDe, faltantes, normalizar, type Cita } from './anclas.ts';
+import { esCodigoDeLaPrueba, type CambiosDeLaCopia } from './copia.ts';
 import { cadenasDe, comandos, type Transcripcion } from './transcripcion.ts';
 import { SKILL_BASE, skillsRequeridas, type Variante } from './variantes.ts';
 
@@ -56,6 +57,22 @@ const plural = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno
 /** Una lista que no se desborda en el resumen. */
 const lista = (xs: readonly string[], tope = 10) =>
   xs.length <= tope ? xs.join(', ') : `${xs.slice(0, tope).join(', ')} y ${xs.length - tope} más`;
+
+/**
+ * Rutas sin repetir: la misma ruta con otras barras o con otras mayúsculas es
+ * una sola. Queda la primera forma en que apareció.
+ *
+ * En la primera corrida de humo, una escritura de Antigravity salió dos veces
+ * en el mismo motivo.
+ */
+function sinRepetir(rutas: readonly string[]): string[] {
+  const vistas = new Map<string, string>();
+  for (const r of rutas) {
+    const clave = r.replace(/[\\/]+/gu, '/').replace(/^\.\//u, '').replace(/\/$/u, '').toLowerCase();
+    if (!vistas.has(clave)) vistas.set(clave, r);
+  }
+  return [...vistas.values()];
+}
 
 // 1 -------------------------------------------------------------------------
 
@@ -370,11 +387,31 @@ export function cambiosDeGit(porcelana: string | null, ignorar: readonly string[
 export type ContextoDeRepositorios = {
   staging: string;
   raices: readonly string[];
+  /** Donde trabajó el agente: la copia. Una ruta relativa se lee desde acá. */
   cwd: string;
   /** Si otras corridas estaban activas a la vez: entonces un cambio no se le puede atribuir a esta. */
   paralelas: boolean;
+  /** Lo que cambió en la copia, por la huella de cada archivo. */
+  copia: CambiosDeLaCopia;
+  /**
+   * Las carpetas donde el agente guarda su propio estado. Escribir ahí es parte
+   * de cómo funciona, no escribir fuera: en la primera corrida de humo,
+   * Antigravity guardó un borrador en la carpeta de su conversación y salió como
+   * escritura fuera de la corrida.
+   */
+  propias: readonly string[];
 };
 
+/**
+ * Que la corrida no tocó nada que no fuera suyo.
+ *
+ * Mira tres cosas. El `git status` de los repositorios reales, antes y después.
+ * La huella de cada archivo de la copia: el agente trabaja ahí, y git no la ve;
+ * cambiar o borrar uno de esos archivos es tocar el arnés que se estaba usando,
+ * y crear uno nuevo es dejar algo donde no se pidió. Y las escrituras de la
+ * sesión que caen fuera de la carpeta de la corrida y del estado propio del
+ * agente.
+ */
 export function repositoriosIntactos(
   antes: Record<string, string[] | null>,
   despues: Record<string, string[] | null>,
@@ -392,20 +429,29 @@ export function repositoriosIntactos(
     const cambios = [...d.filter((x) => !a.includes(x)), ...a.filter((x) => !d.includes(x)).map((x) => `ya no: ${x}`)];
     if (cambios.length > 0) {
       const atribucion = ctx.paralelas ? '. Con corridas en paralelo, no se puede atribuir a esta' : '';
-      hallazgos.push({ estado: 'falla', texto: `${raiz}: ${lista(cambios)}${atribucion}` });
+      hallazgos.push({ estado: 'falla', texto: `${raiz}: ${lista([...new Set(cambios)])}${atribucion}` });
     }
   }
+  const { modificados, borrados, nuevos } = ctx.copia;
+  if (modificados.length > 0) hallazgos.push({ estado: 'falla', texto: `cambió en la copia: ${lista(sinRepetir(modificados))}` });
+  if (borrados.length > 0) hallazgos.push({ estado: 'falla', texto: `borró de la copia: ${lista(sinRepetir(borrados))}` });
+  if (nuevos.length > 0) hallazgos.push({ estado: 'aviso', texto: `creó en la copia: ${lista(sinRepetir(nuevos))}` });
+
+  const enRepositorios: string[] = [];
+  const afuera: string[] = [];
   for (const e of escritas) {
     const ruta = esAbsoluta(e) ? e : `${ctx.cwd}/${e}`;
-    if (dentroDe(ruta, ctx.staging)) continue;
-    if (ctx.raices.some((r) => dentroDe(ruta, r))) {
-      hallazgos.push({ estado: 'falla', texto: `escribió en un repositorio: ${e}` });
-    } else {
-      hallazgos.push({ estado: 'aviso', texto: `escribió fuera de su carpeta: ${e}` });
-    }
+    // Lo que cae en la copia lo decide su huella, más arriba.
+    if (dentroDe(ruta, ctx.staging) || ctx.propias.some((p) => dentroDe(ruta, p))) continue;
+    if (ctx.raices.some((r) => dentroDe(ruta, r))) enRepositorios.push(e);
+    else afuera.push(e);
   }
+  if (enRepositorios.length > 0) {
+    hallazgos.push({ estado: 'falla', texto: `escribió en un repositorio: ${lista(sinRepetir(enRepositorios))}` });
+  }
+  if (afuera.length > 0) hallazgos.push({ estado: 'aviso', texto: `escribió fuera de su carpeta: ${lista(sinRepetir(afuera))}` });
   if (hallazgos.length === 0) {
-    return comprobacion(9, 'pasa', 'git no cambió y no escribió fuera de su carpeta');
+    return comprobacion(9, 'pasa', 'git no cambió, la copia tampoco, y no escribió fuera de su carpeta');
   }
   return comprobacion(
     9,
@@ -417,36 +463,70 @@ export function repositoriosIntactos(
 
 // 10 ------------------------------------------------------------------------
 
-export type ContextoDeAislamiento = { staging: string; carpeta: string; cwd: string };
+export type ContextoDeAislamiento = {
+  staging: string;
+  carpeta: string;
+  /** La carpeta que contiene la de la prueba. La copia la replica, así que una ruta relativa se lee contra ella. */
+  mix: string;
+};
 
-const UNA_CORRIDA = /pf-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gu;
+const UNA_CORRIDA = /pf-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/giu;
 
 /**
- * Lo que el agente miró fuera de lo suyo.
+ * Las rutas de una cadena: lo que queda entre espacios, comillas y los signos
+ * que separan argumentos, con las barras normalizadas y sin el `./` del
+ * principio. Un comando entero, un `import` dentro de `node -e` o el campo de
+ * ruta de una herramienta dan todos sus rutas de la misma manera.
+ */
+export function rutasEn(s: string): string[] {
+  return s
+    .split(/[\s"'`<>|;,()[\]{}]+/u)
+    .map((t) => t.replace(/[\\/]+/gu, '/').replace(/^\.\//u, '').replace(/[.:]+$/u, ''))
+    .filter((t) => t.includes('/'));
+}
+
+/**
+ * Lo que el agente usó fuera de lo suyo.
  *
  * En el sondeo, Antigravity recorrió las carpetas vecinas, leyó lo que habían
- * dejado los otros dos agentes y copió una salida byte a byte; también leyó el
- * documento de la tarea. Esto marca las lecturas de otra corrida, de la carpeta
- * de la prueba, de `odd/` y de los archivos del ejecutor. Es un aviso: leer no
- * es copiar. La copia la caza `salidasIdenticas`, al final de la serie.
+ * dejado los otros dos agentes y copió una salida byte a byte. En la primera
+ * corrida de humo, Grok buscó en el ejecutor cómo se comprueban los hechos,
+ * importó las funciones que los comparan y revisó con ellas su propia salida.
+ * Cualquiera de las dos cosas deja un veredicto que no mide las skills, así que
+ * leer, buscar, importar o ejecutar el código de la prueba, la carpeta de la
+ * prueba u otra corrida es una falla, con las rutas en el motivo.
+ *
+ * Se miran las entradas de todas las herramientas, en cualquier forma de ruta.
+ * Una copia que no se leyó la caza `salidasIdenticas`, al final de la serie.
  */
 export function aislamiento(t: Transcripcion, ctx: ContextoDeAislamiento): Comprobacion {
   const propia = normalizarRuta(ctx.staging).split('/').at(-1) ?? '';
   const carpeta = normalizarRuta(ctx.carpeta);
-  const relativa = dentroDe(ctx.carpeta, ctx.cwd) ? carpeta.slice(normalizarRuta(ctx.cwd).length + 1) : null;
-  const porNombre = relativa ? new RegExp(`(?:^|[\\s"'\`=/])${escapar(relativa)}(?:/|$|[\\s"'\`])`, 'u') : null;
-  const hallazgos = new Set<string>();
+  const relativa = dentroDe(ctx.carpeta, ctx.mix) ? carpeta.slice(normalizarRuta(ctx.mix).length + 1) : null;
+  const porNombre = relativa ? new RegExp(`(?:^|/)${escapar(relativa)}(?:/|$)`, 'u') : null;
+  const codigo: string[] = [];
+  const deLaCarpeta: string[] = [];
+  const otras: string[] = [];
   for (const l of t.llamadas) {
     for (const s of cadenasDe(l.entrada)) {
-      const n = normalizarRuta(s);
-      for (const m of n.matchAll(UNA_CORRIDA)) if (m[0] !== propia) hallazgos.add(`otra corrida (${m[0]})`);
-      if (n.includes(carpeta) || porNombre?.test(n)) hallazgos.add('la carpeta de la prueba');
-      if (/(?:^|[\s"'`=/])odd\//u.test(n)) hallazgos.add('odd/');
-      if (/(?:scripts|evals)\/(?:fixtures\/)?prueba-final/u.test(n)) hallazgos.add('los archivos del ejecutor');
+      for (const ruta of rutasEn(s)) {
+        const n = normalizarRuta(ruta);
+        if (esCodigoDeLaPrueba(ruta)) codigo.push(ruta);
+        if (n === carpeta || n.startsWith(`${carpeta}/`) || porNombre?.test(n)) deLaCarpeta.push(ruta);
+        if ([...n.matchAll(UNA_CORRIDA)].some((m) => m[0] !== propia)) otras.push(ruta);
+      }
+      // Una carpeta de prueba con espacios en su ruta no sale entera de `rutasEn`.
+      if (carpeta.includes(' ') && normalizarRuta(s).includes(carpeta)) deLaCarpeta.push(ctx.carpeta);
     }
   }
-  if (hallazgos.size === 0) return comprobacion(10, 'pasa', 'no tocó nada de otras corridas ni de la prueba');
-  return comprobacion(10, 'aviso', `miró ${[...hallazgos].join(', ')}`, [...hallazgos]);
+  const grupos = [
+    { nombre: 'el código de la prueba', rutas: sinRepetir(codigo) },
+    { nombre: 'la carpeta de la prueba', rutas: sinRepetir(deLaCarpeta) },
+    { nombre: 'otra corrida', rutas: sinRepetir(otras) },
+  ].filter((g) => g.rutas.length > 0);
+  if (grupos.length === 0) return comprobacion(10, 'pasa', 'no tocó nada de otras corridas ni de la prueba');
+  const motivo = `usó ${grupos.map((g) => `${g.nombre} (${lista(g.rutas)})`).join('; ')}`;
+  return comprobacion(10, 'falla', motivo, Object.fromEntries(grupos.map((g) => [g.nombre, g.rutas])));
 }
 
 /** Para cada corrida, las otras cuya salida.md es idéntica byte a byte. */

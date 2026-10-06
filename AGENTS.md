@@ -495,6 +495,13 @@ byte. Los agentes reciben además `ENGRAM_PROJECT=prueba-final`, porque cargan l
 instrucciones globales del usuario y, sin esa variable, guardaban memorias en su
 proyecto real.
 
+El agente tampoco trabaja en mix. Trabaja en una copia que se arma dentro de la
+carpeta de su corrida, con las instrucciones de mix y lo que git rastrea del
+arnés, sin nada del código de esta prueba. El texto de entrada y la salida
+quedan fuera de esa copia. La razón también es concreta: trabajando en mix, un
+agente encontró el código que juzga las corridas, lo usó para revisar su propia
+salida antes de entregarla, y su veredicto dejó de medir las skills.
+
 Volver a correr no mezcla resultados. Lo que había de una serie anterior se
 mueve a `historial/`, bajo la fecha de esa serie, y no se borra. La matriz de
 agente por variante, con cada falla y su motivo, se escribe en la carpeta como

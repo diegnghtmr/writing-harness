@@ -25,6 +25,8 @@ export type Metadatos = {
   sesion: string | null;
   inicio: string;
   fin: string;
+  /** Cuántos archivos tenía la copia en que trabajó el agente, y su huella: dice qué arnés vio. */
+  copia: { archivos: number; huella: string };
 };
 
 export type Veredicto = {

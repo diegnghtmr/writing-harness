@@ -493,3 +493,19 @@ la suite no cubre: la prueba final con agentes reales, descrita en
 sus umbrales viven en `scripts/prueba-final/comprobaciones.ts`, cada uno con su
 motivo al lado. Un umbral se cambia ahí, con el motivo nuevo escrito, y nunca
 para que pase una corrida concreta.
+
+Las corridas no ven el código de la prueba. Cada agente trabaja en una copia de
+mix armada en la carpeta temporal de su corrida, con las instrucciones de mix y
+lo que git rastrea del arnés, y sin el ejecutor, sus pruebas, sus datos de
+prueba ni `odd/`. La razón salió de una corrida de humo: un agente buscó en el
+ejecutor cómo se comprueban los hechos, importó la función que los compara y
+revisó con ella su propia salida antes de entregarla. Su resultado dejó de medir
+las skills y pasó a medir que el agente había encontrado el oráculo.
+
+Lo que queda fuera de la copia se declara una sola vez, en
+`scripts/prueba-final/copia.ts`, y la comprobación de aislamiento lee esa misma
+lista: leer, buscar, importar o ejecutar algo de ella desde una corrida es una
+falla. Un archivo nuevo de la prueba tiene que caer dentro de esos patrones, o
+entra a la copia y queda al alcance de los agentes. La copia se arma con lo que
+git rastrea, así que un archivo nuevo del arnés que todavía no se agregó a git no
+llega a las corridas.

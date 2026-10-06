@@ -29,6 +29,7 @@ const veredicto = (agente: string, variante: string, cs: Comprobacion[], vencido
     sesion: null,
     inicio: '2026-10-06T00:00:00.000Z',
     fin: '2026-10-06T00:00:01.000Z',
+    copia: { archivos: 2, huella: 'f'.repeat(64) },
   },
 });
 

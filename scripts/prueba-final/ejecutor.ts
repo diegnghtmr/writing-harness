@@ -13,6 +13,14 @@
 //   entera, así que ninguna corrida puede ver el resultado de otra;
 // - al final, dos salidas idénticas byte a byte son una falla.
 //
+// En la primera corrida de humo apareció otra fuga: trabajando en mix, Grok
+// encontró el código de esta prueba, importó las funciones que comparan los
+// hechos y revisó con ellas su propia salida. Desde entonces el agente no
+// trabaja en mix sino en una copia, dentro de la carpeta de su corrida, sin el
+// código de la prueba (`copia.ts` dice qué lleva y por qué). `entrada.md` y
+// `salida.md` quedan fuera de la copia, en la carpeta de la corrida, y la
+// comprobación del verificador usa el del ejecutor, no el de la copia.
+//
 // Lo que cambia entre la prueba de verdad y la de la suite son las
 // dependencias: el agente, el verificador, git y el reloj. Por eso entran como
 // parámetros.
@@ -27,6 +35,7 @@ import {
   cambiosDeGit,
   conIdenticas,
   datosConservados,
+  dentroDe,
   docxIntacto,
   estadoDe,
   extensionRazonable,
@@ -39,6 +48,7 @@ import {
   verificadorLimpio,
   type Comprobacion,
 } from './comprobaciones.ts';
+import { CARPETA_DE_LA_COPIA, cambiosDeLaCopia, construirCopia, huellaDeLaCopia, huellasDe, type PlanDeLaCopia } from './copia.ts';
 import type { Texto } from './fragmento.ts';
 import type { Lanzamiento } from './proceso.ts';
 import { codigoDeSalida, resumenJson, resumenMarkdown, type Metadatos, type Suite, type Veredicto } from './resumen.ts';
@@ -52,6 +62,8 @@ export type Agente = {
   lanzar(ctx: Contexto): Promise<Lanzamiento>;
   /** Lee la sesión, y copia a la carpeta de la corrida lo que el agente dejó fuera de ella. */
   recoger(ctx: Contexto, l: Lanzamiento): Transcripcion;
+  /** Las carpetas donde el agente guarda su propio estado, que no cuentan como escribir fuera. */
+  estadoPropio?(ctx: Contexto, t: Transcripcion): string[];
 };
 
 export type Dependencias = {
@@ -70,8 +82,10 @@ export type Dependencias = {
 export type Plan = {
   carpeta: string;
   docx: string;
-  /** Donde trabajan los agentes: la carpeta que contiene la de la prueba. */
-  cwd: string;
+  /** La carpeta que contiene la de la prueba: de ahí salen las instrucciones de la copia. */
+  mix: string;
+  /** Lo que lleva la copia de cada corrida, que es donde trabajan los agentes. */
+  copia: PlanDeLaCopia;
   raicesGit: string[];
   texto: Texto;
   agentes: Agente[];
@@ -135,7 +149,9 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     const prompt = promptDe(variante, entrada, salida);
     const archivoPrompt = join(staging, 'prompt.txt');
     writeFileSync(archivoPrompt, prompt);
-    const ctx: Contexto = { prompt, archivoPrompt, sesion: id, cwd: plan.cwd, limiteMin: plan.limiteMin, staging };
+    const copia = join(staging, CARPETA_DE_LA_COPIA);
+    const huellasDeLaCopia = construirCopia(plan.copia, copia);
+    const ctx: Contexto = { prompt, archivoPrompt, sesion: id, cwd: copia, limiteMin: plan.limiteMin, staging };
 
     const huellaAntes = sha256(readFileSync(plan.docx));
     const gitAntes = estadoRepos();
@@ -166,6 +182,8 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
 
     const huellaDespues = sha256(readFileSync(plan.docx));
     const gitDespues = estadoRepos();
+    const cambiosEnLaCopia = cambiosDeLaCopia(huellasDeLaCopia, huellasDe(copia));
+    const propias = agente.estadoPropio?.(ctx, t) ?? [];
     const bytes = existsSync(salida) ? new Uint8Array(readFileSync(salida)) : null;
     const leido = leerTexto(bytes);
     const texto = 'texto' in leido ? leido.texto : null;
@@ -184,10 +202,12 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
       repositoriosIntactos(gitAntes, gitDespues, escrituras(t), {
         staging,
         raices: plan.raicesGit,
-        cwd: plan.cwd,
+        cwd: copia,
         paralelas: yo.acompanada,
+        copia: cambiosEnLaCopia,
+        propias,
       }),
-      aislamiento(t, { staging, carpeta: plan.carpeta, cwd: plan.cwd }),
+      aislamiento(t, { staging, carpeta: plan.carpeta, mix: plan.mix }),
     ];
     const metadatos: Metadatos = {
       version: t.version,
@@ -200,6 +220,7 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
       sesion: t.sesion ?? id,
       inicio: inicio.toISOString(),
       fin: fin.toISOString(),
+      copia: { archivos: Object.keys(huellasDeLaCopia).length, huella: huellaDeLaCopia(huellasDeLaCopia) },
     };
     const fallas = comprobaciones.filter((c) => c.estado === 'falla').map((c) => c.numero);
     const vencida = l.vencido ? ', tiempo agotado' : '';
@@ -260,6 +281,10 @@ function fechaPrevia(carpeta: string): string | null {
  * Lo que ya estaba de una serie anterior no se borra ni se mezcla: se mueve a
  * `historial/<fecha de esa serie>/`. Mezclar dejaba en una misma carpeta la
  * salida de una corrida y el veredicto de otra.
+ *
+ * La copia no se publica: es la misma en cada corrida, su huella queda en el
+ * veredicto, y lo que el agente cambió en ella ya está en el motivo de los
+ * repositorios. Se borra con el resto de la carpeta de la corrida.
  */
 function publicar(
   carpeta: string,
@@ -280,7 +305,8 @@ function publicar(
     const destino = join(carpeta, r.agente, r.variante);
     mover(destino, join(historial, r.agente, r.variante));
     mkdirSync(dirname(destino), { recursive: true });
-    cpSync(r.staging, destino, { recursive: true });
+    const copia = join(r.staging, CARPETA_DE_LA_COPIA);
+    cpSync(r.staging, destino, { recursive: true, filter: (desde) => !dentroDe(desde, copia) });
     writeFileSync(join(destino, 'veredicto.json'), `${JSON.stringify(veredictos[i], null, 2)}\n`);
   });
   writeFileSync(join(carpeta, 'resumen.md'), resumenMarkdown(suite));

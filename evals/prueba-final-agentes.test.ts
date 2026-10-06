@@ -211,6 +211,16 @@ describe('las líneas de comando', () => {
     );
     assert.equal(AGENTES.agy?.transcripcion(home, ctx, ''), null, 'sin la línea init no hay conversación que buscar');
   });
+
+  test('dónde guarda cada uno su propio estado, que no cuenta como escribir fuera', () => {
+    const home = join('home', 'prueba');
+    assert.deepEqual(AGENTES.copilot?.estadoPropio(home, ctx, null), [join(home, '.copilot', 'session-state', ctx.sesion)]);
+    assert.deepEqual(AGENTES.grok?.estadoPropio(home, ctx, 'sesion-grok'), [join(home, '.grok', 'sessions')]);
+    assert.deepEqual(AGENTES.agy?.estadoPropio(home, ctx, 'conv-agy'), [
+      join(home, '.gemini', 'antigravity-cli', 'brain', 'conv-agy'),
+    ]);
+    assert.deepEqual(AGENTES.agy?.estadoPropio(home, ctx, null), [], 'sin conversación no hay carpeta propia que reconocer');
+  });
 });
 
 describe('qué se puede lanzar sin shell', () => {
