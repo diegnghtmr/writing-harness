@@ -1,0 +1,2 @@
+ERROR: logging before google.Init: I1005 23:36:25.298179      28 server.go:1461] Starting language server process with pid 1
+ERROR: logging before google.Init: I1005 23:36:25.310183      28 server.go:1513] Language server version: 1.1.14

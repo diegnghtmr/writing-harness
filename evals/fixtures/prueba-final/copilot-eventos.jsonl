@@ -1,0 +1,4 @@
+{"type":"session.start","data":{"sessionId":"sesion-copilot","producer":"copilot-agent","copilotVersion":"1.0.92","context":{"cwd":"C:\\Users\\prueba\\repos\\mix"}},"id":"v1"}
+{"type":"skill.invoked","data":{"name":"redactar-espanol","path":"C:\\Users\\prueba\\.agents\\skills\\redactar-espanol\\SKILL.md","content":"menciona skills/fonda-writing/SKILL.md sin cargarla","trigger":"agent-invoked"},"id":"v2"}
+{"type":"skill.invoked","data":{"name":"spanish-writing","path":"C:\\Users\\prueba\\.agents\\skills\\spanish-writing\\SKILL.md","content":"…"},"id":"v3"}
+{"type":"session.shutdown","data":{"shutdownType":"routine","totalPremiumRequests":1},"id":"v4"}

@@ -1,0 +1,19 @@
+{"type":"session.auto_mode_resolved","data":{"chosenModel":"modelo-de-prueba"},"ephemeral":true,"id":"e1"}
+{"type":"user.message","data":{"content":"Corrige el texto."},"id":"e2"}
+{"type":"assistant.message","data":{"model":"modelo-de-prueba","content":"","toolRequests":[{"toolCallId":"c1","name":"skill","arguments":{"skill":"redactar-espanol"}}]},"id":"e3"}
+{"type":"tool.execution_start","data":{"toolCallId":"c1","toolName":"skill","arguments":{"skill":"redactar-espanol"}},"id":"e4"}
+{"type":"tool.execution_complete","data":{"toolCallId":"c1","success":true,"result":{"content":"Skill \"redactar-espanol\" loaded successfully."}},"id":"e5"}
+{"type":"tool.execution_start","data":{"toolCallId":"c2","toolName":"skill","arguments":{"skill":"spanish-writing"}},"id":"e6"}
+{"type":"tool.execution_complete","data":{"toolCallId":"c2","success":true,"result":{"content":"Skill \"spanish-writing\" loaded successfully."}},"id":"e7"}
+{"type":"tool.execution_start","data":{"toolCallId":"c3","toolName":"view","arguments":{"path":"C:\\Users\\prueba\\.agents\\skills\\camus-writing\\SKILL.md"}},"id":"e8"}
+{"type":"tool.execution_complete","data":{"toolCallId":"c3","success":true,"result":{"content":"1. ---"}},"id":"e9"}
+{"type":"assistant.tool_call_delta","data":{"toolCallId":"c4","toolName":"powershell","inputDelta":"{\""},"ephemeral":true,"id":"e10"}
+{"type":"tool.execution_start","data":{"toolCallId":"c4","toolName":"powershell","arguments":{"command":"$p = 'C:\\temp\\pf-00000000-0000-4000-8000-000000000001\\salida.md'; [System.IO.File]::WriteAllText($p, \"Texto corregido.\", [System.Text.UTF8Encoding]::new($false)); node writing-harness/src/cli.ts $p; exit $LASTEXITCODE","description":"Guardar y verificar"}},"id":"e11"}
+{"type":"tool.shell_output","data":{"toolCallId":"c4","stream":"stdout","text":"C:\\temp\\pf-00000000-0000-4000-8000-000000000001\\salida.md: sin hallazgos"},"ephemeral":true,"id":"e12"}
+{"type":"tool.execution_complete","data":{"toolCallId":"c4","shellExecution":{"exitCode":1},"success":true,"result":{"content":"sin hallazgos"}},"id":"e13"}
+{"type":"tool.execution_start","data":{"toolCallId":"c5","toolName":"create","arguments":{"path":"C:\\Users\\prueba\\notas.md","file_text":"nota"}},"id":"e14"}
+{"type":"tool.execution_complete","data":{"toolCallId":"c5","success":true,"result":{"content":"creado"}},"id":"e15"}
+esta línea no es JSON y no tiene que romper nada
+{"type":"assistant.message_delta","data":{"messageId":"m9","deltaContent":"Qu"},"ephemeral":true,"id":"e16"}
+{"type":"assistant.message","data":{"messageId":"m9","model":"modelo-de-prueba","content":"Quedó en `C:\\temp\\pf-00000000-0000-4000-8000-000000000001\\salida.md`. No se aplicó ningún tono: el modo es corregir.","toolRequests":[],"phase":"final_answer"},"id":"e17"}
+{"type":"result","sessionId":"sesion-copilot","exitCode":0,"usage":{"premiumRequests":1,"sessionDurationMs":15890}}
