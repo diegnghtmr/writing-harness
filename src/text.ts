@@ -35,6 +35,34 @@ export function positionAt(text: string, offset: number): Position {
   return { line, column: offset - lastBreak };
 }
 
+/**
+ * El texto en NFC, y para cada desplazamiento de esa forma el que le corresponde
+ * en el original. Las reglas miden la forma compuesta, pero quien lee un hallazgo
+ * busca la posición en su archivo, donde cada tilde aparte es un carácter más.
+ *
+ * Se normaliza por tramos de una letra con sus marcas combinantes. Si la suma de
+ * los tramos no da la normalización del texto entero, que solo pasa con
+ * composiciones entre dos letras base que el español no usa, los desplazamientos
+ * se quedan como están.
+ */
+export function enNfc(original: string): { text: string; aOriginal: (offset: number) => number } {
+  const text = original.normalize('NFC');
+  if (text === original) return { text, aOriginal: (offset) => offset };
+  const tramos = original.match(/\P{M}\p{M}*|\p{M}+/gsu) ?? [];
+  const mapa: number[] = [];
+  let unido = '';
+  let pos = 0;
+  for (const tramo of tramos) {
+    const compuesto = tramo.normalize('NFC');
+    for (let i = 0; i < compuesto.length; i++) mapa.push(pos);
+    unido += compuesto;
+    pos += tramo.length;
+  }
+  mapa.push(original.length);
+  if (unido !== text) return { text, aOriginal: (offset) => offset };
+  return { text, aOriginal: (offset) => mapa[Math.min(Math.max(offset, 0), mapa.length - 1)]! };
+}
+
 /** Devuelve la línea completa que contiene el desplazamiento, sin el salto. */
 export function lineAt(text: string, offset: number): string {
   const start = text.lastIndexOf('\n', Math.max(0, offset - 1)) + 1;

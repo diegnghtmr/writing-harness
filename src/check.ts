@@ -9,7 +9,7 @@ import {
   type Severity,
   assertRules,
 } from './rules.ts';
-import { countWords, lineAt, positionAt, splitParagraphs } from './text.ts';
+import { countWords, enNfc, lineAt, positionAt, splitParagraphs } from './text.ts';
 
 export type Finding = {
   rule: string;
@@ -100,15 +100,17 @@ export function relevadas(tone?: string, pasadas: readonly string[] = []): { reg
 export function check(original: string, options: CheckOptions = {}): Finding[] {
   // Las listas de las reglas están en NFC. Un texto copiado de un PDF, o escrito
   // en macOS, puede traer la tilde como un carácter aparte (NFD), y entonces
-  // «tú» o «querés» no coincidían con nada. Se mide la forma compuesta.
-  const text = original.normalize('NFC');
+  // «tú» o «querés» no coincidían con nada. Se mide la forma compuesta, y cada
+  // posición se devuelve a la del texto que se pasó.
+  const { text, aOriginal } = enNfc(original);
   const rules = rulesFor(options.tone, options.pasadas);
   assertRules(rules);
 
   const findings: Finding[] = [];
   const at = (offset: number) => {
-    const { line, column } = positionAt(text, offset);
-    return { line, column, excerpt: lineAt(text, offset).trim() };
+    const enElOriginal = aOriginal(offset);
+    const { line, column } = positionAt(original, enElOriginal);
+    return { line, column, excerpt: lineAt(original, enElOriginal).trim() };
   };
 
   const protegidas = zonasProtegidas(text);

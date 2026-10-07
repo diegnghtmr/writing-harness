@@ -458,6 +458,18 @@ describe('capa base', () => {
     }
   });
 
+  test('con la tilde aparte, la línea y la columna son las del texto que se pasó', () => {
+    // Se mide la forma compuesta, pero quien lee el hallazgo busca la posición en
+    // su propio archivo. Cada tilde aparte que hay antes en la línea es un
+    // carácter más ahí que en la forma compuesta.
+    const t = 'Primera línea del acta.\nSegún él, después de la reunión, mirá el anexo.'.normalize('NFD');
+    const f = check(t).find((x) => x.rule === 'tratamiento-de-usted');
+    assert.ok(f, 'el imperativo se marcó');
+    const segunda = t.split('\n')[1]!;
+    assert.equal(f.line, 2);
+    assert.equal(f.column, segunda.indexOf('mirá') + 1);
+  });
+
   test('lo que coincide con un imperativo del voseo y no lo es no se marca', () => {
     // El imperativo del voseo de los verbos en -ir es igual a la primera persona
     // del pretérito: «escribí», «salí», «pedí», «elegí». Y en -ar, el pretérito
