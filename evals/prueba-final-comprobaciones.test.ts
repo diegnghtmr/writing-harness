@@ -174,6 +174,65 @@ describe('las lecturas de una skill, enteras o en parte', () => {
     );
     assert.deepEqual(lecturasDeSkills(t), { completas: ['spanish-writing'], parciales: [] });
   });
+
+  // La revisión de la rama encontró que bastaba con nombrar la ruta: un comando
+  // que solo comprueba si existe, una búsqueda por patrón o el cuerpo de lo que
+  // se escribe contaban como una skill cargada, y la comprobación 4 pasaba sin
+  // que el agente leyera nada.
+  test('un comando que imprime el archivo lo lee: cat, type, Get-Content, gc, head o less', () => {
+    const t = con(
+      llamada('run_terminal_command', { command: 'cat ~/.grok/skills/camus-writing/SKILL.md' }),
+      llamada('run_command', { CommandLine: `type "${ruta('fonda-writing')}"` }),
+      llamada('powershell', { command: `Get-Content -Raw -Path "${ruta('han-writing')}"` }),
+      llamada('powershell', { command: `$t = gc ${ruta('atenas-writing')}` }),
+      llamada('run_terminal_command', { command: 'cd /tmp && less skills/dotcsv-writing/SKILL.md' }),
+      llamada('run_terminal_command', { command: 'head -n 40 skills/spanish-writing/SKILL.md' }),
+      llamada('powershell', { command: `Get-Content ${ruta('freddy-writing')} | Select-Object -First 30` }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), {
+      completas: ['atenas-writing', 'camus-writing', 'dotcsv-writing', 'fonda-writing', 'han-writing'],
+      parciales: ['freddy-writing', 'spanish-writing'],
+    });
+  });
+
+  test('listar, comprobar que existe o buscar por patrón una ruta de skill no es leerla', () => {
+    const t = con(
+      llamada('powershell', { command: `Test-Path "${ruta('camus-writing')}"` }),
+      llamada('run_terminal_command', { command: 'ls -la ~/.grok/skills/fonda-writing/SKILL.md' }),
+      llamada('glob', { pattern: '**/skills/han-writing/SKILL.md' }),
+      llamada('find_by_name', { SearchDirectory: 'C:\\Users\\p\\.gemini\\config', Pattern: 'skills/atenas-writing/SKILL.md' }),
+      llamada('powershell', { command: `Get-ChildItem ${ruta('solitario-writing')} | Select-String x` }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: [] });
+  });
+
+  test('en un comando con varios pasos, solo cuenta la ruta del paso que lee', () => {
+    const t = con(
+      llamada('powershell', { command: `if (Test-Path ${ruta('catedra-writing')}) { echo si }; Get-Content ${ruta('redactar-espanol')}` }),
+      llamada('run_terminal_command', { command: 'test -f skills/bettatech-writing/SKILL.md && echo ok' }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: ['redactar-espanol'], parciales: [] });
+  });
+
+  test('una ruta con comodines no nombra ninguna skill, ni en una herramienta de lectura', () => {
+    const t = con(
+      llamada('run_terminal_command', { command: 'cat ~/.grok/skills/*/SKILL.md' }),
+      llamada('run_terminal_command', { command: 'cat ~/.grok/skills/camus-writin?/SKILL.md' }),
+      llamada('powershell', { command: 'Get-Content C:\\Users\\*\\.agents\\skills\\fonda-writing\\SKILL.md' }),
+      llamada('read_file', { target_file: 'C:\\Users\\*\\.grok\\skills\\han-writing\\SKILL.md' }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: [] });
+  });
+
+  test('lo que escribe una herramienta o un comando no es una lectura, aunque nombre una skill', () => {
+    const t = con(
+      llamada('write_to_file', { TargetFile: 'C:\\t\\salida.md', CodeContent: 'Ver skills/camus-writing/SKILL.md.' }),
+      llamada('create', { path: 'C:\\t\\notas.md', file_text: `Cargué ${ruta('fonda-writing')}` }),
+      llamada('edit', { path: ruta('han-writing'), old_str: 'a', new_str: 'b' }),
+      llamada('run_terminal_command', { command: "cat <<'EOF' > skills/atenas-writing/SKILL.md\nhola\nEOF" }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: [] });
+  });
 });
 
 describe('5. el agente midió', () => {
@@ -299,6 +358,26 @@ describe('6. la respuesta', () => {
   test('humanizar se nombra', () => {
     const r = 'Lo humanicé, sin tono porque la forma es del autor; está en salida.md.';
     assert.equal(respuestaCorrecta(v('humanizar'), r, texto, SALIDA).estado, 'pasa');
+    for (const otra of [
+      'Apliqué la pasada humanizar, sin tono porque la forma es del autor; está en salida.md.',
+      'El texto quedó humanizado en salida.md, sin tono porque la forma es del autor.',
+      'Cargué humanizar-espanol, sin tono porque la forma es del autor; está en salida.md.',
+    ]) {
+      assert.doesNotMatch(respuestaCorrecta(v('humanizar'), otra, texto, SALIDA).motivo, /no nombra la pasada/u, otra);
+    }
+  });
+
+  test('humanizar no se nombra con «pasada» suelta ni con otra palabra de la misma raíz', () => {
+    // La revisión de la rama: cualquier respuesta con «pasada», o con «humani»,
+    // que también empieza «humanidad», daba la pasada por nombrada.
+    for (const r of [
+      'Hice la pasada que pidió, sin tono porque la forma es del autor; está en salida.md.',
+      'Le di más humanidad al texto, sin tono porque la forma es del autor; está en salida.md.',
+    ]) {
+      const c = respuestaCorrecta(v('humanizar'), r, texto, SALIDA);
+      assert.equal(c.estado, 'falla', r);
+      assert.match(c.motivo, /no nombra la pasada humanizar/u);
+    }
   });
 
   test('la línea del tono sin su porqué avisa', () => {

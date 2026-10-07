@@ -367,10 +367,21 @@ function nombraElTono(respuesta: string, v: Variante): boolean {
   return new RegExp(`[«"'\`“]${id}[»"'\`”]`, 'u').test(r);
 }
 
+/**
+ * Si la respuesta nombra la pasada: por su skill, o por su verbo en cualquier
+ * forma. «humanizar», «humanizado» y «humanización» llevan la raíz `humaniz`, y
+ * «humanicé» la misma con la `z` vuelta `c` delante de `e`.
+ *
+ * La palabra «pasada» sola no la nombra: no dice cuál. Tampoco las seis
+ * primeras letras del verbo, que comparte «humanidad». Las dos cosas daban por
+ * nombrada la pasada en una respuesta que no la nombraba.
+ */
 function nombraLaPasada(respuesta: string, v: Variante): boolean {
   const r = llano(respuesta);
-  // «humanicé», «humanizado», «humanizar»: la raíz común son las seis primeras letras.
-  return r.includes(llano(v.id).slice(0, 6)) || (v.skill !== null && r.includes(llano(v.skill))) || /\bpasada\b/u.test(r);
+  if (v.skill !== null && r.includes(llano(v.skill))) return true;
+  const raiz = llano(v.id).replace(/(?:ar|er|ir)$/u, '');
+  const formas = raiz.endsWith('z') ? [raiz, `${raiz.slice(0, -1)}ce`] : [raiz];
+  return new RegExp(`\\b(?:${formas.map(escapar).join('|')})`, 'u').test(r);
 }
 
 const normalizarRutaLibre = (s: string) => s.replace(/\\/gu, '/').toLowerCase();

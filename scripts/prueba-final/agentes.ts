@@ -249,25 +249,33 @@ function llamadasDeAgy(transcripcion: string): { llamadas: Llamada[]; respuesta:
   return { llamadas, respuesta };
 }
 
-/** El `short_error` de la línea `AGY_ERROR` de la salida de errores, que trae el estado y el código. */
-function errorDeAgy(stderr: string | null): string | null {
+type ErrorDeAgy = { mensaje: string; reintentable: boolean };
+
+/**
+ * Las líneas `AGY_ERROR` de la salida de errores, cada una con su `short_error`,
+ * que trae el estado y el código, y con si agy la marca `retryable`.
+ */
+function erroresDeAgy(stderr: string | null): ErrorDeAgy[] {
+  const out: ErrorDeAgy[] = [];
   for (const l of (stderr ?? '').split(/\r?\n/u)) {
     const m = /^AGY_ERROR:\s*(\{.*\})\s*$/u.exec(l.trim());
     if (m === null) continue;
     try {
       const j = obj(JSON.parse(m[1] as string));
-      return str(j.short_error) ?? str(j.status);
+      const mensaje = str(j.short_error) ?? str(j.status);
+      if (mensaje !== null) out.push({ mensaje, reintentable: j.retryable === true });
     } catch {
       // Una línea rota no tapa el error del resultado.
     }
   }
-  return null;
+  return out;
 }
 
 export function parsearAgy(stdout: string, transcripcion: string | null, log: string | null, stderr: string | null = null): Transcripcion {
   const t = vacia();
   const pasos = new Set<number>();
   let delResultado: string | null = null;
+  let terminoBien = false;
   for (const j of lineas(stdout)) {
     if (j.event === 'init') t.sesion = str(j.conversation_id);
     if (j.event === 'step_update') {
@@ -283,6 +291,7 @@ export function parsearAgy(stdout: string, transcripcion: string | null, log: st
       const r = obj(j.result);
       t.respuesta = str(r.response);
       if (r.status === 'ERROR') delResultado = str(r.error) ?? 'ERROR';
+      else terminoBien = true;
       const segundos = num(r.duration_seconds);
       if (segundos !== null) t.duracionMs = Math.round(segundos * 1000);
       t.sesion ??= str(r.conversation_id);
@@ -294,7 +303,15 @@ export function parsearAgy(stdout: string, transcripcion: string | null, log: st
     t.respuesta ??= completa.respuesta;
   }
   t.version = /Language server version:\s*(\S+)/u.exec(log ?? '')?.[1] ?? null;
-  const error = errorDeAgy(stderr) ?? delResultado;
+  // agy deja en la salida de errores también los errores de los que se repone.
+  // Uno marcado reintentable, en una sesión que terminó con un resultado
+  // exitoso y una respuesta, no es un error de la corrida. Uno que no se
+  // reintenta lo es siempre, y uno reintentable sin ese final también.
+  const errores = erroresDeAgy(stderr);
+  const exito = terminoBien && t.respuesta !== null && t.respuesta.trim() !== '';
+  const fatal = errores.find((e) => !e.reintentable)?.mensaje;
+  const reintentado = errores.find((e) => e.reintentable)?.mensaje;
+  const error = fatal ?? (exito ? null : (reintentado ?? delResultado));
   t.error = error === null ? null : motivoDeError(error);
   return t;
 }

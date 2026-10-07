@@ -20,6 +20,7 @@ import { REPO_ROOT } from '../src/skills.ts';
 import { AGENTES, parsearAgy, parsearCopilot, parsearGrok } from '../scripts/prueba-final/agentes.ts';
 import { entornoDeLaCorrida } from '../scripts/prueba-final/reales.ts';
 import { resolverEjecutable } from '../scripts/prueba-final/resolver.ts';
+import { errorDelAgente } from '../scripts/prueba-final/comprobaciones.ts';
 import { cadenasDe, comandos, escrituras, llamada, motivoDeError, skillsCargadas } from '../scripts/prueba-final/transcripcion.ts';
 
 const fixture = (nombre: string) => readFileSync(join(REPO_ROOT, 'evals', 'fixtures', 'prueba-final', nombre), 'utf8');
@@ -244,6 +245,29 @@ describe('los errores del propio agente', () => {
     assert.equal(t.error, 'cuota agotada (RESOURCE_EXHAUSTED 429), vuelve en 156h37m');
     assert.equal(t.respuesta, '');
     assert.deepEqual(escrituras(t), ['C:\\Users\\prueba\\tmp\\pf-1\\salida.md'], 'lo que hizo antes del error se sigue leyendo');
+  });
+
+  // La revisión de la rama: la línea AGY_ERROR ganaba antes de mirar cómo
+  // terminó la sesión. agy registra ahí también los errores de los que se
+  // repone, y una corrida que reintentó y respondió salía como error del agente.
+  test('agy: un error reintentable seguido de un resultado exitoso no es un error', () => {
+    const t = parsearAgy(fixture('agy-stdout.jsonl'), fixture('agy-transcripcion.jsonl'), fixture('agy-log.txt'), fixture('agy-reintento-stderr.txt'));
+    assert.equal(t.error, null);
+    assert.match(t.respuesta ?? '', /^Quedó en/u);
+    assert.equal(errorDelAgente(t, { codigo: 0, vencido: false }), null);
+  });
+
+  test('agy: un error que no se reintenta sigue siendo un error, aunque haya respuesta', () => {
+    const fatal = 'AGY_ERROR: {"short_error":"PERMISSION_DENIED (code 403): denied","status":"PERMISSION_DENIED","error_code":403,"retryable":false}\n';
+    const t = parsearAgy(fixture('agy-stdout.jsonl'), null, null, fatal);
+    assert.equal(t.error, 'PERMISSION_DENIED (code 403): denied');
+  });
+
+  test('agy: un error reintentable sin resultado exitoso es un error', () => {
+    const reintento = fixture('agy-reintento-stderr.txt');
+    assert.match(parsearAgy(fixture('agy-error-stdout.jsonl'), null, null, reintento).error ?? '', /UNAVAILABLE/u);
+    const sinResultado = fixture('agy-stdout.jsonl').split('\n').filter((l) => !l.includes('"event":"result"')).join('\n');
+    assert.match(parsearAgy(sinResultado, null, null, reintento).error ?? '', /UNAVAILABLE/u);
   });
 
   test('agy: sin salida de errores, el del resultado', () => {

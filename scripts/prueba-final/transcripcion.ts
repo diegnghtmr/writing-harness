@@ -127,7 +127,7 @@ const RUTA_DE_SKILL = /skills[\\/]+([^\\/\s"'`]+)[\\/]+SKILL\.md/giu;
 
 /**
  * Las skills cargadas: por la herramienta de skills, por el registro del agente
- * y por toda ruta a un `SKILL.md` en la entrada de cualquier herramienta.
+ * y por toda ruta a un `SKILL.md` que una herramienta o un comando leyó.
  *
  * Solo las entradas. La salida de una herramienta puede listar skills que nadie
  * leyó, y el contenido de una skill cargada nombra a otras.
@@ -149,11 +149,73 @@ const CAMPOS_DE_BUSQUEDA = ['pattern', 'query', 'regex'];
 /** Un comando que busca o recorta en vez de leer entero. */
 const COMANDO_PARCIAL = /select-string|\bgrep\b|\brg\b|findstr|select-object\s+-(?:first|last|skip)|-totalcount\b|-tail\b|\bhead\b|\btail\b|\bsed\s+-n\b/iu;
 
+/**
+ * Una herramienta que lee el archivo de su ruta: `view` de Copilot,
+ * `read_file` de Grok, `view_file` de Antigravity. Una que lo borra, lo mueve o
+ * lo lista no lo lee, aunque su ruta sea un `SKILL.md`.
+ */
+const HERRAMIENTA_DE_LECTURA = /read|view|open|show|^cat$/iu;
+
+/**
+ * Un programa que imprime un archivo, o un tramo de él, escrito como comando: al
+ * principio del paso o después de una tubería, un paréntesis, una llave o una
+ * asignación. `Test-Path`, `ls` o `echo` nombran la ruta sin leerla.
+ */
+const COMANDO_QUE_LEE =
+  /(?:^|[\s(|{=])(?:cat|type|get-content|gc|head|tail|less|more|bat|sed|awk|grep|egrep|rg|select-string|sls|findstr)(?=\s)/iu;
+
+/** Los pasos de un comando: lo que separan `;`, `&&`, `||` o un salto de línea. Una tubería es un solo paso. */
+const PASOS = /;|&&|\|\||\r?\n/u;
+
+/** Los comodines de un patrón: una ruta que los lleva no es la de un archivo. */
+const COMODIN = /[*?]/u;
+
+/** Una llamada que lee archivos: la ruta de cada uno y si lo lee entero. */
+type Lectura = { texto: string; parcial: boolean };
+
 function esParcial(l: Llamada): boolean {
   const e = l.entrada !== null && typeof l.entrada === 'object' ? (l.entrada as Record<string, unknown>) : {};
   if (CAMPOS_DE_TRAMO.some((c) => e[c] !== undefined && e[c] !== null)) return true;
-  if (CAMPOS_DE_BUSQUEDA.some((c) => typeof e[c] === 'string')) return true;
-  return l.comando !== null && COMANDO_PARCIAL.test(l.comando);
+  return CAMPOS_DE_BUSQUEDA.some((c) => typeof e[c] === 'string');
+}
+
+/**
+ * Lo que una llamada lee, para buscar ahí las rutas de skills.
+ *
+ * Nombrar la ruta no alcanza. Una herramienta de lectura, o una que busca dentro
+ * de un archivo, lee la ruta de su campo de ruta, y nada más de su entrada. Un
+ * comando lee las rutas de cada paso que empieza a leer antes de nombrarlas: en
+ * `Test-Path x; Get-Content y` se lee `y` y no `x`. Lo que escribe una
+ * herramienta, ni su ruta ni su contenido, no se lee.
+ */
+function lecturasDe(l: Llamada): Lectura[] {
+  if (l.clase === 'shell' && l.comando !== null) {
+    return l.comando.split(PASOS).map((paso) => ({ texto: paso, parcial: COMANDO_PARCIAL.test(paso) }));
+  }
+  if (l.clase !== 'otra' || l.ruta === null) return [];
+  const busca = CAMPOS_DE_BUSQUEDA.some((c) => typeof (l.entrada as Record<string, unknown>)[c] === 'string');
+  if (!busca && !HERRAMIENTA_DE_LECTURA.test(l.herramienta)) return [];
+  return [{ texto: l.ruta, parcial: esParcial(l) }];
+}
+
+/** Las skills cuya ruta aparece en lo que lee un paso, con la condición de un comando si lo es. */
+function skillsLeidas(lectura: Lectura, comando: boolean): string[] {
+  const out: string[] = [];
+  for (const m of lectura.texto.matchAll(RUTA_DE_SKILL)) {
+    const nombre = (m[1] as string).toLowerCase();
+    if (!NOMBRE_DE_SKILL.test(nombre)) continue;
+    const antes = lectura.texto.slice(0, m.index);
+    // La ruta entera, desde el último espacio o comilla: `C:\Users\*\...` es un patrón.
+    const ruta = `${/[^\s"'`]*$/u.exec(antes)?.[0] ?? ''}${m[0]}`;
+    if (COMODIN.test(ruta)) continue;
+    if (comando) {
+      if (!COMANDO_QUE_LEE.test(antes)) continue;
+      // `cat > ruta` escribe en la ruta: la redirección la vuelve destino.
+      if (/>\s*["'`]?[^\s"'`]*$/u.test(antes)) continue;
+    }
+    out.push(nombre);
+  }
+  return out;
 }
 
 /**
@@ -166,19 +228,18 @@ function esParcial(l: Llamada): boolean {
  * consultar algo: las dos cosas salían como skills cargadas. La herramienta de
  * skills y el registro del propio agente cargan la skill entera. Una skill
  * leída entera alguna vez no figura entre las parciales.
+ *
+ * Solo cuenta lo que se leyó (ver `lecturasDe`). En la revisión de la rama, un
+ * `Test-Path`, un patrón de búsqueda o el cuerpo de un archivo escrito que
+ * nombraban la ruta daban la skill por cargada sin que nadie la abriera.
  */
 export function lecturasDeSkills(t: Transcripcion): { completas: string[]; parciales: string[] } {
   const completas = new Set<string>(t.skillsInvocadas);
   const parciales = new Set<string>();
   for (const l of t.llamadas) {
     if (l.skill !== null) completas.add(l.skill);
-    const parcial = esParcial(l);
-    for (const s of cadenasDe(l.entrada)) {
-      for (const m of s.matchAll(RUTA_DE_SKILL)) {
-        const nombre = (m[1] as string).toLowerCase();
-        if (!NOMBRE_DE_SKILL.test(nombre)) continue;
-        (parcial ? parciales : completas).add(nombre);
-      }
+    for (const lectura of lecturasDe(l)) {
+      for (const nombre of skillsLeidas(lectura, l.clase === 'shell')) (lectura.parcial ? parciales : completas).add(nombre);
     }
   }
   return { completas: [...completas].sort(), parciales: [...parciales].filter((n) => !completas.has(n)).sort() };
