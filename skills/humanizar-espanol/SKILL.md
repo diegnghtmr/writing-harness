@@ -20,6 +20,10 @@ description: >
 esta pasada corre sobre sus reglas y nunca las sustituye.
 Si «redactar-espanol» no está cargada, se carga también: ella decide si hay
 tono y cómo se entrega el texto.
+Después se leen enteras sus dos referencias, antes de tocar el texto:
+`references/patrones-de-ia.md`, el catálogo con que empieza el flujo de la
+sección 6, y `references/que-preservar.md`, que decide qué no se corrige. Esta
+skill sin ellas es un resumen, y con un resumen no se identifica cada patrón.
 
 Tu tarea es reescribir un texto para que deje de parecer producido por una
 máquina y recupere las marcas de la escritura humana, sin alterar lo que el
