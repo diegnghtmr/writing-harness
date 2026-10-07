@@ -437,7 +437,8 @@ function imprimirPlan(
     `Agentes, trabajando en la copia con ENGRAM_PROJECT=${PREFIJO_DE_ENGRAM}-<serie>-<agente>-<variante>:`,
     ...agentes.flatMap(({ def, ejecutable }) =>
       ejecutable === null
-        ? [`  ${def.id}: no se encontró en el PATH`]
+        ? // Los argumentos se muestran igual: no dependen de dónde esté instalado.
+          [`  ${def.id}: no se encontró en el PATH`, `    ${mostrar(def.argumentos(ctx))}`]
         : [`  ${def.id}: ${mostrar([ejecutable.comando, ...ejecutable.prefijo])}`, `    ${mostrar(def.argumentos(ctx))}`],
     ),
     '',
