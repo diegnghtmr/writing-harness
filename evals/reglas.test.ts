@@ -467,7 +467,21 @@ describe('capa base', () => {
     assert.ok(f, 'el imperativo se marcó');
     const segunda = t.split('\n')[1]!;
     assert.equal(f.line, 2);
-    assert.equal(f.column, segunda.indexOf('mirá') + 1);
+    assert.equal(f.column, segunda.indexOf('mirá'.normalize('NFD')) + 1);
+    assert.equal(f.excerpt, segunda.trim(), 'el extracto sale del texto que se pasó');
+  });
+
+  test('si no se puede normalizar por tramos, la posición cae en la línea correcta', () => {
+    // Dos jamos coreanos se componen entre sí sin marca combinante, y entonces la
+    // normalización por tramos no da la del texto entero. Con muchas tildes aparte
+    // en la primera línea, un desplazamiento de la forma compuesta aplicado al
+    // original caería en esa línea y no en la segunda.
+    const primera = 'Acta: á é í ó ú á é í ó ú á é í ó ú \u1100\u1161.'.normalize('NFD');
+    const t = `${primera}\n${'Mirá el anexo.'.normalize('NFD')}`;
+    const f = check(t).find((x) => x.rule === 'tratamiento-de-usted');
+    assert.ok(f, 'el imperativo se marcó');
+    assert.equal(f.line, 2);
+    assert.match(f.excerpt, /anexo/u);
   });
 
   test('lo que coincide con un imperativo del voseo y no lo es no se marca', () => {

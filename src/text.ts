@@ -42,12 +42,14 @@ export function positionAt(text: string, offset: number): Position {
  *
  * Se normaliza por tramos de una letra con sus marcas combinantes. Si la suma de
  * los tramos no da la normalización del texto entero, que solo pasa con
- * composiciones entre dos letras base que el español no usa, los desplazamientos
- * se quedan como están.
+ * composiciones entre dos letras base que el español no usa, las posiciones se
+ * calculan sobre la forma compuesta: un desplazamiento de esa forma aplicado al
+ * original podría caer en otra línea.
  */
-export function enNfc(original: string): { text: string; aOriginal: (offset: number) => number } {
+export function enNfc(original: string): { text: string; fuente: string; aOriginal: (offset: number) => number } {
   const text = original.normalize('NFC');
-  if (text === original) return { text, aOriginal: (offset) => offset };
+  const sinCambio = { text, fuente: text, aOriginal: (offset: number) => offset };
+  if (text === original) return sinCambio;
   const tramos = original.match(/\P{M}\p{M}*|\p{M}+/gsu) ?? [];
   const mapa: number[] = [];
   let unido = '';
@@ -59,8 +61,8 @@ export function enNfc(original: string): { text: string; aOriginal: (offset: num
     pos += tramo.length;
   }
   mapa.push(original.length);
-  if (unido !== text) return { text, aOriginal: (offset) => offset };
-  return { text, aOriginal: (offset) => mapa[Math.min(Math.max(offset, 0), mapa.length - 1)]! };
+  if (unido !== text) return sinCambio;
+  return { text, fuente: original, aOriginal: (offset) => mapa[Math.min(Math.max(offset, 0), mapa.length - 1)]! };
 }
 
 /** Devuelve la línea completa que contiene el desplazamiento, sin el salto. */

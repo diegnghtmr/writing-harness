@@ -102,15 +102,15 @@ export function check(original: string, options: CheckOptions = {}): Finding[] {
   // en macOS, puede traer la tilde como un carácter aparte (NFD), y entonces
   // «tú» o «querés» no coincidían con nada. Se mide la forma compuesta, y cada
   // posición se devuelve a la del texto que se pasó.
-  const { text, aOriginal } = enNfc(original);
+  const { text, fuente, aOriginal } = enNfc(original);
   const rules = rulesFor(options.tone, options.pasadas);
   assertRules(rules);
 
   const findings: Finding[] = [];
   const at = (offset: number) => {
     const enElOriginal = aOriginal(offset);
-    const { line, column } = positionAt(original, enElOriginal);
-    return { line, column, excerpt: lineAt(original, enElOriginal).trim() };
+    const { line, column } = positionAt(fuente, enElOriginal);
+    return { line, column, excerpt: lineAt(fuente, enElOriginal).trim() };
   };
 
   const protegidas = zonasProtegidas(text);
