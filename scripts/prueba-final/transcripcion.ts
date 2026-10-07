@@ -173,8 +173,13 @@ const COMODIN = /[*?]/u;
 /** Una llamada que lee archivos: la ruta de cada uno y si lo lee entero. */
 type Lectura = { texto: string; parcial: boolean };
 
+/** La entrada de una llamada como objeto, o vacía si el agente no dio uno. */
+function entradaDe(l: Llamada): Record<string, unknown> {
+  return l.entrada !== null && typeof l.entrada === 'object' ? (l.entrada as Record<string, unknown>) : {};
+}
+
 function esParcial(l: Llamada): boolean {
-  const e = l.entrada !== null && typeof l.entrada === 'object' ? (l.entrada as Record<string, unknown>) : {};
+  const e = entradaDe(l);
   if (CAMPOS_DE_TRAMO.some((c) => e[c] !== undefined && e[c] !== null)) return true;
   return CAMPOS_DE_BUSQUEDA.some((c) => typeof e[c] === 'string');
 }
@@ -193,7 +198,8 @@ function lecturasDe(l: Llamada): Lectura[] {
     return l.comando.split(PASOS).map((paso) => ({ texto: paso, parcial: COMANDO_PARCIAL.test(paso) }));
   }
   if (l.clase !== 'otra' || l.ruta === null) return [];
-  const busca = CAMPOS_DE_BUSQUEDA.some((c) => typeof (l.entrada as Record<string, unknown>)[c] === 'string');
+  const entrada = entradaDe(l);
+  const busca = CAMPOS_DE_BUSQUEDA.some((c) => typeof entrada[c] === 'string');
   if (!busca && !HERRAMIENTA_DE_LECTURA.test(l.herramienta)) return [];
   return [{ texto: l.ruta, parcial: esParcial(l) }];
 }

@@ -308,7 +308,8 @@ export function parsearAgy(stdout: string, transcripcion: string | null, log: st
   // exitoso y una respuesta, no es un error de la corrida. Uno que no se
   // reintenta lo es siempre, y uno reintentable sin ese final también.
   const errores = erroresDeAgy(stderr);
-  const exito = terminoBien && t.respuesta !== null && t.respuesta.trim() !== '';
+  // Un resultado con estado ERROR quita el éxito aunque antes haya llegado otro bueno.
+  const exito = terminoBien && delResultado === null && t.respuesta !== null && t.respuesta.trim() !== '';
   const fatal = errores.find((e) => !e.reintentable)?.mensaje;
   const reintentado = errores.find((e) => e.reintentable)?.mensaje;
   const error = fatal ?? (exito ? null : (reintentado ?? delResultado));

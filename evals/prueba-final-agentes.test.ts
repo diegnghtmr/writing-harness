@@ -270,6 +270,14 @@ describe('los errores del propio agente', () => {
     assert.match(parsearAgy(sinResultado, null, null, reintento).error ?? '', /UNAVAILABLE/u);
   });
 
+  // La revisión de T12: un resultado exitoso dejaba la sesión como terminada
+  // bien aunque después llegara otro resultado con estado ERROR.
+  test('agy: un resultado con error después de uno exitoso sigue siendo un error', () => {
+    const fallo = '{"event":"result","result":{"status":"ERROR","error":"INTERNAL (code 500): fallo","response":"parcial"}}\n';
+    const t = parsearAgy(fixture('agy-stdout.jsonl') + '\n' + fallo, null, null);
+    assert.equal(t.error, 'INTERNAL (code 500): fallo');
+  });
+
   test('agy: sin salida de errores, el del resultado', () => {
     assert.equal(parsearAgy(fixture('agy-error-stdout.jsonl'), null, null).error, 'cuota agotada, vuelve en 156h37m');
   });
@@ -394,6 +402,12 @@ describe('la lectura genérica de una llamada', () => {
       sesion: null,
       version: null,
     };
+    assert.deepEqual(skillsCargadas(t), ['fonda-writing']);
+  });
+
+  test('una lectura con ruta y sin entrada no rompe el conteo de skills', () => {
+    const lectura = { ...llamada('view_file', { path: '/home/p/.agents/skills/fonda-writing/SKILL.md' }), entrada: null };
+    const t = { respuesta: null, llamadas: [lectura], skillsInvocadas: [], modelo: null, costo: null, duracionMs: null, sesion: null, version: null };
     assert.deepEqual(skillsCargadas(t), ['fonda-writing']);
   });
 });
