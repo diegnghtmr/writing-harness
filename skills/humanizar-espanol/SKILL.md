@@ -112,8 +112,10 @@ corresponden a las dos magnitudes que mide el detector, y conviene atender a las
 dos: variar el ritmo sube la variabilidad de ráfaga, pero si no se sube también
 la perplejidad léxica el texto se estanca en torno a dos tercios de probabilidad
 de IA, como mostró la prueba real que motivó esta versión. El catálogo detallado
-de patrones está en `references/patrones-de-ia.md`; léelo cuando necesites el
-inventario completo con ejemplos de antes y después.
+de patrones está en `references/patrones-de-ia.md`, con ejemplos de antes y
+después. Léelo entero antes de reescribir, siempre: el flujo de la sección 6
+empieza por identificar en el texto cada patrón que recoge, y eso no se hace de
+memoria.
 
 La primera es variar el ritmo, y es la estrategia decisiva. También es el punto
 donde esta skill se aparta de «camus-writing», porque aquí no buscamos la
@@ -261,10 +263,10 @@ Sigue este ciclo de borrador, auditoría y versión final. Es el procedimiento q
 mejor resultado da, porque la primera reescritura casi nunca elimina todos los
 tells.
 
-Primero, lee el texto e identifica cada patrón de los que recoge
-`references/patrones-de-ia.md`. Si el usuario aporta una muestra de su propia
-escritura, analízala antes de reescribir y ajusta la voz a la suya, no a una voz
-genérica.
+Primero, lee entero `references/patrones-de-ia.md`, después lee el texto e
+identifica en él cada patrón del catálogo. Si el usuario aporta una muestra de
+su propia escritura, analízala antes de reescribir y ajusta la voz a la suya, no
+a una voz genérica.
 
 Segundo, escribe un borrador. Comprueba que se lea con naturalidad en voz alta,
 que la longitud de las oraciones varíe de verdad, que prefiera lo concreto a lo
@@ -294,10 +296,10 @@ fúndela en una sola oración o alarga un miembro más que el otro.
 5. Colocaciones previsibles. Subraya las tres o cuatro expresiones más esperables
 del tema y cámbialas por una formulación con voz o por un dato concreto.
 
-Apóyate además en `references/que-preservar.md` para no confundir prosa humana
-legítima con señal de IA: la corrección perfecta, el vocabulario culto o un
-conector formal aislado no son pruebas de nada, y sobrecorregir destruye justo
-lo que hace humano a un texto.
+Antes de auditar, lee entero `references/que-preservar.md` para no confundir
+prosa humana legítima con señal de IA: la corrección perfecta, el vocabulario
+culto o un conector formal aislado no son pruebas de nada, y sobrecorregir
+destruye justo lo que hace humano a un texto.
 
 Cuarto, reescribe la versión final atendiendo a todo lo anterior. Solo es
 definitiva cuando pasa las cinco comprobaciones del paso anterior, no antes.
@@ -373,12 +375,13 @@ claramente separados. El texto humanizado, por sí solo, es la respuesta.
 ## Archivos de referencia
 
 `references/patrones-de-ia.md`: catálogo completo de señales de escritura de IA
-en español, numeradas y con ejemplos de antes y después. Léelo cuando necesites
-el inventario detallado de patrones a corregir.
+en español, numeradas y con ejemplos de antes y después. Se lee entero antes de
+cada reescritura, porque el primer paso del flujo (sección 6) es identificar sus
+patrones en el texto.
 
 `references/que-preservar.md`: guía de falsos positivos (qué NO marcar como IA) y
-de señales de escritura humana que conviene preservar. Léelo durante la
-auditoría para no sobrecorregir.
+de señales de escritura humana que conviene preservar. Se lee entero antes de la
+auditoría, para no sobrecorregir.
 
 
 ## Fuentes
