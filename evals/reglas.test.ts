@@ -398,6 +398,59 @@ describe('capa base', () => {
     }
   });
 
+  test('el imperativo del voseo se marca, solo o con pronombre', () => {
+    // La lista tenía el presente del voseo y ningún imperativo. El mensaje del
+    // patrón 37 decía «Si querés una frase corta, ponela dentro del párrafo», y
+    // sin «querés» al lado, «ponela» habría pasado sola.
+    const oraciones: Record<string, string> = {
+      ponela: 'Si hace falta, ponela al final del párrafo.',
+      ponelo: 'Ponelo en el anexo del informe.',
+      decime: 'Decime qué versión va al comité.',
+      decile: 'Decile al equipo que el plazo cambió.',
+      contame: 'Contame cómo quedó la tabla.',
+      avisame: 'Avisame cuando llegue el archivo.',
+      dejame: 'Dejame el borrador en la carpeta.',
+      mirá: 'Mirá el anexo antes de firmar.',
+      usá: 'Usá la plantilla del año pasado.',
+      buscá: 'Buscá el dato en la tabla dos.',
+      probá: 'Probá con otro formato.',
+      poné: 'Poné la fecha al principio.',
+      hacé: 'Hacé una copia antes de editar.',
+      tené: 'Tené en cuenta el plazo.',
+      decí: 'Decí solo lo que consta en el acta.',
+      vení: 'Vení a la reunión del lunes.',
+    };
+    for (const [forma, t] of Object.entries(oraciones)) {
+      assert.ok(t.toLowerCase().includes(forma), `«${t}» no contiene «${forma}»`);
+      assert.equal(
+        check(t).filter((x) => x.rule === 'tratamiento-de-usted').length,
+        1,
+        `«${forma}» no se marcó en «${t}»`,
+      );
+    }
+  });
+
+  test('lo que coincide con un imperativo del voseo y no lo es no se marca', () => {
+    // El imperativo del voseo de los verbos en -ir es igual a la primera persona
+    // del pretérito: «escribí», «salí», «pedí», «elegí». Y en -ar, el pretérito
+    // en -é es otra forma que la lista no toca. Ninguna interpela a nadie, así
+    // que esas quedan fuera, igual que «bebé», que es un sustantivo.
+    for (const t of [
+      'Escribí el informe en marzo y lo envié en abril.',
+      'Salí de la reunión antes de la votación.',
+      'Pedí la prórroga por escrito.',
+      'Elegí el segundo método por su costo.',
+      'Tomé los datos del censo de 2020.',
+      'El bebé nació en la semana treinta.',
+    ]) {
+      assert.deepEqual(
+        check(t).filter((x) => x.rule === 'tratamiento-de-usted'),
+        [],
+        t,
+      );
+    }
+  });
+
   test('«usted» no dispara la regla que lo impone', () => {
     const t = 'Si usted tiene dudas sobre el método, puede revisar el anexo del informe.';
     assert.deepEqual(
