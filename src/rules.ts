@@ -405,6 +405,56 @@ export type Tone = {
   rules: Rule[];
 };
 
+// Imperativo del voseo, solo y con pronombre. La lista no tenía ninguno, y el
+// propio verificador sugería «ponela dentro del párrafo» sin que nada lo
+// marcara. Van solo las formas que no son otra palabra: el imperativo de los
+// verbos en -ir coincide con la primera persona del pretérito («escribí»,
+// «salí», «pedí», «elegí»), así que de esos entran solo «decí» y «vení», cuyo
+// pretérito es «dije» y «vine». «bebé» queda fuera porque es un sustantivo.
+export const IMPERATIVOS_DEL_VOSEO = [
+  'mirá',
+  'usá',
+  'buscá',
+  'probá',
+  'dejá',
+  'sacá',
+  'evitá',
+  'cambiá',
+  'pensá',
+  'esperá',
+  'avisá',
+  'contá',
+  'tomá',
+  'andá',
+  'poné',
+  'hacé',
+  'tené',
+  'leé',
+  'volvé',
+  'decí',
+  'vení',
+  'ponela',
+  'ponelo',
+  'ponelas',
+  'ponelos',
+  'hacelo',
+  'hacela',
+  'decime',
+  'decile',
+  'decilo',
+  'contame',
+  'mostrame',
+  'avisame',
+  'dejame',
+  'llamame',
+  'esperame',
+  'pasame',
+  'mirala',
+  'miralo',
+  'sentate',
+  'quedate',
+];
+
 // Marcas de tuteo y voseo. Se listan solo las inequívocas: «te» y «tu» quedan
 // fuera porque aparecen en usos que no son interpelación directa.
 //
@@ -492,53 +542,7 @@ const MARCAS_DE_SEGUNDA_PERSONA = [
   'venís',
   'fijate',
   'acordate',
-  // Imperativo del voseo, solo y con pronombre. La lista no tenía ninguno, y el
-  // propio verificador sugería «ponela dentro del párrafo» sin que nada lo
-  // marcara. Van solo las formas que no son otra palabra: el imperativo de los
-  // verbos en -ir coincide con la primera persona del pretérito («escribí»,
-  // «salí», «pedí», «elegí»), así que de esos entran solo «decí» y «vení», cuyo
-  // pretérito es «dije» y «vine». «bebé» queda fuera porque es un sustantivo.
-  'mirá',
-  'usá',
-  'buscá',
-  'probá',
-  'dejá',
-  'sacá',
-  'evitá',
-  'cambiá',
-  'pensá',
-  'esperá',
-  'avisá',
-  'contá',
-  'tomá',
-  'andá',
-  'poné',
-  'hacé',
-  'tené',
-  'leé',
-  'volvé',
-  'decí',
-  'vení',
-  'ponela',
-  'ponelo',
-  'ponelas',
-  'ponelos',
-  'hacelo',
-  'hacela',
-  'decime',
-  'decile',
-  'decilo',
-  'contame',
-  'mostrame',
-  'avisame',
-  'dejame',
-  'llamame',
-  'esperame',
-  'pasame',
-  'mirala',
-  'miralo',
-  'sentate',
-  'quedate',
+  ...IMPERATIVOS_DEL_VOSEO,
 ];
 
 // Segunda persona del plural peninsular. Pronombre, posesivo y morfología

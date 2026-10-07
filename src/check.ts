@@ -97,7 +97,11 @@ export function relevadas(tone?: string, pasadas: readonly string[] = []): { reg
   return out;
 }
 
-export function check(text: string, options: CheckOptions = {}): Finding[] {
+export function check(original: string, options: CheckOptions = {}): Finding[] {
+  // Las listas de las reglas están en NFC. Un texto copiado de un PDF, o escrito
+  // en macOS, puede traer la tilde como un carácter aparte (NFD), y entonces
+  // «tú» o «querés» no coincidían con nada. Se mide la forma compuesta.
+  const text = original.normalize('NFC');
   const rules = rulesFor(options.tone, options.pasadas);
   assertRules(rules);
 

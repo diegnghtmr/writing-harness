@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { check, rulesFor } from '../src/check.ts';
-import { TONE_IDS, allRules } from '../src/rules.ts';
+import { IMPERATIVOS_DEL_VOSEO, TONE_IDS, allRules } from '../src/rules.ts';
 import { REPO_ROOT } from '../src/skills.ts';
 import { countWords, splitParagraphs, splitSentences } from '../src/text.ts';
 
@@ -426,6 +426,34 @@ describe('capa base', () => {
         check(t).filter((x) => x.rule === 'tratamiento-de-usted').length,
         1,
         `«${forma}» no se marcó en «${t}»`,
+      );
+    }
+  });
+
+  test('cada imperativo de la lista se marca, escrito como venga', () => {
+    // La prueba de arriba elige algunas formas. Esta recorre la lista entera, así
+    // que una errata o una tilde escrita como carácter aparte en cualquiera de
+    // ellas falla aquí y no en silencio.
+    for (const forma of IMPERATIVOS_DEL_VOSEO) {
+      assert.equal(forma, forma.normalize('NFC'), `«${forma}» no está en NFC`);
+      const t = `Antes del cierre, ${forma} el informe.`;
+      assert.equal(
+        check(t).filter((x) => x.rule === 'tratamiento-de-usted').length,
+        1,
+        `«${forma}» no se marcó`,
+      );
+    }
+  });
+
+  test('una tilde escrita como carácter aparte no esconde la marca', () => {
+    // Un texto copiado de un PDF, o escrito en macOS, puede traer la tilde como
+    // un carácter combinante (NFD). Las listas están en NFC, así que sin
+    // normalizar «tú» y «mirá» pasaban sin marca.
+    for (const t of ['Según tú, el plazo vence el lunes.', 'Mirá el anexo antes de firmar.', 'Si querés, se agrega.']) {
+      assert.equal(
+        check(t.normalize('NFD')).filter((x) => x.rule === 'tratamiento-de-usted').length,
+        1,
+        `«${t}» en NFD no se marcó`,
       );
     }
   });
