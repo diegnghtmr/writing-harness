@@ -3030,7 +3030,7 @@ const SENALES_IA: Rule[] = [
     // existe. El catálogo lo llama «perplejidad mínima».
     pattern: /\b(?:es|son|era|eran|fue|fueron|será|serán|consiste en|se define como)\b/iu,
     message: 'Apertura de etiqueta: el párrafo abre con una frase corta y declarativa con cópula.',
-    fix: 'Entrar en marcha: con una subordinada, un dato o una oración media que ya desarrolle la idea. Si querés una frase corta, ponela dentro del párrafo.',
+    fix: 'Entrar en marcha: con una subordinada, un dato o una oración media que ya desarrolle la idea. Si hace falta una frase corta, va dentro del párrafo.',
     source: 'humanizar-espanol, patrón 37',
     checklist: p('Apertura corta de etiqueta'),
   },

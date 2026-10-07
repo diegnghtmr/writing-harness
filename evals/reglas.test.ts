@@ -970,3 +970,26 @@ describe('fixtures', () => {
     );
   });
 });
+
+describe('los mensajes del verificador', () => {
+  // El verificador exige «usted» a todo texto que mide, y sus mensajes son texto
+  // que el agente lee para corregir. Un mensaje que vosea contradice la regla y
+  // además le enseña la forma al agente: el del patrón 37 decía «Si querés una
+  // frase corta, ponela dentro del párrafo», y nada lo detectó.
+  test('ningún mensaje ni sugerencia tutea ni vosea', () => {
+    const marca = allRules().find((r) => r.id === 'tratamiento-de-usted') as { pattern?: RegExp } | undefined;
+    assert.ok(marca?.pattern, 'la regla de tratamiento existe y tiene patrón');
+    const patron = new RegExp(marca.pattern.source, 'iu');
+    const hallazgos: string[] = [];
+    for (const r of allRules()) {
+      for (const campo of ['message', 'fix'] as const) {
+        const texto = (r as Record<string, unknown>)[campo];
+        if (typeof texto !== 'string') continue;
+        // Lo citado entre comillas es el ejemplo de lo que se marca, no el trato del mensaje.
+        const m = patron.exec(texto.replace(/«[^»]*»/gu, '«»'));
+        if (m) hallazgos.push(`${r.id}.${campo}: «${m[0]}»`);
+      }
+    }
+    assert.deepEqual(hallazgos, []);
+  });
+});
