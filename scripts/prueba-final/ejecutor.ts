@@ -65,7 +65,7 @@ import {
 } from './copia.ts';
 import type { Texto } from './fragmento.ts';
 import type { Lanzamiento } from './proceso.ts';
-import { codigoDeSalida, type Metadatos, type Suite, type Veredicto } from './resumen.ts';
+import { codigoDeSalida, PREFIJO_DEL_EJECUTOR, type Metadatos, type Suite, type Veredicto } from './resumen.ts';
 import { huellasDeMix, trazaDeLaSerie, vigenciaDe, type EstadoDelArnes, type Traza } from './traza.ts';
 import { escrituras, lecturasDeSkills, vacia, type Transcripcion } from './transcripcion.ts';
 import { promptDe } from './prompts.ts';
@@ -246,7 +246,7 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
    * huella del principio de la serie, porque no depende de la corrida.
    */
   function delEjecutor(agente: Agente, variante: Variante, id: string, staging: string, engram: string, e: unknown): Resultado {
-    const error = `falla del ejecutor: ${enUnaLinea(e)}`;
+    const error = `${PREFIJO_DEL_EJECUTOR}${enUnaLinea(e)}`;
     deps.avisar(`${agente.id}/${variante.id}: error: ${error}`);
     const comprobaciones = sinJuzgar(error);
     comprobaciones[0] = docxIntacto(huellaInicial, huellaDe(plan.docx));

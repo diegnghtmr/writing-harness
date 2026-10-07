@@ -148,7 +148,8 @@ que lee cada agente, y no corre si alguna falta o difiere: hay que
 sincronizarlas primero. Con --simular informa la comparación sin fallar.
 
 Una corrida que el agente no terminó, por una cuota agotada, una sesión vencida
-o el límite de tiempo, queda como error del agente y no como falla.
+o el límite de tiempo, queda como error del agente y no como falla. Una que no
+terminó porque falló el ejecutor queda como error del ejecutor, contado aparte.
 
 Sale con 0 si todas las corridas pasaron todas las comprobaciones, con 1 si
 alguna falló o el agente no la terminó, y con 2 si no pudo correr: una opción

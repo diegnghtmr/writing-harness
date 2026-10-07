@@ -13,6 +13,7 @@ import {
   celda,
   codigoDeSalida,
   lineaDeTotales,
+  PREFIJO_DEL_EJECUTOR,
   resumenJson,
   resumenMarkdown,
   type Suite,
@@ -95,6 +96,16 @@ describe('las cuentas', () => {
     assert.equal(lineaDeTotales(vs), '3 corridas: 0 pasan, 1 aviso, 1 falla, 1 error del agente');
     assert.equal(lineaDeTotales([veredicto('a', 'b', [c(1, 'pasa')])]), '1 corrida: 1 pasa, 0 avisos, 0 fallas, 0 errores del agente');
   });
+
+  // Una falla del ejecutor no es culpa del agente: se cuenta aparte, y la
+  // cuenta solo aparece cuando hay alguna, para no alargar la línea de siempre.
+  test('una falla del ejecutor se cuenta aparte, no como error del agente', () => {
+    const vs = [
+      veredicto('agy', 'fonda', [c(6, 'sin evaluar')], false, CUOTA),
+      veredicto('grok', 'camus', [c(1, 'pasa'), c(6, 'sin evaluar')], false, `${PREFIJO_DEL_EJECUTOR}estado ilegible`),
+    ];
+    assert.equal(lineaDeTotales(vs), '2 corridas: 0 pasan, 0 avisos, 0 fallas, 1 error del agente, 1 error del ejecutor');
+  });
 });
 
 describe('el resumen en Markdown', () => {
@@ -143,6 +154,16 @@ describe('el resumen en Markdown', () => {
     assert.match(conError, /^- Corridas: 4\. Pasan 1, con aviso 1, con falla 1, con error del agente 1\.$/mu);
     // Una comprobación sin evaluar no es una falla ni un aviso.
     assert.doesNotMatch(conError, /grok, camus, 6/u);
+    assert.doesNotMatch(conError, /Errores del ejecutor|error del ejecutor/u, 'sin fallas del ejecutor, ni sección ni cuenta');
+  });
+
+  test('las fallas del ejecutor van en su propia sección y en su propia cuenta', () => {
+    const motivo = `${PREFIJO_DEL_EJECUTOR}estado ilegible`;
+    const md = resumenMarkdown(suite([...vs, veredicto('grok', 'camus', [c(1, 'pasa'), c(6, 'sin evaluar')], false, motivo)]));
+    assert.match(md, /^- Corridas: 4\. Pasan 1, con aviso 1, con falla 1, con error del agente 0, con error del ejecutor 1\.$/mu);
+    assert.match(md, /## Errores del agente\n\nNinguno\./u);
+    assert.match(md, new RegExp(`## Errores del ejecutor\\n\\n- grok, camus: ${motivo}`, 'u'));
+    assert.match(md, /^\| camus \| pasa \| error: falla del ejecutor: estado ilegible/mu);
   });
 
   test('una matriz que junta series distintas dice la fecha de la serie de cada agente', () => {
@@ -180,7 +201,7 @@ describe('el resumen en JSON y el código de salida', () => {
       veredicto('agy', 'base', [c(6, 'sin evaluar')], false, CUOTA),
     ];
     const j = resumenJson({ ...suite(vs), omitidos: ['otro'] });
-    assert.deepEqual(j.totales, { pasa: 1, aviso: 0, falla: 1, error: 1 });
+    assert.deepEqual(j.totales, { pasa: 1, aviso: 0, falla: 1, error: 1, ejecutor: 0 });
     assert.equal(j.codigo, 1);
     assert.deepEqual(j.veredictos, vs);
     assert.equal(j.veredictos[2]?.error, CUOTA);

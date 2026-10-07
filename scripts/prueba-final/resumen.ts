@@ -104,18 +104,29 @@ export function celda(v: Veredicto | undefined): string {
 export const codigoDeSalida = (veredictos: readonly Veredicto[]): 0 | 1 =>
   veredictos.some((v) => v.estado === 'falla' || v.estado === 'error') ? 1 : 0;
 
-function totales(veredictos: readonly Veredicto[]): Record<EstadoDeCorrida, number> {
-  const t: Record<EstadoDeCorrida, number> = { pasa: 0, aviso: 0, falla: 0, error: 0 };
-  for (const v of veredictos) t[v.estado]++;
+/** Con qué empieza el motivo de una corrida en que falló el ejecutor y no el agente. */
+export const PREFIJO_DEL_EJECUTOR = 'falla del ejecutor: ';
+
+/** Si la corrida quedó en error por el ejecutor y no por el agente. */
+const delEjecutor = (v: Veredicto) => v.estado === 'error' && (v.error ?? '').startsWith(PREFIJO_DEL_EJECUTOR);
+
+/** Las cuentas por estado. `error` cuenta solo los del agente; `ejecutor`, los del ejecutor. */
+function totales(veredictos: readonly Veredicto[]): Record<EstadoDeCorrida | 'ejecutor', number> {
+  const t: Record<EstadoDeCorrida | 'ejecutor', number> = { pasa: 0, aviso: 0, falla: 0, error: 0, ejecutor: 0 };
+  for (const v of veredictos) t[delEjecutor(v) ? 'ejecutor' : v.estado]++;
   return t;
 }
 
 const cuenta = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno : varios}`;
 
-/** La línea de la consola al terminar la serie, con los errores del agente aparte. */
+/**
+ * La línea de la consola al terminar la serie, con los errores del agente aparte,
+ * y los del ejecutor aparte también cuando hay alguno.
+ */
 export function lineaDeTotales(veredictos: readonly Veredicto[]): string {
   const t = totales(veredictos);
-  return `${cuenta(veredictos.length, 'corrida', 'corridas')}: ${cuenta(t.pasa, 'pasa', 'pasan')}, ${cuenta(t.aviso, 'aviso', 'avisos')}, ${cuenta(t.falla, 'falla', 'fallas')}, ${cuenta(t.error, 'error del agente', 'errores del agente')}`;
+  const ejecutor = t.ejecutor > 0 ? `, ${cuenta(t.ejecutor, 'error del ejecutor', 'errores del ejecutor')}` : '';
+  return `${cuenta(veredictos.length, 'corrida', 'corridas')}: ${cuenta(t.pasa, 'pasa', 'pasan')}, ${cuenta(t.aviso, 'aviso', 'avisos')}, ${cuenta(t.falla, 'falla', 'fallas')}, ${cuenta(t.error, 'error del agente', 'errores del agente')}${ejecutor}`;
 }
 
 function lista(veredictos: readonly Veredicto[], estado: Juicio): string[] {
@@ -127,8 +138,10 @@ function lista(veredictos: readonly Veredicto[], estado: Juicio): string[] {
   return filas.length > 0 ? filas : [estado === 'falla' ? 'Ninguna.' : 'Ninguno.'];
 }
 
-function errores(veredictos: readonly Veredicto[]): string[] {
-  const filas = veredictos.filter((v) => v.estado === 'error').map((v) => `- ${v.agente}, ${v.variante}: ${v.error ?? 'sin motivo'}`);
+function errores(veredictos: readonly Veredicto[], delQue: 'agente' | 'ejecutor'): string[] {
+  const filas = veredictos
+    .filter((v) => v.estado === 'error' && delEjecutor(v) === (delQue === 'ejecutor'))
+    .map((v) => `- ${v.agente}, ${v.variante}: ${v.error ?? 'sin motivo'}`);
   return filas.length > 0 ? filas : ['Ninguno.'];
 }
 
@@ -195,7 +208,7 @@ export function resumenMarkdown(s: Suite): string {
     `- Agentes: ${s.agentes.join(', ')}.${s.omitidos.length > 0 ? ` Quedaron fuera: ${s.omitidos.join(', ')}.` : ''}`,
     ...lineaDeSeries,
     ...lineaDelArnes(s),
-    `- Corridas: ${s.veredictos.length}. Pasan ${t.pasa}, con aviso ${t.aviso}, con falla ${t.falla}, con error del agente ${t.error}.`,
+    `- Corridas: ${s.veredictos.length}. Pasan ${t.pasa}, con aviso ${t.aviso}, con falla ${t.falla}, con error del agente ${t.error}${t.ejecutor > 0 ? `, con error del ejecutor ${t.ejecutor}` : ''}.`,
     '',
     `| Variante | ${s.agentes.map(columna).join(' | ')} |`,
     `|---|${s.agentes.map(() => '---').join('|')}|`,
@@ -222,8 +235,9 @@ export function resumenMarkdown(s: Suite): string {
     '',
     '## Errores del agente',
     '',
-    ...errores(s.veredictos),
+    ...errores(s.veredictos, 'agente'),
     '',
+    ...(t.ejecutor > 0 ? ['## Errores del ejecutor', '', ...errores(s.veredictos, 'ejecutor'), ''] : []),
     ...vigencias(s),
   ].join('\n');
 }
