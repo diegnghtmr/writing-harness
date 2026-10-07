@@ -39,6 +39,9 @@ forma es de quien lo escribió en el idioma original.
 
 `humanizar-espanol` es una pasada, no un modo. Se carga además solo cuando el
 usuario pide humanizar con esas palabras, y el resto del pedido decide el modo.
+Cargada, se lee sola y entera, y después sus dos referencias, también enteras,
+antes de tocar el texto: su flujo empieza por identificar en él cada patrón de
+su catálogo.
 
 
 ## 2. El tono, al redactar
