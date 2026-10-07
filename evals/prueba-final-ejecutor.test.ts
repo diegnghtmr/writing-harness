@@ -541,6 +541,83 @@ describe('los errores del propio agente', () => {
   });
 });
 
+describe('las fallas del propio ejecutor', () => {
+  // La revisión de la rama: fuera de lanzar y recoger, cualquier excepción de
+  // una corrida rechazaba la serie entera, y como se publica al final, no se
+  // publicaba nada. Un base.docx borrado durante una corrida bastaba.
+  const estados = (r: Awaited<ReturnType<typeof correrSuite>>) => r.suite.veredictos.map((v) => [v.variante, v.estado]);
+
+  test('base.docx borrado durante una corrida falla en la 1, con su motivo, y la serie publica', async () => {
+    const e = escenario();
+    const borrar = () => rmSync(e.docx, { force: true });
+    const vs = algunas().slice(0, 2);
+    const r = await correrSuite(plan(e, [agenteFalso('falso', e.carpeta, [], { antes: borrar })], vs), depsFalsas(e.tmp));
+    assert.deepEqual(estados(r), [
+      ['base', 'falla'],
+      ['camus', 'falla'],
+    ]);
+    const [primera, segunda] = r.suite.veredictos.map((v) => v.comprobaciones[0]);
+    assert.equal(primera?.estado, 'falla');
+    assert.match(primera?.motivo ?? '', /no se pudo leer base\.docx después de la corrida \(ENOENT\)/u);
+    assert.match(segunda?.motivo ?? '', /no se pudo leer base\.docx antes de la corrida \(ENOENT\)/u);
+    assert.equal(r.codigo, 1);
+    assert.match(r.suite.docx.despues, /no se pudo leer/u);
+    assert.ok(existsSync(join(e.carpeta, 'resumen.md')));
+    assert.ok(existsSync(join(e.carpeta, 'falso', 'camus', 'veredicto.json')));
+  });
+
+  test('una excepción del ejecutor en una corrida la deja con su motivo, y las demás siguen y se publican', async () => {
+    const e = escenario();
+    const propias = (ctx: Contexto) => {
+      if (ctx.prompt.includes('`camus-writing`')) throw new Error('estado ilegible');
+      return [];
+    };
+    const avisos: string[] = [];
+    const r = await correrSuite(
+      plan(e, [agenteFalso('falso', e.carpeta, [], { propias })], algunas()),
+      depsFalsas(e.tmp, { avisar: (l) => avisos.push(l) }),
+    );
+    assert.deepEqual(estados(r), [
+      ['base', 'pasa'],
+      ['camus', 'error'],
+      ['humanizar', 'pasa'],
+    ]);
+    const camus = r.suite.veredictos[1];
+    assert.equal(camus?.error, 'falla del ejecutor: estado ilegible');
+    assert.equal(camus?.comprobaciones[0]?.estado, 'pasa', 'la huella de base.docx se comprueba igual');
+    for (const c of camus?.comprobaciones.slice(1) ?? []) {
+      assert.equal(c.estado, 'sin evaluar', String(c.numero));
+      assert.match(c.motivo, /falla del ejecutor: estado ilegible/u);
+    }
+    assert.equal(camus?.comprobaciones.length, 11);
+    assert.equal(r.codigo, 1);
+    assert.ok(avisos.includes('falso/camus: error: falla del ejecutor: estado ilegible'), avisos.join('\n'));
+    assert.match(readFileSync(join(e.carpeta, 'resumen.md'), 'utf8'), /- falso, camus: falla del ejecutor: estado ilegible/u);
+    const publicado = JSON.parse(readFileSync(join(e.carpeta, 'falso', 'camus', 'veredicto.json'), 'utf8'));
+    assert.equal(publicado.estado, 'error');
+    assert.ok(existsSync(join(e.carpeta, 'falso', 'camus', 'salida.md')), 'lo que dejó la corrida se publica igual');
+    assert.ok(existsSync(join(e.carpeta, 'falso', 'humanizar', 'veredicto.json')));
+  });
+
+  test('si no se puede armar la carpeta de una corrida, esa corrida es un error y las demás siguen', async () => {
+    const e = escenario();
+    const deps = depsFalsas(e.tmp);
+    const uuid = deps.uuid;
+    let n = 0;
+    // Un byte nulo en la ruta hace fallar la creación de la carpeta.
+    deps.uuid = () => (++n === 2 ? 'roto\0' : uuid());
+    const r = await correrSuite(plan(e, [agenteFalso('falso', e.carpeta, [])], algunas()), deps);
+    assert.deepEqual(estados(r), [
+      ['base', 'pasa'],
+      ['camus', 'error'],
+      ['humanizar', 'pasa'],
+    ]);
+    assert.match(r.suite.veredictos[1]?.error ?? '', /^falla del ejecutor: /u);
+    assert.ok(existsSync(join(e.carpeta, 'falso', 'camus', 'veredicto.json')));
+    assert.ok(existsSync(join(e.carpeta, 'resumen.json')));
+  });
+});
+
 describe('la memoria de cada corrida', () => {
   test('cada corrida tiene su propio proyecto de Engram, y el veredicto lo anota', async () => {
     // En la corrida completa, Grok leyó en el proyecto compartido lo que había
@@ -755,6 +832,49 @@ describe('el proceso de una corrida', () => {
     const r = await correrProceso(process.execPath, ['-e', hijo], { cwd: raiz, env: process.env, limiteMs: 500 });
     assert.equal(r.vencido, true);
     assert.ok(Date.now() - inicio < 15_000, 'esperó al proceso en vez de matarlo');
+  });
+
+  test('si un descendiente suelto retiene la salida, la corrida cierra igual al vencer el plazo de gracia', { timeout: 20_000 }, async () => {
+    // La revisión de la rama: tras matar el árbol, la corrida esperaba el cierre
+    // de las tuberías. Un nieto desprendido, que no cuelga del árbol del hijo
+    // porque el hijo ya salió, las hereda y las retiene: sin un plazo duro la
+    // serie no terminaba nunca. El hijo escribe el pid del nieto para limpiarlo.
+    const nieto = 'setTimeout(() => {}, 30000)';
+    const hijo = [
+      'const n = require("child_process").spawn(process.execPath, ["-e", ' + JSON.stringify(nieto) + '],',
+      '{ stdio: ["ignore", "inherit", "inherit"], detached: true, windowsHide: true });',
+      'process.stdout.write(String(n.pid) + "\\n"); n.unref();',
+    ].join(' ');
+    const inicio = Date.now();
+    const r = await correrProceso(process.execPath, ['-e', hijo], { cwd: tmpdir(), env: process.env, limiteMs: 500, graciaMs: 300 });
+    const pid = Number(r.stdout.trim());
+    try {
+      assert.equal(r.vencido, true);
+      assert.equal(r.codigo, null);
+      assert.ok(Date.now() - inicio < 10_000, 'esperó al nieto en vez de cerrar la corrida');
+    } finally {
+      if (Number.isInteger(pid) && pid > 0) {
+        try {
+          process.kill(pid);
+        } catch {
+          // Ya no estaba.
+        }
+      }
+    }
+  });
+
+  test('un proceso que termina antes del límite no espera el plazo de gracia', async () => {
+    const inicio = Date.now();
+    const r = await correrProceso(process.execPath, ['-e', 'process.stdout.write("listo")'], {
+      cwd: raiz,
+      env: process.env,
+      limiteMs: 20_000,
+      graciaMs: 15_000,
+    });
+    assert.equal(r.vencido, false);
+    assert.equal(r.codigo, 0);
+    assert.equal(r.stdout, 'listo');
+    assert.ok(Date.now() - inicio < 10_000);
   });
 
   test('un ejecutable que no existe no tira abajo la serie', async () => {

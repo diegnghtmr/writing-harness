@@ -21,7 +21,16 @@ export type Lanzamiento = {
   duracionMs: number;
 };
 
-export type OpcionesDeProceso = { cwd: string; env: NodeJS.ProcessEnv; limiteMs: number };
+export type OpcionesDeProceso = {
+  cwd: string;
+  env: NodeJS.ProcessEnv;
+  limiteMs: number;
+  /** Cuánto se espera el cierre de las tuberías después de matar el árbol. Ver `correrProceso`. */
+  graciaMs?: number;
+};
+
+/** El plazo de gracia por defecto: sobra para que cierre un árbol que se mató entero. */
+export const GRACIA_MS = 10_000;
 
 export function matarArbol(hijo: ChildProcess): void {
   if (hijo.pid === undefined) return;
@@ -36,7 +45,17 @@ export function matarArbol(hijo: ChildProcess): void {
   }
 }
 
-/** Lanza el comando sin shell, con los argumentos como lista, y espera a que termine o venza. */
+/**
+ * Lanza el comando sin shell, con los argumentos como lista, y espera a que
+ * termine o venza.
+ *
+ * Al vencer, matar el árbol no alcanza para cerrar la corrida: el proceso se
+ * da por terminado cuando se cierran sus tuberías, y un descendiente que no
+ * cuelga del árbol, porque se desprendió o porque su padre ya había salido,
+ * las hereda y las retiene. Por eso hay un plazo de gracia después de matar:
+ * si las tuberías no se cerraron, se cierran desde este lado y la corrida
+ * termina vencida con lo que se alcanzó a leer.
+ */
 export function correrProceso(comando: string, args: readonly string[], o: OpcionesDeProceso): Promise<Lanzamiento> {
   return new Promise((resolver) => {
     const inicio = Date.now();
@@ -44,10 +63,12 @@ export function correrProceso(comando: string, args: readonly string[], o: Opcio
     const errores: Buffer[] = [];
     let vencido = false;
     let terminado = false;
+    let gracia: NodeJS.Timeout | undefined;
     const terminar = (codigo: number | null) => {
       if (terminado) return;
       terminado = true;
       clearTimeout(reloj);
+      clearTimeout(gracia);
       resolver({
         stdout: Buffer.concat(salida).toString('utf8'),
         stderr: Buffer.concat(errores).toString('utf8'),
@@ -76,6 +97,11 @@ export function correrProceso(comando: string, args: readonly string[], o: Opcio
     const reloj = setTimeout(() => {
       vencido = true;
       matarArbol(hijo);
+      gracia = setTimeout(() => {
+        hijo.stdout?.destroy();
+        hijo.stderr?.destroy();
+        terminar(null);
+      }, o.graciaMs ?? GRACIA_MS);
     }, o.limiteMs);
     hijo.stdout?.on('data', (b: Buffer) => salida.push(b));
     hijo.stderr?.on('data', (b: Buffer) => errores.push(b));

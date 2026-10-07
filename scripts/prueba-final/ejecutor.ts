@@ -27,7 +27,7 @@
 
 import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative } from 'node:path';
+import { join, relative } from 'node:path';
 import type { Contexto } from './agentes.ts';
 import { carpetasDeAgentes, escribirResumen, fechaPrevia, HISTORIAL, marca, mover, suiteDeLaCarpeta } from './carpeta.ts';
 import {
@@ -47,10 +47,12 @@ import {
   respuestaCorrecta,
   salidaLegible,
   salidasIdenticas,
+  sinJuzgar,
   sinTerminar,
   skillsDeLaVariante,
   verificadorLimpio,
   type Comprobacion,
+  type HuellaLeida,
 } from './comprobaciones.ts';
 import {
   CARPETA_DE_LA_COPIA,
@@ -158,6 +160,31 @@ type Resultado = {
 
 const sha256 = (b: Uint8Array) => createHash('sha256').update(b).digest('hex');
 
+/** Lo más largo que puede ser el motivo de una falla del ejecutor: entra en una celda del resumen. */
+const LARGO_DEL_MOTIVO = 160;
+
+/** Una excepción en una frase corta: su primera línea. */
+function enUnaLinea(e: unknown): string {
+  const linea = (e instanceof Error ? e.message : String(e)).split(/\r?\n/u)[0]?.trim() ?? '';
+  return linea.length <= LARGO_DEL_MOTIVO ? linea : `${linea.slice(0, LARGO_DEL_MOTIVO - 1)}…`;
+}
+
+/**
+ * La huella de un archivo, o por qué no se pudo leer. base.docx se lee antes y
+ * después de cada corrida: si falta, es una falla de la comprobación 1, no una
+ * excepción que tumbe la serie.
+ */
+function huellaDe(ruta: string): HuellaLeida {
+  try {
+    return sha256(readFileSync(ruta));
+  } catch (e) {
+    return { ilegible: (e as NodeJS.ErrnoException).code ?? enUnaLinea(e) };
+  }
+}
+
+/** Una huella para el resumen, que la escribe como texto. */
+const huellaEscrita = (h: HuellaLeida) => (typeof h === 'string' ? h : `no se pudo leer (${h.ilegible})`);
+
 /** Corre `fn` sobre cada elemento, con a lo sumo `n` a la vez, y conserva el orden. */
 async function enParalelo<T, R>(items: readonly T[], n: number, fn: (x: T) => Promise<R>): Promise<R[]> {
   const out: R[] = new Array(items.length);
@@ -191,9 +218,71 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
   // puede atribuir a una sola.
   const activas = new Set<{ acompanada: boolean }>();
 
+  /**
+   * Una corrida, con lo que falle del lado del ejecutor contenido en ella.
+   *
+   * Fuera de lanzar y recoger, que ya contienen lo suyo, una excepción armando
+   * la carpeta, la copia o el estado de git rechazaba la serie entera, y como
+   * se publica al final, no se publicaba nada. Ahora esa corrida queda como
+   * error, con el motivo, y las demás siguen.
+   */
   async function correrUna(agente: Agente, variante: Variante): Promise<Resultado> {
     const id = deps.uuid();
     const staging = join(deps.tmp, `pf-${id}`);
+    const engram = proyectoDeEngram(inicioSerie, agente.id, variante.id);
+    try {
+      return await juzgarUna(agente, variante, id, staging, engram);
+    } catch (e) {
+      return delEjecutor(agente, variante, id, staging, engram, e);
+    }
+  }
+
+  /**
+   * Una corrida en que falló el ejecutor y no el agente.
+   *
+   * Su estado es `error`, el de la corrida que no se terminó de juzgar: no le
+   * carga una falla a ninguna comprobación de las skills, y su motivo dice que
+   * el que falló fue el ejecutor. La comprobación 1 se hace igual, contra la
+   * huella del principio de la serie, porque no depende de la corrida.
+   */
+  function delEjecutor(agente: Agente, variante: Variante, id: string, staging: string, engram: string, e: unknown): Resultado {
+    const error = `falla del ejecutor: ${enUnaLinea(e)}`;
+    deps.avisar(`${agente.id}/${variante.id}: error: ${error}`);
+    const comprobaciones = sinJuzgar(error);
+    comprobaciones[0] = docxIntacto(huellaInicial, huellaDe(plan.docx));
+    const ahora = deps.ahora().toISOString();
+    let mix: Record<string, string> = {};
+    try {
+      mix = huellasDeMix(plan.mix);
+    } catch {
+      // Sin las huellas de mix, la celda queda sin traza de mix y nada más.
+    }
+    return {
+      agente: agente.id,
+      variante: variante.id,
+      staging,
+      huellaSalida: null,
+      comprobaciones,
+      error,
+      metadatos: {
+        version: null,
+        modelo: null,
+        duracionMs: 0,
+        duracionAgenteMs: null,
+        codigo: null,
+        vencido: false,
+        costo: null,
+        sesion: id,
+        inicio: ahora,
+        fin: ahora,
+        copia: { archivos: 0, huella: '' },
+        engram,
+        traza: { arnes: plan.traza.arnes, mix, docx: huellaInicial, instaladas: plan.traza.instaladas[agente.id] ?? null },
+      },
+    };
+  }
+
+  async function juzgarUna(agente: Agente, variante: Variante, id: string, staging: string, engram: string): Promise<Resultado> {
     mkdirSync(staging, { recursive: true });
     const entrada = join(staging, 'entrada.md');
     const salida = join(staging, 'salida.md');
@@ -203,24 +292,29 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     writeFileSync(archivoPrompt, prompt);
     const copia = join(staging, CARPETA_DE_LA_COPIA);
     const huellasDeLaCopia = construirCopia(plan.copia, copia);
-    const engram = proyectoDeEngram(inicioSerie, agente.id, variante.id);
     const ctx: Contexto = { prompt, archivoPrompt, sesion: id, cwd: copia, limiteMin: plan.limiteMin, staging, engram };
 
-    const huellaAntes = sha256(readFileSync(plan.docx));
+    const huellaAntes = huellaDe(plan.docx);
     const gitAntes = estadoRepos();
     const yo = { acompanada: activas.size > 0 };
     for (const otra of activas) otra.acompanada = true;
     activas.add(yo);
-    deps.avisar(`${agente.id}/${variante.id}: empieza`);
-    const inicio = deps.ahora();
+    let inicio: Date;
+    let fin: Date;
     let l: Lanzamiento;
     try {
-      l = await agente.lanzar(ctx);
-    } catch (e) {
-      l = { stdout: '', stderr: String(e), codigo: null, vencido: false, duracionMs: 0 };
+      deps.avisar(`${agente.id}/${variante.id}: empieza`);
+      inicio = deps.ahora();
+      try {
+        l = await agente.lanzar(ctx);
+      } catch (e) {
+        l = { stdout: '', stderr: String(e), codigo: null, vencido: false, duracionMs: 0 };
+      }
+      fin = deps.ahora();
+    } finally {
+      // Una corrida que se cae acá no puede quedar para siempre como activa.
+      activas.delete(yo);
     }
-    const fin = deps.ahora();
-    activas.delete(yo);
 
     writeFileSync(join(staging, 'stdout.txt'), l.stdout);
     writeFileSync(join(staging, 'stderr.txt'), l.stderr);
@@ -233,7 +327,7 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
     }
     writeFileSync(join(staging, 'respuesta.txt'), t.respuesta ?? '');
 
-    const huellaDespues = sha256(readFileSync(plan.docx));
+    const huellaDespues = huellaDe(plan.docx);
     const gitDespues = estadoRepos();
     const cambiosEnLaCopia = cambiosDeLaCopia(huellasDeLaCopia, huellasDe(copia));
     const propias = agente.estadoPropio?.(ctx, t) ?? [];
@@ -342,7 +436,7 @@ export async function correrSuite(plan: Plan, deps: Dependencias): Promise<{ sui
       palabras: plan.texto.palabras,
       secciones: plan.texto.secciones.map((s) => ({ titulo: s.titulo, palabras: s.palabras })),
     },
-    docx: { antes: huellaInicial, despues: sha256(readFileSync(plan.docx)) },
+    docx: { antes: huellaInicial, despues: huellaEscrita(huellaDe(plan.docx)) },
     agentes: plan.agentes.map((a) => a.id),
     omitidos: plan.omitidos,
     series: Object.fromEntries(plan.agentes.map((a) => [a.id, inicioSerie.toISOString()])),
@@ -399,15 +493,16 @@ function publicar(
   resultados.forEach((r, i) => {
     const destino = join(carpeta, r.agente, r.variante);
     mover(destino, join(historial, r.agente, r.variante));
-    mkdirSync(dirname(destino), { recursive: true });
+    mkdirSync(destino, { recursive: true });
+    // Una corrida en que falló el ejecutor puede no tener carpeta: se publica su veredicto solo.
     const copia = join(r.staging, CARPETA_DE_LA_COPIA);
-    cpSync(r.staging, destino, { recursive: true, filter: (desde) => !dentroDe(desde, copia) });
+    if (existsSync(r.staging)) cpSync(r.staging, destino, { recursive: true, filter: (desde) => !dentroDe(desde, copia) });
     writeFileSync(join(destino, 'veredicto.json'), `${JSON.stringify(veredictos[i], null, 2)}\n`);
   });
   const reunida = plan.agregar ? suiteDeLaCarpeta(carpeta, suite, [...suite.agentes, ...plan.omitidos], previa) : suite;
-  const actual = { mix: huellasDeMix(plan.mix), docx: sha256(readFileSync(plan.docx)) };
+  const actual = { mix: huellasDeMix(plan.mix), docx: huellaEscrita(huellaDe(plan.docx)) };
   const publicada: Suite = { ...reunida, vigencia: vigenciaDe(reunida.veredictos, actual, deps.cambiosDesde) };
   escribirResumen(carpeta, publicada);
-  for (const r of resultados) rmSync(r.staging, { recursive: true, force: true });
+  for (const r of resultados) if (existsSync(r.staging)) rmSync(r.staging, { recursive: true, force: true });
   return publicada;
 }

@@ -90,7 +90,17 @@ function sinRepetir(rutas: readonly string[]): string[] {
 
 // 1 -------------------------------------------------------------------------
 
-export function docxIntacto(antes: string, despues: string): Comprobacion {
+/** Una huella sha256, o por qué no se pudo leer el archivo. */
+export type HuellaLeida = string | { ilegible: string };
+
+/**
+ * Un base.docx que no se puede leer, antes o después de la corrida, es una
+ * falla con su motivo y no una excepción: una excepción acá tumbaba la serie
+ * entera, y la serie no publicaba nada.
+ */
+export function docxIntacto(antes: HuellaLeida, despues: HuellaLeida): Comprobacion {
+  if (typeof antes !== 'string') return comprobacion(1, 'falla', `no se pudo leer base.docx antes de la corrida (${antes.ilegible})`);
+  if (typeof despues !== 'string') return comprobacion(1, 'falla', `no se pudo leer base.docx después de la corrida (${despues.ilegible})`);
   if (antes === despues) return comprobacion(1, 'pasa', 'la huella sha256 no cambió');
   return comprobacion(1, 'falla', `la huella sha256 cambió: ${antes.slice(0, 12)}… pasó a ${despues.slice(0, 12)}…`, {
     antes,
@@ -816,6 +826,19 @@ export function errorDelAgente(t: Transcripcion, l: Pick<Lanzamiento, 'codigo' |
  * tocó algo fuera de la corrida y si se usó lo de la prueba.
  */
 export const DEPENDEN_DE_TERMINAR = [2, 3, 4, 5, 6, 7, 8, 11];
+
+/**
+ * Las comprobaciones de una corrida que el ejecutor no pudo juzgar, porque falló
+ * él y no el agente: todas sin evaluar, con el motivo.
+ */
+export function sinJuzgar(motivo: string): Comprobacion[] {
+  return Object.keys(NOMBRES).map((n): Comprobacion => ({
+    numero: Number(n),
+    nombre: NOMBRES[Number(n)] ?? '',
+    estado: 'sin evaluar',
+    motivo: `no se juzgó: ${motivo}`,
+  }));
+}
 
 /**
  * Las comprobaciones de una corrida que el agente no terminó: las que dependen
