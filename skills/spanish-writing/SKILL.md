@@ -21,6 +21,72 @@ metadata:
 todo pedido de redactar o de corregir un texto en español entra por ella, y
 esta base no la sustituye.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Rige todo texto en español que el agente produzca o reescriba, sin importar el
+género ni el tono (sección 1). Las reglas de las secciones 2 y 4 a 13 se
+aplican siempre, haya tono o no; si corresponde un tono, y cuál, lo decide
+«redactar-espanol» (sección 3). La longitud de oraciones y párrafos, la persona
+gramatical y la cercanía con el lector las decide la skill de tono (sección 1).
+
+### Reglas duras
+
+- Al reescribir no se añade, inventa ni elimina información: cambia la forma,
+  nunca el fondo (sección 2).
+- Ningún tono ni pasada levanta una prohibición de la base: ante un conflicto,
+  gana la prohibición (sección 3.1).
+- La raya y el guion largo están prohibidos sin excepción, también espaciados
+  o como doble guion (sección 6.6).
+- Haber impersonal en singular y signos de apertura siempre; ni condicional en
+  la prótasis, ni coma entre sujeto y verbo salvo inciso, ni gerundio de
+  posterioridad, ni dequeísmo ni queísmo (sección 4).
+- Sin calcos del inglés: voz activa o pasiva refleja antes que perifrástica,
+  y artículo, no posesivo, con las partes del cuerpo (sección 5).
+- Español americano: ninguna forma de «vosotros» ni léxico marcadamente
+  peninsular que tenga forma panhispánica, sea cual sea el destinatario
+  (sección 9.1).
+- Si el texto se dirige al lector, el trato es de usted o ustedes; el tuteo y
+  el voseo quedan prohibidos en todos los tiempos verbales (sección 9.2).
+- El punto y coma se usa en sus tres empleos y en no más de una de cada cinco
+  oraciones (sección 6.7).
+- El tecnicismo se conserva siempre, glosado en su primera aparición ante un
+  lector no especialista; el artefacto de canal nunca entra
+  (secciones 11.9 y 11.10).
+- Sin palabras comodín, muletillas, andamiaje vacío, aperturas de molde ni
+  clichés de cierre (sección 11); el texto entregado no lleva markdown,
+  negritas, emojis, hashtags ni caracteres invisibles (secciones 6.8 y 12.1).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| El original se contradice | Se conservan las dos versiones y se avisa fuera del texto (sección 2) |
+| Al reescribir, la forma del tono pide algo que el original no trae | Se arma solo con material del original y se declara aparte; si no alcanza, no se escribe y se dice (sección 2) |
+| Al reescribir, la forma del tono pide quitar algo del original, como una cita o una cifra | Se conserva: lo que un tono prohíbe rige lo que se escribe desde cero (sección 2) |
+| Se pide de forma explícita «humanizar-espanol» después de un tono | La pasada gobierna el ritmo de la oración; el tono conserva el techo del párrafo y todo lo demás (sección 3.1) |
+| Se pide esa pasada sin tono | Corren la base y la pasada (sección 3.1) |
+| El usuario pidió el texto en un archivo | Va ahí, no se repite, y una línea dice dónde quedó (secciones 12.2 y 12.3) |
+| El usuario no especificó el sistema de citas | Se le pregunta (sección 13.4) |
+
+### Pasos
+
+1. Fijar el contenido del original, que no cambia al reescribir (sección 2).
+2. Aplicar las reglas de gramática, anglicismos y puntuación
+   (secciones 4, 5 y 6).
+3. Ajustar mayúsculas, números, variedad y tratamiento (secciones 7, 8 y 9).
+4. Revisar conectores, vocabulario y citas (secciones 10, 11 y 13).
+5. Pasar la lista de verificación normativa (sección 14) y entregar en el
+   formato fijado (sección 12).
+
+### Entrega
+
+Al reescribir, solo el texto reescrito; fuera de él van únicamente las líneas
+aparte que pide «redactar-espanol» (sección 12.2). Al redactar, el texto
+solicitado, con las explicaciones separadas si se piden (sección 12.3).
 
 ## 1. Rol y alcance
 

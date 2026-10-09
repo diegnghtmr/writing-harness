@@ -40,6 +40,78 @@ las técnicas de humanización académica para hablantes no nativos. Todo se ha
 adaptado al español; muchas señales de IA son distintas en inglés y en español,
 de modo que el catálogo de referencia recoge las formas hispanas concretas.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se aplica solo cuando el usuario pide de forma explícita humanizar un texto o
+darle un estilo humano (sección 1). Sin mención de lo humano, un pedido de
+redacción, corrección, traducción o estilo queda en manos de
+«redactar-espanol» (sección 1). Es una pasada sobre un texto ya redactado, no
+un tono (sección 5).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se heredan íntegras y nunca se sacrifican:
+  humanizar no es introducir errores (sección 5).
+- El contenido se conserva: mismos párrafos y mismas ideas, sin añadir ni
+  quitar información (secciones 6 y 8).
+- No se inventan datos ni citas (sección 4).
+- No se encadenan más de dos oraciones cortas: con tres o más seguidas, se
+  funde la mayoría y queda una suelta para el contraste (secciones 4 y 6).
+- Ningún párrafo abre con una frase corta de etiqueta, y menos en serie; la
+  primera oración del texto entero es la más sensible (secciones 4 y 6).
+- La meta es alternar oraciones breves de seis a diez palabras con largas de
+  veinticinco o más, y variar también la longitud de los párrafos (sección 4).
+- Se rehúye la colocación más previsible sin rebuscar sinónimos raros
+  (sección 4).
+- Se borran las firmas del generador: aperturas de molde, cierres anunciados,
+  andamiaje vacío, inflación de significancia y lenguaje promocional
+  (sección 4).
+- En un texto académico la impersonalidad es el registro correcto: ni tuteo ni
+  opiniones ni primera persona inyectadas (sección 4).
+- De la skill de tono solo se sobrescribe el ritmo; la pasada no la sustituye
+  (sección 5).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| El texto viene de «camus-writing» con cadenas de oraciones cortas | La pasada puede fundirlas (sección 5) |
+| El usuario aporta una muestra de su escritura | Se analiza antes de reescribir y la voz se ajusta a la suya, no a una genérica (sección 6) |
+| El texto pide un dato concreto que el original no trae | No se inventa: se le pide al autor (sección 4) |
+| Texto de divulgación o de opinión | Cabe más personalidad: voz, juicio y ritmo variado (sección 4) |
+| El usuario pide el detalle de los cambios | El borrador, los tells y el resumen van después del texto, separados (sección 9) |
+
+### Pasos
+
+1. Leer enteros el catálogo de patrones y la guía de qué preservar, e
+   identificar en el texto cada patrón del catálogo (sección 6).
+2. Escribir un borrador que se lea con naturalidad en voz alta, con longitud
+   de oración variada, lo concreto antes que lo vago y el registro adecuado
+   (sección 6).
+3. Auditar el borrador con cinco comprobaciones, en este orden: arranques de
+   párrafo, puntos por línea, raya, pares simétricos y colocaciones
+   previsibles (sección 6).
+4. Reescribir la versión final, definitiva solo cuando pasa esas
+   comprobaciones (sección 6).
+5. Pasar la lista de verificación (sección 8) y entregar (sección 9).
+
+### Entrega
+
+Solo la versión final humanizada, sin preámbulos ni explicaciones; el detalle
+de los cambios, si se pide, va después del texto y separado de él (sección 9).
+
+### Referencias
+
+- `references/patrones-de-ia.md`: catálogo completo de señales de escritura de
+  IA en español, numeradas y con ejemplos; se lee entero antes de cada
+  reescritura, porque el flujo empieza por identificar sus patrones (sección 6).
+- `references/que-preservar.md`: guía de falsos positivos y de señales humanas
+  que conviene preservar; se lee entero antes de la auditoría, para no
+  sobrecorregir (sección 6).
 
 ## 1. Cuándo se activa esta skill
 

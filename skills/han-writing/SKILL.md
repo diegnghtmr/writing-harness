@@ -28,6 +28,75 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para textos que diagnostican el presente: ensayo breve de crítica
+cultural, columna de opinión conceptual, prólogo, texto de catálogo o de
+programa, entrada de bitácora filosófica o apertura de una charla, y con
+«tono Han» o «ensayo de diagnóstico». No se usa en informes, documentación,
+manuales, comunicaciones institucionales, textos legales, trabajos empíricos
+ni textos largos (sección 1). Pide que la afirmación central se sostenga sin
+dato empírico y que el texto sea corto (sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras; la raya sigue prohibida
+  incluso dentro de una cita, y el texto va en español americano y trata al
+  lector interpelado de usted o de ustedes (sección 2).
+- Prohibida la cuantificación sin cifra, como «cada vez más»: si la cifra
+  existe, va y el texto cambia de tono; si no, la afirmación se acota o se
+  cae (secciones 9 y 16).
+- Ninguna oración pasa de 40 palabras, y la mitad central queda entre 11 y 22
+  (sección 4).
+- Nunca tres oraciones cortas seguidas: la tercera se funde con otra por
+  subordinación o coordinación (secciones 4 y 15).
+- Una sola oposición matriz por texto, de la que derivan las demás; la
+  oposición va en dos de cada cinco oraciones, no en todas, y sus dos
+  miembros no se escriben iguales (secciones 5 y 15).
+- Ninguna oración niega tres veces, y se usa la negación que define, no la
+  que solo suena (sección 6).
+- La mayoría de las oraciones se apoya en un verbo pleno y no en la cópula
+  (sección 7).
+- El tecnicismo se conserva entero, se glosa en su primera aparición y no se
+  sustituye por una aproximación corriente (sección 10).
+- El tercero entra nombrado y sin presentación; si no se puede señalar dónde
+  lo dijo, no se lo cita (sección 8).
+- Sin pregunta retórica de arranque ni de transición, sin exclamaciones y sin
+  generalización sin sujeto; se evita el verbo apocalíptico
+  (secciones 11 y 16).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| La afirmación central necesita un dato | Se pone el dato y se cambia de tono (secciones 1 y 9) |
+| Sentencia de remate | Si al borrarla el argumento pierde un paso, se queda; si no, se va (sección 15) |
+| Sección que solo lleva de la anterior a la siguiente | Se borra (sección 13) |
+| Juego etimológico que solo existe en otra lengua | Se explica como dato ajeno o no se usa (sección 12) |
+| Reescritura de un texto ajeno con citas | Cada cita conserva su autor y su año donde la puso el original (sección 8) |
+| Se cita un pasaje del autor | Se nombra la traducción y, si se sabe, quién la firma (sección 14) |
+| El usuario pidió humanizar de forma explícita | Esa pasada decide el ritmo y puede fundir sentencias que este tono autorizaba (sección 15) |
+
+### Pasos
+
+1. Fijar la oposición matriz de la que derivan las demás (sección 5).
+2. Componer de tres a siete secciones de 300 a 700 palabras, con título
+   nominal en una línea suelta y párrafos de 40 a 90 palabras (sección 13).
+3. Abrir cada sección con una afirmación sobre el mundo, en presente, y
+   cerrarla con la consecuencia, no con su resumen (sección 13).
+4. Dejar como máximo una sentencia de remate por sección (sección 15).
+5. Pasar la lista normativa de la base y luego la de tono (sección 19).
+6. Entregar en el formato fijado (sección 17).
+
+### Entrega
+
+Texto nuevo: el texto pedido. Texto reescrito: sin preámbulos ni
+explicaciones salvo pedido. Los títulos de sección van en el texto, sin
+numerar salvo pedido (sección 17).
 
 ## 1. Rol y alcance
 

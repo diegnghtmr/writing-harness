@@ -28,6 +28,77 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para informes de investigación, marcos teóricos, apartados de
+metodología, análisis de resultados, monografías, tesis, trabajos de grado y
+estados del arte. Exige más de una posición o de un dato sobre un mismo asunto
+que no digan lo mismo (sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras y ninguna regla de este
+  tono levanta una prohibición de la base. Del corpus no se copian la raya,
+  las comillas rectas, el porcentaje pegado al signo, el adjetivo vacío ni el
+  gerundio sin verbo principal (secciones 2 y 13).
+- Quien escribe no aparece: ni yo, ni nosotros, ni creo. La voz citada
+  conserva su persona, su vocabulario y su registro (secciones 8.1 y 8.3).
+- Al menos una de cada cuatro oraciones abre declarando su relación con la
+  anterior; al menos un párrafo abre contradiciendo al anterior, y no todos
+  abren con enlace (secciones 6 y 6.2).
+- La media de oración cae entre veintiuna y treinta y dos palabras, ningún
+  párrafo baja de cuarenta y al menos uno rompe el patrón de tamaño
+  (secciones 4.2, 4.3 y 4.4).
+- La oración larga se sostiene con subordinación y no con comas, y el punto y
+  coma aparece entre una de cada doce y una de cada cinco oraciones
+  (secciones 4.5, 5.1 y 5.5).
+- La enumeración va dentro de la prosa con ordinales, nunca en viñetas
+  (sección 6.5).
+- La reserva es concesiva y nunca probabilística, el andamiaje escolar no
+  aparece y el verbo de atribución sitúa al autor y nunca es «señala»
+  (secciones 7.3, 7.4 y 7.7).
+- La palabra culta entra cuando es la exacta, no cuando es la elevada; el
+  enlace culto poco frecuente sale una o dos veces en todo el texto, y el
+  arcaísmo de juntura, una o dos o ninguna (secciones 5.6, 6.1 y 7.1).
+- El recorrido cierra estipulando en futuro con qué alcance se usará el
+  término y con cuál no, donde empieza su uso y nunca al final del texto
+  (sección 9.2).
+- Una cita larga nunca cierra un párrafo ni un apartado, y cada cifra dice de
+  qué es fracción (secciones 9.6 y 10).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| Tesis contra otra posición nombrada, mecanismo que explicar o algo que ejecutar | Corresponde otra skill (sección 1) |
+| Apartado conceptual | Cada posición entra por su relación con la anterior (sección 9.1) |
+| Apartado analítico | Evidencias de procedencia distinta, confrontadas y leídas con un concepto ya estipulado (secciones 9.4 y 10) |
+| Autor que entra por primera vez | Artículo, oficio y nombre completo, y luego solo el apellido; el que cualquiera reconoce, a secas (sección 9.1) |
+| El término hace falta y el texto ya va por la mitad | La estipulación sube adonde el término aparece por primera vez haciendo trabajo (sección 9.2) |
+| Texto corto sin recorrido de posiciones | No se escribe estipulación (sección 9.2) |
+| Tras una cita larga no hay nada que la convierta | Se parafrasea dentro de la oración propia (sección 9.6) |
+| Falta una clase de evidencia | No se rellena: se dice cuál falta y qué habría permitido decidir (sección 10) |
+
+### Pasos
+
+1. Comprobar la precondición de forma (sección 1).
+2. Identificar el apartado y tomar su maquinaria (sección 9).
+3. Armar el periodo con subordinación, «cuyo», «ello» y punto y coma
+   (sección 5).
+4. Encadenar oraciones y párrafos, reformular lo denso y corregir por
+   sustitución (sección 6).
+5. Ajustar el léxico, la voz y la persona (secciones 7 y 8).
+6. Pasar la lista de verificación de tono (sección 16).
+7. Entregar en el formato fijado (sección 14).
+
+### Entrega
+
+Se entrega el texto solo, sin preámbulo, y la clase de evidencia que falte se
+nombra en vez de afirmar sin ella (sección 14).
 
 ## 1. Rol y alcance
 

@@ -27,6 +27,76 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para los textos que le entregan al lector un procedimiento para que lo
+ejecute: guías, manuales de procedimiento, protocolos de estudio y de trabajo,
+rutinas, cursos, cartas de instrucciones y guiones formativos, o cuando el
+usuario pide este tono por su nombre. Se elige cuando hay algo que el lector va
+a ejecutar sobre sí mismo (sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras y ninguna regla de este
+  tono levanta una prohibición de la base (sección 2).
+- El texto manda hacer: imperativo de usted sostenido, nunca diluido en un
+  «se recomienda» (sección 5.1).
+- Quedan fuera el tuteo, la segunda del plural peninsular y la liturgia de
+  canal (sección 5.3).
+- Al menos la mitad de las oraciones queda en 14 palabras o menos, y la media
+  por oración, entre 12 y 19. La brevedad no es una meta: cada cierto tramo
+  entra una larga que enumera o encadena una consecuencia
+  (secciones 4.1, 4.2 y 4.3).
+- Cada paso nombra qué hacer, explica qué se rompe si se salta y termina en una
+  instrucción que se puede ejecutar hoy (sección 6.2).
+- La primera del singular cuenta lo que el autor hizo y lo que le salió mal,
+  nunca la credencial (sección 5.2).
+- Queda fuera la promesa de transformación: se dice lo que el método produce y
+  se puede verificar (sección 9.2).
+- Ninguna cifra se inventa, y lo que el texto ordena dice de dónde sale
+  (sección 8).
+- Se suelta el refuerzo de los intensificadores y se escribe con los enlaces
+  llanos (secciones 9.1 y 9.3).
+- Toda pregunta queda respondida en lo que sigue (sección 7.3).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| Asunto conceptual, o nadie tiene que hacer nada después de leer | Corresponde otra skill de tono (sección 1) |
+| El pasaje se dirige a un colectivo | «ustedes» con verbo en tercera del plural (sección 5.3) |
+| Elegir la apertura | El estado del lector o el punto de partida del autor, nunca una definición (sección 6.1) |
+| Un paso no se sostiene sin el anterior | El texto lo dice (sección 6.2) |
+| Se cuenta un fracaso propio | Solo el que el paso corrige (sección 7.2) |
+| El paso descansa en un hallazgo | Va con su autor y su año (sección 8) |
+| El paso descansa en la experiencia del autor | El texto lo dice y no lo disfraza de hallazgo (sección 8) |
+
+### Pasos
+
+1. Comprobar que hay un procedimiento que el lector puede ejecutar sobre sí
+   mismo (sección 1).
+2. Abrir con una persona delante del asunto (sección 6.1).
+3. Ordenar el cuerpo en pasos que terminan en una instrucción ejecutable, en
+   su forma acabada un ejercicio con material, frecuencia y qué anotar
+   (secciones 6.2 y 7.4).
+4. Mostrar al menos una vez un procedimiento como lo hace casi todo el mundo y
+   como el texto lo pide (sección 7.1).
+5. Cerrar con lo que el lector va a poder hacer, sin recapitular, sin
+   anunciarse como cierre, sin pedir nada y sin prometer (sección 6.3).
+6. Pasar la lista normativa de la base y después la lista de tono
+   (sección 11).
+7. Entregar en el formato fijado (sección 10).
+
+### Entrega
+
+Texto nuevo: el texto pedido, y las explicaciones de estilo solo si se piden y
+separadas de él. Texto reescrito: sin preámbulos ni explicaciones salvo pedido,
+con el contenido intacto y sin inventar los pasos de un texto que no ordenaba
+nada (sección 10).
 
 ## 1. Rol y alcance
 

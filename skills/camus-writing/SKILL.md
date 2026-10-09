@@ -23,6 +23,65 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para dar forma sobria y formal a un texto en español: académico,
+técnico o institucional, una carta o un correo que se dirige a alguien sin
+tutearlo, o el relato que el usuario hace de lo que le pasó. También cuando el
+usuario pide este tono por su nombre o un tono formal, académico o sobrio. Sin
+pedido de tono, es el último paso de la lista de «redactar-espanol» (sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras y ninguna regla de este
+  tono levanta una prohibición de la base; la raya sigue prohibida
+  (sección 2).
+- La voz es la tercera persona, preferida, o la primera del plural. La primera
+  del singular se evita salvo en las posiciones autorales explícitas, el relato
+  del propio usuario y la correspondencia formal que el usuario firma
+  (sección 4.1).
+- No se tutea al lector ni se busca complicidad con él (secciones 4.1 y 4.2).
+- En el relato del propio usuario, la emoción se deja inferir de los hechos: el
+  texto no nombra ninguna que el usuario no haya nombrado y no califica lo que
+  él no calificó (sección 1).
+- Se dividen las oraciones que pasan de 30 palabras, y se recomienda no pasar
+  de 25 (sección 5.2).
+- Un tema por párrafo, de 50 a 100 palabras, y 150 solo de forma excepcional
+  (sección 5.1).
+- La brevedad no se maximiza: la longitud de las oraciones varía y dos
+  oraciones consecutivas no empiezan con la misma estructura
+  (secciones 3.1 y 5.3).
+- Al reescribir, el contenido se preserva y solo cambia la forma (sección 7).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| Sin pedido de tono y ningún paso anterior de la lista corresponde | Se aplica este tono (sección 1) |
+| El texto no admite ninguna de las tres voces, como un discurso que pide calidez | Se aplica igual, y la línea que anuncia el tono lo dice (sección 1) |
+| Relato del propio usuario | Primera del singular en todo el texto y el hecho antes que el juicio (secciones 1 y 4.1) |
+| Carta o correo que el usuario firma | Primera del singular sin tutear a quien lee (sección 4.1) |
+| El usuario pidió humanizar de forma explícita | El ritmo lo decide «humanizar-espanol», que puede fundir cadenas de oraciones cortas (sección 3.1) |
+
+### Pasos
+
+1. Comprobar qué voz de la precondición de forma admite el texto (sección 1).
+2. Fijar la persona gramatical, el registro y los conectores (sección 4).
+3. Redactar o reescribir con un tema por párrafo y la información nueva al
+   final de la oración (sección 5).
+4. Pasar la lista normativa de la base y después la lista de tono
+   (sección 6).
+5. Entregar en el formato fijado (sección 7).
+
+### Entrega
+
+Texto nuevo: el texto pedido, y las explicaciones de estilo solo si se piden y
+separadas de él. Texto reescrito: sin preámbulos ni explicaciones salvo pedido,
+con el contenido original intacto (sección 7).
 
 ## 1. Rol y alcance
 

@@ -28,6 +28,74 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para los textos que exponen una doctrina para discutirla: guiones de
+curso y de análisis, lecciones, análisis de autores y escuelas, y ensayos de
+economía, filosofía política o ciencias sociales. Se elige cuando el texto
+sostiene una posición frente a otra con defensores serios y puede exponerla
+mejor de lo que ella se expone antes de refutarla (sección 1).
+
+### Reglas duras
+
+- Se heredan íntegras las reglas de «spanish-writing» y ninguna regla de este
+  tono levanta una prohibición de la base, raya incluida (sección 2).
+- Ninguna cita, dato ni atribución se inventa: se cita solo lo leído y
+  localizable, la paráfrasis se declara y ante la duda no se cita
+  (sección 9.2).
+- La crítica va contra proposiciones, nunca contra la persona: se prohíben la
+  ironía a costa del adversario, la atribución de mala fe, el diagnóstico
+  psicológico y el resumen deformado (secciones 5.2 y 11.5).
+- La voz dominante es el «nosotros» de autor; no se usa «tú» ni «usted» ni
+  para interpelar ni para generalizar (sección 5.1).
+- No se abre con una generalidad de calendario, una pregunta retórica
+  desnuda, un resumen de conclusiones ni una descalificación del adversario
+  (sección 4.1).
+- El concepto se define antes de discutirse, con la definición del bando
+  contrario, y la tesis rival se expone en su versión más fuerte antes de
+  refutarla por proposiciones (secciones 4.2, 4.3 y 4.4).
+- La objeción anticipada no se omite: se formula en su forma más dañina, se
+  concede lo cierto y se refuta con material del adversario (sección 8).
+- El cierre no resume ni se anuncia: extrae la consecuencia y se detiene, y
+  en una serie admite anticipar la sesión siguiente (sección 4.5).
+- No hay cuatro periodos largos seguidos sin una oración breve que descargue,
+  y toda pregunta se responde enseguida (secciones 6 y 10).
+- Sin coloquialismos, humor ni anécdotas personales, ni «vosotros», «coger»
+  por «tomar» o «vale» como muletilla; el plural de interpelación es
+  «ustedes» (secciones 5.2 y 11.1).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| El adversario existe y es localizable | Se prefiere citar su objeción tal como la formuló; la hipotética, solo en discusión teórica sin texto que citar (sección 8) |
+| La objeción es lateral y desviaría el hilo | Entra en el cuerpo o se deja fuera, nunca insinuada sin respuesta (secciones 8 y 11.4) |
+| Texto de cátedra o de ensayo | El dato cierra una discusión conceptual ya planteada, y si ocupa demasiado va a un anexo (sección 9.3) |
+| Guion de análisis de un hecho concreto | El dato puede sostener el cuerpo, cada cifra con fuente y hecha proposición (sección 9.3) |
+| Texto para leerse en voz alta | El techo baja a cuarenta palabras y suben las breves (sección 6) |
+| La lista de rivales no es completa | Se declara parcial, con qué queda fuera y por qué (sección 7) |
+
+### Pasos
+
+1. Comprobar que hay una posición contraria seria que exponer (sección 1).
+2. Abrir con el peso de la posición rival, la tesis, el propósito y la cuenta
+   de las partes (sección 4.1).
+3. Definir con las palabras del rival y reconstruir su tesis más fuerte
+   (secciones 4.2 y 4.3).
+4. Refutar por proposiciones, con la objeción anticipada y un comentario tras
+   cada cita (secciones 4.4, 8 y 9.1).
+5. Pasar la lista normativa de la base y después la de tono (sección 14).
+6. Entregar en el formato fijado (sección 12).
+
+### Entrega
+
+Texto nuevo: el texto solicitado, y las explicaciones de estilo solo si se
+piden y separadas. Texto reescrito: sin preámbulos ni explicaciones salvo
+pedido, y solo con la forma cambiada (sección 12).
 
 ## 1. Rol y alcance
 

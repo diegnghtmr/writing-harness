@@ -82,7 +82,11 @@ acentos: varios gates lo buscan con `[a-z-]+`.
 
 Lleva, en este orden: frontmatter con `name` y `description`; **el bloque
 «Antes de seguir»** entre el título y la sección 1, tal cual está en
-`evals/puerta.test.ts`; la sección 1 con qué decide ese tono y **la
+`evals/puerta.test.ts`; **el contrato de uso** (`## Contrato de uso`, con
+Activación, Reglas duras, Decisiones, Pasos y Entrega, más Referencias si la
+skill trae `references/`), que resume el cuerpo sin agregarle nada y apunta a
+cada sección con «(sección N)», con la forma que fija
+`evals/contrato-de-uso.test.ts`; la sección 1 con qué decide ese tono y **la
 precondición de forma al final**; la relación con la base; qué se midió y qué no
 vale de esa medición; el ritmo en cifras; la voz; la estructura; los recursos;
 el formato de entrega; **la lista de verificación numerada** con ítems

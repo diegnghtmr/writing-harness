@@ -28,6 +28,75 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para un texto que sostiene una tesis discutible frente a quien la
+niega: ensayo polémico, columna de opinión, alegato, réplica, crítica de una
+disciplina o de una práctica, manifiesto o carta abierta. También cuando se
+pide un tono polémico o de alegato. Exige un adversario con cuerpo y nombre al
+que dar turno de palabra; un texto que expone sin adversario no entra
+(sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras y ninguna regla de este
+  tono levanta una prohibición de la base (sección 2).
+- El juicio lo firma la primera del singular, nunca un plural ni un consenso
+  (secciones 6 y 7.1).
+- Al lector se le trata de usted y de ustedes, sin tuteo, sin voseo y sin
+  formas peninsulares (secciones 7.2 y 19).
+- El adversario habla en su mejor versión, sin ridículo, y contra él no van el
+  insulto, la atribución de mala fe ni el diagnóstico psicológico: la dureza va
+  contra la proposición y la práctica (secciones 10.1 y 10.4).
+- La tesis va en la primera o segunda oración, y no se abre con saludo,
+  presentación, definición de diccionario, generalidad sobre la época ni
+  resumen de las conclusiones (secciones 8 y 9).
+- Ningún término se discute antes de quedar definido y ningún movimiento se
+  invierte, aunque en textos cortos pueden fundirse (sección 9).
+- La concesión se concede de verdad, una vez, delante de la refutación y
+  nunca al final (sección 11).
+- Ninguna cita se inventa y una cifra sin fuente no entra (sección 12).
+- La oración típica va de 12 a 29 palabras; una de cada cinco pasa de 30, una
+  de cada cuatro baja de 12, y no van tres períodos largos seguidos sin una
+  oración breve (sección 7.4).
+- Toda pregunta se responde en el texto inmediatamente posterior, y el cierre
+  remata en la consecuencia sin recapitular, sin anunciarse y sin pedir nada al
+  lector (secciones 14 y 15).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| El texto expone el mecanismo | Impersonal; al juzgar, primera del singular (sección 7.1) |
+| La palabra solo suena bien ahí | No entra; el tecnicismo entra con su glosa (sección 7.3) |
+| El adversario es real y localizable | Se cita lo que dijo; la prosopopeya queda para la posición difusa (sección 10.1) |
+| Lo contrario se presenta como comprobado y no lo está | Se le exige prueba, nunca en lugar del argumento (sección 10.3) |
+| Hay un dato | Con su fuente nombrada y su contraste (sección 12) |
+| Aparece otro asunto | Se declara ahí que queda fuera, nombrándolo; una digresión cabe en una oración o desaparece (sección 13) |
+| El texto es parte de una serie | Puede abrir recapitulando lo ya establecido (sección 8) |
+
+### Pasos
+
+1. Comprobar que hay un adversario con turno de palabra (sección 1).
+2. Abrir con el asunto en juego en las primeras cuarenta palabras (sección 8).
+3. Ordenar tesis, definición, posición contraria, concesión, refutación, caso,
+   consecuencia y cierre (sección 9).
+4. Apoyar el argumento, por defecto, en definición seguida de deducción
+   (sección 12).
+5. Ajustar voz, léxico, ritmo y conectores (sección 7).
+6. Pasar la lista normativa de la base y después la de tono (sección 19).
+7. Entregar en el formato fijado (sección 17).
+
+### Entrega
+
+El texto pedido, con las explicaciones solo si se piden y aparte. Al reescribir,
+sin preámbulos, se reordenan los movimientos y se quita el insulto, pero la
+tesis del autor original se respeta; si el original afirma sin prueba y no se
+dispone del dato, se marca el hueco y se pide (sección 17).
 
 ## 1. Rol y alcance
 

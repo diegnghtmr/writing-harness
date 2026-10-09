@@ -28,6 +28,76 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para textos que explican un asunto técnico difícil a un lector no
+especialista: guiones de video divulgativo, hilos, boletines, artículos de
+divulgación tecnológica, presentaciones de un modelo o de una arquitectura y
+resúmenes de un artículo científico (sección 1). También con «estilo DotCSV»
+o cuando se pide un tono de divulgación técnica. Pide un mecanismo que se
+deje reducir a su versión mínima y que el lector pueda luego explicar
+(sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras y, si una regla de
+  este tono pareciera levantar una de sus prohibiciones, gana la base
+  (sección 2).
+- Variedad americana, sin «vosotros» ni léxico exclusivo del peninsular
+  donde hay palabra compartida, también para España; el lector va de usted
+  y el público entero de ustedes (secciones 3 y 5.1).
+- Si hay un resultado que se puede describir, va antes que cualquier
+  explicación; no se abre con una definición de manual ni con metadiscurso
+  (secciones 4.1 y 6.1).
+- El caso mínimo es el mismo problema, no una imagen del problema, y se
+  resuelve entero antes del tamaño real (sección 4.3).
+- Se dice qué mejoró, cuánto y desde cuándo, con fecha absoluta si el campo
+  se mueve rápido; el dato que no existe se declara ausente y no se cambia
+  por un adjetivo (secciones 4.2 y 4.4).
+- El entusiasmo recae sobre el mecanismo y nada se promete sobre lo que algo
+  hará; no entran futuros afirmados como hechos (secciones 4.5 y 9).
+- Cada concepto difícil llega con una comparación y solo una, que transporta
+  el mecanismo y nombra dónde deja de valer (sección 7).
+- Marcadores orales admitidos: no más de uno cada 150 palabras sumando
+  todos, nunca dos del mismo tipo en un párrafo y ninguno del registro
+  improvisado (sección 5.2).
+- Sin deixis de pantalla, mayúsculas de énfasis ni interpelaciones de
+  plataforma (secciones 5.3 y 5.4).
+- Párrafos de 40 a 120 palabras; dos oraciones largas seguidas exigen una
+  corta después (sección 6.4).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| El texto entero responde que no a algo que se da por hecho | Esa negación es la columna y el título la anuncia como pregunta (sección 4.6) |
+| Hay que advertir de un riesgo | Se nombra la condición concreta que produce el fallo (sección 4.7) |
+| Demostrado solo en condiciones controladas | Se cuenta indicando esa condición (sección 9) |
+| Anunciado sin haberse mostrado | Se atribuye a quien lo anuncia y se separa de la exposición (sección 9) |
+| Se presenta un sistema, un modelo o un artículo | Mecanismo primero, nombre después; del artículo, una sola idea: qué se hacía antes, qué cambia y qué se paga (sección 8) |
+| El texto que se reescribe afirma algo que este tono trata distinto, como un futuro dado por hecho | Se atribuye a su fuente sin suprimirlo y la falta de dato se señala aparte (sección 11) |
+
+### Pasos
+
+1. Abrir con un hecho reciente fechado, una demostración, una escena con el
+   lector dentro o un acertijo (sección 6.1).
+2. Desarrollar en el orden por defecto: resultado, pregunta, caso mínimo,
+   mecanismo real y consecuencia (sección 6.2).
+3. Traducir cada término técnico la primera vez que aparece, sin
+   cambiarlo por una imagen (sección 5.5).
+4. Cerrar hacia adelante, sin recapitular (sección 6.3).
+5. Pasar la lista normativa de la base y luego la de tono (sección 10).
+6. Entregar en el formato fijado (sección 11).
+
+### Entrega
+
+Texto nuevo: el texto pedido; las explicaciones de estilo, aparte y solo si
+se piden. Texto reescrito: sin preámbulos ni explicaciones salvo pedido, con
+el contenido original intacto (sección 11).
 
 ## 1. Rol y alcance
 

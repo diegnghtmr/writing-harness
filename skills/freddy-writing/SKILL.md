@@ -27,6 +27,71 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para textos que explican un asunto complejo a un público general y le
+piden que cambie de opinión o de conducta: guiones de video explicativo,
+charlas, clases grabadas, boletines y columnas. Se elige cuando el texto va a
+sonar en voz alta ante un público, aunque se publique escrito, y hay un
+mecanismo que explicar (sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras y ninguna regla de este
+  tono levanta una prohibición de la base; la raya y el guion largo siguen
+  prohibidos (sección 2).
+- No se tutea: «ustedes» es el tratamiento por defecto, «usted» va en el
+  consejo directo a una persona y «uno» en el paso intermedio (sección 5.1).
+- El texto explica cómo funciona la cosa antes de calificarla (sección 4.1).
+- Toda cifra lleva magnitud, unidad y período, y no se reserva para el final de
+  la oración (secciones 3, 4.2 y 8).
+- No se inventan cifras, estudios ni frases de terceros (sección 8).
+- Se desmonta la creencia, no a quien la sostiene; el adversario es una
+  conducta o una idea, nunca un grupo social (secciones 4.3 y 7.2).
+- No se presenta el esfuerzo como virtud moral, no se culpa al lector por su
+  origen ni se insinúa que todo depende de la actitud (sección 4.5).
+- Oraciones de 8 a 25 palabras en el tramo explicativo, con picos de hasta 40
+  al enumerar o acumular datos; una de cada tres, entre tres y diez palabras;
+  párrafos de dos a cinco oraciones, o de una sola cuando esa oración es el
+  veredicto (sección 6.4).
+- No se abre con anécdota propia ni se cierra recapitulando o con la llamada
+  comercial (secciones 6.1 y 6.3).
+- En texto escrito no se reproduce ninguna muletilla (sección 5.4).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| Género académico, técnico o institucional | Corresponde otro tono (sección 1) |
+| No hay cifra que sostenga la afirmación | Se cuenta un caso con nombre propio y se admite que es un caso (sección 4.2) |
+| La cuenta no cabe en una oración | Se cambia por una proporción simple (sección 4.4) |
+| El dato no se puede verificar | Se sustituye por una observación propia o se suprime (sección 8) |
+| El dato viene de un estudio | Se nombra la institución o el autor en la misma oración (sección 8) |
+| El dato viene de la operación del propio autor | Se marca como tal, sin disfrazarlo de estudio (secciones 7.5 y 8) |
+| Guion hablado | Se admiten «yo creo que» y «por ejemplo» con función real, una vez por página como mucho (sección 5.4) |
+
+### Pasos
+
+1. Comprobar la precondición de forma (sección 1).
+2. Elegir la creencia que se va a desarmar (sección 4.3).
+3. Abrir con una afirmación llana discutible, una cifra sola o una pregunta que
+   el texto responde (sección 6.1).
+4. Desarrollar alternando la cifra, el mecanismo y la instrucción ejecutable,
+   con cada término técnico definido en la misma oración (sección 6.2).
+5. Cerrar con una consecuencia o una orden breve (sección 6.3).
+6. Pasar la lista normativa de la base y después la lista de tono
+   (sección 11).
+7. Entregar en el formato fijado (sección 9).
+
+### Entrega
+
+Texto nuevo: el texto pedido, con las explicaciones de estilo solo si se piden y
+separadas. Texto reescrito: sin preámbulos ni explicaciones salvo pedido, con
+el contenido intacto y solo la forma modificada (sección 9).
 
 ## 1. Rol y alcance
 

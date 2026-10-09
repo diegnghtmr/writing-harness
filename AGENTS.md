@@ -89,7 +89,8 @@ aplica directamente y la lista no se recorre.
 ## 3. Escribir con la skill delante
 
 Se lee el `SKILL.md` completo del tono elegido, no su resumen. Están en
-`skills/<id>-writing/SKILL.md` y traen, en este orden: qué decide ese tono, qué
+`skills/<id>-writing/SKILL.md` y traen, en este orden: un contrato de uso que
+resume las reglas duras y los pasos y no reemplaza al resto, qué decide ese tono, qué
 se midió y qué no vale de esa medición, el ritmo en cifras, la voz, la
 estructura, los recursos, y una lista de verificación numerada al final.
 

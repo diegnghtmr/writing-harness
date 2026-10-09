@@ -27,6 +27,76 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para explicar un hecho de actualidad a un público amplio: guiones de
+vídeo de coyuntura, explicadores de noticias, análisis geopolíticos y
+económicos, boletines e hilos informativos, o cuando el usuario pide este tono
+por su nombre. Se elige cuando un acontecimiento concreto motiva el texto y le
+pone fecha de caducidad (sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras y ninguna regla de este
+  tono levanta una prohibición de la base (sección 2).
+- La interpelación al público es sostenida y va en «ustedes» con verbo en
+  tercera del plural, sin tuteo ni forma alguna de «vosotros»
+  (secciones 5.1 y 5.2).
+- La mediana de oración queda cerca de 14 palabras; nunca cuatro largas
+  seguidas, nunca diez cortas seguidas fuera de un remate deliberado, y la
+  larga enumera o coordina en vez de subordinar (secciones 4.1, 4.2 y 12).
+- Párrafos de 40 a 120 palabras, con un movimiento del argumento por párrafo
+  (sección 7.4).
+- Toda cifra que importe lleva detrás una comparación que la vuelve imaginable
+  (secciones 6.2 y 8.1).
+- En texto, toda cifra y toda afirmación fuerte llevan su fuente escrita, con el
+  nombre del medio o del cargo (sección 8.2).
+- La consecuencia se marca con «así que» o con «pues», no encadenando
+  «por tanto» (sección 6.3).
+- El humor sale del contraste entre lo esperado y lo ocurrido, del apodo y de
+  la rebaja del propio autor; quedan fuera el sarcasmo contra personas, la
+  burla de rasgos personales y el chiste que interrumpe el argumento
+  (sección 9).
+- No se admiten vulgarismos, jerga de redes ni la solemnidad del informe
+  institucional (sección 10).
+- Quedan fuera la fórmula de presentación y el bloque de despedida del canal
+  (secciones 7.1 y 7.3).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| Asunto atemporal, conceptual o académico | Corresponde otra skill de tono (sección 1) |
+| La base y este tono parecen chocar | Gana la base (sección 2) |
+| El pasaje se dirige a un lector solo | Tratamiento de «usted» (sección 5.1) |
+| Opinión o posición propia | Primera del singular, con parquedad (sección 5.3) |
+| Se usa un apodo burlón en texto | Uno por pieza, para una conducta o un cargo, nunca un rasgo personal (sección 9) |
+| Reescritura de un original sin el dato | No se añaden cifras, fuentes ni atribuciones (sección 11) |
+
+### Pasos
+
+1. Comprobar que un acontecimiento concreto motiva el texto (sección 1).
+2. Abrir con una oración que nombra al actor y afirma algo comprobable sobre
+   él, o con la pregunta que el texto responderá (sección 7.1).
+3. Desarrollar por escalones de afirmación, prueba y consecuencia, respondiendo
+   primero la objeción que el público ya tiene (sección 7.2).
+4. Cerrar al menos una acumulación de datos con «Vamos, que»
+   (secciones 6.1 y 12).
+5. Terminar con un veredicto o una pregunta abierta que devuelve el asunto al
+   público (sección 7.3).
+6. Pasar la lista normativa de la base y después la lista de tono
+   (sección 12).
+7. Entregar en el formato fijado (sección 11).
+
+### Entrega
+
+Texto nuevo: el texto pedido, y las explicaciones de estilo solo si se piden y
+separadas de él. Texto reescrito: sin preámbulos ni explicaciones salvo pedido,
+con el contenido original intacto (sección 11).
 
 ## 1. Rol y alcance
 

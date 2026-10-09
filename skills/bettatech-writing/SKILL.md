@@ -28,6 +28,74 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para divulgar informática, programación y computación: guiones de
+vídeo técnico, artículos, material de curso sobre fundamentos y explicaciones
+de mecanismos, para quien ya programa y usa herramientas cuyo funcionamiento
+interno no conoce. La forma exige un mecanismo que el lector usa a ciegas, sea
+o no de cómputo. No se usa para documentación de referencia, manuales de
+operación ni informes técnicos formales, ni para divulgación filosófica o
+humanística (sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras y ninguna regla de este
+  tono levanta una prohibición de la base (sección 2).
+- Se toma la arquitectura explicativa y no la variedad: sin «vosotros» ni
+  léxico coloquial peninsular, y el lector se trata de usted (sección 4).
+- La interpelación es sostenida: no se empieza de usted y se termina en
+  impersonal, ni al revés (sección 8).
+- Ningún nombre propio de la técnica aparece antes de que el lector sepa qué
+  designa: primero el fenómeno, luego la etiqueta (sección 6).
+- La apertura no define ni anuncia el plan, y el cierre no resume ni lleva la
+  liturgia de canal (secciones 5.1 y 5.3).
+- El recurso principal es el caso hipotético del propio dominio técnico, con
+  cantidades concretas; la analogía de dominio ajeno, una por texto como
+  máximo, nunca sale de otro concepto técnico y se sostiene (sección 7).
+- Cada unidad explica cómo funciona algo, no cómo se hace, y termina en una
+  consecuencia marcada léxicamente, sobre todo con «por lo tanto»
+  (secciones 5.2 y 12).
+- Se contrasta con «pero» y se reformula con «es decir» (sección 11).
+- La regla es la alternancia: un cuarto del texto por debajo de 14 palabras,
+  un cuarto por encima de 31, y la media entre 20 y 26 (sección 10).
+- Se traduce siempre que exista término español asentado; la densidad de inglés
+  queda en el orden del uno por ciento (sección 9).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| Se pide escribir para un destinatario peninsular | Se mantiene el español americano de la base (sección 4) |
+| Término inglés sin equivalente asentado | Se conserva, con una paráfrasis breve la primera vez (sección 9) |
+| El género no admite remitir a otra pieza | Se nombra lo que el lector tendría que aprender después (sección 5.3) |
+| Algo excede la pieza | Se remite, sin aviso de simplificación (sección 8) |
+| La reescritura exige añadir fundamento | Se pregunta al usuario antes de agregarlo (sección 13) |
+| El género no admite código | El algoritmo se describe en prosa paso a paso (sección 13) |
+
+### Pasos
+
+1. Comprobar que el objeto es un mecanismo que el lector usa sin conocerlo por
+   dentro (sección 1).
+2. Abrir con una creencia extendida contradicha antes de la tercera oración
+   (secciones 5.1 y 12).
+3. Desarrollar por unidades de caso, mecanismo y consecuencia (sección 5.2).
+4. Cerrar nombrando el paso siguiente (sección 5.3).
+5. Pasar la lista normativa de la base y después la lista de tono
+   (sección 12).
+6. Entregar en el formato fijado (sección 13).
+
+### Entrega
+
+Texto nuevo: el texto pedido, con las explicaciones de estilo separadas si se
+piden. Texto reescrito: sin preámbulos, con el contenido preservado y solo
+cambiados la forma y el orden de exposición. Los nombres de lenguajes,
+herramientas y protocolos van en prosa corriente, sin marcas de formato, y el
+código no sustituye la explicación del mecanismo (sección 13).
 
 ## 1. Rol y alcance
 

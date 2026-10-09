@@ -28,6 +28,78 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para guiones de video, ensayos didácticos, material de clase,
+entradas de blog, guiones de pódcast y exposiciones de divulgación filosófica,
+humanística y cultural para un lector no especialista, o cuando se pide este
+tono por su nombre. Se elige cuando el texto tiene que sostener la atención de
+ese lector sin bajar el nivel, y sirve para cualquier asunto con un
+destinatario y algo concreto por donde entrar (sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras: siguen prohibidos la
+  raya, la semirraya y el guion largo. La única ampliación es la palabra en
+  otra lengua glosada en el acto, nunca el anglicismo suelto (secciones 2 y 8).
+- La interpelación va de usted, nunca de tú; al público como cuerpo,
+  «ustedes», sin mezclar las dos formas en una oración (sección 6.1).
+- Oraciones de 12 a 26 palabras, con una de tres o cuatro cada tanto; se
+  permite una de más de 40 cuando el argumento la pide, y si hay varias se
+  parten; sin subordinación de tres niveles (sección 7).
+- La palabra se glosa siempre antes de usarla; la etimología, solo en el
+  término del que depende el argumento y nunca sin dato que la sostenga; la
+  palabra extranjera que no se puede glosar en el acto no entra (sección 8).
+- La cita es corta, entra con verbo de decir desnudo y la sigue su glosa
+  (sección 9.1).
+- No se atribuye una frase sin poder señalar de dónde sale; entre inventar
+  una cita verosímil y no citar, no se cita (sección 9.2).
+- Todo concepto abstracto y difícil descarga en un ejemplo material antes de
+  avanzar, y la analogía se desarrolla hasta agotarla (sección 10).
+- Toda pregunta se responde, se declara sin respuesta o se deja como tarea
+  (sección 6.4).
+- La apertura no usa la generalidad de calendario, la definición de
+  diccionario ni la pregunta retórica que nadie va a contestar (sección 5.1).
+- No se copian el signo largo de inciso, «imaginar» en imperativo como entrada
+  de ejemplo ni los avisos de canal (sección 12).
+- El cierre no recapitula (sección 5.5).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| Hay incidente propio | Se prefiere; si no lo hay, no se inventa y se abre por algo concreto y verificable (sección 5.1) |
+| Se quiere anunciar el rumbo | Una sola oración que nombre el problema, nunca el índice de tres puntos (sección 5.1) |
+| Exposición cerrada | La interpelación puede desaparecer (sección 6.1) |
+| Atribución dudosa y la idea sirve | Se dice que es dudosa y por qué la idea sirve igual (sección 9.2) |
+| Signo largo de inciso en el original | Dos puntos ante una traducción; dos comas para la aposición (sección 12) |
+| Punto y coma que solo marca pausa | Punto y seguido (sección 12) |
+| «De hecho» o «básicamente» se pueden borrar sin pérdida | Son muletilla y se borran (sección 6.3) |
+
+### Pasos
+
+1. Comprobar la precondición de forma (sección 1).
+2. Fijar la interpelación de usted y el registro culto y coloquial a la vez
+   (sección 6).
+3. Abrir por algo concreto y tender la bisagra hacia el autor
+   (secciones 5.1 y 5.2).
+4. Desarrollar por pregunta y respuesta y por reformulación (sección 5.3),
+   con glosa, cita y ejemplo material (secciones 8, 9 y 10).
+5. Marcar cada digresión y cerrar con anuncio de lo que viene o remate breve
+   (secciones 5.4 y 5.5).
+6. Pasar la lista normativa de la base y después la lista de tono
+   (sección 15).
+7. Entregar en el formato fijado (sección 13).
+
+### Entrega
+
+Texto nuevo: el texto pedido, y las explicaciones de estilo solo si se piden y
+separadas. Texto reescrito: sin preámbulos ni explicaciones salvo pedido, con
+el contenido intacto (sección 13).
 
 ## 1. Rol y alcance
 

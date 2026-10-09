@@ -27,6 +27,77 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para guiones de control político, denuncias documentadas sobre
+gestión pública, rendiciones de cuentas, derecho explicado a público no
+jurista y método de estudio o productividad para una audiencia propia, o
+cuando se pide este tono por su nombre. Rige cuando el texto le pide cuentas a
+alguien con poder o le explica a una comunidad algo que la afecta, y el autor
+firma lo que afirma; no se usa para textos académicos, documentación técnica
+ni divulgación filosófica o humanística (sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras y ninguna regla de este
+  tono levanta una prohibición de la base; donde parezcan chocar, gana la base
+  (sección 2).
+- Toda afirmación fuerte sobre dinero público, contrato, nombramiento o
+  conducta de un funcionario llega con el imperativo de mirar y la cifra o el
+  nombre del documento en la misma línea; la prueba se identifica en la prosa,
+  sin enlace (sección 4.1).
+- Al reescribir no se inventa documento ni cifra que el original no aporte,
+  ni se añade artículo que no cite (sección 9).
+- Todo término técnico o cifra se vuelve a decir en palabras corrientes en la
+  misma unidad (sección 4.3).
+- «Ustedes» para lo que toca al grupo, «usted» para lo que toca a uno solo, sin
+  mezclarlos en una unidad; nunca tuteo al público ni «vosotros» (sección 5.2).
+- Mediana de la oración entre 14 y 18 palabras, un cuarto del texto por debajo
+  de 10 y a lo sumo una de cada diez oraciones por encima de cuarenta; las
+  oraciones independientes nunca se encadenan con comas; párrafos de 40 a 120
+  palabras (sección 6.1).
+- «Entonces» a lo sumo una vez cada quinientas palabras; «miren», «mire» y
+  «oigan», dos o tres por texto y antes de una prueba o de una cifra; fuera
+  los rellenos que no articulan nada y el conector ilativo culto (sección 6.2).
+- No pasan al texto la repetición inmediata de palabra, las groserías, los
+  emojis, los enlaces ni las mayúsculas enfáticas en el cuerpo (sección 5.5).
+- El cierre no resume: agradece, pide algo concreto o remata sobre la tesis
+  (sección 6.5).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| No hay afirmación fuerte | No hace falta documento (sección 4.6) |
+| El texto tiene de verdad el expediente | Se invita a consultarlo entero y se nombra el documento, quién lo firmó y qué dice (sección 4.1) |
+| El argumento depende de una norma | Número y año, traducida acto seguido; si no depende, no se cita (sección 4.2) |
+| Texto largo | Vocativo una o dos veces en el punto medio; en la apertura no es obligatorio (sección 5.3) |
+| Colombianismo opaco y texto no dirigido a Colombia | Término común (sección 5.4) |
+| Título | Casi siempre pregunta directa que nombra la cifra o el responsable; una sola palabra en mayúsculas, ninguna si el destino no las admite (sección 7) |
+
+### Pasos
+
+1. Comprobar la precondición de forma (sección 1).
+2. Fijar la primera persona que asume y el reparto entre «ustedes» y «usted»
+   (sección 5).
+3. Abrir combinando dos movimientos medidos, sin preámbulo sobre la
+   importancia del tema (sección 6.3).
+4. Desarrollar por segmentos de un asunto, con la prueba a la vista y la
+   reformulación inmediata (secciones 4 y 6.4).
+5. Pasar la lista normativa de la base y después la lista de tono
+   (sección 11).
+6. Entregar en el formato fijado (sección 9).
+
+### Entrega
+
+Texto nuevo: el texto pedido, y las explicaciones de estilo solo si se piden y
+separadas. Texto reescrito: sin preámbulos ni explicaciones salvo pedido, con
+el contenido intacto y sin pruebas que el original no traía (sección 9).
+
 ## 1. Rol y alcance
 
 Este skill decide la forma, el trato con el lector y el orden de la prueba en

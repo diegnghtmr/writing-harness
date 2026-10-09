@@ -27,6 +27,74 @@ entrega el texto y, si el usuario no pidió este tono por su nombre, decide
 si hay tono y cuál; si decide otro o ninguno, este no se aplica. Elegido el
 tono, se dice cuál y por qué en una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga para textos que interpretan una figura y no la resumen: análisis de
+personajes, reseñas de manga y de anime, crítica de cine y de series, guiones
+de video ensayo y comentarios de capítulo. La precondición de forma pide una
+figura tratable como personaje y una lectura corriente de ella que corregir; un
+actor histórico o una institución tratados como personaje la cumplen
+(sección 1).
+
+### Reglas duras
+
+- Las reglas de «spanish-writing» se aplican enteras, ninguna regla de este
+  tono levanta una prohibición de la base y de la fuente no se toma ningún
+  modelo de puntuación (sección 2).
+- Al público se le habla en «ustedes» y a un lector solo, en «usted»; la
+  generalización va con «uno», nunca con «tú» (sección 5.1).
+- La primera del plural es indicativa, «vemos que» y no «veamos»; la primera
+  del singular solo marca un juicio propio o narra la lectura propia y su
+  revisión (secciones 5.1 y 11).
+- Un solo concepto, nombrado en la apertura y devuelto en el cierre; el
+  inventario de rasgos del modo enumerativo no se admite (secciones 4.1 y 4.3).
+- Toda afirmación sobre la psicología o la moral del personaje se apoya en algo
+  que la obra muestra, y lo que la obra establece se distingue de lo que el
+  análisis interpreta (secciones 4.4 y 7.3).
+- Las citas de la obra son literales o no son citas; sin el diálogo exacto, se
+  describe la escena. No se atribuyen al autor de la obra intenciones que la
+  obra no muestre (sección 7.3).
+- No se abre con saludo ni con el anuncio del recorrido; si hace falta
+  anunciarlo, se anuncia el problema y no el recipiente (sección 6.1).
+- Toda pregunta directa del análisis se responde dentro del texto, y van una o
+  dos como mucho (sección 6.6).
+- El eje del análisis se nombra con léxico político y moral; el afectivo solo
+  matiza (sección 5.3).
+- No hay techo fijo de oración ni cifra de oración o de párrafo: un movimiento
+  del argumento por párrafo, con tramos largos y golpes cortos (secciones 6.5 y 8).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| No hay figura o no hay lectura corriente que corregir | Corresponde otro tono (sección 1) |
+| Pedido sobre un autor de la Antigüedad | Este no es el tono que corresponde (sección 3) |
+| El concepto no cabe en una frase nominal breve | Todavía no hay análisis, hay resumen (sección 4.3) |
+| La obra existe en más de una versión | Se declara cuál se analiza, en una línea al principio (sección 7.1) |
+| Una escena contradice la tesis | Se cita y se explica por qué no la derriba (sección 6.2) |
+| El usuario pide un guion para publicar | El bloque de canal va después del cierre, separado, breve y en «ustedes»; sin ese pedido no se escribe (sección 6.4) |
+
+### Pasos
+
+1. Comprobar la precondición de forma (sección 1).
+2. Formular el concepto en una frase nominal breve (sección 4.3).
+3. Abrir sin saludo: atribuir la lectura corriente, corregirla y nombrar el
+   concepto (sección 6.1).
+4. Desarrollar por caras del concepto, no por orden de la trama (sección 6.2).
+5. Cerrar devolviendo el concepto con una afirmación general (sección 6.4).
+6. Pasar la lista normativa de la base y después la lista de tono
+   (sección 11).
+7. Entregar en el formato fijado (sección 9).
+
+### Entrega
+
+Texto nuevo: el texto pedido, con las explicaciones de forma solo si se piden y
+separadas. Texto reescrito: sin preámbulos ni explicaciones salvo pedido, con
+el contenido intacto. Para voz alta, sin marcas de formato (sección 9).
 
 ## 1. Rol y alcance
 

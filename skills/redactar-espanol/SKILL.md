@@ -23,6 +23,65 @@ sus reglas rigen todo texto en español, con tono o sin él, y esta skill no
 agrega ninguna. Esta skill decide el modo, el tono y la entrega. Elegido el
 tono, su skill se carga enseguida, antes de escribir una línea.
 
+## Contrato de uso
+
+Este contrato resume las secciones numeradas: ellas mandan y se leen enteras.
+
+### Activación
+
+Se carga con cualquier pedido de corregir, revisar, mejorar, pulir,
+reescribir o escribir un texto en español, o de traducir uno al español
+(sección 1). Decide el modo, el tono y la entrega, y no agrega reglas de
+escritura: las de «spanish-writing» rigen todo texto en español.
+
+### Reglas duras
+
+- Al corregir no se aplica ningún tono y rige solo la base; al redactar rigen
+  la base y exactamente un tono (secciones 1 y 2).
+- Traducir al español sin pedir un registro para la traducción es corregir
+  (sección 1).
+- La lista de tonos siempre termina en un tono (sección 2).
+- La skill del tono elegido se lee entera, no su resumen (sección 3).
+- Se escribe solo con los hechos que el usuario dio o que su pedido implica,
+  sin inventar ni atenuar ninguno (sección 3).
+- Un texto con errores no se entrega, y nunca se afirma una medición que no
+  corrió (sección 3).
+- «humanizar-espanol» se carga además solo cuando el usuario pide humanizar
+  con esas palabras (sección 1).
+- La línea del tono va aparte, fuera del texto, y nunca describe el texto como
+  algo que no es (sección 3).
+
+### Decisiones
+
+| Situación | Acción |
+| --- | --- |
+| El modo no queda claro | Sin pedido de otra forma para el texto, se corrige (sección 1) |
+| El usuario nombró un tono | Se aplica el nombrado y la lista no se recorre (sección 2) |
+| No nombró ninguno | Se recorre la lista en orden y se toma el primer paso que corresponda (sección 2) |
+| Se pidió humanizar | «humanizar-espanol» y sus dos referencias se leen enteras antes de tocar el texto, y el resto del pedido decide el modo (sección 1) |
+| El texto no cumple la precondición de forma del tono | La línea lo dice y nombra la condición que falla (sección 3) |
+| Se llegó al último paso de la lista | La línea dice si ningún paso anterior correspondía o si es el relato del propio usuario (sección 3) |
+| Modo corregir | La línea dice que no se aplicó tono porque la forma es de su autor (sección 3) |
+| El usuario pidió un archivo o dio un documento | El texto va ahí y la respuesta dice dónde quedó, sin repetirlo (sección 3) |
+| El verificador no aparece | Se siguen las instrucciones del proyecto para hallarlo; sin él, el texto no se mide y la entrega lo dice junto con lo que se intentó (sección 3) |
+
+### Pasos
+
+1. Fijar el modo (sección 1).
+2. Elegir, al redactar, exactamente un tono (sección 2).
+3. Leer entera la skill del tono y escribir con los hechos dados (sección 3).
+4. Releer oración por oración y quitar lo que el usuario no afirmó ni su
+   pedido implica (sección 3).
+5. Medir con el verificador, corregir y volver a medir (sección 3).
+6. Entregar con la línea del tono y las advertencias aparte (sección 3).
+
+### Entrega
+
+Sin otro destino pedido, el texto medido va completo y tal cual en la
+respuesta, con el formato de entrega de la base; guardarlo o medirlo no es
+entregarlo. Aparte, cada advertencia con su motivo, cada contradicción del
+original con sus dos versiones y cada agregado o pieza omitida de la forma
+(sección 3).
 
 ## 1. El modo
 
