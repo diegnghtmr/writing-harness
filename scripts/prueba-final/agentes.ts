@@ -1,6 +1,6 @@
-// Los tres agentes: cómo se los llama y cómo se lee lo que dejan.
+// Los agentes: cómo se los llama y cómo se lee lo que dejan.
 //
-// Todo lo que está acá salió del sondeo de las tres CLI, con una sesión real de
+// Todo lo que está acá salió del sondeo de cada CLI, con una sesión real de
 // cada una, y no de su documentación. Los formatos son estos:
 //
 // - Copilot escribe JSONL en la salida estándar. La respuesta es el mensaje con
@@ -17,7 +17,18 @@
 //   completa de la conversación, bajo `~/.gemini/antigravity-cli/brain/`. Su
 //   versión sale del registro que escribe con `--log-file`.
 //
-// Las tres lecturas toleran líneas que no son JSON. Una CLI que mezcla un aviso
+// - Codex (`codex exec --json`) escribe en la salida estándar `thread.started`
+//   con el id del hilo, los `item.completed` y `turn.completed`. El registro
+//   completo es su rollout, en `~/.codex/sessions/AAAA/MM/DD/`, con el id del
+//   hilo en el nombre: ahí cada comando es un arreglo `[shell, "-Command",
+//   interno]` con su carpeta y su código, cada escritura con apply_patch un
+//   `FileChange`, y la respuesta y la duración van en `task_complete`. Codex
+//   delega a veces en subagentes, y cada uno deja su propio rollout: en la
+//   primera corrida de humo, la medición la hizo un subagente. La salida
+//   estándar no trae nada de los subagentes, así que la fuente es el rollout,
+//   junto con los de sus subagentes, y la salida estándar queda de respaldo.
+//
+// Las lecturas toleran líneas que no son JSON. Una CLI que mezcla un aviso
 // suelto en su salida no puede tirar abajo la lectura de la corrida entera.
 //
 // Cada lectura saca además el error que informa el propio agente, si lo hay.
@@ -29,6 +40,7 @@
 // de Grok o de Copilot, así que esas dos formas salen de sus líneas de
 // resultado reales y no de un error visto.
 
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { llamada, motivoDeError, vacia, type Llamada, type Transcripcion } from './transcripcion.ts';
 
@@ -317,6 +329,238 @@ export function parsearAgy(stdout: string, transcripcion: string | null, log: st
   return t;
 }
 
+/** El modelo con que corre codex en la prueba. */
+const MODELO_DE_CODEX = 'gpt-6-luna';
+
+/** El id del hilo de codex, que viene en la primera línea de su salida `--json`. */
+export function hiloDeCodex(stdout: string): string | null {
+  for (const j of lineas(stdout)) if (j.type === 'thread.started') return str(j.thread_id);
+  return null;
+}
+
+/** La bandera con que un shell recibe el comando que va a correr. */
+const BANDERA_DE_COMANDO = /^(?:-command|-c|-lc|\/c)$/iu;
+
+/** La línea de un shell, como la escribe la salida `--json`: `"…\pwsh.exe" -Command "…"`. */
+const LINEA_DE_SHELL = /^(?:"[^"]*?(?:pwsh|powershell|cmd|bash|zsh|sh)(?:\.exe)?"|\S*?(?:pwsh|powershell|cmd|bash|zsh|sh)(?:\.exe)?)\s+(?:-noprofile\s+)?(?:-command|-c|-lc|\/c)\s+([\s\S]*)$/iu;
+
+/**
+ * El comando que corrió codex: el de dentro del shell, no la línea del shell.
+ *
+ * El rollout lo guarda como arreglo, `[shell, "-Command", interno]`, y la
+ * salida `--json` como una sola línea con el shell adelante. Las comprobaciones
+ * buscan en el comando lo que se leyó y lo que se midió, y con el shell
+ * adelante una lectura dejaría de empezar el paso.
+ */
+export function comandoDeCodex(comando: unknown): string | null {
+  if (typeof comando === 'string') {
+    const interno = LINEA_DE_SHELL.exec(comando.trim())?.[1];
+    if (interno === undefined) return comando;
+    const m = /^(["'])([\s\S]*)\1$/u.exec(interno.trim());
+    return m ? (m[2] as string) : interno;
+  }
+  const partes = arr(comando).filter((p): p is string => typeof p === 'string');
+  if (partes.length === 0) return null;
+  const i = partes.findIndex((p, k) => k > 0 && BANDERA_DE_COMANDO.test(p));
+  return (i === -1 ? partes : partes.slice(i + 1)).join(' ');
+}
+
+/** La carpeta de un comando, que el rollout guarda como URL `file:///C:/…`. */
+function carpetaDeCodex(v: unknown): string | null {
+  const s = str(v);
+  if (s === null || !s.startsWith('file://')) return s;
+  const ruta = decodeURIComponent(s.slice('file://'.length));
+  return /^\/[a-z]:\//iu.test(ruta) ? ruta.slice(1).replaceAll('/', '\\') : ruta;
+}
+
+/**
+ * El mensaje de un error de codex. Llega con el JSON de la API dentro de una
+ * cadena: se saca el mensaje de adentro y se le agrega el estado HTTP, que es
+ * con lo que `motivoDeError` reconoce una cuota agotada.
+ */
+function mensajeDeCodex(texto: string): string {
+  try {
+    const j = obj(JSON.parse(texto));
+    const mensaje = str(obj(j.error).message) ?? str(j.message);
+    const estado = num(j.status);
+    if (mensaje !== null) return estado === null ? mensaje : `${mensaje} (${estado})`;
+  } catch {
+    // No es JSON: el texto ya es el mensaje.
+  }
+  return texto;
+}
+
+/** El rollout de un hilo, buscado por su id en las carpetas de días, de la más nueva a la más vieja. */
+function rolloutDeCodex(sesiones: string, hilo: string): string | null {
+  const hijos = (dir: string) => {
+    try {
+      return readdirSync(dir).sort().reverse();
+    } catch {
+      return [];
+    }
+  };
+  const sufijo = `-${hilo}.jsonl`;
+  for (const anio of hijos(sesiones)) {
+    for (const mes of hijos(join(sesiones, anio))) {
+      for (const dia of hijos(join(sesiones, anio, mes))) {
+        const carpeta = join(sesiones, anio, mes, dia);
+        const archivo = hijos(carpeta).find((a) => a.startsWith('rollout-') && a.endsWith(sufijo));
+        if (archivo !== undefined) return join(carpeta, archivo);
+      }
+    }
+  }
+  return null;
+}
+
+/** Los hilos que un rollout abrió como subagentes. */
+function subagentesDeCodex(rollout: string): string[] {
+  const out: string[] = [];
+  for (const j of lineas(rollout)) {
+    const item = obj(obj(j.payload).item);
+    const id = item.type === 'SubAgentActivity' ? str(item.agent_thread_id) : null;
+    if (id !== null && !out.includes(id)) out.push(id);
+  }
+  return out;
+}
+
+/**
+ * La transcripción de una corrida de codex: el rollout del hilo principal, o,
+ * si delegó, ese rollout seguido de los de sus subagentes, a cualquier
+ * profundidad, juntos en `codex-sesiones.jsonl` dentro de la carpeta de la
+ * corrida. Cada rollout empieza con su `session_meta`, que dice de qué hilo es.
+ */
+export function transcripcionDeCodex(home: string, staging: string, stdout: string): string | null {
+  const hilo = hiloDeCodex(stdout);
+  if (hilo === null) return null;
+  const sesiones = join(home, '.codex', 'sessions');
+  const principal = rolloutDeCodex(sesiones, hilo);
+  if (principal === null) return null;
+  const textos: string[] = [];
+  const vistos = new Set<string>([hilo]);
+  const pendientes = [principal];
+  for (let ruta = pendientes.shift(); ruta !== undefined; ruta = pendientes.shift()) {
+    const texto = readFileSync(ruta, 'utf8');
+    textos.push(texto.endsWith('\n') ? texto : `${texto}\n`);
+    for (const sub of subagentesDeCodex(texto)) {
+      if (vistos.has(sub)) continue;
+      vistos.add(sub);
+      const suyo = rolloutDeCodex(sesiones, sub);
+      if (suyo !== null) pendientes.push(suyo);
+    }
+  }
+  if (textos.length === 1) return principal;
+  const junta = join(staging, 'codex-sesiones.jsonl');
+  writeFileSync(junta, textos.join(''));
+  return junta;
+}
+
+/** Una llamada de codex, sea del rollout o de la salida `--json`. */
+function llamadasDeCodex(item: Objeto): Llamada[] {
+  const tipo = str(item.type);
+  if (tipo === 'CommandExecution' || tipo === 'command_execution') {
+    const l = llamada('shell', { command: comandoDeCodex(item.command), workdir: carpetaDeCodex(item.cwd) });
+    l.codigo = num(item.exit_code);
+    return [l];
+  }
+  if (tipo === 'FileChange' || tipo === 'file_change') {
+    // El rollout guarda los cambios como objeto por ruta; la salida, como lista.
+    const rutas = Array.isArray(item.changes)
+      ? item.changes.map((c) => str(obj(c).path)).filter((r): r is string => r !== null)
+      : Object.keys(obj(item.changes));
+    return rutas.map((ruta) => llamada('apply_patch', { path: ruta }));
+  }
+  if (tipo === 'McpToolCall' || tipo === 'mcp_tool_call') {
+    return [llamada(`${str(item.server) ?? '?'}.${str(item.tool) ?? '?'}`, item.arguments)];
+  }
+  return [];
+}
+
+/**
+ * La sesión de codex.
+ *
+ * Con el rollout, la respuesta, el modelo, la duración y el error son los del
+ * hilo principal, el primero; las llamadas son las de todos los hilos, porque
+ * lo que hizo un subagente lo hizo la corrida, y el costo, en tokens, es la
+ * suma de los de cada hilo. Sin el rollout, se lee la salida `--json`, que
+ * solo trae el hilo principal y no dice el modelo ni la versión.
+ *
+ * El error es el de la tarea (`task_complete` con `error`, o `turn.failed`). Un
+ * aviso de error suelto, como un reintento de conexión, cuenta solo si la
+ * corrida no dio respuesta.
+ */
+export function parsearCodex(stdout: string, sesiones: string | null): Transcripcion {
+  const t = vacia();
+  const registro = lineas(sesiones ?? '');
+  let fallo: string | null = null;
+  let aviso: string | null = null;
+  if (registro.some((j) => j.type === 'session_meta')) {
+    let principal: string | null = null;
+    let hilo: string | null = null;
+    const vistas = new Set<string>();
+    const tokens = new Map<string, number>();
+    for (const j of registro) {
+      const p = obj(j.payload);
+      if (j.type === 'session_meta') {
+        hilo = str(p.id);
+        if (principal === null) {
+          principal = hilo;
+          t.sesion = hilo;
+          t.version = str(p.cli_version);
+        }
+        continue;
+      }
+      const delPrincipal = hilo === principal;
+      if (j.type === 'turn_context' && delPrincipal) t.modelo ??= str(p.model);
+      if (j.type !== 'event_msg') continue;
+      if (p.type === 'token_count') {
+        const total = num(obj(obj(p.info).total_token_usage).total_tokens);
+        if (total !== null) tokens.set(hilo ?? '', total);
+      }
+      if (p.type === 'error' && delPrincipal) aviso ??= str(p.message);
+      if (p.type === 'task_complete' && delPrincipal) {
+        t.respuesta = str(p.last_agent_message);
+        t.duracionMs = num(p.duration_ms);
+        fallo = str(obj(p.error).message);
+      }
+      if (p.type !== 'item_completed') continue;
+      const item = obj(p.item);
+      // Un rollout que se lee dos veces no repite sus llamadas.
+      const id = str(item.id);
+      if (id !== null) {
+        if (vistas.has(id)) continue;
+        vistas.add(id);
+      }
+      t.llamadas.push(...llamadasDeCodex(item));
+    }
+    if (tokens.size > 0) t.costo = { valor: [...tokens.values()].reduce((a, b) => a + b, 0), unidad: 'tokens' };
+  } else {
+    let ultimo: string | null = null;
+    for (const j of lineas(stdout)) {
+      const item = obj(j.item);
+      if (j.type === 'item.completed') {
+        if (item.type === 'agent_message') ultimo = str(item.text) ?? ultimo;
+        t.llamadas.push(...llamadasDeCodex(item));
+      }
+      if (j.type === 'turn.completed') {
+        const uso = obj(j.usage);
+        const entrada = num(uso.input_tokens);
+        const salida = num(uso.output_tokens);
+        if (entrada !== null || salida !== null) t.costo = { valor: (entrada ?? 0) + (salida ?? 0), unidad: 'tokens' };
+      }
+    }
+    t.respuesta = ultimo;
+  }
+  for (const j of lineas(stdout)) {
+    if (j.type === 'turn.failed') fallo ??= str(obj(j.error).message);
+    if (j.type === 'error') aviso ??= str(j.message);
+  }
+  t.sesion ??= hiloDeCodex(stdout);
+  const respondio = t.respuesta !== null && t.respuesta.trim() !== '';
+  const error = fallo ?? (respondio ? null : aviso);
+  t.error = error === null ? null : motivoDeError(mensajeDeCodex(error));
+  return t;
+}
+
 export const AGENTES: Record<string, DefinicionDeAgente> = {
   copilot: {
     id: 'copilot',
@@ -395,5 +639,47 @@ export const AGENTES: Record<string, DefinicionDeAgente> = {
     parsear: (stdout, transcripcion, log, stderr) => parsearAgy(stdout, transcripcion, log, stderr),
     version: null,
     skills: (home) => join(home, '.gemini', 'config', 'skills'),
+  },
+  codex: {
+    id: 'codex',
+    ejecutable: 'codex',
+    // La entrada estándar está cerrada (ver `proceso.ts`), así que el prompt va
+    // como argumento, al final. La copia de mix no tiene `.git`, y sin
+    // `--skip-git-repo-check` codex no arranca. La sandbox es la de escribir en
+    // la carpeta de trabajo, más la carpeta de la corrida con `--add-dir`, que
+    // es donde va la salida: en la corrida de humo, con esta sandbox, codex
+    // leyó una skill, corrió el verificador con node y escribió con apply_patch
+    // fuera de su copia. No hizo falta saltarse la sandbox.
+    //
+    // Sin `--disable multi_agent`, codex delega en subagentes que corren con el
+    // modelo de la configuración del usuario y no con el de `-m`: en la corrida
+    // de humo, el subagente que midió fue gpt-6.1-sol. La prueba es de un
+    // modelo, así que todo corre en él.
+    argumentos: (ctx) => [
+      'exec',
+      '-m',
+      MODELO_DE_CODEX,
+      '--disable',
+      'multi_agent',
+      '--json',
+      '--skip-git-repo-check',
+      '-C',
+      ctx.cwd,
+      '--add-dir',
+      ctx.staging,
+      '-s',
+      'workspace-write',
+      '-c',
+      'approval_policy="never"',
+      ctx.prompt,
+    ],
+    transcripcion: (home, ctx, stdout) => transcripcionDeCodex(home, ctx.staging, stdout),
+    log: () => null,
+    // Sus rollouts, ordenados por día: se reconoce la raíz entera, como en grok.
+    estadoPropio: (home) => [join(home, '.codex', 'sessions')],
+    parsear: (stdout, transcripcion) => parsearCodex(stdout, transcripcion),
+    version: ['--version'],
+    // Lee las skills del usuario del mismo directorio que Copilot.
+    skills: (home) => join(home, '.agents', 'skills'),
   },
 };

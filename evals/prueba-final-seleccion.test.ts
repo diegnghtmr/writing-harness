@@ -20,6 +20,7 @@ import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
 import { after, describe, test } from 'node:test';
 import { REPO_ROOT } from '../src/skills.ts';
+import { AGENTES } from '../scripts/prueba-final/agentes.ts';
 import type { Comprobacion } from '../scripts/prueba-final/comprobaciones.ts';
 import type { EstadoDeCorrida, Veredicto } from '../scripts/prueba-final/resumen.ts';
 import { fallidas } from '../scripts/prueba-final/seleccion.ts';
@@ -231,7 +232,7 @@ describe('el comando con --afectadas', () => {
     assert.equal(r.status, 0, r.stderr);
     assert.match(r.stdout, /AGENTS\.md de mix/u);
     assert.match(r.stdout, /^Variantes: todas \(\d+\)/mu);
-    assert.match(r.stdout, new RegExp(`^Corridas: 3 agentes por ${TODAS.length} variantes`, 'mu'));
+    assert.match(r.stdout, new RegExp(`^Corridas: ${Object.keys(AGENTES).length} agentes por ${TODAS.length} variantes`, 'mu'));
   });
 
   test('--variantes acota lo que la tabla eligió', () => {

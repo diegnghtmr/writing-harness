@@ -490,7 +490,8 @@ No forma parte de `npm test`, y no puede formar parte: llama a servicios
 externos, gasta la cuota de cada uno y una serie completa tarda horas. Cada
 corrida tiene un límite de tiempo, y al vencer se corta el árbol entero de
 procesos del agente. Necesita los CLI de los agentes instalados y con la sesión
-iniciada; si falta alguno, sale sin correr nada.
+iniciada: Copilot, Grok, Antigravity y Codex, este último con el modelo
+`gpt-6-luna` y sin subagentes, para que todo lo corra ese modelo. Si falta alguno de los elegidos, sale sin correr nada.
 
 Cada corrida trabaja en una carpeta propia del directorio temporal, y los
 resultados se publican en la carpeta de la prueba recién al terminar la serie,

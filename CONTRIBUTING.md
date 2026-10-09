@@ -558,8 +558,8 @@ correr, con el motivo en su sección. Un veredicto de un ejecutor anterior no
 anota nada de esto, así que su celda queda marcada `[sin traza]`: no se sabe con
 qué se probó, y no se da por vigente.
 
-Cada agente lee su propia copia de las skills, no la del repositorio: Copilot la
-de `~/.agents/skills`, Grok la de `~/.grok/skills` y Antigravity la de
+Cada agente lee su propia copia de las skills, no la del repositorio: Copilot y
+Codex la de `~/.agents/skills`, Grok la de `~/.grok/skills` y Antigravity la de
 `~/.gemini/config/skills`, declaradas junto a cada agente en
 `scripts/prueba-final/agentes.ts`. Antes de correr, cada archivo de cada skill
 del arnés se compara byte a byte con la copia de cada agente elegido. Si algo

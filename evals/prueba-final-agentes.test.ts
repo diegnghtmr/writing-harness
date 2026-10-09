@@ -1,7 +1,7 @@
-// Lo que cada agente deja escrito, leído de la misma manera para los tres.
+// Lo que cada agente deja escrito, leído de la misma manera para los cuatro.
 //
-// Copilot, Grok y Antigravity cuentan su sesión en tres formatos distintos, y la
-// prueba final necesita lo mismo de los tres: la respuesta, las skills que
+// Copilot, Grok, Antigravity y Codex cuentan su sesión en cuatro formatos
+// distintos, y la prueba final necesita lo mismo de todos: la respuesta, las skills que
 // cargó, los comandos que corrió con su código de salida y lo que escribió. Las
 // transcripciones de `evals/fixtures/prueba-final/` son sintéticas, con rutas
 // inventadas, pero tienen la forma exacta de las que dejó cada CLI en el sondeo:
@@ -13,14 +13,16 @@
 // «cargaría» todos los tonos. Se leen solo las entradas de las herramientas.
 
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join, posix, win32 } from 'node:path';
 import { describe, test } from 'node:test';
 import { REPO_ROOT } from '../src/skills.ts';
-import { AGENTES, parsearAgy, parsearCopilot, parsearGrok } from '../scripts/prueba-final/agentes.ts';
+import { AGENTES, parsearAgy, parsearCodex, parsearCopilot, parsearGrok } from '../scripts/prueba-final/agentes.ts';
 import { entornoDeLaCorrida } from '../scripts/prueba-final/reales.ts';
 import { resolverEjecutable } from '../scripts/prueba-final/resolver.ts';
-import { errorDelAgente } from '../scripts/prueba-final/comprobaciones.ts';
+import { agenteMidio, errorDelAgente } from '../scripts/prueba-final/comprobaciones.ts';
+import { variantes } from '../scripts/prueba-final/variantes.ts';
 import { cadenasDe, comandos, escrituras, llamada, motivoDeError, skillsCargadas } from '../scripts/prueba-final/transcripcion.ts';
 
 const fixture = (nombre: string) => readFileSync(join(REPO_ROOT, 'evals', 'fixtures', 'prueba-final', nombre), 'utf8');
@@ -150,6 +152,93 @@ describe('agy', () => {
   });
 });
 
+describe('codex', () => {
+  // La sesión de la corrida de humo con gpt-6-luna: leyó las skills con
+  // Get-Content, escribió la salida con apply_patch y midió con el verificador
+  // de su copia. El registro de la sesión, el rollout de ~/.codex/sessions, es
+  // la fuente principal; la salida --json es el respaldo.
+  const t = parsearCodex(fixture('codex-stdout.jsonl'), fixture('codex-sesion.jsonl'));
+  const staging = 'C:\\temp\\pf-00000000-0000-4000-8000-000000000001';
+  const copia = `${staging}\\mix`;
+  const camus = variantes().find((v) => v.id === 'camus');
+
+  test('la respuesta es la del final de la tarea', () => {
+    assert.match(t.respuesta ?? '', /^Corregí el texto y lo guardé en `salida\.md`/u);
+  });
+
+  test('cada comando es el de dentro del shell, con su código y su carpeta', () => {
+    // Codex registra el comando como [shell, "-Command", interno]. Sin
+    // desenvolverlo, ninguna comprobación vería qué se leyó ni qué se midió.
+    const cs = comandos(t);
+    assert.equal(cs.length, 6);
+    assert.ok(cs.every((c) => !/pwsh\.exe/u.test(c.comando ?? '')), 'sin la línea del shell');
+    const medicion = cs.at(-1);
+    assert.match(medicion?.comando ?? '', /^node writing-harness\/src\/cli\.ts \.\.\\salida\.md --tono camus;/u);
+    assert.equal(medicion?.codigo, 0);
+    assert.deepEqual(medicion?.entrada, { command: medicion?.comando, workdir: copia });
+  });
+
+  test('las skills que leyó y lo que escribió con apply_patch', () => {
+    assert.deepEqual(skillsCargadas(t), ['camus-writing', 'redactar-espanol', 'spanish-writing']);
+    assert.deepEqual(escrituras(t), [SALIDA]);
+  });
+
+  test('las herramientas de MCP quedan como llamadas, con su servidor', () => {
+    assert.ok(t.llamadas.some((l) => l.herramienta === 'engram.mem_save' && l.clase === 'otra'));
+  });
+
+  test('la medición con el verificador de su copia pasa la comprobación 5', () => {
+    assert.ok(camus !== undefined);
+    assert.equal(agenteMidio(camus, t, { staging, copia }).estado, 'pasa');
+  });
+
+  test('los metadatos: modelo, versión, sesión, tokens y duración', () => {
+    assert.equal(t.modelo, 'gpt-6-luna');
+    assert.equal(t.version, '0.160.1');
+    assert.equal(t.sesion, '00000000-0000-7000-8000-000000000001');
+    assert.deepEqual(t.costo, { valor: 694512, unidad: 'tokens' });
+    assert.equal(t.duracionMs, 73301);
+    assert.equal(t.error, null);
+  });
+
+  test('sin el registro, la salida --json alcanza para lo demás', () => {
+    const solo = parsearCodex(fixture('codex-stdout.jsonl'), null);
+    assert.match(solo.respuesta ?? '', /^Corregí el texto/u);
+    assert.equal(solo.sesion, '00000000-0000-7000-8000-000000000001');
+    const cs = comandos(solo);
+    assert.equal(cs.length, 6);
+    assert.ok(cs.every((c) => !/pwsh\.exe/u.test(c.comando ?? '')), 'sin la línea del shell');
+    assert.match(cs.at(-1)?.comando ?? '', /node writing-harness\/src\/cli\.ts/u);
+    assert.equal(cs.at(-1)?.codigo, 0);
+    assert.deepEqual(escrituras(solo), [SALIDA]);
+    assert.deepEqual(solo.costo, { valor: 694512, unidad: 'tokens' });
+    assert.equal(solo.modelo, null);
+    assert.equal(solo.version, null);
+  });
+
+  test('lo que hizo un subagente cuenta, pero la respuesta y el modelo son los del hilo principal', () => {
+    // En la primera corrida de humo, codex delegó la medición en un subagente
+    // que corrió con otro modelo. El subagente tiene su propio rollout; la
+    // transcripción los junta, y la lectura distingue los hilos.
+    const d = parsearCodex('', fixture('codex-delegada.jsonl'));
+    assert.match(d.respuesta ?? '', /^Leí completa la skill Camus/u);
+    assert.equal(d.modelo, 'gpt-6-luna');
+    assert.equal(d.sesion, '00000000-0000-7000-8000-000000000001');
+    assert.equal(d.duracionMs, 117732);
+    const medicion = comandos(d).find((c) => /src\/cli\.ts/u.test(c.comando ?? ''));
+    assert.match(medicion?.comando ?? '', /--tono camus$/u);
+    assert.equal(medicion?.codigo, 0);
+    assert.deepEqual(d.costo, { valor: 563108 + 341807, unidad: 'tokens' }, 'los tokens de los dos hilos');
+    assert.ok(skillsCargadas(d).includes('spanish-writing'));
+  });
+
+  test('un rollout repetido no repite las llamadas', () => {
+    const una = parsearCodex('', fixture('codex-sesion.jsonl'));
+    const dos = parsearCodex('', fixture('codex-sesion.jsonl') + fixture('codex-sesion.jsonl'));
+    assert.equal(dos.llamadas.length, una.llamadas.length);
+  });
+});
+
 describe('las líneas de comando', () => {
   const ctx = {
     prompt: 'Corrige el texto de `a` y guarda el resultado en `b`.',
@@ -204,6 +293,67 @@ describe('las líneas de comando', () => {
     assert.deepEqual(args.slice(5, 7), ['--log-file', join('staging', 'agy.log')]);
   });
 
+  test('codex corre con su modelo, sin repositorio git, con la carpeta de la corrida escribible y el prompt al final', () => {
+    // La sandbox workspace-write con --add-dir: en la corrida de humo, codex
+    // leyó la skill, corrió node y escribió en la carpeta de la corrida, fuera de
+    // su carpeta de trabajo. La entrada estándar está cerrada, así que el
+    // prompt va como argumento.
+    assert.deepEqual(AGENTES.codex?.argumentos(ctx), [
+      'exec',
+      '-m',
+      'gpt-6-luna',
+      '--disable',
+      'multi_agent',
+      '--json',
+      '--skip-git-repo-check',
+      '-C',
+      ctx.cwd,
+      '--add-dir',
+      ctx.staging,
+      '-s',
+      'workspace-write',
+      '-c',
+      'approval_policy="never"',
+      ctx.prompt,
+    ]);
+  });
+
+  test('codex: la transcripción es su rollout, con los de sus subagentes si los hubo', () => {
+    const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-codex-'));
+    try {
+      const home = join(raiz, 'home');
+      const dia = join(home, '.codex', 'sessions', '2026', '10', '09');
+      mkdirSync(dia, { recursive: true });
+      const staging = join(raiz, 'pf-1');
+      mkdirSync(staging);
+      const local = { ...ctx, staging };
+      const hilo = (id: string) => `{"type":"thread.started","thread_id":"${id}"}\n`;
+
+      // Un hilo sin subagentes: el rollout tal cual.
+      const sola = join(dia, 'rollout-2026-10-09T01-30-00-00000000-0000-7000-8000-000000000001.jsonl');
+      writeFileSync(sola, fixture('codex-sesion.jsonl'));
+      assert.equal(AGENTES.codex?.transcripcion(home, local, fixture('codex-stdout.jsonl')), sola);
+      rmSync(sola);
+
+      // Con un subagente: los dos rollouts juntos, en la carpeta de la corrida.
+      const delegada = fixture('codex-delegada.jsonl').split('\n');
+      const corte = delegada.findIndex((l, i) => i > 0 && l.includes('"type":"session_meta"'));
+      writeFileSync(join(dia, 'rollout-2026-10-09T01-17-50-00000000-0000-7000-8000-000000000001.jsonl'), delegada.slice(0, corte).join('\n'));
+      writeFileSync(join(dia, 'rollout-2026-10-09T01-18-34-00000000-0000-7000-8000-00000000000f.jsonl'), delegada.slice(corte).join('\n'));
+      const junta = AGENTES.codex?.transcripcion(home, local, hilo('00000000-0000-7000-8000-000000000001'));
+      assert.equal(junta, join(staging, 'codex-sesiones.jsonl'));
+      const t = parsearCodex('', readFileSync(junta as string, 'utf8'));
+      assert.ok(comandos(t).some((c) => /src\/cli\.ts/u.test(c.comando ?? '')), 'la medición del subagente');
+      assert.match(t.respuesta ?? '', /^Leí completa/u);
+
+      assert.equal(AGENTES.codex?.transcripcion(home, local, ''), null, 'sin thread.started no hay hilo que buscar');
+      assert.equal(AGENTES.codex?.transcripcion(home, local, hilo('00000000-0000-7000-8000-0000000000aa')), null, 'un hilo sin rollout');
+      assert.equal(AGENTES.codex?.transcripcion(join(raiz, 'otro'), local, hilo('00000000-0000-7000-8000-000000000001')), null, 'sin carpeta de sesiones');
+    } finally {
+      rmSync(raiz, { recursive: true, force: true });
+    }
+  });
+
   test('dónde deja cada uno su transcripción', () => {
     const home = join('home', 'prueba');
     assert.equal(
@@ -229,6 +379,7 @@ describe('las líneas de comando', () => {
       join(home, '.gemini', 'antigravity-cli', 'brain', 'conv-agy'),
     ]);
     assert.deepEqual(AGENTES.agy?.estadoPropio(home, ctx, null), [], 'sin conversación no hay carpeta propia que reconocer');
+    assert.deepEqual(AGENTES.codex?.estadoPropio(home, ctx, null), [join(home, '.codex', 'sessions')]);
   });
 });
 
@@ -299,10 +450,36 @@ describe('los errores del propio agente', () => {
     assert.equal(parsearCopilot('{"type":"result","sessionId":"s","exitCode":2}\n', null).error, 'el agente terminó con código 2');
   });
 
+  // La forma del error es la de una corrida real con un modelo que no existe:
+  // la línea turn.failed de la salida y el error de task_complete en el
+  // rollout, los dos con el JSON de la API dentro de una cadena.
+  test('codex: el error de la tarea, con el mensaje de la API y su estado', () => {
+    const esperado = "The 'modelo-que-no-existe' model is not supported when using Codex with a ChatGPT account. (400)";
+    const t = parsearCodex(fixture('codex-error-stdout.jsonl'), fixture('codex-error-sesion.jsonl'));
+    assert.equal(t.error, esperado);
+    assert.equal(t.respuesta, null);
+    assert.equal(t.modelo, 'modelo-que-no-existe');
+    assert.equal(parsearCodex(fixture('codex-error-stdout.jsonl'), null).error, esperado, 'sin el rollout, el de turn.failed');
+  });
+
+  test('codex: una cuota agotada se dice como en los demás agentes', () => {
+    // El texto es inventado: ninguna corrida agotó todavía la cuota de codex.
+    const api = { type: 'error', status: 429, error: { type: 'usage_limit_reached', message: 'You have hit your usage limit.' } };
+    const cuota = `${JSON.stringify({ type: 'turn.failed', error: { message: JSON.stringify(api) } })}\n`;
+    assert.equal(parsearCodex(cuota, null).error, 'cuota agotada (429)');
+  });
+
+  test('codex: un aviso de error del que se repuso no es un error de la corrida', () => {
+    const aviso = '{"type":"error","message":"Reconnecting... 1/5"}\n';
+    assert.equal(parsearCodex(aviso + fixture('codex-stdout.jsonl'), null).error, null);
+    assert.equal(parsearCodex(aviso, null).error, 'Reconnecting... 1/5', 'sin respuesta, el aviso es lo único que se sabe');
+  });
+
   test('las sesiones que terminaron bien no traen error', () => {
     assert.equal(parsearCopilot(fixture('copilot-stdout.jsonl'), fixture('copilot-eventos.jsonl')).error, null);
     assert.equal(parsearGrok(fixture('grok-stdout.jsonl')).error, null);
     assert.equal(parsearAgy(fixture('agy-stdout.jsonl'), fixture('agy-transcripcion.jsonl'), fixture('agy-log.txt'), '').error, null);
+    assert.equal(parsearCodex(fixture('codex-stdout.jsonl'), fixture('codex-sesion.jsonl')).error, null);
   });
 
   test('la definición de agy le pasa la salida de errores a su lectura', () => {

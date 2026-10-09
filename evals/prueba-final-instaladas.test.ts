@@ -121,11 +121,13 @@ describe('la comparación con las skills instaladas', () => {
 });
 
 describe('dónde lee cada agente sus skills', () => {
-  test('copilot, grok y agy, cada uno en su directorio', () => {
+  test('copilot, grok, agy y codex, cada uno en su directorio', () => {
     const home = join('home', 'prueba');
     assert.equal(AGENTES.copilot?.skills(home), join(home, '.agents', 'skills'));
     assert.equal(AGENTES.grok?.skills(home), join(home, '.grok', 'skills'));
     assert.equal(AGENTES.agy?.skills(home), join(home, '.gemini', 'config', 'skills'));
+    // Codex lee las skills del usuario del mismo directorio que Copilot.
+    assert.equal(AGENTES.codex?.skills(home), join(home, '.agents', 'skills'));
   });
 });
 
@@ -164,7 +166,7 @@ describe('el comando, antes de correr', () => {
     });
     assert.ok(git !== null, 'git no está en el PATH');
     const carpetaDeGit = dirname(git.comando);
-    for (const agente of ['copilot', 'grok', 'agy']) {
+    for (const agente of ['copilot', 'grok', 'agy', 'codex']) {
       assert.ok(!readdirSync(carpetaDeGit).some((f) => f.toLowerCase().startsWith(`${agente}.`) || f === agente), `${agente} está junto a git`);
     }
     const env: NodeJS.ProcessEnv = {};

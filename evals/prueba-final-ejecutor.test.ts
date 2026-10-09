@@ -955,7 +955,7 @@ describe('el comando', () => {
     assert.match(r.stdout, /1\. Introducción: 22 palabras/u);
     assert.match(r.stdout, /39 palabras/u);
     for (const v of variantes()) assert.ok(r.stdout.includes(`${v.id}: `), `falta la variante ${v.id}`);
-    for (const a of ['copilot', 'grok', 'agy']) assert.ok(r.stdout.includes(a), a);
+    for (const a of ['copilot', 'grok', 'agy', 'codex']) assert.ok(r.stdout.includes(a), a);
     assert.deepEqual(readdirSync(e.carpeta), antes);
     assert.equal(sha(readFileSync(e.docx)), sha(DOCX));
   });
@@ -965,7 +965,7 @@ describe('el comando', () => {
     const r = correr('--dir', e.carpeta, '--agentes', 'copilot', '--simular');
     assert.equal(r.status, 0, r.stderr);
     assert.match(r.stdout, /Corridas: 1 agentes por \d+ variantes/u);
-    assert.match(r.stdout, /^No corren esta vez: grok, agy\.$/mu);
+    assert.match(r.stdout, /^No corren esta vez: grok, agy, codex\.$/mu);
   });
 
   test('--simular imprime el plan de la copia: qué entra, cuántos archivos y qué queda fuera', () => {
