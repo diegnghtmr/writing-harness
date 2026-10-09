@@ -14,6 +14,9 @@ description: >
   arquitectura de software para quien ya programa pero no domina la teoría.
   También con «en estilo BettaTech» o «explica los fundamentos, no la receta».
   La computación es su dominio medido, no su límite.
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono divulgativo-técnico: lo que hay por debajo

@@ -14,6 +14,9 @@ description: >
   autor o de una doctrina, o textos de economía y filosofía política que
   sostengan una tesis contra otra. También con «tono de cátedra», «lección
   magistral» o «análisis sistemático».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono expositivo-analítico: la refutación ordenada

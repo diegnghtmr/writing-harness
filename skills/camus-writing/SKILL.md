@@ -9,6 +9,9 @@ description: >
   ni complicidad, como una carta, un correo o una comunicación institucional,
   o cuando sea el relato del propio usuario en primera persona. También cuando
   el usuario pida «tono académico», «tono formal» o «estilo sobrio».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono académico-formal: economía expresiva

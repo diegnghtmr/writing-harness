@@ -13,6 +13,9 @@ description: >
   explicaciones de derecho para público no jurista, o método de estudio dirigido
   a una comunidad propia. También con «en estilo Schiavenato» o «como abogado
   que le explica a la gente».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono cívico y jurídico: la prueba a la vista

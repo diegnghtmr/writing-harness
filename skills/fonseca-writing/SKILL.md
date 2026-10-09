@@ -13,6 +13,9 @@ description: >
   aplica cuando pida «estilo Fonseca», «tono de análisis geopolítico»,
   «explicador de noticias» o «como un vídeo de actualidad». Hereda toda la
   normativa de «spanish-writing».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono de actualidad: el explicador de coyuntura

@@ -12,6 +12,9 @@ description: >
   disparar en peticiones generales de redacción, corrección, traducción o mejora
   de estilo sin mención explícita de lo humano: para esas tareas se usa
   «redactar-espanol».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Humanizar textos en español neutro académico

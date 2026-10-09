@@ -13,6 +13,9 @@ description: >
   aplica cuando pida «estilo Adrià Solà», «tono de método», «guía paso a paso»
   o «que le diga al lector qué hacer». Hereda toda la normativa de
   «spanish-writing».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono de método: el que ordena lo que hay que hacer

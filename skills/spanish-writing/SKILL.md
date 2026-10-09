@@ -10,6 +10,9 @@ description: >
   de redactar, reescribir, corregir o revisar un texto en español empieza por
   «redactar-espanol», que decide si corresponde una skill de tono y cuál. Rige
   siempre, con tono o sin él: cárguese antes que cualquier skill de tono.
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Base normativa del español y enrutamiento de tono

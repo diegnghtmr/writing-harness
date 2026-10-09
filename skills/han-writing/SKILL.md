@@ -14,6 +14,9 @@ description: >
   una charla, o cuando pida «tono Han», «estilo Byung-Chul Han», «ensayo de
   diagnóstico» o «crítica de la época». No se usa en textos que deban probar
   algo con datos.
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono: el diagnóstico breve por oposición

@@ -11,6 +11,9 @@ description: >
   «corrige este texto», «revisa la redacción», «mejora este texto» o «traduce
   este texto al español», y cárguese antes que cualquier otra skill de
   redacción en español, incluida la base: es la que decide qué más se carga.
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Entrada: modo, tono y entrega de un texto en español

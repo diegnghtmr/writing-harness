@@ -14,6 +14,9 @@ description: >
   de pódcast, o exposiciones filosóficas y humanísticas para lector no
   especialista. También con «estilo Fonda», «tono de divulgación» o «como si se
   lo explicara a alguien».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono divulgativo: la exposición de sobremesa

@@ -13,6 +13,9 @@ description: >
   reescribir o revisar divulgación con datos, o cuando pida «tono Freddy»,
   «estilo Platzi», «guion de video explicativo», «charla con datos» o «explicar
   un tema difícil sin bajarle el nivel al público».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono divulgativo-tecnológico: el mecanismo y la cifra

@@ -14,6 +14,9 @@ description: >
   arquitectura o de un artículo científico para lectores no especialistas.
   También con «estilo DotCSV», «tono de divulgación técnica» o «que lo entienda
   cualquiera sin bajar el nivel».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono divulgativo-técnico: la arquitectura explicativa de DotCSV

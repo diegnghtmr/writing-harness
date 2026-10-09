@@ -14,6 +14,9 @@ description: >
   alegato, réplica, crítica de una disciplina o de una práctica, o manifiesto
   argumentado. También con «tono polémico», «tono de alegato», «escribe una
   réplica», «rebate esto» o «defiende esta tesis».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono para la polémica razonada: la tesis primero y el adversario con cuerpo

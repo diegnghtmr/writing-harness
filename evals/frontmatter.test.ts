@@ -78,6 +78,19 @@ describe('el frontmatter trae lo que el instalador exige', () => {
       .map(([n, declarado]) => `${n} declara ${declarado}`);
     assert.deepEqual(distintos, []);
   });
+
+  test('cada skill declara autor y versión en metadata', () => {
+    // La forma de las skills de Gentleman Programming, que este arnés adopta:
+    // `metadata` con `author` y `version`. No hay `license` porque el
+    // repositorio no declara una, y escribirla sería inventarla.
+    const faltan = skillNames().flatMap((n) => {
+      const metadata = campoDeFrontmatter(readSkill(n), 'metadata') ?? '';
+      return ['author', 'version']
+        .filter((c) => !new RegExp(`(?:^|\\s)${c}:\\s*\\S`, 'u').test(metadata))
+        .map((c) => `${n}: falta metadata.${c}`);
+    });
+    assert.deepEqual(faltan, []);
+  });
 });
 
 describe('ninguna descripción pasa el techo del instalador', () => {

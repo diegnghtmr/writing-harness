@@ -13,6 +13,9 @@ description: >
   ficción, o comentarios de capítulo. También con «estilo Secreto de Atenas»,
   «análisis de personaje» o «video ensayo de ficción». La ficción es su dominio
   medido, no su límite: lo que fija es la forma.
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono para crítica de ficción: el concepto como lente

@@ -14,6 +14,9 @@ description: >
   estados del arte. También aplica cuando pida «tono de investigación», «marco
   teórico» o «análisis de resultados». Hereda toda la normativa de
   «spanish-writing».
+metadata:
+  author: diegnghtmr
+  version: "1.0"
 ---
 
 # Skill de tono de investigación: el que encadena lo que expone
