@@ -61,6 +61,48 @@ function vinetas(texto: string): string[] {
 
 const tieneReferencias = (n: string) => existsSync(join(SKILLS_DIR, n, 'references'));
 
+const PUNTERO = /\(secci(?:ón|ones) ([^)]+)\)/gu;
+
+/**
+ * Las cifras del contrato que no están en la sección que citan.
+ *
+ * El contrato copia cifras del cuerpo, y una copia se desincroniza: si el
+ * cuerpo cambia el techo de una oración, el contrato seguiría diciendo el
+ * viejo en el lugar más leído de la skill. Cada viñeta, fila o paso que trae
+ * una cifra en dígitos tiene que encontrarla en alguna de las secciones que
+ * cita, contando sus subsecciones. Las cifras escritas en letras no se
+ * comprueban: «cinco» aparece en demasiados contextos para atarla.
+ */
+export function cifrasSinRespaldo(md: string): string[] {
+  const contrato = contratoDe(md);
+  const inicio = md.search(/^## 1\./mu);
+  if (contrato === null || inicio === -1) return [];
+  const cuerpo = md.slice(inicio);
+  const encabezados = [...cuerpo.matchAll(/^#{2,4}\s+(\d+(?:\.\d+)*)\./gmu)].map((m) => ({
+    pos: m.index as number,
+    num: m[1] as string,
+  }));
+  const textoDe = (n: string) =>
+    encabezados
+      .map((h, i) =>
+        h.num === n || h.num.startsWith(`${n}.`) ? cuerpo.slice(h.pos, encabezados[i + 1]?.pos ?? cuerpo.length) : '',
+      )
+      .join(' ')
+      .replace(/\s+/gu, ' ');
+
+  const faltan: string[] = [];
+  for (const crudo of contrato.split(/\n(?=- |\| |\d+\. )|\n\n/u)) {
+    const item = crudo.replace(/\s+/gu, ' ');
+    const secciones = [...item.matchAll(PUNTERO)].flatMap((m) => (m[1] as string).match(/\d+(?:\.\d+)*/gu) ?? []);
+    const sinPunteros = item.replace(PUNTERO, '').replace(/^\d+\. /u, '');
+    for (const cifra of sinPunteros.match(/(?<!\w)\d+(?:[.,]\d+)?/gu) ?? []) {
+      const patron = new RegExp(`(?<!\\d)${cifra.replace(/[.,]/gu, '\\$&')}(?!\\d)`, 'u');
+      if (!secciones.some((s) => patron.test(textoDe(s)))) faltan.push(`${cifra} en «${item.slice(0, 60)}…»`);
+    }
+  }
+  return faltan;
+}
+
 describe('cada skill abre con su contrato de uso', () => {
   test('hay skills que revisar', () => {
     // Todas las pruebas de abajo recorren skillNames() y esperan una lista de
@@ -133,6 +175,33 @@ describe('cada skill abre con su contrato de uso', () => {
       return seguidos ? [] : [`${n}: ${numeros.join(',')}`];
     });
     assert.deepEqual(mal, []);
+  });
+
+  test('cada cifra del contrato está en la sección que cita', () => {
+    const faltan = skillNames().flatMap((n) => cifrasSinRespaldo(leer(n)).map((f) => `${n}: ${f}`));
+    assert.deepEqual(faltan, []);
+  });
+
+  test('el guardián de cifras caza una cifra que el cuerpo ya no dice', () => {
+    const md = (techo: string) =>
+      [
+        '## Contrato de uso',
+        '',
+        '### Reglas duras',
+        '',
+        '- Ninguna oración pasa de 30 palabras (sección 5.2).',
+        '',
+        '## 1. Rol',
+        '',
+        '## 5. Estructura',
+        '',
+        '### 5.2. Oraciones',
+        '',
+        `Dividir las oraciones que superen ${techo} palabras.`,
+        '',
+      ].join('\n');
+    assert.deepEqual(cifrasSinRespaldo(md('30')), []);
+    assert.equal(cifrasSinRespaldo(md('35')).length, 1);
   });
 
   test('las referencias nombran cada archivo que la skill trae', () => {
