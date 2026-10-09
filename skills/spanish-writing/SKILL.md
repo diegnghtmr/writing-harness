@@ -815,7 +815,7 @@ USAR vocabulario preciso y específico.
 EVITAR la raya y los guiones largos en todo el texto (ver 6.6).
 EVITAR markdown, asteriscos, negritas o formato especial en el texto entregado.
 EVITAR introducciones o preámbulos innecesarios.
-EVITAR cierres genéricos como «en conclusión», «para cerrar», «en resumen».
+EVITAR los cierres genéricos (ver 11.5).
 EVITAR advertencias o notas sobre el contenido.
 EVITAR hashtags en cualquier contexto.
 EVITAR emojis en cualquier contexto.
