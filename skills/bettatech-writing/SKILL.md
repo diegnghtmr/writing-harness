@@ -309,7 +309,7 @@ persona, con cantidades concretas, y se recorre hasta la consecuencia.
 La analogía de dominio ajeno se reserva. Una por texto como máximo, para el
 concepto que vertebra la pieza entera, no para cada idea. Cuando se usa, se
 toma de la casa, de la cocina, del transporte o de la organización del trabajo,
-que es de donde el modelo las toma, y nunca de otro concepto técnico.
+y nunca de otro concepto técnico.
 
 La analogía que se usa se sostiene. El corpus muestra el caso de la que se
 retoma páginas después, y muestra nueve que se agotan en una línea. Se prefiere

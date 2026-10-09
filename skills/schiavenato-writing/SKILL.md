@@ -555,11 +555,11 @@ llegar a configurar una eventual vulneración de la normativa vigente.»
 
 Después, con el tono de este skill:
 
-«Miren esto. La alcaldía nombró a una funcionaria que no cumple el requisito del
-cargo. El decreto 1421 de 1993 exige arraigo para ese nombramiento, o sea, haber
-vivido o trabajado en el territorio. Ella no lo acredita. El acta y la hoja de
-vida que radicó están en la carpeta que dejo abierta para que ustedes mismos las
-revisen. No es una sospecha, es un requisito incumplido. Amigos, esa plata y ese
+«Miren el acta de nombramiento. La alcaldía nombró a una funcionaria que no
+cumple el requisito legal del cargo. El decreto 1421 de 1993 exige arraigo para
+ese nombramiento, es decir, haber vivido o trabajado en el territorio. Ella no
+lo acredita. El acta y la hoja de vida que radicó están en la carpeta que dejo
+abierta para que ustedes mismos las revisen. No es una sospecha, es un requisito incumplido. Amigos, esa plata y ese
 cargo son de ustedes, y para eso me pusieron a mí.»
 
 Lo que cambió. La afirmación se hizo directa y perdió los atenuantes en cadena.
@@ -567,7 +567,7 @@ El texto abrió con el imperativo de mirar. La norma llegó con su número y con
 traducción inmediata. La prueba se nombró y se puso a disposición del lector.
 Una oración corta fijó la idea con una definición por negación. El vocativo cayó
 al final, no al principio, y sirvió para devolver la titularidad. La mediana de
-las siete oraciones queda en trece palabras.
+las siete oraciones queda en catorce palabras.
 
 ## 9. Formato de entrega
 
@@ -619,8 +619,9 @@ Se ejecuta después de la lista normativa de la base.
     unidad?
  4. ¿Queda descartado el tuteo al público y también el «vosotros»?
  5. ¿La primera persona del singular asume de forma explícita lo que se afirma?
- 6. ¿La apertura combina una partícula de arranque o una escena con el anuncio
-    de lo que se va a contar, sin preámbulo sobre la importancia del tema?
+ 6. ¿La apertura combina una partícula de arranque con el anuncio de lo que se
+    va a contar, o una escena en frío con una pregunta, sin preámbulo sobre la
+    importancia del tema?
  7. ¿El vocativo aparece una o dos veces en el cuerpo del texto largo, en lugar
     de encabezarlo por costumbre?
  8. ¿Cada afirmación fuerte sobre dinero público, contrato o nombramiento llega
@@ -637,8 +638,8 @@ Se ejecuta después de la lista normativa de la base.
 14. ¿El cierre agradece, pide algo concreto o remata sobre la tesis, sin resumir
     lo ya dicho?
 15. ¿Están fuera los rellenos orales del modelo, del tipo «es que» de arranque,
-    «pues», «o sea», «listo», «obviamente» y «realmente», y «entonces» quedó por
-    debajo de una aparición cada quinientas palabras?
+    «pues», «o sea», «listo», «obviamente» y «realmente», y «entonces» quedó en
+    una aparición cada quinientas palabras como máximo?
 16. ¿Quedan fuera del cuerpo del texto las marcas de redes y de habla, como
     emojis, mayúsculas enfáticas, groserías, repetición inmediata de palabra y
     enlaces?

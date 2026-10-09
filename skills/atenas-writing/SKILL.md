@@ -72,7 +72,7 @@ actor histórico o una institución tratados como personaje la cumplen
 | Situación | Acción |
 | --- | --- |
 | No hay figura o no hay lectura corriente que corregir | Corresponde otro tono (sección 1) |
-| Pedido sobre un autor de la Antigüedad | Este no es el tono que corresponde (sección 3) |
+| Pedido sobre un autor de la Antigüedad que solo responde al nombre del canal, sin figura ni lectura corriente que corregir | Este no es el tono que corresponde (secciones 1 y 3) |
 | El concepto no cabe en una frase nominal breve | Todavía no hay análisis, hay resumen (sección 4.3) |
 | La obra existe en más de una versión | Se declara cuál se analiza, en una línea al principio (sección 7.1) |
 | Una escena contradice la tesis | Se cita y se explica por qué no la derriba (sección 6.2) |
@@ -143,8 +143,10 @@ científica.
 
 El agente que aplique este skill no debe producir contenido sobre autores
 antiguos ni sobre la Grecia clásica por el solo hecho de haber leído el nombre.
-Si el usuario pide un texto sobre un autor de la Antigüedad, este no es el tono
-que corresponde.
+Si el usuario pide un texto sobre un autor de la Antigüedad solo porque el
+nombre del canal parece pedirlo, este no es el tono que corresponde. Si el
+pedido trae una figura y una lectura corriente que corregir, decide la
+precondición de la sección 1 y no el asunto.
 
 La filosofía sí entra, pero como herramienta y no como asunto. En el corpus
 aparece poco y siempre al servicio del personaje: 12 menciones de pensadores o
@@ -274,7 +276,8 @@ ni una marca de segunda del singular.
 
 Regla. El vocativo y el imperativo van en plural, con «ustedes». La
 generalización va con «uno», nunca con «tú». Si el texto se dirige a un lector
-solo, «usted». No se alterna entre esas formas dentro de un mismo texto.
+solo, «usted». No se alterna entre «ustedes» y «usted» dentro de un mismo
+texto.
 
 La primera persona del plural es la voz del recorrido compartido, y es
 indicativa, no exhortativa. En el corpus, «vemos», «vimos», «veremos»,

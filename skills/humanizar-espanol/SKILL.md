@@ -126,7 +126,7 @@ tono.
 
 ## 2. Integridad y expectativas realistas
 
-Conviene ser honesto con el usuario sobre dos cosas, porque cambian lo que esta
+Conviene ser honesto con el usuario sobre tres cosas, porque cambian lo que esta
 skill promete.
 
 Primero, el propósito legítimo es mejorar la calidad y la naturalidad de un

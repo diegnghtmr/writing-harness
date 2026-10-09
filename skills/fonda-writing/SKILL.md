@@ -172,9 +172,10 @@ La oración es mediana, no larga. Media de 20 palabras, mediana de 18, primer
 cuartil en 12 y tercero en 26. Solo el 5,9 por ciento de las oraciones pasa de
 40 palabras y solo el 2,3 por ciento llega a 50.
 
-El conector más usado no es ninguno de los pintorescos. Es «entonces», 119
-veces, seguido de «bueno» con 112, «pues» con 108 y «es decir» con 83. «O sea»
-aparece 60 veces. La reformulación es el motor del texto.
+El conector más usado no es ninguno de los pintorescos. Es «porque», 171
+veces, seguido de «sin embargo» con 132; entre los de la oralidad manda
+«entonces», 119 veces, seguido de «bueno» con 112, «pues» con 108 y «es decir»
+con 83. «O sea» aparece 60 veces. La reformulación es el motor del texto.
 
 La glosa vence a la etimología. «Significa» aparece 67 veces y «quiere decir»
 30, mientras que «en griego» aparece 3 veces y «etimología» otras 3. Lo
@@ -385,9 +386,9 @@ Estos son los conectores que el original repite, ordenados por frecuencia
 medida. El orden importa: la versión anterior ponía en el centro marcadores que
 aparecen una o dos veces y no mencionaba el que más se usa.
 
-Núcleo, y con esto se escribe casi todo: «entonces» 119, «bueno» 112, «pues»
-108, «es decir» 83, «o sea» 60, «por ejemplo» 60, «sin embargo» 132, «porque»
-171, «ahora» 102, «ya que» 45.
+Núcleo, y con esto se escribe casi todo: «porque» 171, «sin embargo» 132,
+«entonces» 119, «bueno» 112, «pues» 108, «ahora» 102, «es decir» 83, «o sea»
+60, «por ejemplo» 60, «ya que» 45.
 
 Segunda línea, de uso normal: «de hecho» 37, «por tanto» 31, «más bien» 31,
 «claro» 31, «por eso» 29, «a ver» 29, «a saber» 29, «así que» 25, «sin duda»
@@ -642,9 +643,8 @@ dispone de tiempo puede dedicarse a la contemplación. La institución escolar
 deriva etimológicamente de ese concepto.»
 
 Después, con los movimientos de la sección 5:
-«El otro día un amigo me preguntó, medio en broma, para qué le sirve a alguien
-tener tiempo libre. Le contesté con una palabra griega. En griego, el tiempo
-libre se dice escolé, y quien lo tiene no es un desocupado. Es alguien que
+«Para qué le sirve a alguien tener tiempo libre es una pregunta que el griego
+contesta con una sola palabra. En griego, el tiempo libre se dice escolé, y quien lo tiene no es un desocupado. Es alguien que
 puede disponer de su día. Los griegos pensaban que la forma más digna de
 gastarlo era estudiando, y entonces la palabra fue resbalando del tiempo libre
 al estudio, y del estudio al lugar donde uno estudia. Esa palabra la usa usted
@@ -652,10 +652,10 @@ todos los días. Es la escuela. Lo cual deja una ironía difícil de digerir: ho
 la escuela es justamente el sitio donde nadie tiene tiempo.»
 
 Cambios aplicados:
-Se abrió por un incidente concreto, no por la definición.
+Se abrió por la pregunta que el texto contesta, sin inventar un incidente y sin definir.
 Se glosó el término y se aterrizó en una palabra corriente.
 Se interpeló al lector, de usted, en el punto donde tiene que reconocerse.
-Las oraciones quedaron entre 12 y 26 palabras, con dos mínimas de remate.
+Las oraciones quedaron medianas, con una sola por encima de 26 palabras y una mínima de remate.
 Se cerró corto, sin recapitular.
 
 
@@ -668,13 +668,15 @@ Se ejecuta después de la lista normativa de la base.
  2. ¿Hay una bisagra explícita que lleve de la entrada al autor o al concepto?
  3. ¿Se interpela al lector de usted, con paso a «ustedes» solo al dirigirse al
     público?
- 4. ¿Aparece el yo de quien escribe con sus dudas, sus errores y su juicio?
+ 4. ¿Aparece el yo de quien escribe con su juicio y su opinión asumida, y la
+    duda solo donde es real?
  5. ¿Los términos que sostienen el argumento se glosan antes de usarse?
  6. ¿Todo término en otra lengua llega glosado en la misma oración?
  7. ¿Las citas son breves y llevan verbo de decir con glosa inmediata después?
  8. ¿Se declara en el texto cuando una cita o un dato no se pudo verificar?
  9. ¿Los ejemplos son domésticos, manuales y desarrollados hasta el final?
-10. ¿Hay periodos largos por acumulación cortados por oraciones mínimas?
+10. ¿Las oraciones van de 12 a 26 palabras, con alguna mínima de tres o cuatro
+    que remacha lo dicho?
 11. ¿La mayoría de las oraciones se mantiene entre doce y veintiséis palabras?
 12. ¿El cierre remata breve, anuncia la entrega siguiente o admite que la
     reflexión queda abierta?

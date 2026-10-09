@@ -520,7 +520,7 @@ un corrector y a que lo lea un jurado, y se lleva por delante la búsqueda de
 texto, el conteo de palabras y la comparación entre versiones.
 
 Los espacios que sí existen en tipografía son otra cosa y no están prohibidos.
-El espacio fino y el espacio duro tienen uso normativo, y la § 9 los pide: fino
+El espacio fino y el espacio duro tienen uso normativo, y la § 8 los pide: fino
 como separador de miles, duro para que no se parta un 25 % al final de la línea.
 Los demás espacios de la tabla Unicode no tienen ese respaldo, y quien los use
 tiene que poder decir para qué.

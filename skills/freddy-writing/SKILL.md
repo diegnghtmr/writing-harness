@@ -476,7 +476,7 @@ horas trabaja del planeta, 2.246 al año, un tercio más que Japón, y aun así 
 abajo en ingreso por hora. La razón por la que eso pasa es que la cultura premia
 las horas y no la incomodidad. Una hora diaria de estudio incómodo son 365 horas
 al año, más que un semestre completo de una materia. Casi nadie las sostiene.
-Empieza mañana con una y anótala».
+Empiece mañana con una y anótela».
 
 Cambios aplicados:
 La generalidad se cambió por una creencia nombrada y contradicha con cifras.
@@ -491,13 +491,13 @@ Se ejecuta después de la lista normativa de la base.
 
  1. ¿La apertura es una tesis discutible o una pregunta, y no una anécdota del autor?
  2. ¿El texto explica cómo funciona la cosa antes de calificarla?
- 3. ¿Hay al menos una cifra con magnitud, unidad y período en cada tramo del argumento?
+ 3. ¿Las cifras llevan magnitud, unidad y período donde el argumento las pide, y donde no las hay se cuenta un caso con nombre propio declarado como caso?
  4. ¿Las cifras están repartidas por la oración y no reservadas para el final?
  5. ¿El texto nombra una creencia que el destinatario da por evidente y la desarma con datos?
  6. ¿Se anticipó al menos una objeción del destinatario antes de responderla?
  7. ¿La objeción ajena aparece citada entre comillas con sus palabras exactas?
- 8. ¿El tratamiento es «usted» o «ustedes», y el elegido se sostiene en todo el
-    texto?
+ 8. ¿El tratamiento es «ustedes» por defecto, «usted» en el consejo directo y
+    «uno» en el paso intermedio, sin ningún «tú»?
  9. ¿Una de cada tres oraciones cae entre tres y diez palabras?
 10. ¿Alternan oraciones largas y cortas en lugar de encadenar longitudes parecidas?
 11. ¿Cada término técnico se define en la misma oración en que aparece?

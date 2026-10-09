@@ -576,8 +576,8 @@ abrió con una sentencia breve, cierra con una oración desarrollada. Si abrió
 con una oración desarrollada, puede cerrar con una breve. Nunca las dos
 puntas con remate, porque el efecto se anula.
 
-Cierre del texto: no se anuncia. Un solo remate sentencioso por texto
-completo, y va en el cierre o no va a ninguna parte.
+Cierre del texto: no se anuncia. Lleva como mucho un remate sentencioso, que
+es la sentencia que la sección 15 le permite a la última sección.
 
 
 ## 14. La trampa del traductor
@@ -722,21 +722,21 @@ pantalla no es una ventana, es un espejo. El usuario no navega, es navegado.
 La atención se ha convertido en la última mercancía. Nadie contempla. Todos
 rendimos. La distracción alcanza dimensiones epidémicas».
 
-Nueve oraciones, siete de menos de diez palabras, cuatro seguidas de menos de
-seis, cinco con cópula, tres antítesis encadenadas y una cuantificación sin
+Nueve oraciones, todas de menos de diez palabras, tres seguidas de menos de
+seis, dos con cópula, tres antítesis encadenadas y una cuantificación sin
 cifra.
 
 Después, con las proporciones medidas.
 
 «La atención dejó de ser una capacidad para volverse un recurso que otros
 administran. La diferencia con la distracción de siempre está en quién la
-organiza: el que se distraía en una sala de espera perdía el hilo por su
+organiza. El que se distraía en una sala de espera perdía el hilo por su
 cuenta, mientras que la pantalla dispone de antemano el orden en que las
 cosas van a interrumpirse. Contemplar exige que nada reclame el turno
 siguiente».
 
-Tres oraciones de 17, 42 y 9 palabras. La segunda pasa del techo de 40 y hay
-que partirla; el resto ya cumple. Una sola oposición, la de capacidad propia
+Cuatro oraciones de 14, 12, 31 y 8 palabras, todas por debajo del techo de
+40. Una sola oposición, la de capacidad propia
 contra recurso administrado, sostenida por un verbo de desplazamiento
 («dejó de ser», «volverse») y no por un «frente a». Una sola oración con
 cópula. Un solo remate, que pasa la prueba de supresión porque enuncia la

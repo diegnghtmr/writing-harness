@@ -842,7 +842,7 @@ Se ejecuta después de la lista normativa de la base.
  9. ¿Se alternan periodos largos con oraciones breves que los rematan, sin
     cadenas de cuatro periodos largos seguidos?
 10. ¿Cada pregunta planteada se responde en el texto inmediatamente posterior?
-11. ¿Se usa «nosotros» inclusivo y no «tú»?
+11. ¿Domina el «nosotros» de autor, sin «tú» ni «usted»?
 12. ¿La crítica va contra la tesis y nunca contra la persona, las intenciones o
     los motivos del adversario?
 13. ¿Los dispositivos de reformulación («es decir», «por tanto») están

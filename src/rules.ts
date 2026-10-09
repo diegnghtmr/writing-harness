@@ -1269,7 +1269,7 @@ export const BASE_RULES: Rule[] = [
         skill: 'camus-writing',
         item: '¿Se usa tercera persona o primera del plural, o primera del singular si es el relato del propio usuario o la correspondencia formal que él firma, sin tutear al lector?',
       },
-      { skill: 'catedra-writing', item: '¿Se usa «nosotros» inclusivo y no «tú»?' },
+      { skill: 'catedra-writing', item: '¿Domina el «nosotros» de autor, sin «tú» ni «usted»?' },
       {
         skill: 'atenas-writing',
         item: '¿El público recibe tratamiento de «ustedes», sin alternar con el tuteo ni con el vos?',
@@ -1292,7 +1292,7 @@ export const BASE_RULES: Rule[] = [
       },
       {
         skill: 'freddy-writing',
-        item: '¿El tratamiento es «usted» o «ustedes», y el elegido se sostiene en todo el texto?',
+        item: '¿El tratamiento es «ustedes» por defecto, «usted» en el consejo directo y «uno» en el paso intermedio, sin ningún «tú»?',
       },
       {
         skill: 'schiavenato-writing',
@@ -1469,16 +1469,16 @@ export const TONES: Record<string, Tone> = {
         id: 'fonda-primera-persona',
         kind: 'must-contain',
         severity: 'warning',
-        // El ítem pide «el yo de quien escribe con sus dudas, sus errores y su
-        // juicio», y esto se escribió como una lista cerrada de ocho frases.
+        // El ítem pide «el yo de quien escribe con su juicio y su opinión
+        // asumida, y la duda solo donde es real», y esto se escribió como una lista cerrada de ocho frases.
         // Una prueba real lo delató: un texto con «yo pienso que», «me di
         // cuenta», «no estoy seguro» y «me parecería» quedaba reportado como
         // texto sin voz de autor. La última ni siquiera fallaba por olvido,
         // sino porque «me parece» iba con límite de palabra y «parecería»
         // sigue con letra.
         //
-        // Ahora el patrón cubre las tres cosas que el ítem nombra: el juicio,
-        // la duda y el recorrido en plural. Se escribe a mano y no con
+        // Ahora el patrón cubre el juicio y la duda que el ítem nombra, y
+        // además el recorrido en plural. Se escribe a mano y no con
         // `frases()` porque hace falta la cola flexible de «me parec...».
         pattern:
           /(?<!\p{L})(?:yo|creo|creemos|pienso|opino|sostengo|considero|dudo|sospecho|reconozco|admito|me\s+parec\p{L}*|me\s+di\s+cuenta|me\s+consta|a\s+mi\s+juicio|a\s+mi\s+modo\s+de\s+ver|en\s+mi\s+opinión|para\s+mí|no\s+sé|no\s+estoy\s+segur[oa]|hemos\s+visto|volvamos\s+a|veamos|pasemos\s+a|podemos\s+preguntar|vamos\s+a\s+ver)(?!\p{L})/giu,
@@ -1490,14 +1490,14 @@ export const TONES: Record<string, Tone> = {
         checklist: [
           {
             skill: 'fonda-writing',
-            item: '¿Aparece el yo de quien escribe con sus dudas, sus errores y su juicio?',
+            item: '¿Aparece el yo de quien escribe con su juicio y su opinión asumida, y la duda solo donde es real?',
           },
         ],
       },
       variaLongitud(
         'fonda-varia-longitud',
         'fonda-writing',
-        '¿Hay periodos largos por acumulación cortados por oraciones mínimas?',
+        '¿Las oraciones van de 12 a 26 palabras, con alguna mínima de tres o cuatro que remacha lo dicho?',
         '§7',
       ),
     ],
@@ -1966,7 +1966,7 @@ export const TONES: Record<string, Tone> = {
         checklist: [
           {
             skill: 'schiavenato-writing',
-            item: '¿Están fuera los rellenos orales del modelo, del tipo «es que» de arranque, «pues», «o sea», «listo», «obviamente» y «realmente», y «entonces» quedó por debajo de una aparición cada quinientas palabras?',
+            item: '¿Están fuera los rellenos orales del modelo, del tipo «es que» de arranque, «pues», «o sea», «listo», «obviamente» y «realmente», y «entonces» quedó en una aparición cada quinientas palabras como máximo?',
           },
         ],
       },

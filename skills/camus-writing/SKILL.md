@@ -244,8 +244,7 @@ innovador enfoque revolucionario arroja luz sobre el panorama cambiante de las
 dinámicas socioculturales en constante evolución.»
 
 Después (estilo disciplinado):
-«Este enfoque modifica la comprensión de las dinámicas socioculturales. Su
-aporte radica en tres observaciones concretas.»
+«Este enfoque modifica la comprensión de las dinámicas socioculturales.»
 
 
 ## 9. Fuente estilística de referencia

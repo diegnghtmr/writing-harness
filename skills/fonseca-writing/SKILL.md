@@ -54,7 +54,8 @@ pone fecha de caducidad (sección 1).
 - Toda cifra que importe lleva detrás una comparación que la vuelve imaginable
   (secciones 6.2 y 8.1).
 - En texto, toda cifra y toda afirmación fuerte llevan su fuente escrita, con el
-  nombre del medio o del cargo (sección 8.2).
+  nombre del medio o del cargo, salvo en una reescritura cuyo original no la
+  traía (secciones 8.2 y 11).
 - La consecuencia se marca con «así que» o con «pues», no encadenando
   «por tanto» (sección 6.3).
 - El humor sale del contraste entre lo esperado y lo ocurrido, del apodo y de
@@ -81,7 +82,8 @@ pone fecha de caducidad (sección 1).
 
 1. Comprobar que un acontecimiento concreto motiva el texto (sección 1).
 2. Abrir con una oración que nombra al actor y afirma algo comprobable sobre
-   él, o con la pregunta que el texto responderá (sección 7.1).
+   él, con la pregunta que el texto responderá o en frío con una cita ajena
+   que el autor comenta después (sección 7.1).
 3. Desarrollar por escalones de afirmación, prueba y consecuencia, respondiendo
    primero la objeción que el público ya tiene (sección 7.2).
 4. Cerrar al menos una acumulación de datos con «Vamos, que»
@@ -424,7 +426,9 @@ La atribución, en un texto escrito, hay que escribirla. El recurso del corte de
 vídeo no existe sobre el papel, así que lo que allí resuelve la imagen aquí lo
 resuelve el nombre del medio o del cargo. El agente no imita la escasez medida
 de atribución, porque esa escasez es una propiedad del soporte y no del estilo.
-En texto, toda cifra y toda afirmación fuerte llevan su fuente.
+En texto, toda cifra y toda afirmación fuerte llevan su fuente. En la
+reescritura manda la sección 11: la fuente que el original no traía no se
+añade.
 
 Este es el único punto donde este documento se aparta a conciencia de lo que
 midió, y queda dicho por qué.
@@ -499,7 +503,8 @@ Se ejecuta después de la lista normativa de la base.
  5. ¿Están ausentes el tuteo, que en el material medido solo aparece en bloques
     de autopromoción, y toda forma de «vosotros»?
  6. ¿La primera oración nombra al actor, al país o al lugar y afirma algo
-    comprobable sobre él, o bien plantea la pregunta que el texto responderá?
+    comprobable sobre él, plantea la pregunta que el texto responderá o trae en
+    frío la cita ajena que el autor comenta después?
  7. ¿Se formula en voz alta la objeción que el público ya tiene, y se responde
     de inmediato?
  8. ¿Toda cifra que sostiene el argumento lleva detrás una comparación que la
@@ -507,7 +512,8 @@ Se ejecuta después de la lista normativa de la base.
  9. ¿La densidad de cifras se acerca a once por cada mil palabras, en lugar de
     quedar el texto en afirmación sin dato?
 10. ¿Cada afirmación fuerte lleva su fuente escrita con nombre de medio o de
-    cargo, ya que el texto no puede insertar el corte que la probaría?
+    cargo, ya que el texto no puede insertar el corte que la probaría, salvo en
+    una reescritura cuyo original no la traía?
 11. ¿La consecuencia se marca con «así que» o con «pues» en lugar de encadenar
     «por tanto»?
 12. ¿Hay al menos una recapitulación con «Vamos, que» que cierre una

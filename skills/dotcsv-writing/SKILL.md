@@ -135,9 +135,9 @@ base decide qué es correcto en español. Este skill decide cómo suena.
 Ninguna regla de este documento levanta una prohibición de la base. Si alguna
 pareciera hacerlo, gana la base y este documento tiene un defecto.
 
-Ampliaciones propias sobre lo que la base deja abierto, todas con cuota
-declarada en la sección 5: se admite un grupo corto de marcadores orales, se
-admite el diminutivo afectivo aplicado a un objeto técnico, y se admite la
+Ampliaciones propias sobre lo que la base deja abierto: se admite un grupo
+corto de marcadores orales y el diminutivo afectivo aplicado a un objeto
+técnico, los dos con cuota declarada en la sección 5.2, y se admite la
 interpelación directa al lector, que va de usted según la sección 9.2 de la
 base.
 
@@ -369,7 +369,7 @@ que crece en el registro escrito.
 «al final», 32 apariciones en 14 archivos, para introducir la conclusión
 práctica de un desarrollo técnico.
 «fíjate», 8 apariciones, para dirigir la atención a un detalle que va a resultar
-decisivo.
+decisivo; en el texto entregado va «fíjese», porque el lector se trata de usted.
 «pues», que en el habla es el marcador dominante con 576 apariciones, una cada
 113 palabras, y que en prosa se admite una vez cada 700 palabras como mucho.
 «ojo» o «cuidado», 21 apariciones en 9 archivos, siempre seguidos de la

@@ -261,13 +261,14 @@ extenso.
 
 Ese reparto no es descuido. El párrafo largo desarrolla: trae la posición, la
 discute, la pone contra la anterior y concluye. El breve hace otra cosa, y hace
-solo una: gira, remata o estipula.
+solo una: gira, remata o estipula, y lo hace en la oración con que cierra:
 
 > Lo primero se corrige con una definición mejor. Lo segundo no.
 
 > El enunciado que se cree falso no deja de serlo porque acierte.
 
-Un párrafo así no está incompleto. Está haciendo el trabajo que un párrafo de
+Un párrafo breve que cierra así, sin bajar de cuarenta palabras, no está
+incompleto. Está haciendo el trabajo que un párrafo de
 doscientas palabras no puede hacer, que es detener la lectura en una sola
 afirmación.
 
@@ -821,8 +822,8 @@ glosa con la referencia, se queda con 35. La diferencia son las glosas de una
 sola palabra y las que empiezan en mayúscula, que el patrón descarta para no
 tragarse un apellido. La cifra que gobierna la densidad de arriba es la de
 lectura; la del patrón es un piso seguro. Este
-documento decide sobre el segundo; del primero no dice nada, porque cómo se
-remite a una fuente lo fija el trabajo y no la forma.
+documento decide sobre el paréntesis de glosa; del de referencia no dice nada,
+porque cómo se remite a una fuente lo fija el trabajo y no la forma.
 
 ### 7.6. El adverbio va por dentro de la oración, y casi nunca se repite
 
@@ -874,8 +875,9 @@ La sección 7.2 dice con qué verbo habla un dato. Este dice con cuál habla una
 persona, que no es lo mismo y se elige distinto.
 
 El cero que lo ordena todo: **«señala» y «señaló» no aparecen ni una vez en las
-12.239 palabras del corpus.** Tampoco «explica», «sugiere», «concluye»,
-«define», «destaca», «enfatiza» ni «sostiene». Es el verbo por defecto de la
+12.239 palabras del corpus.** Tampoco aparecen, con una persona por sujeto,
+«explica», «sugiere», «concluye», «define», «destaca», «enfatiza» ni
+«sostiene». Es el verbo por defecto de la
 prosa académica en español y aquí está ausente por completo.
 
 Lo que hay en su lugar, contado: «considera» 9, «resalta» y «resaltaba» 5,
@@ -1578,7 +1580,7 @@ cautelas de la sección 3.
 | Citas en bloque introducidas por dos puntos | 5 de 5 |
 | Citas en bloque convertidas por el párrafo siguiente | 4 de 5 |
 | «señala» y «señaló», en todo el corpus | 0 |
-| «explica», «sugiere», «concluye», «define», «destaca», «enfatiza», «sostiene» | 0 |
+| «explica», «sugiere», «concluye», «define», «destaca», «enfatiza», «sostiene», con una persona por sujeto | 0 |
 | Verbo de atribución más usado | «considera», 9 |
 | Reserva probabilística («quizá», «tal vez», «acaso», «al parecer», «por lo general») | 0 |
 | Adverbios corrientes en -mente («claramente», «evidentemente», «obviamente») | 0 |
@@ -1631,13 +1633,13 @@ asunto ajeno, que entonces los reusa en vez de aplicar la forma. El segundo dañ
 ocurrió y se midió: con los ejemplos puestos sobre otro tema, tres textos
 escritos con esta skill reprodujeron sus frases casi palabra por palabra.
 
-**El bloque metodológico del corpus no alcanza el piso de la sección 6.2.** Sus
-párrafos abren con conector el 11 % de las veces, contra el 27 % del bloque
-conceptual y el 40 % del analítico, y sus oraciones el 24 %, contra el 39 % y el
-37 %. Es el único bloque que queda por debajo de los dos pisos de la sección 6, y
-lo hace por el mismo motivo en los dos, aunque por márgenes muy distintos: en las
-oraciones se queda a un punto del piso, y en los párrafos, a cinco. Se deja dicho en vez de bajar el piso, por
-dos razones. La primera es que ese apartado se apoya en el orden de los pasos y
+**El bloque metodológico del corpus no alcanza el piso de la sección 6.** Sus
+oraciones abren con conector el 24 % de las veces, contra el 39 % del bloque
+conceptual y el 37 % del analítico, y se quedan a un punto del piso de una de
+cada cuatro. Sus párrafos abren con conector el 11 % de las veces, contra el
+27 % y el 40 %, una distancia que la sección 6.2 no convierte en piso porque no
+fija cifra para el párrafo. Se deja dicho en vez de bajar el piso, por dos
+razones. La primera es que ese apartado se apoya en el orden de los pasos y
 no en la relación entre ellos, así que el rasgo le falta de verdad y no por
 medirlo mal. La segunda es que un texto que sea solo metodología recibirá el
 aviso, y el aviso no estará equivocado: le está diciendo que encadena menos que

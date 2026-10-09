@@ -52,7 +52,8 @@ que dar turno de palabra; un texto que expone sin adversario no entra
 - El adversario habla en su mejor versión, sin ridículo, y contra él no van el
   insulto, la atribución de mala fe ni el diagnóstico psicológico: la dureza va
   contra la proposición y la práctica (secciones 10.1 y 10.4).
-- La tesis va en la primera o segunda oración, y no se abre con saludo,
+- La tesis va en la primera o segunda oración, contadas desde el final de la
+  recapitulación si el texto abre con ella, y no se abre con saludo,
   presentación, definición de diccionario, generalidad sobre la época ni
   resumen de las conclusiones (secciones 8 y 9).
 - Ningún término se discute antes de quedar definido y ningún movimiento se
@@ -549,8 +550,9 @@ con un resumen de las conclusiones.
 
 El orden es constante y se respeta.
 
-Tesis. Primera o segunda oración. Afirmación discutible, sin subordinadas de
-excusa, que se sostiene citada fuera del texto.
+Tesis. Primera o segunda oración, contadas desde el final de la recapitulación
+cuando el texto abre con la cuarta realización de la sección 8. Afirmación
+discutible, sin subordinadas de excusa, que se sostiene citada fuera del texto.
 
 Definición del término que decide la discusión. Ningún concepto se discute antes
 de quedar definido, y la definición llega apenas después de la tesis, no antes.
@@ -607,8 +609,7 @@ anterior.
 Reglas de uso. El turno del adversario se escribe en su mejor versión, con sus
 razones y sin ridículo. Si al leerlo suelto nadie lo firmaría, está mal escrito.
 No se le atribuyen intenciones que no haya declarado. Y su intervención se marca
-tipográficamente por el contexto y por el verbo de decir, nunca con un recurso
-de formato.
+por el contexto y por el verbo de decir, nunca con un recurso de formato.
 
 Cuando el adversario existe de verdad y es localizable, se cita lo que dijo en
 vez de inventarle un parlamento. La prosopopeya queda para cuando la posición
@@ -954,8 +955,9 @@ apelación al número de expertos y la cautela que no dice nada.
 
 Se ejecuta después de la lista normativa de la base.
 
- 1. ¿La tesis está enunciada en la primera o segunda oración, en forma
-    discutible y sin subordinadas de excusa?
+ 1. ¿La tesis está enunciada en la primera o segunda oración, contadas desde el
+    final de la recapitulación si el texto abre con ella, en forma discutible y
+    sin subordinadas de excusa?
  2. ¿El término que decide la discusión queda definido antes de discutirse, y la
     definición dice qué tendría que ser verdad para que se aplique?
  3. ¿La posición contraria aparece expuesta en su versión más fuerte antes de
