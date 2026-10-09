@@ -158,8 +158,8 @@ acompañada de una medida independiente de la puntuación. La sección 20 detall
 el procedimiento.
 
 Depuración, declarada porque afecta a todas las cifras. De los treinta
-archivos, nueve quedan fuera del recuento de arquitectura argumentativa, 9.578
-palabras, el 28,1 por ciento del corpus.
+archivos, ocho quedan fuera del recuento de arquitectura argumentativa, 9.185
+palabras, el 26,9 por ciento del corpus.
 
 Tres son pulla y jactancia sin argumento, 1.558 palabras. No plantean tesis, no
 citan a nadie y no responden a nada.
@@ -176,10 +176,6 @@ Dos son lírica existencial y relato autobiográfico, 2.963 palabras.
 Uno es una alegoría narrativa de 3.039 palabras, la pieza más larga del corpus.
 Argumenta, pero por vía de fábula, y su forma no es la que este tono reproduce.
 
-Uno pierde 164 de sus 546 segundos sin una sola palabra transcrita, el 30 por
-ciento, y termina con la firma del transcriptor repetida dos veces. Se descarta
-por degradación.
-
 Escisiones parciales dentro de archivos conservados. En una pieza las últimas
 110 palabras son alucinación del transcriptor sobre la música de fondo y no
 texto del autor; en otra lo son las últimas 400 de 901. Ambos tramos quedan
@@ -189,7 +185,8 @@ continuo.
 
 Artefactos de canal localizados y excluidos: una llamada a suscribirse al
 comienzo de una pieza, una fórmula de agradecimiento al final de esa misma y de
-otras tres, y la firma del transcriptor en la pieza degradada.
+otras tres, y la firma del transcriptor, repetida dos veces al final de la pieza
+que pierde el 30 por ciento de su duración.
 
 Comprobación de bloques repetidos entre piezas distintas. Solo hay coincidencia
 en un pasaje de ocho palabras, compartido por dos piezas consecutivas de la
@@ -200,9 +197,9 @@ mismo bloque devuelto varias veces dentro de la misma pieza; se descuenta al
 contar y no se traslada.
 
 Lo que queda como base de las cifras de arquitectura: dieciséis piezas, 18.983
-palabras, el 55,6 por ciento del corpus. Las cinco piezas restantes, 5.557
-palabras, son mixtas y se usan solo para rasgos concretos, nunca para
-proporciones. Las tres cuentas suman las treinta piezas y las 34.118 palabras.
+palabras, el 55,6 por ciento del corpus. Seis piezas más, 5.950 palabras, son
+mixtas y se usan solo para rasgos concretos, nunca para proporciones. Las tres
+cuentas suman las treinta piezas y las 34.118 palabras.
 
 
 ## 4. El descuento de lo que no es argumento
@@ -1005,12 +1002,11 @@ propios y en pasajes enteros. Por eso ninguna afirmación de este documento se
 apoya en un signo de puntuación sin declararlo, y toda cifra de longitud viene
 acompañada de una medida independiente de la puntuación.
 
-Depuración, ya detallada en la sección 3. Nueve archivos quedan fuera del
-recuento de arquitectura, 9.578 palabras, el 28,1 por ciento del corpus: tres de
+Depuración, ya detallada en la sección 3. Ocho archivos quedan fuera del
+recuento de arquitectura, 9.185 palabras, el 26,9 por ciento del corpus: tres de
 pulla y jactancia sin argumento, uno de digresión declarada, uno de narración
-cotidiana con un bloque repetido ocho veces, dos de lírica y autobiografía, uno
-de alegoría narrativa y uno degradado que pierde el 30 por ciento de su duración
-y termina con la firma del transcriptor repetida. Dentro de archivos
+cotidiana con un bloque repetido ocho veces, dos de lírica y autobiografía y uno
+de alegoría narrativa. Dentro de archivos
 conservados se escindieron dos tramos alucinados por el transcriptor, de 110 y
 de 400 palabras. Se localizaron y excluyeron cinco artefactos de canal. La
 comprobación de material compartido entre piezas devolvió una sola coincidencia
