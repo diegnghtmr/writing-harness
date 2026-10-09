@@ -1376,7 +1376,7 @@ Los que aparecen cuando alguien intenta esta forma y todavía no la tiene:
 3. **La estipulación puesta al final.** El «en lo que sigue» aparece en el último
    párrafo, donde ya no sigue nada, casi siempre fundido con el cierre que
    declara qué quedó respondido. Uno abre y el otro cierra, así que no pueden
-   ocupar el mismo lugar.
+   ocupar el mismo lugar. La regla y su remedio están en la sección 9.2.
 4. **La cifra decorativa.** Un porcentaje puesto para dar aire de rigor, que no
    se confronta con nada y que el párrafo no vuelve a mencionar.
 5. **El concepto de adorno.** Un término traído al análisis para respaldar lo que

@@ -244,6 +244,9 @@ interrogativa o exclamativa. No se coloca punto después del signo de cierre.
 Correcto: ¿Cómo estás? / ¡Qué sorpresa!
 Incorrecto: Cómo estás? / Que sorpresa!
 
+Correcto: ¿Viene? Esperamos su respuesta.
+Incorrecto: ¿Viene?. Esperamos su respuesta.
+
 Referencia: Ortografía (RAE y ASALE, 2010), § 3.4.1.
 
 ### 4.5. Gerundio: uso restringido
@@ -380,7 +383,7 @@ Después de conectores al inicio de oración: Sin embargo, los datos confirman..
 Antes de «pero», «aunque», «sino», «mas».
 
 Prohibiciones:
-Nunca entre sujeto y verbo (salvo inciso delimitado por dos comas).
+Nunca entre sujeto y verbo, salvo inciso delimitado por dos comas (sección 4.3).
 Nunca antes de «y» en enumeraciones simples de dos elementos.
 
 Excepción con «y»:
@@ -418,9 +421,8 @@ Llegó tarde... No importó a nadie.
 
 ### 6.5. Signos dobles (interrogación, exclamación)
 
-No se coloca punto después del signo de cierre.
-Correcto: ¿Vienes? Esperamos tu respuesta.
-Incorrecto: ¿Vienes?. Esperamos tu respuesta.
+Se rigen por la sección 4.4, que también prohíbe el punto después del signo de
+cierre.
 
 ### 6.6. La raya y el guion largo: prohibidos, sin excepción
 
