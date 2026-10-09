@@ -200,8 +200,9 @@ mismo bloque devuelto varias veces dentro de la misma pieza; se descuenta al
 contar y no se traslada.
 
 Lo que queda como base de las cifras de arquitectura: dieciséis piezas, 18.983
-palabras, el 55,6 por ciento del corpus. Seis piezas más, 5.950 palabras, son
-mixtas y se usan solo para rasgos concretos, nunca para proporciones.
+palabras, el 55,6 por ciento del corpus. Las cinco piezas restantes, 5.557
+palabras, son mixtas y se usan solo para rasgos concretos, nunca para
+proporciones. Las tres cuentas suman las treinta piezas y las 34.118 palabras.
 
 
 ## 4. El descuento de lo que no es argumento
