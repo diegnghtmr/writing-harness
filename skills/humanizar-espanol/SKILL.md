@@ -332,8 +332,9 @@ mismo trabajo en menos tiempo, lo abarata y permite decidir mejor. De ahí que e
 lugar que ocupe en el futuro vaya a ser central.»
 
 Qué cambió: se eliminó la apertura de molde («en la actualidad») y el cierre
-anunciado («en conclusión»); se desactivó la inflación de significancia («juega
-un papel fundamental»); la enumeración mecánica «en primer lugar… en segundo
+anunciado («en conclusión»); la fórmula «juega un papel fundamental» se cambió
+por una afirmación llana del mismo contenido, porque el peso futuro es un dato
+del original y se conserva; la enumeración mecánica «en primer lugar… en segundo
 lugar…» quedó integrada en una sola oración; el párrafo entra en marcha, con
 una subordinada, en lugar de abrir con una etiqueta; y se varió la longitud de
 las oraciones. No se agregó ningún dato: las tres ventajas y el peso futuro son
