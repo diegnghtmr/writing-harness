@@ -599,8 +599,8 @@ La puntuación del autor. Todo lo que este documento dice de ritmo son palabras 
 estructuras, nunca comas. Un guion original suyo permitiría medir puntuación de
 verdad y no se tiene.
 
-La extensión de párrafo. Un subtítulo no tiene párrafos. La cifra de la sección
-7.4 es convención declarada, no medición.
+La extensión de párrafo: la cifra de la sección 7.4 es convención declarada, no
+medición.
 
 La frontera exacta entre la voz del autor y los cortes de informativo que
 inserta. Se separaron los bloques de patrocinio y el cierre de canal, que son

@@ -533,7 +533,7 @@ Recuento de patrones argumentales: concesión, definición previa, remisión a
 otro tratamiento, capa histórica, documentos citados y registro de promesa.
 
 Lo que este corpus no permite afirmar, dicho con todas las letras: nada sobre
-longitud de párrafo, porque es material hablado y no tiene párrafos, nada sobre
+longitud de párrafo, por lo que explica la sección 2, nada sobre
 puntuación ni ortografía del autor, porque en el corpus no son suyas, y nada
 sobre su prosa escrita, que no se consultó y que puede diferir de la hablada.
 

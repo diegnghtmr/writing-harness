@@ -562,8 +562,7 @@ La puntuación del autor. Doce archivos no traen ninguna y los ocho que la traen
 la recibieron de un transcriptor. Todas las cifras de la sección 4 describen el
 registro y ninguna prueba cómo puntúa esta persona.
 
-La extensión de párrafo. Un subtítulo no tiene párrafos y este documento no
-declara ninguna cifra de párrafo.
+La extensión de párrafo, por lo que explica la sección 4.3.
 
 El cierre. Las veinte piezas cierran con la liturgia del canal, así que no hay
 en el corpus ni un solo cierre de autor que medir. La sección 6.3 es convención
