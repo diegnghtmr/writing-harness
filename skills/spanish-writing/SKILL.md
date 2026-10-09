@@ -868,7 +868,7 @@ Madrid: Espasa, 2011.
 Texto original:
 «En su núcleo, una formidable investigación exige de un buen razonamiento donde
 se reflexiona con coherencia cuestiones sobre un asunto específico; la falta de
-esta produce déficit de eficacia en el proceso investigativo.»
+esta produce déficit de eficacia en el proceso investigativo (Daros, 2002).»
 
 Texto reescrito:
 «Toda investigación rigurosa parte de un razonamiento coherente sobre un asunto

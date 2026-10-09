@@ -326,20 +326,18 @@ futuro.»
 
 Texto humanizado:
 
-«La inteligencia artificial ya no es una promesa de laboratorio. Diagnostica
-tumores, ordena carteras de inversión y decide qué anuncio ve cada usuario,
-mientras el debate público apenas empieza a entender de qué hablamos. Sus
-defensores destacan tres ventajas difíciles de negar: hace más en menos tiempo,
-abarata procesos que antes exigían plantillas enteras y saca de los datos
-correlaciones que ningún analista vería a simple vista. La pregunta, entonces,
-no es si la usaremos, sino bajo qué condiciones.»
+«Que la inteligencia artificial esté transformando muchos sectores a la vez es,
+a estas alturas, difícil de discutir. Lo que ofrece cabe en una frase: hace el
+mismo trabajo en menos tiempo, lo abarata y permite decidir mejor. De ahí que el
+lugar que ocupe en el futuro vaya a ser central.»
 
 Qué cambió: se eliminó la apertura de molde («en la actualidad») y el cierre
 anunciado («en conclusión»); se desactivó la inflación de significancia («juega
-un papel fundamental»); se sustituyó la enumeración mecánica «en primer lugar…
-en segundo lugar…» por una integrada y concreta; se varió la longitud de las
-oraciones (una corta y rotunda al inicio, una larga después); y se cerró con un
-giro que abre, en lugar de resumir.
+un papel fundamental»); la enumeración mecánica «en primer lugar… en segundo
+lugar…» quedó integrada en una sola oración; el párrafo entra en marcha, con
+una subordinada, en lugar de abrir con una etiqueta; y se varió la longitud de
+las oraciones. No se agregó ningún dato: las tres ventajas y el peso futuro son
+los del original, y nada más.
 
 
 ## 8. Lista de verificación antes de entregar

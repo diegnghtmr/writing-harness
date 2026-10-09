@@ -608,7 +608,7 @@ los que el estándar dibuja en blanco. Se cuelan al copiar de una página, al
 exportar de un procesador de textos, y algunos generadores los emiten a
 propósito como marca de procedencia.
 
-Este patrón es distinto de los treinta y siete anteriores y conviene saber por
+Este patrón es distinto de los treinta y ocho anteriores y conviene saber por
 qué. Todos los demás se detectan leyendo: alguien atento ve la raya, la tríada,
 el conector de molde. Este no. Sobrevive a cuantas lecturas se le hagan, y por
 eso es el único del catálogo que solo una máquina puede encontrar.
