@@ -67,7 +67,7 @@ a ejecutar sobre sí mismo (sección 1).
 
 | Situación | Acción |
 | --- | --- |
-| Asunto conceptual, o nadie tiene que hacer nada después de leer | Corresponde otra skill de tono (sección 1) |
+| Asunto conceptual, o nadie tiene que hacer nada después de leer | Corresponde otra skill de tono; si este tono se pidió por su nombre, se aplica igual y la línea del tono lo dice (sección 1) |
 | El pasaje se dirige a un colectivo | «ustedes» con verbo en tercera del plural (sección 5.3) |
 | Elegir la apertura | El estado del lector o el punto de partida del autor, nunca una definición (sección 6.1) |
 | Un paso no se sostiene sin el anterior | El texto lo dice (sección 6.2) |
@@ -113,7 +113,11 @@ idea; este termina en una instrucción.
 
 Se elige cuando hay algo que el lector va a ejecutar. Si el asunto es
 conceptual, si el texto solo describe cómo funciona algo, o si nadie tiene que
-hacer nada después de leerlo, corresponde otra skill de tono.
+hacer nada después de leerlo, corresponde otra skill de tono. Si el usuario
+pidió este tono por su nombre, esta forma se aplica igual y la línea que
+anuncia el tono dice que la precondición no se cumple: la reescritura toma la
+forma, conserva el contenido y no inventa los pasos que el original no traía
+(sección 10).
 
 **Precondición de forma:** existe un procedimiento que el lector puede ejecutar
 sobre sí mismo, con pasos que admiten un orden y con alguien que ya lo recorrió,

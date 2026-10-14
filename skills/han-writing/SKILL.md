@@ -73,7 +73,7 @@ dato empírico y que el texto sea corto (sección 1).
 
 | Situación | Acción |
 | --- | --- |
-| La afirmación central necesita un dato | Se pone el dato y se cambia de tono (secciones 1 y 9) |
+| La afirmación central necesita un dato | Se pone el dato y se cambia de tono; si el tono se pidió por su nombre, se aplica igual y la línea del tono lo dice (secciones 1 y 9) |
 | Sentencia de remate | Si al borrarla el argumento pierde un paso, se queda; si no, se va (sección 15) |
 | Sección que solo lleva de la anterior a la siguiente | Se borra (sección 13) |
 | Juego etimológico que solo existe en otra lengua | Se explica como dato ajeno o no se usa (sección 12) |
@@ -107,8 +107,11 @@ bitácora filosófica y a la apertura de una charla.
 
 No se usa en informes, documentación, manuales, comunicaciones institucionales,
 textos legales ni trabajos empíricos. La prueba es simple: si la afirmación
-central del texto necesita un dato para sostenerse, este tono no sirve y hay
-que cambiar de tono, no bajar la exigencia de prueba. La sección 9 mide hasta
+central del texto necesita un dato para sostenerse, corresponde otro tono, y no
+se baja la exigencia de prueba. Si el usuario pidió este tono por su nombre,
+esta forma se aplica igual, el dato se queda y la línea que anuncia el tono
+dice que la precondición no se cumple; lo mismo vale donde este documento dice
+que el texto cambia de tono. La sección 9 mide hasta
 dónde llega esa ausencia de dato en el modelo y por qué el skill la restringe
 todavía más.
 
