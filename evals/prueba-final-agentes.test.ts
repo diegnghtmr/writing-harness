@@ -13,27 +13,33 @@
 // «cargaría» todos los tonos. Se leen solo las entradas de las herramientas.
 
 import assert from 'node:assert/strict';
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
+import { existsSync, lstatSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, unlinkSync, utimesSync, writeFileSync } from 'node:fs';
+import { homedir, tmpdir } from 'node:os';
 import { join, posix, sep, win32 } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { describe, test } from 'node:test';
 import { REPO_ROOT } from '../src/skills.ts';
 import {
   AGENTES,
+  barrerHogaresDeCodex,
   comandoDeCodex,
   hogarDeCodex,
+  MARCA_DEL_HOGAR,
   parsearAgy,
   parsearCodex,
   parsearCopilot,
   parsearGrok,
   prepararHogarDeCodex,
+  procesoVivo,
+  raizDeHogaresDeCodex,
   type DefinicionDeAgente,
 } from '../scripts/prueba-final/agentes.ts';
-import { agenteReal, entornoDeLaCorrida } from '../scripts/prueba-final/reales.ts';
+import { agenteReal, alRecibirSenal, entornoDeLaCorrida } from '../scripts/prueba-final/reales.ts';
 import { resolverEjecutable } from '../scripts/prueba-final/resolver.ts';
 import { agenteMidio, errorDelAgente } from '../scripts/prueba-final/comprobaciones.ts';
 import { variantes } from '../scripts/prueba-final/variantes.ts';
-import { cadenasDe, comandos, escrituras, lecturasDeSkills, llamada, motivoDeError, skillsCargadas } from '../scripts/prueba-final/transcripcion.ts';
+import { cadenasDe, comandos, escrituras, lecturasDeSkills, llamada, motivoDeError, skillsCargadas, vacia } from '../scripts/prueba-final/transcripcion.ts';
 
 const fixture = (nombre: string) => readFileSync(join(REPO_ROOT, 'evals', 'fixtures', 'prueba-final', nombre), 'utf8');
 const SALIDA = 'C:\\temp\\pf-00000000-0000-4000-8000-000000000001\\salida.md';
@@ -393,35 +399,64 @@ describe('las líneas de comando', () => {
   // La serie del 2026-10-14: codex corría con el ~/.codex del usuario. Sus
   // instrucciones globales metían «Key Learnings» en las respuestas y su
   // servidor de Engram escribía en el Engram real. Cada corrida tiene ahora un
-  // CODEX_HOME propio, fuera de la carpeta que se publica.
-  test('codex corre con un CODEX_HOME propio, al lado de la carpeta de la corrida y fuera de ella', () => {
-    const hogar = hogarDeCodex(ctx);
-    assert.deepEqual(AGENTES.codex?.variables?.(ctx), { CODEX_HOME: hogar });
-    assert.equal(hogar, `${ctx.staging}-codex`);
+  // CODEX_HOME propio, fuera de la carpeta que se publica. En la segunda serie,
+  // con el hogar en el directorio temporal, codex se negó a crear sus binarios
+  // auxiliares ahí: el hogar va ahora en una carpeta propia del usuario.
+  test('codex corre con un CODEX_HOME propio, fuera de la carpeta de la corrida y del directorio temporal', () => {
+    const home = join('home', 'prueba');
+    const hogar = hogarDeCodex(home, ctx);
+    assert.deepEqual(AGENTES.codex?.variables?.(home, ctx), { CODEX_HOME: hogar });
+    assert.equal(raizDeHogaresDeCodex(home), join(home, '.cache', 'prueba-final', 'codex'));
+    assert.equal(hogar, join(raizDeHogaresDeCodex(home), 'staging'), 'con el nombre de la carpeta de la corrida');
     assert.ok(!hogar.startsWith(`${ctx.staging}${sep}`), 'lo de la corrida se publica, y el hogar lleva la credencial');
+    assert.ok(!hogarDeCodex(homedir(), ctx).startsWith(tmpdir()), 'codex no crea sus binarios auxiliares bajo el directorio temporal');
     for (const id of ['copilot', 'grok', 'agy']) assert.equal(AGENTES[id]?.variables, undefined, id);
   });
 
-  test('el hogar de codex tiene la sesión y la sandbox del usuario, y nada más', () => {
+  /** Un ~/.codex de mentira, con lo que tiene el de verdad. */
+  function codexReal(raiz: string): string {
+    const real = join(raiz, 'real');
+    mkdirSync(join(real, '.sandbox'), { recursive: true });
+    mkdirSync(join(real, '.sandbox-bin'));
+    mkdirSync(join(real, '.sandbox-secrets'));
+    mkdirSync(join(real, 'sessions'));
+    writeFileSync(join(real, 'auth.json'), 'credencial');
+    writeFileSync(join(real, 'cap_sid'), '{"workspace_by_cwd":{}}');
+    writeFileSync(join(real, '.sandbox', 'setup_marker.json'), '{}');
+    writeFileSync(join(real, '.sandbox', 'deny_read_acl_state.json'), '{"principals":{}}');
+    writeFileSync(join(real, '.sandbox', 'sandbox.2026-10-14.log'), 'del usuario\n');
+    writeFileSync(join(real, '.sandbox-bin', 'codex-command-runner.exe'), 'binario');
+    writeFileSync(join(real, '.sandbox-secrets', 'usuarios.json'), '{}');
+    writeFileSync(join(real, 'AGENTS.md'), '## Key Learnings');
+    writeFileSync(join(real, 'config.toml'), '[mcp_servers.engram]');
+    return real;
+  }
+
+  // En la segunda serie, las quince corridas compartían por enlaces el estado
+  // de la sandbox y el `cap_sid` del usuario. Sus preparaciones de la sandbox
+  // escribían el mismo `deny_read_acl_state.json` a la vez, una lo leyó vacío
+  // («EOF while parsing»), los comandos colgaron hasta tres minutos y tres
+  // corridas no entregaron nada.
+  test('el hogar de codex tiene la sesión, una sandbox propia y los binarios del usuario, y nada más', () => {
     const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-hogar-'));
     try {
-      const real = join(raiz, 'real');
-      mkdirSync(join(real, '.sandbox'), { recursive: true });
-      mkdirSync(join(real, '.sandbox-secrets'));
-      mkdirSync(join(real, 'sessions'));
-      writeFileSync(join(real, 'auth.json'), 'credencial');
-      writeFileSync(join(real, 'cap_sid'), 'sid');
-      writeFileSync(join(real, '.sandbox', 'setup_marker.json'), '{}');
-      writeFileSync(join(real, '.sandbox-secrets', 'usuarios.json'), '{}');
-      writeFileSync(join(real, 'AGENTS.md'), '## Key Learnings');
-      writeFileSync(join(real, 'config.toml'), '[mcp_servers.engram]');
-      const hogar = join(raiz, 'pf-1-codex');
+      const real = codexReal(raiz);
+      const hogar = join(raiz, 'pf-1');
 
       const limpiar = prepararHogarDeCodex(real, hogar);
-      assert.deepEqual(readdirSync(hogar).sort(), ['.sandbox', '.sandbox-secrets', 'auth.json', 'cap_sid']);
+      assert.deepEqual(readdirSync(hogar).sort(), [MARCA_DEL_HOGAR, '.sandbox', '.sandbox-bin', '.sandbox-secrets', 'auth.json', 'cap_sid'].sort());
+      // La sandbox es propia: el marcador de la instalación, sin el estado de
+      // las ACL de otra corrida ni los registros del usuario.
+      assert.equal(lstatSync(join(hogar, '.sandbox')).isSymbolicLink(), false);
       assert.deepEqual(readdirSync(join(hogar, '.sandbox')), ['setup_marker.json']);
+      // `cap_sid` es una copia: codex anota ahí un SID por carpeta de trabajo.
+      writeFileSync(join(hogar, 'cap_sid'), '{"workspace_by_cwd":{"c:/pf-1":"S-1"}}');
+      assert.equal(readFileSync(join(real, 'cap_sid'), 'utf8'), '{"workspace_by_cwd":{}}');
+      // Los binarios y los usuarios de la sandbox se comparten: solo se leen.
+      assert.equal(lstatSync(join(hogar, '.sandbox-bin')).isSymbolicLink(), true);
+      assert.equal(lstatSync(join(hogar, '.sandbox-secrets')).isSymbolicLink(), true);
+      // La sesión es el mismo archivo: lo que codex renueve ahí lo ve el usuario.
       assert.equal(readFileSync(join(hogar, 'auth.json'), 'utf8'), 'credencial');
-      // Es el mismo archivo: lo que codex renueve ahí lo ve el usuario.
       writeFileSync(join(hogar, 'auth.json'), 'renovada');
       assert.equal(readFileSync(join(real, 'auth.json'), 'utf8'), 'renovada');
 
@@ -429,9 +464,26 @@ describe('las líneas de comando', () => {
       assert.equal(existsSync(hogar), false);
       limpiar();
       assert.equal(readFileSync(join(real, 'auth.json'), 'utf8'), 'renovada');
-      assert.deepEqual(readdirSync(join(real, '.sandbox')), ['setup_marker.json'], 'borrar el hogar no entra en la sandbox real');
+      assert.deepEqual(readdirSync(join(real, '.sandbox')).sort(), ['deny_read_acl_state.json', 'sandbox.2026-10-14.log', 'setup_marker.json']);
+      assert.deepEqual(readdirSync(join(real, '.sandbox-bin')), ['codex-command-runner.exe'], 'borrar el hogar no entra en los binarios reales');
       assert.deepEqual(readdirSync(join(real, '.sandbox-secrets')), ['usuarios.json']);
-      assert.equal(readFileSync(join(real, 'cap_sid'), 'utf8'), 'sid');
+    } finally {
+      rmSync(raiz, { recursive: true, force: true });
+    }
+  });
+
+  test('al deshacer el hogar, el registro de su sandbox queda en la carpeta de la corrida', () => {
+    const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-hogar-'));
+    try {
+      const real = codexReal(raiz);
+      const hogar = join(raiz, 'pf-1');
+      mkdirSync(join(raiz, 'staging'));
+      const registro = join(raiz, 'staging', 'codex-sandbox.log');
+      const limpiar = prepararHogarDeCodex(real, hogar, { registro });
+      writeFileSync(join(hogar, '.sandbox', 'sandbox.2026-10-14.log'), 'setup error: apply deny-read ACLs\n');
+      limpiar();
+      assert.equal(readFileSync(registro, 'utf8'), 'setup error: apply deny-read ACLs\n');
+      assert.equal(existsSync(hogar), false);
     } finally {
       rmSync(raiz, { recursive: true, force: true });
     }
@@ -444,7 +496,7 @@ describe('las líneas de comando', () => {
       mkdirSync(real);
       const auth = join(real, 'auth.json');
       writeFileSync(auth, 'vieja');
-      const hogar = join(raiz, 'pf-1-codex');
+      const hogar = join(raiz, 'pf-1');
 
       // Reemplazada, no sobrescrita: el enlace se rompe.
       let limpiar = prepararHogarDeCodex(real, hogar);
@@ -467,6 +519,77 @@ describe('las líneas de comando', () => {
     }
   });
 
+  // La revisión de 0c798fc: el hogar lleva la credencial, y se borraba al
+  // recoger o al salir el proceso, pero no si la serie se caía o la mataban
+  // sin aviso. La serie siguiente barre lo que quedó.
+  describe('barrer los hogares que dejó una serie anterior', () => {
+    const id = (n: number) => `pf-00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
+    const VIVO = 4242;
+    const vivo = (pid: number) => pid === VIVO;
+    const viejo = new Date(Date.now() - 60 * 60 * 1000);
+    const marcar = (hogar: string, pid: number) => writeFileSync(join(hogar, MARCA_DEL_HOGAR), JSON.stringify({ pid }));
+
+    test('borra solo los hogares de un proceso que ya no corre, y nunca entra en las carpetas reales', () => {
+      const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-barrido-'));
+      try {
+        const real = codexReal(raiz);
+        const hogares = join(raiz, 'hogares');
+        mkdirSync(hogares);
+        // De una serie que se cayó: su proceso ya no corre.
+        prepararHogarDeCodex(real, join(hogares, id(1)));
+        marcar(join(hogares, id(1)), 999_999);
+        // De una serie que sigue corriendo.
+        prepararHogarDeCodex(real, join(hogares, id(2)));
+        marcar(join(hogares, id(2)), VIVO);
+        // Sin marca y viejo: se cayó antes de anotar su proceso.
+        mkdirSync(join(hogares, id(3)));
+        utimesSync(join(hogares, id(3)), viejo, viejo);
+        // Sin marca y recién creado: puede ser de una serie que está arrancando.
+        mkdirSync(join(hogares, id(4)));
+        // Lo que no tiene el nombre de un hogar de la prueba no se toca nunca.
+        const ajenos = ['otra-cosa', 'pf-1', `${id(5)}-codex`, id(6).toUpperCase()];
+        for (const otro of ajenos) {
+          mkdirSync(join(hogares, otro));
+          marcar(join(hogares, otro), 999_999);
+          utimesSync(join(hogares, otro), viejo, viejo);
+        }
+        writeFileSync(join(hogares, id(7)), 'un archivo, no una carpeta');
+
+        const borrados = barrerHogaresDeCodex(hogares, vivo);
+        assert.deepEqual(borrados.sort(), [join(hogares, id(1)), join(hogares, id(3))]);
+        assert.deepEqual(readdirSync(hogares).sort(), [id(2), id(4), id(7), ...ajenos].sort());
+        assert.deepEqual(readdirSync(join(real, '.sandbox-bin')), ['codex-command-runner.exe'], 'el barrido no entra en los binarios reales');
+        assert.deepEqual(readdirSync(join(real, '.sandbox-secrets')), ['usuarios.json']);
+        assert.equal(readFileSync(join(real, 'auth.json'), 'utf8'), 'credencial');
+      } finally {
+        rmSync(raiz, { recursive: true, force: true });
+      }
+    });
+
+    test('sin la carpeta de hogares no hay nada que barrer', () => {
+      assert.deepEqual(barrerHogaresDeCodex(join(tmpdir(), 'no-existe-prueba-final'), vivo), []);
+    });
+
+    test('codex barre su propia carpeta de hogares, y los otros agentes no barren nada', () => {
+      const home = mkdtempSync(join(tmpdir(), 'prueba-final-home-'));
+      try {
+        const hogares = raizDeHogaresDeCodex(home);
+        mkdirSync(join(hogares, id(1)), { recursive: true });
+        marcar(join(hogares, id(1)), 999_999_999);
+        assert.deepEqual(AGENTES.codex?.barrer?.(home), [join(hogares, id(1))]);
+        assert.equal(existsSync(join(hogares, id(1))), false);
+        for (const a of ['copilot', 'grok', 'agy']) assert.equal(AGENTES[a]?.barrer, undefined, a);
+      } finally {
+        rmSync(home, { recursive: true, force: true });
+      }
+    });
+
+    test('el proceso que corre se reconoce por su pid', () => {
+      assert.equal(procesoVivo(process.pid), true);
+      assert.equal(procesoVivo(999_999_999), false);
+    });
+  });
+
   test('un agente real recibe sus variables y deshace lo preparado al recoger, aunque la lectura falle', async () => {
     const limpiados: string[] = [];
     const def: DefinicionDeAgente = {
@@ -474,7 +597,7 @@ describe('las líneas de comando', () => {
       id: 'falso',
       argumentos: () => [],
       transcripcion: () => null,
-      variables: (c) => ({ PRUEBA_HOGAR: `${c.staging}-falso` }),
+      variables: (home, c) => ({ PRUEBA_HOGAR: `${home}|${c.staging}-falso` }),
       preparar: (_home, c) => () => {
         limpiados.push(c.sesion);
       },
@@ -483,13 +606,79 @@ describe('las líneas de comando', () => {
       },
     };
     const e = { comando: process.execPath, prefijo: ['-e', 'process.stdout.write(process.env.PRUEBA_HOGAR + "|" + process.env.ENGRAM_PROJECT)'] };
-    const a = agenteReal(def, e, { home: tmpdir(), version: null });
+    const a = agenteReal(def, e, { home: 'casa', version: null });
     const local = { ...ctx, cwd: tmpdir() };
     const l = await a.lanzar(local);
-    assert.equal(l.stdout, `staging-falso|${ctx.engram}`);
+    assert.equal(l.stdout, `casa|staging-falso|${ctx.engram}`);
     assert.deepEqual(limpiados, []);
     assert.throws(() => a.recoger(local, l), /lectura rota/u);
     assert.deepEqual(limpiados, [ctx.sesion]);
+  });
+
+  // La revisión de 0c798fc: lo preparado se deshacía al salir el proceso, pero
+  // no con Ctrl+C ni con SIGTERM. Ahora lo deshace quien llama a `preparar`,
+  // para cualquier agente: al recoger, al salir y al recibir una señal.
+  test('una señal deshace lo que no se recogió y da el código de la señal', async () => {
+    const limpiados: string[] = [];
+    const def: DefinicionDeAgente = {
+      ...(AGENTES.grok as DefinicionDeAgente),
+      id: 'falso',
+      argumentos: () => [],
+      transcripcion: () => null,
+      preparar: (_home, c) => () => {
+        limpiados.push(c.sesion);
+      },
+      parsear: () => vacia(),
+    };
+    const a = agenteReal(def, { comando: process.execPath, prefijo: ['-e', ''] }, { home: 'casa', version: null });
+    const local = { ...ctx, cwd: tmpdir() };
+    const l = await a.lanzar(local);
+    assert.equal(alRecibirSenal('SIGINT'), 130);
+    assert.deepEqual(limpiados, [ctx.sesion]);
+    // Recoger después no lo deshace dos veces.
+    a.recoger(local, l);
+    assert.deepEqual(limpiados, [ctx.sesion]);
+    assert.equal(alRecibirSenal('SIGTERM'), 143);
+    assert.equal(alRecibirSenal('SIGHUP'), 129);
+  });
+
+  test('con SIGTERM, la serie mata la corrida que sigue viva, borra lo preparado y sale con 143', () => {
+    const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-senal-'));
+    try {
+      const hogar = join(raiz, 'hogar');
+      const pidDelHijo = join(raiz, 'hijo.pid');
+      const url = (archivo: string) => JSON.stringify(pathToFileURL(join(REPO_ROOT, 'scripts', 'prueba-final', archivo)).href);
+      // La serie lanza una corrida que no termina sola y, cuando la corrida
+      // anotó su pid, recibe SIGTERM. En Windows no se le puede mandar SIGTERM
+      // a otro proceso sin matarlo en seco, así que la señal se emite adentro.
+      const hijo = `require('fs').writeFileSync(${JSON.stringify(pidDelHijo)}, String(process.pid)); setTimeout(() => {}, 60000)`;
+      const serie = join(raiz, 'serie.ts');
+      writeFileSync(
+        serie,
+        [
+          `import { existsSync, mkdirSync, rmSync } from 'node:fs';`,
+          `import { agenteReal } from ${url('reales.ts')};`,
+          `import { AGENTES, type DefinicionDeAgente } from ${url('agentes.ts')};`,
+          `const hogar = ${JSON.stringify(hogar)};`,
+          `const def: DefinicionDeAgente = { ...(AGENTES.grok as DefinicionDeAgente), id: 'falso', argumentos: () => [],`,
+          `  preparar: () => { mkdirSync(hogar); return () => rmSync(hogar, { recursive: true, force: true }); } };`,
+          `const a = agenteReal(def, { comando: process.execPath, prefijo: ['-e', ${JSON.stringify(hijo)}] }, { home: 'casa', version: null });`,
+          `void a.lanzar({ prompt: '', archivoPrompt: '', sesion: 's', cwd: process.cwd(), limiteMin: 5, staging: 'x', engram: 'e' });`,
+          `const espera = setInterval(() => {`,
+          `  if (!existsSync(${JSON.stringify(pidDelHijo)})) return;`,
+          `  clearInterval(espera);`,
+          `  process.emit('SIGTERM', 'SIGTERM');`,
+          `}, 50);`,
+        ].join('\n'),
+      );
+      const r = spawnSync(process.execPath, ['--experimental-strip-types', '--no-warnings', serie], { cwd: raiz, encoding: 'utf8', timeout: 30_000 });
+      assert.equal(r.status, 143, r.stderr);
+      assert.equal(existsSync(hogar), false, 'lo preparado se deshizo');
+      const pid = Number(readFileSync(pidDelHijo, 'utf8'));
+      assert.equal(procesoVivo(pid), false, 'la corrida no quedó corriendo');
+    } finally {
+      rmSync(raiz, { recursive: true, force: true });
+    }
   });
 
   test('codex: la transcripción es su rollout, con los de sus subagentes si los hubo', () => {
@@ -500,7 +689,7 @@ describe('las líneas de comando', () => {
       mkdirSync(staging);
       const local = { ...ctx, staging };
       // Del CODEX_HOME propio de la corrida, no del ~/.codex del usuario.
-      const dia = join(hogarDeCodex(local), 'sessions', '2026', '10', '09');
+      const dia = join(hogarDeCodex(home, local), 'sessions', '2026', '10', '09');
       mkdirSync(dia, { recursive: true });
       const hilo = (id: string) => `{"type":"thread.started","thread_id":"${id}"}\n`;
 
@@ -558,7 +747,7 @@ describe('las líneas de comando', () => {
       join(home, '.gemini', 'antigravity-cli', 'brain', 'conv-agy'),
     ]);
     assert.deepEqual(AGENTES.agy?.estadoPropio(home, ctx, null), [], 'sin conversación no hay carpeta propia que reconocer');
-    assert.deepEqual(AGENTES.codex?.estadoPropio(home, ctx, null), [hogarDeCodex(ctx)]);
+    assert.deepEqual(AGENTES.codex?.estadoPropio(home, ctx, null), [hogarDeCodex(home, ctx)]);
   });
 });
 

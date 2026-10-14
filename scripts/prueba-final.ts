@@ -441,7 +441,7 @@ function imprimirPlan(
         ? // Los argumentos se muestran igual: no dependen de dónde esté instalado.
           [`  ${def.id}: no se encontró en el PATH`, `    ${mostrar(def.argumentos(ctx))}`]
         : [`  ${def.id}: ${mostrar([ejecutable.comando, ...ejecutable.prefijo])}`, `    ${mostrar(def.argumentos(ctx))}`]),
-      ...Object.entries(def.variables?.(ctx) ?? {}).map(([k, v]) => `    con ${k}=${v}`),
+      ...Object.entries(def.variables?.(homedir(), ctx) ?? {}).map(([k, v]) => `    con ${k}=${v}`),
     ]),
     '',
     `Prompts, con la carpeta de cada corrida en ${staging}:`,
@@ -527,6 +527,12 @@ async function main(argv: readonly string[]): Promise<number> {
   if (desincronizadas !== null) throw new ErrorDeUso(desincronizadas, false);
   const faltan = resueltos.filter((r) => r.ejecutable === null).map((r) => r.def.id);
   if (faltan.length > 0) throw new ErrorDeUso(`no se encontró en el PATH: ${faltan.join(', ')}`);
+  // Lo que dejó armado una serie anterior que se cayó, como un CODEX_HOME con
+  // la sesión del usuario, se borra antes de lanzar nada.
+  for (const def of sel.agentes) {
+    const barridos = def.barrer?.(homedir()) ?? [];
+    if (barridos.length > 0) console.log(`${def.id}: se borró lo que dejó una serie anterior: ${barridos.join(', ')}`);
+  }
   console.log('');
   const { suite, codigo } = await correrSuite(
     {

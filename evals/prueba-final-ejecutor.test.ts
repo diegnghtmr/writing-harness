@@ -956,8 +956,9 @@ describe('el comando', () => {
     assert.match(r.stdout, /39 palabras/u);
     for (const v of variantes()) assert.ok(r.stdout.includes(`${v.id}: `), `falta la variante ${v.id}`);
     for (const a of ['copilot', 'grok', 'agy', 'codex']) assert.ok(r.stdout.includes(a), a);
-    // Codex corre con un CODEX_HOME propio, al lado de la carpeta de la corrida.
-    assert.match(r.stdout, /^ {4}con CODEX_HOME=\S*pf-<uuid>-codex$/mu);
+    // Codex corre con un CODEX_HOME propio, con el nombre de la carpeta de la
+    // corrida pero fuera de ella y del directorio temporal.
+    assert.match(r.stdout, /^ {4}con CODEX_HOME=\S*[\\/]\.cache[\\/]prueba-final[\\/]codex[\\/]pf-<uuid>$/mu);
     assert.deepEqual(readdirSync(e.carpeta), antes);
     assert.equal(sha(readFileSync(e.docx)), sha(DOCX));
   });

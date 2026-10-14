@@ -209,11 +209,62 @@ function pasosResueltos(comando: string): string[] {
   });
 }
 
+/**
+ * Un script de node pasado en la línea, con `-e`, `--eval`, `-p` o `--print`,
+ * entre comillas dobles o simples. Dentro de las comillas, una barra invertida
+ * escapa el carácter que sigue, así que `\\` y `\"` no cierran el script.
+ */
+const SCRIPT_DE_NODE = /(?<=^|[\s(|{;&])node(?:\.exe)?\s+(?:-e|--eval|-p|--print)\s+(?:"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)')/giu;
+
+/** Una función de node que lee el archivo cuya ruta recibe. `existsSync` o `statSync` la nombran sin leerla. */
+const NODE_QUE_LEE = /\b(?:readFileSync|readFile|createReadStream)\s*\(/u;
+
+/** Un script que se queda con un tramo de lo que leyó. */
+const NODE_PARCIAL = /\.(?:slice|substring|substr)\s*\(/u;
+
+/** Las cadenas literales de un script de JavaScript, sin las plantillas que interpolan. */
+const LITERAL_DE_JS = /'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"|`([^`$]*)`/gu;
+
+/** `join(…, '<skill>', 'SKILL.md')` o `resolve(…)`, con los dos últimos argumentos literales. */
+const JOIN_DE_SKILL = /\b(?:join|resolve)\s*\([^()]*?,\s*['"`]([a-z0-9][a-z0-9-]*)['"`]\s*,\s*['"`]SKILL\.md['"`]\s*\)/giu;
+
+/**
+ * Los scripts de `node -e` de un comando que leen archivos, cada uno con las
+ * rutas que nombra, y el comando sin ellos.
+ *
+ * En la segunda serie de codex del 2026-10-14, codex leyó las skills con un
+ * script que recorre una lista de rutas y las imprime con `readFileSync`. El
+ * script tiene sus propios `;` y ninguno de sus pasos empieza con un programa
+ * que lee, así que se mira entero y antes de partir el comando: si llama a una
+ * función que lee, cada cadena literal suya es una ruta leída, y también
+ * `path.join(raiz, '<skill>', 'SKILL.md')` si el script nombra la carpeta
+ * `skills`. Es una aproximación: un script que lee un archivo y solo comprueba
+ * otro los da a los dos por leídos. Uno que no llama a ninguna función que lee,
+ * como el que solo usa `existsSync`, no lee nada.
+ */
+function scriptsDeNode(comando: string): { lecturas: { rutas: string[]; parcial: boolean }[]; resto: string } {
+  const lecturas: { rutas: string[]; parcial: boolean }[] = [];
+  const resto = comando.replace(SCRIPT_DE_NODE, (_todo: string, dobles?: string, simples?: string) => {
+    const script = dobles ?? simples ?? '';
+    if (!NODE_QUE_LEE.test(script)) return 'node -e ""';
+    const rutas = [...script.matchAll(LITERAL_DE_JS)].map((m) => m[1] ?? m[2] ?? m[3] ?? '');
+    if (/skills/iu.test(script)) for (const m of script.matchAll(JOIN_DE_SKILL)) rutas.push(`skills/${m[1] as string}/SKILL.md`);
+    lecturas.push({ rutas, parcial: NODE_PARCIAL.test(script) });
+    // El script ya se leyó: lo que queda del comando se lee por pasos.
+    return 'node -e ""';
+  });
+  return { lecturas, resto };
+}
+
 /** Los comodines de un patrón: una ruta que los lleva no es la de un archivo. */
 const COMODIN = /[*?]/u;
 
-/** Una llamada que lee archivos: la ruta de cada uno y si lo lee entero. */
-type Lectura = { texto: string; parcial: boolean };
+/**
+ * Lo que lee una llamada: el texto donde están las rutas y si lo lee entero.
+ * `directa` dice que cada ruta del texto se leyó, sin que haga falta un
+ * programa que lee delante (las de un script de node que lee).
+ */
+type Lectura = { texto: string; parcial: boolean; directa?: boolean };
 
 /** La entrada de una llamada como objeto, o vacía si el agente no dio uno. */
 function entradaDe(l: Llamada): Record<string, unknown> {
@@ -238,7 +289,11 @@ function esParcial(l: Llamada): boolean {
 function lecturasDe(l: Llamada): Lectura[] {
   if (l.clase === 'shell' && l.comando !== null) {
     const truncada = entradaDe(l)[CAMPO_DE_SALIDA_TRUNCADA] !== undefined;
-    return pasosResueltos(l.comando).map((paso) => ({ texto: paso, parcial: truncada || COMANDO_PARCIAL.test(paso) }));
+    const { lecturas, resto } = scriptsDeNode(l.comando);
+    return [
+      ...lecturas.map((s) => ({ texto: s.rutas.join(' '), parcial: truncada || s.parcial, directa: true })),
+      ...pasosResueltos(resto).map((paso) => ({ texto: paso, parcial: truncada || COMANDO_PARCIAL.test(paso) })),
+    ];
   }
   if (l.clase !== 'otra' || l.ruta === null) return [];
   const entrada = entradaDe(l);
@@ -257,7 +312,7 @@ function skillsLeidas(lectura: Lectura, comando: boolean): string[] {
     // La ruta entera, desde el último espacio o comilla: `C:\Users\*\...` es un patrón.
     const ruta = `${/[^\s"'`]*$/u.exec(antes)?.[0] ?? ''}${m[0]}`;
     if (COMODIN.test(ruta)) continue;
-    if (comando) {
+    if (comando && lectura.directa !== true) {
       if (!COMANDO_QUE_LEE.test(antes)) continue;
       // `cat > ruta` escribe en la ruta: la redirección la vuelve destino.
       if (/>\s*["'`]?[^\s"'`]*$/u.test(antes)) continue;

@@ -32,6 +32,18 @@ export type OpcionesDeProceso = {
 /** El plazo de gracia por defecto: sobra para que cierre un árbol que se mató entero. */
 export const GRACIA_MS = 10_000;
 
+/** Los procesos lanzados que todavía no cerraron. */
+const vivos = new Set<ChildProcess>();
+
+/**
+ * Mata el árbol de cada proceso lanzado que sigue vivo. Es para cuando la
+ * serie termina por una señal: sin esto, un agente seguiría corriendo después
+ * de ella, con su hogar borrado debajo (ver `reales.ts`).
+ */
+export function matarVivos(): void {
+  for (const hijo of vivos) matarArbol(hijo);
+}
+
 export function matarArbol(hijo: ChildProcess): void {
   if (hijo.pid === undefined) return;
   if (process.platform === 'win32') {
@@ -67,6 +79,7 @@ export function correrProceso(comando: string, args: readonly string[], o: Opcio
     const terminar = (codigo: number | null) => {
       if (terminado) return;
       terminado = true;
+      vivos.delete(hijo);
       clearTimeout(reloj);
       clearTimeout(gracia);
       resolver({
@@ -94,6 +107,7 @@ export function correrProceso(comando: string, args: readonly string[], o: Opcio
       resolver({ stdout: '', stderr: String(e), codigo: null, vencido: false, duracionMs: Date.now() - inicio });
       return;
     }
+    vivos.add(hijo);
     const reloj = setTimeout(() => {
       vencido = true;
       matarArbol(hijo);

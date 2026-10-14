@@ -39,8 +39,9 @@ import {
   skillsDeLaVariante,
   verificadorLimpio,
 } from '../scripts/prueba-final/comprobaciones.ts';
-import { lecturasDeSkills, llamada, vacia, type Transcripcion } from '../scripts/prueba-final/transcripcion.ts';
+import { CAMPO_DE_SALIDA_TRUNCADA, lecturasDeSkills, llamada, vacia, type Transcripcion } from '../scripts/prueba-final/transcripcion.ts';
 import { variantes } from '../scripts/prueba-final/variantes.ts';
+import { AGENTES, hogarDeCodex } from '../scripts/prueba-final/agentes.ts';
 
 const v = (id: string) => variantes().find((x) => x.id === id) ?? assert.fail(id);
 const bytes = (s: string) => new TextEncoder().encode(s);
@@ -261,6 +262,82 @@ describe('las lecturas de una skill, enteras o en parte', () => {
       llamada('run_terminal_command', { command: "cat <<'EOF' > skills/atenas-writing/SKILL.md\nhola\nEOF" }),
     );
     assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: [] });
+  });
+
+  // La segunda serie de codex del 2026-10-14: en adria-sola, freddy y atenas,
+  // codex leyó las skills con un script de `node -e` que recorre una lista de
+  // rutas y las imprime con `readFileSync`. Ningún paso empezaba con un
+  // programa que lee, y las skills salían como no leídas. Los comandos son los
+  // registrados, con la carpeta del usuario cambiada.
+  test('un script de node -e que lee con readFileSync lee las rutas que nombra', () => {
+    const t = con(
+      // adria-sola: una lista de rutas relativas, con barras invertidas dobles.
+      llamada('shell', {
+        command: String.raw`node -e "const fs=require('fs'); for(const p of ['..\\entrada.md','writing-harness\\skills\\redactar-espanol\\SKILL.md','writing-harness\\skills\\spanish-writing\\SKILL.md','writing-harness\\skills\\adria-sola-writing\\SKILL.md']) { console.log('--- '+p+' ---'); console.log(fs.readFileSync(p,'utf8')); }"`,
+      }),
+      // freddy: rutas absolutas, dentro de un try.
+      llamada('shell', {
+        command: `node -e "const fs=require('fs'); for(const p of ['writing-harness/skills/redactar-espanol/SKILL.md','writing-harness/AGENTS.md','C:/Users/p/.agents/skills/freddy-writing/SKILL.md']) { try { console.log('---'+p+'---'); console.log(fs.readFileSync(p,'utf8')); } catch(e) { console.log(String(e)); } }"`,
+      }),
+      // atenas: el contenido pegado al encabezado.
+      llamada('shell', {
+        command: String.raw`node -e "const fs=require('fs'); for(const p of ['writing-harness/AGENTS.md','writing-harness/skills/atenas-writing/SKILL.md']) console.log('--- '+p+' ---\n'+fs.readFileSync(p,'utf8')); console.log('--- ENTRADA ---\n'+fs.readFileSync('../entrada.md','utf8'))"`,
+      }),
+      llamada('shell', { command: `node -e "const fs=require('fs'); console.log(fs.readFileSync('C:/Users/p/.agents/skills/camus-writing/SKILL.md','utf8'));"` }),
+      // Con las comillas de un shell POSIX y el mismo paso después de otro.
+      llamada('run_terminal_command', {
+        command: `cd /tmp && node --eval 'process.stdout.write(require("fs").readFileSync("skills/fonda-writing/SKILL.md", "utf8"))'`,
+      }),
+      // Con path.join, si la carpeta de skills está en el mismo script.
+      llamada('shell', {
+        command: `node -e "const fs=require('fs'),path=require('path'); const r='C:/Users/p/.agents/skills'; console.log(fs.readFileSync(path.join(r,'han-writing','SKILL.md'),'utf8'))"`,
+      }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), {
+      completas: [
+        'adria-sola-writing',
+        'atenas-writing',
+        'camus-writing',
+        'fonda-writing',
+        'freddy-writing',
+        'han-writing',
+        'redactar-espanol',
+        'spanish-writing',
+      ],
+      parciales: [],
+    });
+  });
+
+  test('un script de node -e recortado, o que imprime un tramo, lee en parte', () => {
+    const lista = `node -e "const fs=require('fs'); for(const p of ['writing-harness/skills/spanish-writing/SKILL.md']) console.log(fs.readFileSync(p,'utf8'))"`;
+    const t = con(
+      // El tope de tokens de codex recortó la salida (ver parsearCodex).
+      llamada('shell', { command: lista, [CAMPO_DE_SALIDA_TRUNCADA]: 9000 }),
+      llamada('shell', { command: `node -e "const s=require('fs').readFileSync('skills/catedra-writing/SKILL.md','utf8'); console.log(s.slice(3500,7600))"` }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: ['catedra-writing', 'spanish-writing'] });
+  });
+
+  test('un script de node -e que solo comprueba, lista o escribe una ruta de skill no la lee', () => {
+    const t = con(
+      // triangulacion, en la misma serie: existsSync y statSync, sin leer.
+      llamada('shell', {
+        command: `node -e "const fs=require('fs'); for (const p of ['writing-harness/skills/redactar-espanol/SKILL.md','writing-harness/skills/spanish-writing/SKILL.md']) console.log(p,fs.existsSync(p),fs.existsSync(p)?fs.statSync(p).size:'');"`,
+      }),
+      llamada('shell', { command: `node -e "require('fs').writeFileSync('skills/atenas-writing/SKILL.md','x')"` }),
+      llamada('shell', { command: 'node writing-harness/src/cli.ts skills/camus-writing/SKILL.md' }),
+      llamada('shell', { command: `node -e "console.log(require('fs').readFileSync('skills/*/SKILL.md','utf8'))"` }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: [] });
+  });
+
+  test('los pasos fuera del script de node se leen como siempre', () => {
+    const t = con(
+      llamada('shell', {
+        command: `Test-Path ${ruta('dotcsv-writing')}; node -e "console.log(1)"; Get-Content ${ruta('solitario-writing')}`,
+      }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: ['solitario-writing'], parciales: [] });
   });
 });
 
@@ -686,6 +763,20 @@ describe('9. los repositorios', () => {
     assert.equal(repositoriosIntactos({}, {}, [`${brain}\\scratch\\borrador.md`], propio).estado, 'pasa');
     const ajena = repositoriosIntactos({}, {}, ['C:\\Users\\p\\.gemini\\antigravity-cli\\brain\\conv-2\\x.md'], propio);
     assert.equal(ajena.estado, 'aviso');
+  });
+
+  // La revisión de 0c798fc: el estado propio de codex es su hogar de la
+  // corrida, que ya se borró cuando el ejecutor lo pide. Sirve igual: solo se
+  // usa como prefijo para reconocer las rutas de las escrituras.
+  test('lo que codex escribe en su hogar de la corrida, aunque ya se haya borrado, es su propio estado', () => {
+    const home = 'C:\\Users\\p';
+    const local = { prompt: '', archivoPrompt: '', sesion: 's', cwd: ctx.cwd, limiteMin: 1, staging: ctx.staging, engram: 'e' };
+    const propias = AGENTES.codex?.estadoPropio(home, local, null) ?? [];
+    assert.deepEqual(propias, [hogarDeCodex(home, local)]);
+    const escrita = `${hogarDeCodex(home, local)}\\memories\\notas.md`;
+    assert.equal(repositoriosIntactos({}, {}, [escrita], { ...ctx, propias }).estado, 'pasa');
+    const deOtra = `${hogarDeCodex(home, { staging: 'C:\\temp\\pf-2' })}\\memories\\notas.md`;
+    assert.equal(repositoriosIntactos({}, {}, [deOtra], { ...ctx, propias }).estado, 'aviso', 'el hogar de otra corrida no es suyo');
   });
 
   test('cada ruta sale una sola vez en el motivo, la escriba como la escriba', () => {

@@ -505,12 +505,17 @@ cargan las instrucciones globales del usuario: sin proyecto propio guardaban
 memorias en su proyecto real, y con uno común a toda la prueba una corrida leyó
 lo que había guardado otra.
 
-Codex no carga esas instrucciones: corre con un `CODEX_HOME` propio, al lado de
-la carpeta de su corrida, que se borra al recogerla. Del `~/.codex` del usuario
-toma solo la sesión, enlazada y no copiada, y la sandbox de Windows; quedan fuera
-su AGENTS.md, su configuración, sus servidores MCP y sus hooks. En la serie del
+Codex no carga esas instrucciones: corre con un `CODEX_HOME` propio por
+corrida, en `~/.cache/prueba-final/codex/`, que se borra al recogerla. Del
+`~/.codex` del usuario toma solo la sesión, enlazada y no copiada, y lo que la
+sandbox de Windows necesita para no pedir instalarse de nuevo; quedan fuera su
+AGENTS.md, su configuración, sus servidores MCP y sus hooks. En la serie del
 2026-10-14, con el `~/.codex` real, las respuestas cerraban con «Key Learnings» y
 el servidor de Engram guardaba memorias de la prueba en el Engram del usuario.
+El estado de la sandbox es de cada corrida: compartido, quince corridas en
+paralelo lo escribían a la vez, los comandos colgaban minutos y tres corridas no
+entregaron nada. El registro de la sandbox de cada corrida queda en su carpeta,
+como `codex-sandbox.log`.
 
 El agente tampoco trabaja en mix. Trabaja en una copia que se arma dentro de la
 carpeta de su corrida, con las instrucciones de mix y lo que git rastrea del

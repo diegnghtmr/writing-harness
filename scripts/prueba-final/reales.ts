@@ -5,11 +5,12 @@
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, readFileSync } from 'node:fs';
+import { constants } from 'node:os';
 import { join } from 'node:path';
 import { REPO_ROOT } from '../../src/skills.ts';
 import type { DefinicionDeAgente } from './agentes.ts';
 import type { Agente } from './ejecutor.ts';
-import { correrProceso } from './proceso.ts';
+import { correrProceso, matarVivos } from './proceso.ts';
 import type { Ejecutable } from './resolver.ts';
 import { rutasCambiadas, type EstadoDelArnes } from './traza.ts';
 
@@ -35,28 +36,90 @@ export function versionPorArgumentos(e: Ejecutable, args: readonly string[]): st
 
 const leerSiHay = (ruta: string | null): string | null => (ruta !== null && existsSync(ruta) ? readFileSync(ruta, 'utf8') : null);
 
+/** Lo preparado por todos los agentes que todavía no se deshizo. */
+const pendientes = new Set<() => void>();
+
+/** Deshace todo lo pendiente. Uno que falla no frena a los demás. */
+function deshacerPendientes(): void {
+  for (const limpiar of [...pendientes]) {
+    pendientes.delete(limpiar);
+    try {
+      limpiar();
+    } catch {
+      // Lo que quedó lo barre la serie siguiente (ver `DefinicionDeAgente.barrer`).
+    }
+  }
+}
+
+/**
+ * Las señales que terminan la serie. SIGINT es Ctrl+C; SIGBREAK, Ctrl+Pausa en
+ * Windows; SIGHUP, cerrar la ventana de la consola.
+ */
+const SENALES = ['SIGINT', 'SIGTERM', 'SIGHUP', 'SIGBREAK'] as const;
+type Senal = (typeof SENALES)[number];
+
+/**
+ * Lo que hace la serie al recibir una señal que la termina: mata los procesos
+ * de las corridas que siguen vivos, deshace lo que prepararon y devuelve el
+ * código de salida de costumbre, 128 más el número de la señal.
+ *
+ * Con un manejador, la señal deja de terminar el proceso por sí sola: lo
+ * termina quien lo instala, con este código.
+ */
+export function alRecibirSenal(senal: Senal): number {
+  matarVivos();
+  deshacerPendientes();
+  return 128 + constants.signals[senal];
+}
+
+let alSalir = false;
+/** Deshace lo pendiente al salir el proceso o al recibir una señal. Se instala una vez, con la primera preparación. */
+function deshacerAlTerminar(): void {
+  if (alSalir) return;
+  alSalir = true;
+  process.once('exit', deshacerPendientes);
+  for (const senal of SENALES) process.once(senal, () => process.exit(alRecibirSenal(senal)));
+}
+
 /**
  * Un agente instalado: lanza su CLI, copia su transcripción y la lee.
  *
  * Lo que el agente prepara antes de lanzar, como el CODEX_HOME de codex, se
  * deshace al recoger, después de copiar la transcripción y aunque leerla falle.
+ * Si la corrida no llega a recogerse, se deshace al salir el proceso o al
+ * recibir una señal que lo termina: es lo que promete `preparar`, y vale para
+ * cualquier agente. Lo que ni eso alcanza a deshacer, un proceso matado en
+ * seco, lo borra `barrer` al empezar la serie siguiente.
  */
 export function agenteReal(def: DefinicionDeAgente, e: Ejecutable, o: { home: string; version: string | null }): Agente {
   const preparados = new Map<string, () => void>();
   const deshacer = (sesion: string) => {
     const limpiar = preparados.get(sesion);
     preparados.delete(sesion);
-    limpiar?.();
+    if (limpiar === undefined) return;
+    pendientes.delete(limpiar);
+    limpiar();
   };
   return {
     id: def.id,
     lanzar: (ctx) => {
       deshacer(ctx.sesion);
-      const limpiar = def.preparar?.(o.home, ctx);
-      if (limpiar !== undefined) preparados.set(ctx.sesion, limpiar);
+      const preparado = def.preparar?.(o.home, ctx);
+      if (preparado !== undefined) {
+        // Una sola vez, la deshaga quien la deshaga primero.
+        let hecho = false;
+        const limpiar = () => {
+          if (hecho) return;
+          hecho = true;
+          preparado();
+        };
+        preparados.set(ctx.sesion, limpiar);
+        pendientes.add(limpiar);
+        deshacerAlTerminar();
+      }
       return correrProceso(e.comando, [...e.prefijo, ...def.argumentos(ctx)], {
         cwd: ctx.cwd,
-        env: { ...entornoDeLaCorrida(ctx.engram), ...def.variables?.(ctx) },
+        env: { ...entornoDeLaCorrida(ctx.engram), ...def.variables?.(o.home, ctx) },
         limiteMs: ctx.limiteMin * 60_000,
       });
     },

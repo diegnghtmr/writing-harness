@@ -19,8 +19,8 @@
 //
 // - Codex (`codex exec --json`) escribe en la salida estándar `thread.started`
 //   con el id del hilo, los `item.completed` y `turn.completed`. El registro
-//   completo es su rollout, en `~/.codex/sessions/AAAA/MM/DD/`, con el id del
-//   hilo en el nombre: ahí cada comando es un arreglo `[shell, "-Command",
+//   completo es su rollout, en `sessions/AAAA/MM/DD/` del CODEX_HOME propio de
+//   la corrida (ver `hogarDeCodex`), con el id del hilo en el nombre: ahí cada comando es un arreglo `[shell, "-Command",
 //   interno]` con su carpeta y su código, cada escritura con apply_patch un
 //   `FileChange`, y la respuesta y la duración van en `task_complete`. Codex
 //   delega a veces en subagentes, y cada uno deja su propio rollout: en la
@@ -40,7 +40,20 @@
 // de Grok o de Copilot, así que esas dos formas salen de sus líneas de
 // resultado reales y no de un error visto.
 
-import { copyFileSync, existsSync, linkSync, lstatSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
+import {
+  appendFileSync,
+  copyFileSync,
+  existsSync,
+  linkSync,
+  lstatSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { join } from 'node:path';
 import { CAMPO_DE_SALIDA_TRUNCADA, cadenasDe, llamada, motivoDeError, vacia, type Llamada, type Transcripcion } from './transcripcion.ts';
 
@@ -78,13 +91,21 @@ export type DefinicionDeAgente = {
   /** Los argumentos que imprimen la versión, para el agente que no la deja escrita. */
   version: string[] | null;
   /** Las variables de entorno propias de la corrida, que se suman a las del usuario. */
-  variables?(ctx: Contexto): Record<string, string>;
+  variables?(home: string, ctx: Contexto): Record<string, string>;
   /**
    * Arma antes de lanzar lo que esas variables nombran y devuelve cómo
-   * deshacerlo. Se deshace al recoger la sesión, y al salir el proceso si la
-   * corrida no llegó a recogerse.
+   * deshacerlo. Lo deshace quien la llama, no el agente: `agenteReal`, al
+   * recoger la sesión, y si la corrida no llegó a recogerse, al salir el
+   * proceso o al recibir una señal que lo termina (ver `reales.ts`). Deshacer
+   * dos veces no hace nada.
    */
   preparar?(home: string, ctx: Contexto): () => void;
+  /**
+   * Borra lo que `preparar` dejó en una serie anterior que no llegó a
+   * deshacerlo, porque se cayó o la mataron sin aviso, y devuelve las rutas
+   * borradas. Se llama al empezar una serie, antes de lanzar nada.
+   */
+  barrer?(home: string): string[];
   /**
    * El directorio de skills instaladas que lee el agente. Es una copia que
    * mantiene el usuario, no el repositorio: antes de correr se comprueba que
@@ -458,10 +479,31 @@ function mensajeDeCodex(texto: string): string {
 }
 
 /**
- * El CODEX_HOME propio de una corrida: al lado de su carpeta y fuera de ella,
- * porque lo de la carpeta se publica y el hogar lleva la sesión del usuario.
+ * La carpeta de los CODEX_HOME de las corridas: una de la prueba, en la del
+ * usuario y no en el directorio temporal. En la segunda serie del 2026-10-14,
+ * con los hogares en el directorio temporal, codex avisó en cada corrida que se
+ * negaba a crear ahí sus binarios auxiliares («Refusing to create helper
+ * binaries under temporary dir»). La carpeta no tiene otro uso, así que
+ * barrerla no alcanza nada que la prueba no haya armado.
  */
-export const hogarDeCodex = (ctx: Pick<Contexto, 'staging'>): string => `${ctx.staging}-codex`;
+export const raizDeHogaresDeCodex = (home: string): string => join(home, '.cache', 'prueba-final', 'codex');
+
+/** El nombre de la carpeta de una corrida, `pf-<uuid>`, con cualquier separador. */
+const nombreDeLaCorrida = (staging: string): string => staging.split(/[\\/]+/u).filter(Boolean).at(-1) ?? staging;
+
+/**
+ * El CODEX_HOME propio de una corrida: con el nombre de su carpeta y fuera de
+ * ella, porque lo de la carpeta se publica y el hogar lleva la sesión del
+ * usuario.
+ */
+export const hogarDeCodex = (home: string, ctx: Pick<Contexto, 'staging'>): string =>
+  join(raizDeHogaresDeCodex(home), nombreDeLaCorrida(ctx.staging));
+
+/** El nombre de un hogar que arma la prueba, el de la carpeta de una corrida. El barrido no toca otro. */
+const NOMBRE_DE_HOGAR = /^pf-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/u;
+
+/** El archivo con que un hogar dice qué proceso lo armó, para que el barrido no borre el de una serie viva. */
+export const MARCA_DEL_HOGAR = '.prueba-final.json';
 
 /**
  * Lo que el hogar de una corrida toma del ~/.codex del usuario. Con nada más,
@@ -471,17 +513,33 @@ export const hogarDeCodex = (ctx: Pick<Contexto, 'staging'>): string => `${ctx.s
  * - `auth.json`, la sesión. Enlazada y no copiada: si codex la renueva
  *   escribiéndola, la renueva para el usuario, igual que si corriera en su
  *   hogar. Una copia renovada aparte dejaría vieja la del usuario.
- * - `cap_sid` y las carpetas de la sandbox elevada de Windows. Sin ellas, codex
- *   pide armarla de nuevo, con permisos de administrador. La sandbox sin
- *   elevar no sirve: no puede lanzar el pwsh de la Tienda, y en la prueba de
- *   humo del 2026-10-14 ningún comando llegó a correr.
+ * - `cap_sid`, copiado. Codex anota ahí un SID por carpeta de trabajo, así que
+ *   lo escribe en cada corrida. Enlazado, en la segunda serie lo reescribían
+ *   quince corridas a la vez.
+ * - `.sandbox`, propia, con solo `setup_marker.json`, el que dice que la
+ *   sandbox elevada de Windows ya está instalada. Sin él, codex pide instalarla
+ *   de nuevo, con permisos de administrador, y la sandbox sin elevar no sirve:
+ *   no puede lanzar el pwsh de la Tienda, y en la prueba de humo del 2026-10-14
+ *   ningún comando llegó a correr. Lo demás de esa carpeta es de cada corrida:
+ *   el estado de las ACL de lectura denegada, que codex crea si falta, y sus
+ *   registros. Enlazada, en la segunda serie quince preparaciones de la
+ *   sandbox escribían el mismo `deny_read_acl_state.json`: una lo leyó vacío
+ *   («EOF while parsing»), los comandos colgaron hasta tres minutos y tres
+ *   corridas no entregaron nada.
+ * - `.sandbox-bin` y `.sandbox-secrets`, enlazadas. Son los binarios que lanzan
+ *   los comandos, cientos de megabytes entre todas las versiones, y los
+ *   usuarios de la sandbox, con sus contraseñas. Codex los lee y no los
+ *   escribe mientras su versión no cambie: en la segunda serie las quince
+ *   corridas reusaron el binario que estaba («helper copy: reused»), y ninguna
+ *   de las dos carpetas cambió desde que se instaló esa versión.
  */
-const ARCHIVOS_DEL_HOGAR = ['auth.json', 'cap_sid'];
-const CARPETAS_DEL_HOGAR = ['.sandbox', '.sandbox-bin', '.sandbox-secrets'];
+const ARCHIVOS_ENLAZADOS = ['auth.json'];
+const ARCHIVOS_COPIADOS = ['cap_sid'];
+const DE_LA_SANDBOX = ['setup_marker.json'];
+const CARPETAS_ENLAZADAS = ['.sandbox-bin', '.sandbox-secrets'];
 
-/** Los hogares armados que todavía no se deshicieron, para deshacerlos al salir. */
-const hogaresAbiertos = new Set<() => void>();
-let alSalir = false;
+/** Los registros de la sandbox de codex, uno por día. */
+const REGISTRO_DE_LA_SANDBOX = /^sandbox.*\.log$/u;
 
 const leerSiHay = (ruta: string): Buffer | null => {
   try {
@@ -490,6 +548,34 @@ const leerSiHay = (ruta: string): Buffer | null => {
     return null;
   }
 };
+
+/**
+ * Borra un hogar. Antes quita los enlaces a las carpetas del usuario, para que
+ * el borrado no entre en ellas.
+ */
+function borrarHogar(hogar: string): void {
+  for (const nombre of CARPETAS_ENLAZADAS) {
+    const ruta = join(hogar, nombre);
+    try {
+      if (lstatSync(ruta).isSymbolicLink()) unlinkSync(ruta);
+    } catch {
+      // No estaba.
+    }
+  }
+  rmSync(hogar, { recursive: true, force: true, maxRetries: 3 });
+}
+
+/** Junta los registros de la sandbox de un hogar en `destino`. Lo que no se puede leer se pierde sin frenar el borrado. */
+function guardarRegistro(hogar: string, destino: string): void {
+  try {
+    const carpeta = join(hogar, '.sandbox');
+    for (const nombre of readdirSync(carpeta).filter((n) => REGISTRO_DE_LA_SANDBOX.test(n)).sort()) {
+      appendFileSync(destino, readFileSync(join(carpeta, nombre)));
+    }
+  } catch {
+    // Sin registros, o sin la carpeta de la corrida.
+  }
+}
 
 /**
  * Arma un CODEX_HOME aislado en `hogar` a partir del real, y devuelve cómo
@@ -501,22 +587,22 @@ const leerSiHay = (ruta: string): Buffer | null => {
  * prueba en el Engram real. En el hogar aislado no hay AGENTS.md, ni
  * config.toml, ni servidores MCP, ni hooks, ni skills propias de codex: las
  * skills que lee la prueba son las de `~/.agents/skills`, que no dependen del
- * CODEX_HOME.
+ * CODEX_HOME. El hogar lleva además una marca con el proceso que lo armó (ver
+ * `barrerHogaresDeCodex`).
  *
- * Deshacerlo borra el hogar entero. Antes quita los enlaces a las carpetas de
- * la sandbox, para que el borrado no entre en las del usuario. Si codex
- * reemplazó la sesión en vez de sobrescribirla, el enlace se rompió y la
- * renovada quedó solo en el hogar: vuelve al usuario, salvo que la del usuario
- * haya cambiado mientras tanto. Deshacerlo dos veces no hace nada.
+ * Deshacerlo guarda en `registro`, si se da, los registros de la sandbox de la
+ * corrida, que de otro modo se pierden con el hogar, y borra el hogar entero.
+ * Si codex reemplazó la sesión en vez de sobrescribirla, el enlace se rompió y
+ * la renovada quedó solo en el hogar: vuelve al usuario, salvo que la del
+ * usuario haya cambiado mientras tanto. Deshacerlo dos veces no hace nada.
  */
-export function prepararHogarDeCodex(real: string, hogar: string): () => void {
+export function prepararHogarDeCodex(real: string, hogar: string, o: { registro?: string } = {}): () => void {
   const auth = join(real, 'auth.json');
   const antes = leerSiHay(auth);
   let hecho = false;
   const limpiar = () => {
     if (hecho) return;
     hecho = true;
-    hogaresAbiertos.delete(limpiar);
     try {
       const renovada = leerSiHay(join(hogar, 'auth.json'));
       const actual = leerSiHay(auth);
@@ -524,27 +610,14 @@ export function prepararHogarDeCodex(real: string, hogar: string): () => void {
         writeFileSync(auth, renovada);
       }
     } finally {
-      for (const nombre of CARPETAS_DEL_HOGAR) {
-        const ruta = join(hogar, nombre);
-        try {
-          if (lstatSync(ruta).isSymbolicLink()) unlinkSync(ruta);
-        } catch {
-          // No estaba.
-        }
-      }
-      rmSync(hogar, { recursive: true, force: true });
+      if (o.registro !== undefined) guardarRegistro(hogar, o.registro);
+      borrarHogar(hogar);
     }
   };
-  hogaresAbiertos.add(limpiar);
-  if (!alSalir) {
-    alSalir = true;
-    process.once('exit', () => {
-      for (const l of [...hogaresAbiertos]) l();
-    });
-  }
   try {
     mkdirSync(hogar, { recursive: true });
-    for (const nombre of ARCHIVOS_DEL_HOGAR) {
+    writeFileSync(join(hogar, MARCA_DEL_HOGAR), JSON.stringify({ pid: process.pid }));
+    for (const nombre of ARCHIVOS_ENLAZADOS) {
       const desde = join(real, nombre);
       if (!existsSync(desde)) continue;
       try {
@@ -554,7 +627,18 @@ export function prepararHogarDeCodex(real: string, hogar: string): () => void {
         copyFileSync(desde, join(hogar, nombre));
       }
     }
-    for (const nombre of CARPETAS_DEL_HOGAR) {
+    for (const nombre of ARCHIVOS_COPIADOS) {
+      const desde = join(real, nombre);
+      if (existsSync(desde)) copyFileSync(desde, join(hogar, nombre));
+    }
+    if (existsSync(join(real, '.sandbox'))) {
+      mkdirSync(join(hogar, '.sandbox'));
+      for (const nombre of DE_LA_SANDBOX) {
+        const desde = join(real, '.sandbox', nombre);
+        if (existsSync(desde)) copyFileSync(desde, join(hogar, '.sandbox', nombre));
+      }
+    }
+    for (const nombre of CARPETAS_ENLAZADAS) {
       const desde = join(real, nombre);
       if (existsSync(desde)) symlinkSync(desde, join(hogar, nombre), 'junction');
     }
@@ -563,6 +647,77 @@ export function prepararHogarDeCodex(real: string, hogar: string): () => void {
     throw e;
   }
   return limpiar;
+}
+
+/** Si un proceso corre. Uno que existe pero es de otro usuario también corre. */
+export function procesoVivo(pid: number): boolean {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (e) {
+    return (e as NodeJS.ErrnoException).code === 'EPERM';
+  }
+}
+
+/** El proceso que armó un hogar, según su marca, o null si no la tiene. */
+function procesoDelHogar(hogar: string): number | null {
+  try {
+    const pid = obj(JSON.parse(readFileSync(join(hogar, MARCA_DEL_HOGAR), 'utf8'))).pid;
+    return typeof pid === 'number' && Number.isInteger(pid) && pid > 0 ? pid : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Cuánto se espera a un hogar sin marca antes de darlo por abandonado: la marca se escribe apenas se crea. */
+const SIN_MARCA_MS = 10 * 60_000;
+
+/**
+ * Borra los hogares que dejó una serie que no llegó a deshacerlos, y devuelve
+ * los que borró.
+ *
+ * Cada hogar se deshace al recoger su corrida, al salir el proceso o al
+ * recibir una señal que lo termina (ver `reales.ts`), pero un corte de luz o un
+ * `taskkill /F` no dejan hacer nada, y el hogar lleva la sesión del usuario. Se
+ * barre al empezar la serie siguiente.
+ *
+ * Solo entra en `raiz`, y ahí solo en las carpetas con el nombre de un hogar de
+ * la prueba, `pf-<uuid>`. De esas, deja las de un proceso que sigue corriendo,
+ * que pueden ser de otra serie en marcha, y las que no tienen marca y son
+ * recientes, que pueden estar armándose. Borrar quita antes los enlaces a las
+ * carpetas del usuario. Una sesión que codex renovó reemplazando el archivo
+ * se pierde con el hogar: el barrido no sabe cuál era la del usuario al
+ * empezar.
+ */
+export function barrerHogaresDeCodex(raiz: string, vivo: (pid: number) => boolean = procesoVivo): string[] {
+  let nombres: string[];
+  try {
+    nombres = readdirSync(raiz);
+  } catch {
+    return [];
+  }
+  const borrados: string[] = [];
+  for (const nombre of nombres) {
+    if (!NOMBRE_DE_HOGAR.test(nombre)) continue;
+    const hogar = join(raiz, nombre);
+    let creado: number;
+    try {
+      const info = lstatSync(hogar);
+      if (!info.isDirectory()) continue;
+      creado = info.mtimeMs;
+    } catch {
+      continue;
+    }
+    const pid = procesoDelHogar(hogar);
+    if (pid === null ? Date.now() - creado < SIN_MARCA_MS : vivo(pid)) continue;
+    try {
+      borrarHogar(hogar);
+    } catch {
+      // Algo lo retiene todavía: queda para el barrido siguiente.
+    }
+    if (!existsSync(hogar)) borrados.push(hogar);
+  }
+  return borrados;
 }
 
 /** El rollout de un hilo, buscado por su id en las carpetas de días, de la más nueva a la más vieja. */
@@ -905,12 +1060,19 @@ export const AGENTES: Record<string, DefinicionDeAgente> = {
       'windows.sandbox="elevated"',
       ctx.prompt,
     ],
-    variables: (ctx) => ({ CODEX_HOME: hogarDeCodex(ctx) }),
-    preparar: (home, ctx) => prepararHogarDeCodex(process.env.CODEX_HOME ?? join(home, '.codex'), hogarDeCodex(ctx)),
-    transcripcion: (_home, ctx, stdout) => transcripcionDeCodex(hogarDeCodex(ctx), ctx.staging, stdout),
+    variables: (home, ctx) => ({ CODEX_HOME: hogarDeCodex(home, ctx) }),
+    preparar: (home, ctx) =>
+      prepararHogarDeCodex(process.env.CODEX_HOME ?? join(home, '.codex'), hogarDeCodex(home, ctx), {
+        registro: join(ctx.staging, 'codex-sandbox.log'),
+      }),
+    barrer: (home) => barrerHogaresDeCodex(raizDeHogaresDeCodex(home)),
+    transcripcion: (home, ctx, stdout) => transcripcionDeCodex(hogarDeCodex(home, ctx), ctx.staging, stdout),
     log: () => null,
-    // Su hogar de la corrida entero: ahí guarda sus rollouts, su caché y sus bases.
-    estadoPropio: (_home, ctx) => [hogarDeCodex(ctx)],
+    // Su hogar de la corrida entero: ahí guarda sus rollouts, su caché y sus
+    // bases. Cuando el ejecutor lo pide, `recoger` ya lo borró, y está bien:
+    // el ejecutor solo lo usa como prefijo, para reconocer en la transcripción
+    // las escrituras que caen ahí (ver `repositoriosIntactos`).
+    estadoPropio: (home, ctx) => [hogarDeCodex(home, ctx)],
     parsear: (stdout, transcripcion) => parsearCodex(stdout, transcripcion),
     version: ['--version'],
     // Lee las skills del usuario del mismo directorio que Copilot.

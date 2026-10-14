@@ -573,3 +573,14 @@ empieza con `prueba-final` y queda anotado en el veredicto. Con un proyecto
 común, una corrida leyó lo que había guardado otra. Esos proyectos no se borran
 solos: `engram projects list` los muestra, y `engram delete project <nombre>`
 borra cada uno; con `--hard`, también sus sesiones.
+
+Lo que un agente arma antes de lanzar, como el `CODEX_HOME` de cada corrida de
+Codex, lleva la sesión del usuario y no puede quedar tirado. Lo deshace
+`agenteReal`, en `scripts/prueba-final/reales.ts`, y no cada agente: al recoger
+la corrida, al salir el proceso y al recibir Ctrl+C, SIGTERM o el cierre de la
+consola, después de matar las corridas que siguen vivas. Lo que ni eso alcanza,
+un proceso matado en seco, lo borra la serie siguiente antes de lanzar nada: los
+hogares de `~/.cache/prueba-final/codex/` llevan una marca con el proceso que
+los armó, y se borran solo los de un proceso que ya no corre. Fuera de esa
+carpeta, y fuera de las carpetas con el nombre de una corrida, el barrido no
+toca nada.
