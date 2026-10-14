@@ -436,12 +436,13 @@ function imprimirPlan(
     ...lineasDeLaCopia(copia, mix, cwd),
     '',
     `Agentes, trabajando en la copia con ENGRAM_PROJECT=${PREFIJO_DE_ENGRAM}-<serie>-<agente>-<variante>:`,
-    ...agentes.flatMap(({ def, ejecutable }) =>
-      ejecutable === null
+    ...agentes.flatMap(({ def, ejecutable }) => [
+      ...(ejecutable === null
         ? // Los argumentos se muestran igual: no dependen de dónde esté instalado.
           [`  ${def.id}: no se encontró en el PATH`, `    ${mostrar(def.argumentos(ctx))}`]
-        : [`  ${def.id}: ${mostrar([ejecutable.comando, ...ejecutable.prefijo])}`, `    ${mostrar(def.argumentos(ctx))}`],
-    ),
+        : [`  ${def.id}: ${mostrar([ejecutable.comando, ...ejecutable.prefijo])}`, `    ${mostrar(def.argumentos(ctx))}`]),
+      ...Object.entries(def.variables?.(ctx) ?? {}).map(([k, v]) => `    con ${k}=${v}`),
+    ]),
     '',
     `Prompts, con la carpeta de cada corrida en ${staging}:`,
     ...vs.map((v) => `  ${v.id}: ${promptDe(v, join(staging, 'entrada.md'), join(staging, 'salida.md'))}`),

@@ -35,26 +35,45 @@ export function versionPorArgumentos(e: Ejecutable, args: readonly string[]): st
 
 const leerSiHay = (ruta: string | null): string | null => (ruta !== null && existsSync(ruta) ? readFileSync(ruta, 'utf8') : null);
 
-/** Un agente instalado: lanza su CLI, copia su transcripción y la lee. */
+/**
+ * Un agente instalado: lanza su CLI, copia su transcripción y la lee.
+ *
+ * Lo que el agente prepara antes de lanzar, como el CODEX_HOME de codex, se
+ * deshace al recoger, después de copiar la transcripción y aunque leerla falle.
+ */
 export function agenteReal(def: DefinicionDeAgente, e: Ejecutable, o: { home: string; version: string | null }): Agente {
+  const preparados = new Map<string, () => void>();
+  const deshacer = (sesion: string) => {
+    const limpiar = preparados.get(sesion);
+    preparados.delete(sesion);
+    limpiar?.();
+  };
   return {
     id: def.id,
-    lanzar: (ctx) =>
-      correrProceso(e.comando, [...e.prefijo, ...def.argumentos(ctx)], {
+    lanzar: (ctx) => {
+      deshacer(ctx.sesion);
+      const limpiar = def.preparar?.(o.home, ctx);
+      if (limpiar !== undefined) preparados.set(ctx.sesion, limpiar);
+      return correrProceso(e.comando, [...e.prefijo, ...def.argumentos(ctx)], {
         cwd: ctx.cwd,
-        env: entornoDeLaCorrida(ctx.engram),
+        env: { ...entornoDeLaCorrida(ctx.engram), ...def.variables?.(ctx) },
         limiteMs: ctx.limiteMin * 60_000,
-      }),
+      });
+    },
     recoger: (ctx, l) => {
-      const origen = def.transcripcion(o.home, ctx, l.stdout);
-      let transcripcion: string | null = null;
-      if (origen !== null && existsSync(origen)) {
-        copyFileSync(origen, join(ctx.staging, 'transcripcion.jsonl'));
-        transcripcion = readFileSync(origen, 'utf8');
+      try {
+        const origen = def.transcripcion(o.home, ctx, l.stdout);
+        let transcripcion: string | null = null;
+        if (origen !== null && existsSync(origen)) {
+          copyFileSync(origen, join(ctx.staging, 'transcripcion.jsonl'));
+          transcripcion = readFileSync(origen, 'utf8');
+        }
+        const t = def.parsear(l.stdout, transcripcion, leerSiHay(def.log(ctx)), l.stderr);
+        t.version ??= o.version;
+        return t;
+      } finally {
+        deshacer(ctx.sesion);
       }
-      const t = def.parsear(l.stdout, transcripcion, leerSiHay(def.log(ctx)), l.stderr);
-      t.version ??= o.version;
-      return t;
     },
     estadoPropio: (ctx, t) => def.estadoPropio(o.home, ctx, t.sesion),
   };

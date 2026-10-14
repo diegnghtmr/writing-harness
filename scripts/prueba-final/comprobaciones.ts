@@ -355,9 +355,12 @@ export function repeticionMasLarga(a: string, b: string): number {
 }
 
 // Al corregir, la línea del tono dice que no hubo. Sobre el texto sin tildes y
-// con los guiones vueltos espacios.
+// con los guiones vueltos espacios. Las raíces cubren la primera persona:
+// «apliqué» y «utilicé» quedan «aplique» y «utilice» sin la tilde, y no
+// empiezan por «aplic» ni por «utiliz». En la serie de codex del 2026-10-14, una
+// respuesta que decía «No apliqué un tono» falló por no decirlo.
 const NIEGA_TONO =
-  /\b(?:ningun|sin)\s+tono\b|\bno\s+(?:se\s+)?(?:aplic|us|utiliz|hub|eleg|eligi)\w*\s+(?:(?:ningun|el|un)\s+)?tono\b|\btono\s*:\s*(?:ninguno|no|sin)\b/u;
+  /\b(?:ningun|sin)\s+tono\b|\bno\s+(?:se\s+)?(?:aplic|apliqu|us|utiliz|utilic|hub|eleg|elij|eligi)\w*\s+(?:(?:ningun|el|un)\s+)?tono\b|\btono\s*:\s*(?:ninguno|no|sin)\b/u;
 
 const escapar = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
 const llano = (s: string) => normalizar(s).replace(/[-_]/gu, ' ');

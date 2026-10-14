@@ -490,8 +490,10 @@ No forma parte de `npm test`, y no puede formar parte: llama a servicios
 externos, gasta la cuota de cada uno y una serie completa tarda horas. Cada
 corrida tiene un límite de tiempo, y al vencer se corta el árbol entero de
 procesos del agente. Necesita los CLI de los agentes instalados y con la sesión
-iniciada: Copilot, Grok, Antigravity y Codex, este último con el modelo
-`gpt-6-luna` y sin subagentes, para que todo lo corra ese modelo. Si falta alguno de los elegidos, sale sin correr nada.
+iniciada: Copilot, Grok, Antigravity y Codex, este último con el modelo que fija
+`MODELO_DE_CODEX` en `scripts/prueba-final/agentes.ts` y sin subagentes, para
+que todo lo corra ese modelo. Si falta alguno de los elegidos, sale sin correr
+nada.
 
 Cada corrida trabaja en una carpeta propia del directorio temporal, y los
 resultados se publican en la carpeta de la prueba recién al terminar la serie,
@@ -502,6 +504,13 @@ byte. Cada corrida recibe además su propio proyecto de Engram,
 cargan las instrucciones globales del usuario: sin proyecto propio guardaban
 memorias en su proyecto real, y con uno común a toda la prueba una corrida leyó
 lo que había guardado otra.
+
+Codex no carga esas instrucciones: corre con un `CODEX_HOME` propio, al lado de
+la carpeta de su corrida, que se borra al recogerla. Del `~/.codex` del usuario
+toma solo la sesión, enlazada y no copiada, y la sandbox de Windows; quedan fuera
+su AGENTS.md, su configuración, sus servidores MCP y sus hooks. En la serie del
+2026-10-14, con el `~/.codex` real, las respuestas cerraban con «Key Learnings» y
+el servidor de Engram guardaba memorias de la prueba en el Engram del usuario.
 
 El agente tampoco trabaja en mix. Trabaja en una copia que se arma dentro de la
 carpeta de su corrida, con las instrucciones de mix y lo que git rastrea del

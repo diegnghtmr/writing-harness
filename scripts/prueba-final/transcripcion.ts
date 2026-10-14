@@ -143,6 +143,14 @@ const NOMBRE_DE_SKILL = /^[a-z0-9][a-z0-9-]*$/u;
 /** Los campos con que una herramienta lee un tramo y no el archivo entero. */
 const CAMPOS_DE_TRAMO = ['offset', 'limit', 'view_range', 'StartLine', 'EndLine', 'start_line', 'end_line', 'startLine', 'endLine'];
 
+/**
+ * El campo con que una lectura de codex dice que su salida llegó recortada: el
+ * tope de tokens de `exec_command` deja fuera lo que pasa de él, y el agente
+ * lee solo un tramo aunque el comando imprima el archivo entero (ver
+ * `parsearCodex`).
+ */
+export const CAMPO_DE_SALIDA_TRUNCADA = 'salida_truncada';
+
 /** Los campos con que una herramienta busca dentro de un archivo en vez de leerlo. */
 const CAMPOS_DE_BUSQUEDA = ['pattern', 'query', 'regex'];
 
@@ -166,6 +174,40 @@ const COMANDO_QUE_LEE =
 
 /** Los pasos de un comando: lo que separan `;`, `&&`, `||` o un salto de línea. Una tubería es un solo paso. */
 const PASOS = /;|&&|\|\||\r?\n/u;
+
+/**
+ * Una asignación de un valor literal que ocupa un paso entero: en PowerShell,
+ * `$p='…'` o `$p = "…"`; en un shell POSIX, `p=…`, `p="…"` o `export p='…'`.
+ * El valor de una variable de entorno de PowerShell (`$env:p`) no se resuelve.
+ */
+const ASIGNACION =
+  /^\s*(?:\$([a-z_]\w*)\s*=\s*(?:'([^']*)'|"([^"]*)")|(?:export\s+)?([a-z_]\w*)=(?:'([^']*)'|"([^"]*)"|([^\s'"]*)))\s*$/iu;
+
+/**
+ * Los pasos de un comando con las variables ya resueltas.
+ *
+ * En la serie de codex del 2026-10-14, codex guardó la carpeta de skills en una
+ * variable y leyó con ella: `$p='…\skills'; Get-Content "$p\freddy-writing\SKILL.md"`.
+ * El paso que lee no dice «skills», y la skill no salía leída. Cada asignación
+ * de un valor literal vale para los pasos que la siguen, y una referencia,
+ * `$p` o `${p}`, se reemplaza por su valor. Una variable que no se asignó en
+ * el mismo comando queda como está.
+ */
+function pasosResueltos(comando: string): string[] {
+  const valores = new Map<string, string>();
+  return comando.split(PASOS).map((paso) => {
+    const resuelto = paso.replace(
+      /\$(?:\{([a-z_]\w*)\}|([a-z_]\w*)(?![\w:]))/giu,
+      (todo: string, llave?: string, suelta?: string) => valores.get((llave ?? suelta ?? '').toLowerCase()) ?? todo,
+    );
+    const m = ASIGNACION.exec(resuelto);
+    if (m !== null) {
+      const nombre = (m[1] ?? m[4] ?? '').toLowerCase();
+      valores.set(nombre, m[2] ?? m[3] ?? m[5] ?? m[6] ?? m[7] ?? '');
+    }
+    return resuelto;
+  });
+}
 
 /** Los comodines de un patrón: una ruta que los lleva no es la de un archivo. */
 const COMODIN = /[*?]/u;
@@ -195,7 +237,8 @@ function esParcial(l: Llamada): boolean {
  */
 function lecturasDe(l: Llamada): Lectura[] {
   if (l.clase === 'shell' && l.comando !== null) {
-    return l.comando.split(PASOS).map((paso) => ({ texto: paso, parcial: COMANDO_PARCIAL.test(paso) }));
+    const truncada = entradaDe(l)[CAMPO_DE_SALIDA_TRUNCADA] !== undefined;
+    return pasosResueltos(l.comando).map((paso) => ({ texto: paso, parcial: truncada || COMANDO_PARCIAL.test(paso) }));
   }
   if (l.clase !== 'otra' || l.ruta === null) return [];
   const entrada = entradaDe(l);

@@ -13,17 +13,27 @@
 // «cargaría» todos los tonos. Se leen solo las entradas de las herramientas.
 
 import assert from 'node:assert/strict';
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, posix, win32 } from 'node:path';
+import { join, posix, sep, win32 } from 'node:path';
 import { describe, test } from 'node:test';
 import { REPO_ROOT } from '../src/skills.ts';
-import { AGENTES, parsearAgy, parsearCodex, parsearCopilot, parsearGrok } from '../scripts/prueba-final/agentes.ts';
-import { entornoDeLaCorrida } from '../scripts/prueba-final/reales.ts';
+import {
+  AGENTES,
+  comandoDeCodex,
+  hogarDeCodex,
+  parsearAgy,
+  parsearCodex,
+  parsearCopilot,
+  parsearGrok,
+  prepararHogarDeCodex,
+  type DefinicionDeAgente,
+} from '../scripts/prueba-final/agentes.ts';
+import { agenteReal, entornoDeLaCorrida } from '../scripts/prueba-final/reales.ts';
 import { resolverEjecutable } from '../scripts/prueba-final/resolver.ts';
 import { agenteMidio, errorDelAgente } from '../scripts/prueba-final/comprobaciones.ts';
 import { variantes } from '../scripts/prueba-final/variantes.ts';
-import { cadenasDe, comandos, escrituras, llamada, motivoDeError, skillsCargadas } from '../scripts/prueba-final/transcripcion.ts';
+import { cadenasDe, comandos, escrituras, lecturasDeSkills, llamada, motivoDeError, skillsCargadas } from '../scripts/prueba-final/transcripcion.ts';
 
 const fixture = (nombre: string) => readFileSync(join(REPO_ROOT, 'evals', 'fixtures', 'prueba-final', nombre), 'utf8');
 const SALIDA = 'C:\\temp\\pf-00000000-0000-4000-8000-000000000001\\salida.md';
@@ -180,6 +190,8 @@ describe('codex', () => {
 
   test('las skills que leyó y lo que escribió con apply_patch', () => {
     assert.deepEqual(skillsCargadas(t), ['camus-writing', 'redactar-espanol', 'spanish-writing']);
+    // La salida de spanish-writing tenía 11 120 tokens y le llegó recortada.
+    assert.deepEqual(lecturasDeSkills(t).parciales, ['spanish-writing']);
     assert.deepEqual(escrituras(t), [SALIDA]);
   });
 
@@ -216,6 +228,41 @@ describe('codex', () => {
     assert.equal(solo.version, null);
   });
 
+  // La revisión de T2: el respaldo por la salida --json dejaba los comandos con
+  // las barras dobladas y las comillas escapadas de la línea del shell. La
+  // salida los escribe con las comillas de un shell POSIX: se desarman igual.
+  test('sin el registro, cada comando es el mismo que en el rollout, sin escapes', () => {
+    const solo = parsearCodex(fixture('codex-stdout.jsonl'), null);
+    assert.deepEqual(
+      comandos(solo).map((c) => c.comando),
+      comandos(t).map((c) => c.comando),
+    );
+    // Las mismas skills. Lo que no se sabe sin el rollout es si una lectura
+    // llegó recortada: la salida --json no trae lo que vio el modelo.
+    assert.deepEqual(skillsCargadas(solo), skillsCargadas(t));
+    assert.deepEqual(lecturasDeSkills(solo).parciales, []);
+    assert.ok(camus !== undefined);
+    const midio = agenteMidio(camus, solo, { staging, copia });
+    assert.equal(midio.estado, 'pasa', midio.motivo);
+  });
+
+  // La serie del 2026-10-14: codex lee con exec_command y un tope de tokens,
+  // y lo que pasa del tope no le llega. Quince corridas tuvieron una lectura
+  // recortada así, y contaban como skills leídas enteras.
+  test('una lectura que el tope de tokens recortó es parcial', () => {
+    const r = parsearCodex('', fixture('codex-truncada.jsonl'));
+    assert.deepEqual(lecturasDeSkills(r), {
+      completas: ['camus-writing'],
+      parciales: ['adria-sola-writing', 'redactar-espanol', 'spanish-writing'],
+    });
+    const recortada = comandos(r).find((c) => /adria-sola-writing/u.test(c.comando ?? ''));
+    assert.deepEqual(recortada?.entrada, {
+      command: recortada?.comando,
+      workdir: 'C:\\temp\\pf-00000000-0000-4000-8000-000000000001\\mix',
+      salida_truncada: 8227,
+    });
+  });
+
   test('lo que hizo un subagente cuenta, pero la respuesta y el modelo son los del hilo principal', () => {
     // En la primera corrida de humo, codex delegó la medición en un subagente
     // que corrió con otro modelo. El subagente tiene su propio rollout; la
@@ -236,6 +283,27 @@ describe('codex', () => {
     const una = parsearCodex('', fixture('codex-sesion.jsonl'));
     const dos = parsearCodex('', fixture('codex-sesion.jsonl') + fixture('codex-sesion.jsonl'));
     assert.equal(dos.llamadas.length, una.llamadas.length);
+  });
+});
+
+describe('el comando de dentro del shell de codex', () => {
+  test('un shell de verdad, en arreglo o en una línea, entrega lo de adentro', () => {
+    assert.equal(comandoDeCodex(['C:\\Program Files\\PowerShell\\7\\pwsh.exe', '-NoProfile', '-Command', 'Get-Content a']), 'Get-Content a');
+    assert.equal(comandoDeCodex(['/bin/bash', '-lc', 'cat a']), 'cat a');
+    assert.equal(comandoDeCodex(['cmd.exe', '/c', 'type a']), 'type a');
+    assert.equal(comandoDeCodex(`/usr/bin/zsh -lc 'cat "a b"'`), 'cat "a b"');
+    assert.equal(comandoDeCodex(String.raw`"C:\\x\\powershell.exe" -Command "Get-Content \"C:\\a b\""`), String.raw`Get-Content "C:\a b"`);
+  });
+
+  // La revisión de T2: cualquier programa terminado en «sh» seguido de -c
+  // pasaba por un shell, y se tiraba la mitad del comando.
+  test('ssh, push o git con -c no son un shell: el comando queda entero', () => {
+    assert.equal(comandoDeCodex(['ssh', '-c', 'aes256-ctr', 'host']), 'ssh -c aes256-ctr host');
+    assert.equal(comandoDeCodex(['git', 'push', '-c', 'x']), 'git push -c x');
+    assert.equal(comandoDeCodex(['git', '-c', 'core.x=1', 'status']), 'git -c core.x=1 status');
+    assert.equal(comandoDeCodex('ssh -c aes256-ctr host'), 'ssh -c aes256-ctr host');
+    assert.equal(comandoDeCodex('/usr/bin/push -c x'), '/usr/bin/push -c x');
+    assert.equal(comandoDeCodex('bash -x script.sh'), 'bash -x script.sh', 'un shell sin la bandera del comando');
   });
 });
 
@@ -304,6 +372,8 @@ describe('las líneas de comando', () => {
       'gpt-6-luna',
       '--disable',
       'multi_agent',
+      '--disable',
+      'apps',
       '--json',
       '--skip-git-repo-check',
       '-C',
@@ -314,19 +384,124 @@ describe('las líneas de comando', () => {
       'workspace-write',
       '-c',
       'approval_policy="never"',
+      '-c',
+      'windows.sandbox="elevated"',
       ctx.prompt,
     ]);
+  });
+
+  // La serie del 2026-10-14: codex corría con el ~/.codex del usuario. Sus
+  // instrucciones globales metían «Key Learnings» en las respuestas y su
+  // servidor de Engram escribía en el Engram real. Cada corrida tiene ahora un
+  // CODEX_HOME propio, fuera de la carpeta que se publica.
+  test('codex corre con un CODEX_HOME propio, al lado de la carpeta de la corrida y fuera de ella', () => {
+    const hogar = hogarDeCodex(ctx);
+    assert.deepEqual(AGENTES.codex?.variables?.(ctx), { CODEX_HOME: hogar });
+    assert.equal(hogar, `${ctx.staging}-codex`);
+    assert.ok(!hogar.startsWith(`${ctx.staging}${sep}`), 'lo de la corrida se publica, y el hogar lleva la credencial');
+    for (const id of ['copilot', 'grok', 'agy']) assert.equal(AGENTES[id]?.variables, undefined, id);
+  });
+
+  test('el hogar de codex tiene la sesión y la sandbox del usuario, y nada más', () => {
+    const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-hogar-'));
+    try {
+      const real = join(raiz, 'real');
+      mkdirSync(join(real, '.sandbox'), { recursive: true });
+      mkdirSync(join(real, '.sandbox-secrets'));
+      mkdirSync(join(real, 'sessions'));
+      writeFileSync(join(real, 'auth.json'), 'credencial');
+      writeFileSync(join(real, 'cap_sid'), 'sid');
+      writeFileSync(join(real, '.sandbox', 'setup_marker.json'), '{}');
+      writeFileSync(join(real, '.sandbox-secrets', 'usuarios.json'), '{}');
+      writeFileSync(join(real, 'AGENTS.md'), '## Key Learnings');
+      writeFileSync(join(real, 'config.toml'), '[mcp_servers.engram]');
+      const hogar = join(raiz, 'pf-1-codex');
+
+      const limpiar = prepararHogarDeCodex(real, hogar);
+      assert.deepEqual(readdirSync(hogar).sort(), ['.sandbox', '.sandbox-secrets', 'auth.json', 'cap_sid']);
+      assert.deepEqual(readdirSync(join(hogar, '.sandbox')), ['setup_marker.json']);
+      assert.equal(readFileSync(join(hogar, 'auth.json'), 'utf8'), 'credencial');
+      // Es el mismo archivo: lo que codex renueve ahí lo ve el usuario.
+      writeFileSync(join(hogar, 'auth.json'), 'renovada');
+      assert.equal(readFileSync(join(real, 'auth.json'), 'utf8'), 'renovada');
+
+      limpiar();
+      assert.equal(existsSync(hogar), false);
+      limpiar();
+      assert.equal(readFileSync(join(real, 'auth.json'), 'utf8'), 'renovada');
+      assert.deepEqual(readdirSync(join(real, '.sandbox')), ['setup_marker.json'], 'borrar el hogar no entra en la sandbox real');
+      assert.deepEqual(readdirSync(join(real, '.sandbox-secrets')), ['usuarios.json']);
+      assert.equal(readFileSync(join(real, 'cap_sid'), 'utf8'), 'sid');
+    } finally {
+      rmSync(raiz, { recursive: true, force: true });
+    }
+  });
+
+  test('una credencial que codex reemplazó en el hogar vuelve al usuario, si nadie la cambió antes', () => {
+    const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-hogar-'));
+    try {
+      const real = join(raiz, 'real');
+      mkdirSync(real);
+      const auth = join(real, 'auth.json');
+      writeFileSync(auth, 'vieja');
+      const hogar = join(raiz, 'pf-1-codex');
+
+      // Reemplazada, no sobrescrita: el enlace se rompe.
+      let limpiar = prepararHogarDeCodex(real, hogar);
+      unlinkSync(join(hogar, 'auth.json'));
+      writeFileSync(join(hogar, 'auth.json'), 'renovada');
+      limpiar();
+      assert.equal(readFileSync(auth, 'utf8'), 'renovada');
+      assert.equal(existsSync(hogar), false);
+
+      // Si el usuario la cambió mientras tanto, la suya gana.
+      limpiar = prepararHogarDeCodex(real, hogar);
+      unlinkSync(join(hogar, 'auth.json'));
+      writeFileSync(join(hogar, 'auth.json'), 'de la corrida');
+      unlinkSync(auth);
+      writeFileSync(auth, 'del usuario');
+      limpiar();
+      assert.equal(readFileSync(auth, 'utf8'), 'del usuario');
+    } finally {
+      rmSync(raiz, { recursive: true, force: true });
+    }
+  });
+
+  test('un agente real recibe sus variables y deshace lo preparado al recoger, aunque la lectura falle', async () => {
+    const limpiados: string[] = [];
+    const def: DefinicionDeAgente = {
+      ...(AGENTES.grok as DefinicionDeAgente),
+      id: 'falso',
+      argumentos: () => [],
+      transcripcion: () => null,
+      variables: (c) => ({ PRUEBA_HOGAR: `${c.staging}-falso` }),
+      preparar: (_home, c) => () => {
+        limpiados.push(c.sesion);
+      },
+      parsear: () => {
+        throw new Error('lectura rota');
+      },
+    };
+    const e = { comando: process.execPath, prefijo: ['-e', 'process.stdout.write(process.env.PRUEBA_HOGAR + "|" + process.env.ENGRAM_PROJECT)'] };
+    const a = agenteReal(def, e, { home: tmpdir(), version: null });
+    const local = { ...ctx, cwd: tmpdir() };
+    const l = await a.lanzar(local);
+    assert.equal(l.stdout, `staging-falso|${ctx.engram}`);
+    assert.deepEqual(limpiados, []);
+    assert.throws(() => a.recoger(local, l), /lectura rota/u);
+    assert.deepEqual(limpiados, [ctx.sesion]);
   });
 
   test('codex: la transcripción es su rollout, con los de sus subagentes si los hubo', () => {
     const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-codex-'));
     try {
       const home = join(raiz, 'home');
-      const dia = join(home, '.codex', 'sessions', '2026', '10', '09');
-      mkdirSync(dia, { recursive: true });
       const staging = join(raiz, 'pf-1');
       mkdirSync(staging);
       const local = { ...ctx, staging };
+      // Del CODEX_HOME propio de la corrida, no del ~/.codex del usuario.
+      const dia = join(hogarDeCodex(local), 'sessions', '2026', '10', '09');
+      mkdirSync(dia, { recursive: true });
       const hilo = (id: string) => `{"type":"thread.started","thread_id":"${id}"}\n`;
 
       // Un hilo sin subagentes: el rollout tal cual.
@@ -348,7 +523,11 @@ describe('las líneas de comando', () => {
 
       assert.equal(AGENTES.codex?.transcripcion(home, local, ''), null, 'sin thread.started no hay hilo que buscar');
       assert.equal(AGENTES.codex?.transcripcion(home, local, hilo('00000000-0000-7000-8000-0000000000aa')), null, 'un hilo sin rollout');
-      assert.equal(AGENTES.codex?.transcripcion(join(raiz, 'otro'), local, hilo('00000000-0000-7000-8000-000000000001')), null, 'sin carpeta de sesiones');
+      assert.equal(
+        AGENTES.codex?.transcripcion(home, { ...local, staging: join(raiz, 'otro') }, hilo('00000000-0000-7000-8000-000000000001')),
+        null,
+        'sin carpeta de sesiones',
+      );
     } finally {
       rmSync(raiz, { recursive: true, force: true });
     }
@@ -379,7 +558,7 @@ describe('las líneas de comando', () => {
       join(home, '.gemini', 'antigravity-cli', 'brain', 'conv-agy'),
     ]);
     assert.deepEqual(AGENTES.agy?.estadoPropio(home, ctx, null), [], 'sin conversación no hay carpeta propia que reconocer');
-    assert.deepEqual(AGENTES.codex?.estadoPropio(home, ctx, null), [join(home, '.codex', 'sessions')]);
+    assert.deepEqual(AGENTES.codex?.estadoPropio(home, ctx, null), [hogarDeCodex(ctx)]);
   });
 });
 

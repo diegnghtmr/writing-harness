@@ -224,6 +224,35 @@ describe('las lecturas de una skill, enteras o en parte', () => {
     assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: [] });
   });
 
+  // La serie de codex del 2026-10-14: en freddy y en humanizar, codex guardó la
+  // carpeta de skills en una variable y leyó con ella. La ruta del paso que lee
+  // no decía «skills», y la comprobación 4 dio por no leídas skills que sí leyó.
+  test('una ruta armada con una variable del mismo comando se lee igual', () => {
+    const raiz = 'C:\\Users\\p\\.agents\\skills';
+    const t = con(
+      llamada('shell', { command: `$p='${raiz}'; Get-Content "$p\\freddy-writing\\SKILL.md" -Encoding UTF8` }),
+      llamada('shell', { command: `$p='${raiz}'; Get-Content -Encoding utf8 "$p\\spanish-writing\\SKILL.md"; Get-Content -Encoding utf8 "$p\\humanizar-espanol\\SKILL.md"` }),
+      llamada('shell', { command: `$p='${raiz}\\han-writing\\SKILL.md'; $s=Get-Content -Raw -Encoding utf8 $p; Write-Output $s` }),
+      llamada('shell', { command: `$d = "${raiz}"; gc "\${d}\\camus-writing\\SKILL.md"` }),
+      llamada('run_terminal_command', { command: 'd=~/.grok/skills; cat "$d/fonda-writing/SKILL.md"' }),
+      llamada('run_terminal_command', { command: 'export d="$HOME/.grok/skills" && head -n 40 "${d}/atenas-writing/SKILL.md"' }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), {
+      completas: ['camus-writing', 'fonda-writing', 'freddy-writing', 'han-writing', 'humanizar-espanol', 'spanish-writing'],
+      parciales: ['atenas-writing'],
+    });
+  });
+
+  test('una variable no vuelve lectura lo que no lee, ni se confunde con otra que empieza igual', () => {
+    const raiz = 'C:\\Users\\p\\.agents\\skills';
+    const t = con(
+      llamada('shell', { command: `$p='${raiz}'; Test-Path "$p\\han-writing\\SKILL.md"` }),
+      llamada('shell', { command: `$p='C:\\otro'; $paths='${raiz}'; Get-Content "$paths\\atenas-writing\\SKILL.md"` }),
+      llamada('shell', { command: `Get-Content "$q\\fonda-writing\\SKILL.md"` }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: ['atenas-writing'], parciales: [] });
+  });
+
   test('lo que escribe una herramienta o un comando no es una lectura, aunque nombre una skill', () => {
     const t = con(
       llamada('write_to_file', { TargetFile: 'C:\\t\\salida.md', CodeContent: 'Ver skills/camus-writing/SKILL.md.' }),
@@ -347,6 +376,22 @@ describe('6. la respuesta', () => {
     const r = 'Quedó en `C:\\temp\\pf-1\\salida.md`. No se aplicó ningún tono: el modo es corregir.';
     assert.equal(respuestaCorrecta(v('base'), r, texto, SALIDA).estado, 'pasa');
     assert.equal(respuestaCorrecta(v('base'), 'Quedó en salida.md con el tono camus.', texto, SALIDA).estado, 'falla');
+  });
+
+  // La serie de codex del 2026-10-14: la respuesta de base decía «No apliqué un
+  // tono», y sin tildes «aplique» no empieza por «aplic». Falló la comprobación
+  // 6 por no decir lo que sí decía.
+  test('la base niega el tono en primera persona, con el verbo que sea', () => {
+    const real = 'Corregí el texto y guardé el resultado en `C:\\temp\\pf-1\\salida.md`. El verificador terminó sin hallazgos. No apliqué un tono: conservé la forma del original.';
+    assert.equal(respuestaCorrecta(v('base'), real, texto, SALIDA).estado, 'pasa');
+    for (const r of [
+      'No utilicé ningún tono: el pedido era corregir. En salida.md.',
+      'No elegí un tono: el pedido era corregir. En salida.md.',
+      'No usé ningún tono: el pedido era corregir. En salida.md.',
+      'No hubo tono: el pedido era corregir. En salida.md.',
+    ]) {
+      assert.equal(respuestaCorrecta(v('base'), r, texto, SALIDA).estado, 'pasa', r);
+    }
   });
 
   test('un tono se nombra por su identificador o por su skill', () => {
