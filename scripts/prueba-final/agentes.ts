@@ -50,6 +50,7 @@ import {
   readdirSync,
   readFileSync,
   rmSync,
+  statSync,
   symlinkSync,
   unlinkSync,
   writeFileSync,
@@ -359,7 +360,7 @@ export function parsearAgy(stdout: string, transcripcion: string | null, log: st
 }
 
 /** El modelo con que corre codex en la prueba. */
-const MODELO_DE_CODEX = 'gpt-6-luna';
+export const MODELO_DE_CODEX = 'gpt-6-luna';
 
 /** El id del hilo de codex, que viene en la primera línea de su salida `--json`. */
 export function hiloDeCodex(stdout: string): string | null {
@@ -512,7 +513,9 @@ export const MARCA_DEL_HOGAR = '.prueba-final.json';
  *
  * - `auth.json`, la sesión. Enlazada y no copiada: si codex la renueva
  *   escribiéndola, la renueva para el usuario, igual que si corriera en su
- *   hogar. Una copia renovada aparte dejaría vieja la del usuario.
+ *   hogar. Una copia renovada aparte dejaría vieja la del usuario. Si la
+ *   renueva reemplazando el archivo, el enlace se rompe, y al deshacer el
+ *   hogar vuelve al usuario la más nueva (ver `devolverSesion`).
  * - `cap_sid`, copiado. Codex anota ahí un SID por carpeta de trabajo, así que
  *   lo escribe en cada corrida. Enlazado, en la segunda serie lo reescribían
  *   quince corridas a la vez.
@@ -541,13 +544,71 @@ const CARPETAS_ENLAZADAS = ['.sandbox-bin', '.sandbox-secrets'];
 /** Los registros de la sandbox de codex, uno por día. */
 const REGISTRO_DE_LA_SANDBOX = /^sandbox.*\.log$/u;
 
-const leerSiHay = (ruta: string): Buffer | null => {
+/** Los bytes de un archivo, o null si no está o no se puede leer. */
+const bytesSiHay = (ruta: string): Buffer | null => {
   try {
     return readFileSync(ruta);
   } catch {
     return null;
   }
 };
+
+/** Una sesión de codex como archivo: sus bytes y cuándo se modificó. */
+type Sesion = { bytes: Buffer; modificadaMs: number };
+
+function sesionSiHay(ruta: string): Sesion | null {
+  try {
+    return { bytes: readFileSync(ruta), modificadaMs: statSync(ruta).mtimeMs };
+  } catch {
+    return null;
+  }
+}
+
+/** Cuándo se renovó una sesión según su campo `last_refresh`, o null si no se puede leer. */
+function ultimaRenovacion(bytes: Buffer): number | null {
+  try {
+    const fecha = obj(JSON.parse(bytes.toString('utf8'))).last_refresh;
+    const ms = typeof fecha === 'string' ? Date.parse(fecha) : Number.NaN;
+    return Number.isNaN(ms) ? null : ms;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Si la sesión `a` es más nueva que `b`: por su `last_refresh` si las dos lo
+ * tienen, y si no, por la fecha de modificación del archivo. Un empate no es
+ * más nueva.
+ */
+function masNueva(a: Sesion, b: Sesion): boolean {
+  const fa = ultimaRenovacion(a.bytes);
+  const fb = ultimaRenovacion(b.bytes);
+  return fa !== null && fb !== null ? fa > fb : a.modificadaMs > b.modificadaMs;
+}
+
+/**
+ * Devuelve al usuario la sesión que codex renovó en un hogar, si hace falta.
+ *
+ * Si codex renueva la sesión sobrescribiendo el archivo, el enlace la renueva
+ * para el usuario y aquí no hay nada que hacer: las dos son la misma. Si la
+ * renueva reemplazando el archivo, el enlace se rompe y la renovada queda solo
+ * en el hogar. Con corridas en paralelo, cada una pudo renovarla aparte. Vuelve
+ * al usuario si es distinta de la que el hogar tomó al armarse (`antes`) y de
+ * la que el usuario tiene ahora, y si la del usuario sigue siendo esa misma o
+ * es más vieja que la renovada. Así, en cualquier orden, al usuario le queda la
+ * más nueva, y una más vieja nunca pisa una más nueva.
+ *
+ * Se escribe sobre el archivo del usuario y no se lo reemplaza: las corridas
+ * cuyo enlace sigue entero ven la renovada, y las que se lancen después la
+ * enlazan al armar su hogar. Nada de esto registra el contenido de la sesión.
+ */
+function devolverSesion(auth: string, antes: Buffer | null, renovadaEn: string): void {
+  const renovada = sesionSiHay(renovadaEn);
+  const actual = sesionSiHay(auth);
+  if (antes === null || renovada === null || actual === null) return;
+  if (renovada.bytes.equals(antes) || renovada.bytes.equals(actual.bytes)) return;
+  if (actual.bytes.equals(antes) || masNueva(renovada, actual)) writeFileSync(auth, renovada.bytes);
+}
 
 /**
  * Borra un hogar. Antes quita los enlaces a las carpetas del usuario, para que
@@ -590,29 +651,39 @@ function guardarRegistro(hogar: string, destino: string): void {
  * CODEX_HOME. El hogar lleva además una marca con el proceso que lo armó (ver
  * `barrerHogaresDeCodex`).
  *
- * Deshacerlo guarda en `registro`, si se da, los registros de la sandbox de la
- * corrida, que de otro modo se pierden con el hogar, y borra el hogar entero.
- * Si codex reemplazó la sesión en vez de sobrescribirla, el enlace se rompió y
- * la renovada quedó solo en el hogar: vuelve al usuario, salvo que la del
- * usuario haya cambiado mientras tanto. Deshacerlo dos veces no hace nada.
+ * Deshacerlo devuelve al usuario la sesión que codex haya renovado en el hogar
+ * (ver `devolverSesion`), guarda en `registro`, si se da, los registros de la
+ * sandbox de la corrida, que de otro modo se pierden con el hogar, y borra el
+ * hogar entero con `borrar`, `borrarHogar` salvo en la suite.
+ *
+ * Si un paso falla, deshacerlo lanza la excepción y no queda hecho: llamarlo
+ * otra vez retoma desde ese paso. Si falla devolver la sesión, el hogar no se
+ * borra, para no perder la renovada. Una vez completo, deshacerlo otra vez no
+ * hace nada.
  */
-export function prepararHogarDeCodex(real: string, hogar: string, o: { registro?: string } = {}): () => void {
+export function prepararHogarDeCodex(
+  real: string,
+  hogar: string,
+  o: { registro?: string; borrar?: (hogar: string) => void } = {},
+): () => void {
   const auth = join(real, 'auth.json');
-  const antes = leerSiHay(auth);
+  const antes = bytesSiHay(auth);
+  const borrar = o.borrar ?? borrarHogar;
+  let devuelta = false;
+  let registrado = false;
   let hecho = false;
   const limpiar = () => {
     if (hecho) return;
-    hecho = true;
-    try {
-      const renovada = leerSiHay(join(hogar, 'auth.json'));
-      const actual = leerSiHay(auth);
-      if (antes !== null && renovada !== null && actual !== null && !renovada.equals(antes) && actual.equals(antes)) {
-        writeFileSync(auth, renovada);
-      }
-    } finally {
-      if (o.registro !== undefined) guardarRegistro(hogar, o.registro);
-      borrarHogar(hogar);
+    if (!devuelta) {
+      devolverSesion(auth, antes, join(hogar, 'auth.json'));
+      devuelta = true;
     }
+    if (!registrado) {
+      if (o.registro !== undefined) guardarRegistro(hogar, o.registro);
+      registrado = true;
+    }
+    borrar(hogar);
+    hecho = true;
   };
   try {
     mkdirSync(hogar, { recursive: true });
@@ -643,7 +714,11 @@ export function prepararHogarDeCodex(real: string, hogar: string, o: { registro?
       if (existsSync(desde)) symlinkSync(desde, join(hogar, nombre), 'junction');
     }
   } catch (e) {
-    limpiar();
+    try {
+      limpiar();
+    } catch {
+      // Lo que no se pudo borrar lo barre la serie siguiente; el error que importa es el de armarlo.
+    }
     throw e;
   }
   return limpiar;
@@ -700,16 +775,19 @@ export function barrerHogaresDeCodex(raiz: string, vivo: (pid: number) => boolea
   for (const nombre of nombres) {
     if (!NOMBRE_DE_HOGAR.test(nombre)) continue;
     const hogar = join(raiz, nombre);
-    let creado: number;
+    // La fecha de modificación de la carpeta y no la de creación: `birthtime`
+    // no la dan todos los sistemas de archivos. Un hogar sin marca no se tocó
+    // desde que se creó, porque la marca es lo primero que se escribe en él.
+    let modificadoMs: number;
     try {
       const info = lstatSync(hogar);
       if (!info.isDirectory()) continue;
-      creado = info.mtimeMs;
+      modificadoMs = info.mtimeMs;
     } catch {
       continue;
     }
     const pid = procesoDelHogar(hogar);
-    if (pid === null ? Date.now() - creado < SIN_MARCA_MS : vivo(pid)) continue;
+    if (pid === null ? Date.now() - modificadoMs < SIN_MARCA_MS : vivo(pid)) continue;
     try {
       borrarHogar(hogar);
     } catch {

@@ -331,6 +331,29 @@ describe('las lecturas de una skill, enteras o en parte', () => {
     assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: [] });
   });
 
+  // La tercera revisión: un script que lee un archivo da por leída cada cadena
+  // literal suya. La ruta adonde escribe no se lee.
+  test('un script de node -e que lee un archivo y escribe en una ruta de skill no lee esa ruta', () => {
+    const t = con(
+      llamada('shell', {
+        command: `node -e "const fs=require('fs'); const s=fs.readFileSync('../entrada.md','utf8'); fs.writeFileSync('skills/atenas-writing/SKILL.md', s); fs.appendFileSync( 'skills/camus-writing/SKILL.md', s)"`,
+      }),
+      llamada('shell', {
+        command: `node -e "const fs=require('fs'),path=require('path'); const r='C:/Users/p/.agents/skills'; const s=fs.readFileSync('../entrada.md','utf8'); fs.writeFileSync(path.join(r,'han-writing','SKILL.md'), s); fs.createWriteStream(path.join(r,'fonda-writing','SKILL.md')).end(s)"`,
+      }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: [], parciales: [] });
+  });
+
+  test('la aproximación que queda: un script que lee un archivo y solo comprueba otro los da a los dos por leídos', () => {
+    const t = con(
+      llamada('shell', {
+        command: `node -e "const fs=require('fs'); console.log(fs.existsSync('skills/atenas-writing/SKILL.md'), fs.readFileSync('../entrada.md','utf8'))"`,
+      }),
+    );
+    assert.deepEqual(lecturasDeSkills(t), { completas: ['atenas-writing'], parciales: [] });
+  });
+
   test('los pasos fuera del script de node se leen como siempre', () => {
     const t = con(
       llamada('shell', {

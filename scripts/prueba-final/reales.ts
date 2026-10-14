@@ -39,14 +39,15 @@ const leerSiHay = (ruta: string | null): string | null => (ruta !== null && exis
 /** Lo preparado por todos los agentes que todavía no se deshizo. */
 const pendientes = new Set<() => void>();
 
-/** Deshace todo lo pendiente. Uno que falla no frena a los demás. */
+/** Deshace todo lo pendiente. Uno que falla no frena a los demás, y sigue pendiente. */
 function deshacerPendientes(): void {
   for (const limpiar of [...pendientes]) {
-    pendientes.delete(limpiar);
     try {
       limpiar();
+      pendientes.delete(limpiar);
     } catch {
-      // Lo que quedó lo barre la serie siguiente (ver `DefinicionDeAgente.barrer`).
+      // Lo reintenta la salida del proceso, si esto fue una señal. Lo que ni
+      // así se deshizo lo barre la serie siguiente (ver `DefinicionDeAgente.barrer`).
     }
   }
 }
@@ -86,32 +87,44 @@ function deshacerAlTerminar(): void {
  *
  * Lo que el agente prepara antes de lanzar, como el CODEX_HOME de codex, se
  * deshace al recoger, después de copiar la transcripción y aunque leerla falle.
+ * Si deshacerlo falla al recoger, se avisa con `avisar` y queda pendiente.
  * Si la corrida no llega a recogerse, se deshace al salir el proceso o al
  * recibir una señal que lo termina: es lo que promete `preparar`, y vale para
  * cualquier agente. Lo que ni eso alcanza a deshacer, un proceso matado en
  * seco, lo borra `barrer` al empezar la serie siguiente.
  */
-export function agenteReal(def: DefinicionDeAgente, e: Ejecutable, o: { home: string; version: string | null }): Agente {
+export function agenteReal(
+  def: DefinicionDeAgente,
+  e: Ejecutable,
+  o: { home: string; version: string | null; avisar?: (mensaje: string) => void },
+): Agente {
+  const avisar = o.avisar ?? ((m: string) => process.stderr.write(`${m}\n`));
   const preparados = new Map<string, () => void>();
+  /** Deshace lo preparado para una sesión. Si falla, lanza y sigue pendiente, para reintentarlo. */
   const deshacer = (sesion: string) => {
     const limpiar = preparados.get(sesion);
-    preparados.delete(sesion);
     if (limpiar === undefined) return;
-    pendientes.delete(limpiar);
     limpiar();
+    preparados.delete(sesion);
+    pendientes.delete(limpiar);
   };
   return {
     id: def.id,
     lanzar: (ctx) => {
+      // Lo que quedó de un lanzamiento anterior con la misma sesión se deshace
+      // antes de preparar de nuevo: apunta al mismo lugar, como el hogar de
+      // codex, y deshecho después borraría lo recién preparado. Si no se puede
+      // deshacer, la excepción frena este lanzamiento.
       deshacer(ctx.sesion);
       const preparado = def.preparar?.(o.home, ctx);
       if (preparado !== undefined) {
-        // Una sola vez, la deshaga quien la deshaga primero.
+        // Una sola vez, la deshaga quien la deshaga primero. Queda hecho solo
+        // si terminó: lo que falló se reintenta.
         let hecho = false;
         const limpiar = () => {
           if (hecho) return;
-          hecho = true;
           preparado();
+          hecho = true;
         };
         preparados.set(ctx.sesion, limpiar);
         pendientes.add(limpiar);
@@ -135,7 +148,14 @@ export function agenteReal(def: DefinicionDeAgente, e: Ejecutable, o: { home: st
         t.version ??= o.version;
         return t;
       } finally {
-        deshacer(ctx.sesion);
+        // Un deshacer que falla, como un borrado con EBUSY en Windows, no tapa
+        // la transcripción ni el error de leerla: se avisa, y lo pendiente lo
+        // reintenta la salida del proceso o lo barre la serie siguiente.
+        try {
+          deshacer(ctx.sesion);
+        } catch (error) {
+          avisar(`${def.id}: no se pudo deshacer lo preparado para la sesión ${ctx.sesion}; queda pendiente: ${String(error)}`);
+        }
       }
     },
     estadoPropio: (ctx, t) => def.estadoPropio(o.home, ctx, t.sesion),

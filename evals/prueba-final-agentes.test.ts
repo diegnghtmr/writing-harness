@@ -26,6 +26,7 @@ import {
   comandoDeCodex,
   hogarDeCodex,
   MARCA_DEL_HOGAR,
+  MODELO_DE_CODEX,
   parsearAgy,
   parsearCodex,
   parsearCopilot,
@@ -375,7 +376,7 @@ describe('las líneas de comando', () => {
     assert.deepEqual(AGENTES.codex?.argumentos(ctx), [
       'exec',
       '-m',
-      'gpt-6-luna',
+      MODELO_DE_CODEX,
       '--disable',
       'multi_agent',
       '--disable',
@@ -489,31 +490,134 @@ describe('las líneas de comando', () => {
     }
   });
 
+  /** Una sesión sintética de codex, con la fecha de su última renovación. No lleva credenciales reales. */
+  const sesion = (fecha: string) => JSON.stringify({ tokens: { access_token: `falso-${fecha}` }, last_refresh: fecha });
+  /** Codex renueva la sesión de un hogar reemplazando el archivo: el enlace con la del usuario se rompe. */
+  const reemplazar = (hogar: string, contenido: string) => {
+    unlinkSync(join(hogar, 'auth.json'));
+    writeFileSync(join(hogar, 'auth.json'), contenido);
+  };
+
   test('una credencial que codex reemplazó en el hogar vuelve al usuario, si nadie la cambió antes', () => {
     const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-hogar-'));
     try {
       const real = join(raiz, 'real');
       mkdirSync(real);
       const auth = join(real, 'auth.json');
-      writeFileSync(auth, 'vieja');
+      writeFileSync(auth, sesion('2026-10-14T10:00:00Z'));
       const hogar = join(raiz, 'pf-1');
 
-      // Reemplazada, no sobrescrita: el enlace se rompe.
       let limpiar = prepararHogarDeCodex(real, hogar);
-      unlinkSync(join(hogar, 'auth.json'));
-      writeFileSync(join(hogar, 'auth.json'), 'renovada');
+      reemplazar(hogar, sesion('2026-10-14T11:00:00Z'));
       limpiar();
-      assert.equal(readFileSync(auth, 'utf8'), 'renovada');
+      assert.equal(readFileSync(auth, 'utf8'), sesion('2026-10-14T11:00:00Z'));
       assert.equal(existsSync(hogar), false);
 
-      // Si el usuario la cambió mientras tanto, la suya gana.
+      // Si el usuario la renovó después, la suya, más nueva, gana.
       limpiar = prepararHogarDeCodex(real, hogar);
-      unlinkSync(join(hogar, 'auth.json'));
-      writeFileSync(join(hogar, 'auth.json'), 'de la corrida');
+      reemplazar(hogar, sesion('2026-10-14T12:00:00Z'));
       unlinkSync(auth);
-      writeFileSync(auth, 'del usuario');
+      writeFileSync(auth, sesion('2026-10-14T13:00:00Z'));
       limpiar();
-      assert.equal(readFileSync(auth, 'utf8'), 'del usuario');
+      assert.equal(readFileSync(auth, 'utf8'), sesion('2026-10-14T13:00:00Z'));
+    } finally {
+      rmSync(raiz, { recursive: true, force: true });
+    }
+  });
+
+  // La tercera revisión: las corridas en paralelo enlazan la misma sesión. Si
+  // dos la renuevan reemplazando el archivo, cada renovada queda en su hogar, y
+  // volvía al usuario solo la primera que se deshacía, aunque fuera la más vieja.
+  test('si dos corridas en paralelo renuevan la sesión, al usuario le queda la más nueva, en cualquier orden', () => {
+    for (const orden of [
+      ['a', 'b'],
+      ['b', 'a'],
+    ]) {
+      const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-hogar-'));
+      try {
+        const real = join(raiz, 'real');
+        mkdirSync(real);
+        const auth = join(real, 'auth.json');
+        writeFileSync(auth, sesion('2026-10-14T10:00:00Z'));
+        const limpiar: Record<string, () => void> = {
+          a: prepararHogarDeCodex(real, join(raiz, 'pf-a')),
+          b: prepararHogarDeCodex(real, join(raiz, 'pf-b')),
+        };
+        reemplazar(join(raiz, 'pf-a'), sesion('2026-10-14T11:00:00Z'));
+        reemplazar(join(raiz, 'pf-b'), sesion('2026-10-14T12:00:00Z'));
+        for (const c of orden) limpiar[c]?.();
+        assert.equal(readFileSync(auth, 'utf8'), sesion('2026-10-14T12:00:00Z'), orden.join(' y '));
+      } finally {
+        rmSync(raiz, { recursive: true, force: true });
+      }
+    }
+  });
+
+  test('la sesión de una corrida, más vieja que la del usuario, nunca la pisa', () => {
+    const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-hogar-'));
+    try {
+      const real = join(raiz, 'real');
+      mkdirSync(real);
+      const auth = join(real, 'auth.json');
+      writeFileSync(auth, sesion('2026-10-14T10:00:00Z'));
+      const hogar = join(raiz, 'pf-1');
+      const limpiar = prepararHogarDeCodex(real, hogar);
+      reemplazar(hogar, sesion('2026-10-14T11:00:00Z'));
+      writeFileSync(auth, sesion('2026-10-14T12:00:00Z'));
+      limpiar();
+      assert.equal(readFileSync(auth, 'utf8'), sesion('2026-10-14T12:00:00Z'));
+    } finally {
+      rmSync(raiz, { recursive: true, force: true });
+    }
+  });
+
+  test('sin una fecha de renovación legible, decide la fecha de modificación de los archivos', () => {
+    for (const [corrida, usuario, gana] of [
+      [2000, 1000, 'de la corrida'],
+      [1000, 2000, 'del usuario'],
+    ] as const) {
+      const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-hogar-'));
+      try {
+        const real = join(raiz, 'real');
+        mkdirSync(real);
+        const auth = join(real, 'auth.json');
+        writeFileSync(auth, 'vieja');
+        const hogar = join(raiz, 'pf-1');
+        const limpiar = prepararHogarDeCodex(real, hogar);
+        reemplazar(hogar, 'de la corrida');
+        writeFileSync(auth, 'del usuario');
+        const fecha = (s: number) => new Date(Date.UTC(2026, 9, 14) + s * 1000);
+        utimesSync(join(hogar, 'auth.json'), fecha(corrida), fecha(corrida));
+        utimesSync(auth, fecha(usuario), fecha(usuario));
+        limpiar();
+        assert.equal(readFileSync(auth, 'utf8'), gana);
+      } finally {
+        rmSync(raiz, { recursive: true, force: true });
+      }
+    }
+  });
+
+  // R4-001 de la tercera revisión: si borrar el hogar fallaba, deshacerlo
+  // quedaba anotado como hecho y nadie volvía a intentarlo.
+  test('un hogar que no se pudo borrar se vuelve a intentar al deshacerlo otra vez', () => {
+    const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-hogar-'));
+    try {
+      const real = codexReal(raiz);
+      const hogar = join(raiz, 'pf-1');
+      let intentos = 0;
+      const limpiar = prepararHogarDeCodex(real, hogar, {
+        borrar: (h) => {
+          intentos += 1;
+          if (intentos === 1) throw Object.assign(new Error('EBUSY: resource busy or locked'), { code: 'EBUSY' });
+          rmSync(h, { recursive: true, force: true });
+        },
+      });
+      assert.throws(limpiar, /EBUSY/u);
+      assert.equal(existsSync(hogar), true);
+      limpiar();
+      assert.equal(existsSync(hogar), false);
+      limpiar();
+      assert.equal(intentos, 2);
     } finally {
       rmSync(raiz, { recursive: true, force: true });
     }
@@ -615,6 +719,37 @@ describe('las líneas de comando', () => {
     assert.deepEqual(limpiados, [ctx.sesion]);
   });
 
+  // R4-001 de la tercera revisión: en Windows, borrar el hogar puede fallar
+  // con EBUSY o EPERM, y esa excepción reemplazaba la transcripción ya leída.
+  test('si deshacer lo preparado falla al recoger, la transcripción se conserva y deshacerlo queda pendiente', async () => {
+    const avisos: string[] = [];
+    let intentos = 0;
+    const def: DefinicionDeAgente = {
+      ...(AGENTES.grok as DefinicionDeAgente),
+      id: 'falso',
+      argumentos: () => [],
+      transcripcion: () => null,
+      preparar: () => () => {
+        intentos += 1;
+        if (intentos === 1) throw Object.assign(new Error('EBUSY: resource busy or locked'), { code: 'EBUSY' });
+      },
+      parsear: () => ({ ...vacia(), respuesta: 'leída' }),
+    };
+    const e = { comando: process.execPath, prefijo: ['-e', ''] };
+    const a = agenteReal(def, e, { home: 'casa', version: null, avisar: (m) => avisos.push(m) });
+    const local = { ...ctx, cwd: tmpdir() };
+    const l = await a.lanzar(local);
+    assert.equal(a.recoger(local, l).respuesta, 'leída');
+    assert.equal(intentos, 1);
+    assert.equal(avisos.length, 1);
+    assert.match(avisos[0] ?? '', /EBUSY/u);
+    // Sigue pendiente: lo reintenta la salida del proceso o una señal, una vez.
+    alRecibirSenal('SIGINT');
+    assert.equal(intentos, 2);
+    alRecibirSenal('SIGINT');
+    assert.equal(intentos, 2);
+  });
+
   // La revisión de 0c798fc: lo preparado se deshacía al salir el proceso, pero
   // no con Ctrl+C ni con SIGTERM. Ahora lo deshace quien llama a `preparar`,
   // para cualquier agente: al recoger, al salir y al recibir una señal.
@@ -642,7 +777,7 @@ describe('las líneas de comando', () => {
     assert.equal(alRecibirSenal('SIGHUP'), 129);
   });
 
-  test('con SIGTERM, la serie mata la corrida que sigue viva, borra lo preparado y sale con 143', () => {
+  test('con SIGTERM, la serie mata la corrida que sigue viva, borra lo preparado y sale con 143', async () => {
     const raiz = mkdtempSync(join(tmpdir(), 'prueba-final-senal-'));
     try {
       const hogar = join(raiz, 'hogar');
@@ -675,6 +810,10 @@ describe('las líneas de comando', () => {
       assert.equal(r.status, 143, r.stderr);
       assert.equal(existsSync(hogar), false, 'lo preparado se deshizo');
       const pid = Number(readFileSync(pidDelHijo, 'utf8'));
+      // Matar un proceso no espera a que termine: se le dan hasta cinco segundos.
+      for (const limite = Date.now() + 5000; procesoVivo(pid) && Date.now() < limite; ) {
+        await new Promise((listo) => setTimeout(listo, 50));
+      }
       assert.equal(procesoVivo(pid), false, 'la corrida no quedó corriendo');
     } finally {
       rmSync(raiz, { recursive: true, force: true });

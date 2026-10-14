@@ -228,6 +228,18 @@ const LITERAL_DE_JS = /'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"|`([^`$]*)`/gu;
 /** `join(…, '<skill>', 'SKILL.md')` o `resolve(…)`, con los dos últimos argumentos literales. */
 const JOIN_DE_SKILL = /\b(?:join|resolve)\s*\([^()]*?,\s*['"`]([a-z0-9][a-z0-9-]*)['"`]\s*,\s*['"`]SKILL\.md['"`]\s*\)/giu;
 
+/** El comienzo del primer argumento de una función de node que escribe: la ruta adonde escribe. */
+const NODE_QUE_ESCRIBE = /\b(?:writeFileSync|appendFileSync|writeFile|appendFile|createWriteStream)\s*\(\s*/gu;
+
+/**
+ * Dónde empiezan, en un script, las rutas a las que escribe. Con un prefijo
+ * de objeto delante de la ruta (`path.join(…)`), la ruta empieza después de él.
+ */
+function rutasEscritas(script: string): (indice: number) => boolean {
+  const comienzos = [...script.matchAll(NODE_QUE_ESCRIBE)].map((m) => (m.index ?? 0) + m[0].length);
+  return (indice) => comienzos.some((c) => c <= indice && /^[\w$.]*$/u.test(script.slice(c, indice)));
+}
+
 /**
  * Los scripts de `node -e` de un comando que leen archivos, cada uno con las
  * rutas que nombra, y el comando sin ellos.
@@ -238,17 +250,23 @@ const JOIN_DE_SKILL = /\b(?:join|resolve)\s*\([^()]*?,\s*['"`]([a-z0-9][a-z0-9-]
  * que lee, así que se mira entero y antes de partir el comando: si llama a una
  * función que lee, cada cadena literal suya es una ruta leída, y también
  * `path.join(raiz, '<skill>', 'SKILL.md')` si el script nombra la carpeta
- * `skills`. Es una aproximación: un script que lee un archivo y solo comprueba
- * otro los da a los dos por leídos. Uno que no llama a ninguna función que lee,
- * como el que solo usa `existsSync`, no lee nada.
+ * `skills`. La ruta que es el primer argumento de una función que escribe,
+ * literal o con `join`, no se lee. Es una aproximación: un script que lee un
+ * archivo y solo comprueba otro los da a los dos por leídos, y una ruta de
+ * escritura guardada antes en una variable también cuenta como leída. Uno que
+ * no llama a ninguna función que lee, como el que solo usa `existsSync`, no
+ * lee nada.
  */
 function scriptsDeNode(comando: string): { lecturas: { rutas: string[]; parcial: boolean }[]; resto: string } {
   const lecturas: { rutas: string[]; parcial: boolean }[] = [];
   const resto = comando.replace(SCRIPT_DE_NODE, (_todo: string, dobles?: string, simples?: string) => {
     const script = dobles ?? simples ?? '';
     if (!NODE_QUE_LEE.test(script)) return 'node -e ""';
-    const rutas = [...script.matchAll(LITERAL_DE_JS)].map((m) => m[1] ?? m[2] ?? m[3] ?? '');
-    if (/skills/iu.test(script)) for (const m of script.matchAll(JOIN_DE_SKILL)) rutas.push(`skills/${m[1] as string}/SKILL.md`);
+    const escrita = rutasEscritas(script);
+    const rutas = [...script.matchAll(LITERAL_DE_JS)].filter((m) => !escrita(m.index ?? 0)).map((m) => m[1] ?? m[2] ?? m[3] ?? '');
+    if (/skills/iu.test(script)) {
+      for (const m of script.matchAll(JOIN_DE_SKILL)) if (!escrita(m.index ?? 0)) rutas.push(`skills/${m[1] as string}/SKILL.md`);
+    }
     lecturas.push({ rutas, parcial: NODE_PARCIAL.test(script) });
     // El script ya se leyó: lo que queda del comando se lee por pasos.
     return 'node -e ""';
