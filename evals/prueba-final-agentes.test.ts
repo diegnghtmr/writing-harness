@@ -328,7 +328,7 @@ describe('las líneas de comando', () => {
   test('cada corrida lleva su proyecto de Engram en el entorno', () => {
     const env = entornoDeLaCorrida(ctx.engram);
     assert.equal(env.ENGRAM_PROJECT, ctx.engram);
-    assert.equal(env.PATH, process.env.PATH, 'el resto del entorno sigue igual');
+    assert.deepEqual(env, { ...process.env, ENGRAM_PROJECT: ctx.engram });
   });
 
   test('copilot recibe el prompt como argumento y la sesión que se le fija', () => {
