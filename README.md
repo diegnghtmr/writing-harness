@@ -456,3 +456,7 @@ node scripts/instalar-hook.ts
 El hook se copia en vez de enlazarse, porque Git no sigue enlaces en todas las
 plataformas y un hook que no corre es peor que no tenerlo: da la sensación de
 estar cubierto.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
